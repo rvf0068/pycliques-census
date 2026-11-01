@@ -1,0 +1,24 @@
+name: Connected census smoke test
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/**'
+      - 'config/**'
+      - '.github/workflows/smoke.yml'
+      - '.devcontainer/**'
+      - 'README.md'
+jobs:
+  census-through-six:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test resumable high-order stream bookkeeping
+        run: |
+          bash scripts/bootstrap.sh
+          .venv/bin/python -m unittest discover -s tests -v
+      - name: Reproduce the connected census through order 6
+        run: MAX_ORDER=6 BATCH_SIZE=100 RUN_DIR="$PWD/runs/ci-order6" bash scripts/run_census.sh

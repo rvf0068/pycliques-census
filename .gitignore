@@ -1,0 +1,12 @@
+# Installed dependencies and local virtual environments (never commit)
+.deps/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.DS_Store
+# Intermediate, incomplete writes; completed run results and logs ARE tracked.
+*.partial
+*.tmp
+# All history/ and runs/ outputs are deliberately NOT ignored.
