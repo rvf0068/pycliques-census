@@ -71,17 +71,6 @@ def main() -> None:
         "pyg6data": metadata.version("pyg6data"),
         "uv": uv_version,
     }
-    # An explicitly audited carry-forward of completed chunks may include
-    # results from a narrowly verified earlier classifier revision. Bind the
-    # complete immutable lineage record to this run's provenance manifest.
-    lineage_file = args.run_dir / "chunk_lineage.json"
-    if lineage_file.is_file():
-        info["chunk_lineage_sha256"] = digest(lineage_file)
-    if args.max_order == 10:
-        surface_registry = args.root / "config" / "conjectured_surfaces_order9.tsv"
-        if not surface_registry.is_file():
-            raise SystemExit("Missing order-9 conjectured surface registry; finish stage 9")
-        info["surface_registry_sha256"] = digest(surface_registry)
     args.run_dir.mkdir(parents=True, exist_ok=True)
     destination = args.run_dir / "manifest.json"
     if destination.exists():

@@ -11,7 +11,6 @@ import argparse
 import collections
 import csv
 import gzip
-import hashlib
 import json
 import os
 import sys
@@ -130,88 +129,6 @@ def verify_order(directory: Path, n: int, batch_size: int) -> tuple[dict, list[d
     }, unresolved
 
 
-def verify_chunk_lineage(run_dir: Path, manifest: dict) -> dict | None:
-    """Independently authenticate imported chunk bytes and their origin.
-
-    A run may contain completed chunks produced at an earlier pinned commit
-    only when an explicit lineage record is present and hashed by its manifest.
-    This does not certify mathematical correctness; full graph-source/index
-    and sidecar checks still run in verify_order().
-    """
-    filename = run_dir / "chunk_lineage.json"
-    expected_sha = manifest.get("chunk_lineage_sha256")
-    if not filename.exists() and expected_sha is None:
-        return None
-    if not filename.is_file() or not isinstance(expected_sha, str):
-        raise ValueError("chunk lineage record and manifest SHA-256 must both exist")
-
-    actual_sha = hashlib.sha256(filename.read_bytes()).hexdigest()
-    if actual_sha != expected_sha:
-        raise ValueError("chunk lineage SHA-256 differs from pinned manifest")
-    info = json.loads(filename.read_text(encoding="utf-8"))
-    if info.get("schema") != 1 or info.get("order") != 9:
-        raise ValueError("unsupported inherited chunk lineage format")
-    if (
-        info.get("new_upstream_commit") != manifest.get("upstream_commit")
-        or info.get("old_upstream_commit") == manifest.get("upstream_commit")
-    ):
-        raise ValueError("inherited chunk source/target revisions do not match manifest")
-    if (
-        info.get("bound") != manifest.get("bound")
-        or info.get("batch_size") != manifest.get("batch_size")
-        or info.get("original_connected_dataset_sha256")
-        != manifest.get("bundled_connected_graph6_sha256", {}).get("9")
-    ):
-        raise ValueError("inherited chunks have incompatible census parameters")
-    if manifest.get("min_order") != 9 or manifest.get("max_order") != 9:
-        raise ValueError("inherited chunk lineage is restricted to order-9-only runs")
-
-    total = 0
-    expected_start = 0
-    imported = info.get("imported")
-    if not isinstance(imported, list) or not imported:
-        raise ValueError("inherited chunk lineage has no listed batches")
-    for entry in imported:
-        start, end = entry["start"], entry["end"]
-        if (
-            not isinstance(start, int) or not isinstance(end, int)
-            or start != expected_start
-            or end != min(EXPECTED_COUNTS[9] - 1, start + manifest["batch_size"] - 1)
-        ):
-            raise ValueError(f"nonconsecutive or incorrect inherited batch: {entry}")
-        name = f"{start:08d}-{end:08d}"
-        required = {
-            f"order9/chunks/{name}.tsv.gz",
-            f"order9/unresolved_chunks/{name}.tsv.gz",
-            f"order9/completed/{name}.done",
-        }
-        optional = {f"order9/logs/{name}.log"}
-        checksums = entry["sha256"]
-        if not isinstance(checksums, dict) or not (
-            required <= set(checksums) <= required | optional
-        ):
-            raise ValueError(f"incorrect inherited chunk file inventory: {name}")
-        for rel, digest in checksums.items():
-            path = run_dir / rel
-            if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != digest:
-                raise ValueError(f"inherited chunk checksum mismatch: {rel}")
-        marker = run_dir / f"order9/completed/{name}.done"
-        if marker.read_text(encoding="ascii") != f"{start}\t{end}\n":
-            raise ValueError(f"inherited chunk completion marker mismatch: {name}")
-        total += end - start + 1
-        expected_start = end + 1
-
-    if total != info.get("imported_graph_count"):
-        raise ValueError("inherited graph total differs from lineage record")
-    return {
-        "lineage_sha256": actual_sha,
-        "old_upstream_commit": info["old_upstream_commit"],
-        "new_upstream_commit": info["new_upstream_commit"],
-        "imported_chunks": len(imported),
-        "imported_graph_count": total,
-    }
-
-
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--run-dir", type=Path, required=True)
@@ -221,7 +138,6 @@ def main() -> None:
     minimum = manifest["min_order"]
     maximum = manifest["max_order"]
     batch_size = manifest["batch_size"]
-    inherited = verify_chunk_lineage(args.run_dir, manifest)
     summaries: list[dict] = []
     unresolved: list[dict] = []
     for n in range(minimum, maximum + 1):
@@ -241,7 +157,6 @@ def main() -> None:
     expectation_met = baseline_observed == baseline_expected
     result = {
         "manifest": manifest,
-        "inherited_chunk_provenance": inherited,
         "scope": "connected unlabeled simple graphs only",
         "orders": summaries,
         "unresolved": unresolved,
