@@ -43,12 +43,6 @@ printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
 for (( n=MIN_ORDER; n<=MAX_ORDER; n++ )); do
   ORDER_DIR="$RUN_DIR/order$n"
   mkdir -p "$ORDER_DIR/chunks" "$ORDER_DIR/logs"
-  # Index inventories are useful and inexpensive through 8. For 9--10 the
-  # hashed original graph6 dataset and streamed validation avoid an enormous,
-  # redundant index file in Git.
-  if (( n <= 8 )) && [[ ! -f "$ORDER_DIR/graph_index.tsv" ]]; then
-    "$PYTHON" "$ROOT/scripts/index_graphs.py" --order "$n" --output "$ORDER_DIR/graph_index.tsv"
-  fi
   if (( n <= 5 )); then
     if [[ ! -f "$ORDER_DIR/verdicts.tsv" ]]; then
       echo "Order $n: classifying connected small graph types"

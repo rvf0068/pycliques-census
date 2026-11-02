@@ -48,8 +48,7 @@ deriving their clique behavior.
 **Historical expectation, not a precomputed answer:** All connected graphs
 through order 8 should be classified except the order-8 snub disphenoid,
 original zero-based index `10829`, original graph6 `GQyuzw` (historically
-`conjectured_divergent`, **not** a proof of divergence). The source is the
-[earlier census file](https://github.com/rvf0068/pycliques-results/blob/main/results/indeterminate_order_8.txt).
+`conjectured_divergent`, **not** a proof of divergence). This is a regression expectation, not a precomputed classification result.
 If the expected result is not reproduced, validation writes the actual
 unresolved cases and exits unsuccessfully. The new census has **not** yet been
 executed in Codespaces.
@@ -114,10 +113,9 @@ The repository intentionally does **not** ignore the following generated data:
 - `runs/<run-name>/manifest.json`: exact `pycliques-project` commit,
   `uv.lock` SHA-256, input dataset SHA-256, Python and installed package
   versions, CLI bound, batch size, and a checksum of the runner scripts.
-- `runs/<run-name>/orderN/graph_index.tsv` **for orders 1–8**: original
-  graph6 code and source index for every input graph. For orders 9–10 we avoid
-  writing a redundant, enormous graph6 inventory: the pinned source data
-  SHA-256 and stable original source indices provide reproducibility.
+- The source graph6 datasets are identified by SHA-256 in the manifest;
+  source indices are retained in the verdict files, without redundant
+  graph-index inventories. The validator re-reads the source data independently.
 - `runs/<run-name>/orderN/chunks/*.tsv.gz` (orders 6–10): deterministic,
   gzip-compressed verdicts in resumable, index-addressable chunks.
 - `runs/<run-name>/orderN/unresolved_chunks/` and `completed/` (orders
@@ -232,10 +230,3 @@ python scripts/validate.py --run-dir runs/baseline-through8-bound30
 For exploratory runs, `--no-expect-snub` writes the actual results without
 asserting the historical order-8 benchmark.
 
-## Publishing the new GitHub repository
-
-Create an empty repository such as `rvf0068/pycliques-census` and commit these
-files. Your earlier repositories
-[`rvf0068/pycliques-results`](https://github.com/rvf0068/pycliques-results)
-and [`rvf0068/results`](https://github.com/rvf0068/results)
-should remain available as historical records.

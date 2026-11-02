@@ -47,6 +47,22 @@ class StreamingTests(unittest.TestCase):
             self.assertEqual(len(calls), 4)
             self.assertEqual(validate.verify_order(folder, 9, 2)[0], summary)
 
+    def test_small_order_validation_needs_no_graph_inventory(self):
+        """Order-1 verdicts validate with no graph_index.tsv present."""
+        with tempfile.TemporaryDirectory() as temp:
+            folder = Path(temp) / "order1"
+            folder.mkdir()
+            (folder / "verdicts.tsv").write_text(
+                "# index\\tverdict\\treason\\n"
+                "0\\tCONVERGENT\\tunit-test\\n",
+                encoding="utf-8",
+            )
+            summary, unresolved = validate.verify_order(folder, 1, 100)
+            self.assertEqual(summary["connected_total"], 1)
+            self.assertEqual(summary["convergent"], 1)
+            self.assertEqual(unresolved, [])
+            self.assertFalse((folder / "graph_index.tsv").exists())
+
     def test_duplicate_index_is_invalid(self):
         import gzip
 

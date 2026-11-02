@@ -1,8 +1,8 @@
 """Streaming verification of a connected-graph census, orders 1--10.
 
 The graph6 source is independently read again while comparing the original
-index with each recorded verdict. This avoids loading millions of graph
-records or a giant graph index into memory for order ten.
+index with each recorded verdict. This avoids storing redundant per-graph inventories while checking the
+complete source sequence and every original index.
 """
 
 from __future__ import annotations
@@ -83,57 +83,48 @@ def read_unresolved_file(path: Path) -> dict[int, str]:
 
 
 def verify_order(directory: Path, n: int, batch_size: int) -> tuple[dict, list[dict]]:
-    verdicts = iter_verdicts(directory / "verdicts.tsv") if n <= 5 else iter_chunks(directory, n, batch_size)
-    inventory = None
-    # For small orders, retain an independently verified original graph6 inventory.
-    if n <= 8:
-        inventory_path = directory / "graph_index.tsv"
-        if not inventory_path.is_file():
-            raise ValueError(f"order {n}: missing source inventory {inventory_path}")
-        inventory_handle = inventory_path.open(encoding="utf-8", newline="")
-        inventory = csv.DictReader(inventory_handle, delimiter="\t")
-        if inventory.fieldnames != ["index", "graph6", "vertices", "edges"]:
-            inventory_handle.close()
-            raise ValueError(f"order {n}: malformed source inventory header")
+    """Validate each verdict against the pinned connected-graph source.
+
+    No separate graph inventory is required: the source is reread and the
+    complete, consecutive original indices are checked independently.
+    """
+    verdicts = (
+        iter_verdicts(directory / "verdicts.tsv")
+        if n <= 5
+        else iter_chunks(directory, n, batch_size)
+    )
     counts = collections.Counter()
     unresolved: list[dict] = []
     seen = 0
-    try:
-        for index, graph in enumerate(connected_graphs(n)):
-            try:
-                verdict_index, status, reason = next(verdicts)
-            except StopIteration as exc:
-                raise ValueError(f"order {n}: missing verdict for index {index}") from exc
-            if verdict_index != index:
-                raise ValueError(f"order {n}: expected index {index}, got {verdict_index}")
-            original = graph6(graph)
-            if inventory is not None:
-                row = next(inventory, None)
-                if (row is None or int(row["index"]) != index
-                    or row["graph6"] != original or int(row["vertices"]) != n
-                    or int(row["edges"]) != graph.number_of_edges()):
-                    raise ValueError(f"order {n}: source inventory mismatch at {index}")
-            counts[status] += 1
-            seen += 1
-            if status == "INDETERMINATE":
-                unresolved.append({"order": n, "index": index, "graph6": original, "reason": reason})
-        if seen != EXPECTED_COUNTS[n]:
-            raise ValueError(f"order {n}: dataset has {seen} connected graphs, expected {EXPECTED_COUNTS[n]}")
-        if next(verdicts, None) is not None:
-            raise ValueError(f"order {n}: verdict records beyond source dataset")
-        if inventory is not None and next(inventory, None) is not None:
-            raise ValueError(f"order {n}: source inventory has extra rows")
-    finally:
-        if inventory is not None:
-            inventory_handle.close()
+    for index, graph in enumerate(connected_graphs(n)):
+        try:
+            verdict_index, status, reason = next(verdicts)
+        except StopIteration as exc:
+            raise ValueError(f"order {n}: missing verdict for index {index}") from exc
+        if verdict_index != index:
+            raise ValueError(f"order {n}: expected index {index}, got {verdict_index}")
+        counts[status] += 1
+        seen += 1
+        if status == "INDETERMINATE":
+            unresolved.append(
+                {"order": n, "index": index, "graph6": graph6(graph), "reason": reason}
+            )
+    if seen != EXPECTED_COUNTS[n]:
+        raise ValueError(
+            f"order {n}: dataset has {seen} connected graphs, expected {EXPECTED_COUNTS[n]}"
+        )
+    if next(verdicts, None) is not None:
+        raise ValueError(f"order {n}: verdict records beyond source dataset")
 
     if n >= 6:
         saved = read_unresolved_file(directory / f"indeterminate_order_{n}.txt")
         if set(saved) != {x["index"] for x in unresolved}:
             raise ValueError(f"order {n}: saved unresolved cohort differs from verdicts")
     return {
-        "order": n, "connected_total": seen,
-        "convergent": counts["CONVERGENT"], "divergent": counts["DIVERGENT"],
+        "order": n,
+        "connected_total": seen,
+        "convergent": counts["CONVERGENT"],
+        "divergent": counts["DIVERGENT"],
         "indeterminate": counts["INDETERMINATE"],
     }, unresolved
 
