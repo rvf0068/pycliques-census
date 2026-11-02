@@ -203,8 +203,6 @@ def refresh(order: int) -> dict:
     data: list[str] = []
     for i in sorted(remaining):
         fields = origins[i].split()
-        if fields[4] == "conjectured_divergent":
-            conditional += 1
         new = bound.get(i)
         if new and new["verdict"] == "INDETERMINATE":
             fields = [
@@ -212,6 +210,8 @@ def refresh(order: int) -> dict:
                 new["certificate_rule"], new["certificate_target_status"],
                 new["certificate_target_label"],
             ]
+        if fields[4] == "conjectured_divergent":
+            conditional += 1
         data.append(" ".join(fields))
     out = ROOT / f"indeterminate_order_{order}.txt"
     header = [

@@ -38,10 +38,16 @@ if [[ "$STAGE" == initial ]]; then
   exit 0
 fi
 
-set +e
+# Refresh on a normal exit, failure, or terminal interruption. Saved per-graph
+# records are atomic; the original census is never modified by a post-stage.
+refresh_on_exit() {
+  local status=$?
+  trap - EXIT
+  .venv/bin/python scripts/staged.py "$ORDER" refresh || {
+    echo "Unable to refresh the order-$ORDER indeterminate working file" >&2
+    if (( status == 0 )); then status=1; fi
+  }
+  exit "$status"
+}
+trap refresh_on_exit EXIT
 .venv/bin/python scripts/staged.py "$ORDER" "$STAGE"
-status=$?
-set -e
-# Preserve the working cohort even when interrupted after completed records.
-.venv/bin/python scripts/staged.py "$ORDER" refresh
-exit "$status"

@@ -93,6 +93,81 @@ class StageSelectionTests(unittest.TestCase):
             self.assertEqual(match[1], ReferenceStatus.CONJECTURED)
             self.assertEqual(match[2], graph6)
 
+    def test_post_stages_are_resumable_and_refresh_working_file(self):
+        """A completed stage reuses its graph records and keeps the census untouched."""
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            run = root / "runs" / "order9" / "initial"
+            order_dir = run / "order9"
+            order_dir.mkdir(parents=True)
+
+            wheel = nx.wheel_graph(9)
+            cycle = nx.cycle_graph(9)
+            path = nx.path_graph(9)
+            to_g6 = lambda graph: nx.to_graph6_bytes(graph, header=False).decode().strip()
+            graph6 = {10: to_g6(wheel), 20: to_g6(cycle), 30: to_g6(path)}
+            manifest = {"min_order": 9, "max_order": 9, "upstream_commit": "pin"}
+            (run / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+            summary = {
+                "manifest": manifest,
+                "orders": [{"order": 9, "connected_total": 261080, "indeterminate": 3}],
+                "unresolved": [
+                    {"order": 9, "index": index, "graph6": graph6[index],
+                     "reason": "conjectured divergent reference" if index == 10 else "bound exceeded"}
+                    for index in (10, 20, 30)
+                ],
+            }
+            (run / "summary.json").write_text(json.dumps(summary), encoding="utf-8")
+            original = "\n".join([
+                f"10 9 {graph6[10]} reference conjectured_divergent snub",
+                f"20 9 {graph6[20]} - - -",
+                f"30 9 {graph6[30]} - - -",
+            ]) + "\n"
+            original_file = order_dir / "indeterminate_order_9.txt"
+            original_file.write_text(original, encoding="utf-8")
+
+            def fake_compute(_order, stage, graph):
+                name = to_g6(graph)
+                if stage == "c10":
+                    return (
+                        {"status": "RETRACTION_FOUND", "witness": {"test": True}}
+                        if name == graph6[20]
+                        else {"status": "NO_RETRACTION", "witness": None}
+                    )
+                assert stage == "bound60"
+                return {
+                    "verdict": "INDETERMINATE", "reason": "bound exceeded",
+                    "pared_order": 9, "pared_graph6": graph6[30],
+                    "certificate_rule": "-", "certificate_target_status": "-",
+                    "certificate_target_label": "-",
+                }
+
+            with (
+                patch.object(staged, "ROOT", root),
+                patch.object(staged, "current_pin", return_value="pin"),
+                patch.object(staged, "compute", side_effect=fake_compute) as calculation,
+            ):
+                staged.run_stage(9, "c10")
+                self.assertEqual(calculation.call_count, 2)
+                working = root / "indeterminate_order_9.txt"
+                lines = [x for x in working.read_text().splitlines() if not x.startswith("#")]
+                self.assertEqual([int(x.split()[0]) for x in lines], [10, 30])
+                staged.run_stage(9, "c10")  # must reuse saved data
+                self.assertEqual(calculation.call_count, 2)
+
+                staged.run_stage(9, "bound60")
+                self.assertEqual(calculation.call_count, 3)
+                staged.run_stage(9, "bound60")
+                self.assertEqual(calculation.call_count, 3)
+                self.assertEqual(original_file.read_text(), original)
+                surfaces = root / "config" / "conjectured_surfaces_order9.tsv"
+                self.assertEqual(surfaces.read_text().splitlines()[-1], f"10 {graph6[10]}")
+                self.assertEqual(
+                    [int(x.split()[0]) for x in working.read_text().splitlines()
+                     if not x.startswith("#")],
+                    [10, 30],
+                )
+
     def test_baseline_detects_wrong_exception(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
