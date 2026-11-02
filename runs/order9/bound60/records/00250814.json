@@ -1,0 +1,12 @@
+{
+  "bound": 60,
+  "certificate_rule": "-",
+  "certificate_target_label": "-",
+  "certificate_target_status": "-",
+  "graph6": "HEhuvzm",
+  "index": 250814,
+  "pared_graph6": "HEhuvzm",
+  "pared_order": 9,
+  "reason": "clique count exceeded bound",
+  "verdict": "INDETERMINATE"
+}

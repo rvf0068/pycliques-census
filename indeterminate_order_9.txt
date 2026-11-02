@@ -1,7 +1,7 @@
 # Current indeterminate connected graphs of order 9
 # Derived from certified stage records; raw initial census remains unchanged.
-# Remaining=59 conjectured_divergent=36
-# C10_checked=27 bound60_checked=0 homotopy_checked=0
+# Remaining=57 conjectured_divergent=36
+# C10_checked=27 bound60_checked=23 homotopy_checked=0
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
 180476 8 GQyuzw reference conjectured_divergent snub_disphenoid
 180593 9 HCRSv\} retracts conjectured_divergent snub_disphenoid
@@ -49,14 +49,12 @@
 253650 9 HEjer~{ - - -
 254369 9 HEjfvx} - - -
 255039 9 HEnb~jl - - -
-255140 9 HEnfbzk - - -
 255141 9 HEnfbzm - - -
 257459 8 GQtv\w reference conjectured_divergent snub_disphenoid
 257461 8 GQtv\w reference conjectured_divergent snub_disphenoid
 257515 8 GQtv\w reference conjectured_divergent snub_disphenoid
 258413 8 Gejlrk reference conjectured_divergent snub_disphenoid
 258899 8 GQzZtk reference conjectured_divergent snub_disphenoid
-259791 9 HQyurzU - - -
 259793 8 GQyr}w reference conjectured_divergent snub_disphenoid
 259873 8 GQyr}w reference conjectured_divergent snub_disphenoid
 260038 9 HQyvex{ inverse_cutpoint_extension conjectured_divergent snub_disphenoid
