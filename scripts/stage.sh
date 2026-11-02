@@ -31,7 +31,7 @@ if [[ "$STAGE" == initial ]]; then
     }
   fi
   BATCH=10000
-  if [[ "$ORDER" == 10 ]]; then BATCH=5000; fi
+  if [[ "$ORDER" == 10 ]]; then BATCH=100000; fi
   MIN_ORDER="$ORDER" MAX_ORDER="$ORDER" BATCH_SIZE="$BATCH" CLIQUE_BOUND=30 \
     RUN_DIR="$ROOT/runs/order$ORDER/initial" bash scripts/run_census.sh
   .venv/bin/python scripts/staged.py "$ORDER" refresh

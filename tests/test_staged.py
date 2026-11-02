@@ -245,6 +245,13 @@ class StageSelectionTests(unittest.TestCase):
             selection, _ = staged.stage_selection(10, "bound70")
             self.assertEqual(set(selection), {12, 13})
 
+    def test_initial_batch_sizes_are_order_specific(self):
+        """The entry point must keep order 9 at 10000 and order 10 at 100000."""
+        script = (ROOT / "scripts" / "stage.sh").read_text(encoding="utf-8")
+        self.assertIn('  BATCH=10000', script)
+        self.assertIn('if [[ "$ORDER" == 10 ]]; then BATCH=100000; fi', script)
+        self.assertNotIn('BATCH=5000', script)
+
     def test_baseline_detects_wrong_exception(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)

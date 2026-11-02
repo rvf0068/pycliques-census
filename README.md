@@ -32,6 +32,13 @@ Then execute each desired stage with a single command:
 Run the stages for each order in order. The 10-vertex initial stage requires
 the final order-9 surface reference file refreshed automatically by stage `9 bound70`.
 
+The initial census uses **10,000 graphs per batch for order 9** and
+**100,000 per batch for order 10**. A run started with a different batch
+size cannot be resumed in the same directory: its manifest guards against
+mixed settings. For a fresh order-10 run after an earlier 5,000-graph-batch
+attempt, remove only `runs/order10/initial/` before launching the stage again.
+The final partial order-10 batch contains fewer than 100,000 graphs.
+
 Each command is repeatable: an interrupted initial run skips completed
 batches; an interrupted later stage skips completed graph records. Do not
 change the pinned upstream revision while resuming an active run.
