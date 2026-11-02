@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'scripts/**'
+      - 'tests/**'
       - 'config/**'
       - '.github/workflows/smoke.yml'
       - '.devcontainer/**'
