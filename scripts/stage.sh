@@ -11,22 +11,22 @@ if [[ "${1:-}" == baseline && $# -eq 1 ]]; then
 fi
 
 if (( $# != 2 )) || [[ ! "${1:-}" =~ ^(9|10)$ ]]; then
-  echo "Usage: bash scripts/stage.sh baseline | {9|10} {initial|c10|bound60|homotopy|bound70}" >&2
+  echo "Usage: bash scripts/stage.sh baseline | {9|10} {initial|c10|bound60|bound70|homotopy}" >&2
   exit 2
 fi
 
 ORDER="$1"
 STAGE="$2"
 case "$ORDER/$STAGE" in
-  9/initial|9/c10|9/bound60|10/initial|10/c10|10/homotopy|10/bound70) ;;
+  9/initial|9/c10|9/bound60|9/bound70|10/initial|10/c10|10/homotopy) ;;
   *) echo "Unsupported stage $ORDER/$STAGE" >&2; exit 2 ;;
 esac
 
 if [[ "$STAGE" == initial ]]; then
   .venv/bin/python -c 'import sys; sys.path.insert(0, "scripts"); from staged import check_baseline; check_baseline()'
   if [[ "$ORDER" == 10 ]]; then
-    [[ -f config/conjectured_surfaces_order9.tsv && -f runs/order9/bound60/summary.json ]] || {
-      echo "Finish order 9 through bound60 (including surface registry) before order 10." >&2
+    [[ -f config/conjectured_surfaces_order9.tsv && -f runs/order9/bound70/summary.json ]] || {
+      echo "Finish order 9 through bound70 (including refreshed surface registry) before order 10." >&2
       exit 1
     }
   fi

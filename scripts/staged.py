@@ -148,62 +148,65 @@ def checked_records(order: int, stage: str, source: dict[int, dict]) -> dict[int
 def active(order: int) -> tuple[dict[int, dict], dict[int, str], dict[int, dict]]:
     _, source, origins = census(order)
     c10 = checked_records(order, "c10", source)
-    bound = checked_records(order, "bound60" if order == 9 else "bound70", source)
+    # Both bound increases are order-9 stages. Order 10 stops at homotopy.
+    bound60 = checked_records(9, "bound60", source) if order == 9 else {}
+    bound70 = checked_records(9, "bound70", source) if order == 9 else {}
     active_rows: dict[int, dict] = {}
     for i, row in source.items():
         if c10.get(i, {}).get("status") == "RETRACTION_FOUND":
             continue
-        if bound.get(i, {}).get("verdict") in {"CONVERGENT", "DIVERGENT"}:
+        if any(
+            results.get(i, {}).get("verdict") in {"CONVERGENT", "DIVERGENT"}
+            for results in (bound60, bound70)
+        ):
             continue
         active_rows[i] = row
     return active_rows, origins, source
 
 
 def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, dict]]:
-    """Choose a fixed cohort from *preceding* stages, not this stage's results.
+    """Select a fixed cohort from *preceding* stages, never this stage.
 
-    Keeping selection independent of records written by the current stage is
-    essential for deterministic checkpoint resumption.
+    This remains unchanged as successful records accumulate, permitting
+    deterministic resumption after an interruption.
     """
+    if (order, stage) not in {
+        (9, "c10"), (9, "bound60"), (9, "bound70"),
+        (10, "c10"), (10, "homotopy"),
+    }:
+        raise ValueError(f"Unsupported stage: order={order}, stage={stage}")
     _, source, origins = census(order)
-    prior = checked_records(order, "c10", source) if stage != "c10" else {}
+    c10 = checked_records(order, "c10", source) if stage != "c10" else {}
     resolved_c10 = {
-        i for i, result in prior.items()
+        i for i, result in c10.items()
         if result["status"] == "RETRACTION_FOUND"
     }
-    # The C10 check and order-9 bound increase exclude conditional cases.
-    # For order 10, however, the homotopy step examines *all* remaining
-    # indeterminate graphs; bound70 then filters solely on exact homotopy type.
-    skip_conditional = stage in ("c10", "bound60")
+    # Homotopy on order 10 examines every unresolved graph. The three
+    # order-9 selective stages and the order-10 C10 test omit graphs whose
+    # current verdict depends on a conjectured reference.
+    skip_conditional = stage != "homotopy"
+    prior_bound60 = checked_records(9, "bound60", source) if stage == "bound70" else {}
     eligible = {
         i: row for i, row in source.items()
         if i not in resolved_c10
         and (not skip_conditional or origins[i].split()[4] != "conjectured_divergent")
+        and prior_bound60.get(i, {}).get("verdict") not in {"CONVERGENT", "DIVERGENT"}
+        and prior_bound60.get(i, {}).get("certificate_target_status") != "conjectured_divergent"
     }
-    if stage == "bound70":
-        h = checked_records(order, "homotopy", source)
-        eligible = {
-            i: row for i, row in eligible.items()
-            if h.get(i, {}).get("is_exact")
-            and isinstance(h[i].get("spheres"), dict)
-            and all(str(dim) == "1" for dim in h[i]["spheres"])
-        }
-    elif stage not in ("c10", "bound60", "homotopy"):
-        raise ValueError(f"Unknown post-processing stage: {stage}")
     return eligible, source
 
 
 def refresh(order: int) -> dict:
     remaining, origins, source = active(order)
     c10 = checked_records(order, "c10", source)
-    boundstage = "bound60" if order == 9 else "bound70"
-    bound = checked_records(order, boundstage, source)
+    bound60 = checked_records(9, "bound60", source) if order == 9 else {}
+    bound70 = checked_records(9, "bound70", source) if order == 9 else {}
     h = checked_records(order, "homotopy", source) if order == 10 else {}
     conditional = 0
     data: list[str] = []
     for i in sorted(remaining):
         fields = origins[i].split()
-        new = bound.get(i)
+        new = bound70.get(i) or bound60.get(i)
         if new and new["verdict"] == "INDETERMINATE":
             fields = [
                 str(i), str(new["pared_order"]), new["pared_graph6"],
@@ -218,7 +221,8 @@ def refresh(order: int) -> dict:
         f"# Current indeterminate connected graphs of order {order}",
         "# Derived from certified stage records; raw initial census remains unchanged.",
         f"# Remaining={len(data)} conjectured_divergent={conditional}",
-        f"# C10_checked={len(c10)} {boundstage}_checked={len(bound)} homotopy_checked={len(h)}",
+        f"# C10_checked={len(c10)} bound60_checked={len(bound60)} "
+        f"bound70_checked={len(bound70)} homotopy_checked={len(h)}",
         "# Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label",
     ]
     write_atomic(out, "\n".join(header + data) + "\n")
@@ -227,7 +231,8 @@ def refresh(order: int) -> dict:
         "remaining": len(data),
         "conjectured_divergent": conditional,
         "C10_checked": len(c10),
-        "bound_checked": len(bound),
+        "bound60_checked": len(bound60),
+        "bound70_checked": len(bound70),
         "homotopy_checked": len(h),
     }
 
@@ -244,7 +249,7 @@ def surface_registry(order: int) -> int:
             registered.append((i, graph6))
     lines = [
         "# Conjectured divergent surfaces: original order-9 source-index graph6",
-        "# Generated from remaining indeterminate graphs after stages c10 and bound60",
+        "# Generated from remaining indeterminate graphs after stages c10, bound60 and bound70",
         "# Each graph is registered as ReferenceStatus.CONJECTURED, never PROVEN.",
     ]
     lines.extend(f"{i} {g6}" for i, g6 in registered)
@@ -284,13 +289,21 @@ def compute(order: int, stage: str, graph: nx.Graph) -> dict:
 
 def run_stage(order: int, stage: str) -> None:
     if (order, stage) not in {
-        (9, "c10"), (9, "bound60"),
-        (10, "c10"), (10, "homotopy"), (10, "bound70"),
+        (9, "c10"), (9, "bound60"), (9, "bound70"),
+        (10, "c10"), (10, "homotopy"),
     }:
         raise ValueError(f"Unsupported stage: order={order}, stage={stage}")
+    if order == 9 and stage == "bound70":
+        # Replacing references after an order-10 initial census has started
+        # would invalidate that census's surface-registry provenance.
+        if (ROOT / "runs" / "order10" / "initial" / "manifest.json").exists():
+            raise ValueError(
+                "Order-10 initial census already exists: do not change its "
+                "surface references. Preserve or restart that census first."
+            )
     if order == 10:
         if not reference_file().is_file():
-            raise ValueError("Run order-9 bound60 to create surface references first")
+            raise ValueError("Run order-9 bound70 to finalize surface references first")
         load_surface_references()
     current = current_pin()
     selection, source = stage_selection(order, stage)
@@ -306,9 +319,12 @@ def run_stage(order: int, stage: str) -> None:
         "indices": sorted(selection),
     }
     # Hash the complete preceding stage metadata to prevent stale cohort reuse.
-    prerequisites = ["c10"] if stage in ("bound60", "homotopy") else (
-        ["c10", "homotopy"] if stage == "bound70" else []
-    )
+    prerequisites = {
+        "c10": [],
+        "bound60": ["c10"],
+        "bound70": ["c10", "bound60"],
+        "homotopy": ["c10"],
+    }[stage]
     for name in prerequisites:
         path = stage_dir(order, name) / "summary.json"
         if not path.is_file():
@@ -351,7 +367,7 @@ def run_stage(order: int, stage: str) -> None:
         "processed": len(results),
         "counts": dict(sorted(counts.items())),
     })
-    if order == 9 and stage == "bound60":
+    if order == 9 and stage == "bound70":
         surfaces = surface_registry(9)
         print(f"Registered {surfaces} remaining order-9 surface references (conjectural)", flush=True)
     result = refresh(order)
@@ -379,7 +395,7 @@ def check_baseline() -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("order", type=int, choices=(9, 10))
-    parser.add_argument("stage", choices=("refresh", "c10", "bound60", "homotopy", "bound70"))
+    parser.add_argument("stage", choices=("refresh", "c10", "bound60", "bound70", "homotopy"))
     args = parser.parse_args()
     if args.stage == "refresh":
         print(refresh(args.order))

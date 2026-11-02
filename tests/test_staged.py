@@ -58,8 +58,11 @@ class StageSelectionTests(unittest.TestCase):
 
             hom, _ = staged.stage_selection(10, "homotopy")
             self.assertEqual(set(hom), {10, 30, 40, 50})
-            bound70, _ = staged.stage_selection(10, "bound70")
-            self.assertEqual(set(bound70), {30, 40})
+            with self.assertRaisesRegex(ValueError, "Unsupported stage"):
+                staged.stage_selection(10, "bound70")
+            # Bound 70 is exclusively for the order-9 cohort remaining after 60.
+            bound70, _ = staged.stage_selection(9, "bound70")
+            self.assertEqual(set(bound70), {30, 40, 50})
 
     def test_selection_is_independent_of_current_stage_results(self):
         with (
@@ -94,7 +97,7 @@ class StageSelectionTests(unittest.TestCase):
             self.assertEqual(match[2], graph6)
 
     def test_post_stages_are_resumable_and_refresh_working_file(self):
-        """A completed stage reuses its graph records and keeps the census untouched."""
+        """Bound 70 removes a now-determined surface from the reference file."""
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             run = root / "runs" / "order9" / "initial"
@@ -104,17 +107,24 @@ class StageSelectionTests(unittest.TestCase):
             wheel = nx.wheel_graph(9)
             cycle = nx.cycle_graph(9)
             path = nx.path_graph(9)
+            # The same surface under another original index is just a fixture
+            # for distinguishing a conditional reference from a newly resolved one.
+            graph6 = {
+                10: nx.to_graph6_bytes(wheel, header=False).decode().strip(),
+                20: nx.to_graph6_bytes(cycle, header=False).decode().strip(),
+                30: nx.to_graph6_bytes(path, header=False).decode().strip(),
+                40: nx.to_graph6_bytes(wheel, header=False).decode().strip(),
+            }
             to_g6 = lambda graph: nx.to_graph6_bytes(graph, header=False).decode().strip()
-            graph6 = {10: to_g6(wheel), 20: to_g6(cycle), 30: to_g6(path)}
             manifest = {"min_order": 9, "max_order": 9, "upstream_commit": "pin"}
             (run / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
             summary = {
                 "manifest": manifest,
-                "orders": [{"order": 9, "connected_total": 261080, "indeterminate": 3}],
+                "orders": [{"order": 9, "connected_total": 261080, "indeterminate": 4}],
                 "unresolved": [
                     {"order": 9, "index": index, "graph6": graph6[index],
                      "reason": "conjectured divergent reference" if index == 10 else "bound exceeded"}
-                    for index in (10, 20, 30)
+                    for index in (10, 20, 30, 40)
                 ],
             }
             (run / "summary.json").write_text(json.dumps(summary), encoding="utf-8")
@@ -122,6 +132,7 @@ class StageSelectionTests(unittest.TestCase):
                 f"10 9 {graph6[10]} reference conjectured_divergent snub",
                 f"20 9 {graph6[20]} - - -",
                 f"30 9 {graph6[30]} - - -",
+                f"40 9 {graph6[40]} - - -",
             ]) + "\n"
             original_file = order_dir / "indeterminate_order_9.txt"
             original_file.write_text(original, encoding="utf-8")
@@ -134,10 +145,13 @@ class StageSelectionTests(unittest.TestCase):
                         if name == graph6[20]
                         else {"status": "NO_RETRACTION", "witness": None}
                     )
-                assert stage == "bound60"
+                if stage == "bound70" and name == graph6[40]:
+                    verdict = "DIVERGENT"
+                else:
+                    verdict = "INDETERMINATE"
                 return {
-                    "verdict": "INDETERMINATE", "reason": "bound exceeded",
-                    "pared_order": 9, "pared_graph6": graph6[30],
+                    "verdict": verdict, "reason": "fixture result",
+                    "pared_order": 9, "pared_graph6": name,
                     "certificate_rule": "-", "certificate_target_status": "-",
                     "certificate_target_label": "-",
                 }
@@ -148,25 +162,37 @@ class StageSelectionTests(unittest.TestCase):
                 patch.object(staged, "compute", side_effect=fake_compute) as calculation,
             ):
                 staged.run_stage(9, "c10")
-                self.assertEqual(calculation.call_count, 2)
+                self.assertEqual(calculation.call_count, 3)
                 working = root / "indeterminate_order_9.txt"
-                lines = [x for x in working.read_text().splitlines() if not x.startswith("#")]
-                self.assertEqual([int(x.split()[0]) for x in lines], [10, 30])
-                staged.run_stage(9, "c10")  # must reuse saved data
-                self.assertEqual(calculation.call_count, 2)
+                self.assertEqual(
+                    [int(x.split()[0]) for x in working.read_text().splitlines()
+                     if not x.startswith("#")],
+                    [10, 30, 40],
+                )
+                staged.run_stage(9, "c10")
+                self.assertEqual(calculation.call_count, 3)
 
                 staged.run_stage(9, "bound60")
-                self.assertEqual(calculation.call_count, 3)
-                staged.run_stage(9, "bound60")
-                self.assertEqual(calculation.call_count, 3)
-                self.assertEqual(original_file.read_text(), original)
+                self.assertEqual(calculation.call_count, 5)
+                # Previously the surface registry was generated by bound60;
+                # now it is finalized by bound70.
                 surfaces = root / "config" / "conjectured_surfaces_order9.tsv"
+                self.assertFalse(surfaces.exists())
+                staged.run_stage(9, "bound70")
+                self.assertEqual(calculation.call_count, 7)
                 self.assertEqual(surfaces.read_text().splitlines()[-1], f"10 {graph6[10]}")
                 self.assertEqual(
                     [int(x.split()[0]) for x in working.read_text().splitlines()
                      if not x.startswith("#")],
                     [10, 30],
                 )
+                staged.run_stage(9, "bound70")
+                self.assertEqual(calculation.call_count, 7)
+                self.assertEqual(original_file.read_text(), original)
+
+    def test_order10_bound70_is_not_a_stage(self):
+        with self.assertRaisesRegex(ValueError, "Unsupported stage"):
+            staged.run_stage(10, "bound70")
 
     def test_baseline_detects_wrong_exception(self):
         with tempfile.TemporaryDirectory() as temp:

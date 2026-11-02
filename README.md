@@ -21,14 +21,15 @@ Then execute each desired stage with a single command:
 |:--|:--|:--|
 | 9 | `bash scripts/stage.sh 9 initial` | Classify all 261,080 connected graphs, bound 30 |
 | 9 | `bash scripts/stage.sh 9 c10` | On non-conjecturally-indeterminate inputs, check whether K(G) retracts to the complement of C10 |
-| 9 | `bash scripts/stage.sh 9 bound60` | Rerun the usual classifier with bound 60 only on still-indeterminate graphs not conjectured divergent; finish by registering all remaining order-9 surface graphs as conjectural references |
+| 9 | `bash scripts/stage.sh 9 bound60` | Rerun the usual classifier with bound 60 only on still-indeterminate graphs not conjectured divergent |
+| 9 | `bash scripts/stage.sh 9 bound70` | Classify only the 9-vertex cases still indeterminate and not conjectured divergent at bound 70; rebuild the conjectured surface-reference file |
 | 10 | `bash scripts/stage.sh 10 initial` | Classify all 11,716,571 connected graphs, bound 30, using the registered order-9 surfaces |
 | 10 | `bash scripts/stage.sh 10 c10` | Check K(G) retraction to the complement of C10 on still-indeterminate graphs excluding conjecturally divergent |
 | 10 | `bash scripts/stage.sh 10 homotopy` | Compute the homotopy type of **G only** for all still-indeterminate graphs with the current pycombtop API |
-| 10 | `bash scripts/stage.sh 10 bound70` | Classify at bound 70 **only** graphs with exact pycombtop type contractible or a wedge of S¹ circles |
+
 
 Run the stages for each order in order. The 10-vertex initial stage requires
-the order-9 surface reference file created automatically by stage `9 bound60`.
+the final order-9 surface reference file refreshed automatically by stage `9 bound70`.
 
 Each command is repeatable: an interrupted initial run skips completed
 batches; an interrupted later stage skips completed graph records. Do not
@@ -58,11 +59,11 @@ runs/
     initial/
     c10/
     bound60/
+    bound70/
   order10/
     initial/
     c10/
     homotopy/
-    bound70/
 ```
 
 Initial census verdicts are immutable: post-stages write new records rather
@@ -72,14 +73,18 @@ verified retraction maps. The homotopy stage stores `is_exact`, `is_limited`,
 the stated type, and the reason from `pycombtop`. A Betti-only result is
 not accepted as a wedge-of-spheres or contractibility certificate.
 
-The last order-9 stage generates
+The final order-9 bound-70 stage regenerates
 [`config/conjectured_surfaces_order9.tsv`](config/conjectured_surfaces_order9.tsv)
 listing the remaining original nine-vertex graphs satisfying
 `pycliques.surfaces.is_surface`, with graph6 labels. For the order-10
 classifier these are loaded using
 `register_reference_graph(graph, status=ReferenceStatus.CONJECTURED, label=graph6)`.
-They are never silently treated as proven divergent. This file is pinned
-by its checksum in the order-10 initial manifest.
+They are never silently treated as proven divergent. A surface classified at
+bound 70 is removed from the conjectural reference file, which is pinned by
+its checksum in the order-10 initial manifest.
+
+**There is no bound-70 stage for order 10.** The current order-10 workflow
+ends after the homotopy-type analysis, without further classification.
 
 ## Save progress
 
