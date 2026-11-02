@@ -3,7 +3,7 @@
 # Source: runs/order9-bound30-after-clockwork-fix/order9/indeterminate_order_9.txt
 # Post-pass: retractions K(G) -> complement of C_10.
 # Original=63 conditional_snub=36 eligible=27
-# Checked=0 resolved_by_retraction=0 remaining=63
+# Checked=27 resolved_by_retraction=4 remaining=59
 # NO_RETRACTION and INCONCLUSIVE still mean clique behavior INDETERMINATE.
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
 180476 8 GQyuzw reference conjectured_divergent snub_disphenoid
@@ -54,9 +54,6 @@
 255039 9 HEnb~jl - - -
 255140 9 HEnfbzk - - -
 255141 9 HEnfbzm - - -
-255450 9 HEnv^p| - - -
-255618 9 HErtv\} - - -
-256222 9 HEzftxv - - -
 257459 8 GQtv\w reference conjectured_divergent snub_disphenoid
 257461 8 GQtv\w reference conjectured_divergent snub_disphenoid
 257515 8 GQtv\w reference conjectured_divergent snub_disphenoid
@@ -68,4 +65,3 @@
 260038 9 HQyvex{ inverse_cutpoint_extension conjectured_divergent snub_disphenoid
 260040 9 HQyvex} - - -
 260910 9 HUZvvzu - - -
-261016 9 HUzvrzu - - -
