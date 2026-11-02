@@ -132,6 +132,56 @@ all of its rows as having been computed with the fixed revision. For a
 strictly single-version census instead, select an **empty** new `RUN_DIR`
 and run the full order-9 census from index zero.
 
+### Next post-pass: retraction of K(G) onto the complement of C10
+
+After validating the completed **order-9** census, examine only the unresolved
+graphs that are **not** conditional on the conjectured divergence of the snub
+disphenoid. The cohort is drawn from the saved original-indexed graph6 records
+and cross-checked against the six-column unresolved file.
+
+The completed baseline currently has **63 indeterminate graphs**, of which
+**36** are marked `conjectured_divergent`; the remaining **27** are tested.
+
+A graph of order nine cannot itself retract onto a graph with ten vertices.
+The intended test is whether the **clique graph** `K(G)` retracts onto
+`complement_of_cycle(10)`. This is not among the default fast classifier
+tests, although `pycliques.retractions` provides bounded retraction search.
+
+```bash
+git pull --ff-only
+.venv/bin/python postpasses/clique_retract_comp_c10.py \
+  --run-dir "$PWD/runs/order9-bound30-after-clockwork-fix"
+```
+
+Results are written into
+`runs/order9-bound30-after-clockwork-fix/postpasses/clique_retract_comp_c10/`.
+Each eligible graph receives its own atomic, resumable JSON result containing
+the original source index, exact `K(G)`, and optionally a verifiable
+retraction map. The post-pass has its own manifest containing hashes of
+its source, the original census summary, unresolved cohort, and the exact
+pinned `pycliques-project` revision. It never modifies existing census
+classifications.
+
+Three outcomes have different meanings:
+
+- `RETRACTION_FOUND`: an independently checked retraction onto an induced
+  copy of `complement_of_cycle(10)`, with the maps included.
+- `NO_RETRACTION`: all induced target copies were exhausted or `K(G)`
+  is too small; this is only a negative result for this **particular** test.
+- `INCONCLUSIVE`: one or more search budgets were exhausted; a larger
+  search is needed before claiming a negative.
+
+The default limits are 1,000 different induced target vertex sets, 100,000
+search states, and 1,000,000 tested assignments *per target embedding*.
+A stopped post-pass can be resumed with the identical command; completed
+graph records are skipped. For a new experiment with larger budgets, choose
+a **new** `--output-dir` so provenance is not mixed.
+
+After completion, inspect
+`.../postpasses/clique_retract_comp_c10/summary.json` and commit the
+new post-pass directory. This is separate from the original order-9 census
+and should not be mistaken for a new full enumeration.
+
 ### Connected graph census sizes
 
 | Order | Unlabeled connected simple graphs |
