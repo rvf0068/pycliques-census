@@ -1,0 +1,12 @@
+{
+  "bound": 70,
+  "certificate_rule": "-",
+  "certificate_target_label": "-",
+  "certificate_target_status": "-",
+  "graph6": "HEhutxm",
+  "index": 250684,
+  "pared_graph6": "HEhutxm",
+  "pared_order": 9,
+  "reason": "eventually has a special octahedron (index 3, dimension 4)",
+  "verdict": "DIVERGENT"
+}

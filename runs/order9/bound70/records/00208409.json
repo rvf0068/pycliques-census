@@ -1,0 +1,12 @@
+{
+  "bound": 70,
+  "certificate_rule": "-",
+  "certificate_target_label": "-",
+  "certificate_target_status": "-",
+  "graph6": "HCZTf\\}",
+  "index": 208409,
+  "pared_graph6": "HCZTf\\}",
+  "pared_order": 9,
+  "reason": "clique count exceeded bound",
+  "verdict": "INDETERMINATE"
+}

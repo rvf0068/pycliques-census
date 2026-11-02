@@ -1,0 +1,41 @@
+{
+  "counts": {
+    "DIVERGENT": 3,
+    "INDETERMINATE": 18
+  },
+  "manifest": {
+    "bound60_summary_sha256": "df1f8359dcdf1e4a5fe6003a2d1fb19bbd4001877d504f29414ac2861c1b4127",
+    "c10_summary_sha256": "8a839550de5d3d3fe4ddade00a0612c397ad1afa69a9c0984c5a71bdf97ce4fb",
+    "indices": [
+      208409,
+      242316,
+      248687,
+      248936,
+      249436,
+      249574,
+      249576,
+      250684,
+      250693,
+      250814,
+      251628,
+      251759,
+      251902,
+      252075,
+      253557,
+      253650,
+      254369,
+      255039,
+      255141,
+      260040,
+      260910
+    ],
+    "initial_summary_sha256": "6a92c886b9cb1ce8a34b925ce1ab633f7ebbb5843e4aade6e1fa91b9199587fa",
+    "order": 9,
+    "schema": 1,
+    "script_sha256": "6a6470b90b3aa92c69fa33c64ae9a8a32ff893c19d30e315dac66ac0bc922a3b",
+    "stage": "bound70",
+    "surface_registry_sha256": null,
+    "upstream_commit": "da9ef9b0b76648d221b687487483da56603ccdff"
+  },
+  "processed": 21
+}
