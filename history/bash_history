@@ -20,3 +20,4 @@ cd /workspaces/pycliques-census
 git pull --ff-only
 bash scripts/stage.sh baseline
 scripts/stage.sh 9 initial
+scripts/stage.sh 9 c10
