@@ -149,8 +149,7 @@ tests, although `pycliques.retractions` provides bounded retraction search.
 
 ```bash
 git pull --ff-only
-.venv/bin/python postpasses/clique_retract_comp_c10.py \
-  --run-dir "$PWD/runs/order9-bound30-after-clockwork-fix"
+bash postpasses/run_clique_retract_comp_c10.sh
 ```
 
 Results are written into
@@ -161,6 +160,28 @@ retraction map. The post-pass has its own manifest containing hashes of
 its source, the original census summary, unresolved cohort, and the exact
 pinned `pycliques-project` revision. It never modifies existing census
 classifications.
+
+The repository-root **[indeterminate_order_9.txt](indeterminate_order_9.txt)**
+is the easy-to-access *current working cohort*: the wrapper refreshes it
+atomically after each post-pass invocation, including interrupted runs.
+It starts with the original 63 indeterminate cases and removes only cases
+with a verified `RETRACTION_FOUND` certificate. The 36 snub-dependent
+cases remain in the working file, as do any ordinary negative, untested,
+or resource-limited cases. Its six-column format and original graph indices
+are unchanged. The original
+`runs/order9-bound30-after-clockwork-fix/order9/indeterminate_order_9.txt`
+is an immutable census snapshot and must not be edited by post-passes.
+
+If you already invoked the original Python post-pass command directly,
+update the root working file without repeating the computation:
+
+```bash
+.venv/bin/python postpasses/refresh_indeterminate_order9.py
+```
+
+For higher-budget experiments with a distinct `--output-dir`, use the
+shell wrapper with the same option to refresh from that experiment. Preserve
+the separate, immutable result directories for provenance.
 
 Three outcomes have different meanings:
 
