@@ -60,6 +60,11 @@ def write_unresolved_cohort(folder: Path, n: int, total: int, batch_size: int) -
 def classify_order(n: int, folder: Path, batch_size: int, bound: int) -> None:
     if n not in (9, 10):
         raise ValueError("stream_connected is intended for orders 9 and 10")
+    if n == 10:
+        from surface_refs import load_surface_references
+
+        count = load_surface_references()
+        print(f"Registered {count} conjectural order-9 surface references", flush=True)
     for name in ("chunks", "unresolved_chunks", "completed", "logs"):
         (folder / name).mkdir(parents=True, exist_ok=True)
     total = EXPECTED_COUNTS[n]

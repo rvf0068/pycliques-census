@@ -1,0 +1,2 @@
+# Order-10 staged census has not been run in this branch.
+# Begin after completing all order-9 stages: bash scripts/stage.sh 10 initial
