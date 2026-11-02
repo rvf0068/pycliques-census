@@ -6,3 +6,7 @@ git pull --ff-only
 bash scripts/update_pycliques.sh   da9ef9b0b76648d221b687487483da56603ccdff
 .venv/bin/python maintenance/prepare_order9_resume.py   --old "$PWD/runs/order9-bound30"   --new "$PWD/runs/order9-bound30-after-clockwork-fix"
 MIN_ORDER=9 MAX_ORDER=9 BATCH_SIZE=10000 CLIQUE_BOUND=30   RUN_DIR="$PWD/runs/order9-bound30-after-clockwork-fix"   bash scripts/run_census.sh
+git add config/pycliques_commit.txt         runs/order9-bound30-after-clockwork-fix         history/
+git commit -m "Complete connected order-9 clique behavior first census"
+git push
+rm -rf runs/order9-bound30
