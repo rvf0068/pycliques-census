@@ -34,9 +34,10 @@ class StageSelectionTests(unittest.TestCase):
         }
         self.c10 = {20: {"status": "RETRACTION_FOUND"}, 30: {"status": "NO_RETRACTION"}}
         self.homotopy = {
-            30: {"is_exact": True, "spheres": {"1": 2}},
-            40: {"is_exact": True, "spheres": {}},
-            50: {"is_exact": False, "spheres": {"1": 1}},
+            10: {"is_exact": True, "is_limited": False, "spheres": {"1": 3}},
+            30: {"is_exact": True, "is_limited": False, "spheres": {"1": 2}},
+            40: {"is_exact": True, "is_limited": False, "spheres": {}},
+            50: {"is_exact": False, "is_limited": False, "spheres": {"1": 1}},
         }
 
     def records(self, order, stage, source):
@@ -58,11 +59,12 @@ class StageSelectionTests(unittest.TestCase):
 
             hom, _ = staged.stage_selection(10, "homotopy")
             self.assertEqual(set(hom), {10, 30, 40, 50})
-            with self.assertRaisesRegex(ValueError, "Unsupported stage"):
-                staged.stage_selection(10, "bound70")
-            # Bound 70 is exclusively for the order-9 cohort remaining after 60.
-            bound70, _ = staged.stage_selection(9, "bound70")
-            self.assertEqual(set(bound70), {30, 40, 50})
+            # Order 10 uses exact contractible/wedges of S^1, but never
+            # conjectural cases, even if their homotopy verdict is exact.
+            order10_bound70, _ = staged.stage_selection(10, "bound70")
+            self.assertEqual(set(order10_bound70), {30, 40})
+            order9_bound70, _ = staged.stage_selection(9, "bound70")
+            self.assertEqual(set(order9_bound70), {30, 40, 50})
 
     def test_selection_is_independent_of_current_stage_results(self):
         with (
@@ -190,9 +192,58 @@ class StageSelectionTests(unittest.TestCase):
                 self.assertEqual(calculation.call_count, 7)
                 self.assertEqual(original_file.read_text(), original)
 
-    def test_order10_bound70_is_not_a_stage(self):
-        with self.assertRaisesRegex(ValueError, "Unsupported stage"):
-            staged.run_stage(10, "bound70")
+    def test_order10_bound70_requires_completed_homotopy(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            initial = root / "runs" / "order10" / "initial"
+            initial.mkdir(parents=True)
+            (initial / "summary.json").write_text("{}", encoding="utf-8")
+            registry = root / "config" / "conjectured_surfaces_order9.tsv"
+            registry.parent.mkdir()
+            registry.write_text("# test reference file\n", encoding="utf-8")
+
+            with (
+                patch.object(staged, "ROOT", root),
+                patch.object(staged, "current_pin", return_value="pin"),
+                patch.object(staged, "load_surface_references", return_value=0),
+                patch.object(staged, "stage_selection", return_value=({}, {})),
+            ):
+                with self.assertRaisesRegex(ValueError, "Finish order-10 stage c10"):
+                    staged.run_stage(10, "bound70")
+
+    def test_order10_bound70_filter_rejects_other_types_and_limited(self):
+        source = {
+            index: {"index": index, "graph6": "HAAAAAAAA"}
+            for index in range(10, 19)
+        }
+        origins = {index: f"{index} 9 HAAAAAAAA - - -" for index in source}
+        origins[10] = "10 9 HAAAAAAAA reference conjectured_divergent snub"
+        c10 = {11: {"status": "RETRACTION_FOUND"}}
+        homotopy = {
+            10: {"is_exact": True, "is_limited": False, "spheres": {"1": 2}},
+            12: {"is_exact": True, "is_limited": False, "spheres": {}},
+            13: {"is_exact": True, "is_limited": False, "spheres": {"1": 3}},
+            14: {"is_exact": True, "is_limited": False, "spheres": {"2": 1}},
+            15: {"is_exact": False, "is_limited": False, "spheres": {"1": 1}},
+            16: {"is_exact": True, "is_limited": True, "spheres": {}},
+            17: {"is_exact": True, "is_limited": False, "spheres": {"0": 1}},
+            18: {"is_exact": True, "is_limited": False, "spheres": {"1": 0}},
+        }
+
+        def records(order, stage, _source):
+            self.assertEqual(order, 10)
+            if stage == "c10":
+                return c10
+            if stage == "homotopy":
+                return homotopy
+            self.fail(f"Current stage's own records should never affect selection: {stage}")
+
+        with (
+            patch.object(staged, "census", return_value=(Path("."), source, origins)),
+            patch.object(staged, "checked_records", side_effect=records),
+        ):
+            selection, _ = staged.stage_selection(10, "bound70")
+            self.assertEqual(set(selection), {12, 13})
 
     def test_baseline_detects_wrong_exception(self):
         with tempfile.TemporaryDirectory() as temp:

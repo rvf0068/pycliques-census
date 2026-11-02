@@ -26,6 +26,7 @@ Then execute each desired stage with a single command:
 | 10 | `bash scripts/stage.sh 10 initial` | Classify all 11,716,571 connected graphs, bound 30, using the registered order-9 surfaces |
 | 10 | `bash scripts/stage.sh 10 c10` | Check K(G) retraction to the complement of C10 on still-indeterminate graphs excluding conjecturally divergent |
 | 10 | `bash scripts/stage.sh 10 homotopy` | Compute the homotopy type of **G only** for all still-indeterminate graphs with the current pycombtop API |
+| 10 | `bash scripts/stage.sh 10 bound70` | Run the usual classifier at bound 70 **only** for still-indeterminate, non-conjecturally-divergent graphs whose `pycombtop` homotopy verdict is exact and contractible or a wedge of circles |
 
 
 Run the stages for each order in order. The 10-vertex initial stage requires
@@ -64,6 +65,7 @@ runs/
     initial/
     c10/
     homotopy/
+    bound70/
 ```
 
 Initial census verdicts are immutable: post-stages write new records rather
@@ -83,8 +85,12 @@ They are never silently treated as proven divergent. A surface classified at
 bound 70 is removed from the conjectural reference file, which is pinned by
 its checksum in the order-10 initial manifest.
 
-**There is no bound-70 stage for order 10.** The current order-10 workflow
-ends after the homotopy-type analysis, without further classification.
+Order 10 uses a **selective** bound-70 stage only after the homotopy
+analysis. It excludes conjecturally divergent graphs and admits only
+`pycombtop` verdicts marked **exact**, **not limited**, with either an empty
+wedge (contractible) or exclusively positive-dimensionality-one sphere
+multiplicities (wedges of circles). Betti-only or limited outputs never
+qualify. The stage does **not** reclassify all order-10 graphs.
 
 ## Save progress
 

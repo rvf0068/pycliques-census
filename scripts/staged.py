@@ -148,9 +148,8 @@ def checked_records(order: int, stage: str, source: dict[int, dict]) -> dict[int
 def active(order: int) -> tuple[dict[int, dict], dict[int, str], dict[int, dict]]:
     _, source, origins = census(order)
     c10 = checked_records(order, "c10", source)
-    # Both bound increases are order-9 stages. Order 10 stops at homotopy.
     bound60 = checked_records(9, "bound60", source) if order == 9 else {}
-    bound70 = checked_records(9, "bound70", source) if order == 9 else {}
+    bound70 = checked_records(order, "bound70", source)
     active_rows: dict[int, dict] = {}
     for i, row in source.items():
         if c10.get(i, {}).get("status") == "RETRACTION_FOUND":
@@ -172,7 +171,7 @@ def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, 
     """
     if (order, stage) not in {
         (9, "c10"), (9, "bound60"), (9, "bound70"),
-        (10, "c10"), (10, "homotopy"),
+        (10, "c10"), (10, "homotopy"), (10, "bound70"),
     }:
         raise ValueError(f"Unsupported stage: order={order}, stage={stage}")
     _, source, origins = census(order)
@@ -181,17 +180,41 @@ def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, 
         i for i, result in c10.items()
         if result["status"] == "RETRACTION_FOUND"
     }
-    # Homotopy on order 10 examines every unresolved graph. The three
-    # order-9 selective stages and the order-10 C10 test omit graphs whose
-    # current verdict depends on a conjectured reference.
+    # The homotopy stage examines all unresolved order-10 graphs, including
+    # conjecture-dependent cases. The order-10 bound-70 stage, however, uses
+    # only non-conjectural cases with an exact eligible homotopy type.
     skip_conditional = stage != "homotopy"
-    prior_bound60 = checked_records(9, "bound60", source) if stage == "bound70" else {}
+    prior_bound60 = (
+        checked_records(9, "bound60", source)
+        if order == 9 and stage == "bound70"
+        else {}
+    )
+    homotopy = (
+        checked_records(10, "homotopy", source)
+        if order == 10 and stage == "bound70"
+        else {}
+    )
     eligible = {
         i: row for i, row in source.items()
         if i not in resolved_c10
         and (not skip_conditional or origins[i].split()[4] != "conjectured_divergent")
         and prior_bound60.get(i, {}).get("verdict") not in {"CONVERGENT", "DIVERGENT"}
         and prior_bound60.get(i, {}).get("certificate_target_status") != "conjectured_divergent"
+        and (
+            order != 10 or stage != "bound70"
+            or (
+                homotopy.get(i, {}).get("is_exact") is True
+                and homotopy[i].get("is_limited") is False
+                and isinstance(homotopy[i].get("spheres"), dict)
+                and all(
+                    dimension == "1"
+                    and isinstance(multiplicity, int)
+                    and not isinstance(multiplicity, bool)
+                    and multiplicity > 0
+                    for dimension, multiplicity in homotopy[i]["spheres"].items()
+                )
+            )
+        )
     }
     return eligible, source
 
@@ -200,7 +223,7 @@ def refresh(order: int) -> dict:
     remaining, origins, source = active(order)
     c10 = checked_records(order, "c10", source)
     bound60 = checked_records(9, "bound60", source) if order == 9 else {}
-    bound70 = checked_records(9, "bound70", source) if order == 9 else {}
+    bound70 = checked_records(order, "bound70", source)
     h = checked_records(order, "homotopy", source) if order == 10 else {}
     conditional = 0
     data: list[str] = []
@@ -290,7 +313,7 @@ def compute(order: int, stage: str, graph: nx.Graph) -> dict:
 def run_stage(order: int, stage: str) -> None:
     if (order, stage) not in {
         (9, "c10"), (9, "bound60"), (9, "bound70"),
-        (10, "c10"), (10, "homotopy"),
+        (10, "c10"), (10, "homotopy"), (10, "bound70"),
     }:
         raise ValueError(f"Unsupported stage: order={order}, stage={stage}")
     if order == 9 and stage == "bound70":
@@ -322,7 +345,7 @@ def run_stage(order: int, stage: str) -> None:
     prerequisites = {
         "c10": [],
         "bound60": ["c10"],
-        "bound70": ["c10", "bound60"],
+        "bound70": ["c10", "bound60"] if order == 9 else ["c10", "homotopy"],
         "homotopy": ["c10"],
     }[stage]
     for name in prerequisites:
