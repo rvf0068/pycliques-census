@@ -53,8 +53,8 @@ class StreamingTests(unittest.TestCase):
             folder = Path(temp) / "order1"
             folder.mkdir()
             (folder / "verdicts.tsv").write_text(
-                "# index\\tverdict\\treason\\n"
-                "0\\tCONVERGENT\\tunit-test\\n",
+                "# index\tverdict\treason\n"
+                "0\tCONVERGENT\tunit-test\n",
                 encoding="utf-8",
             )
             summary, unresolved = validate.verify_order(folder, 1, 100)
