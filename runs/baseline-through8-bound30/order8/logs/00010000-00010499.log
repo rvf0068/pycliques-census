@@ -1,0 +1,16 @@
+[02:41:31] INFO     Precomputing target mathematical structures...                                             small.py:2148
+           INFO     Beginning analysis of connected graphs of order 8 (indices 10000-10499)...                 small.py:2167
+           INFO     Writing verdicts to                                                                        small.py:2186
+                    /workspaces/pycliques-census/runs/baseline-through8-bound30/order8/chunks/00010000-0001049              
+                    9.tsv.partial                                                                                           
+           INFO     Processed up to index 10000...                                                             small.py:2198
+[02:41:32] INFO     Analysis Complete! Processed 500 total graphs.                                             small.py:2242
+           INFO     Indices that deserve further study: []                                                     small.py:2243
+           INFO     Total convergent graphs: 433                                                               small.py:2244
+           INFO     Total divergent graphs: 67                                                                 small.py:2245
+           INFO     Total reducible graphs skipped: 0                                                          small.py:2246
+           INFO     Total graphs reduced to indeterminate: 0                                                   small.py:2247
+           INFO     Total indeterminate graphs (further study): 0                                              small.py:2248
+           INFO     Saved 0 indeterminate graphs to                                                            small.py:1731
+                    /workspaces/pycliques-census/runs/baseline-through8-bound30/order8/indeterminate_order_8.t              
+                    xt                                                                                                      

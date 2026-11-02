@@ -1,0 +1,3 @@
+# Indeterminate clique behavior - connected graphs of order 8
+# Format: original_index pared_order graph6 certificate_rule certificate_target_status certificate_target_label
+10829 8 GQyuzw reference conjectured_divergent snub_disphenoid

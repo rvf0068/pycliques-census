@@ -1,0 +1,102 @@
+{
+  "baseline_expectation_met": true,
+  "expected_unresolved_through_8": [
+    {
+      "graph6": "GQyuzw",
+      "index": 10829,
+      "order": 8
+    }
+  ],
+  "manifest": {
+    "batch_size": 500,
+    "bound": 30,
+    "bundled_connected_graph6_sha256": {
+      "6": "5e41b93e1c55b742273a3cbb037fdce7755f103d93597d8da3ac28e46ba5d647",
+      "7": "2a21c6488fb2ac6130cb691189099a5dd3a3abd60802d732989b3450d0e578d3",
+      "8": "770664989c5876fc348af0d5a1ba98a779a601dae56c1905b1532ec5c08f4625"
+    },
+    "clockwork_depth": 2,
+    "lookup_prior_indeterminate": false,
+    "max_order": 8,
+    "min_order": 1,
+    "networkx": "3.6",
+    "pycliques": "0.1.0",
+    "pyg6data": "0.1.0",
+    "python": "3.11.13",
+    "runner_source_sha256": "af6b21b52553d2b4d91d67f49d1cb3a5b4de1b1ea419a7623f04dbe67af708a4",
+    "schema": 2,
+    "scope": "connected unlabeled simple graphs only",
+    "skip_dominated": false,
+    "upstream_commit": "ce401a3e7c52d11392a8a5d04e39e48e9486328d",
+    "upstream_url": "https://github.com/rvf0068/pycliques-project.git",
+    "upstream_uv_lock_sha256": "2182b09581b21a8342727712596c6be8726e61f9408acb1770753f96524c1a16",
+    "uv": "uv 0.9.26"
+  },
+  "orders": [
+    {
+      "connected_total": 1,
+      "convergent": 1,
+      "divergent": 0,
+      "indeterminate": 0,
+      "order": 1
+    },
+    {
+      "connected_total": 1,
+      "convergent": 1,
+      "divergent": 0,
+      "indeterminate": 0,
+      "order": 2
+    },
+    {
+      "connected_total": 2,
+      "convergent": 2,
+      "divergent": 0,
+      "indeterminate": 0,
+      "order": 3
+    },
+    {
+      "connected_total": 6,
+      "convergent": 6,
+      "divergent": 0,
+      "indeterminate": 0,
+      "order": 4
+    },
+    {
+      "connected_total": 21,
+      "convergent": 21,
+      "divergent": 0,
+      "indeterminate": 0,
+      "order": 5
+    },
+    {
+      "connected_total": 112,
+      "convergent": 111,
+      "divergent": 1,
+      "indeterminate": 0,
+      "order": 6
+    },
+    {
+      "connected_total": 853,
+      "convergent": 844,
+      "divergent": 9,
+      "indeterminate": 0,
+      "order": 7
+    },
+    {
+      "connected_total": 11117,
+      "convergent": 10894,
+      "divergent": 222,
+      "indeterminate": 1,
+      "order": 8
+    }
+  ],
+  "scope": "connected unlabeled simple graphs only",
+  "unresolved": [
+    {
+      "graph6": "GQyuzw",
+      "index": 10829,
+      "order": 8,
+      "reason": "pared graph is isomorphic to registered reference 'snub_disphenoid' (clique divergence conjectured; result remains indeterminate)"
+    }
+  ]
+}

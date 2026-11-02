@@ -1,0 +1,3 @@
+utc_timestamp	command	min_order	max_order	batch_size	clique_bound	run_dir	upstream_sha
+2026-11-01T23:16:35Z	bash scripts/run_census.sh	1	8	500	30	/workspaces/pycliques-census/runs/baseline-through8-bound30	8b6006c5e5819710ac6f69cc45e921cc2dff1740
+2026-11-02T02:41:12Z	bash scripts/run_census.sh	1	8	500	30	/workspaces/pycliques-census/runs/baseline-through8-bound30	ce401a3e7c52d11392a8a5d04e39e48e9486328d

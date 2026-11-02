@@ -1,0 +1,2 @@
+# Indeterminate clique behavior - connected graphs of order 7
+# Format: original_index pared_order graph6 certificate_rule certificate_target_status certificate_target_label
