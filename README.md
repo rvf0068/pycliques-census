@@ -87,6 +87,51 @@ it does not automatically filter to unresolved graphs from bound 30. We can
 add a separate staged-cohort runner later. Do not pay the high cost of a full
 bound-40 run unless its purpose is clear.
 
+### Resume an interrupted order-9 run after the clockwork fix (November 2026)
+
+This is a **one-time, opt-in audited carry-forward** for an order-9 run
+interrupted at indices 250000–259999 by the upstream clockwork-recognizer
+exception. It avoids reclassifying the first 250,000 connected graphs, while
+explicitly recording that the completed chunks were produced by an earlier
+revision of `pycliques-project`.
+
+The upstream fix is `da9ef9b0b76648d221b687487483da56603ccdff`.
+Its only classifier-code change rejects an invalid three-segment triangle
+*before* an independent verifier would otherwise raise. Previously completed
+classifications are thus unaffected by this correction.
+
+**Preserve your existing `runs/order9-bound30` directory.** After pulling the
+latest census repository changes, in the Codespace run:
+
+```bash
+git pull --ff-only
+bash scripts/update_pycliques.sh da9ef9b0b76648d221b687487483da56603ccdff
+
+.venv/bin/python maintenance/prepare_order9_resume.py \
+  --old "$PWD/runs/order9-bound30" \
+  --new "$PWD/runs/order9-bound30-after-clockwork-fix"
+
+MIN_ORDER=9 MAX_ORDER=9 BATCH_SIZE=10000 CLIQUE_BOUND=30 \
+  RUN_DIR="$PWD/runs/order9-bound30-after-clockwork-fix" \
+  bash scripts/run_census.sh
+```
+
+The preparation script checks the original run manifest, requires the exact
+old and new upstream revisions, independently checks the graph6 input hash,
+verifies all completed verdict files, completion markers, and unresolved
+sidecars, and copies each file with a SHA-256 check. It never edits the
+original run. The new directory contains `chunk_lineage.json` with
+per-file checksums and exact provenance. The new run's `manifest.json`
+binds that lineage file by SHA-256, and the final validator rechecks the
+inherited bytes and reports their origin in `summary.json`.
+
+The resulting census is explicitly **mixed provenance**: original commit
+`ce401a3e7c52d11392a8a5d04e39e48e9486328d` produced the completed
+prefix, and the fixed commit produced the remaining suffix. Do not describe
+all of its rows as having been computed with the fixed revision. For a
+strictly single-version census instead, select an **empty** new `RUN_DIR`
+and run the full order-9 census from index zero.
+
 ### Connected graph census sizes
 
 | Order | Unlabeled connected simple graphs |

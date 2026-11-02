@@ -63,6 +63,58 @@ class StreamingTests(unittest.TestCase):
             self.assertEqual(unresolved, [])
             self.assertFalse((folder / "graph_index.tsv").exists())
 
+    def test_inherited_chunk_lineage_rejects_modified_bytes(self):
+        """Imported chunks retain a verifiable source revision and checksum."""
+        import hashlib
+        import json
+
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            name = "00000000-00000001"
+            files = {
+                f"order9/chunks/{name}.tsv.gz": b"verdicts",
+                f"order9/unresolved_chunks/{name}.tsv.gz": b"sidecar",
+                f"order9/completed/{name}.done": b"0\t1\n",
+            }
+            for relative, content in files.items():
+                path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(content)
+
+            old_sha = "a" * 40
+            new_sha = "b" * 40
+            dataset_sha = "c" * 64
+            source = {
+                "schema": 1, "order": 9, "batch_size": 2, "bound": 30,
+                "new_upstream_commit": new_sha,
+                "old_upstream_commit": old_sha,
+                "original_connected_dataset_sha256": dataset_sha,
+                "imported_graph_count": 2,
+                "imported": [{
+                    "start": 0, "end": 1,
+                    "sha256": {
+                        relative: hashlib.sha256(contents).hexdigest()
+                        for relative, contents in files.items()
+                    },
+                }],
+            }
+            lineage = root / "chunk_lineage.json"
+            lineage.write_text(json.dumps(source), encoding="utf-8")
+            manifest = {
+                "upstream_commit": new_sha, "min_order": 9, "max_order": 9,
+                "batch_size": 2, "bound": 30,
+                "bundled_connected_graph6_sha256": {"9": dataset_sha},
+                "chunk_lineage_sha256": hashlib.sha256(lineage.read_bytes()).hexdigest(),
+            }
+            recorded = validate.verify_chunk_lineage(root, manifest)
+            self.assertEqual(recorded["imported_graph_count"], 2)
+            self.assertEqual(recorded["old_upstream_commit"], old_sha)
+
+            (root / f"order9/chunks/{name}.tsv.gz").write_bytes(b"tampered")
+            with self.assertRaisesRegex(ValueError, "checksum mismatch"):
+                validate.verify_chunk_lineage(root, manifest)
+
+
     def test_duplicate_index_is_invalid(self):
         import gzip
 
