@@ -10,3 +10,13 @@ git add config/pycliques_commit.txt         runs/order9-bound30-after-clockwork-
 git commit -m "Complete connected order-9 clique behavior first census"
 git push
 rm -rf runs/order9-bound30
+cd /workspaces/pycliques-census
+git pull --ff-only
+bash postpasses/run_clique_retract_comp_c10.sh
+git add indeterminate_order_9.txt         runs/order9-bound30-after-clockwork-fix/postpasses/
+git commit -m "Update current indeterminate order-9 graphs"
+git push
+cd /workspaces/pycliques-census
+git pull --ff-only
+bash scripts/stage.sh baseline
+scripts/stage.sh 9 initial

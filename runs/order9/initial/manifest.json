@@ -1,0 +1,23 @@
+{
+  "batch_size": 10000,
+  "bound": 30,
+  "bundled_connected_graph6_sha256": {
+    "9": "9aec36903ae0c672ef61934a291d00cc197256a4cc6f2598e1840aad9863b454"
+  },
+  "clockwork_depth": 2,
+  "lookup_prior_indeterminate": false,
+  "max_order": 9,
+  "min_order": 9,
+  "networkx": "3.6",
+  "pycliques": "0.1.0",
+  "pyg6data": "0.1.0",
+  "python": "3.11.13",
+  "runner_source_sha256": "bf94211b4f4f070f273c8401c6de4f8d4f28446c131da2dad91190a8792c66c3",
+  "schema": 2,
+  "scope": "connected unlabeled simple graphs only",
+  "skip_dominated": false,
+  "upstream_commit": "da9ef9b0b76648d221b687487483da56603ccdff",
+  "upstream_url": "https://github.com/rvf0068/pycliques-project.git",
+  "upstream_uv_lock_sha256": "2182b09581b21a8342727712596c6be8726e61f9408acb1770753f96524c1a16",
+  "uv": "uv 0.9.26"
+}
