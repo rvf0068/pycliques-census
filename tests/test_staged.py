@@ -45,6 +45,8 @@ class StageSelectionTests(unittest.TestCase):
             return self.c10
         if stage == "homotopy":
             return self.homotopy
+        if stage == "s1divergence":
+            return {}
         return {}
 
     def test_stage_selection_skips_conjectural_and_proven_c10(self):
@@ -241,6 +243,8 @@ class StageSelectionTests(unittest.TestCase):
                 return c10
             if stage == "homotopy":
                 return homotopy
+            if stage == "s1divergence":
+                return {}
             self.fail(f"Current stage's own records should never affect selection: {stage}")
 
         with (
@@ -253,6 +257,56 @@ class StageSelectionTests(unittest.TestCase):
             # Despite a suitable exact homotopy type, index 19 pares to
             # nine vertices, so is excluded from both stages.
             self.assertEqual(set(selection), {12, 13, 20})
+
+    def test_order10_s1_divergence_cohort_exactly_one_circle(self):
+        """No wedges of two circles, contractibles, conjectural, or C10 proofs."""
+        source = {
+            i: {"index": i, "graph6": "I????????"}
+            for i in range(101, 108)
+        }
+        origins = {i: f"{i} 10 I???????? - - -" for i in source}
+        origins[103] = "103 10 I???????? reference conjectured_divergent snub"
+        origins[107] = "107 9 I???????? - - -"
+        c10 = {102: {"status": "RETRACTION_FOUND"}}
+        homotopy = {
+            101: {"is_exact": True, "is_limited": False, "spheres": {"1": 1}},
+            102: {"is_exact": True, "is_limited": False, "spheres": {"1": 1}},
+            103: {"is_exact": True, "is_limited": False, "spheres": {"1": 1}},
+            104: {"is_exact": True, "is_limited": False, "spheres": {"1": 2}},
+            105: {"is_exact": True, "is_limited": False, "spheres": {}},
+            106: {"is_exact": False, "is_limited": True, "spheres": {"1": 1}},
+            107: {"is_exact": True, "is_limited": False, "spheres": {"1": 1}},
+        }
+        s1 = {
+            101: {
+                "status": "DIVERGENT", "rule": "triangular_cover_pair",
+                "witness": {"kind": "triangular_cover_pair"},
+            }
+        }
+
+        def checked(order, stage, _source):
+            self.assertEqual(order, 10)
+            if stage == "c10":
+                return c10
+            if stage == "homotopy":
+                return homotopy
+            if stage == "s1divergence":
+                return s1
+            return {}
+
+        with (
+            patch.object(staged, "census", return_value=(Path("."), source, origins)),
+            patch.object(staged, "checked_records", side_effect=checked),
+        ):
+            selection, _ = staged.stage_selection(10, "s1divergence")
+            # Own-stage results must not affect the fixed, resumable cohort.
+            self.assertEqual(set(selection), {101})
+            selection, _ = staged.stage_selection(10, "bound70")
+            # The S^1 graph proven divergent is excluded from later bound70.
+            self.assertEqual(set(selection), {104, 105})
+            surviving, _, _ = staged.active(10)
+            self.assertNotIn(101, surviving)
+            self.assertIn(104, surviving)
 
     def test_completed_stage_survives_upgrade_and_new_stage_pins_its_revision(self):
         """Do not relabel or recompute original/c10 records after upgrading."""

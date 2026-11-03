@@ -21,6 +21,7 @@ import networkx as nx
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "postpasses"))
 from clique_retract_comp_c10 import search_retraction  # noqa: E402
+from s1_divergence import scan as scan_s1_divergence  # noqa: E402
 
 from pycliques.small import classify_clique_behavior
 from pycliques.surfaces import is_surface
@@ -162,6 +163,17 @@ def checked_records(order: int, stage: str, source: dict[int, dict]) -> dict[int
         elif stage == "homotopy":
             if not isinstance(row.get("is_exact"), bool):
                 raise ValueError(f"Bad homotopy result in {file}")
+        elif stage == "s1divergence":
+            if row.get("status") not in {"DIVERGENT", "INDETERMINATE"}:
+                raise ValueError(f"Bad S^1 divergence status in {file}")
+            if row["status"] == "DIVERGENT" and (
+                row.get("rule") not in {"clockwork_iterate", "triangular_cover_pair"}
+                or not isinstance(row.get("witness"), dict)
+                or row["witness"].get("kind") not in {
+                    "divergent_clockwork_iterate", "triangular_cover_pair"
+                }
+            ):
+                raise ValueError(f"Missing positive divergence witness in {file}")
         rows[idx] = row
     return rows
 
@@ -171,9 +183,12 @@ def active(order: int) -> tuple[dict[int, dict], dict[int, str], dict[int, dict]
     c10 = checked_records(order, "c10", source)
     bound60 = checked_records(9, "bound60", source) if order == 9 else {}
     bound70 = checked_records(order, "bound70", source)
+    s1 = checked_records(10, "s1divergence", source) if order == 10 else {}
     active_rows: dict[int, dict] = {}
     for i, row in source.items():
         if c10.get(i, {}).get("status") == "RETRACTION_FOUND":
+            continue
+        if s1.get(i, {}).get("status") == "DIVERGENT":
             continue
         if any(
             results.get(i, {}).get("verdict") in {"CONVERGENT", "DIVERGENT"}
@@ -192,7 +207,7 @@ def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, 
     """
     if (order, stage) not in {
         (9, "c10"), (9, "bound60"), (9, "bound70"),
-        (10, "c10"), (10, "homotopy"), (10, "bound70"),
+        (10, "c10"), (10, "homotopy"), (10, "s1divergence"), (10, "bound70"),
     }:
         raise ValueError(f"Unsupported stage: order={order}, stage={stage}")
     _, source, origins = census(order)
@@ -201,13 +216,11 @@ def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, 
         i for i, result in c10.items()
         if result["status"] == "RETRACTION_FOUND"
     }
-    # For order 10, homotopy is used only as a filter for the unresolved
-    # non-conjectural graphs whose *completely pared* graph still has ten
-    # vertices. The initial unresolved cohort records this pared order in
-    # its second column. The selective bound-70 stage uses the same cohort.
-    # In particular, conjectural references and graphs that pare to order
-    # nine or less are never sent to the homotopy classifier.
-    require_full_pared_order = order == 10 and stage in ("homotopy", "bound70")
+    # Post-C10 order-10 stages retain the original nonconjectural
+    # full-pared-order cohort. The extra divergence stage examines only S^1.
+    require_full_pared_order = order == 10 and stage in (
+        "homotopy", "s1divergence", "bound70"
+    )
     prior_bound60 = (
         checked_records(9, "bound60", source)
         if order == 9 and stage == "bound70"
@@ -215,16 +228,32 @@ def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, 
     )
     homotopy = (
         checked_records(10, "homotopy", source)
-        if order == 10 and stage == "bound70"
+        if order == 10 and stage in ("s1divergence", "bound70")
         else {}
+    )
+    resolved_s1 = (
+        {
+            i for i, result in checked_records(10, "s1divergence", source).items()
+            if result["status"] == "DIVERGENT"
+        }
+        if order == 10 and stage == "bound70" else set()
     )
     eligible = {
         i: row for i, row in source.items()
         if i not in resolved_c10
+        and i not in resolved_s1
         and origins[i].split()[4] != "conjectured_divergent"
         and (not require_full_pared_order or origins[i].split()[1] == "10")
         and prior_bound60.get(i, {}).get("verdict") not in {"CONVERGENT", "DIVERGENT"}
         and prior_bound60.get(i, {}).get("certificate_target_status") != "conjectured_divergent"
+        and (
+            stage != "s1divergence"
+            or (
+                homotopy.get(i, {}).get("is_exact") is True
+                and homotopy[i].get("is_limited") is False
+                and homotopy[i].get("spheres") == {"1": 1}
+            )
+        )
         and (
             order != 10 or stage != "bound70"
             or (
@@ -250,6 +279,7 @@ def refresh(order: int) -> dict:
     bound60 = checked_records(9, "bound60", source) if order == 9 else {}
     bound70 = checked_records(order, "bound70", source)
     h = checked_records(order, "homotopy", source) if order == 10 else {}
+    s1 = checked_records(order, "s1divergence", source) if order == 10 else {}
     conditional = 0
     data: list[str] = []
     for i in sorted(remaining):
@@ -270,7 +300,9 @@ def refresh(order: int) -> dict:
         "# Derived from certified stage records; raw initial census remains unchanged.",
         f"# Remaining={len(data)} conjectured_divergent={conditional}",
         f"# C10_checked={len(c10)} bound60_checked={len(bound60)} "
-        f"bound70_checked={len(bound70)} homotopy_checked={len(h)}",
+        f"bound70_checked={len(bound70)} homotopy_checked={len(h)} "
+        f"s1divergence_checked={len(s1)} "
+        f"s1divergence_proven={sum(r['status'] == 'DIVERGENT' for r in s1.values())}",
         "# Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label",
     ]
     write_atomic(out, "\n".join(header + data) + "\n")
@@ -282,6 +314,8 @@ def refresh(order: int) -> dict:
         "bound60_checked": len(bound60),
         "bound70_checked": len(bound70),
         "homotopy_checked": len(h),
+        "s1divergence_checked": len(s1),
+        "s1divergence_proven": sum(r["status"] == "DIVERGENT" for r in s1.values()),
     }
 
 
@@ -323,6 +357,8 @@ def compute(order: int, stage: str, graph: nx.Graph) -> dict:
             "certificate_target_status": (c.target_status or "-") if c is not None else "-",
             "certificate_target_label": (c.target_label or "-") if c is not None else "-",
         }
+    if stage == "s1divergence":
+        return scan_s1_divergence(graph)
     if stage == "homotopy":
         v = homotopy_type_with_verdict(graph)
         return {
@@ -338,7 +374,7 @@ def compute(order: int, stage: str, graph: nx.Graph) -> dict:
 def run_stage(order: int, stage: str) -> None:
     if (order, stage) not in {
         (9, "c10"), (9, "bound60"), (9, "bound70"),
-        (10, "c10"), (10, "homotopy"), (10, "bound70"),
+        (10, "c10"), (10, "homotopy"), (10, "s1divergence"), (10, "bound70"),
     }:
         raise ValueError(f"Unsupported stage: order={order}, stage={stage}")
     if order == 9 and stage == "bound70":
@@ -373,8 +409,9 @@ def run_stage(order: int, stage: str) -> None:
     prerequisites = {
         "c10": [],
         "bound60": ["c10"],
-        "bound70": ["c10", "bound60"] if order == 9 else ["c10", "homotopy"],
+        "bound70": ["c10", "bound60"] if order == 9 else ["c10", "homotopy", "s1divergence"],
         "homotopy": ["c10"],
+        "s1divergence": ["c10", "homotopy"],
     }[stage]
     for name in prerequisites:
         path = stage_dir(order, name) / "summary.json"

@@ -26,7 +26,8 @@ Then execute each desired stage with a single command:
 | 10 | `bash scripts/stage.sh 10 initial` | Classify all 11,716,571 connected graphs, bound 30, using the registered order-9 surfaces |
 | 10 | `bash scripts/stage.sh 10 c10` | Check K(G) retraction to the complement of C10 on still-indeterminate graphs excluding conjecturally divergent |
 | 10 | `bash scripts/stage.sh 10 homotopy` | Compute the homotopy type of **G only**, for still-indeterminate graphs that are **not conjecture-dependent** and whose completely pared graph has **exactly ten vertices** |
-| 10 | `bash scripts/stage.sh 10 bound70` | Run the usual classifier at bound 70 **only** for graphs selected by the restricted order-10 homotopy stage whose `pycombtop` verdict is exact and contractible or a wedge of circles |
+| 10 | `bash scripts/stage.sh 10 s1divergence` | On the **282** exactly-`S^1` graphs, look for divergent clockwork reductions of `K²(G)` or `K³(G)`, then search for the verified triangular-cover/clockwork-pair certificate |
+| 10 | `bash scripts/stage.sh 10 bound70` | Run the usual classifier at bound 70 **only** for the eligible exact contractible/circle-wedge cases not already proved divergent by `s1divergence` |
 
 
 Run the stages for each order in order. The 10-vertex initial stage requires
@@ -58,6 +59,7 @@ For example, once `10 initial` and `10 c10` are completed and committed:
 ```bash
 bash scripts/update_pycliques.sh
 bash scripts/stage.sh 10 homotopy
+bash scripts/stage.sh 10 s1divergence
 bash scripts/stage.sh 10 bound70
 ```
 
@@ -124,6 +126,7 @@ runs/
     initial/
     c10/
     homotopy/
+    s1divergence/
     bound70/
 ```
 
@@ -138,6 +141,29 @@ dependent cases, and graphs classified by C10 are excluded. It stores
 A Betti-only result is not accepted as a wedge-of-spheres or contractibility
 certificate.
 
+The new order-10 `s1divergence` stage has its own manifest and atomic per-graph
+records. It selects only the 282 original ten-vertex graphs for which the
+certified `homotopy` verdict is **exactly one** `S^1` (not a wedge of two
+circles, nor `S^1` with any other sphere). Already retraction-certified or
+conjecture-dependent graphs and those with smaller completely pared order
+remain excluded. The stage checks `K^2(G)` and `K^3(G)` for *divergent*
+clockwork structure (a merely induced clockwork subgraph is not a proof),
+then searches connected triangular double covers and admissible
+coaffine-clockwork-pair morphisms, as in the verified example
+`IEjdnpy^O` (original index 11628670). Both checks have explicit
+resource budgets. A negative result or a resource limit is recorded as
+`INDETERMINATE`, never as proof of convergence.
+
+A `DIVERGENT` record includes a replayable JSON certificate and is
+accepted only after independent verification with the upstream theorem
+checkers. Run `.venv/bin/python scripts/verify_s1_divergence.py` to
+independently replay every positive certificate after the stage. Successfully
+proved divergent graphs disappear from root `indeterminate_order_10.txt`;
+**all 2,126 original homotopy records and `homotopy_order_10.tsv` remain
+unchanged**, including any subsequently proved divergent cases.
+The selective bound-70 stage uses these positives as exclusions. Do not
+change `pycliques-project` while this stage is incomplete.
+
 The final order-9 bound-70 stage regenerates
 [`config/conjectured_surfaces_order9.tsv`](config/conjectured_surfaces_order9.tsv)
 listing the remaining original nine-vertex graphs satisfying
@@ -150,7 +176,8 @@ its checksum in the order-10 initial manifest.
 
 Order 10 uses a **selective** bound-70 stage only after the homotopy
 analysis. It continues to require completely pared order ten, excludes
-conjecturally divergent graphs, and admits only
+conjecturally divergent graphs **and graphs now certified divergent by
+`s1divergence`**, and admits only
 `pycombtop` verdicts marked **exact**, **not limited**, with either an empty
 wedge (contractible) or exclusively positive-dimensionality-one sphere
 multiplicities (wedges of circles). Betti-only or limited outputs never
