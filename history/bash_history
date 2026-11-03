@@ -38,3 +38,9 @@ bash scripts/update_pycliques.sh
 cd /workspaces/pycliques-census
 git pull --ff-only
 bash scripts/stage.sh 10 homotopy
+cd /workspaces/pycliques-census
+git pull --ff-only
+bash scripts/stage.sh 10 s1divergence
+cd /workspaces/pycliques-census
+git pull --ff-only
+bash scripts/stage.sh 10 s1divergence

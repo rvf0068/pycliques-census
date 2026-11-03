@@ -1,0 +1,70 @@
+{
+  "graph6": "ICpvfU{^O",
+  "index": 11282760,
+  "iterations": [
+    {
+      "iterate": 2,
+      "order": 14,
+      "reason": "CLIQUE-DIVERGENT: residual has 2 good segment(s) at [1, 2].",
+      "size": 57,
+      "status": "DIVERGENT"
+    }
+  ],
+  "reason": "K^2(G) has a verified divergent clockwork reduction",
+  "rule": "clockwork_iterate",
+  "status": "DIVERGENT",
+  "witness": {
+    "core_orders": [
+      [
+        3,
+        4,
+        7
+      ],
+      [
+        11,
+        10
+      ],
+      [
+        5,
+        0
+      ]
+    ],
+    "core_segments": [
+      [
+        3,
+        4,
+        7
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        0,
+        5
+      ]
+    ],
+    "crown_segments": [
+      [
+        1,
+        2
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        6,
+        12
+      ]
+    ],
+    "good_segments": [
+      1,
+      2
+    ],
+    "iterate": 2,
+    "iterate_graph6": "M~~tJpZMWV_~A~pf_",
+    "kind": "divergent_clockwork_iterate",
+    "reduced_graph6": "L~~tJpZMWN`^pf"
+  }
+}

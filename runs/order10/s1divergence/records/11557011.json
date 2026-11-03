@@ -1,0 +1,57 @@
+{
+  "cover_search": {
+    "cover_candidates_checked": 1,
+    "cover_classes_checked": 1,
+    "cover_classes_complete": true,
+    "cover_classes_total": 1,
+    "limits": {
+      "max_clique_edges": 5000,
+      "max_clique_vertices": 200,
+      "max_cover_classes": 4,
+      "max_cover_edges": 120,
+      "max_cover_vertices": 40,
+      "max_m": 3,
+      "max_morphism_assignments": 1000000,
+      "max_morphism_states": 100000,
+      "max_n": 0,
+      "max_source_order": 24
+    },
+    "morphism_assignments": 767296,
+    "morphism_states": 23978,
+    "morphisms_complete": true,
+    "reasons": [],
+    "source_parameters": [
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "status": "EXHAUSTED"
+  },
+  "graph6": "IEhf`zkvO",
+  "index": 11557011,
+  "iterations": [
+    {
+      "iterate": 2,
+      "order": 20,
+      "reason": "Clockwork recognition of the dominated-vertex reduction was inconclusive: Crown segment 0 has 1 vertex -- violates B1 (need >= 2). Alternative-partition fallback skipped above order 18.",
+      "size": 119,
+      "status": "LIMIT_REACHED"
+    },
+    {
+      "iterate": 3,
+      "order": 33,
+      "reason": "The dominated-vertex reduction was not recognized as clockwork: Crown segment 0 has 1 vertex -- violates B1 (need >= 2). No verified clockwork decomposition was found by the bounded fallback.",
+      "size": 397,
+      "status": "NOT_CLOCKWORK"
+    }
+  ],
+  "reason": "No divergence certificate in the configured iterate/cover searches; this does not imply convergence or absence of other certificates",
+  "rule": "-",
+  "status": "INDETERMINATE",
+  "witness": null
+}

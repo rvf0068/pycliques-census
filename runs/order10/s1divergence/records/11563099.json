@@ -1,0 +1,74 @@
+{
+  "graph6": "IEhfe]{^_",
+  "index": 11563099,
+  "iterations": [
+    {
+      "iterate": 2,
+      "order": 17,
+      "reason": "Clockwork recognition of the dominated-vertex reduction was inconclusive: Crown segment 0 has 1 vertex -- violates B1 (need >= 2). Clockwork fallback candidate limit reached.",
+      "size": 83,
+      "status": "LIMIT_REACHED"
+    },
+    {
+      "iterate": 3,
+      "order": 19,
+      "reason": "CLIQUE-DIVERGENT: residual has 1 good segment(s) at [2].",
+      "size": 110,
+      "status": "DIVERGENT"
+    }
+  ],
+  "reason": "K^3(G) has a verified divergent clockwork reduction",
+  "rule": "clockwork_iterate",
+  "status": "DIVERGENT",
+  "witness": {
+    "core_orders": [
+      [
+        5,
+        10
+      ],
+      [
+        8,
+        6
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "core_segments": [
+      [
+        5,
+        10
+      ],
+      [
+        6,
+        8
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "crown_segments": [
+      [
+        0,
+        3
+      ],
+      [
+        9,
+        11
+      ],
+      [
+        2,
+        7
+      ]
+    ],
+    "good_segments": [
+      2
+    ],
+    "iterate": 3,
+    "iterate_graph6": "R~~|tvz~~~q^RA^MlbYGN_p}BeWNLw",
+    "kind": "divergent_clockwork_iterate",
+    "reduced_graph6": "K}}ZRtf`{lev"
+  }
+}

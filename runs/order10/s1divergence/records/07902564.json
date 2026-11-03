@@ -1,0 +1,57 @@
+{
+  "cover_search": {
+    "cover_candidates_checked": 1,
+    "cover_classes_checked": 1,
+    "cover_classes_complete": true,
+    "cover_classes_total": 1,
+    "limits": {
+      "max_clique_edges": 5000,
+      "max_clique_vertices": 200,
+      "max_cover_classes": 4,
+      "max_cover_edges": 120,
+      "max_cover_vertices": 40,
+      "max_m": 3,
+      "max_morphism_assignments": 1000000,
+      "max_morphism_states": 100000,
+      "max_n": 0,
+      "max_source_order": 24
+    },
+    "morphism_assignments": 863936,
+    "morphism_states": 26998,
+    "morphisms_complete": true,
+    "reasons": [],
+    "source_parameters": [
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "status": "EXHAUSTED"
+  },
+  "graph6": "I?revi{]W",
+  "index": 7902564,
+  "iterations": [
+    {
+      "iterate": 2,
+      "order": 19,
+      "reason": "Clockwork recognition of the dominated-vertex reduction was inconclusive: Crown segment 0 has 1 vertex -- violates B1 (need >= 2). Clockwork fallback candidate limit reached.",
+      "size": 110,
+      "status": "LIMIT_REACHED"
+    },
+    {
+      "iterate": 3,
+      "order": 37,
+      "reason": "Clockwork recognition of the dominated-vertex reduction was inconclusive: Crown segment 0 has 1 vertex -- violates B1 (need >= 2). Clockwork fallback candidate limit reached.",
+      "size": 509,
+      "status": "LIMIT_REACHED"
+    }
+  ],
+  "reason": "No divergence certificate in the configured iterate/cover searches; this does not imply convergence or absence of other certificates",
+  "rule": "-",
+  "status": "INDETERMINATE",
+  "witness": null
+}
