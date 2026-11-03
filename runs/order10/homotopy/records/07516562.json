@@ -1,0 +1,12 @@
+{
+  "graph6": "I?qrfJmyo",
+  "index": 7516562,
+  "is_exact": true,
+  "is_limited": false,
+  "reason": "The open neighborhood is a disjoint union of r>=2 nonempty complete graphs, and deleting the vertex leaves a connected graph. The vertex star is a cone attached along r disjoint contractible simplices, producing r-1 additional circles. Recursive result: Dong's vertex-ordered matching is checked to be acyclic on the augmented face poset. Its critical nonempty faces all have one dimension, so Forman's discrete Morse CW model is a wedge of spheres [Dong2003, Forman1998].",
+  "spheres": {
+    "1": 1,
+    "2": 1
+  },
+  "verdict": "\\(S^{1}\\vee S^{2}\\)"
+}

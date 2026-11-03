@@ -1,0 +1,12 @@
+{
+  "graph6": "IEhf`z{ro",
+  "index": 11557138,
+  "is_exact": true,
+  "is_limited": false,
+  "reason": "A checked shedding-vertex recursion certifies nonpure vertex decomposability. The complex is shellable, hence a wedge of spheres, with multiplicities determined by reduced Betti numbers [BW1996].",
+  "spheres": {
+    "1": 2,
+    "2": 1
+  },
+  "verdict": "\\(\\vee_{2}S^{1}\\vee S^{2}\\)"
+}

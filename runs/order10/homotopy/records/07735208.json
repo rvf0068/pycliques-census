@@ -1,0 +1,9 @@
+{
+  "graph6": "I?qvfX}v_",
+  "index": 7735208,
+  "is_exact": true,
+  "is_limited": false,
+  "reason": "Graph s-collapse reduction to a point: s-dismantlable vertex and edge removals preserve the simple-homotopy type of the clique complex [BFJ2010].",
+  "spheres": {},
+  "verdict": "Contractible"
+}

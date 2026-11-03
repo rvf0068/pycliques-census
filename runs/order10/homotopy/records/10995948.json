@@ -1,0 +1,11 @@
+{
+  "graph6": "ICpdbzz~_",
+  "index": 10995948,
+  "is_exact": true,
+  "is_limited": false,
+  "reason": "Dong's vertex-ordered matching is checked to be acyclic on the augmented face poset. Its critical nonempty faces all have one dimension, so Forman's discrete Morse CW model is a wedge of spheres [Dong2003, Forman1998].",
+  "spheres": {
+    "2": 1
+  },
+  "verdict": "\\(S^{2}\\)"
+}

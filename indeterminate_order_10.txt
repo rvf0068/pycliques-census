@@ -1,7 +1,7 @@
 # Current indeterminate connected graphs of order 10
 # Derived from certified stage records; raw initial census remains unchanged.
 # Remaining=9362 conjectured_divergent=4611
-# C10_checked=5489 bound60_checked=0 bound70_checked=0 homotopy_checked=0
+# C10_checked=5489 bound60_checked=0 bound70_checked=0 homotopy_checked=2126
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
 2317572 8 GQyuzw reference conjectured_divergent snub_disphenoid
 2317841 8 GQyuzw reference conjectured_divergent snub_disphenoid

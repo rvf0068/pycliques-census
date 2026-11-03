@@ -32,3 +32,9 @@ cd /workspaces/pycliques-census
 rm -rf runs/order10/initial
 bash scripts/stage.sh 10 initial
 bash scripts/stage.sh 10 c10
+cd /workspaces/pycliques-census
+git pull --ff-only
+bash scripts/update_pycliques.sh
+cd /workspaces/pycliques-census
+git pull --ff-only
+bash scripts/stage.sh 10 homotopy

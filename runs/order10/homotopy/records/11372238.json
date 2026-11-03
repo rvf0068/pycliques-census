@@ -1,0 +1,12 @@
+{
+  "graph6": "ICrVrz^vo",
+  "index": 11372238,
+  "is_exact": true,
+  "is_limited": false,
+  "reason": "A disconnected complement decomposes the graph as a join. The clique complex is the simplicial join of the certified factors; the join-suspension identity determines its spheres.",
+  "spheres": {
+    "1": 1,
+    "2": 1
+  },
+  "verdict": "\\(S^{1}\\vee S^{2}\\)"
+}
