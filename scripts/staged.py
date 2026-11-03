@@ -483,7 +483,7 @@ def check_baseline() -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("order", type=int, choices=(9, 10))
-    parser.add_argument("stage", choices=("refresh", "c10", "bound60", "bound70", "homotopy"))
+    parser.add_argument("stage", choices=("refresh", "c10", "bound60", "bound70", "homotopy", "s1divergence"))
     args = parser.parse_args()
     if args.stage == "refresh":
         print(refresh(args.order))

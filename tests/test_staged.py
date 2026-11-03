@@ -258,6 +258,15 @@ class StageSelectionTests(unittest.TestCase):
             # nine vertices, so is excluded from both stages.
             self.assertEqual(set(selection), {12, 13, 20})
 
+    def test_s1_divergence_cli_dispatch(self):
+        """The advertised shell entry point must parse the new stage."""
+        with (
+            patch.object(sys, "argv", ["staged.py", "10", "s1divergence"]),
+            patch.object(staged, "run_stage") as run,
+        ):
+            staged.main()
+        run.assert_called_once_with(10, "s1divergence")
+
     def test_order10_s1_divergence_cohort_exactly_one_circle(self):
         """No wedges of two circles, contractibles, conjectural, or C10 proofs."""
         source = {
