@@ -4,3 +4,7 @@ utc_timestamp	command	min_order	max_order	batch_size	clique_bound	run_dir	upstre
 2026-11-02T15:49:52Z	bash scripts/run_census.sh	9	9	10000	30	/workspaces/pycliques-census/runs/order9-bound30	ce401a3e7c52d11392a8a5d04e39e48e9486328d
 2026-11-02T16:55:08Z	bash scripts/run_census.sh	9	9	10000	30	/workspaces/pycliques-census/runs/order9-bound30-after-clockwork-fix	da9ef9b0b76648d221b687487483da56603ccdff
 2026-11-02T18:43:05Z	bash scripts/run_census.sh	9	9	10000	30	/workspaces/pycliques-census/runs/order9/initial	da9ef9b0b76648d221b687487483da56603ccdff
+2026-11-02T19:46:53Z	bash scripts/run_census.sh	10	10	5000	30	/workspaces/pycliques-census/runs/order10/initial	da9ef9b0b76648d221b687487483da56603ccdff
+2026-11-02T19:57:37Z	bash scripts/run_census.sh	10	10	100000	30	/workspaces/pycliques-census/runs/order10/initial	da9ef9b0b76648d221b687487483da56603ccdff
+2026-11-03T02:22:46Z	bash scripts/run_census.sh	10	10	100000	30	/workspaces/pycliques-census/runs/order10/initial	da9ef9b0b76648d221b687487483da56603ccdff
+2026-11-03T17:19:40Z	bash scripts/run_census.sh	10	10	100000	30	/workspaces/pycliques-census/runs/order10/initial	da9ef9b0b76648d221b687487483da56603ccdff
