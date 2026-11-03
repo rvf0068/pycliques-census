@@ -1,0 +1,12 @@
+{
+  "bound": 70,
+  "certificate_rule": "-",
+  "certificate_target_label": "-",
+  "certificate_target_status": "-",
+  "graph6": "ICpbegv|_",
+  "index": 10894514,
+  "pared_graph6": "ICpbegv|_",
+  "pared_order": 10,
+  "reason": "is eventually Helly (index 6)",
+  "verdict": "CONVERGENT"
+}

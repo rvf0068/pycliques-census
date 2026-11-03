@@ -1,0 +1,12 @@
+{
+  "bound": 70,
+  "certificate_rule": "-",
+  "certificate_target_label": "-",
+  "certificate_target_status": "-",
+  "graph6": "ICxvExyl_",
+  "index": 11521267,
+  "pared_graph6": "ICxvExyl_",
+  "pared_order": 10,
+  "reason": "behavior is indeterminate under the available tests",
+  "verdict": "INDETERMINATE"
+}

@@ -1,0 +1,12 @@
+{
+  "bound": 70,
+  "certificate_rule": "-",
+  "certificate_target_label": "-",
+  "certificate_target_status": "-",
+  "graph6": "I?qfrz{to",
+  "index": 7313803,
+  "pared_graph6": "I?qfrz{to",
+  "pared_order": 10,
+  "reason": "is eventually Helly (index 4)",
+  "verdict": "CONVERGENT"
+}
