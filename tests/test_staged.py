@@ -118,7 +118,7 @@ class StageSelectionTests(unittest.TestCase):
                 40: nx.to_graph6_bytes(wheel, header=False).decode().strip(),
             }
             to_g6 = lambda graph: nx.to_graph6_bytes(graph, header=False).decode().strip()
-            manifest = {"min_order": 9, "max_order": 9, "upstream_commit": "pin"}
+            manifest = {"min_order": 9, "max_order": 9, "upstream_commit": "a" * 40}
             (run / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
             summary = {
                 "manifest": manifest,
@@ -160,7 +160,7 @@ class StageSelectionTests(unittest.TestCase):
 
             with (
                 patch.object(staged, "ROOT", root),
-                patch.object(staged, "current_pin", return_value="pin"),
+                patch.object(staged, "current_pin", return_value="a" * 40),
                 patch.object(staged, "compute", side_effect=fake_compute) as calculation,
             ):
                 staged.run_stage(9, "c10")
@@ -204,7 +204,7 @@ class StageSelectionTests(unittest.TestCase):
 
             with (
                 patch.object(staged, "ROOT", root),
-                patch.object(staged, "current_pin", return_value="pin"),
+                patch.object(staged, "current_pin", return_value="a" * 40),
                 patch.object(staged, "load_surface_references", return_value=0),
                 patch.object(staged, "stage_selection", return_value=({}, {})),
             ):
@@ -244,6 +244,120 @@ class StageSelectionTests(unittest.TestCase):
         ):
             selection, _ = staged.stage_selection(10, "bound70")
             self.assertEqual(set(selection), {12, 13})
+
+    def test_completed_stage_survives_upgrade_and_new_stage_pins_its_revision(self):
+        """Do not relabel or recompute original/c10 records after upgrading."""
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            old_pin, new_pin = "a" * 40, "b" * 40
+            g6 = nx.to_graph6_bytes(nx.cycle_graph(10), header=False).decode().strip()
+            initial = root / "runs" / "order10" / "initial"
+            (initial / "order10").mkdir(parents=True)
+            initial_manifest = {
+                "min_order": 10,
+                "max_order": 10,
+                "upstream_commit": old_pin,
+            }
+            (initial / "manifest.json").write_text(
+                json.dumps(initial_manifest), encoding="utf-8"
+            )
+            initial_summary = {
+                "manifest": initial_manifest,
+                "orders": [{"order": 10, "connected_total": 11716571, "indeterminate": 1}],
+                "unresolved": [{
+                    "order": 10, "index": 17, "graph6": g6,
+                    "reason": "clique count exceeded bound",
+                }],
+            }
+            original_summary = json.dumps(initial_summary)
+            (initial / "summary.json").write_text(
+                original_summary, encoding="utf-8"
+            )
+            (initial / "order10" / "indeterminate_order_10.txt").write_text(
+                f"17 10 {g6} - - -\n", encoding="utf-8"
+            )
+            registry = root / "config" / "conjectured_surfaces_order9.tsv"
+            registry.parent.mkdir(parents=True)
+            registry.write_text("# fixtures\n", encoding="utf-8")
+
+            previous = root / "runs" / "order10" / "c10"
+            (previous / "records").mkdir(parents=True)
+            previous_manifest = {
+                "schema": 1, "stage": "c10", "order": 10,
+                "upstream_commit": old_pin, "indices": [17],
+            }
+            previous_manifest_text = json.dumps(previous_manifest)
+            previous_summary_text = json.dumps({
+                "manifest": previous_manifest,
+                "processed": 1,
+                "counts": {"NO_RETRACTION": 1},
+            })
+            (previous / "manifest.json").write_text(
+                previous_manifest_text, encoding="utf-8"
+            )
+            (previous / "summary.json").write_text(
+                previous_summary_text, encoding="utf-8"
+            )
+            (previous / "records" / "00000017.json").write_text(
+                json.dumps({
+                    "index": 17, "graph6": g6,
+                    "status": "NO_RETRACTION", "witness": None,
+                }), encoding="utf-8"
+            )
+            def exact_homotopy(_order, _stage, _graph):
+                return {
+                    "is_exact": True,
+                    "is_limited": False,
+                    "spheres": {},
+                    "verdict": "Contractible",
+                    "reason": "test fixture",
+                }
+            with (
+                patch.object(staged, "ROOT", root),
+                patch.object(staged, "current_pin", return_value=new_pin),
+                patch.object(staged, "load_surface_references", return_value=0),
+                patch.object(staged, "compute", side_effect=exact_homotopy) as compute,
+            ):
+                # Reading historical data does not require the new package
+                # revision to match the revision used by the initial census.
+                run, source, origins = staged.census(10)
+                self.assertEqual(run, initial)
+                self.assertEqual(set(source), {17})
+                self.assertEqual(origins[17].split()[4], "-")
+
+                staged.run_stage(10, "homotopy")
+                self.assertEqual(compute.call_count, 1)
+                new_manifest = json.loads(
+                    (root / "runs" / "order10" / "homotopy" / "manifest.json").read_text()
+                )
+                self.assertEqual(new_manifest["upstream_commit"], new_pin)
+                self.assertEqual(new_manifest["c10_summary_sha256"], staged.filehash(
+                    previous / "summary.json"
+                ))
+                staged.run_stage(10, "homotopy")
+                self.assertEqual(compute.call_count, 1)  # resumed without work
+                self.assertEqual((initial / "summary.json").read_text(), original_summary)
+                self.assertEqual((previous / "manifest.json").read_text(), previous_manifest_text)
+                self.assertEqual((previous / "summary.json").read_text(), previous_summary_text)
+                with patch.object(staged, "current_pin", return_value=old_pin):
+                    with self.assertRaisesRegex(ValueError, "changed inputs"):
+                        staged.run_stage(10, "homotopy")
+
+    def test_initial_summary_must_match_original_manifest(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            folder = root / "runs" / "order10" / "initial"
+            folder.mkdir(parents=True)
+            manifest = {"min_order": 10, "max_order": 10, "upstream_commit": "a" * 40}
+            (folder / "manifest.json").write_text(json.dumps(manifest))
+            (folder / "summary.json").write_text(json.dumps({
+                "manifest": {**manifest, "upstream_commit": "b" * 40},
+                "orders": [{"connected_total": 11716571, "indeterminate": 0}],
+                "unresolved": [],
+            }))
+            with patch.object(staged, "ROOT", root):
+                with self.assertRaisesRegex(ValueError, "not complete or not validated"):
+                    staged.census(10)
 
     def test_initial_batch_sizes_are_order_specific(self):
         """The entry point must keep order 9 at 10000 and order 10 at 100000."""

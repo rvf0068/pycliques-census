@@ -74,8 +74,17 @@ def census(order: int) -> tuple[Path, dict[int, dict], dict[int, str]]:
         or summary["orders"][0].get("connected_total") != expected
     ):
         raise ValueError(f"Order-{order} initial census not complete or not validated")
-    if manifest.get("upstream_commit") != current_pin():
-        raise ValueError("Current classifier version differs from the original census")
+    # The validated initial census is a frozen historical result. Its
+    # manifest must agree with its summary, but subsequent stages may use a
+    # different pinned pycliques-project revision. The new revision is checked
+    # separately by current_pin() and recorded in each *new* stage manifest.
+    original_revision = manifest.get("upstream_commit")
+    if (
+        not isinstance(original_revision, str)
+        or len(original_revision) != 40
+        or any(digit not in "0123456789abcdef" for digit in original_revision)
+    ):
+        raise ValueError("Initial census does not record a valid upstream revision")
     entries = summary["unresolved"]
     if len(entries) != summary["orders"][0]["indeterminate"]:
         raise ValueError("Original indeterminate count differs from summary")
@@ -119,6 +128,18 @@ def checked_records(order: int, stage: str, source: dict[int, dict]) -> dict[int
     meta = json.loads(meta_path.read_text(encoding="utf-8"))
     if meta.get("stage") != stage or meta.get("order") != order:
         raise ValueError(f"Wrong stage manifest: {folder}")
+    stage_revision = meta.get("upstream_commit")
+    if (
+        not isinstance(stage_revision, str)
+        or len(stage_revision) != 40
+        or any(digit not in "0123456789abcdef" for digit in stage_revision)
+    ):
+        raise ValueError(f"Stage has an invalid historical upstream revision: {folder}")
+    summary_path = folder / "summary.json"
+    if summary_path.is_file():
+        saved_summary = json.loads(summary_path.read_text(encoding="utf-8"))
+        if saved_summary.get("manifest") != meta:
+            raise ValueError(f"Stage summary disagrees with its manifest: {folder}")
     rows: dict[int, dict] = {}
     for file in sorted((folder / "records").glob("*.json")):
         row = json.loads(file.read_text(encoding="utf-8"))
@@ -335,6 +356,9 @@ def run_stage(order: int, stage: str) -> None:
         "schema": 1,
         "stage": stage,
         "order": order,
+        # Each post-stage records the dependency revision used *now*.
+        # The initial census and earlier completed post-stages retain their
+        # original revisions and are never retroactively relabeled.
         "upstream_commit": current,
         "initial_summary_sha256": filehash(initial / "summary.json"),
         "script_sha256": filehash(Path(__file__)),

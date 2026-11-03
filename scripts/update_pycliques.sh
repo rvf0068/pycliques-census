@@ -36,4 +36,7 @@ printf '%s\n' "$NEW_PIN" > "$PIN_FILE"
 bash "$ROOT/scripts/bootstrap.sh"
 trap - ERR
 printf '\nUpdated pycliques-project: %s -> %s\n' "$OLD_PIN" "$NEW_PIN"
-printf 'Commit the updated config/pycliques_commit.txt. Start a NEW RUN_DIR for any new results.\n'
+printf 'Commit the updated config/pycliques_commit.txt.\n'
+printf 'A new post-stage may use this revision while completed stages retain their original pins.\n'
+printf 'Never change revisions mid-stage or rerun an old stage in place after an upgrade.\n'
+printf 'The initial census still requires a NEW RUN_DIR if its parameters or revision change.\n'

@@ -41,7 +41,36 @@ The final partial order-10 batch contains fewer than 100,000 graphs.
 
 Each command is repeatable: an interrupted initial run skips completed
 batches; an interrupted later stage skips completed graph records. Do not
-change the pinned upstream revision while resuming an active run.
+change the pinned upstream revision while resuming an **incomplete stage**.
+
+### Updating pycliques-project between stages
+
+The initial census and every completed post-stage are historical, immutable
+inputs. Their manifests retain the exact `pycliques-project` revision used
+for those computations. A **new** post-stage may use a newer revision:
+`scripts/staged.py` validates each historical stage against its own saved
+manifest rather than requiring its revision to match today's installed code.
+The new stage records its own revision, the initial summary checksum, and the
+checksums of prerequisite-stage summaries.
+
+For example, once `10 initial` and `10 c10` are completed and committed:
+
+```bash
+bash scripts/update_pycliques.sh
+bash scripts/stage.sh 10 homotopy
+bash scripts/stage.sh 10 bound70
+```
+
+Commit the changed `config/pycliques_commit.txt` along with the new-stage
+results. **Do not rerun an old stage** after changing the pin: its existing
+manifest will reject the new inputs, intentionally. Do not update the pin
+during a partially completed stage. The updated homotopy and bound-70 stages
+operate on the remaining graphs from the original census, without
+recomputing its classifications or the completed C10 retraction stage.
+
+The initial census runner still forbids changing versions or parameters in
+an existing initial-run directory. Its configuration and the historic
+results are never rewritten by an upgrade.
 
 ## Working results and detailed records
 
