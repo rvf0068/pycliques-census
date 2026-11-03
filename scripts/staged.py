@@ -201,10 +201,13 @@ def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, 
         i for i, result in c10.items()
         if result["status"] == "RETRACTION_FOUND"
     }
-    # The homotopy stage examines all unresolved order-10 graphs, including
-    # conjecture-dependent cases. The order-10 bound-70 stage, however, uses
-    # only non-conjectural cases with an exact eligible homotopy type.
-    skip_conditional = stage != "homotopy"
+    # For order 10, homotopy is used only as a filter for the unresolved
+    # non-conjectural graphs whose *completely pared* graph still has ten
+    # vertices. The initial unresolved cohort records this pared order in
+    # its second column. The selective bound-70 stage uses the same cohort.
+    # In particular, conjectural references and graphs that pare to order
+    # nine or less are never sent to the homotopy classifier.
+    require_full_pared_order = order == 10 and stage in ("homotopy", "bound70")
     prior_bound60 = (
         checked_records(9, "bound60", source)
         if order == 9 and stage == "bound70"
@@ -218,7 +221,8 @@ def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, 
     eligible = {
         i: row for i, row in source.items()
         if i not in resolved_c10
-        and (not skip_conditional or origins[i].split()[4] != "conjectured_divergent")
+        and origins[i].split()[4] != "conjectured_divergent"
+        and (not require_full_pared_order or origins[i].split()[1] == "10")
         and prior_bound60.get(i, {}).get("verdict") not in {"CONVERGENT", "DIVERGENT"}
         and prior_bound60.get(i, {}).get("certificate_target_status") != "conjectured_divergent"
         and (

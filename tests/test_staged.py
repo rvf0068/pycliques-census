@@ -26,10 +26,10 @@ class StageSelectionTests(unittest.TestCase):
             50: {"index": 50, "graph6": "HEEEEEEEE"},
         }
         self.origins = {
-            10: "10 9 AA - conjectured_divergent surface10",
-            20: "20 9 BB - - -",
-            30: "30 9 CC - - -",
-            40: "40 9 DD - - -",
+            10: "10 10 AA - conjectured_divergent surface10",
+            20: "20 10 BB - - -",
+            30: "30 10 CC - - -",
+            40: "40 10 DD - - -",
             50: "50 9 EE - - -",
         }
         self.c10 = {20: {"status": "RETRACTION_FOUND"}, 30: {"status": "NO_RETRACTION"}}
@@ -58,7 +58,9 @@ class StageSelectionTests(unittest.TestCase):
             self.assertEqual(set(bound), {30, 40, 50})
 
             hom, _ = staged.stage_selection(10, "homotopy")
-            self.assertEqual(set(hom), {10, 30, 40, 50})
+            # Graph 10 is conjectural; 20 was resolved by C10; 50 pares
+            # to order nine. None is eligible for the homotopy stage.
+            self.assertEqual(set(hom), {30, 40})
             # Order 10 uses exact contractible/wedges of S^1, but never
             # conjectural cases, even if their homotopy verdict is exact.
             order10_bound70, _ = staged.stage_selection(10, "bound70")
@@ -214,10 +216,11 @@ class StageSelectionTests(unittest.TestCase):
     def test_order10_bound70_filter_rejects_other_types_and_limited(self):
         source = {
             index: {"index": index, "graph6": "HAAAAAAAA"}
-            for index in range(10, 19)
+            for index in range(10, 21)
         }
-        origins = {index: f"{index} 9 HAAAAAAAA - - -" for index in source}
-        origins[10] = "10 9 HAAAAAAAA reference conjectured_divergent snub"
+        origins = {index: f"{index} 10 HAAAAAAAA - - -" for index in source}
+        origins[10] = "10 10 HAAAAAAAA reference conjectured_divergent snub"
+        origins[19] = "19 9 HAAAAAAAA - - -"
         c10 = {11: {"status": "RETRACTION_FOUND"}}
         homotopy = {
             10: {"is_exact": True, "is_limited": False, "spheres": {"1": 2}},
@@ -228,6 +231,8 @@ class StageSelectionTests(unittest.TestCase):
             16: {"is_exact": True, "is_limited": True, "spheres": {}},
             17: {"is_exact": True, "is_limited": False, "spheres": {"0": 1}},
             18: {"is_exact": True, "is_limited": False, "spheres": {"1": 0}},
+            19: {"is_exact": True, "is_limited": False, "spheres": {"1": 2}},
+            20: {"is_exact": True, "is_limited": False, "spheres": {"1": 2}},
         }
 
         def records(order, stage, _source):
@@ -242,8 +247,12 @@ class StageSelectionTests(unittest.TestCase):
             patch.object(staged, "census", return_value=(Path("."), source, origins)),
             patch.object(staged, "checked_records", side_effect=records),
         ):
+            homotopy_selection, _ = staged.stage_selection(10, "homotopy")
+            self.assertEqual(set(homotopy_selection), set(range(12, 19)) | {20})
             selection, _ = staged.stage_selection(10, "bound70")
-            self.assertEqual(set(selection), {12, 13})
+            # Despite a suitable exact homotopy type, index 19 pares to
+            # nine vertices, so is excluded from both stages.
+            self.assertEqual(set(selection), {12, 13, 20})
 
     def test_completed_stage_survives_upgrade_and_new_stage_pins_its_revision(self):
         """Do not relabel or recompute original/c10 records after upgrading."""

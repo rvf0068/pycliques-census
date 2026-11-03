@@ -25,8 +25,8 @@ Then execute each desired stage with a single command:
 | 9 | `bash scripts/stage.sh 9 bound70` | Classify only the 9-vertex cases still indeterminate and not conjectured divergent at bound 70; rebuild the conjectured surface-reference file |
 | 10 | `bash scripts/stage.sh 10 initial` | Classify all 11,716,571 connected graphs, bound 30, using the registered order-9 surfaces |
 | 10 | `bash scripts/stage.sh 10 c10` | Check K(G) retraction to the complement of C10 on still-indeterminate graphs excluding conjecturally divergent |
-| 10 | `bash scripts/stage.sh 10 homotopy` | Compute the homotopy type of **G only** for all still-indeterminate graphs with the current pycombtop API |
-| 10 | `bash scripts/stage.sh 10 bound70` | Run the usual classifier at bound 70 **only** for still-indeterminate, non-conjecturally-divergent graphs whose `pycombtop` homotopy verdict is exact and contractible or a wedge of circles |
+| 10 | `bash scripts/stage.sh 10 homotopy` | Compute the homotopy type of **G only**, for still-indeterminate graphs that are **not conjecture-dependent** and whose completely pared graph has **exactly ten vertices** |
+| 10 | `bash scripts/stage.sh 10 bound70` | Run the usual classifier at bound 70 **only** for graphs selected by the restricted order-10 homotopy stage whose `pycombtop` verdict is exact and contractible or a wedge of circles |
 
 
 Run the stages for each order in order. The 10-vertex initial stage requires
@@ -65,8 +65,9 @@ Commit the changed `config/pycliques_commit.txt` along with the new-stage
 results. **Do not rerun an old stage** after changing the pin: its existing
 manifest will reject the new inputs, intentionally. Do not update the pin
 during a partially completed stage. The updated homotopy and bound-70 stages
-operate on the remaining graphs from the original census, without
-recomputing its classifications or the completed C10 retraction stage.
+operate only on non-conjectural still-indeterminate graphs with completely
+pared order ten, without recomputing the initial classifications or the
+completed C10 retraction stage.
 
 The initial census runner still forbids changing versions or parameters in
 an existing initial-run directory. Its configuration and the historic
@@ -107,9 +108,13 @@ runs/
 Initial census verdicts are immutable: post-stages write new records rather
 than overwriting prior results. All records use **original** source indices and
 original graph6 for recomputation. The c10 stage stores independently
-verified retraction maps. The homotopy stage stores `is_exact`, `is_limited`,
-the stated type, and the reason from `pycombtop`. A Betti-only result is
-not accepted as a wedge-of-spheres or contractibility certificate.
+verified retraction maps. The homotopy stage examines only non-conjectural graphs whose completely
+pared graph has order ten (no dominated vertices) and whose behavior remains
+indeterminate after the C10 stage. Graphs pared to smaller orders, conjecture-
+dependent cases, and graphs classified by C10 are excluded. It stores
+`is_exact`, `is_limited`, the stated type, and the reason from `pycombtop`.
+A Betti-only result is not accepted as a wedge-of-spheres or contractibility
+certificate.
 
 The final order-9 bound-70 stage regenerates
 [`config/conjectured_surfaces_order9.tsv`](config/conjectured_surfaces_order9.tsv)
@@ -122,7 +127,8 @@ bound 70 is removed from the conjectural reference file, which is pinned by
 its checksum in the order-10 initial manifest.
 
 Order 10 uses a **selective** bound-70 stage only after the homotopy
-analysis. It excludes conjecturally divergent graphs and admits only
+analysis. It continues to require completely pared order ten, excludes
+conjecturally divergent graphs, and admits only
 `pycombtop` verdicts marked **exact**, **not limited**, with either an empty
 wedge (contractible) or exclusively positive-dimensionality-one sphere
 multiplicities (wedges of circles). Betti-only or limited outputs never
