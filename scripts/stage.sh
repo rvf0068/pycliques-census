@@ -47,6 +47,13 @@ refresh_on_exit() {
     echo "Unable to refresh the order-$ORDER indeterminate working file" >&2
     if (( status == 0 )); then status=1; fi
   }
+  if [[ "$ORDER" == 10 ]]; then
+    # Rebuild the root-level table from completed homotopy JSON records.
+    .venv/bin/python scripts/export_homotopy.py || {
+      echo "Unable to refresh homotopy_order_10.tsv" >&2
+      if (( status == 0 )); then status=1; fi
+    }
+  fi
   exit "$status"
 }
 trap refresh_on_exit EXIT

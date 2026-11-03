@@ -75,17 +75,39 @@ results are never rewritten by an upgrade.
 
 ## Working results and detailed records
 
-The two easy-to-find working files at the repository root are:
+The working clique-behavior files at the repository root are:
 
 - [`indeterminate_order_9.txt`](indeterminate_order_9.txt)
 - [`indeterminate_order_10.txt`](indeterminate_order_10.txt)
 
 They are automatically updated following each completed stage or partially
-completed post-stage run. The file's six columns are the original graph
+completed post-stage run. Their six columns are the original graph
 index, pared order, pared graph6, certificate rule, target status, and target
 label. Conditional references stay listed until an independent proof
 classifies them. Incomplete computations do not count as proofs of convergence
 or divergence.
+
+The order-10 homotopy stage additionally generates **`homotopy_order_10.tsv`**
+at the repository root. One row per completed eligible graph reports its
+original source index, original graph6, pared graph6, exactness and limit
+flags, a readable **certified** homotopy type when available, sphere
+multiplicities as JSON, the underlying `pycombtop` verdict, and the reason.
+Inexact results are explicitly marked `not certified`; their Betti numbers
+are not misrepresented as homotopy types. The table uses tab separators
+and proper quoting for reasons containing tabs or newlines.
+
+The normal `bash scripts/stage.sh 10 homotopy` command regenerates this TSV
+on exit, including after normal interruption. Only completed JSON records
+appear in a partial export; resume the same command to fill the remaining
+rows. After an abrupt interruption or to rebuild it from saved records
+without recomputation, run:
+
+```bash
+.venv/bin/python scripts/export_homotopy.py
+```
+
+The TSV is a derived convenience file: the authoritative records remain in
+`runs/order10/homotopy/records/`.
 
 Each stage has a stable directory with a manifest, per-graph data, and
 a summary:
