@@ -157,7 +157,7 @@ def checked_records(order: int, stage: str, source: dict[int, dict]) -> dict[int
                 raise ValueError(f"Bad retraction status in {file}")
             if row["status"] == "RETRACTION_FOUND" and not isinstance(row.get("witness"), dict):
                 raise ValueError(f"Missing positive retraction witness in {file}")
-        elif stage in ("bound60", "bound70"):
+        elif stage in ("bound60", "bound70", "bound120"):
             if row.get("verdict") not in {"CONVERGENT", "DIVERGENT", "INDETERMINATE"}:
                 raise ValueError(f"Bad classification in {file}")
         elif stage == "homotopy":
@@ -183,6 +183,7 @@ def active(order: int) -> tuple[dict[int, dict], dict[int, str], dict[int, dict]
     c10 = checked_records(order, "c10", source)
     bound60 = checked_records(9, "bound60", source) if order == 9 else {}
     bound70 = checked_records(order, "bound70", source)
+    bound120 = checked_records(10, "bound120", source) if order == 10 else {}
     s1 = checked_records(10, "s1divergence", source) if order == 10 else {}
     active_rows: dict[int, dict] = {}
     for i, row in source.items():
@@ -192,7 +193,7 @@ def active(order: int) -> tuple[dict[int, dict], dict[int, str], dict[int, dict]
             continue
         if any(
             results.get(i, {}).get("verdict") in {"CONVERGENT", "DIVERGENT"}
-            for results in (bound60, bound70)
+            for results in (bound60, bound70, bound120)
         ):
             continue
         active_rows[i] = row
@@ -207,7 +208,7 @@ def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, 
     """
     if (order, stage) not in {
         (9, "c10"), (9, "bound60"), (9, "bound70"),
-        (10, "c10"), (10, "homotopy"), (10, "s1divergence"), (10, "bound70"),
+        (10, "c10"), (10, "homotopy"), (10, "s1divergence"), (10, "bound70"), (10, "bound120"),
     }:
         raise ValueError(f"Unsupported stage: order={order}, stage={stage}")
     _, source, origins = census(order)
@@ -219,7 +220,7 @@ def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, 
     # Post-C10 order-10 stages retain the original nonconjectural
     # full-pared-order cohort. The extra divergence stage examines only S^1.
     require_full_pared_order = order == 10 and stage in (
-        "homotopy", "s1divergence", "bound70"
+        "homotopy", "s1divergence", "bound70", "bound120"
     )
     prior_bound60 = (
         checked_records(9, "bound60", source)
@@ -228,7 +229,12 @@ def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, 
     )
     homotopy = (
         checked_records(10, "homotopy", source)
-        if order == 10 and stage in ("s1divergence", "bound70")
+        if order == 10 and stage in ("s1divergence", "bound70", "bound120")
+        else {}
+    )
+    previous_bound70 = (
+        checked_records(10, "bound70", source)
+        if order == 10 and stage == "bound120"
         else {}
     )
     resolved_s1 = (
@@ -236,7 +242,7 @@ def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, 
             i for i, result in checked_records(10, "s1divergence", source).items()
             if result["status"] == "DIVERGENT"
         }
-        if order == 10 and stage == "bound70" else set()
+        if order == 10 and stage in ("bound70", "bound120") else set()
     )
     eligible = {
         i: row for i, row in source.items()
@@ -246,6 +252,7 @@ def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, 
         and (not require_full_pared_order or origins[i].split()[1] == "10")
         and prior_bound60.get(i, {}).get("verdict") not in {"CONVERGENT", "DIVERGENT"}
         and prior_bound60.get(i, {}).get("certificate_target_status") != "conjectured_divergent"
+        and (stage != "bound120" or previous_bound70.get(i, {}).get("verdict") == "INDETERMINATE")
         and (
             stage != "s1divergence"
             or (
@@ -255,7 +262,7 @@ def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, 
             )
         )
         and (
-            order != 10 or stage != "bound70"
+            order != 10 or stage not in ("bound70", "bound120")
             or (
                 homotopy.get(i, {}).get("is_exact") is True
                 and homotopy[i].get("is_limited") is False
@@ -278,13 +285,14 @@ def refresh(order: int) -> dict:
     c10 = checked_records(order, "c10", source)
     bound60 = checked_records(9, "bound60", source) if order == 9 else {}
     bound70 = checked_records(order, "bound70", source)
+    bound120 = checked_records(10, "bound120", source) if order == 10 else {}
     h = checked_records(order, "homotopy", source) if order == 10 else {}
     s1 = checked_records(order, "s1divergence", source) if order == 10 else {}
     conditional = 0
     data: list[str] = []
     for i in sorted(remaining):
         fields = origins[i].split()
-        new = bound70.get(i) or bound60.get(i)
+        new = bound120.get(i) or bound70.get(i) or bound60.get(i)
         if new and new["verdict"] == "INDETERMINATE":
             fields = [
                 str(i), str(new["pared_order"]), new["pared_graph6"],
@@ -300,7 +308,7 @@ def refresh(order: int) -> dict:
         "# Derived from certified stage records; raw initial census remains unchanged.",
         f"# Remaining={len(data)} conjectured_divergent={conditional}",
         f"# C10_checked={len(c10)} bound60_checked={len(bound60)} "
-        f"bound70_checked={len(bound70)} homotopy_checked={len(h)} "
+        f"bound70_checked={len(bound70)} bound120_checked={len(bound120)} homotopy_checked={len(h)} "
         f"s1divergence_checked={len(s1)} "
         f"s1divergence_proven={sum(r['status'] == 'DIVERGENT' for r in s1.values())}",
         "# Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label",
@@ -313,6 +321,7 @@ def refresh(order: int) -> dict:
         "C10_checked": len(c10),
         "bound60_checked": len(bound60),
         "bound70_checked": len(bound70),
+        "bound120_checked": len(bound120),
         "homotopy_checked": len(h),
         "s1divergence_checked": len(s1),
         "s1divergence_proven": sum(r["status"] == "DIVERGENT" for r in s1.values()),
@@ -342,8 +351,8 @@ def surface_registry(order: int) -> int:
 def compute(order: int, stage: str, graph: nx.Graph) -> dict:
     if stage == "c10":
         return search_retraction(graph)
-    if stage in ("bound60", "bound70"):
-        bound = 60 if stage == "bound60" else 70
+    if stage in ("bound60", "bound70", "bound120"):
+        bound = {"bound60": 60, "bound70": 70, "bound120": 120}[stage]
         r = classify_clique_behavior(graph, bound=bound)
         c = r.certificate
         pared = nx.convert_node_labels_to_integers(r.pared_graph)
@@ -374,7 +383,7 @@ def compute(order: int, stage: str, graph: nx.Graph) -> dict:
 def run_stage(order: int, stage: str) -> None:
     if (order, stage) not in {
         (9, "c10"), (9, "bound60"), (9, "bound70"),
-        (10, "c10"), (10, "homotopy"), (10, "s1divergence"), (10, "bound70"),
+        (10, "c10"), (10, "homotopy"), (10, "s1divergence"), (10, "bound70"), (10, "bound120"),
     }:
         raise ValueError(f"Unsupported stage: order={order}, stage={stage}")
     if order == 9 and stage == "bound70":
@@ -391,6 +400,20 @@ def run_stage(order: int, stage: str) -> None:
         load_surface_references()
     current = current_pin()
     selection, source = stage_selection(order, stage)
+    if order == 10 and stage == "bound120":
+        # Do not freeze a truncated cohort if bound70 was interrupted.
+        prior_summary_path = stage_dir(10, "bound70") / "summary.json"
+        if not prior_summary_path.is_file():
+            raise ValueError("Finish order-10 stage bound70 before bound120")
+        prior_summary = json.loads(prior_summary_path.read_text(encoding="utf-8"))
+        prior_indices = prior_summary.get("manifest", {}).get("indices")
+        prior_records = checked_records(10, "bound70", source)
+        if (
+            not isinstance(prior_indices, list)
+            or prior_summary.get("processed") != len(prior_indices)
+            or set(prior_records) != set(prior_indices)
+        ):
+            raise ValueError("Finish order-10 stage bound70 before bound120")
     initial = ROOT / "runs" / f"order{order}" / "initial"
     meta = {
         "schema": 1,
@@ -412,6 +435,7 @@ def run_stage(order: int, stage: str) -> None:
         "bound70": ["c10", "bound60"] if order == 9 else ["c10", "homotopy", "s1divergence"],
         "homotopy": ["c10"],
         "s1divergence": ["c10", "homotopy"],
+        "bound120": ["bound70"],
     }[stage]
     for name in prerequisites:
         path = stage_dir(order, name) / "summary.json"
@@ -483,7 +507,7 @@ def check_baseline() -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("order", type=int, choices=(9, 10))
-    parser.add_argument("stage", choices=("refresh", "c10", "bound60", "bound70", "homotopy", "s1divergence"))
+    parser.add_argument("stage", choices=("refresh", "c10", "bound60", "bound70", "bound120", "homotopy", "s1divergence"))
     args = parser.parse_args()
     if args.stage == "refresh":
         print(refresh(args.order))

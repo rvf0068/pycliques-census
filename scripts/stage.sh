@@ -11,14 +11,14 @@ if [[ "${1:-}" == baseline && $# -eq 1 ]]; then
 fi
 
 if (( $# != 2 )) || [[ ! "${1:-}" =~ ^(9|10)$ ]]; then
-  echo "Usage: bash scripts/stage.sh baseline | {9|10} {initial|c10|bound60|bound70|homotopy}" >&2
+  echo "Usage: bash scripts/stage.sh baseline | {9|10} {initial|c10|bound60|bound70|bound120|homotopy|s1divergence}" >&2
   exit 2
 fi
 
 ORDER="$1"
 STAGE="$2"
 case "$ORDER/$STAGE" in
-  9/initial|9/c10|9/bound60|9/bound70|10/initial|10/c10|10/homotopy|10/s1divergence|10/bound70) ;;
+  9/initial|9/c10|9/bound60|9/bound70|10/initial|10/c10|10/homotopy|10/s1divergence|10/bound70|10/bound120) ;;
   *) echo "Unsupported stage $ORDER/$STAGE" >&2; exit 2 ;;
 esac
 

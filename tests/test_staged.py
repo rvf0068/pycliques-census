@@ -454,5 +454,145 @@ class StageSelectionTests(unittest.TestCase):
                     staged.check_baseline()
 
 
+    def test_order10_bound120_cohort_only_unresolved_easy_types(self):
+        """The later stage reads completed bound70 results, never its own records."""
+        source = {i: {"index": i, "graph6": "I????????"} for i in range(1, 9)}
+        origins = {i: f"{i} 10 I???????? - - -" for i in source}
+        origins[7] = "7 10 I???????? reference conjectured_divergent snub"
+        origins[8] = "8 9 I???????? - - -"
+        homotopy = {
+            1: {"is_exact": True, "is_limited": False, "spheres": {}},
+            2: {"is_exact": True, "is_limited": False, "spheres": {"1": 2}},
+            3: {"is_exact": True, "is_limited": False, "spheres": {"1": 1}},
+            4: {"is_exact": True, "is_limited": False, "spheres": {"2": 1}},
+            5: {"is_exact": True, "is_limited": False, "spheres": {"1": 3}},
+            6: {"is_exact": False, "is_limited": False, "spheres": {"1": 1}},
+            7: {"is_exact": True, "is_limited": False, "spheres": {}},
+            8: {"is_exact": True, "is_limited": False, "spheres": {}},
+        }
+        bound70 = {
+            1: {"verdict": "INDETERMINATE"},
+            2: {"verdict": "CONVERGENT"},
+            3: {"verdict": "INDETERMINATE"},
+            4: {"verdict": "INDETERMINATE"},
+            5: {"verdict": "INDETERMINATE"},
+            6: {"verdict": "INDETERMINATE"},
+            7: {"verdict": "INDETERMINATE"},
+            8: {"verdict": "INDETERMINATE"},
+        }
+        def checked(order, stage, _source):
+            self.assertEqual(order, 10)
+            if stage == "homotopy":
+                return homotopy
+            if stage == "bound70":
+                return bound70
+            if stage in ("c10", "s1divergence"):
+                return {}
+            self.fail(f"Selection must not read its own stage: {stage}")
+
+        with (
+            patch.object(staged, "census", return_value=(Path("."), source, origins)),
+            patch.object(staged, "checked_records", side_effect=checked),
+        ):
+            chosen, _ = staged.stage_selection(10, "bound120")
+            self.assertEqual(set(chosen), {1, 3, 5})
+            # No bound120 record may affect the replayable cohort.
+            again, _ = staged.stage_selection(10, "bound120")
+            self.assertEqual(set(again), {1, 3, 5})
+
+    def test_order10_bound120_requires_complete_bound70_and_resumes(self):
+        """Reuse the historical results, save a new manifest, and skip saved work."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            run = root / "runs" / "order10" / "initial"
+            run.mkdir(parents=True)
+            (run / "summary.json").write_text("{}\n")
+            refs = root / "config" / "conjectured_surfaces_order9.tsv"
+            refs.parent.mkdir(parents=True)
+            refs.write_text("# fixture\n")
+            g6 = nx.to_graph6_bytes(nx.cycle_graph(10), header=False).decode().strip()
+            source = {11: {"index": 11, "graph6": g6},
+                      12: {"index": 12, "graph6": g6}}
+            origins = {i: f"{i} 10 {g6} - - -" for i in source}
+            prior = root / "runs" / "order10" / "bound70"
+            (prior / "records").mkdir(parents=True)
+            prior_manifest = {
+                "stage": "bound70", "order": 10,
+                "upstream_commit": "a" * 40, "indices": [11, 12],
+            }
+            prior_summary_path = prior / "summary.json"
+            prior_summary_path.write_text(json.dumps({
+                "manifest": prior_manifest, "processed": 1,
+                "counts": {"INDETERMINATE": 1},
+            }))
+            (prior / "manifest.json").write_text(json.dumps(prior_manifest))
+            for i in source:
+                (prior / "records" / f"{i:08d}.json").write_text(json.dumps({
+                    "index": i, "graph6": g6, "verdict": "INDETERMINATE",
+                    "pared_order": 10, "pared_graph6": g6,
+                }))
+
+            homotopy = {11: {"is_exact": True, "is_limited": False, "spheres": {}},
+                        12: {"is_exact": True, "is_limited": False, "spheres": {"1": 2}}}
+            original = prior_summary_path.read_text()
+            with (
+                patch.object(staged, "ROOT", root),
+                patch.object(staged, "census", return_value=(run, source, origins)),
+                patch.object(staged, "current_pin", return_value="b" * 40),
+                patch.object(staged, "load_surface_references", return_value=0),
+                patch.object(staged, "compute", return_value={
+                    "bound": 120, "verdict": "CONVERGENT", "reason": "test",
+                    "pared_order": 10, "pared_graph6": g6,
+                    "certificate_rule": "-", "certificate_target_status": "-",
+                    "certificate_target_label": "-",
+                }) as compute,
+            ):
+                # The previous manifest lists two graphs: partial results are rejected.
+                with patch.object(staged, "checked_records", wraps=staged.checked_records) as read:
+                    def historical_records(order, stage, src):
+                        if stage == "homotopy":
+                            return homotopy
+                        return read._mock_wraps(order, stage, src)
+                    read.side_effect = historical_records
+                    with self.assertRaisesRegex(ValueError, "Finish order-10 stage bound70"):
+                        staged.run_stage(10, "bound120")
+                    self.assertFalse((root / "runs" / "order10" / "bound120").exists())
+                    prior_summary_path.write_text(json.dumps({
+                        "manifest": prior_manifest, "processed": 2,
+                        "counts": {"INDETERMINATE": 2},
+                    }))
+                    staged.run_stage(10, "bound120")
+                    self.assertEqual(compute.call_count, 2)
+                    staged.run_stage(10, "bound120")
+                    self.assertEqual(compute.call_count, 2)
+                    new = root / "runs" / "order10" / "bound120"
+                    meta = json.loads((new / "manifest.json").read_text())
+                    self.assertEqual(meta["indices"], [11, 12])
+                    self.assertEqual(meta["upstream_commit"], "b" * 40)
+                    self.assertEqual(
+                        meta["bound70_summary_sha256"], staged.filehash(prior_summary_path)
+                    )
+                    self.assertEqual(json.loads((new / "summary.json").read_text())["counts"],
+                                     {"CONVERGENT": 2})
+                    remaining = (root / "indeterminate_order_10.txt").read_text().splitlines()
+                    self.assertFalse(any(line.startswith("11 ") or line.startswith("12 ")
+                                         for line in remaining))
+                    self.assertNotEqual(original, prior_summary_path.read_text())
+
+    def test_bound120_dispatch_and_parameter(self):
+        with patch.object(sys, "argv", ["staged.py", "10", "bound120"]), \
+             patch.object(staged, "run_stage") as run:
+            staged.main()
+        run.assert_called_once_with(10, "bound120")
+        with patch.object(staged, "classify_clique_behavior") as classify:
+            classify.return_value.verdict.name = "CONVERGENT"
+            classify.return_value.pared_graph = nx.cycle_graph(4)
+            classify.return_value.certificate = None
+            result = staged.compute(10, "bound120", nx.path_graph(10))
+            self.assertEqual(result["bound"], 120)
+            classify.assert_called_once()
+            self.assertEqual(classify.call_args.kwargs, {"bound": 120})
+
+
 if __name__ == "__main__":
     unittest.main()

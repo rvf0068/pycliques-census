@@ -28,6 +28,7 @@ Then execute each desired stage with a single command:
 | 10 | `bash scripts/stage.sh 10 homotopy` | Compute the homotopy type of **G only**, for still-indeterminate graphs that are **not conjecture-dependent** and whose completely pared graph has **exactly ten vertices** |
 | 10 | `bash scripts/stage.sh 10 s1divergence` | On the **282** exactly-`S^1` graphs, look for divergent clockwork reductions of `K²(G)` or `K³(G)`, then search for the verified triangular-cover/clockwork-pair certificate |
 | 10 | `bash scripts/stage.sh 10 bound70` | Run the usual classifier at bound 70 **only** for the eligible exact contractible/circle-wedge cases not already proved divergent by `s1divergence` |
+| 10 | `bash scripts/stage.sh 10 bound120` | Reclassify at bound 120 **only** the six eligible cases left `INDETERMINATE` by the completed bound-70 stage |
 
 
 Run the stages for each order in order. The 10-vertex initial stage requires
@@ -61,6 +62,7 @@ bash scripts/update_pycliques.sh
 bash scripts/stage.sh 10 homotopy
 bash scripts/stage.sh 10 s1divergence
 bash scripts/stage.sh 10 bound70
+bash scripts/stage.sh 10 bound120
 ```
 
 Commit the changed `config/pycliques_commit.txt` along with the new-stage
@@ -128,6 +130,7 @@ runs/
     homotopy/
     s1divergence/
     bound70/
+    bound120/
 ```
 
 Initial census verdicts are immutable: post-stages write new records rather
@@ -182,6 +185,15 @@ conjecturally divergent graphs **and graphs now certified divergent by
 wedge (contractible) or exclusively positive-dimensionality-one sphere
 multiplicities (wedges of circles). Betti-only or limited outputs never
 qualify. The stage does **not** reclassify all order-10 graphs.
+
+The separate order-10 `bound120` stage continues **only** the six exact
+contractible/circle-wedge cases recorded `INDETERMINATE` by the completed
+`bound70` stage. It uses the unchanged `classify_clique_behavior` classifier
+with `bound=120` and its default iteration limit (completely pared iterates).
+Its cohort is derived from prior immutable records, not a hand-maintained
+index list. The run refuses incomplete `bound70` results, records its own
+manifest and per-graph verdicts, supports interruption/resumption, and
+updates the root indeterminate file without altering earlier stages.
 
 ## Save progress
 
