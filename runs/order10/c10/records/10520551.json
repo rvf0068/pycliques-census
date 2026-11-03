@@ -1,0 +1,99 @@
+{
+  "K_edges": 82,
+  "K_order": 17,
+  "K_vertex_cliques": [
+    [
+      0,
+      3,
+      5
+    ],
+    [
+      0,
+      3,
+      7
+    ],
+    [
+      0,
+      5,
+      8
+    ],
+    [
+      0,
+      6,
+      7
+    ],
+    [
+      0,
+      6,
+      8
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      1,
+      5,
+      9
+    ],
+    [
+      1,
+      6,
+      7
+    ],
+    [
+      1,
+      7,
+      9
+    ],
+    [
+      2,
+      4,
+      8
+    ],
+    [
+      2,
+      6,
+      7
+    ],
+    [
+      2,
+      6,
+      8
+    ],
+    [
+      2,
+      7,
+      9
+    ],
+    [
+      2,
+      8,
+      9
+    ],
+    [
+      3,
+      5,
+      9
+    ],
+    [
+      3,
+      7,
+      9
+    ],
+    [
+      5,
+      8,
+      9
+    ]
+  ],
+  "assignments_tried": 0,
+  "embeddings_checked": 0,
+  "graph6": "ICZVFem\\W",
+  "index": 10520551,
+  "limited_embeddings": 0,
+  "reason": "All induced target embeddings were exhausted with no retraction",
+  "states_explored": 0,
+  "status": "NO_RETRACTION",
+  "witness": null
+}

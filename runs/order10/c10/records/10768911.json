@@ -1,0 +1,140 @@
+{
+  "K_edges": 185,
+  "K_order": 21,
+  "K_vertex_cliques": [
+    [
+      0,
+      3,
+      6,
+      7
+    ],
+    [
+      0,
+      3,
+      6,
+      8
+    ],
+    [
+      0,
+      3,
+      7,
+      9
+    ],
+    [
+      0,
+      3,
+      8,
+      9
+    ],
+    [
+      0,
+      4,
+      6,
+      7
+    ],
+    [
+      0,
+      4,
+      6,
+      8
+    ],
+    [
+      0,
+      4,
+      7,
+      9
+    ],
+    [
+      0,
+      4,
+      8,
+      9
+    ],
+    [
+      1,
+      4,
+      6,
+      7
+    ],
+    [
+      1,
+      4,
+      6,
+      8
+    ],
+    [
+      1,
+      4,
+      7,
+      9
+    ],
+    [
+      1,
+      4,
+      8,
+      9
+    ],
+    [
+      1,
+      5,
+      6,
+      7
+    ],
+    [
+      1,
+      5,
+      6,
+      8
+    ],
+    [
+      1,
+      5,
+      7,
+      9
+    ],
+    [
+      1,
+      5,
+      8,
+      9
+    ],
+    [
+      2,
+      8,
+      9
+    ],
+    [
+      3,
+      5,
+      6,
+      7
+    ],
+    [
+      3,
+      5,
+      6,
+      8
+    ],
+    [
+      3,
+      5,
+      7,
+      9
+    ],
+    [
+      3,
+      5,
+      8,
+      9
+    ]
+  ],
+  "assignments_tried": 0,
+  "embeddings_checked": 2,
+  "graph6": "ICpU}~}~W",
+  "index": 10768911,
+  "limited_embeddings": 0,
+  "reason": "All induced target embeddings were exhausted with no retraction",
+  "states_explored": 2,
+  "status": "NO_RETRACTION",
+  "witness": null
+}

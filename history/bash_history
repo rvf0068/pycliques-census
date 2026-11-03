@@ -31,3 +31,4 @@ bash scripts/stage.sh 10 initial
 cd /workspaces/pycliques-census
 rm -rf runs/order10/initial
 bash scripts/stage.sh 10 initial
+bash scripts/stage.sh 10 c10

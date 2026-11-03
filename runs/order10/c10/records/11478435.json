@@ -1,0 +1,117 @@
+{
+  "K_edges": 59,
+  "K_order": 13,
+  "K_vertex_cliques": [
+    [
+      0,
+      3,
+      5
+    ],
+    [
+      0,
+      3,
+      6,
+      8
+    ],
+    [
+      0,
+      4,
+      6,
+      8
+    ],
+    [
+      0,
+      4,
+      7,
+      8
+    ],
+    [
+      0,
+      5,
+      7
+    ],
+    [
+      1,
+      4,
+      6,
+      8
+    ],
+    [
+      1,
+      4,
+      6,
+      9
+    ],
+    [
+      1,
+      4,
+      7,
+      8
+    ],
+    [
+      1,
+      4,
+      7,
+      9
+    ],
+    [
+      1,
+      5,
+      7,
+      9
+    ],
+    [
+      2,
+      5,
+      7,
+      9
+    ],
+    [
+      3,
+      5,
+      9
+    ],
+    [
+      3,
+      6,
+      9
+    ]
+  ],
+  "assignments_tried": 3,
+  "embeddings_checked": 1,
+  "graph6": "ICruvZZ^o",
+  "index": 11478435,
+  "limited_embeddings": 0,
+  "reason": "Independently verified graph morphism fixing an induced complement of C10",
+  "states_explored": 4,
+  "status": "RETRACTION_FOUND",
+  "witness": {
+    "K_vertex_to_target_vertex": [
+      2,
+      0,
+      8,
+      6,
+      4,
+      3,
+      3,
+      6,
+      1,
+      9,
+      9,
+      7,
+      5
+    ],
+    "target_vertex_to_K_vertex": [
+      1,
+      8,
+      0,
+      6,
+      4,
+      12,
+      3,
+      11,
+      2,
+      9
+    ]
+  }
+}

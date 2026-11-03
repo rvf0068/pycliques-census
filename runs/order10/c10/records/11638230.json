@@ -1,0 +1,119 @@
+{
+  "K_edges": 63,
+  "K_order": 14,
+  "K_vertex_cliques": [
+    [
+      0,
+      3,
+      6
+    ],
+    [
+      0,
+      3,
+      7
+    ],
+    [
+      0,
+      4,
+      6,
+      9
+    ],
+    [
+      0,
+      4,
+      7
+    ],
+    [
+      0,
+      5,
+      7
+    ],
+    [
+      0,
+      5,
+      9
+    ],
+    [
+      1,
+      3,
+      6,
+      8
+    ],
+    [
+      1,
+      3,
+      7
+    ],
+    [
+      1,
+      5,
+      7
+    ],
+    [
+      1,
+      5,
+      8,
+      9
+    ],
+    [
+      1,
+      6,
+      8,
+      9
+    ],
+    [
+      2,
+      4,
+      9
+    ],
+    [
+      2,
+      5,
+      9
+    ],
+    [
+      4,
+      6,
+      8,
+      9
+    ]
+  ],
+  "assignments_tried": 5,
+  "embeddings_checked": 1,
+  "graph6": "IEjeux]zg",
+  "index": 11638230,
+  "limited_embeddings": 0,
+  "reason": "Independently verified graph morphism fixing an induced complement of C10",
+  "states_explored": 6,
+  "status": "RETRACTION_FOUND",
+  "witness": {
+    "K_vertex_to_target_vertex": [
+      1,
+      9,
+      3,
+      9,
+      7,
+      5,
+      6,
+      4,
+      2,
+      0,
+      8,
+      3,
+      0,
+      3
+    ],
+    "target_vertex_to_K_vertex": [
+      9,
+      0,
+      8,
+      2,
+      7,
+      5,
+      6,
+      4,
+      10,
+      1
+    ]
+  }
+}
