@@ -1,0 +1,76 @@
+{
+  "graph6": "IEhuVquZ_",
+  "index": 11586617,
+  "reason": "Independently replayed finite covering divergence certificate",
+  "rule": "cover_coaffine_embedding",
+  "status": "DIVERGENT",
+  "verification": {
+    "cover_order": 20,
+    "history": [
+      [
+        30,
+        30
+      ],
+      [
+        40,
+        40
+      ]
+    ],
+    "kind": "cover_coaffine_embedding",
+    "radius": 4,
+    "source_order": 18,
+    "target_order": 40
+  },
+  "witness": {
+    "depth": 2,
+    "embedding": [
+      0,
+      5,
+      7,
+      24,
+      36,
+      23,
+      17,
+      12,
+      30,
+      19,
+      11,
+      38,
+      1,
+      26,
+      21,
+      13,
+      32,
+      9
+    ],
+    "kind": "cover_coaffine_embedding",
+    "m": 3,
+    "n": 0,
+    "voltage_ones": [
+      [
+        0,
+        4
+      ],
+      [
+        0,
+        6
+      ],
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        7
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        6,
+        8
+      ]
+    ]
+  }
+}

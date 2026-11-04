@@ -1,0 +1,105 @@
+{
+  "graph6": "ICxvExyl_",
+  "index": 11521267,
+  "reason": "Independently replayed finite covering divergence certificate",
+  "rule": "cover_pared_clockwork",
+  "status": "DIVERGENT",
+  "verification": {
+    "cover_order": 20,
+    "good_segments": [
+      0,
+      2,
+      3,
+      5
+    ],
+    "history": [
+      [
+        28,
+        28
+      ],
+      [
+        36,
+        34
+      ],
+      [
+        40,
+        24
+      ]
+    ],
+    "kind": "cover_pared_clockwork",
+    "target_order": 24
+  },
+  "witness": {
+    "clockwork": {
+      "core_neighbors": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "core_sizes": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "crown_permutation": [
+        0,
+        1
+      ],
+      "crown_size": 2
+    },
+    "deleted_edges": [
+      [
+        3,
+        8
+      ]
+    ],
+    "depth": 3,
+    "kind": "cover_pared_clockwork",
+    "voltage_ones": [
+      [
+        1,
+        6
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        2,
+        9
+      ],
+      [
+        6,
+        8
+      ]
+    ]
+  }
+}
