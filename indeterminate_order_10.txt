@@ -1,7 +1,7 @@
 # Current indeterminate connected graphs of order 10
 # Derived from certified stage records; raw initial census remains unchanged.
-# Remaining=8993 conjectured_divergent=4611
-# C10_checked=5489 bound60_checked=0 bound70_checked=195 homotopy_checked=2126 s1divergence_checked=282 s1divergence_proven=180
+# Remaining=8989 conjectured_divergent=4611
+# C10_checked=5489 bound60_checked=0 bound70_checked=195 bound120_checked=6 homotopy_checked=2126 s1divergence_checked=282 s1divergence_proven=180
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
 2317572 8 GQyuzw reference conjectured_divergent snub_disphenoid
 2317841 8 GQyuzw reference conjectured_divergent snub_disphenoid
@@ -4686,7 +4686,6 @@
 10450313 9 HCrlvhz - - -
 10450337 9 HBvlvJR inverse_cutpoint_extension conjectured_divergent snub_disphenoid
 10450362 9 HBvlvJr - - -
-10450441 10 ICZNLzw[w - - -
 10450481 9 HBvlvbF - - -
 10450504 9 HBvlvbf - - -
 10450528 9 HQvLvhv - - -
@@ -7916,7 +7915,6 @@
 11568321 9 HEhfnzy - - -
 11568357 10 IEhfvn{vo - - -
 11568367 9 HEhfvn{ - - -
-11568600 10 IEhfvrz}o - - -
 11568656 9 HEhfvx} - - -
 11568668 9 HEhfvzu - - -
 11568711 10 IEhfvz}}o - - -
@@ -8422,7 +8420,6 @@
 11612502 9 HEhvv^{ - - -
 11612609 9 HEhvvzm - - -
 11612705 9 HUZ~v~} - - -
-11612715 10 IEhzr|}xw - - -
 11613415 9 H[^uv~} - - -
 11613528 9 H[^uv~} - - -
 11613843 9 HEjrtvm - - -
@@ -8490,7 +8487,6 @@
 11628394 9 HEy~rjj - - -
 11628691 10 IEjdnpyxW - - -
 11628694 9 HEy~bjb - - -
-11628697 10 IEjdnpyzG - - -
 11628698 9 HEy~bjj - - -
 11628763 9 HEjfr~{ - - -
 11629025 10 IEjdnr{^O - - -

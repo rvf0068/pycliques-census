@@ -1,0 +1,18 @@
+{
+  "bound70_summary_sha256": "399feba8cf835c3d30b6efe0f68851d76b04692c1cd71d500a230fb138c66cb3",
+  "indices": [
+    10450441,
+    11521267,
+    11568600,
+    11586617,
+    11612715,
+    11628697
+  ],
+  "initial_summary_sha256": "a67d3334adfee1bdd774f0dc927acfc000cc4b1d179bf9f018134c4b891574d7",
+  "order": 10,
+  "schema": 1,
+  "script_sha256": "c69fdf88955e63f30d02743d2a71aa568df6fdc20f97591cc2bf65748682d400",
+  "stage": "bound120",
+  "surface_registry_sha256": "ce052f2256d14ac201838a0204694fd9b2a540576e2b660954a2fca5bab453bf",
+  "upstream_commit": "e5d687f479da94c655d7b69297f9e9a4b839719c"
+}

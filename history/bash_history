@@ -47,3 +47,6 @@ bash scripts/stage.sh 10 s1divergence
 cd /workspaces/pycliques-census
 git pull --ff-only
 bash scripts/stage.sh 10 bound70
+git pull --ff-only
+bash scripts/stage.sh 10 bound 120
+bash scripts/stage.sh 10 bound120

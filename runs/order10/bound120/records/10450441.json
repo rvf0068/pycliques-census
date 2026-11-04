@@ -1,0 +1,12 @@
+{
+  "bound": 120,
+  "certificate_rule": "-",
+  "certificate_target_label": "-",
+  "certificate_target_status": "-",
+  "graph6": "ICZNLzw[w",
+  "index": 10450441,
+  "pared_graph6": "ICZNLzw[w",
+  "pared_order": 10,
+  "reason": "is eventually Helly (index 4)",
+  "verdict": "CONVERGENT"
+}
