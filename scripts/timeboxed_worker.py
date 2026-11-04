@@ -9,15 +9,17 @@ from __future__ import annotations
 
 import json
 import sys
+from contextlib import nullcontext
 from pathlib import Path
 
 import networkx as nx
 
 from surface_refs import load_surface_references
 from pycliques import small
+from timeboxed_trace import ProgressTrace, trace_classifier
 
 
-def classify(graph6: str) -> dict:
+def classify(graph6: str, diagnostic_path: str | None = None) -> dict:
     graph = nx.from_graph6_bytes(graph6.encode("ascii"))
     if graph.number_of_nodes() != 10:
         raise ValueError("Timeboxed stage requires an original ten-vertex graph")
@@ -32,7 +34,12 @@ def classify(graph6: str) -> dict:
         if value[1] is small.ReferenceStatus.PROVEN
     }
     try:
-        result = small.classify_clique_behavior(graph, bound=120)
+        if diagnostic_path is None:
+            result = small.classify_clique_behavior(graph, bound=120)
+        else:
+            with ProgressTrace(diagnostic_path) as trace:
+                with trace_classifier(trace):
+                    result = small.classify_clique_behavior(graph, bound=120)
     finally:
         small._REFERENCE_GRAPHS = saved_references
 
@@ -68,10 +75,11 @@ def classify(graph6: str) -> dict:
 
 
 def main() -> None:
-    if len(sys.argv) != 3:
-        raise SystemExit("Usage: timeboxed_worker.py GRAPH6 RESULT_PATH")
-    graph6, filename = sys.argv[1:]
-    record = classify(graph6)
+    if len(sys.argv) not in (3, 4):
+        raise SystemExit("Usage: timeboxed_worker.py GRAPH6 RESULT_PATH [DIAGNOSTICS_PATH]")
+    graph6, filename = sys.argv[1:3]
+    diagnostic_path = sys.argv[3] if len(sys.argv) == 4 else None
+    record = classify(graph6, diagnostic_path)
     Path(filename).write_text(json.dumps(record, sort_keys=True) + "\n", encoding="utf-8")
 
 

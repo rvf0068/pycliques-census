@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import fcntl
+import hashlib
 import json
 import os
 import resource
@@ -28,6 +29,7 @@ import networkx as nx
 
 from pycliques.dominated import find_dominated_vertex
 
+from timeboxed_trace import summarize_events
 import staged
 
 
@@ -38,6 +40,9 @@ BATCH_SIZE = 5
 TIMEOUT_SECONDS = 600
 CLIQUE_BOUND = 120
 MEMORY_MIB = 6144
+# Original stage code that produced the first batches, retained for
+# narrow, cryptographically checked diagnostics-only resume compatibility.
+LEGACY_IMPL_COMMIT = "2f58cf389668dd01e0b7070504ec76c4628a6638"
 FINAL_STATUSES = {
     "CONVERGENT", "DIVERGENT", "INDETERMINATE",
     "BOUND_EXCEEDED", "TIMEOUT", "ERROR",
@@ -86,6 +91,7 @@ def expected_manifest(eligible: dict[int, dict]) -> dict:
         "staged_script_sha256": staged.filehash(Path(staged.__file__)),
         "runner_sha256": staged.filehash(Path(__file__)),
         "worker_sha256": staged.filehash(ROOT / "scripts" / "timeboxed_worker.py"),
+        "trace_sha256": staged.filehash(ROOT / "scripts" / "timeboxed_trace.py"),
         "bound": CLIQUE_BOUND,
         "timeout_seconds": TIMEOUT_SECONDS,
         "memory_mib": MEMORY_MIB,
@@ -96,11 +102,50 @@ def expected_manifest(eligible: dict[int, dict]) -> dict:
     }
 
 
+def _legacy_filehash(path: str) -> str:
+    """Hash the *committed original* worker/runner, never the current files."""
+    try:
+        source = subprocess.check_output(
+            ["git", "-C", str(ROOT), "show", f"{LEGACY_IMPL_COMMIT}:{path}"],
+            stderr=subprocess.DEVNULL,
+        )
+    except subprocess.CalledProcessError as exc:
+        raise ValueError(
+            "Cannot verify the previous timeboxed code from Git history; "
+            f"make commit {LEGACY_IMPL_COMMIT} available before resuming"
+        ) from exc
+    return hashlib.sha256(source).hexdigest()
+
+
 def enforce_manifest(dest: Path, manifest: dict) -> None:
     path = dest / "manifest.json"
     if path.exists():
-        if json.loads(path.read_text(encoding="utf-8")) != manifest:
-            raise ValueError("Cannot resume timeboxed stage with changed code, inputs or settings")
+        old = json.loads(path.read_text(encoding="utf-8"))
+        if old == manifest:
+            return
+        # The first batch used the original runner and worker. Preserve its
+        # manifest unmodified, and permit ONLY the observable diagnostic code
+        # to change. In particular the cohort, bound, upstream pin, timeout,
+        # memory limit, source hashes, and prior-stage summaries MUST match.
+        keys = {"runner_sha256", "worker_sha256", "trace_sha256"}
+        same_inputs = (
+            {k:v for k,v in old.items() if k not in keys}
+            == {k:v for k,v in manifest.items() if k not in keys}
+        )
+        is_original = (
+            "trace_sha256" not in old
+            and old.get("runner_sha256")
+                == _legacy_filehash("scripts/timeboxed.py")
+            and old.get("worker_sha256")
+                == _legacy_filehash("scripts/timeboxed_worker.py")
+        ) if same_inputs else False
+        if not is_original:
+            raise ValueError(
+                "Cannot resume stage: changed cohort, settings, inputs, "
+                "or unrecognized implementation revision"
+            )
+        print("Resuming original stage with verified diagnostics-only upgrade; "
+              "the existing manifest and saved records remain unchanged.", flush=True)
     else:
         if dest.exists() and any(dest.iterdir()):
             raise ValueError("Timeboxed stage directory exists without a provenance manifest")
@@ -123,12 +168,16 @@ def run_one(graph6: str, dest: Path) -> dict:
     """Wall-time-bounded classification; no subprocess is left on timeout."""
     fd, temp_path = tempfile.mkstemp(prefix="worker_", suffix=".partial", dir=dest)
     os.close(fd)
+    fd_diag, diagnostic_path = tempfile.mkstemp(
+        prefix="worker_progress_", suffix=".partial", dir=dest
+    )
+    os.close(fd_diag)
     start = time.monotonic()
     env = os.environ.copy()
     env.update({"OPENBLAS_NUM_THREADS": "1", "OMP_NUM_THREADS": "1",
                 "MKL_NUM_THREADS": "1", "NUMEXPR_NUM_THREADS": "1"})
     command = [sys.executable, str(ROOT / "scripts" / "timeboxed_worker.py"),
-               graph6, temp_path]
+               graph6, temp_path, diagnostic_path]
     try:
         with tempfile.TemporaryFile(mode="w+t", encoding="utf-8") as log:
             proc = subprocess.Popen(
@@ -145,6 +194,7 @@ def run_one(graph6: str, dest: Path) -> dict:
                     "reason": f"Worker exceeded {TIMEOUT_SECONDS} seconds of wall time",
                     "bound": CLIQUE_BOUND,
                     "elapsed_seconds": round(time.monotonic() - start, 3),
+                    **summarize_events(diagnostic_path),
                 }
             except BaseException:
                 terminate_group(proc)
@@ -158,6 +208,7 @@ def run_one(graph6: str, dest: Path) -> dict:
                     if result.get("bound") != CLIQUE_BOUND:
                         raise ValueError("Worker used an unexpected bound")
                     result["elapsed_seconds"] = elapsed
+                    result.update(summarize_events(diagnostic_path))
                     return result
                 except (ValueError, OSError, TypeError) as exc:
                     failure = f"Invalid worker record: {exc}"
@@ -170,9 +221,11 @@ def run_one(graph6: str, dest: Path) -> dict:
                 "bound": CLIQUE_BOUND, "elapsed_seconds": elapsed,
                 "reason": failure,
                 "stderr_excerpt": excerpt,
+                **summarize_events(diagnostic_path),
             }
     finally:
         Path(temp_path).unlink(missing_ok=True)
+        Path(diagnostic_path).unlink(missing_ok=True)
 
 
 def verify_saved(source: dict[int, dict], eligible: dict[int, dict]) -> dict[int, dict]:
@@ -260,6 +313,13 @@ def run(batch_arg: str = "next") -> None:
                 "index": index,
                 "graph6": graph6,
                 "batch": batch_number,
+                "implementation_sha256": {
+                    "runner": staged.filehash(Path(__file__)),
+                    "worker": staged.filehash(ROOT / "scripts" / "timeboxed_worker.py")
+                        if (ROOT / "scripts" / "timeboxed_worker.py").is_file() else None,
+                    "trace": staged.filehash(ROOT / "scripts" / "timeboxed_trace.py")
+                        if (ROOT / "scripts" / "timeboxed_trace.py").is_file() else None,
+                },
                 **run_one(graph6, dest),
             }
             staged.write_atomic(dest / "records" / f"{index:08d}.json", record)

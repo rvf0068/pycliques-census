@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import staged
 import timeboxed
 import timeboxed_worker
+from timeboxed_trace import ProgressTrace, summarize_events, trace_classifier
 from pycliques import small
 
 
@@ -166,6 +167,120 @@ class TimeboxedStageTests(unittest.TestCase):
                 path.write_text(json.dumps(row))
                 with self.assertRaisesRegex(ValueError, "inconsistent"):
                     staged.checked_records(10, timeboxed.STAGE, source)
+
+
+    def test_live_root_iterates_and_rules_are_recorded(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            journal = Path(tmp) / "events.partial"
+            graph = nx.cycle_graph(10)
+            with ProgressTrace(journal) as trace:
+                with trace_classifier(trace):
+                    result = small.classify_clique_behavior(graph, bound=120)
+            observations = summarize_events(journal)
+            self.assertEqual(result.verdict.name, "CONVERGENT")
+            self.assertEqual(observations["iterates"][0]["index"], 0)
+            self.assertEqual(observations["iterates"][0]["pared_order"], 10)
+            self.assertTrue(observations["methods_tried"])
+            self.assertTrue(any(
+                m["outcome"] == "no_certificate"
+                for m in observations["methods_tried"]
+            ))
+            self.assertTrue(any(
+                m["method"] == "eventually_clique_helly"
+                for m in observations["methods_tried"]
+            ))
+            # Every completed root iteration has both the raw and pared orders.
+            for row in observations["iterates"][1:]:
+                if row.get("status") == "completed":
+                    self.assertIsInstance(row["raw_order"], int)
+                    self.assertIsInstance(row["pared_order"], int)
+                    self.assertIsInstance(row["pared_edges"], int)
+
+    def test_timeout_preserves_partial_graph_and_method_journal(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            scripts = root / "scripts"
+            scripts.mkdir()
+            (scripts / "timeboxed_worker.py").write_text(
+                """import sys, time, json
+from pathlib import Path
+p = Path(sys.argv[-1])
+events = [
+    {"event": "initial_pared", "order": 10, "edges": 15},
+    {"event": "iterate_start", "iterate": 1},
+    {"event": "clique_graph_complete", "iterate": 1, "order": 14, "edges": 35},
+    {"event": "pared_iterate_complete", "iterate": 1, "order": 12, "edges": 29},
+    {"event": "method_start", "id": 1, "method": "local_bridge_contraction"},
+]
+with p.open("w") as f:
+    for event in events:
+        f.write(json.dumps(event) + chr(10))
+time.sleep(10)
+""",
+                encoding="utf-8",
+            )
+            with (
+                patch.object(timeboxed, "ROOT", root),
+                patch.object(timeboxed, "TIMEOUT_SECONDS", 1.0),
+            ):
+                result = timeboxed.run_one(g6(nx.cycle_graph(10)), root)
+            self.assertEqual(result["status"], "TIMEOUT")
+            self.assertEqual(result["iterates"][1]["index"], 1)
+            self.assertEqual(result["iterates"][1]["raw_order"], 14)
+            self.assertEqual(result["iterates"][1]["pared_order"], 12)
+            self.assertEqual(result["in_progress_method"], "local_bridge_contraction")
+            self.assertEqual(result["methods_tried"][0]["outcome"], "interrupted")
+            self.assertEqual(list(root.glob("*.partial")), [])
+
+    def test_legacy_manifest_resume_keeps_original_hashes_and_records(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dest = Path(tmp) / "stage"
+            dest.mkdir()
+            old = {
+                "order": 10, "stage": timeboxed.STAGE, "bound": 120,
+                "timeout_seconds": 600, "memory_mib": 6144,
+                "indices": [42, 43], "batch_size": 5,
+                "runner_sha256": "old-runner-hash",
+                "worker_sha256": "old-worker-hash",
+            }
+            (dest / "manifest.json").write_text(json.dumps(old))
+            current = {
+                **old,
+                "runner_sha256": "new-runner-hash",
+                "worker_sha256": "new-worker-hash",
+                "trace_sha256": "new-trace-hash",
+            }
+            hashes = {
+                "scripts/timeboxed.py": "old-runner-hash",
+                "scripts/timeboxed_worker.py": "old-worker-hash",
+            }
+            with patch.object(timeboxed, "_legacy_filehash", side_effect=hashes.__getitem__):
+                timeboxed.enforce_manifest(dest, current)
+                self.assertEqual(json.loads((dest / "manifest.json").read_text()), old)
+                changed_bound = dict(current, bound=121)
+                with self.assertRaisesRegex(ValueError, "changed cohort"):
+                    timeboxed.enforce_manifest(dest, changed_bound)
+                fake_old = dict(old, worker_sha256="unrecognized")
+                (dest / "manifest.json").write_text(json.dumps(fake_old))
+                with self.assertRaisesRegex(ValueError, "unrecognized implementation"):
+                    timeboxed.enforce_manifest(dest, current)
+
+    def test_incomplete_journal_line_does_not_discard_completed_events(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            journal = Path(tmp) / "interrupted.partial"
+            journal.write_text(
+                chr(10).join([
+                    '{"event":"initial_pared","order":10,"edges":26}',
+                    '{"event":"iterate_start","iterate":1}',
+                    '{"event":"clique_graph_complete","iterate":1,"order":20,"edges":50}',
+                    '{"event":',
+                ]),
+                encoding="utf-8",
+            )
+            summary = summarize_events(journal)
+            self.assertEqual(summary["iterates"][0]["pared_order"], 10)
+            self.assertEqual(summary["iterates"][1]["raw_order"], 20)
+            self.assertEqual(summary["iterates"][1]["status"], "unpared_built")
 
 
 if __name__ == "__main__":

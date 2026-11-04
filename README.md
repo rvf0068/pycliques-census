@@ -232,6 +232,50 @@ instead of stopping at an unproved conjecture; the original code and
 global reference registry are unchanged outside that worker. Definite
 positive results must not depend on conjectured references.
 
+### Timeboxed diagnostic records (new batches)
+
+New timeboxed JSON records contain `iterates`, a compact sequence indexed
+by **iteration number** (`index=0` for the original pared graph). For each
+completed step the record includes the raw clique graph's `raw_order` and
+`raw_edges`, and the *completely pared* iterate's `pared_order` and
+`pared_edges`. If a clique-graph construction exceeded bound 120 or was
+interrupted, its entry records that state rather than claiming completion.
+
+The `methods_tried` array records attempted root-level classification rules
+(clockwork, clique-Helly, special octahedra, retractions and other applicable
+inference rules). Each entry gives an outcome such as `no_certificate`,
+`CONVERGENT`, or `DIVERGENT`. An unfinished method has the explicit
+`interrupted` outcome, **not** a failed mathematical claim;
+`in_progress_method` records where the timeout occurred. The worker writes
+the progress journal **during** classification, flushed to disk at each
+event, so the supervisor can include it even for `TIMEOUT` or `ERROR`.
+
+For example, a record may include:
+
+```json
+{
+  "iterates": [
+    {"index": 0, "pared_order": 10, "pared_edges": 25},
+    {"index": 1, "raw_order": 15, "raw_edges": 60,
+     "pared_order": 15, "pared_edges": 60, "status": "completed"}
+  ],
+  "methods_tried": [
+    {"method": "clockwork", "outcome": "no_certificate", "seconds": 0.01},
+    {"method": "local_bridge_contraction", "outcome": "interrupted"}
+  ],
+  "in_progress_method": "local_bridge_contraction"
+}
+```
+
+These data are **diagnostic observations**, not proof certificates. Earlier
+JSON records stay unchanged and cannot retroactively recover events that
+were never logged. The original timeboxed stage's manifest is retained
+when resuming after this logging-only improvement. The runner checks that
+its original code hashes match the Git commit introducing the stage
+(`2f58cf3`), and that the selected indices, upstream revision, preceding
+stage checksums, clique bound, batch size, timeout and memory limits are
+unchanged. Each new record includes its own implementation checksums.
+
 The stage is resumable: the **first incomplete five-graph batch** is
 selected automatically, and completed per-graph JSON records are not
 recomputed. Every batch has an atomic summary in
