@@ -31,6 +31,7 @@ Then execute each desired stage with a single command:
 | 10 | `bash scripts/stage.sh 10 bound120` | Reclassify at bound 120 **only** the six eligible cases left `INDETERMINATE` by the completed bound-70 stage |
 | 10 | `bash scripts/stage.sh 10 easycovers` | Independently verify finite double-cover divergence certificates for the remaining easy-homotopy cases |
 | 10 | `bash scripts/stage.sh 10 bound120-timeboxed` | One five-graph batch of remaining **original** ten-vertex, dominated-vertex-free graphs, including conjecture-dependent ones, with 600-second per-graph wall-clock limits |
+| 10 | `bash scripts/stage.sh 10 bound120-timeboxed-v2` | Restart the same 2,742-graph cohort at bound 120 with optimized octahedra and first-retraction search, checking the four proven divergent targets on both pared `G` and pared `K(G)` |
 
 
 Run the stages for each order in order. The 10-vertex initial stage requires
@@ -198,6 +199,51 @@ Its cohort is derived from prior immutable records, not a hand-maintained
 index list. The run refuses incomplete `bound70` results, records its own
 manifest and per-graph verdicts, supports interruption/resumption, and
 updates the root indeterminate file without altering earlier stages.
+
+### Versioned restart: `10 bound120-timeboxed-v2`
+
+The original `bound120-timeboxed` results remain immutable and are **not**
+reinterpreted with the new upstream code. The new v2 stage deliberately
+restarts from batch zero and rechecks **every** original ten-vertex graph
+without a dominated vertex which was unresolved before the timeboxed stages,
+including all conjecture-dependent references. It uses the same cohort
+selection as v1, explicitly excluding v1 and v2 results from selection so
+that no existing graph is skipped just because it was examined already.
+
+The new pinned `pycliques-project` revision makes three changes:
+
+1. Replace the special-octahedron auxiliary-nonedge-graph clique enumeration
+   by the equivalent maximal-clique/antipode backtracking criterion.
+2. Make the first-witness `retracts` decision avoid eagerly listing
+   automorphisms of the entire host. The full retraction generator is retained.
+3. Check retractions to the suspensions of `C5`, `C6`, `C7` and the
+   complement of `C8` on **only** the completely pared original `G0` and
+   its first completely pared clique iterate `G1`, before the expensive
+   special-octahedron test. No later iterates are used for these four
+   retraction targets.
+
+The stage retains five graphs per batch, 120-clique bound, 600-second
+wall-clock limit per graph, 6144-MiB process memory cap, process isolation,
+diagnostic journaling, atomic per-graph JSON results and deterministic
+manifests. Each v2 result includes `retraction_depth=2` and names the
+`G0` or `G1` target in its method trace.
+
+```bash
+cd /workspaces/pycliques-census
+git pull --ff-only
+bash scripts/bootstrap.sh
+bash scripts/stage.sh 10 bound120-timeboxed-v2
+# Repeat to advance one five-graph batch each time:
+bash scripts/stage.sh 10 bound120-timeboxed-v2
+# Optional explicit zero-based batch:
+bash scripts/stage.sh 10 bound120-timeboxed-v2 1
+```
+
+The old records are under `runs/order10/bound120-timeboxed/`; the new ones
+are under `runs/order10/bound120-timeboxed-v2/`. Both stages can be audited
+independently. A v2 definitive verdict updates the aggregate indeterminate
+file, but never changes historical stage records. On no account should the
+old timeboxed stage be resumed under the new upstream revision.
 
 ### Bounded-time order-10 continuation (all homotopy types)
 

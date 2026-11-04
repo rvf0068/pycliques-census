@@ -10,15 +10,15 @@ if [[ "${1:-}" == baseline && $# -eq 1 ]]; then
   exit 0
 fi
 
-if (( $# < 2 || $# > 3 )) || [[ ! "${1:-}" =~ ^(9|10)$ ]] || { (( $# == 3 )) && [[ "${1:-}/${2:-}" != "10/bound120-timeboxed" ]]; }; then
-  echo "Usage: bash scripts/stage.sh baseline | {9|10} {initial|c10|bound60|bound70|bound120|easycovers|homotopy|s1divergence} | 10 bound120-timeboxed [next|BATCH_INDEX]" >&2
+if (( $# < 2 || $# > 3 )) || [[ ! "${1:-}" =~ ^(9|10)$ ]] || { (( $# == 3 )) && [[ "${1:-}/${2:-}" != "10/bound120-timeboxed" && "${1:-}/${2:-}" != "10/bound120-timeboxed-v2" ]]; }; then
+  echo "Usage: bash scripts/stage.sh baseline | {9|10} {initial|c10|bound60|bound70|bound120|easycovers|homotopy|s1divergence} | 10 {bound120-timeboxed|bound120-timeboxed-v2} [next|BATCH_INDEX]" >&2
   exit 2
 fi
 
 ORDER="$1"
 STAGE="$2"
 case "$ORDER/$STAGE" in
-  9/initial|9/c10|9/bound60|9/bound70|10/initial|10/c10|10/homotopy|10/s1divergence|10/bound70|10/bound120|10/easycovers|10/bound120-timeboxed) ;;
+  9/initial|9/c10|9/bound60|9/bound70|10/initial|10/c10|10/homotopy|10/s1divergence|10/bound70|10/bound120|10/easycovers|10/bound120-timeboxed|10/bound120-timeboxed-v2) ;;
   *) echo "Unsupported stage $ORDER/$STAGE" >&2; exit 2 ;;
 esac
 
@@ -59,6 +59,8 @@ refresh_on_exit() {
 trap refresh_on_exit EXIT
 if [[ "$STAGE" == "bound120-timeboxed" ]]; then
   .venv/bin/python scripts/timeboxed.py "${3:-next}"
+elif [[ "$STAGE" == "bound120-timeboxed-v2" ]]; then
+  .venv/bin/python scripts/timeboxed_v2.py "${3:-next}"
 else
   .venv/bin/python scripts/staged.py "$ORDER" "$STAGE"
 fi

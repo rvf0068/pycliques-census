@@ -158,7 +158,7 @@ def checked_records(order: int, stage: str, source: dict[int, dict]) -> dict[int
                 raise ValueError(f"Bad retraction status in {file}")
             if row["status"] == "RETRACTION_FOUND" and not isinstance(row.get("witness"), dict):
                 raise ValueError(f"Missing positive retraction witness in {file}")
-        elif stage == "bound120-timeboxed":
+        elif stage in ("bound120-timeboxed", "bound120-timeboxed-v2"):
             if row.get("status") not in {
                 "CONVERGENT", "DIVERGENT", "INDETERMINATE",
                 "BOUND_EXCEEDED", "TIMEOUT", "ERROR",
@@ -206,6 +206,10 @@ def active(order: int, *, include_timeboxed: bool = True) -> tuple[dict[int, dic
         checked_records(10, "bound120-timeboxed", source)
         if order == 10 and include_timeboxed else {}
     )
+    timeboxed_v2 = (
+        checked_records(10, "bound120-timeboxed-v2", source)
+        if order == 10 and include_timeboxed else {}
+    )
     s1 = checked_records(10, "s1divergence", source) if order == 10 else {}
     active_rows: dict[int, dict] = {}
     for i, row in source.items():
@@ -216,6 +220,8 @@ def active(order: int, *, include_timeboxed: bool = True) -> tuple[dict[int, dic
         if easycovers.get(i, {}).get("status") == "DIVERGENT":
             continue
         if timeboxed.get(i, {}).get("status") in {"CONVERGENT", "DIVERGENT"}:
+            continue
+        if timeboxed_v2.get(i, {}).get("status") in {"CONVERGENT", "DIVERGENT"}:
             continue
         if any(
             results.get(i, {}).get("verdict") in {"CONVERGENT", "DIVERGENT"}
@@ -320,6 +326,7 @@ def refresh(order: int) -> dict:
     bound120 = checked_records(10, "bound120", source) if order == 10 else {}
     easycovers = checked_records(10, "easycovers", source) if order == 10 else {}
     timeboxed = checked_records(10, "bound120-timeboxed", source) if order == 10 else {}
+    timeboxed_v2 = checked_records(10, "bound120-timeboxed-v2", source) if order == 10 else {}
     h = checked_records(order, "homotopy", source) if order == 10 else {}
     s1 = checked_records(order, "s1divergence", source) if order == 10 else {}
     conditional = 0
@@ -346,6 +353,8 @@ def refresh(order: int) -> dict:
         f"easycovers_checked={len(easycovers)} "
         f"timeboxed_checked={len(timeboxed)} "
         f"timeboxed_proven={sum(v.get('status') in {'CONVERGENT', 'DIVERGENT'} for v in timeboxed.values())} "
+        f"timeboxed_v2_checked={len(timeboxed_v2)} "
+        f"timeboxed_v2_proven={sum(v.get('status') in {'CONVERGENT', 'DIVERGENT'} for v in timeboxed_v2.values())} "
         f"easycovers_proven={sum(v.get('status') == 'DIVERGENT' for v in easycovers.values())} "
         f"homotopy_checked={len(h)} "
         f"s1divergence_checked={len(s1)} "
@@ -364,6 +373,8 @@ def refresh(order: int) -> dict:
         "easycovers_checked": len(easycovers),
         "timeboxed_checked": len(timeboxed),
         "timeboxed_proven": sum(v.get("status") in {"CONVERGENT", "DIVERGENT"} for v in timeboxed.values()),
+        "timeboxed_v2_checked": len(timeboxed_v2),
+        "timeboxed_v2_proven": sum(v.get("status") in {"CONVERGENT", "DIVERGENT"} for v in timeboxed_v2.values()),
         "easycovers_proven": sum(v.get("status") == "DIVERGENT" for v in easycovers.values()),
         "homotopy_checked": len(h),
         "s1divergence_checked": len(s1),
