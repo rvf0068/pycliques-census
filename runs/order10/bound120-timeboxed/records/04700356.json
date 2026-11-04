@@ -1,0 +1,114 @@
+{
+  "batch": 1,
+  "bound": 120,
+  "diagnostic_schema": 1,
+  "elapsed_seconds": 600.025,
+  "graph6": "I?bAVJ}}o",
+  "implementation_sha256": {
+    "runner": "6f6e32d060a770d2c9d6e4d190447497148327c3f19024ea5d1a76a621785803",
+    "trace": "31e0ca32dc48fb221a8ca98a6d8afe49afcef23bdb9dd2ac4fc84b28a4f4e659",
+    "worker": "009a1811d0567f9af0c5562dd9bc4d867204f61003800e569bb778b574a78d1d"
+  },
+  "in_progress_method": "non_triangle_edge_deletion",
+  "index": 4700356,
+  "iterates": [
+    {
+      "index": 0,
+      "pared_edges": 23,
+      "pared_order": 10
+    },
+    {
+      "index": 1,
+      "pared_edges": 72,
+      "pared_order": 16,
+      "raw_edges": 72,
+      "raw_order": 16,
+      "status": "completed"
+    },
+    {
+      "index": 2,
+      "pared_edges": 143,
+      "pared_order": 22,
+      "raw_edges": 143,
+      "raw_order": 22,
+      "status": "completed"
+    },
+    {
+      "index": 3,
+      "pared_edges": 1296,
+      "pared_order": 60,
+      "raw_edges": 1296,
+      "raw_order": 60,
+      "status": "completed"
+    },
+    {
+      "index": 4,
+      "status": "clique_bound_exceeded"
+    }
+  ],
+  "last_progress_event": "method_start",
+  "methods_tried": [
+    {
+      "method": "registered_proven_reference",
+      "outcome": "no_certificate",
+      "seconds": 0.001
+    },
+    {
+      "method": "suspension_coaffination",
+      "outcome": "no_certificate",
+      "seconds": 0.001
+    },
+    {
+      "method": "clockwork",
+      "outcome": "no_certificate",
+      "seconds": 0.033
+    },
+    {
+      "method": "eventually_clique_helly",
+      "outcome": "no_certificate",
+      "seconds": 0.167
+    },
+    {
+      "method": "eventually_special_octahedra",
+      "outcome": "no_certificate",
+      "seconds": 63.674
+    },
+    {
+      "method": "retraction_suspension_C5",
+      "outcome": "no_certificate",
+      "seconds": 0.01
+    },
+    {
+      "method": "retraction_suspension_C6",
+      "outcome": "no_certificate",
+      "seconds": 0.009
+    },
+    {
+      "method": "retraction_suspension_C7",
+      "outcome": "no_certificate",
+      "seconds": 0.015
+    },
+    {
+      "method": "retraction_complement_C8",
+      "outcome": "no_certificate",
+      "seconds": 0.008
+    },
+    {
+      "method": "reference_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.017
+    },
+    {
+      "method": "local_bridge_contraction",
+      "outcome": "no_certificate",
+      "seconds": 0.004
+    },
+    {
+      "method": "non_triangle_edge_deletion",
+      "outcome": "interrupted"
+    }
+  ],
+  "reason": "Worker exceeded 600 seconds of wall time",
+  "status": "TIMEOUT",
+  "verdict": "INDETERMINATE"
+}

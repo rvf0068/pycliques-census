@@ -1,0 +1,21 @@
+{
+  "batch": 1,
+  "counts": {
+    "BOUND_EXCEEDED": 1,
+    "TIMEOUT": 4
+  },
+  "indices": [
+    4152762,
+    4695951,
+    4699420,
+    4700356,
+    4709598
+  ],
+  "statuses": {
+    "4152762": "BOUND_EXCEEDED",
+    "4695951": "TIMEOUT",
+    "4699420": "TIMEOUT",
+    "4700356": "TIMEOUT",
+    "4709598": "TIMEOUT"
+  }
+}
