@@ -158,6 +158,14 @@ def checked_records(order: int, stage: str, source: dict[int, dict]) -> dict[int
                 raise ValueError(f"Bad retraction status in {file}")
             if row["status"] == "RETRACTION_FOUND" and not isinstance(row.get("witness"), dict):
                 raise ValueError(f"Missing positive retraction witness in {file}")
+        elif stage == "bound120-timeboxed":
+            if row.get("status") not in {
+                "CONVERGENT", "DIVERGENT", "INDETERMINATE",
+                "BOUND_EXCEEDED", "TIMEOUT", "ERROR",
+            } or row.get("bound") != 120:
+                raise ValueError(f"Bad timeboxed classification record in {file}")
+            if row.get("status") in {"CONVERGENT", "DIVERGENT"} and row.get("verdict") != row["status"]:
+                raise ValueError(f"Definite timeboxed verdict is inconsistent in {file}")
         elif stage in ("bound60", "bound70", "bound120"):
             if row.get("verdict") not in {"CONVERGENT", "DIVERGENT", "INDETERMINATE"}:
                 raise ValueError(f"Bad classification in {file}")
@@ -187,13 +195,17 @@ def checked_records(order: int, stage: str, source: dict[int, dict]) -> dict[int
     return rows
 
 
-def active(order: int) -> tuple[dict[int, dict], dict[int, str], dict[int, dict]]:
+def active(order: int, *, include_timeboxed: bool = True) -> tuple[dict[int, dict], dict[int, str], dict[int, dict]]:
     _, source, origins = census(order)
     c10 = checked_records(order, "c10", source)
     bound60 = checked_records(9, "bound60", source) if order == 9 else {}
     bound70 = checked_records(order, "bound70", source)
     bound120 = checked_records(10, "bound120", source) if order == 10 else {}
     easycovers = checked_records(10, "easycovers", source) if order == 10 else {}
+    timeboxed = (
+        checked_records(10, "bound120-timeboxed", source)
+        if order == 10 and include_timeboxed else {}
+    )
     s1 = checked_records(10, "s1divergence", source) if order == 10 else {}
     active_rows: dict[int, dict] = {}
     for i, row in source.items():
@@ -202,6 +214,8 @@ def active(order: int) -> tuple[dict[int, dict], dict[int, str], dict[int, dict]
         if s1.get(i, {}).get("status") == "DIVERGENT":
             continue
         if easycovers.get(i, {}).get("status") == "DIVERGENT":
+            continue
+        if timeboxed.get(i, {}).get("status") in {"CONVERGENT", "DIVERGENT"}:
             continue
         if any(
             results.get(i, {}).get("verdict") in {"CONVERGENT", "DIVERGENT"}
@@ -305,6 +319,7 @@ def refresh(order: int) -> dict:
     bound70 = checked_records(order, "bound70", source)
     bound120 = checked_records(10, "bound120", source) if order == 10 else {}
     easycovers = checked_records(10, "easycovers", source) if order == 10 else {}
+    timeboxed = checked_records(10, "bound120-timeboxed", source) if order == 10 else {}
     h = checked_records(order, "homotopy", source) if order == 10 else {}
     s1 = checked_records(order, "s1divergence", source) if order == 10 else {}
     conditional = 0
@@ -329,6 +344,8 @@ def refresh(order: int) -> dict:
         f"# C10_checked={len(c10)} bound60_checked={len(bound60)} "
         f"bound70_checked={len(bound70)} bound120_checked={len(bound120)} "
         f"easycovers_checked={len(easycovers)} "
+        f"timeboxed_checked={len(timeboxed)} "
+        f"timeboxed_proven={sum(v.get('status') in {'CONVERGENT', 'DIVERGENT'} for v in timeboxed.values())} "
         f"easycovers_proven={sum(v.get('status') == 'DIVERGENT' for v in easycovers.values())} "
         f"homotopy_checked={len(h)} "
         f"s1divergence_checked={len(s1)} "
@@ -345,6 +362,8 @@ def refresh(order: int) -> dict:
         "bound70_checked": len(bound70),
         "bound120_checked": len(bound120),
         "easycovers_checked": len(easycovers),
+        "timeboxed_checked": len(timeboxed),
+        "timeboxed_proven": sum(v.get("status") in {"CONVERGENT", "DIVERGENT"} for v in timeboxed.values()),
         "easycovers_proven": sum(v.get("status") == "DIVERGENT" for v in easycovers.values()),
         "homotopy_checked": len(h),
         "s1divergence_checked": len(s1),

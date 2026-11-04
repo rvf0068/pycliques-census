@@ -30,6 +30,7 @@ Then execute each desired stage with a single command:
 | 10 | `bash scripts/stage.sh 10 bound70` | Run the usual classifier at bound 70 **only** for the eligible exact contractible/circle-wedge cases not already proved divergent by `s1divergence` |
 | 10 | `bash scripts/stage.sh 10 bound120` | Reclassify at bound 120 **only** the six eligible cases left `INDETERMINATE` by the completed bound-70 stage |
 | 10 | `bash scripts/stage.sh 10 easycovers` | Independently verify finite double-cover divergence certificates for the remaining easy-homotopy cases |
+| 10 | `bash scripts/stage.sh 10 bound120-timeboxed` | One five-graph batch of remaining **original** ten-vertex, dominated-vertex-free graphs, including conjecture-dependent ones, with 600-second per-graph wall-clock limits |
 
 
 Run the stages for each order in order. The 10-vertex initial stage requires
@@ -197,6 +198,54 @@ Its cohort is derived from prior immutable records, not a hand-maintained
 index list. The run refuses incomplete `bound70` results, records its own
 manifest and per-graph verdicts, supports interruption/resumption, and
 updates the root indeterminate file without altering earlier stages.
+
+### Bounded-time order-10 continuation (all homotopy types)
+
+After committing `10 easycovers`, continue with a **new, independent**
+`bound120-timeboxed` stage. Its inputs are the surviving original order-10
+graphs, **including conjecture-dependent cases** but **excluding every
+original graph containing a dominated vertex** (checked using
+`pycliques.dominated.find_dominated_vertex`, not simply the saved
+pared-order field).
+
+```bash
+# Process the next batch of five (repeat this command for each batch)
+bash scripts/stage.sh 10 bound120-timeboxed
+
+# Or specify the zero-based batch index explicitly:
+bash scripts/stage.sh 10 bound120-timeboxed 3
+```
+
+The bound is **120**, the standard classifier iteration limit is unchanged,
+and each graph receives at most **600 seconds of wall-clock time** in an
+independent worker process. The worker is also limited to **6144 MiB virtual
+memory** under Linux. When a worker times out, its whole process group is
+killed and it is recorded as `TIMEOUT` rather than inferred divergent or
+convergent. Other non-proofs are recorded as `INDETERMINATE`,
+`BOUND_EXCEEDED` or `ERROR`.
+
+Because the regular classifier can return immediately on a conjectured
+reference or retract, this stage's **isolated worker** temporarily removes
+conjectured references from the registry while retaining *proved*
+references. This makes the classifier pursue its theorem-backed rules
+instead of stopping at an unproved conjecture; the original code and
+global reference registry are unchanged outside that worker. Definite
+positive results must not depend on conjectured references.
+
+The stage is resumable: the **first incomplete five-graph batch** is
+selected automatically, and completed per-graph JSON records are not
+recomputed. Every batch has an atomic summary in
+`runs/order10/bound120-timeboxed/batches/`; progress is in
+`progress.json`, with a final `summary.json` only when the entire
+eligible cohort finishes. The manifest freezes eligible original indices,
+the exact upstream revision, dependency-stage summary hashes, script
+hashes, bound, batch size, timeout and memory limit. An attempted resume
+with changed settings or inputs is rejected rather than mixing evidence.
+A Linux file lock prevents concurrent processes claiming the same batch.
+
+Save the `runs/order10/bound120-timeboxed/` results and refreshed
+`indeterminate_order_10.txt` after reviewing each batch. The initial
+census and all earlier post-stage records are left unchanged.
 
 ### Certified triangular double covers
 
