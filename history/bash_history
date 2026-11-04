@@ -52,3 +52,6 @@ bash scripts/stage.sh 10 bound 120
 bash scripts/stage.sh 10 bound120
 git pull --ff-only
 bash scripts/stage.sh 10 easycovers
+cd /workspaces/pycliques-census
+git pull --ff-only
+bash scripts/stage.sh 10 bound120-timeboxed

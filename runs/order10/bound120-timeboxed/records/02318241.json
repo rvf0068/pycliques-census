@@ -1,0 +1,10 @@
+{
+  "batch": 0,
+  "bound": 120,
+  "elapsed_seconds": 600.021,
+  "graph6": "I?`ESZv^o",
+  "index": 2318241,
+  "reason": "Worker exceeded 600 seconds of wall time",
+  "status": "TIMEOUT",
+  "verdict": "INDETERMINATE"
+}
