@@ -1,0 +1,18 @@
+{
+  "batch": 1,
+  "bound": 120,
+  "bound_exceeded": true,
+  "certificate_rule": "-",
+  "certificate_target_label": "-",
+  "certificate_target_status": "-",
+  "conjectured_references_ignored": true,
+  "elapsed_seconds": 23.158,
+  "graph6": "I?`fJZZmo",
+  "index": 4152762,
+  "iterations_checked": 4,
+  "pared_graph6": "I?`fJZZmo",
+  "pared_order": 10,
+  "reason": "clique count exceeded bound",
+  "status": "BOUND_EXCEEDED",
+  "verdict": "INDETERMINATE"
+}
