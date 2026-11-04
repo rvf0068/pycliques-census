@@ -10,3 +10,6 @@ __pycache__/
 *.partial
 *.tmp
 # All history/ and runs/ outputs are deliberately NOT ignored.
+
+# Local shell history
+/history/bash_history
