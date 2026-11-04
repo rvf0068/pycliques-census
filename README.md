@@ -29,6 +29,7 @@ Then execute each desired stage with a single command:
 | 10 | `bash scripts/stage.sh 10 s1divergence` | On the **282** exactly-`S^1` graphs, look for divergent clockwork reductions of `K²(G)` or `K³(G)`, then search for the verified triangular-cover/clockwork-pair certificate |
 | 10 | `bash scripts/stage.sh 10 bound70` | Run the usual classifier at bound 70 **only** for the eligible exact contractible/circle-wedge cases not already proved divergent by `s1divergence` |
 | 10 | `bash scripts/stage.sh 10 bound120` | Reclassify at bound 120 **only** the six eligible cases left `INDETERMINATE` by the completed bound-70 stage |
+| 10 | `bash scripts/stage.sh 10 easycovers` | Independently verify finite double-cover divergence certificates for the remaining easy-homotopy cases |
 
 
 Run the stages for each order in order. The 10-vertex initial stage requires
@@ -63,6 +64,7 @@ bash scripts/stage.sh 10 homotopy
 bash scripts/stage.sh 10 s1divergence
 bash scripts/stage.sh 10 bound70
 bash scripts/stage.sh 10 bound120
+bash scripts/stage.sh 10 easycovers
 ```
 
 Commit the changed `config/pycliques_commit.txt` along with the new-stage
@@ -131,6 +133,7 @@ runs/
     s1divergence/
     bound70/
     bound120/
+    easycovers/
 ```
 
 Initial census verdicts are immutable: post-stages write new records rather
@@ -194,6 +197,51 @@ Its cohort is derived from prior immutable records, not a hand-maintained
 index list. The run refuses incomplete `bound70` results, records its own
 manifest and per-graph verdicts, supports interruption/resumption, and
 updates the root indeterminate file without altering earlier stages.
+
+### Certified triangular double covers
+
+After order-10 `bound120`, run:
+
+```bash
+git pull --ff-only
+bash scripts/stage.sh 10 easycovers
+.venv/bin/python scripts/verify_easycovers.py
+```
+
+This stage is limited to the still-indeterminate order-10 graphs with
+certified contractible or circle-wedge homotopy type, and fully pared
+order 10. The cohort comes from the **completed** `bound120` records,
+not hand-coded source indices. The stage never overwrites earlier records,
+resumes from atomic JSON results, and records the pinned monorepo revision
+and SHA-256 hashes of both the witness registry and the verifier.
+
+The finite, independently replayable witnesses are in
+[`postpasses/easy_cover_witnesses.json`](postpasses/easy_cover_witnesses.json).
+The reusable checker is
+[`postpasses/easy_cover_certificates.py`](postpasses/easy_cover_certificates.py).
+It verifies connected triangular two-sheeted voltage covers, optional
+deletions of edges in no triangle, and one of two theorem-backed criteria:
+
+- A completely pared clique iterate is isomorphic to a clockwork graph
+  independently verified to have a good segment (and hence be divergent).
+- An explicitly recorded equivariant graph morphism
+  `R_(2m)^n -> K^d(cover)`, with `m >= 2`, whose source and target
+  automorphisms satisfy the required coaffinity radius `m+1`.
+  The morphism need **not** be induced.
+
+The first route is applied to `ICxvExyl_` after deleting its unique
+non-triangle edge. The second certifies `IEhuVquZ_` using a
+4-coaffine embedding of `R_6^0` in the second clique iterate of a
+double cover. The verification re-computes all relevant clique graphs
+from the source graph6; a graph6 name or registry entry alone proves
+nothing. Existing theorems on nontriangle-edge deletion, dominated
+vertices, triangular covers, clockwork divergence and coaffine
+graph relations supply the mathematical implications.
+
+**Scope:** This is a certificate-replay stage, not a general exhaustive
+cover or morphism discovery search. The checker accepts witnesses for
+other graphs without modification; finding such a witness is a separate
+task. Failure or a missing witness must remain `INDETERMINATE`.
 
 ## Save progress
 

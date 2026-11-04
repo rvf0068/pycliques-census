@@ -22,6 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "postpasses"))
 from clique_retract_comp_c10 import search_retraction  # noqa: E402
 from s1_divergence import scan as scan_s1_divergence  # noqa: E402
+from easy_cover_certificates import scan as scan_easy_covers  # noqa: E402
 
 from pycliques.small import classify_clique_behavior
 from pycliques.surfaces import is_surface
@@ -163,6 +164,14 @@ def checked_records(order: int, stage: str, source: dict[int, dict]) -> dict[int
         elif stage == "homotopy":
             if not isinstance(row.get("is_exact"), bool):
                 raise ValueError(f"Bad homotopy result in {file}")
+        elif stage == "easycovers":
+            if row.get("status") not in {"DIVERGENT", "INDETERMINATE"}:
+                raise ValueError(f"Bad covering verdict in {file}")
+            if row["status"] == "DIVERGENT" and (
+                not isinstance(row.get("witness"), dict)
+                or row.get("rule") not in {"cover_pared_clockwork", "cover_coaffine_embedding"}
+            ):
+                raise ValueError(f"Missing divergent covering certificate in {file}")
         elif stage == "s1divergence":
             if row.get("status") not in {"DIVERGENT", "INDETERMINATE"}:
                 raise ValueError(f"Bad S^1 divergence status in {file}")
@@ -184,12 +193,15 @@ def active(order: int) -> tuple[dict[int, dict], dict[int, str], dict[int, dict]
     bound60 = checked_records(9, "bound60", source) if order == 9 else {}
     bound70 = checked_records(order, "bound70", source)
     bound120 = checked_records(10, "bound120", source) if order == 10 else {}
+    easycovers = checked_records(10, "easycovers", source) if order == 10 else {}
     s1 = checked_records(10, "s1divergence", source) if order == 10 else {}
     active_rows: dict[int, dict] = {}
     for i, row in source.items():
         if c10.get(i, {}).get("status") == "RETRACTION_FOUND":
             continue
         if s1.get(i, {}).get("status") == "DIVERGENT":
+            continue
+        if easycovers.get(i, {}).get("status") == "DIVERGENT":
             continue
         if any(
             results.get(i, {}).get("verdict") in {"CONVERGENT", "DIVERGENT"}
@@ -208,7 +220,7 @@ def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, 
     """
     if (order, stage) not in {
         (9, "c10"), (9, "bound60"), (9, "bound70"),
-        (10, "c10"), (10, "homotopy"), (10, "s1divergence"), (10, "bound70"), (10, "bound120"),
+        (10, "c10"), (10, "homotopy"), (10, "s1divergence"), (10, "bound70"), (10, "bound120"), (10, "easycovers"),
     }:
         raise ValueError(f"Unsupported stage: order={order}, stage={stage}")
     _, source, origins = census(order)
@@ -220,7 +232,7 @@ def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, 
     # Post-C10 order-10 stages retain the original nonconjectural
     # full-pared-order cohort. The extra divergence stage examines only S^1.
     require_full_pared_order = order == 10 and stage in (
-        "homotopy", "s1divergence", "bound70", "bound120"
+        "homotopy", "s1divergence", "bound70", "bound120", "easycovers"
     )
     prior_bound60 = (
         checked_records(9, "bound60", source)
@@ -229,7 +241,7 @@ def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, 
     )
     homotopy = (
         checked_records(10, "homotopy", source)
-        if order == 10 and stage in ("s1divergence", "bound70", "bound120")
+        if order == 10 and stage in ("s1divergence", "bound70", "bound120", "easycovers")
         else {}
     )
     previous_bound70 = (
@@ -237,12 +249,17 @@ def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, 
         if order == 10 and stage == "bound120"
         else {}
     )
+    previous_bound120 = (
+        checked_records(10, "bound120", source)
+        if order == 10 and stage == "easycovers"
+        else {}
+    )
     resolved_s1 = (
         {
             i for i, result in checked_records(10, "s1divergence", source).items()
             if result["status"] == "DIVERGENT"
         }
-        if order == 10 and stage in ("bound70", "bound120") else set()
+        if order == 10 and stage in ("bound70", "bound120", "easycovers") else set()
     )
     eligible = {
         i: row for i, row in source.items()
@@ -253,6 +270,7 @@ def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, 
         and prior_bound60.get(i, {}).get("verdict") not in {"CONVERGENT", "DIVERGENT"}
         and prior_bound60.get(i, {}).get("certificate_target_status") != "conjectured_divergent"
         and (stage != "bound120" or previous_bound70.get(i, {}).get("verdict") == "INDETERMINATE")
+        and (stage != "easycovers" or previous_bound120.get(i, {}).get("verdict") == "INDETERMINATE")
         and (
             stage != "s1divergence"
             or (
@@ -262,7 +280,7 @@ def stage_selection(order: int, stage: str) -> tuple[dict[int, dict], dict[int, 
             )
         )
         and (
-            order != 10 or stage not in ("bound70", "bound120")
+            order != 10 or stage not in ("bound70", "bound120", "easycovers")
             or (
                 homotopy.get(i, {}).get("is_exact") is True
                 and homotopy[i].get("is_limited") is False
@@ -286,6 +304,7 @@ def refresh(order: int) -> dict:
     bound60 = checked_records(9, "bound60", source) if order == 9 else {}
     bound70 = checked_records(order, "bound70", source)
     bound120 = checked_records(10, "bound120", source) if order == 10 else {}
+    easycovers = checked_records(10, "easycovers", source) if order == 10 else {}
     h = checked_records(order, "homotopy", source) if order == 10 else {}
     s1 = checked_records(order, "s1divergence", source) if order == 10 else {}
     conditional = 0
@@ -308,7 +327,10 @@ def refresh(order: int) -> dict:
         "# Derived from certified stage records; raw initial census remains unchanged.",
         f"# Remaining={len(data)} conjectured_divergent={conditional}",
         f"# C10_checked={len(c10)} bound60_checked={len(bound60)} "
-        f"bound70_checked={len(bound70)} bound120_checked={len(bound120)} homotopy_checked={len(h)} "
+        f"bound70_checked={len(bound70)} bound120_checked={len(bound120)} "
+        f"easycovers_checked={len(easycovers)} "
+        f"easycovers_proven={sum(v.get('status') == 'DIVERGENT' for v in easycovers.values())} "
+        f"homotopy_checked={len(h)} "
         f"s1divergence_checked={len(s1)} "
         f"s1divergence_proven={sum(r['status'] == 'DIVERGENT' for r in s1.values())}",
         "# Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label",
@@ -322,6 +344,8 @@ def refresh(order: int) -> dict:
         "bound60_checked": len(bound60),
         "bound70_checked": len(bound70),
         "bound120_checked": len(bound120),
+        "easycovers_checked": len(easycovers),
+        "easycovers_proven": sum(v.get("status") == "DIVERGENT" for v in easycovers.values()),
         "homotopy_checked": len(h),
         "s1divergence_checked": len(s1),
         "s1divergence_proven": sum(r["status"] == "DIVERGENT" for r in s1.values()),
@@ -368,6 +392,10 @@ def compute(order: int, stage: str, graph: nx.Graph) -> dict:
         }
     if stage == "s1divergence":
         return scan_s1_divergence(graph)
+    if stage == "easycovers":
+        path = ROOT / "postpasses" / "easy_cover_witnesses.json"
+        registry = json.loads(path.read_text(encoding="utf-8"))
+        return scan_easy_covers(graph, registry)
     if stage == "homotopy":
         v = homotopy_type_with_verdict(graph)
         return {
@@ -383,7 +411,7 @@ def compute(order: int, stage: str, graph: nx.Graph) -> dict:
 def run_stage(order: int, stage: str) -> None:
     if (order, stage) not in {
         (9, "c10"), (9, "bound60"), (9, "bound70"),
-        (10, "c10"), (10, "homotopy"), (10, "s1divergence"), (10, "bound70"), (10, "bound120"),
+        (10, "c10"), (10, "homotopy"), (10, "s1divergence"), (10, "bound70"), (10, "bound120"), (10, "easycovers"),
     }:
         raise ValueError(f"Unsupported stage: order={order}, stage={stage}")
     if order == 9 and stage == "bound70":
@@ -400,20 +428,21 @@ def run_stage(order: int, stage: str) -> None:
         load_surface_references()
     current = current_pin()
     selection, source = stage_selection(order, stage)
-    if order == 10 and stage == "bound120":
-        # Do not freeze a truncated cohort if bound70 was interrupted.
-        prior_summary_path = stage_dir(10, "bound70") / "summary.json"
+    if order == 10 and stage in ("bound120", "easycovers"):
+        # Only a fully complete preceding stage may determine this cohort.
+        predecessor = "bound70" if stage == "bound120" else "bound120"
+        prior_summary_path = stage_dir(10, predecessor) / "summary.json"
         if not prior_summary_path.is_file():
-            raise ValueError("Finish order-10 stage bound70 before bound120")
+            raise ValueError(f"Finish order-10 stage {predecessor} before {stage}")
         prior_summary = json.loads(prior_summary_path.read_text(encoding="utf-8"))
         prior_indices = prior_summary.get("manifest", {}).get("indices")
-        prior_records = checked_records(10, "bound70", source)
+        prior_records = checked_records(10, predecessor, source)
         if (
             not isinstance(prior_indices, list)
             or prior_summary.get("processed") != len(prior_indices)
             or set(prior_records) != set(prior_indices)
         ):
-            raise ValueError("Finish order-10 stage bound70 before bound120")
+            raise ValueError(f"Finish order-10 stage {predecessor} before {stage}")
     initial = ROOT / "runs" / f"order{order}" / "initial"
     meta = {
         "schema": 1,
@@ -428,6 +457,9 @@ def run_stage(order: int, stage: str) -> None:
         "surface_registry_sha256": filehash(reference_file()) if order == 10 else None,
         "indices": sorted(selection),
     }
+    if stage == "easycovers":
+        meta["witnesses_sha256"] = filehash(ROOT / "postpasses" / "easy_cover_witnesses.json")
+        meta["verifier_sha256"] = filehash(ROOT / "postpasses" / "easy_cover_certificates.py")
     # Hash the complete preceding stage metadata to prevent stale cohort reuse.
     prerequisites = {
         "c10": [],
@@ -436,6 +468,7 @@ def run_stage(order: int, stage: str) -> None:
         "homotopy": ["c10"],
         "s1divergence": ["c10", "homotopy"],
         "bound120": ["bound70"],
+        "easycovers": ["bound120"],
     }[stage]
     for name in prerequisites:
         path = stage_dir(order, name) / "summary.json"
@@ -507,7 +540,7 @@ def check_baseline() -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("order", type=int, choices=(9, 10))
-    parser.add_argument("stage", choices=("refresh", "c10", "bound60", "bound70", "bound120", "homotopy", "s1divergence"))
+    parser.add_argument("stage", choices=("refresh", "c10", "bound60", "bound70", "bound120", "easycovers", "homotopy", "s1divergence"))
     args = parser.parse_args()
     if args.stage == "refresh":
         print(refresh(args.order))
