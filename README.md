@@ -232,12 +232,22 @@ manifests. Each v2 result includes `retraction_depth=2` and names the
 cd /workspaces/pycliques-census
 git pull --ff-only
 bash scripts/bootstrap.sh
+# Run all remaining batches in sequence (resumes automatically):
 bash scripts/stage.sh 10 bound120-timeboxed-v2
-# Repeat to advance one five-graph batch each time:
-bash scripts/stage.sh 10 bound120-timeboxed-v2
-# Optional explicit zero-based batch:
+
+# Optional: run exactly one next batch, or a zero-based batch index:
+bash scripts/stage.sh 10 bound120-timeboxed-v2 next
 bash scripts/stage.sh 10 bound120-timeboxed-v2 1
 ```
+
+By default v2 continues across batches, stopping only when all graphs are
+processed, a classification/stage error occurs, or the user interrupts it
+with Ctrl+C. Each graph record is saved atomically, so starting the same
+command again resumes the earliest unfinished graph, including a partial
+five-graph batch. The launcher's shell file is not included in the stage
+manifest's implementation hashes: this orchestration-only change preserves
+the validity of already committed records. An explicit `next` or numeric
+batch index still processes a single batch for debugging.
 
 The old records are under `runs/order10/bound120-timeboxed/`; the new ones
 are under `runs/order10/bound120-timeboxed-v2/`. Both stages can be audited

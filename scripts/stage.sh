@@ -11,7 +11,7 @@ if [[ "${1:-}" == baseline && $# -eq 1 ]]; then
 fi
 
 if (( $# < 2 || $# > 3 )) || [[ ! "${1:-}" =~ ^(9|10)$ ]] || { (( $# == 3 )) && [[ "${1:-}/${2:-}" != "10/bound120-timeboxed" && "${1:-}/${2:-}" != "10/bound120-timeboxed-v2" ]]; }; then
-  echo "Usage: bash scripts/stage.sh baseline | {9|10} {initial|c10|bound60|bound70|bound120|easycovers|homotopy|s1divergence} | 10 {bound120-timeboxed|bound120-timeboxed-v2} [next|BATCH_INDEX]" >&2
+  echo "Usage: bash scripts/stage.sh baseline | {9|10} {initial|c10|bound60|bound70|bound120|easycovers|homotopy|s1divergence} | 10 bound120-timeboxed [next|BATCH_INDEX] | 10 bound120-timeboxed-v2 [all|next|BATCH_INDEX]" >&2
   exit 2
 fi
 
@@ -60,7 +60,20 @@ trap refresh_on_exit EXIT
 if [[ "$STAGE" == "bound120-timeboxed" ]]; then
   .venv/bin/python scripts/timeboxed.py "${3:-next}"
 elif [[ "$STAGE" == "bound120-timeboxed-v2" ]]; then
-  .venv/bin/python scripts/timeboxed_v2.py "${3:-next}"
+  if (( $# == 2 )) || [[ "${3:-}" == all ]]; then
+    # Run successive five-graph batches until complete or interrupted.
+    # The Python runner saves each graph atomically, selects the first
+    # unfinished batch on restart, and writes summary.json on completion.
+    # Only the shell launcher changes; manifest-hashed Python code stays fixed.
+    SUMMARY="$ROOT/runs/order10/bound120-timeboxed-v2/summary.json"
+    while [[ ! -f "$SUMMARY" ]]; do
+      .venv/bin/python scripts/timeboxed_v2.py next
+    done
+    echo "All bound120-timeboxed-v2 batches are complete."
+  else
+    # Explicit 'next' or a zero-based index runs just one batch.
+    .venv/bin/python scripts/timeboxed_v2.py "$3"
+  fi
 else
   .venv/bin/python scripts/staged.py "$ORDER" "$STAGE"
 fi
