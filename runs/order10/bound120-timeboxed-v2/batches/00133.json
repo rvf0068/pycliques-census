@@ -1,0 +1,21 @@
+{
+  "batch": 133,
+  "counts": {
+    "BOUND_EXCEEDED": 4,
+    "DIVERGENT": 1
+  },
+  "indices": [
+    9678267,
+    9678456,
+    9678522,
+    9678872,
+    9680149
+  ],
+  "statuses": {
+    "9678267": "BOUND_EXCEEDED",
+    "9678456": "BOUND_EXCEEDED",
+    "9678522": "BOUND_EXCEEDED",
+    "9678872": "DIVERGENT",
+    "9680149": "BOUND_EXCEEDED"
+  }
+}

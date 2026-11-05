@@ -1,9 +1,12 @@
 {
-  "batches_complete": 1,
+  "batches_complete": 549,
   "batches_total": 549,
   "counts": {
-    "BOUND_EXCEEDED": 5
+    "BOUND_EXCEEDED": 2402,
+    "CONVERGENT": 2,
+    "DIVERGENT": 337,
+    "TIMEOUT": 1
   },
-  "processed": 5,
+  "processed": 2742,
   "total": 2742
 }

@@ -1,0 +1,149 @@
+{
+  "batch": 13,
+  "bound": 120,
+  "bound_exceeded": true,
+  "certificate_rule": "-",
+  "certificate_target_label": "-",
+  "certificate_target_status": "-",
+  "conjectured_references_ignored": true,
+  "diagnostic_schema": 1,
+  "elapsed_seconds": 2.132,
+  "graph6": "I?bbVJ]}o",
+  "implementation_sha256": {
+    "runner": "d28cbd6cf235ac601707f6a29f2c3ec1108bdb2fc641e9f131cd288b3e45ce14",
+    "trace": "52c843524706b62d05e0a1027a0c035416009c5d8db436fa7130722d970b2d6d",
+    "worker": "8a66a17cfad7488a0c24bafc7e224e35c2c8a113526a85493ea272b55f82dfba"
+  },
+  "in_progress_method": null,
+  "index": 5815699,
+  "iterates": [
+    {
+      "index": 0,
+      "pared_edges": 24,
+      "pared_order": 10
+    },
+    {
+      "index": 1,
+      "pared_edges": 72,
+      "pared_order": 16,
+      "raw_edges": 82,
+      "raw_order": 17,
+      "status": "completed"
+    },
+    {
+      "index": 2,
+      "pared_edges": 138,
+      "pared_order": 21,
+      "raw_edges": 151,
+      "raw_order": 22,
+      "status": "completed"
+    },
+    {
+      "index": 3,
+      "pared_edges": 1237,
+      "pared_order": 58,
+      "raw_edges": 1237,
+      "raw_order": 58,
+      "status": "completed"
+    },
+    {
+      "index": 4,
+      "status": "clique_bound_exceeded"
+    }
+  ],
+  "iterations_checked": 4,
+  "last_progress_event": "method_end",
+  "methods_tried": [
+    {
+      "method": "registered_proven_reference",
+      "outcome": "no_certificate",
+      "seconds": 0.002
+    },
+    {
+      "method": "suspension_coaffination",
+      "outcome": "no_certificate",
+      "seconds": 0.001
+    },
+    {
+      "method": "clockwork",
+      "outcome": "no_certificate",
+      "seconds": 0.032
+    },
+    {
+      "method": "eventually_clique_helly",
+      "outcome": "no_certificate",
+      "seconds": 0.127
+    },
+    {
+      "method": "retraction_suspension_C5_G0",
+      "outcome": "no_certificate",
+      "seconds": 0.005
+    },
+    {
+      "method": "retraction_suspension_C6_G0",
+      "outcome": "no_certificate",
+      "seconds": 0.002
+    },
+    {
+      "method": "retraction_suspension_C7_G0",
+      "outcome": "no_certificate",
+      "seconds": 0.001
+    },
+    {
+      "method": "retraction_complement_C8_G0",
+      "outcome": "no_certificate",
+      "seconds": 0.002
+    },
+    {
+      "method": "retraction_suspension_C5_G1",
+      "outcome": "no_certificate",
+      "seconds": 0.189
+    },
+    {
+      "method": "retraction_suspension_C6_G1",
+      "outcome": "no_certificate",
+      "seconds": 0.143
+    },
+    {
+      "method": "retraction_suspension_C7_G1",
+      "outcome": "no_certificate",
+      "seconds": 0.118
+    },
+    {
+      "method": "retraction_complement_C8_G1",
+      "outcome": "no_certificate",
+      "seconds": 0.124
+    },
+    {
+      "method": "eventually_special_octahedra",
+      "outcome": "no_certificate",
+      "seconds": 0.049
+    },
+    {
+      "method": "reference_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.01
+    },
+    {
+      "method": "local_bridge_contraction",
+      "outcome": "no_certificate",
+      "seconds": 0.003
+    },
+    {
+      "method": "non_triangle_edge_deletion",
+      "outcome": "no_certificate",
+      "seconds": 0.389
+    },
+    {
+      "method": "inverse_cutpoint_extension",
+      "outcome": "no_certificate",
+      "seconds": 0.577
+    }
+  ],
+  "pared_graph6": "I?bbVJ]}o",
+  "pared_order": 10,
+  "reason": "clique count exceeded bound",
+  "retraction_depth": 2,
+  "status": "BOUND_EXCEEDED",
+  "verdict": "INDETERMINATE"
+}

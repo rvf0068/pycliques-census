@@ -1,0 +1,20 @@
+{
+  "batch": 70,
+  "counts": {
+    "BOUND_EXCEEDED": 5
+  },
+  "indices": [
+    7496992,
+    7497010,
+    7499124,
+    7499133,
+    7499920
+  ],
+  "statuses": {
+    "7496992": "BOUND_EXCEEDED",
+    "7497010": "BOUND_EXCEEDED",
+    "7499124": "BOUND_EXCEEDED",
+    "7499133": "BOUND_EXCEEDED",
+    "7499920": "BOUND_EXCEEDED"
+  }
+}
