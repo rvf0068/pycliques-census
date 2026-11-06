@@ -67,6 +67,31 @@ class CertificateRecordV3Tests(unittest.TestCase):
         altered["proof"]["inclusion"][-1] = altered["proof"]["inclusion"][0]
         self.assertFalse(self.verify_record(altered, verify_iterate=False))
 
+    def test_unproved_retraction_target_is_not_claimed_divergent(self):
+        host = nx.path_graph(4)
+        target = nx.path_graph(3)
+        witness = retractions.retracts(host, target)
+        self.assertIsInstance(witness, tuple)
+        certificate = small.Certificate(
+            rule="retracts",
+            source=host,
+            target=target,
+            target_status="proven_divergent",
+            iterate_index=0,
+            map=witness,
+        )
+        behavior = small.CliqueBehavior(
+            small.Verdict.DIVERGENT,
+            "deliberately unsupported target",
+            1,
+            False,
+            host,
+            certificate,
+        )
+        record = self.serialize_result(host, behavior)
+        self.assertEqual(record["proof_status"], "not_serialized")
+        self.assertIsNone(record["proof"])
+
     def test_helly_proof_reconstructs_iterate(self):
         graph = nx.from_graph6_bytes(b"ICvbvy}|g")
         result = small.classify_clique_behavior(graph, bound=120)
