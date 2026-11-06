@@ -436,7 +436,12 @@ population-wide run.
 The v3 JSON certificate representation contains graph6 encodings of the
 original and the certified pared iterate, its iterate index, and an independently
 checkable witness (special octahedron's clique/antipode indices or a retraction's
-projection/inclusion arrays). For Helly convergence it stores the exact
+projection/inclusion arrays). A retraction is accepted as an independent
+**divergence** certificate only when its target is verified isomorphic to one
+of the explicitly proven reference graphs (octahedron, suspensions of
+`C5`, `C6`, `C7`, or complement of `C8`). Other retractions must attach a
+separate verifiable target proof in a future schema and remain
+`not_serialized` here. For Helly convergence it stores the exact
 certified iterate, which is checked for clique-Helly. Vertex-indexed arrays
 avoid unportable serialized representations of clique-graph node objects.
 
