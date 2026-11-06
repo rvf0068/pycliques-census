@@ -36,9 +36,15 @@ jobs:
             scripts/inspect_certificates_v3.py 'ICvbvy}|g' --verify-chain \
             --output verified-v3-example.json
           cat verified-v3-example.json
+          .deps/pycliques-project-v3/.venv/bin/python \
+            scripts/inspect_certificates_v3.py 'IEjer^mvO' --verify-chain \
+            --output verified-v3-special-octahedron.json
+          .deps/pycliques-project-v3/.venv/bin/python \
+            scripts/inspect_certificates_v3.py 'IQyuvh}xo' --verify-chain \
+            --output verified-v3-retraction.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: v3-certificate-example
-          path: verified-v3-example.json
+          path: verified-v3-*.json
           if-no-files-found: warn
