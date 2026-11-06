@@ -1,0 +1,50 @@
+name: Future v3 certificate replay
+
+on:
+  pull_request:
+    paths:
+      - "scripts/certificate_records_v3.py"
+      - "scripts/timeboxed_trace_v3.py"
+      - "scripts/inspect_certificates_v3.py"
+      - "tests/test_certificate_records_v3.py"
+      - ".github/workflows/certificate-v3.yml"
+  workflow_dispatch:
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+      - name: Checkout separate witness-capable pycliques revision
+        run: |
+          git clone --filter=blob:none https://github.com/rvf0068/pycliques-project.git .deps/pycliques-project-v3
+          git -C .deps/pycliques-project-v3 checkout --detach d6753ac445b57740d90997008aa96830d4fc117c
+      - name: Set up v3 dependency without touching historical pin
+        run: |
+          uv python install 3.11
+          cd .deps/pycliques-project-v3
+          uv sync --frozen --python 3.11
+      - name: Run certificate replay and trace tests
+        run: |
+          .deps/pycliques-project-v3/.venv/bin/python -m unittest discover \
+            -s tests -p test_certificate_records_v3.py -v
+      - name: Print a verified v3 record from a historical convergence example
+        run: |
+          .deps/pycliques-project-v3/.venv/bin/python \
+            scripts/inspect_certificates_v3.py 'ICvbvy}|g' --verify-chain --require-proof \
+            --output verified-v3-example.json
+          cat verified-v3-example.json
+          .deps/pycliques-project-v3/.venv/bin/python \
+            scripts/inspect_certificates_v3.py 'IEjer^mvO' --verify-chain --require-proof \
+            --output verified-v3-special-octahedron.json
+          .deps/pycliques-project-v3/.venv/bin/python \
+            scripts/inspect_certificates_v3.py 'IQyuvh}xo' --verify-chain --require-proof \
+            --output verified-v3-retraction.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v3-certificate-example
+          path: verified-v3-*.json
+          if-no-files-found: warn
