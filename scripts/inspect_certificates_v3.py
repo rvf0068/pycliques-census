@@ -4,7 +4,7 @@ Requires a separate environment with pycliques >= the witness API revision;
 it does not change config/pycliques_commit.txt or any v2 stage records.
 
 Example:
-  python scripts/inspect_certificates_v3.py ICvbvy'}|g
+  python scripts/inspect_certificates_v3.py 'ICvbvy}|g'
   python scripts/inspect_certificates_v3.py 'IEivrzm}o' --verify-chain
 """
 from __future__ import annotations
