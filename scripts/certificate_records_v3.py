@@ -45,6 +45,28 @@ def _require_witness_api():
     return retractions
 
 
+def _proven_target_identifier(target: nx.Graph) -> str | None:
+    """Recognize the explicit independently established divergent targets.
+
+    A retraction map alone does not prove divergence unless its target is
+    already known divergent. Unknown reference targets need a separate
+    externally verifiable target certificate and are not marked proved here.
+    """
+    from pycliques.named import complement_of_cycle, suspension_of_cycle
+
+    proven_targets = (
+        ("octahedral_graph", nx.octahedral_graph()),
+        ("suspension_C5", suspension_of_cycle(5)),
+        ("suspension_C6", suspension_of_cycle(6)),
+        ("suspension_C7", suspension_of_cycle(7)),
+        ("complement_C8", complement_of_cycle(8)),
+    )
+    for identifier, known in proven_targets:
+        if nx.is_isomorphic(target, known):
+            return identifier
+    return None
+
+
 def _source_provenance(
     origin: nx.Graph, source: nx.Graph, index: int, bound: int
 ) -> dict[str, Any]:
@@ -114,6 +136,9 @@ def serialize_result(
         and isinstance(cert.map, tuple)
     ):
         source, target = cert.source, cert.target
+        target_identifier = _proven_target_identifier(target)
+        if cert.target_status != "proven_divergent" or target_identifier is None:
+            return record  # Valid map to an unproved target is NOT a proof.
         if not retractions.verify_retraction_witness(source, target, cert.map):
             raise ValueError("Stored retraction witness is invalid")
         projection, inclusion = cert.map
@@ -123,6 +148,7 @@ def serialize_result(
         proof.update(
             rule="retracts",
             target_graph6=graph6(target),
+            target_reference=target_identifier,
             projection=[target_index[projection[v]] for v in source],
             inclusion=[source_index[inclusion[v]] for v in target],
         )
@@ -179,6 +205,8 @@ def verify_record(record: dict, *, verify_iterate: bool = True) -> bool:
             verified = retractions.verify_special_octahedron_witness(source, witness)
         elif record["verdict"] == "DIVERGENT" and proof["rule"] == "retracts":
             target = decode(proof["target_graph6"])
+            if _proven_target_identifier(target) != proof.get("target_reference"):
+                return False
             projection = dict(enumerate(proof["projection"]))
             inclusion = dict(enumerate(proof["inclusion"]))
             verified = retractions.verify_retraction_witness(
