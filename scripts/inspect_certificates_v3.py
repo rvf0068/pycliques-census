@@ -49,13 +49,22 @@ def main() -> None:
     p.add_argument("--bound", type=int, default=120)
     p.add_argument("--diagnostics", type=Path)
     p.add_argument("--verify-chain", action="store_true")
+    p.add_argument("--require-proof", action="store_true")
     p.add_argument("--output", type=Path)
     args = p.parse_args()
     result = classify_example(
         args.graph6, bound=args.bound, trace_file=args.diagnostics
     )
-    if args.verify_chain and result["proof"] is not None:
-        result["iterate_chain_verified"] = verify_record(result, verify_iterate=True)
+    if args.require_proof and result["proof_status"] != "verified_local":
+        raise SystemExit("No independently verified positive proof was serialized")
+    if args.verify_chain:
+        if result["proof"] is None:
+            if args.require_proof:
+                raise SystemExit("A required proof is unavailable for full chain replay")
+        else:
+            result["iterate_chain_verified"] = verify_record(result, verify_iterate=True)
+            if not result["iterate_chain_verified"]:
+                raise SystemExit("Full pared-iterate proof replay failed")
     data = json.dumps(result, indent=2, sort_keys=True) + "\n"
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
