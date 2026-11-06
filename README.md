@@ -422,3 +422,50 @@ than reinterpreting old results.
 The original order-9 bound-30 run with a mid-run clockwork fix and its
 migration records remains available in the repository's earlier commits,
 but is not the source of the new staged census.
+
+### Future-only v3 witness records and diagnostics (not a census stage yet)
+
+The files `scripts/certificate_records_v3.py`, `scripts/timeboxed_trace_v3.py`
+and `scripts/inspect_certificates_v3.py` provide the implementation for a
+**future, separately versioned** stage. They do not alter the original timeboxed
+stage, its frozen manifests, the existing graph records, or the historical
+`config/pycliques_commit.txt` pin. A new stage must have its **own** directory,
+manifest, source-hash provenance, worker and dependency revision before any
+population-wide run.
+
+The v3 JSON certificate representation contains graph6 encodings of the
+original and the certified pared iterate, its iterate index, and an independently
+checkable witness (special octahedron's clique/antipode indices or a retraction's
+projection/inclusion arrays). For Helly convergence it stores the exact
+certified iterate, which is checked for clique-Helly. Vertex-indexed arrays
+avoid unportable serialized representations of clique-graph node objects.
+
+`verify_record(record, verify_iterate=False)` checks a stored local witness
+without running the search that discovered it. With `verify_iterate=True`
+it also recomputes the pared clique sequence from the original graph, checks
+the claimed iterate up to graph isomorphism, and validates its property.
+Both steps are **positive checks only**: interrupted computations or
+unsupported certificate rules are explicitly `not_serialized`; neither is
+silently promoted into a proven result. A chain replay can be expensive and
+may require its own resource limit, separate from the production search.
+
+Version-3 tracing wraps named criteria such as `clique_helly`,
+`fixed_target_retraction`, `special_octahedron_test`,
+`special_octahedron_witness` and the structural reduction rules. Unlike the
+historical v2 tracer, it never assigns meaning to callback positions in
+`_default_classifiers`. The trace retains completed/unfinished method
+durations and exact pared-iterate provenance.
+
+The separate workflow `.github/workflows/certificate-v3.yml` installs an
+explicit witness-capable `pycliques-project` revision into a **different**
+development environment and tests record replay and tracing. For example,
+with that environment activated:
+
+```bash
+python scripts/inspect_certificates_v3.py 'ICvbvy}|g' --verify-chain
+```
+
+These utilities are not a substitute for a new batch runner, a new stage
+manifest, and an explicit user-approved census restart. Historical results
+must continue to use the revision recorded in their own manifests.
+
