@@ -119,5 +119,32 @@ class CertificateRecordV3Tests(unittest.TestCase):
             self.assertEqual(data["iterates"][0]["index"], 0)
 
 
+    def test_v3_trace_marks_fixed_target_retraction_positive(self):
+        from timeboxed_trace_v2 import ProgressTrace
+        from timeboxed_trace_v3 import summarize_events_v3, trace_classifier_v3
+
+        graph = nx.octahedral_graph()
+        with tempfile.TemporaryDirectory() as folder:
+            journal = Path(folder) / "retraction.jsonl"
+            with ProgressTrace(journal) as trace:
+                with trace_classifier_v3(trace):
+                    trace.depth = 1
+                    seq = small.CliqueSequence(graph)
+                    found = small._test_iterate_certificates(
+                        seq, tries=1, retraction_depth=1,
+                        targets=((graph, "known O3"),)
+                    )
+            self.assertIsNotNone(found)
+            self.assertEqual(found[0], small.Verdict.DIVERGENT)
+            methods = summarize_events_v3(str(journal))["methods_tried"]
+            retractions = [
+                row for row in methods
+                if row["method"] == "fixed_target_retraction"
+            ]
+            self.assertEqual(len(retractions), 1)
+            self.assertEqual(retractions[0]["outcome"], "positive")
+            self.assertEqual(retractions[0]["iterate"], 0)
+
+
 if __name__ == "__main__":
     unittest.main()
