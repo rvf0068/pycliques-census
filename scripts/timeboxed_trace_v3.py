@@ -186,10 +186,12 @@ def trace_classifier_v3(trace: ProgressTrace):
                     seconds=round(time.monotonic() - start, 3),
                 )
                 raise
-            if isinstance(result, tuple) and result:
+            if label == "fixed_target_retraction":
+                outcome = "positive" if result else "no_certificate"
+            elif isinstance(result, tuple) and result:
                 verdict = result[0]
                 outcome = getattr(verdict, "name", "no_certificate")
-            elif result is True or (result and label == "fixed_target_retraction"):
+            elif result is True:
                 outcome = "positive"
             elif result is False or result is None:
                 outcome = "no_certificate"
