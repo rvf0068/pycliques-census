@@ -172,6 +172,8 @@ def main() -> None:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(summary, sort_keys=True, indent=2) + "\n")
     print("SUMMARY", json.dumps(summary["counts"], sort_keys=True), flush=True)
+    if any(r["status"] == "ERROR" for r in records):
+        raise SystemExit("One or more clockwork-search workers failed")
 
 
 if __name__ == "__main__":
