@@ -47,7 +47,7 @@ def library() -> list[dict]:
                 )
                 try:
                     status = clockwork_divergence_result(
-                        G, fallback_max_order=10, fallback_max_candidates=2000
+                        G, fallback_enabled=False, fallback_max_order=10, fallback_max_candidates=2000
                     )
                 except (ValueError, nx.NetworkXException):
                     continue
