@@ -59,6 +59,16 @@ def check_dependency() -> None:
             f"Order-9 stage requires isolated pycliques {UPSTREAM_SHA}; "
             f"found {revision}. Do not update the historical dependency pin."
         )
+    dirty = subprocess.check_output(
+        ["git", "-C", str(DEPENDENCY), "status", "--porcelain",
+         "--untracked-files=no"],
+        text=True,
+    ).strip()
+    if dirty:
+        raise RuntimeError(
+            "Refusing a dirty isolated pycliques checkout: "
+            "implementation provenance would not match its pinned SHA"
+        )
     # Enforce the intended isolated environment, not the historical .venv.
     expected_venv = DEPENDENCY / ".venv"
     if Path(sys.prefix).resolve() != expected_venv.resolve():
@@ -173,6 +183,13 @@ def classify_one(graph6: str, destination: Path) -> dict:
                     "status": "TIMEOUT", "verdict": "INDETERMINATE",
                     "reason": f"Wall-clock limit {TIMEOUT_SECONDS} seconds exceeded",
                 }
+            except BaseException:
+                # KeyboardInterrupt, broken output and other supervisor failures
+                # must never abandon an expensive child or its descendants.
+                if proc.poll() is None:
+                    os.killpg(proc.pid, signal.SIGKILL)
+                proc.wait()
+                raise
             else:
                 if proc.returncode == 0:
                     try:
@@ -258,6 +275,23 @@ def run(group: str, *, all_batches: bool = False) -> None:
                 })
             if not all_batches:
                 break
+        # Rebuild deterministic summaries even after a fully completed stage
+        # is reopened. This also repairs a missing progress/summary file.
+        progress = {
+            "processed": len(saved), "total": len(remaining),
+            "counts": dict(sorted(Counter(x["status"] for x in saved.values()).items())),
+            "nonconjectural_processed": sum(
+                i in saved for i in remaining if groups[i] == "nonconjectural"
+            ),
+            "conjectured_processed": sum(
+                i in saved for i in remaining if groups[i] == "conjectured"
+            ),
+        }
+        staged.write_atomic(folder / "progress.json", progress)
+        if len(saved) == len(remaining):
+            staged.write_atomic(folder / "summary.json", {
+                "manifest": expected, **progress,
+            })
         print(f"Completed group {group}: {sum(i in saved for i in indexed)}/{len(indexed)}")
 
 
