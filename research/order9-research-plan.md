@@ -103,3 +103,56 @@ homotopy equivalent to S^2.
 After both runs, join by (order, original index, graph6), and look for
 clique-null or convergent originals with certified noncontractible homotopy
 type, and for any mismatches between Delta(G) and Delta(K(G)).
+
+## Results of the initial PR CI experiments (2026-11-06)
+
+**Bound 200:** The first three nonconjectural originals
+(indices 208409, 242316, 248687) all remain `BOUND_EXCEEDED`.
+A separate independent maximal-clique count at the third pared iterate
+showed that **all 18** nonconjectural cases require **more than 200**
+cliques to construct the fourth clique iterate. Ten had counts between
+250 and 500; eight exceeded 500. The bound-200 stage is thus mainly
+a reproducible baseline and may still find certificates through other
+rules. A future new stage should evaluate an explicitly versioned,
+selective bound around 500, combined with faster paring and a timeout,
+without mutating the bound-200 manifest.
+
+**Generic clockwork search:** Eight conditional order-9 cases were
+tested at their second pared clique iterate with at most 3000 induced
+candidate subsets and 25 seconds per graph. Seven timed out and one
+reached the candidate limit after checking all 3000 candidates. None
+produced a positive clockwork-retraction certificate. These limits
+are *not* a proof of nonexistence.
+
+**Small-target clockwork search:** New script
+`scripts/order9_clockwork_targeted.py` generated **13 distinct
+nonisomorphic theorem-certified divergent clockwork targets of orders
+9 and 10**, restricted to three segments, two crown vertices per
+segment, and core sizes (1,1,1) or (2,1,1). It exhaustively tried
+these 13 targets on **all eight** conditional order-9 candidates at
+their second pared clique iterate. All tests completed in 0.8--1.6
+seconds per graph, with **no** retraction. This rules out only these
+13 targets, **not all** divergent clockworks. The targeted method
+is a good candidate for broader opt-in use; the brute-force
+induced-subgraph scan is not.
+
+**Homotopy of remaining order-9 graphs:** In the independent
+`pycombtop` classifier pilot, **every one of the 54 remaining originals
+and their first clique graphs** received certified exact wedge-of-spheres
+types, and the types agreed in all 54 cases:
+- 46 originals: type S^2;
+- 8 originals: type S^1 wedge S^2.
+
+This is a *complete homotopy classification of the 54 unresolved
+clique-behavior cases only*, not the complete set of 261,080 connected
+nine-vertex graphs. The latter still requires the independent
+`pycliques-homotopy-census` order-9 stage. The separate workflow's
+artifacts contain all 54 original-indexed homotopy records.
+
+Reproducible CI:
+- Brute pilot: https://github.com/rvf0068/pycliques-census/actions/runs/42318974615
+- Targeted pilot and 54 exact homotopy records:
+  https://github.com/rvf0068/pycliques-census/actions/runs/42319826584
+
+These are observations and computational certificates, not a proof
+that clique-nullity or clique divergence is determined by homotopy type.
