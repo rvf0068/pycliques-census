@@ -60,9 +60,11 @@ def check_dependency() -> None:
             f"found {revision}. Do not update the historical dependency pin."
         )
     # Enforce the intended isolated environment, not the historical .venv.
-    expected_python = DEPENDENCY / ".venv" / "bin" / "python"
-    if Path(sys.executable).resolve() != expected_python.resolve():
-        raise RuntimeError(f"Run with {expected_python}, not {sys.executable}")
+    expected_venv = DEPENDENCY / ".venv"
+    if Path(sys.prefix).resolve() != expected_venv.resolve():
+        raise RuntimeError(
+            f"Run with {expected_venv}/bin/python, not {sys.executable}"
+        )
 
 
 def cohort() -> tuple[dict[int, dict], dict[int, dict], dict[int, str]]:
@@ -265,8 +267,20 @@ def main() -> None:
                    default="nonconjectural")
     p.add_argument("--all", action="store_true",
                    help="Complete all batches of chosen group (resumable)")
+    p.add_argument("--dry-run", action="store_true",
+                   help="Validate dependency/cohort without creating stage files")
     args = p.parse_args()
-    run(args.group, all_batches=args.all)
+    if args.dry_run:
+        check_dependency()
+        remaining, _, groups = cohort()
+        print(json.dumps({
+            "stage": STAGE, "total": len(remaining),
+            "counts": dict(Counter(groups.values())),
+            "selected": sorted(i for i in remaining if groups[i] == args.group),
+            "manifest_signature": manifest(remaining, groups)["source_sha256"],
+        }, sort_keys=True))
+    else:
+        run(args.group, all_batches=args.all)
 
 
 if __name__ == "__main__":
