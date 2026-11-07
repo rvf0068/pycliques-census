@@ -51,9 +51,36 @@ jobs:
           .deps/pycliques-project-order9/.venv/bin/python \
             scripts/order9_bound200.py
           cat runs/order9/bound200-timeboxed/progress.json
+          .deps/pycliques-project-order9/.venv/bin/python - <<'PY'
+          import json
+          from pathlib import Path
+          p = json.loads(Path("runs/order9/bound200-timeboxed/progress.json").read_text())
+          assert p["processed"] == 3, p
+          assert p["counts"].get("ERROR", 0) == 0, p
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: order9-bound200-first-batch
           path: runs/order9/bound200-timeboxed/
+          if-no-files-found: warn
+
+  homotopy-54:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+      - name: Install independent, pinned pycliques and pycombtop
+        run: bash scripts/bootstrap_order9.sh
+      - name: Certify G and K(G) homotopy types for all 54 unresolved originals
+        run: |
+          .deps/pycliques-project-order9/.venv/bin/python \
+            scripts/order9_homotopy_pilot.py --all \
+            --per-case-timeout 15 --output order9-homotopy-54.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: order9-unresolved-homotopy-54
+          path: order9-homotopy-54.json
           if-no-files-found: warn
