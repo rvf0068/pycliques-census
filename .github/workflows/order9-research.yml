@@ -22,16 +22,16 @@ jobs:
         run: |
           .deps/pycliques-project-order9/.venv/bin/python -m unittest discover \
             -s tests -p test_order9_bound200.py -v
-      - name: Search clockwork retracts on all beta1=1 order-9 cases
+      - name: Search retractions onto generated proven clockwork targets
         run: |
           .deps/pycliques-project-order9/.venv/bin/python \
-            scripts/order9_clockwork_pilot.py --all --max-candidates 3000 \
-            --per-case-timeout 25 --output order9-clockwork-pilot.json
+            scripts/order9_clockwork_targeted.py --all \
+            --per-case-timeout 20 --output order9-clockwork-targeted.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: order9-clockwork-pilot
-          path: order9-clockwork-pilot.json
+          name: order9-clockwork-targeted
+          path: order9-clockwork-targeted.json
           if-no-files-found: warn
 
   bound200-smoke:
