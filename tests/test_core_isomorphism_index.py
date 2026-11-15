@@ -42,6 +42,17 @@ class CoreIndexTests(unittest.TestCase):
         relabeled = nx.relabel_nodes(cycle, {0: 4, 1: 2, 2: 1, 3: 0, 4: 5, 5: 3})
         self.assertEqual(core.fingerprint(cycle), core.fingerprint(relabeled))
         self.assertFalse(nx.is_isomorphic(cycle, nx.disjoint_union(nx.cycle_graph(3), nx.cycle_graph(3))))
+        # Petersen and pentagonal prism are both triangle-free cubic graphs
+        # with ten vertices and 15 edges: an actual filter collision.
+        petersen = nx.petersen_graph()
+        prism = nx.circular_ladder_graph(5)
+        self.assertEqual(core.fingerprint(petersen), core.fingerprint(prism))
+        self.assertFalse(nx.is_isomorphic(petersen, prism))
+        rows = {
+            1: core.Row(1, 10, g6(petersen), "-"),
+            2: core.Row(2, 10, g6(prism), "-"),
+        }
+        self.assertEqual(len(core.group_rows(rows)), 2)
 
     def test_v3_membership_delta_checks_source_and_statuses(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -56,29 +67,76 @@ class CoreIndexTests(unittest.TestCase):
             }
             active = {2: old[2]}
             meta = {"order": 10, "stage": "bound120-timeboxed-v3", "indices": [1, 2]}
-            (v3 / "manifest.json").write_text(json.dumps(meta))
-            (v3 / "summary.json").write_text(json.dumps({
+            summary = {
                 "manifest": meta, "processed": 2,
                 "counts": {"CONVERGENT": 1, "BOUND_EXCEEDED": 1},
-            }))
+            }
+            meta_file = v3 / "manifest.json"
+            summary_file = v3 / "summary.json"
+            meta_file.write_text(json.dumps(meta))
+            summary_file.write_text(json.dumps(summary))
             first = {
                 "index": 1, "graph6": cycle6, "status": "CONVERGENT",
+                "bound": 120, "verdict": "CONVERGENT",
                 "proof_status": "verified_chain", "proof": {"origin_graph6": cycle6},
             }
-            second = {"index": 2, "graph6": path6, "status": "BOUND_EXCEEDED"}
+            second = {
+                "index": 2, "graph6": path6, "status": "BOUND_EXCEEDED",
+                "bound": 120, "verdict": "INDETERMINATE",
+            }
             a = v3 / "records" / "00000001.json"
+            b = v3 / "records" / "00000002.json"
             a.write_text(json.dumps(first))
-            (v3 / "records" / "00000002.json").write_text(json.dumps(second))
-            counts, checksum = core.check_v3(old, active, v3)
+            b.write_text(json.dumps(second))
+            opts = {
+                "expected_manifest": meta,
+                "source_graph6": {1: cycle6, 2: path6},
+            }
+            def check(selection=active):
+                return core.check_v3(old, selection, v3, **opts)
+
+            counts, checksum = check()
             self.assertEqual(counts["CONVERGENT"], 1)
             self.assertEqual(len(checksum), 64)
-            self.assertRaisesRegex(
-                ValueError, "Active list",
-                core.check_v3, old, {1: old[1], 2: old[2]}, v3,
-            )
+            with self.assertRaisesRegex(ValueError, "Active list"):
+                check({1: old[1], 2: old[2]})
+
             first["proof"]["origin_graph6"] = path6
             a.write_text(json.dumps(first))
-            self.assertRaisesRegex(ValueError, "Unlinked positive", core.check_v3, old, active, v3)
+            with self.assertRaisesRegex(ValueError, "Unlinked positive"):
+                check()
+            first["proof"]["origin_graph6"] = cycle6
+
+            # A forged proof matching a different original graph is rejected:
+            # source provenance comes from the frozen *original* census.
+            first["graph6"] = path6
+            first["proof"]["origin_graph6"] = path6
+            a.write_text(json.dumps(first))
+            with self.assertRaisesRegex(ValueError, "source graph6"):
+                check()
+            first["graph6"] = cycle6
+            first["proof"]["origin_graph6"] = cycle6
+            a.write_text(json.dumps(first))
+
+            second["status"] = "NONSENSE"
+            b.write_text(json.dumps(second))
+            with self.assertRaisesRegex(ValueError, "status or bound"):
+                check()
+            second["status"] = "BOUND_EXCEEDED"
+            second["bound"] = 600
+            b.write_text(json.dumps(second))
+            with self.assertRaisesRegex(ValueError, "status or bound"):
+                check()
+            second["bound"] = 120
+            b.write_text(json.dumps(second))
+
+            # Even consistently edited manifest+summary files must not make
+            # a different frozen cohort pass provenance validation.
+            changed = {**meta, "indices": [2, 1]}
+            meta_file.write_text(json.dumps(changed))
+            summary_file.write_text(json.dumps({**summary, "manifest": changed}))
+            with self.assertRaisesRegex(ValueError, "manifest differs"):
+                check()
 
     def test_build_is_atomic_and_refuses_changed_outputs(self):
         outputs = {
