@@ -94,6 +94,16 @@ class LocalV3Tests(unittest.TestCase):
         self.assertGreaterEqual(record["peak_rss_kib"], 0)
         self.assertEqual(record["bound"], 120)
 
+    def test_real_isolated_worker_under_2gib_limit(self):
+        # Exercise the exact subprocess/RLIMIT_AS path without creating
+        # census records or re-running any of the 153 research cases.
+        with tempfile.TemporaryDirectory() as directory:
+            result = runner.run_one("ICvbvy}|g", Path(directory))
+        self.assertEqual(result["status"], "CONVERGENT", result.get("stderr_excerpt"))
+        self.assertEqual(result["proof_status"], "verified_chain")
+        self.assertEqual(result["diagnostic_schema"], 3)
+        self.assertGreaterEqual(result["elapsed_seconds"], 0)
+
     def test_v3_refresh_does_not_touch_historical_file(self):
         original = (runner.ROOT / "indeterminate_order_10.txt").read_bytes()
         with tempfile.TemporaryDirectory() as directory:
