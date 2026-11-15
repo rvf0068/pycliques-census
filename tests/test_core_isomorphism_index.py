@@ -15,7 +15,7 @@ import core_isomorphism_index as core
 
 def g6(graph: nx.Graph) -> str:
     return nx.to_graph6_bytes(
-        nx.convert_node_labels_to_integers(graph), header=False
+        nx.convert_node_labels_to_integers(graph, ordering="sorted"), header=False
     ).decode("ascii").strip()
 
 
