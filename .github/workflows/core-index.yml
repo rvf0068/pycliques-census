@@ -1,0 +1,37 @@
+name: Order-10 pared-core isomorphism index
+
+on:
+  pull_request:
+    paths:
+      - "scripts/core_isomorphism_index.py"
+      - "tests/test_core_isomorphism_index.py"
+      - ".github/workflows/core-index.yml"
+      - "indeterminate_order_10_v3.txt"
+      - "indeterminate_order_10.txt"
+      - "runs/order10/bound120-timeboxed-v3/**"
+  workflow_dispatch:
+
+jobs:
+  core-index:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install independent graph-isomorphism dependency
+        run: python -m pip install "networkx==3.6"
+      - name: Test core grouping, source membership, immutable output
+        run: python -m unittest discover -s tests -p test_core_isomorphism_index.py -v
+      - name: Build and independently verify a complete read-only index
+        run: |
+          python scripts/core_isomorphism_index.py build --output reports/.ci-core-index
+          python scripts/core_isomorphism_index.py verify --output reports/.ci-core-index
+          cat reports/.ci-core-index/summary.md | head -45
+          git diff --exit-code -- indeterminate_order_10.txt indeterminate_order_10_v3.txt runs/order10/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: order10-post-v3-core-index
+          path: reports/.ci-core-index/
+          if-no-files-found: error
