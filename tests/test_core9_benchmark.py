@@ -38,9 +38,7 @@ class Core9BenchmarkTests(unittest.TestCase):
         self.assertEqual(len({
             i for item in selected.values() for i in item["member_indices"]
         }), 4038)
-        self.assertEqual(
-            Counter(v["member_count"] for v in selected.values())[33], 0
-        )
+        self.assertEqual(max(v["member_count"] for v in selected.values()), 242)
 
     def test_manifest_refuses_changes_and_corrupt_records(self):
         with tempfile.TemporaryDirectory() as temp:
