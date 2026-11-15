@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 from collections import Counter
-import importlib
+import json
+import subprocess
+from unittest.mock import Mock, patch
 from pathlib import Path
 import sys
 import tempfile
@@ -13,6 +15,7 @@ import networkx as nx
 SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
+import staged  # noqa: E402
 import timeboxed_v3 as runner  # noqa: E402
 
 
@@ -103,6 +106,152 @@ class LocalV3Tests(unittest.TestCase):
         self.assertEqual(result["proof_status"], "verified_chain")
         self.assertEqual(result["diagnostic_schema"], 3)
         self.assertGreaterEqual(result["elapsed_seconds"], 0)
+
+    @staticmethod
+    def sandbox(root: Path, indices: list[int]):
+        """Small stage fixture using a real original order-10 graph6."""
+        graph6 = "ICvbvy}|g"
+        source = {i: {"index": i, "graph6": graph6} for i in indices}
+        meta = {
+            "schema": 3, "stage": runner.STAGE, "order": 10,
+            "upstream_commit": "a" * 40, "indices": indices,
+            "batch_size": runner.BATCH_SIZE, "bound": runner.CLIQUE_BOUND,
+        }
+        rows = [
+            "# Unresolved test graphs",
+            *(f"{i} 10 {graph6} - - -" for i in indices),
+        ]
+        (root / "indeterminate_order_10.txt").write_text(
+            "\n".join(rows) + "\n", encoding="utf-8"
+        )
+        return source, meta
+
+    def test_run_resumes_five_graph_batches_without_repeating_records(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source, meta = self.sandbox(root, list(range(1, 12)))
+            snapshot = (root / "indeterminate_order_10.txt").read_bytes()
+            calls = []
+            def worker(graph6, _folder):
+                calls.append(graph6)
+                return {
+                    "status": "BOUND_EXCEEDED", "verdict": "INDETERMINATE",
+                    "bound": 120, "elapsed_seconds": .01, "reason": "fixture",
+                }
+            with (
+                patch.object(runner, "ROOT", root),
+                patch.object(staged, "ROOT", root),
+                patch.object(runner, "cohort", return_value=(source, source)),
+                patch.object(runner, "manifest", return_value=meta),
+                patch.object(runner, "run_one", side_effect=worker),
+            ):
+                self.assertTrue(runner.run("next"))
+                folder = staged.stage_dir(10, runner.STAGE)
+                self.assertEqual(len(list((folder / "records").glob("*.json"))), 5)
+                self.assertTrue((folder / "batches" / "00000.json").exists())
+                self.assertTrue(runner.run("next"))
+                self.assertFalse(runner.run("next"))
+                self.assertFalse(runner.run("next"))
+                self.assertEqual(len(calls), 11)
+                self.assertEqual(json.loads((folder / "summary.json").read_text())["processed"], 11)
+                self.assertEqual(json.loads((folder / "progress.json").read_text())["complete_batches"], 3)
+                self.assertEqual((root / "indeterminate_order_10.txt").read_bytes(), snapshot)
+                self.assertIn("Remaining=11", (root / "indeterminate_order_10_v3.txt").read_text())
+
+    def test_partial_batch_restart_keeps_atomic_graph_records(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source, meta = self.sandbox(root, list(range(1, 7)))
+            attempts = []
+            def worker(graph6, _folder):
+                attempts.append(graph6)
+                if len(attempts) == 3:
+                    raise KeyboardInterrupt("simulated interruption")
+                return {
+                    "status": "INDETERMINATE", "verdict": "INDETERMINATE",
+                    "bound": 120, "elapsed_seconds": .01,
+                }
+            with (
+                patch.object(runner, "ROOT", root),
+                patch.object(staged, "ROOT", root),
+                patch.object(runner, "cohort", return_value=(source, source)),
+                patch.object(runner, "manifest", return_value=meta),
+                patch.object(runner, "run_one", side_effect=worker),
+            ):
+                with self.assertRaises(KeyboardInterrupt):
+                    runner.run("next")
+                folder = staged.stage_dir(10, runner.STAGE)
+                self.assertEqual(len(list((folder / "records").glob("*.json"))), 2)
+                self.assertTrue(runner.run("next"))
+                self.assertEqual(len(list((folder / "records").glob("*.json"))), 5)
+                self.assertEqual(len(attempts), 6)
+                self.assertFalse(runner.run("next"))
+                self.assertEqual(len(list((folder / "records").glob("*.json"))), 6)
+
+    def test_timeout_and_worker_exit_are_not_positive_proofs(self):
+        with tempfile.TemporaryDirectory() as directory:
+            folder = Path(directory)
+            proc = Mock()
+            proc.wait.side_effect = subprocess.TimeoutExpired("worker", runner.TIMEOUT_SECONDS)
+            with (
+                patch.object(runner.subprocess, "Popen", return_value=proc),
+                patch.object(runner, "kill_group") as kill,
+            ):
+                result = runner.run_one("ICvbvy}|g", folder)
+                kill.assert_called_once_with(proc)
+            self.assertEqual(result["status"], "TIMEOUT")
+            self.assertEqual(result["verdict"], "INDETERMINATE")
+            self.assertEqual(list(folder.glob("*.partial")), [])
+            proc = Mock()
+            proc.wait.return_value = None
+            proc.returncode = 2
+            with patch.object(runner.subprocess, "Popen", return_value=proc):
+                result = runner.run_one("ICvbvy}|g", folder)
+            self.assertEqual(result["status"], "ERROR")
+            self.assertEqual(result["verdict"], "INDETERMINATE")
+            self.assertEqual(list(folder.glob("*.partial")), [])
+
+    def test_manifest_mismatch_blocks_resume(self):
+        with tempfile.TemporaryDirectory() as directory:
+            folder = Path(directory) / "runs" / "order10" / runner.STAGE
+            baseline = {"stage": runner.STAGE, "timeout_seconds": 120}
+            runner.ensure_manifest(folder, baseline)
+            runner.ensure_manifest(folder, dict(baseline))
+            with self.assertRaisesRegex(ValueError, "resume refused"):
+                runner.ensure_manifest(folder, {**baseline, "timeout_seconds": 600})
+            self.assertEqual(json.loads((folder / "manifest.json").read_text()), baseline)
+
+    def test_verify_and_resume_reject_tampered_positive_proof(self):
+        from timeboxed_worker_v3 import classify
+        graph6 = "ICvbvy}|g"
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source, meta = self.sandbox(root, [7])
+            folder = root / "runs" / "order10" / runner.STAGE
+            (folder / "records").mkdir(parents=True)
+            (folder / "manifest.json").write_text(json.dumps(meta), encoding="utf-8")
+            record = classify(graph6, str(root / "journal.jsonl"))
+            record.update(index=7, graph6=graph6, batch=0, elapsed_seconds=.1)
+            self.assertEqual(record["status"], "CONVERGENT")
+            file = folder / "records" / "00000007.json"
+            file.write_text(json.dumps(record), encoding="utf-8")
+            with (
+                patch.object(runner, "ROOT", root),
+                patch.object(staged, "ROOT", root),
+                patch.object(runner, "cohort", return_value=(source, source)),
+                patch.object(runner, "manifest", return_value=meta),
+            ):
+                runner.verify()  # Genuine certificate passes independent replay.
+                modified = json.loads(file.read_text())
+                # A valid proof belonging to another source graph is forbidden,
+                # even with the status string claiming full chain verification.
+                modified["proof"]["origin_graph6"] = "I????????"
+                file.write_text(json.dumps(modified), encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "positive v3 certificate"):
+                    runner.verify()
+                with self.assertRaisesRegex(ValueError, "positive v3 certificate"):
+                    runner.run("next")
+                self.assertFalse((root / "indeterminate_order_10_v3.txt").exists())
 
     def test_v3_refresh_does_not_touch_historical_file(self):
         original = (runner.ROOT / "indeterminate_order_10.txt").read_bytes()
