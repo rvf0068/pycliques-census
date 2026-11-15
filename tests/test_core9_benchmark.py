@@ -73,6 +73,13 @@ class Core9BenchmarkTests(unittest.TestCase):
                 path.write_text(json.dumps({**record, **changes}))
                 with self.assertRaisesRegex(ValueError, "Malformed saved"):
                     benchmark.saved_records(folder, selected)
+            for status in ("BOUND_EXCEEDED", "TIMEOUT", "ERROR"):
+                for forged in ("CONVERGENT", "DIVERGENT"):
+                    path.write_text(json.dumps({
+                        **record, "status": status, "verdict": forged
+                    }))
+                    with self.assertRaisesRegex(ValueError, "Resource failure"):
+                        benchmark.saved_records(folder, selected)
 
     def test_batch_next_resume_does_not_modify_original_census(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -132,6 +139,18 @@ class Core9BenchmarkTests(unittest.TestCase):
             self.assertIn(r["status"], {"TIMEOUT", "ERROR"})
             self.assertEqual(r["verdict"], "INDETERMINATE")
             self.assertFalse(list(folder.iterdir()))
+
+    @unittest.skipUnless(V3_TEST_ENV, "Needs separate v3 witness-capable environment")
+    def test_manifest_hashes_imported_pin_validation_and_bootstrap(self):
+        meta = benchmark.manifest(benchmark.cohort())
+        for key in (
+            "pin_validator_sha256",
+            "v3_bootstrap_sha256",
+            "v3_pin_file_sha256",
+            "historical_stage_helper_sha256",
+        ):
+            self.assertEqual(len(meta[key]), 64)
+        self.assertEqual(meta["upstream_commit"], benchmark.current_v3_pin())
 
     @unittest.skipUnless(V3_TEST_ENV, "Needs separate v3 witness-capable environment")
     def test_real_core_certificate_and_isolated_worker(self):
