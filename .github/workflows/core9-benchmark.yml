@@ -1,0 +1,34 @@
+name: Order-9 core representative benchmark
+
+on:
+  pull_request:
+    paths:
+      - "scripts/core9_benchmark.py"
+      - "scripts/core9_worker.py"
+      - "scripts/core9.sh"
+      - "tests/test_core9_benchmark.py"
+      - "scripts/certificate_records_v3.py"
+      - "scripts/timeboxed_trace_v2.py"
+      - "scripts/timeboxed_trace_v3.py"
+      - "scripts/core_isomorphism_index.py"
+      - "reports/order10_core_index_v1/**"
+      - ".github/workflows/core9-benchmark.yml"
+  workflow_dispatch:
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+      - name: Prepare the unchanged pinned v3 witness environment
+        run: bash scripts/bootstrap_v3.sh
+      - name: Verify previously committed core index
+        run: .venv-v3/bin/python scripts/core_isomorphism_index.py verify
+      - name: Exercise stage, certificate replay and worker limits
+        run: .venv-v3/bin/python -m unittest discover -s tests -p test_core9_benchmark.py -v
+      - name: Check read-only full cohort plan
+        run: bash scripts/core9.sh plan
+      - name: Ensure historical census files remain unchanged
+        run: git diff --exit-code -- runs/order10/bound120-timeboxed-v3/ indeterminate_order_10.txt indeterminate_order_10_v3.txt
