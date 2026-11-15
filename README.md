@@ -474,3 +474,91 @@ These utilities are not a substitute for a new batch runner, a new stage
 manifest, and an explicit user-approved census restart. Historical results
 must continue to use the revision recorded in their own manifests.
 
+
+## Local v3 benchmark: 153 unresolved graphs without an S² summand
+
+This new stage is designed for an Ubuntu computer with about 7.4 GiB of RAM.
+It selects the **153** still-unresolved original order-10 graphs whose
+certified homotopy types are `S^1` (115), `S^3` (35), or
+`S^1 wedge S^3` (3), via the frozen
+[`config/homotopy_no_s2_order10.tsv`](config/homotopy_no_s2_order10.tsv)
+index. The selection was cross-checked by an independent exact mod-2
+second-homology computation on each completely pared graph; homology alone
+is *not* used to certify an arbitrary homotopy type.
+
+**Do not run or modify any historical census stage.** The original
+`config/pycliques_commit.txt`, `scripts/staged.py`, and
+`runs/order10/bound120-timeboxed-v2/` remain untouched. V3 uses an
+**independent uv environment** with its own commit pin at
+`config/pycliques_commit_v3.txt`:
+
+```bash
+cd ~/Python/pycliques-census
+git pull --ff-only
+bash scripts/bootstrap_v3.sh
+bash scripts/stage.sh 10 bound120-timeboxed-v3 plan
+```
+
+The setup places the v3 dependency in `.deps/pycliques-project-v3`,
+with a `.venv-v3` symlink to its uv-managed environment. Your historical
+`.venv` remains available, and you do **not** need to deactivate it:
+the v3 launcher selects `.venv-v3/bin/python` explicitly.
+
+The benchmark has a **fixed clique bound of 120**, a **120-second wall-clock
+timeout**, a **2,048 MiB Linux virtual-memory limit per worker**, **one
+worker at a time**, and **five graphs per batch** (31 batches). Each graph
+has an atomic JSON checkpoint and a timestamped method/iterate diagnostic
+trace; interrupted or resource-limited runs are not classified as
+mathematical convergence or divergence.
+
+Start with one five-graph batch:
+
+```bash
+bash scripts/stage.sh 10 bound120-timeboxed-v3 next
+```
+
+Repeat `next` to resume where you stopped. After checking the initial
+results, run all remaining batches with:
+
+```bash
+bash scripts/stage.sh 10 bound120-timeboxed-v3 all
+```
+
+For one zero-based batch index, replace `next` with `0`, `1`, etc.
+For long local sessions, use `tmux` and prevent automatic suspend.
+
+The stage writes frozen metadata to
+`runs/order10/bound120-timeboxed-v3/manifest.json`, results under
+`records/`, per-batch files under `batches/`, a partial
+`progress.json`, and a final `summary.json` when every graph is processed.
+It also writes **`indeterminate_order_10_v3.txt`**, removing only
+independently replayed positive v3 results from the prior 8,648-graph
+working list. The original `indeterminate_order_10.txt` is deliberately
+not modified, since its historical manifest checksums must remain valid.
+
+The certificate serializer replays special-octahedron, explicitly proven
+retraction targets, and eventual clique-Helly witnesses. Positive
+classification indications with no portable witness are recorded as
+`INDETERMINATE`, with the upstream verdict retained for diagnosis.
+`TIMEOUT`, `BOUND_EXCEEDED`, and `ERROR` are likewise **not proofs**.
+Once a stage has started, do not change its code, upstream pin, cohort,
+or resource limits. For any different limits, start a separate versioned
+experiment with a new stage directory.
+
+Audit all positive results by reconstructing their entire clique-iterate
+chains:
+
+```bash
+bash scripts/stage.sh 10 bound120-timeboxed-v3 verify
+```
+
+Review and commit deliberately after a batch:
+
+```bash
+git status --short
+git add runs/order10/bound120-timeboxed-v3/ indeterminate_order_10_v3.txt
+git commit -m "Record local v3 clique-behavior benchmark"
+git push
+```
+
+If `git status` shows unrelated files, review them before committing.

@@ -1,0 +1,32 @@
+name: Local v3 cohort and runner checks
+
+on:
+  pull_request:
+    paths:
+      - "config/homotopy_no_s2_order10.tsv"
+      - "config/pycliques_commit_v3.txt"
+      - "scripts/bootstrap_v3.sh"
+      - "scripts/timeboxed_v3.py"
+      - "scripts/timeboxed_worker_v3.py"
+      - "scripts/timeboxed_trace_v2.py"
+      - "scripts/timeboxed_trace_v3.py"
+      - "scripts/certificate_records_v3.py"
+      - "scripts/staged.py"
+      - "scripts/stage.sh"
+      - "tests/test_timeboxed_v3.py"
+      - ".github/workflows/local-v3.yml"
+  workflow_dispatch:
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+      - name: Prepare separate pinned witness-capable environment
+        run: bash scripts/bootstrap_v3.sh
+      - name: Check frozen cohort and positive proof replay
+        run: .venv-v3/bin/python -m unittest discover -s tests -p test_timeboxed_v3.py -v
+      - name: Check read-only stage plan (no computations started)
+        run: bash scripts/stage.sh 10 bound120-timeboxed-v3 plan

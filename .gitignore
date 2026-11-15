@@ -1,6 +1,7 @@
 # Installed dependencies and local virtual environments (never commit)
 .deps/
 .venv
+.venv-v3
 __pycache__/
 *.py[cod]
 .pytest_cache/
