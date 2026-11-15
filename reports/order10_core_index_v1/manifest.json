@@ -1,0 +1,39 @@
+{
+  "by_pared_order": {
+    "10": {
+      "classes": 2403,
+      "originals": 2403
+    },
+    "8": {
+      "classes": 1,
+      "originals": 2092
+    },
+    "9": {
+      "classes": 35,
+      "originals": 4038
+    }
+  },
+  "distinct_cores": 2439,
+  "historical_sha256": "c1ab6347ead9e2cd9b6c4157425b2cfda2203d079137c6fda89a7677f7657aa4",
+  "method": "necessary degree/triangle/neighbor-degree filter, then exact NetworkX graph isomorphism",
+  "originals_before_v3": 8648,
+  "originals_remaining": 8533,
+  "output_sha256": {
+    "assignments.tsv": "b9cbe4f71631f65ff1193eb16e3a706ddd08372fa9fb30c69be27acd36c14dc6",
+    "classes.tsv": "5a9b08c548aa5671f9c1403cf1badd0044211f7ef75129c83980462efa6f16eb",
+    "summary.md": "1649f0a6d9846ce9a660c33888ceac71766aa4f4de22b24f5d5e225e839ec6aa"
+  },
+  "post_v3_sha256": "06d98896a18dacc95009e3824ecf69844e7a2f30d1efe7e24417c770d4fbcc30",
+  "removed_by_v3": 115,
+  "representative_rule": "lowest original source index in class",
+  "schema": 1,
+  "script_sha256": "b4c26a98b8f3c9f46302c6e3712f731d0f72d91881fdf1a2749c16f4df14d78c",
+  "stage": "order10_core_index_v1",
+  "v3_counts": {
+    "BOUND_EXCEEDED": 38,
+    "CONVERGENT": 115
+  },
+  "v3_manifest_sha256": "37bdb0faee9b022e695a9b3014ded01da65be12eff3bc678db268e569964ac48",
+  "v3_records_sha256": "e954ba56e442d30276cdf77b143693411e17bb9094334aa76e994c91407661c5",
+  "v3_summary_sha256": "0f6385fe988932c5b341fbcca51ceacec3bf25ca69259caa93bc273899e38c3a"
+}
