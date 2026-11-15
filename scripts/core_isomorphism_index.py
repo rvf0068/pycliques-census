@@ -188,7 +188,7 @@ def prepare(historical_path: Path = HISTORICAL, active_path: Path = ACTIVE,
             len(group.members),
             sum(r.target_status == "conjectured_divergent" for r in group.members),
             ",".join(str(r.index) for r in group.members),
-        )))
+        ))))
 
     by_order = {}
     for order in sorted({g.rep.order for g in classes}):
