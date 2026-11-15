@@ -1,0 +1,10 @@
+{
+  "complete_batches": 31,
+  "counts": {
+    "BOUND_EXCEEDED": 38,
+    "CONVERGENT": 115
+  },
+  "processed": 153,
+  "total": 153,
+  "total_batches": 31
+}

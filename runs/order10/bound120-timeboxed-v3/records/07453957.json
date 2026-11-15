@@ -1,0 +1,213 @@
+{
+  "batch": 1,
+  "bound": 120,
+  "bound_exceeded": false,
+  "certificate_rule": null,
+  "certificate_target_status": null,
+  "conjectured_references_ignored": true,
+  "diagnostic_schema": 3,
+  "elapsed_seconds": 0.526,
+  "graph6": "I?qnB]y|G",
+  "in_progress_method": null,
+  "index": 7453957,
+  "iterates": [
+    {
+      "index": 0,
+      "pared_edges": 22,
+      "pared_order": 9
+    },
+    {
+      "index": 1,
+      "pared_edges": 56,
+      "pared_order": 14,
+      "raw_edges": 56,
+      "raw_order": 14,
+      "status": "completed"
+    },
+    {
+      "index": 2,
+      "pared_edges": 103,
+      "pared_order": 18,
+      "raw_edges": 103,
+      "raw_order": 18,
+      "status": "completed"
+    },
+    {
+      "index": 3,
+      "pared_edges": 84,
+      "pared_order": 16,
+      "raw_edges": 432,
+      "raw_order": 34,
+      "status": "completed"
+    },
+    {
+      "index": 4,
+      "pared_edges": 4,
+      "pared_order": 4,
+      "raw_edges": 277,
+      "raw_order": 26,
+      "status": "completed"
+    }
+  ],
+  "iterations_checked": 5,
+  "last_progress_event": "method_end",
+  "methods_tried": [
+    {
+      "method": "classify_reference_graph",
+      "outcome": "no_certificate",
+      "seconds": 0.0
+    },
+    {
+      "method": "classify_suspension_2_coaffination",
+      "outcome": "no_certificate",
+      "seconds": 0.0
+    },
+    {
+      "method": "test_clockwork",
+      "outcome": "no_certificate",
+      "seconds": 0.021
+    },
+    {
+      "iterate": 0,
+      "method": "clique_helly",
+      "outcome": "no_certificate",
+      "seconds": 0.0,
+      "source_order": 9
+    },
+    {
+      "iterate": 0,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.002,
+      "source_order": 9,
+      "target_order": 7
+    },
+    {
+      "iterate": 0,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.0,
+      "source_order": 9,
+      "target_order": 8
+    },
+    {
+      "iterate": 0,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.0,
+      "source_order": 9,
+      "target_order": 9
+    },
+    {
+      "iterate": 0,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.0,
+      "source_order": 9,
+      "target_order": 8
+    },
+    {
+      "iterate": 0,
+      "method": "special_octahedron_test",
+      "outcome": "no_certificate",
+      "seconds": 0.0,
+      "source_order": 9
+    },
+    {
+      "iterate": 1,
+      "method": "clique_helly",
+      "outcome": "no_certificate",
+      "seconds": 0.0,
+      "source_order": 14
+    },
+    {
+      "iterate": 1,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.054,
+      "source_order": 14,
+      "target_order": 7
+    },
+    {
+      "iterate": 1,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.051,
+      "source_order": 14,
+      "target_order": 8
+    },
+    {
+      "iterate": 1,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.036,
+      "source_order": 14,
+      "target_order": 9
+    },
+    {
+      "iterate": 1,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.06,
+      "source_order": 14,
+      "target_order": 8
+    },
+    {
+      "iterate": 1,
+      "method": "special_octahedron_test",
+      "outcome": "no_certificate",
+      "seconds": 0.0,
+      "source_order": 14
+    },
+    {
+      "iterate": 2,
+      "method": "clique_helly",
+      "outcome": "no_certificate",
+      "seconds": 0.001,
+      "source_order": 18
+    },
+    {
+      "iterate": 2,
+      "method": "special_octahedron_test",
+      "outcome": "no_certificate",
+      "seconds": 0.0,
+      "source_order": 18
+    },
+    {
+      "iterate": 3,
+      "method": "clique_helly",
+      "outcome": "no_certificate",
+      "seconds": 0.001,
+      "source_order": 16
+    },
+    {
+      "iterate": 3,
+      "method": "special_octahedron_test",
+      "outcome": "no_certificate",
+      "seconds": 0.0,
+      "source_order": 16
+    },
+    {
+      "iterate": 4,
+      "method": "clique_helly",
+      "outcome": "positive",
+      "seconds": 0.0,
+      "source_order": 4
+    }
+  ],
+  "peak_rss_kib": 139028,
+  "proof": {
+    "clique_bound": 120,
+    "iterate_index": 4,
+    "origin_graph6": "I?qnB]y|G",
+    "rule": "eventually_clique_helly",
+    "schema": 3,
+    "source_graph6": "Cr"
+  },
+  "proof_status": "verified_chain",
+  "raw_verdict": "CONVERGENT",
+  "reason": "is eventually Helly (index 4)",
+  "retraction_depth": 2,
+  "status": "CONVERGENT",
+  "verdict": "CONVERGENT"
+}

@@ -1,0 +1,17 @@
+{
+  "batch": 24,
+  "indices": [
+    11581720,
+    11581854,
+    11612705,
+    11627470,
+    11627487
+  ],
+  "statuses": {
+    "11581720": "BOUND_EXCEEDED",
+    "11581854": "BOUND_EXCEEDED",
+    "11612705": "BOUND_EXCEEDED",
+    "11627470": "CONVERGENT",
+    "11627487": "CONVERGENT"
+  }
+}

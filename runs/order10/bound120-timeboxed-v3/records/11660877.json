@@ -1,0 +1,171 @@
+{
+  "batch": 27,
+  "bound": 120,
+  "bound_exceeded": true,
+  "certificate_rule": null,
+  "certificate_target_status": null,
+  "conjectured_references_ignored": true,
+  "diagnostic_schema": 3,
+  "elapsed_seconds": 6.752,
+  "graph6": "IEznvj^vo",
+  "in_progress_method": null,
+  "index": 11660877,
+  "iterates": [
+    {
+      "index": 0,
+      "pared_edges": 33,
+      "pared_order": 10
+    },
+    {
+      "index": 1,
+      "pared_edges": 195,
+      "pared_order": 22,
+      "raw_edges": 209,
+      "raw_order": 23,
+      "status": "completed"
+    },
+    {
+      "index": 2,
+      "status": "clique_bound_exceeded"
+    }
+  ],
+  "iterations_checked": 2,
+  "last_progress_event": "method_end",
+  "methods_tried": [
+    {
+      "method": "classify_reference_graph",
+      "outcome": "no_certificate",
+      "seconds": 0.0
+    },
+    {
+      "method": "classify_suspension_2_coaffination",
+      "outcome": "no_certificate",
+      "seconds": 0.0
+    },
+    {
+      "method": "test_clockwork",
+      "outcome": "no_certificate",
+      "seconds": 0.128
+    },
+    {
+      "iterate": 0,
+      "method": "clique_helly",
+      "outcome": "no_certificate",
+      "seconds": 0.0,
+      "source_order": 10
+    },
+    {
+      "iterate": 0,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.021,
+      "source_order": 10,
+      "target_order": 7
+    },
+    {
+      "iterate": 0,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.019,
+      "source_order": 10,
+      "target_order": 8
+    },
+    {
+      "iterate": 0,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.015,
+      "source_order": 10,
+      "target_order": 9
+    },
+    {
+      "iterate": 0,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.002,
+      "source_order": 10,
+      "target_order": 8
+    },
+    {
+      "iterate": 0,
+      "method": "special_octahedron_test",
+      "outcome": "no_certificate",
+      "seconds": 0.0,
+      "source_order": 10
+    },
+    {
+      "iterate": 1,
+      "method": "clique_helly",
+      "outcome": "no_certificate",
+      "seconds": 0.004,
+      "source_order": 22
+    },
+    {
+      "iterate": 1,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 1.973,
+      "source_order": 22,
+      "target_order": 7
+    },
+    {
+      "iterate": 1,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 1.97,
+      "source_order": 22,
+      "target_order": 8
+    },
+    {
+      "iterate": 1,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 2.007,
+      "source_order": 22,
+      "target_order": 9
+    },
+    {
+      "iterate": 1,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.272,
+      "source_order": 22,
+      "target_order": 8
+    },
+    {
+      "iterate": 1,
+      "method": "special_octahedron_test",
+      "outcome": "no_certificate",
+      "seconds": 0.001,
+      "source_order": 22
+    },
+    {
+      "method": "classify_reference_dependency",
+      "outcome": "no_certificate",
+      "seconds": 0.031
+    },
+    {
+      "method": "classify_local_bridge",
+      "outcome": "no_certificate",
+      "seconds": 0.002
+    },
+    {
+      "method": "classify_non_triangle_edge",
+      "outcome": "no_certificate",
+      "seconds": 0.0
+    },
+    {
+      "method": "classify_inverse_cutpoint_extension",
+      "outcome": "no_certificate",
+      "seconds": 0.001
+    }
+  ],
+  "peak_rss_kib": 156028,
+  "proof": null,
+  "proof_status": "not_serialized",
+  "raw_verdict": "INDETERMINATE",
+  "reason": "clique count exceeded bound",
+  "retraction_depth": 2,
+  "status": "BOUND_EXCEEDED",
+  "verdict": "INDETERMINATE"
+}

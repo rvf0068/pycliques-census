@@ -1,0 +1,17 @@
+{
+  "batch": 25,
+  "indices": [
+    11628327,
+    11628694,
+    11631847,
+    11638299,
+    11651936
+  ],
+  "statuses": {
+    "11628327": "CONVERGENT",
+    "11628694": "CONVERGENT",
+    "11631847": "CONVERGENT",
+    "11638299": "CONVERGENT",
+    "11651936": "BOUND_EXCEEDED"
+  }
+}

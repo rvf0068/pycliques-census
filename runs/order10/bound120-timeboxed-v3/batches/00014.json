@@ -1,0 +1,17 @@
+{
+  "batch": 14,
+  "indices": [
+    10788758,
+    10788761,
+    10850855,
+    10852466,
+    10852612
+  ],
+  "statuses": {
+    "10788758": "CONVERGENT",
+    "10788761": "CONVERGENT",
+    "10850855": "CONVERGENT",
+    "10852466": "CONVERGENT",
+    "10852612": "CONVERGENT"
+  }
+}
