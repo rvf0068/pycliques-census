@@ -73,7 +73,92 @@ def load_rows(path: Path) -> dict[int, Row]:
     return rows
 
 
-def check_v3(historical: dict[int, Row], active: dict[int, Row], directory: Path) -> tuple[Counter, str]:
+def original_graph6_by_index(root: Path = ROOT) -> dict[int, str]:
+    """Recover the original ten-vertex source graph, not its pared graph.
+
+    A v3 record contains the original graph6; indeterminate_order_10.txt
+    contains the completely pared graph6, which can be different.
+    """
+    initial = root / "runs" / "order10" / "initial"
+    summary = json.loads((initial / "summary.json").read_text(encoding="utf-8"))
+    meta = json.loads((initial / "manifest.json").read_text(encoding="utf-8"))
+    if summary.get("manifest") != meta:
+        raise ValueError("Initial census provenance is inconsistent")
+    result = {}
+    for entry in summary["unresolved"]:
+        i = entry["index"]
+        if i in result or entry.get("order") != 10:
+            raise ValueError("Invalid original unresolved source index")
+        graph6 = entry["graph6"]
+        if decode(graph6).order() != 10:
+            raise ValueError(f"Original graph has wrong order: {i}")
+        result[i] = graph6
+    return result
+
+
+def expected_v3_manifest(root: Path = ROOT) -> dict:
+    """Recompute the entire frozen v3 manifest from repository inputs.
+
+    No v3 environment is needed: the index only reads versioned files and
+    uses the checked-in pin, rather than running any clique classifier.
+    """
+    cohort_file = root / "config" / "homotopy_no_s2_order10.tsv"
+    indices = []
+    for line in cohort_file.read_text(encoding="utf-8").splitlines():
+        if line and not line.startswith("#") and not line.startswith("index\t"):
+            fields = line.split("\t")
+            if len(fields) != 3 or fields[2] not in {"S1", "S3", "S1+S3"}:
+                raise ValueError("Malformed frozen v3 cohort")
+            index = int(fields[0])
+            if decode(fields[1]).order() not in (9, 10):
+                raise ValueError("Unexpected pared order in frozen v3 cohort")
+            indices.append(index)
+    if len(indices) != 153 or len(set(indices)) != 153:
+        raise ValueError("Frozen v3 cohort is not 153 distinct indices")
+
+    order10 = root / "runs" / "order10"
+    static_files = {
+        "cohort_sha256": cohort_file,
+        "historical_working_list_sha256": root / "indeterminate_order_10.txt",
+        "historical_staged_sha256": root / "scripts" / "staged.py",
+        "runner_sha256": root / "scripts" / "timeboxed_v3.py",
+        "worker_sha256": root / "scripts" / "timeboxed_worker_v3.py",
+        "trace_sha256": root / "scripts" / "timeboxed_trace_v3.py",
+        "trace_base_sha256": root / "scripts" / "timeboxed_trace_v2.py",
+        "certificate_sha256": root / "scripts" / "certificate_records_v3.py",
+        "initial_summary_sha256": order10 / "initial" / "summary.json",
+    }
+    predecessors = (
+        "c10", "homotopy", "s1divergence", "bound70", "bound120",
+        "easycovers", "bound120-timeboxed-v2",
+    )
+    for name in predecessors:
+        static_files[name + "_summary_sha256"] = order10 / name / "summary.json"
+
+    result = {
+        "schema": 3,
+        "order": 10,
+        "stage": "bound120-timeboxed-v3",
+        "upstream_commit": (root / "config" / "pycliques_commit_v3.txt")
+            .read_text(encoding="ascii").strip(),
+        "historical_upstream_commit": (root / "config" / "pycliques_commit.txt")
+            .read_text(encoding="ascii").strip(),
+        "batch_size": 5,
+        "timeout_seconds": 120,
+        "memory_mib": 2048,
+        "bound": 120,
+        "retraction_depth": 2,
+        "parallel_workers": 1,
+        "indices": sorted(indices),
+        "selection": "Exactly the 153 still-unresolved order-10 original graphs with no S2 wedge summand",
+    }
+    result.update({field: file_hash(path) for field, path in static_files.items()})
+    return result
+
+
+def check_v3(historical: dict[int, Row], active: dict[int, Row], directory: Path,
+             *, expected_manifest: dict | None = None,
+             source_graph6: dict[int, str] | None = None) -> tuple[Counter, str]:
     """Cross-check the frozen v3 membership delta, without claiming proof replay.
 
     Replay mathematical proofs separately with scripts/timeboxed_v3.py verify.
@@ -81,8 +166,16 @@ def check_v3(historical: dict[int, Row], active: dict[int, Row], directory: Path
     """
     meta = json.loads((directory / "manifest.json").read_text(encoding="utf-8"))
     summary = json.loads((directory / "summary.json").read_text(encoding="utf-8"))
-    if (meta.get("order"), meta.get("stage")) != (10, "bound120-timeboxed-v3"):
-        raise ValueError("Not a completed order-10 v3 stage")
+    authoritative = (
+        expected_manifest if expected_manifest is not None
+        else expected_v3_manifest()
+    )
+    if meta != authoritative:
+        raise ValueError("v3 manifest differs from frozen repository inputs")
+    originals = (
+        source_graph6 if source_graph6 is not None
+        else original_graph6_by_index()
+    )
     if summary.get("manifest") != meta:
         raise ValueError("v3 summary and manifest disagree")
     for i, row in active.items():
@@ -108,17 +201,27 @@ def check_v3(historical: dict[int, Row], active: dict[int, Row], directory: Path
                 or i in seen or path.name != f"{i:08d}.json"):
             raise ValueError(f"Incorrect source identity in {path}")
         seen.add(i)
+        if r.get("graph6") != originals.get(i):
+            raise ValueError(f"v3 source graph6 differs from original census at {i}")
         status = r.get("status")
-        if not isinstance(status, str):
-            raise ValueError(f"Missing status for v3 index {i}")
-        counts[status] += 1
+        allowed = {
+            "CONVERGENT", "DIVERGENT", "INDETERMINATE",
+            "BOUND_EXCEEDED", "TIMEOUT", "ERROR",
+        }
+        if status not in allowed or r.get("bound") != 120:
+            raise ValueError(f"Invalid v3 status or bound at {i}")
         if status in {"CONVERGENT", "DIVERGENT"}:
             proof = r.get("proof")
-            if (r.get("proof_status") != "verified_chain"
+            if (r.get("verdict") != status
+                    or r.get("proof_status") != "verified_chain"
                     or not isinstance(proof, dict)
-                    or proof.get("origin_graph6") != r.get("graph6")):
+                    or proof.get("origin_graph6") != originals[i]):
                 raise ValueError(f"Unlinked positive v3 proof record at {i}")
             removed.add(i)
+        elif status in {"BOUND_EXCEEDED", "TIMEOUT", "ERROR"}:
+            if r.get("verdict") != "INDETERMINATE":
+                raise ValueError(f"Invalid resource-limit verdict at {i}")
+        counts[status] += 1
     if dict(counts) != summary.get("counts"):
         raise ValueError("v3 records disagree with summary counts")
     if set(historical) - set(active) != removed:
