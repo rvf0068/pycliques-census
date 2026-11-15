@@ -5,6 +5,20 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 export PATH="$HOME/.local/bin:$PATH"
 
+# Future-v3 run uses its own pin and uv environment. The historical census
+# stages and scripts/staged.py are deliberately left untouched.
+if [[ "${1:-}" == 10 && "${2:-}" == "bound120-timeboxed-v3" ]]; then
+  if (( $# < 2 || $# > 3 )); then
+    echo "Usage: bash scripts/stage.sh 10 bound120-timeboxed-v3 [plan|next|all|verify|BATCH_INDEX]" >&2
+    exit 2
+  fi
+  [[ -x "$ROOT/.venv-v3/bin/python" ]] || {
+    echo "Run bash scripts/bootstrap_v3.sh first" >&2
+    exit 2
+  }
+  exec "$ROOT/.venv-v3/bin/python" scripts/timeboxed_v3.py "${3:-next}"
+fi
+
 if [[ "${1:-}" == baseline && $# -eq 1 ]]; then
   .venv/bin/python -c 'import sys; sys.path.insert(0, "scripts"); from staged import check_baseline; check_baseline()'
   exit 0
