@@ -21,14 +21,15 @@ def g6(graph: nx.Graph) -> str:
 
 class CoreIndexTests(unittest.TestCase):
     def test_true_isomorphism_not_graph6_string_equality(self):
-        cycle = nx.cycle_graph(5)
-        relabeled = nx.relabel_nodes(cycle, {0: 0, 1: 2, 2: 4, 3: 1, 4: 3})
-        different = nx.path_graph(5)
-        self.assertNotEqual(g6(cycle), g6(relabeled))
+        # Actual historical order-9 core encodings of the same graph.
+        first = "HEiv^p{"
+        permuted = "HEivrzk"
+        self.assertNotEqual(first, permuted)
+        self.assertTrue(nx.is_isomorphic(core.decode(first), core.decode(permuted)))
         rows = {
-            15: core.Row(15, 5, g6(relabeled), "-"),
-            3: core.Row(3, 5, g6(cycle), "-"),
-            8: core.Row(8, 5, g6(different), "-"),
+            15: core.Row(15, 9, permuted, "-"),
+            3: core.Row(3, 9, first, "-"),
+            8: core.Row(8, 9, g6(nx.path_graph(9)), "-"),
         }
         classes = core.group_rows(rows)
         self.assertEqual(len(classes), 2)
