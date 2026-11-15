@@ -562,3 +562,44 @@ git push
 ```
 
 If `git status` shows unrelated files, review them before committing.
+
+
+## Exact core-isomorphism index after order-10 v3
+
+The completed order-10 v3 stage leaves 8,533 original graph indices
+unresolved. Many have isomorphic completely pared cores. This independent,
+read-only index selects the smallest original index as representative
+of each isomorphism class. Graph6 strings are not canonical identifiers:
+a structural fingerprint only reduces comparisons; every actual merge
+is checked by NetworkX exact graph isomorphism.
+
+No historical result, conjectural-reference status, homotopy certificate,
+or previous-stage manifest is modified. No new clique-behavior verdict is
+inferred. The original-source and post-v3 lists are checked against all
+153 saved v3 statuses, but mathematical certificates must be replayed
+separately with the v3 verify command.
+
+From the repository root:
+
+    .venv/bin/python scripts/core_isomorphism_index.py build
+    .venv/bin/python scripts/core_isomorphism_index.py verify
+
+Output is written under reports/order10_core_index_v1/:
+
+- assignments.tsv: each active original index mapped to representative.
+- classes.tsv: each representative, core graph6, and full member indices.
+- summary.md: readable class-size distribution and biggest classes.
+- manifest.json: SHA-256 checksums of source, implementation, and outputs.
+
+A completed index is immutable: re-running build verifies it byte-for-byte,
+and changed inputs require a new versioned output folder. The dedicated
+GitHub Actions workflow also creates the full index and publishes an artifact.
+
+After reviewing the output, commit it with:
+
+    git add reports/order10_core_index_v1/
+    git commit -m "Record order-10 post-v3 core-isomorphism index"
+    git push origin main
+
+Always use SSH rather than HTTPS for fresh GitHub clones and remotes,
+for example git@github.com:rvf0068/pycliques-census.git.
