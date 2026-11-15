@@ -135,6 +135,28 @@ def ensure_manifest(folder: Path, meta: dict) -> None:
         staged.write_atomic(path, meta)
 
 
+def check_positive(index: int, row: dict, original_graph6: str) -> None:
+    """Replay the entire certificate before accepting a positive record.
+
+    A stored proof-status string cannot authenticate a JSON record. In
+    particular, a valid certificate for *another* graph must not transfer
+    to this source index.
+    """
+    from certificate_records_v3 import verify_record
+
+    if (
+        row.get("status") not in PROVEN
+        or row.get("verdict") != row["status"]
+        or row.get("proof_status") != "verified_chain"
+        or row.get("graph6") != original_graph6
+        or not isinstance(row.get("proof"), dict)
+        or row["proof"].get("origin_graph6") != original_graph6
+        or row.get("bound") != CLIQUE_BOUND
+        or not verify_record(row, verify_iterate=True)
+    ):
+        raise ValueError(f"Invalid or unverified positive v3 certificate at index {index}")
+
+
 def saved_records(source: dict[int, dict], eligible: dict[int, dict]) -> dict[int, dict]:
     records = staged.checked_records(ORDER, STAGE, source)
     if set(records) - set(eligible):
@@ -142,12 +164,8 @@ def saved_records(source: dict[int, dict], eligible: dict[int, dict]) -> dict[in
     for index, row in records.items():
         if row.get("status") not in STATUSES or row.get("bound") != CLIQUE_BOUND:
             raise ValueError(f"Bad v3 result record at {index}")
-        if row["status"] in PROVEN and (
-            row.get("verdict") != row["status"]
-            or row.get("proof_status") != "verified_chain"
-            or not isinstance(row.get("proof"), dict)
-        ):
-            raise ValueError(f"Unverified positive result at {index}")
+        if row["status"] in PROVEN:
+            check_positive(index, row, source[index]["graph6"])
     return records
 
 
@@ -302,6 +320,8 @@ def run(batch: str) -> bool:
                 "batch": number,
                 **run_one(eligible[index]["graph6"], folder),
             }
+            if record["status"] in PROVEN:
+                check_positive(index, record, eligible[index]["graph6"])
             staged.write_atomic(folder / "records" / f"{index:08d}.json", record)
             records[index] = record
             print(f"    {record['status']} in {record['elapsed_seconds']:.1f}s", flush=True)
@@ -317,8 +337,6 @@ def run(batch: str) -> bool:
 
 
 def verify() -> None:
-    from certificate_records_v3 import verify_record
-
     eligible, source = cohort()
     meta = manifest(eligible)
     folder = staged.stage_dir(ORDER, STAGE)
@@ -328,9 +346,8 @@ def verify() -> None:
     records = saved_records(source, eligible)
     positives = [(i, record) for i, record in sorted(records.items())
                  if record["status"] in PROVEN]
-    for index, record in positives:
-        if not verify_record(record, verify_iterate=True):
-            raise ValueError(f"Independent v3 certificate replay FAILED for index {index}")
+    # saved_records() has already replayed each positive, checked the
+    # original graph6 binding, and rejected any tampered certificate.
     print(f"Independently replayed {len(positives)} positive v3 certificates.")
 
 
