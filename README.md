@@ -603,3 +603,58 @@ After reviewing the output, commit it with:
 
 Always use SSH rather than HTTPS for fresh GitHub clones and remotes,
 for example git@github.com:rvf0068/pycliques-census.git.
+
+## Core9 representative benchmark (new, independent stage)
+
+The post-v3 exact isomorphism index contains **35 distinct completely pared
+order-nine core classes**, representing 4,038 original order-10 graphs.
+The new core9 benchmark computes **one nine-vertex representative per
+class**, using the existing pinned v3 pycliques-project environment.
+
+Inputs are frozen by the previously committed
+reports/order10_core_index_v1/{classes.tsv,assignments.tsv,manifest.json}
+and by hashes of the worker, runner, certificate and tracing implementations.
+The runner regenerates the expected exact index in memory, verifies
+the committed index byte-for-byte, and rejects changed dependencies or
+parameters on resume. No previous run or working list is modified.
+
+From the Lenovo checkout, after merging the PR:
+
+    cd ~/Python/pycliques-census
+    git switch main
+    git pull --ff-only
+    bash scripts/core9.sh plan
+    bash scripts/core9.sh next
+
+Check the first five representatives and their diagnoses. To continue:
+
+    bash scripts/core9.sh all
+    bash scripts/core9.sh verify
+
+The stage runs five representatives per batch, one worker at a time;
+the fixed limits are **120s**, **2 GiB virtual memory**, and
+**clique bound 120** per core, with retraction depth two.
+All statuses, elapsed time, peak resident memory (if available), last
+root iterate and attempted criteria are written to
+runs/order10/core9-benchmark-v1/. The generated report.md is a
+readable summary. Execution can be interrupted and resumed.
+
+Positive core certificates are serialized and independently replayed
+against their precise nine-vertex representative, checking the full
+clique-iterate chain. Unknown/conditional witnesses, timeouts, errors
+and bound exceedances are **not proofs**. Conjectural reference graphs
+are never used for positive classifications.
+
+**Important:** the benchmark records conclusions about the pared cores
+only. It does **not** automatically change the classification of the
+original ten-vertex graphs or the 8,533-entry unresolved list.
+Any later transfer of results to original members requires a separately
+documented mathematical argument and validated source-to-core paring.
+
+After verification, commit only the new stage:
+
+    git add runs/order10/core9-benchmark-v1/
+    git commit -m "Record 35 order-nine core benchmark results"
+    git push origin main
+
+All manually cloned GitHub repositories should use SSH.
