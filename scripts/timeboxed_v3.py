@@ -45,8 +45,8 @@ def current_v3_pin() -> str:
     ).strip()
     if len(pin) != 40 or head != pin:
         raise ValueError("Separate v3 upstream checkout does not match its pinned SHA")
-    expected = (V3_SOURCE / ".venv" / "bin" / "python").resolve()
-    if Path(sys.executable).resolve() != expected:
+    expected = (V3_SOURCE / ".venv").resolve()
+    if Path(sys.prefix).resolve() != expected:
         raise ValueError("Run with .venv-v3/bin/python, not the historical .venv")
     return head
 
