@@ -18,6 +18,19 @@ sys.path.insert(0, str(SCRIPTS))
 import staged  # noqa: E402
 import timeboxed_v3 as runner  # noqa: E402
 
+# This test file is discovered by *both* the immutable historical census CI
+# and the separate v3 integration workflow. Only the latter has the pinned
+# witness-capable pycliques checkout. Keep all dependency-independent tests
+# active in both jobs, but never run v3-specific integration cases against
+# the historical pycliques version.
+from pycliques import retractions  # noqa: E402
+
+V3_TEST_ENV = (
+    Path(sys.prefix).resolve() == (SCRIPTS.parent / ".deps" / "pycliques-project-v3" / ".venv").resolve()
+    and hasattr(retractions, "verify_special_octahedron_witness")
+    and hasattr(retractions, "verify_retraction_witness")
+)
+
 
 def gf2_rank(vectors: list[int]) -> int:
     basis = {}
@@ -72,6 +85,7 @@ class LocalV3Tests(unittest.TestCase):
                 labels[int(index)] = label
         self.assertEqual(Counter(labels.values()), Counter({"S1": 115, "S3": 35, "S1+S3": 3}))
 
+    @unittest.skipUnless(V3_TEST_ENV, "Requires the separate uv-managed v3 witness environment")
     def test_separate_upstream_and_unchanged_v2_provenance(self):
         self.assertEqual(runner.CLIQUE_BOUND, 120)
         self.assertEqual(runner.TIMEOUT_SECONDS, 120)
@@ -86,6 +100,7 @@ class LocalV3Tests(unittest.TestCase):
         self.assertEqual(meta["historical_upstream_commit"],
                          (runner.ROOT / "config" / "pycliques_commit.txt").read_text().strip())
 
+    @unittest.skipUnless(V3_TEST_ENV, "Requires the separate uv-managed v3 witness environment")
     def test_positive_worker_classification_has_replayable_chain(self):
         import timeboxed_worker_v3
         with tempfile.TemporaryDirectory() as directory:
@@ -97,6 +112,7 @@ class LocalV3Tests(unittest.TestCase):
         self.assertGreaterEqual(record["peak_rss_kib"], 0)
         self.assertEqual(record["bound"], 120)
 
+    @unittest.skipUnless(V3_TEST_ENV, "Requires the separate uv-managed v3 witness environment")
     def test_real_isolated_worker_under_2gib_limit(self):
         # Exercise the exact subprocess/RLIMIT_AS path without creating
         # census records or re-running any of the 153 research cases.
@@ -221,6 +237,7 @@ class LocalV3Tests(unittest.TestCase):
                 runner.ensure_manifest(folder, {**baseline, "timeout_seconds": 600})
             self.assertEqual(json.loads((folder / "manifest.json").read_text()), baseline)
 
+    @unittest.skipUnless(V3_TEST_ENV, "Requires the separate uv-managed v3 witness environment")
     def test_verify_and_resume_reject_tampered_positive_proof(self):
         from timeboxed_worker_v3 import classify
         graph6 = "ICvbvy}|g"
