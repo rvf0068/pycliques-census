@@ -94,6 +94,10 @@ def manifest(selected: dict[int, dict]) -> dict:
     paths = {
         "runner_sha256": ROOT / "scripts" / "core9_benchmark.py",
         "worker_sha256": ROOT / "scripts" / "core9_worker.py",
+        "pin_validator_sha256": ROOT / "scripts" / "timeboxed_v3.py",
+        "v3_bootstrap_sha256": ROOT / "scripts" / "bootstrap_v3.sh",
+        "v3_pin_file_sha256": ROOT / "config" / "pycliques_commit_v3.txt",
+        "historical_stage_helper_sha256": ROOT / "scripts" / "staged.py",
         "certificate_sha256": ROOT / "scripts" / "certificate_records_v3.py",
         "trace_sha256": ROOT / "scripts" / "timeboxed_trace_v3.py",
         "trace_base_sha256": ROOT / "scripts" / "timeboxed_trace_v2.py",
@@ -161,7 +165,12 @@ def saved_records(folder: Path, selected: dict[int, dict]) -> dict[int, dict]:
             raise ValueError(f"Malformed saved core9 record: {path}")
         if row["status"] in PROVEN:
             check_positive(i, row, selected[i]["graph6"])
+        elif row["status"] in {"BOUND_EXCEEDED", "TIMEOUT", "ERROR"}:
+            if row.get("verdict") != "INDETERMINATE":
+                raise ValueError(f"Resource failure cannot carry a positive verdict: {i}")
         elif row.get("verdict") not in {"INDETERMINATE", "CONVERGENT", "DIVERGENT"}:
+            # A raw positive without a serialized/replayed witness is only
+            # a candidate: the saved status remains INDETERMINATE.
             raise ValueError(f"Malformed nonpositive core9 verdict for {i}")
         records[i] = row
     return records
