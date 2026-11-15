@@ -26,12 +26,12 @@ jobs:
         run: python -m unittest discover -s tests -p test_core_isomorphism_index.py -v
       - name: Build and independently verify a complete read-only index
         run: |
-          python scripts/core_isomorphism_index.py build --output reports/.ci-core-index
-          python scripts/core_isomorphism_index.py verify --output reports/.ci-core-index
-          cat reports/.ci-core-index/summary.md | head -45
+          python scripts/core_isomorphism_index.py build --output reports/ci-core-index
+          python scripts/core_isomorphism_index.py verify --output reports/ci-core-index
+          cat reports/ci-core-index/summary.md | head -45
           git diff --exit-code -- indeterminate_order_10.txt indeterminate_order_10_v3.txt runs/order10/
       - uses: actions/upload-artifact@v4
         with:
           name: order10-post-v3-core-index
-          path: reports/.ci-core-index/
+          path: reports/ci-core-index/
           if-no-files-found: error
