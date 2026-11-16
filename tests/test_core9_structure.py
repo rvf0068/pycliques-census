@@ -38,7 +38,7 @@ class StructureTests(unittest.TestCase):
         exact = worker.clique_sample(graph, limit=10)
         self.assertTrue(exact["exact"])
         self.assertEqual(exact["maximal_cliques_exact"], 5)
-        self.assertEqual(exact["partial_size_histogram"], {1: 5})
+        self.assertEqual(exact["partial_size_histogram"], {"1": 5})
         truncated = worker.clique_sample(graph, limit=2)
         self.assertFalse(truncated["exact"])
         self.assertIsNone(truncated["maximal_cliques_exact"])
