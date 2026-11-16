@@ -9,6 +9,7 @@ on:
       - "scripts/bootstrap_core9cover_v2.sh"
       - "config/pycliques_commit_core9cover_v2.txt"
       - "reports/snub_retraction_homology_v1/**"
+      - "README.md"
   workflow_dispatch:
 
 jobs:
