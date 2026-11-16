@@ -213,3 +213,65 @@ def test_nondivergent_cycle_complement_does_not_mask_different_target():
     )
     assert results["cycle_complements"].status is TargetSearchStatus.EXHAUSTED
     assert results["cycle_complements"].induced_targets_checked == 0
+
+
+@pytest.mark.parametrize(
+    "changes",
+    [
+        {"algorithm": "other.homology.method"},
+        {"max_faces": 42},
+        {"max_partial_degree": 1},
+        {"mode": "unknown"},
+        {"mode": "partial"},
+        {"mode": "face_limit"},
+        {"betti_numbers": None},
+        {"betti_numbers": {"0": 0, "1": "0", "2": 1}},
+        {"betti_numbers": {"0": 0, "1": False, "2": 1}},
+        {"betti_numbers": {"0": 0, "1": -1, "2": 1}},
+        {"betti_numbers": {"0": 0, "2": 1}},
+        {"betti_numbers": {"00": 0, "1": 0, "2": 1}},
+        {"betti_numbers": {"0": 0, "1": 0, "2": 1, "999": 1}},
+    ],
+)
+def test_cache_load_rejects_invalid_provenance_or_exact_profile(
+    tmp_path, monkeypatch, changes
+):
+    graph = octahedron(3)
+    _, key = stage.cache_homology(graph, tmp_path)
+    cache = tmp_path/"homology_cache"/(key+".json")
+    original = json.loads(cache.read_text(encoding="utf-8"))
+    original.update(changes)
+    cache.write_text(json.dumps(original), encoding="utf-8")
+
+    def must_not_recompute(*args, **kwargs):
+        raise AssertionError("Invalid caches must fail closed, not recompute")
+
+    monkeypatch.setattr(stage, "bounded_reduced_betti_mod2", must_not_recompute)
+    with pytest.raises(ValueError, match="cache|Betti|homology"):
+        stage.cache_homology(graph, tmp_path)
+
+
+def test_cache_load_accepts_valid_face_limit_and_partial_mode(tmp_path, monkeypatch):
+    graph = octahedron(3)
+    _, key = stage.cache_homology(graph, tmp_path)
+    cache = tmp_path/"homology_cache"/(key+".json")
+    original = json.loads(cache.read_text(encoding="utf-8"))
+
+    face_limit = dict(original, mode="face_limit", betti_numbers=None)
+    cache.write_text(json.dumps(face_limit), encoding="utf-8")
+    assert stage.cache_homology(graph, tmp_path) == (None, key)
+
+    partial = dict(original, mode="partial", betti_numbers={
+        str(degree): 0 for degree in range(stage.MAX_BETTI_PARTIAL_DEGREE + 1)
+    })
+    cache.write_text(json.dumps(partial), encoding="utf-8")
+    known, key2 = stage.cache_homology(graph, tmp_path)
+    assert known == {
+        degree: 0 for degree in range(stage.MAX_BETTI_PARTIAL_DEGREE + 1)
+    }
+    assert key2 == key
+
+    partial["betti_numbers"].pop(str(stage.MAX_BETTI_PARTIAL_DEGREE))
+    cache.write_text(json.dumps(partial), encoding="utf-8")
+    with pytest.raises(ValueError, match="partial homology cache"):
+        stage.cache_homology(graph, tmp_path)
