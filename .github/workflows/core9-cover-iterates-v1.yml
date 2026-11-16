@@ -1,0 +1,57 @@
+name: Nine-core pared-iterate triangular covering search
+
+on:
+  pull_request:
+    paths:
+      - "scripts/core9iterate_v1.py"
+      - "scripts/core9iterate_v1_worker.py"
+      - "scripts/core9iterate_v1.sh"
+      - "tests/test_core9iterate_v1.py"
+      - ".github/workflows/core9-cover-iterates-v1.yml"
+      - "scripts/core9cover_v2.py"
+      - "scripts/core9cover_v2_worker.py"
+      - "scripts/bootstrap_core9cover_v2.sh"
+      - "config/pycliques_commit_core9cover_v2.txt"
+      - "runs/order10/core9-structure-v1/**"
+      - "reports/order10_core9_crossref_v1/**"
+      - "postpasses/s1_divergence.py"
+  workflow_dispatch:
+
+jobs:
+  run-and-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap existing isolated post-PR14 dependency pin
+        run: bash scripts/bootstrap_core9cover_v2.sh
+      - name: Check source reconstruction, completeness semantics, and timeouts
+        run: .venv-core9cover-v2/bin/python -m unittest discover -s tests -p test_core9iterate_v1.py -v
+      - name: Print immutable cohort and bound plan
+        run: bash scripts/core9iterate_v1.sh plan
+      - name: Execute all 16 bounded searches
+        run: bash scripts/core9iterate_v1.sh all
+      - name: Verify certificates, provenance and summary
+        run: bash scripts/core9iterate_v1.sh verify
+      - name: Repeat all completed successful searches with original resource limits
+        run: bash scripts/core9iterate_v1.sh replay
+      - name: Display readable findings
+        run: cat runs/order10/core9-cover-iterates-v1/report.md
+      - name: Ensure old experiment outputs and original census remain unchanged
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/order9/ runs/order10/core9-cover-ac3-v2/ \
+            runs/order10/core9-followup-v1/ runs/order10/core9-structure-v1/ \
+            runs/order10/core9-benchmark-v1/ reports/order10_core9_crossref_v1/ \
+            config/pycliques_commit_core9cover_v2.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pared-iterate-cover-search-v1
+          path: runs/order10/core9-cover-iterates-v1/
+          if-no-files-found: error

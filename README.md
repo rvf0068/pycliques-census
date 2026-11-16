@@ -864,3 +864,49 @@ After reviewing and verifying:
     git add runs/order10/core9-cover-ac3-v2/
     git commit -m "Record post-PR14 baseline and expanded core9 covering searches"
     git push origin main
+
+## Covering investigation on the first two pared clique iterates (v1)
+
+The eight nine-vertex cores with mod-2 first Betti number one in their
+saved sequences are investigated further on **G1** and **G2**, where
+`G1` and `G2` denote the *completely pared* iterates produced by
+`pycliques.small.CliqueSequence`. These are not the raw iterates.
+The new stage independently reconstructs them from the frozen initial
+cores with the already merged, pinned post-PR14 code and checks exact
+graph isomorphism against the saved graph6 for each.
+
+Sixteen tasks (G1 and G2 for each of eight cores) use the unique connected
+triangular double cover of each saved iterate. The source family uses
+clockwork parameters `m=2..3`, `n=0..2`, source order at most 42,
+actual deck-radius eligibility, an AC-3 coaffine-morphism search,
+and explicitly bounded cover/clique graphs. Search workers have a
+120-second wall-clock and 2-GiB address-space limit.
+
+From the **pycliques-census repository root**, after merging the PR:
+
+    bash scripts/bootstrap_core9cover_v2.sh
+    bash scripts/core9iterate_v1.sh plan
+    bash scripts/core9iterate_v1.sh next
+    bash scripts/core9iterate_v1.sh all
+    bash scripts/core9iterate_v1.sh verify
+    bash scripts/core9iterate_v1.sh replay
+    cat runs/order10/core9-cover-iterates-v1/report.md
+
+`next` executes up to four pending tasks, `all` resumes all pending
+batches, and `verify` rechecks saved records and independent positive
+certificates. `replay` re-executes every completed successful or
+exhausted search with the **same worker-level time and memory limits**.
+A negative `EXHAUSTED` result applies only to the recorded finite
+cover/clockwork family; it is not evidence of convergence. A verified
+positive certificate is initially a conclusion about the *pared iterate*
+alone. The stage does **not** automatically assign divergent status to
+the original nine-vertex core or its represented ten-vertex members.
+
+The stage is immutable by a manifest of source graph6, SHA-256 code and
+upstream record hashes, pinned dependency SHA and search limits. It
+preserves all previous `runs/` and `reports/` directories. After
+reviewing the generated report and replay:
+
+    git add runs/order10/core9-cover-iterates-v1/
+    git commit -m "Record verified covering searches on pared G1/G2 cores"
+    git push origin main
