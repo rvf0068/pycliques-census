@@ -4,15 +4,15 @@ This is an independently checkable observation about **graph retractions**,
 not a proof that any graph is clique-divergent.
 
 Let \(S\) be the eight-vertex snub disphenoid graph, encoded in the
-order-10 core index by graph6 \`GQyuzw\` (class \`2317572\`).
+order-10 core index by graph6 `GQyuzw` (class `2317572`).
 For the connected nine-vertex graphs at zero-based McKay/pyg6data indices
-\`232592\`, \`233586\`, and \`244584\`, their original graph6 encodings are:
+`232592`, `233586`, and `244584`, their original graph6 encodings are:
 
 | Order-9 index | Original graph6 | Order-10 pared-core class | Original order-10 members |
 |---:|---|---:|---:|
-| 232592 | \`HCprnzy\` | 4929602 | 82 |
-| 233586 | \`HCpvVn{\` | 4972358 | 223 |
-| 244584 | \`HCvbvZu\` | 5645085 | 207 |
+| 232592 | `HCprnzy` | 4929602 | 82 |
+| 233586 | `HCpvVn{` | 4972358 | 223 |
+| 244584 | `HCvbvZu` | 5645085 | 207 |
 
 The three nine-vertex graphs are pairwise nonisomorphic (the classes
 were identified by exact graph isomorphism in the frozen census).
@@ -49,9 +49,9 @@ vertex in the closed-neighborhood (fold) sense. This explains how the
 graphs can survive the earlier completely-pared-core calculation yet
 have these proper graph retracts.
 
-For independent verification, the companion \`certificates.json\`
+For independent verification, the companion `certificates.json`
 contains the original graph6 encodings, the retraction formula, and
-explicit bijections of each eight-vertex induced target onto \`GQyuzw\`.
+explicit bijections of each eight-vertex induced target onto `GQyuzw`.
 The verifier checks every edge of the source, that the retraction fixes
 its induced image, that each bijection is a genuine graph isomorphism,
 and that the indices match the frozen historical census. It also
@@ -62,13 +62,13 @@ G_2(232592)\cong G_2(233586)\cong G_2(244584)
 \]
 
 of the **completely pared second clique iterates**, stored in
-\`runs/order10/core9-followup-v1/isomorphism.json\`.
+`runs/order10/core9-followup-v1/isomorphism.json`.
 
 Run from the repository root:
 
-\`\`\`bash
+```bash
 python scripts/verify_order9_snub_retractions.py
-\`\`\`
+```
 
 **Scope of the result.** The existence of these graph retractions does
 not certify convergence or divergence for any of the three graphs.
