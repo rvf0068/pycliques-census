@@ -1,0 +1,406 @@
+{
+  "results": [
+    {
+      "edges": 18,
+      "homology": {
+        "betti_mod2": {
+          "0": 1,
+          "1": 0,
+          "2": 1
+        },
+        "boundary_rank": {
+          "1": 7,
+          "2": 11
+        },
+        "complete": true,
+        "faces_by_dimension": {
+          "0": 8,
+          "1": 18,
+          "2": 12
+        }
+      },
+      "level": 0,
+      "order": 8,
+      "retraction_tests": {
+        "exhaustive": {
+          "C_8^c": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 8,
+            "target_status": "proven_divergent"
+          },
+          "O_3": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 6,
+            "target_status": "proven_divergent"
+          },
+          "Susp(C_5)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 7,
+            "target_status": "proven_divergent"
+          },
+          "Susp(C_6)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 8,
+            "target_status": "proven_divergent"
+          }
+        }
+      }
+    },
+    {
+      "edges": 46,
+      "homology": {
+        "betti_mod2": {
+          "0": 1,
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        },
+        "boundary_rank": {
+          "1": 11,
+          "2": 35,
+          "3": 32,
+          "4": 4
+        },
+        "complete": true,
+        "faces_by_dimension": {
+          "0": 12,
+          "1": 46,
+          "2": 68,
+          "3": 36,
+          "4": 4
+        }
+      },
+      "level": 1,
+      "order": 12,
+      "retraction_tests": {
+        "exhaustive": {
+          "C_10^c": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 10,
+            "target_status": "proven_divergent"
+          },
+          "C_8^c": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 8,
+            "target_status": "proven_divergent"
+          },
+          "O_3": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 6,
+            "target_status": "proven_divergent"
+          },
+          "Susp(C_10)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 12,
+            "target_status": "structural_only"
+          },
+          "Susp(C_5)": {
+            "csp_states": 20,
+            "distinct_targets": 8,
+            "embeddings_enumerated": 160,
+            "status": "EXHAUSTED",
+            "target_order": 7,
+            "target_status": "proven_divergent"
+          },
+          "Susp(C_6)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 8,
+            "target_status": "proven_divergent"
+          },
+          "Susp(C_7)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 9,
+            "target_status": "proven_divergent"
+          },
+          "Susp(C_8)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 10,
+            "target_status": "structural_only"
+          },
+          "Susp(C_9)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 11,
+            "target_status": "structural_only"
+          }
+        }
+      }
+    },
+    {
+      "edges": 136,
+      "homology": {
+        "betti_mod2": {
+          "0": 1,
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "boundary_rank": {
+          "1": 19,
+          "2": 117,
+          "3": 298,
+          "4": 336,
+          "5": 172,
+          "6": 32
+        },
+        "complete": true,
+        "faces_by_dimension": {
+          "0": 20,
+          "1": 136,
+          "2": 416,
+          "3": 634,
+          "4": 508,
+          "5": 204,
+          "6": 32
+        }
+      },
+      "level": 2,
+      "order": 20,
+      "retraction_tests": {
+        "exhaustive": {
+          "C_10^c": {
+            "csp_states": 0,
+            "distinct_targets": 12,
+            "embeddings_enumerated": 240,
+            "status": "EXHAUSTED",
+            "target_order": 10,
+            "target_status": "proven_divergent"
+          },
+          "C_8^c": {
+            "csp_states": 0,
+            "distinct_targets": 60,
+            "embeddings_enumerated": 960,
+            "status": "EXHAUSTED",
+            "target_order": 8,
+            "target_status": "proven_divergent"
+          },
+          "O_3": {
+            "csp_states": 669,
+            "distinct_targets": 142,
+            "embeddings_enumerated": 6816,
+            "status": "EXHAUSTED",
+            "target_order": 6,
+            "target_status": "proven_divergent"
+          },
+          "Susp(C_10)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 12,
+            "target_status": "structural_only"
+          },
+          "Susp(C_11)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 13,
+            "target_status": "structural_only"
+          },
+          "Susp(C_12)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 14,
+            "target_status": "structural_only"
+          },
+          "Susp(C_13)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 15,
+            "target_status": "structural_only"
+          },
+          "Susp(C_14)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 16,
+            "target_status": "structural_only"
+          },
+          "Susp(C_15)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 17,
+            "target_status": "structural_only"
+          },
+          "Susp(C_16)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 18,
+            "target_status": "structural_only"
+          },
+          "Susp(C_17)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 19,
+            "target_status": "structural_only"
+          },
+          "Susp(C_18)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 20,
+            "target_status": "structural_only"
+          },
+          "Susp(C_5)": {
+            "csp_states": 0,
+            "distinct_targets": 176,
+            "embeddings_enumerated": 3520,
+            "status": "EXHAUSTED",
+            "target_order": 7,
+            "target_status": "proven_divergent"
+          },
+          "Susp(C_6)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 8,
+            "target_status": "proven_divergent"
+          },
+          "Susp(C_7)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 9,
+            "target_status": "proven_divergent"
+          },
+          "Susp(C_8)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 10,
+            "target_status": "structural_only"
+          },
+          "Susp(C_9)": {
+            "csp_states": 0,
+            "distinct_targets": 0,
+            "embeddings_enumerated": 0,
+            "status": "EXHAUSTED",
+            "target_order": 11,
+            "target_status": "structural_only"
+          }
+        }
+      }
+    },
+    {
+      "edges": 1196,
+      "homology": {
+        "betti_mod2": {
+          "0": 1,
+          "1": 0,
+          "2": 0,
+          "3": 0
+        },
+        "boundary_rank": {
+          "1": 55,
+          "2": 1141,
+          "3": 11979,
+          "4": 73389
+        },
+        "complete": false,
+        "faces_by_dimension": {
+          "0": 56,
+          "1": 1196,
+          "2": 13120,
+          "3": 85368,
+          "4": 365272
+        },
+        "higher_dimensions": "not computed"
+      },
+      "level": 3,
+      "order": 56,
+      "retraction_tests": {
+        "cycle_complements": {
+          "C14c_CSP_states": 46762,
+          "C14c_induced_targets": 27982,
+          "C14c_retractions_found": 0,
+          "C15c_CSP_states": 0,
+          "C15c_induced_targets": 20,
+          "C15c_retractions_found": 0,
+          "C_n_c_n_5_to_13": "excluded_by_mod2_homology",
+          "C_n_c_n_ge_16": "excluded_by_no_chordless_cycles",
+          "chordless_cycles_by_length": {
+            "10": 864628,
+            "11": 91380,
+            "12": 412200,
+            "13": 7628,
+            "14": 27982,
+            "15": 20,
+            "4": 5144,
+            "5": 8392,
+            "6": 12178,
+            "7": 150548,
+            "8": 214852,
+            "9": 297756
+          }
+        },
+        "octahedra": {
+          "O3_O4": "excluded_by_mod2_homology",
+          "O5_CSP_states": 4574,
+          "O5_induced_targets": 2128,
+          "O5_retractions_found": 0,
+          "O6_induced_targets": 0,
+          "O_d_d_ge_6": "excluded_by_induced_O6_absence"
+        }
+      }
+    }
+  ],
+  "schema": 1,
+  "source": "raw clique iterates K^0 through K^3",
+  "source_graph6": "GQyuzw",
+  "status": "finite tested target families ruled out; no clique-behavior verdict"
+}

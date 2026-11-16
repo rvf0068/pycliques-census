@@ -944,3 +944,32 @@ This is **not** a clique-divergence verdict for `S` or any core, nor
 does it exclude a special octahedron in `K⁴(S)` or other divergent
 mechanisms. The historical classification of the 29 unresolved cores
 and all existing conjectural snub dependencies are unchanged.
+
+## Homology filters and general retracts of the snub disphenoid (v1)
+
+The new independent [snub retraction/homology report](reports/snub_retraction_homology_v1/report.md)
+studies all *raw* clique iterates of the snub disphenoid through
+`K³(S)`, looking for **arbitrary graph retractions**, not just special
+octahedra, onto octahedra, suspensions of cycles, and complements of cycles.
+
+Exact mod-2 homology eliminates most possible target dimensions before
+search. In `K³(S)`, the computed low-dimensional Betti numbers vanish
+in degrees 1, 2 and 3; this does **not** determine its homotopy type.
+
+The remaining finite searches are exhaustive, with all negative
+retraction conclusions replayable from the committed
+`reports/snub_retraction_homology_v1/results.json`. Notably, `K³(S)`
+has 2,128 induced `O_5` copies and no retractions onto them, no induced
+`O_6`, 27,982 induced `C_14^c` copies and 20 induced `C_15^c`
+copies, and no retractions onto those either. The complement's full
+chordless-cycle enumeration excludes larger cycle-complement targets.
+
+The result is **not** a proof of convergence or nondivergence, nor
+does it classify the snub-dependent order-nine or order-ten cores.
+
+    bash scripts/bootstrap_core9cover_v2.sh
+    .venv-core9cover-v2/bin/python scripts/snub_retractions_homology_v1.py verify
+    .venv-core9cover-v2/bin/python -m unittest discover -s tests -p test_snub_retractions_homology_v1.py -v
+
+Only the new versioned research script, report, tests, and CI workflow
+are modified in this investigation. Earlier stages remain immutable.
