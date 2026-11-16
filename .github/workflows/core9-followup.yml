@@ -14,6 +14,8 @@ on:
       - "scripts/certificate_records_v3.py"
       - "scripts/bootstrap_v3.sh"
       - "scripts/timeboxed_v3.py"
+      - "scripts/timeboxed_trace_v2.py"
+      - "scripts/timeboxed_trace_v3.py"
       - "config/pycliques_commit_v3.txt"
       - "runs/order10/core9-structure-v1/**"
   workflow_dispatch:
