@@ -751,3 +751,49 @@ the new versioned output directory:
     git add runs/order10/core9-structure-v1/
     git commit -m "Record targeted structural diagnostics for 29 nine-cores"
     git push origin main
+
+## Targeted core9 follow-ups: covers, larger bound, and exact G2 matches
+
+The frozen 29-core structural analysis permits three complementary follow-ups:
+
+- Exactly eight completely pared nine-vertex cores have first Betti number
+  1 over GF(2) in all computed iterates. Search the single nontrivial
+  triangular double-cover class of their initial nine-vertex cores,
+  with explicit clockwork-pair morphism/size/state limits.
+- Exactly five cores whose last constructed iterate has at most 300
+  maximal cliques receive a separate **350-clique-bound** classification
+  attempt. Convergence/divergence is accepted only with a replayable
+  v3 witness and full pinned clique-iteration-chain verification.
+- Cores 4929602, 4972358, and 5645085 have exactly isomorphic
+  pared second clique iterates; explicit vertex bijections are saved and
+  independently verified. Thus all their subsequent pared iterates are
+  isomorphic, even though their clique behavior remains unresolved.
+
+These computations form the independent, immutable
+`runs/order10/core9-followup-v1/` stage. Nothing in earlier stages
+or in the original 10-vertex classification is changed.
+
+After merging the PR, in the repository root:
+
+    bash scripts/core9_followup.sh plan
+    bash scripts/core9_followup.sh iso
+    bash scripts/core9_followup.sh next
+    bash scripts/core9_followup.sh all
+    bash scripts/core9_followup.sh verify
+    cat runs/order10/core9-followup-v1/report.md
+
+`next` runs up to four pending cases; `all` resumes the rest. Each task
+gets a separate worker with a 75-second wall clock and 2-GiB
+address-space cap. Resource failures, negative results in a bounded
+cover family, and exhausted clique bounds do **not** constitute
+convergence or nondivergence proofs. A positive covering certificate
+is serialized and checked by the published theorem verifier; a
+positive larger-bound classification is replayed through the complete
+pared iterate chain. The actual committed v3 pin and all source,
+parameter, script and result hashes are recorded.
+
+After verifying, commit only this new output directory:
+
+    git add runs/order10/core9-followup-v1/
+    git commit -m "Record verified targeted core9 follow-up experiments"
+    git push origin main
