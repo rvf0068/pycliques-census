@@ -171,3 +171,26 @@ def test_unknown_homology_never_excludes_target(tmp_path,monkeypatch):
     assert row["betti_known"] is None
     assert row["families"]["octahedra"]["status"]=="FOUND"
     stage.verify_record(record,graph,tmp_path)
+
+
+def test_plan_and_resume_reject_incomplete_saved_records(tmp_path):
+    graph = stage.graph6(snub_disphenoid())
+    index = 180476
+    path = tmp_path/"records"/f"{index:08d}.json"
+    assert stage.finished_record(path,index,graph) is False
+    stage.atomic(path,{
+        "schema":stage.SCHEMA,"index":index,
+        "no_automatic_behavior_verdict":True,
+        "status":"COMPLETED","analysis_complete":True,
+        "input_graph6":graph,"scope":"pared_input_and_pared_iterates_only",
+        "levels":[],
+    })
+    with pytest.raises(ValueError,match="Incomplete targeted stage"):
+        stage.finished_record(path,index,graph)
+    stage.atomic(path,{
+        "schema":stage.SCHEMA,"index":index,
+        "no_automatic_behavior_verdict":True,"status":"TIMEOUT",
+    })
+    assert stage.finished_record(path,index,graph)
+    with pytest.raises(ValueError,match="Malformed targeted stage"):
+        stage.finished_record(path,index+1,graph)
