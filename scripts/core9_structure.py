@@ -28,6 +28,7 @@ import tempfile
 import time
 
 import networkx as nx
+from pycliques.small import CliqueSequence
 
 import core9_crossref
 import core9_structure_worker as worker
@@ -174,6 +175,11 @@ def validate_record(record: dict, core_id: int, selected: dict) -> None:
         iterates = record.get("iterates", [])
         if len(iterates) != info["failure_iterate"]:
             raise ValueError(f"Incorrect number of reconstructed iterates at {core_id}")
+        # Saved intermediate graph6 is not trusted as an independent source.
+        # Replay the pinned K-and-paring sequence from the nine-vertex core.
+        # An unrelated graph with the *same* order and edge count must fail.
+        origin = nx.from_graph6_bytes(info["graph6"].encode("ascii"))
+        sequence = CliqueSequence(origin, bound=worker.CLIQUE_BOUND)
         for step, (row, old) in enumerate(zip(iterates, info["expected_iterates"])):
             if (
                 row.get("index") != step
@@ -183,6 +189,15 @@ def validate_record(record: dict, core_id: int, selected: dict) -> None:
                 or row.get("betti1_mod2", -1) < 0
             ):
                 raise ValueError(f"Invalid core {core_id} iterate {step}")
+            try:
+                recorded = nx.from_graph6_bytes(row["graph6"].encode("ascii"))
+            except (KeyError, AttributeError, TypeError, ValueError) as error:
+                raise ValueError(f"Malformed saved iterate at core {core_id}") from error
+            expected = sequence[step]
+            if expected is None or not nx.is_isomorphic(recorded, expected):
+                raise ValueError(
+                    f"Saved G_{step} is not the actual clique iterate of core {core_id}"
+                )
 
 
 def records(selected: dict[int, dict]) -> dict[int, dict]:
@@ -408,6 +423,8 @@ def run(batch: str) -> bool:
 def verify() -> None:
     selected = cohort()
     meta = manifest(selected)
+    if not (FOLDER / "manifest.json").is_file():
+        raise ValueError("No structural investigation has started")
     ensure_manifest(meta)
     saved = records(selected)
     for i, result in sorted(saved.items()):
