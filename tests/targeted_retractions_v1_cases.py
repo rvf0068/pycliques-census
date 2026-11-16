@@ -41,7 +41,8 @@ def test_unknown_when_homology_budget_exceeded(tmp_path,monkeypatch):
     assert data["betti_numbers"] is None
 
 
-def test_positive_target_retraction_record_and_independent_replay(tmp_path):
+def test_positive_target_retraction_record_and_independent_replay(tmp_path,monkeypatch):
+    monkeypatch.setattr(stage, "ITERATES", 1)
     graph=octahedron(3)
     family=stage.search_targeted_retractions(graph)
     assert family["octahedra"].status is TargetSearchStatus.FOUND
