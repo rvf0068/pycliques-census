@@ -6,9 +6,11 @@ on:
       - "scripts/targeted_retractions_v1.py"
       - "scripts/bootstrap_targeted_v1.sh"
       - "config/pycliques_commit_targeted_v1.txt"
-      - "tests/test_targeted_retractions_v1.py"
+      - "tests/targeted_retractions_v1_cases.py"
       - ".github/workflows/targeted-retractions-v1.yml"
       - "README.md"
+      - "indeterminate_order_9.txt"
+      - "indeterminate_order_10.txt"
   workflow_dispatch:
 
 jobs:
@@ -25,7 +27,7 @@ jobs:
       - name: Install test-only pytest
         run: uv pip install --python .venv-targeted-v1/bin/python pytest
       - name: Validate cache/retraction tests
-        run: .venv-targeted-v1/bin/python -m pytest tests/test_targeted_retractions_v1.py -v
+        run: .venv-targeted-v1/bin/python -m pytest tests/targeted_retractions_v1_cases.py -v
       - name: Initial unresolved nine-vertex pilot
         run: |
           .venv-targeted-v1/bin/python scripts/targeted_retractions_v1.py plan --order 9
@@ -39,4 +41,5 @@ jobs:
         run: |
           git diff --exit-code "$BASE_SHA" HEAD -- \
             runs/ reports/ postpasses/ \
-            config/pycliques_commit_core9cover_v2.txt
+            config/pycliques_commit_core9cover_v2.txt \
+            indeterminate_order_9.txt indeterminate_order_10.txt
