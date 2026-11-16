@@ -66,7 +66,11 @@ def bit_rank(columns) -> int:
 
 
 def full_betti(graph: nx.Graph) -> dict:
-    """Compute every simplicial face and all boundary ranks (levels 0,1,2)."""
+    """Compute ordinary GF(2) Betti numbers in every degree (levels 0..2).
+
+    In particular beta_0=1 for a connected complex; reduced beta_0=0.
+    In every positive degree ordinary and reduced Betti numbers coincide.
+    """
     faces = defaultdict(set)
     for facet in nx.find_cliques(graph):
         facet = sorted(facet)
@@ -87,6 +91,7 @@ def full_betti(graph: nx.Graph) -> dict:
         str(d): len(items)-ranks.get(d,0)-ranks.get(d+1,0)
         for d,items in simplices.items()
     }
+    # The JSON betti_mod2 field records ORDINARY homology, including H_0.
     return {
         "complete": True,
         "faces_by_dimension": {str(k):len(v) for k,v in simplices.items()},
@@ -156,6 +161,7 @@ def k3_low_betti(graph: nx.Graph) -> dict:
     }
     if betti != {"0":1,"1":0,"2":0,"3":0}:
         raise AssertionError(f"Unexpected K3 low-dimensional homology {betti}")
+    # beta_0=1 is ordinary H_0, not reduced H_0; beta_j (j>0) is both.
     return {
         "complete": False,
         "faces_by_dimension": {
