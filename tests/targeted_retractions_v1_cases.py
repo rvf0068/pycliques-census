@@ -49,6 +49,9 @@ def test_positive_target_retraction_record_and_independent_replay(tmp_path):
     assert saved["status"]=="FOUND"
     record={
         "schema":1,"index":3,"input_graph6":stage.graph6(graph),
+        "status":"COMPLETED","analysis_complete":True,
+        "scope":"pared_input_and_pared_iterates_only",
+        "no_automatic_behavior_verdict":True,
         "levels":[{
             "level":0,"graph6":stage.graph6(graph),
             "order":len(graph),"edges":graph.number_of_edges(),
@@ -84,3 +87,85 @@ def test_cache_is_not_misapplied_to_another_graph(tmp_path):
     other,key2=stage.cache_homology(b,tmp_path)
     assert key!=key2
     assert profile[2]==1 and other[1]==1
+
+
+def test_manifest_rejects_preexisting_unversioned_artifacts(tmp_path,monkeypatch):
+    # Critical: no adoption of a cache without frozen source/pin/algorithm.
+    root = tmp_path/"runs"/"order9"/"targeted-retractions-v1"
+    (root/"homology_cache").mkdir(parents=True)
+    (root/"homology_cache"/"orphan.json").write_text("{}")
+    monkeypatch.setattr(stage,"root_dir",lambda _order:root)
+    with pytest.raises(ValueError,match="without manifest"):
+        stage.require_manifest(9)
+    assert not (root/"manifest.json").exists()
+
+
+def test_manifest_rejects_changed_computation_settings(tmp_path,monkeypatch):
+    root=tmp_path/"runs"/"order9"/"targeted-retractions-v1"
+    monkeypatch.setattr(stage,"root_dir",lambda _order:root)
+    stage.require_manifest(9)
+    monkeypatch.setattr(stage,"MAX_TARGET_ORDER",stage.MAX_TARGET_ORDER+1)
+    with pytest.raises(ValueError,match="Frozen targeted"):
+        stage.require_manifest(9)
+
+
+def test_complete_record_detects_missing_or_modified_iterate(tmp_path,monkeypatch):
+    graph=stage.graph6(snub_disphenoid())
+    monkeypatch.setattr(stage,"ITERATES",2)
+    record=stage.analyze(180476,graph,tmp_path)
+    stage.verify_record(record,graph,tmp_path,index=180476)
+    import copy
+    corrupted=copy.deepcopy(record)
+    corrupted["levels"][1]["graph6"]=corrupted["levels"][0]["graph6"]
+    with pytest.raises(ValueError,match="actual pared clique iterate"):
+        stage.verify_record(corrupted,graph,tmp_path,index=180476)
+    corrupted=copy.deepcopy(record)
+    corrupted["levels"]=corrupted["levels"][:1]
+    with pytest.raises(ValueError,match="ends before"):
+        stage.verify_record(corrupted,graph,tmp_path,index=180476)
+    corrupted=copy.deepcopy(record)
+    corrupted["levels"]=[]
+    with pytest.raises(ValueError,match="Missing/truncated"):
+        stage.verify_record(corrupted,graph,tmp_path,index=180476)
+    corrupted=copy.deepcopy(record)
+    corrupted["analysis_complete"]=False
+    with pytest.raises(ValueError,match="Incomplete"):
+        stage.verify_record(corrupted,graph,tmp_path,index=180476)
+    with pytest.raises(ValueError,match="Incomplete"):
+        stage.verify_record(record,graph,tmp_path,index=99999)
+
+
+def test_complete_record_rejects_cache_provenance_and_missing_family(
+    tmp_path,monkeypatch
+):
+    import copy
+    graph=stage.graph6(snub_disphenoid())
+    monkeypatch.setattr(stage,"ITERATES",1)
+    original=stage.analyze(180476,graph,tmp_path)
+    stage.verify_record(original,graph,tmp_path)
+    corrupted=copy.deepcopy(original)
+    corrupted["levels"][0]["homology_cache_key"]="not_the_graph_sha"
+    with pytest.raises(ValueError,match="cached graph key"):
+        stage.verify_record(corrupted,graph,tmp_path)
+    corrupted=copy.deepcopy(original)
+    del corrupted["levels"][0]["families"]["suspensions"]
+    with pytest.raises(ValueError,match="family results"):
+        stage.verify_record(corrupted,graph,tmp_path)
+    key=original["levels"][0]["homology_cache_key"]
+    path=tmp_path/"homology_cache"/(key+".json")
+    metadata=json.loads(path.read_text(encoding="utf-8"))
+    metadata["max_faces"]=100
+    path.write_text(json.dumps(metadata),encoding="utf-8")
+    with pytest.raises(ValueError,match="provenance"):
+        stage.verify_record(original,graph,tmp_path)
+
+
+def test_unknown_homology_never_excludes_target(tmp_path,monkeypatch):
+    monkeypatch.setattr(stage,"MAX_BETTI_FACES",2)
+    monkeypatch.setattr(stage,"ITERATES",1)
+    graph=stage.graph6(octahedron(3))
+    record=stage.analyze(123,graph,tmp_path)
+    row=record["levels"][0]
+    assert row["betti_known"] is None
+    assert row["families"]["octahedra"]["status"]=="FOUND"
+    stage.verify_record(record,graph,tmp_path)
