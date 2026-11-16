@@ -37,6 +37,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "postpasses"))
 from s1_divergence import verify_cover_witness  # noqa: E402
 OLD = ROOT / "runs/order10/core9-followup-v1"
+CROSSREF = ROOT / "reports/order10_core9_crossref_v1/unclassified.tsv"
 OUTPUT = ROOT / "runs/order10/core9-cover-ac3-v2"
 PIN_FILE = ROOT / "config/pycliques_commit_core9cover_v2.txt"
 DEPENDENCY = ROOT / ".deps/pycliques-project-core9cover-v2"
@@ -101,6 +102,23 @@ def cohort() -> dict[int, dict]:
     ]
     if sorted(ids) != sorted(EXPECTED_IDS):
         raise ValueError("The old covering cohort is not the eight known cores")
+    lines = CROSSREF.read_text(encoding="utf-8").splitlines()
+    if not lines or lines[0] != (
+        "core_id\tcore_graph6\toriginal_members\torder9_index\t"
+        "order9_graph6\tlast_stage_examined"
+    ):
+        raise ValueError("Frozen cross-reference schema changed")
+    crossref = {}
+    for line in lines[1:]:
+        parts = line.split("\t")
+        if len(parts) != 6:
+            raise ValueError("Malformed frozen nine-core cross-reference row")
+        if int(parts[0]) in EXPECTED_IDS:
+            if int(parts[0]) in crossref:
+                raise ValueError("Duplicate nine-core cross-reference")
+            crossref[int(parts[0])] = (parts[1], int(parts[2]))
+    if set(crossref) != set(EXPECTED_IDS):
+        raise ValueError("Missing nine-core cross-reference member counts")
     selected = {}
     for i in EXPECTED_IDS:
         path = OLD / "records" / f"cover_{i:08d}.json"
@@ -121,9 +139,11 @@ def cohort() -> dict[int, dict]:
         graph = nx.from_graph6_bytes(graph6.encode("ascii"))
         if len(graph) != 9 or not nx.is_connected(graph):
             raise ValueError(f"Bad frozen graph6 for core {i}")
+        if crossref[i][0] != graph6:
+            raise ValueError(f"Core {i} graph6 disagrees with historical cross-reference")
         selected[i] = {
             "graph6": graph6,
-            "member_count": data["member_count"],
+            "member_count": crossref[i][1],
             "source_sha256": sha(path),
         }
     return selected
@@ -144,6 +164,7 @@ def manifest(selected: dict[int, dict]) -> dict:
         "witness_verifier_sha256": ROOT / "postpasses/s1_divergence.py",
         "old_manifest_sha256": OLD / "manifest.json",
         "old_summary_sha256": OLD / "summary.json",
+        "historical_crossref_sha256": CROSSREF,
     }
     return {
         "schema": 1,
