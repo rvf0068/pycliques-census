@@ -15,7 +15,13 @@ import core9_followup as followup
 import core9_followup_worker as worker
 
 
+V3_AVAILABLE = (
+    Path(__file__).resolve().parents[1] / ".deps/pycliques-project-v3/.git"
+).exists()
+
+
 class Core9TargetedFollowupTests(unittest.TestCase):
+    @unittest.skipUnless(V3_AVAILABLE, "Requires the separate pinned v3 checkout")
     def test_exact_8_cover_5_bound_selection(self):
         previous, saved, tasks = followup.cohort()
         self.assertEqual(len(previous), 29)
@@ -30,6 +36,7 @@ class Core9TargetedFollowupTests(unittest.TestCase):
             2317843,3148541,3505942,4952669,4953338,5601875,6938156,7315343
         ]))
 
+    @unittest.skipUnless(V3_AVAILABLE, "Requires the separate pinned v3 checkout")
     def test_three_second_iterates_have_real_explicit_isomorphisms(self):
         _, prior, _ = followup.cohort()
         iso = followup.compute_iso(prior)
@@ -50,6 +57,7 @@ class Core9TargetedFollowupTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "nonisomorphism"):
             followup.verify_iso(corrupted, prior)
 
+    @unittest.skipUnless(V3_AVAILABLE, "Requires the separate pinned v3 checkout")
     def test_record_contract_never_promotes_unsupported_positive(self):
         previous, _, tasks = followup.cohort()
         cover_id = next(i for kind,i in tasks if kind=="cover")
