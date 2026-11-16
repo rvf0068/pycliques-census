@@ -1,0 +1,44 @@
+name: Core9 targeted structural investigation
+
+on:
+  pull_request:
+    paths:
+      - "scripts/core9_structure.py"
+      - "scripts/core9_structure_worker.py"
+      - "scripts/core9_structure.sh"
+      - "tests/test_core9_structure.py"
+      - ".github/workflows/core9-structure.yml"
+      - "scripts/core9_crossref.py"
+      - "scripts/core9_benchmark.py"
+      - "scripts/timeboxed_v3.py"
+      - "scripts/bootstrap_v3.sh"
+      - "config/pycliques_commit_v3.txt"
+      - "reports/order10_core9_crossref_v1/**"
+      - "runs/order10/core9-benchmark-v1/**"
+  workflow_dispatch:
+
+jobs:
+  diagnostics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+      - name: Prepare unchanged pinned v3 environment
+        run: bash scripts/bootstrap_v3.sh
+      - name: Regression tests for structural probe and historical checks
+        run: .venv-v3/bin/python -m unittest discover -s tests -p test_core9_structure.py -v
+      - name: Confirm frozen selection and pinned environment
+        run: bash scripts/core9_structure.sh plan
+      - name: Run a diagnostic batch of five actual nine-cores
+        run: bash scripts/core9_structure.sh 0
+      - name: Independently verify sampled H1 and clique counts
+        run: bash scripts/core9_structure.sh verify
+      - name: Confirm all historical run files stayed unchanged
+        run: |
+          git diff --exit-code -- runs/order9/ runs/order10/core9-benchmark-v1/ reports/order10_core9_crossref_v1/ indeterminate_order_9.txt indeterminate_order_10_v3.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: core9-targeted-diagnostics-first-five
+          path: runs/order10/core9-structure-v1/
+          if-no-files-found: error
