@@ -356,8 +356,8 @@ def report(selected: dict, saved: dict) -> str:
         "EXHAUSTED means precisely the finite double-cover / clockwork-source family",
         "recorded in the manifest, not absence of clique divergence.",
         "",
-        "| Core ID | Original ten-graph members | Baseline | Expanded | New eligible clockwork pairs | Expanded assignments |",
-        "|---:|---:|---|---|---|---:|",
+        "| Core ID | Original ten-graph members | Deck radius | Baseline | Expanded | New eligible clockwork pairs | Expanded assignments |",
+        "|---:|---:|---:|---|---|---|---:|",
     ]
     for i in EXPECTED_IDS:
         baseline = saved.get(f"baseline_{i:08d}.json", {})
@@ -365,8 +365,9 @@ def report(selected: dict, saved: dict) -> str:
         old_pairs = baseline.get("eligible", {}).get("covers", [{}])[0].get("source_parameters_eligible", [])
         new_pairs = expanded.get("eligible", {}).get("covers", [{}])[0].get("source_parameters_eligible", [])
         additional = [pair for pair in new_pairs if pair not in old_pairs]
+        radius = expanded.get("eligible", {}).get("covers", [{}])[0].get("deck_radius", "-")
         rows.append(
-            f"| {i} | {selected[i]['member_count']} "
+            f"| {i} | {selected[i]['member_count']} | {radius} "
             f"| {baseline.get('status','-')} | {expanded.get('status','-')} "
             f"| {additional} "
             f"| {expanded.get('search',{}).get('morphism_assignments','-')} |"
