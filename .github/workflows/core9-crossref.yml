@@ -1,0 +1,40 @@
+name: Core9 historical cross-reference
+
+on:
+  pull_request:
+    paths:
+      - "scripts/core9_crossref.py"
+      - "tests/test_core9_crossref.py"
+      - ".github/workflows/core9-crossref.yml"
+      - "scripts/core_isomorphism_index.py"
+      - "config/pycliques_commit_v3.txt"
+      - "scripts/bootstrap_v3.sh"
+      - "reports/order10_core_index_v1/**"
+      - "runs/order9/**"
+      - "indeterminate_order_9.txt"
+  workflow_dispatch:
+
+jobs:
+  cross-reference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+      - name: Prepare unchanged pinned historical witness environment
+        run: bash scripts/bootstrap_v3.sh
+      - name: Check exact matches, historical stage provenance and immutability
+        run: .venv-v3/bin/python -m unittest discover -s tests -p test_core9_crossref.py -v
+      - name: Build and verify complete order-nine cross-reference
+        run: |
+          .venv-v3/bin/python scripts/core9_crossref.py build --output reports/ci-core9-crossref
+          .venv-v3/bin/python scripts/core9_crossref.py verify --output reports/ci-core9-crossref
+          cat reports/ci-core9-crossref/summary.md
+      - name: Assert historical files remain unchanged
+        run: |
+          git diff --exit-code -- runs/order9/ runs/order10/ indeterminate_order_9.txt indeterminate_order_10_v3.txt reports/order10_core_index_v1/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: order10-core9-historical-crossref
+          path: reports/ci-core9-crossref/
+          if-no-files-found: error
