@@ -450,7 +450,7 @@ def run(batch: str) -> bool:
             print(f"Core {i}, pared iterate {mode}", flush=True)
             entry = {
                 "core_id": i, "mode": mode, "kind": mode,
-                "input_graph6": selected[i]["graph6"],
+                "input_graph6": selected[i]["graph6"][mode],
                 "scope": "pared_iterate_only",
                 **run_worker(mode, selected[i]["graph6"][mode]),
             }
@@ -481,7 +481,7 @@ def verify(*, replay: bool) -> None:
             key = f"{mode}_{i:08d}.json"
             if key not in saved or saved[key]["status"] in {"TIMEOUT", "ERROR"}:
                 continue
-            fresh = run_worker(mode, selected[i]["graph6"])
+            fresh = run_worker(mode, selected[i]["graph6"][mode])
             if fresh["status"] in {"TIMEOUT", "ERROR"}:
                 raise ValueError(f"Bounded replay failed for {mode}:{i}: {fresh['status']}")
             old = saved[key]
