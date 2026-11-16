@@ -34,6 +34,8 @@ jobs:
         run: bash scripts/core9_structure.sh all
       - name: Independently verify all saved iterate chains and H1/clique counts
         run: bash scripts/core9_structure.sh verify
+      - name: Show complete research summary
+        run: cat runs/order10/core9-structure-v1/report.md
       - name: Confirm all historical run files stayed unchanged
         run: |
           git diff --exit-code -- runs/order9/ runs/order10/core9-benchmark-v1/ reports/order10_core9_crossref_v1/ indeterminate_order_9.txt indeterminate_order_10_v3.txt
