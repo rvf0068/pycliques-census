@@ -71,7 +71,7 @@ class Core9TargetedFollowupTests(unittest.TestCase):
             "search":{"limits":worker.COVER_LIMITS,"search_status":"EXHAUSTED"},
         }
         followup.validate_record(no_cover,"cover",cover_id,previous)
-        with self.assertRaisesRegex(ValueError, "witness replay"):
+        with self.assertRaisesRegex(ValueError, "finite family"):
             followup.validate_record({
                 **no_cover,"status":"DIVERGENT","proof_status":"verified",
                 "witness":{},"search":{"limits":worker.COVER_LIMITS,"search_status":"FOUND"},
@@ -95,6 +95,68 @@ class Core9TargetedFollowupTests(unittest.TestCase):
             followup.validate_record({
                 **no_bound, "raw_verdict":"DIVERGENT",
             },"bound",bound_id,previous)
+
+    def test_saved_cover_proof_must_fit_experiment_budget(self):
+        g = nx.cycle_graph(9)
+        settings = worker.COVER_LIMITS
+        witness = {
+            "m": 2, "n": 0, "deck_radius": 3,
+            "clique_bound": settings["max_clique_vertices"],
+            "clique_max_edges": settings["max_clique_edges"],
+        }
+        details = {
+            "cover_classes_total": 1, "cover_classes_checked": 1,
+            "cover_candidates_checked": 1,
+            "morphism_states": 15, "morphism_assignments": 17,
+        }
+        row = {"witness": witness, "search": details}
+        followup.validate_cover_family(row, g)
+        for change in (
+            {"m": 4},
+            {"n": 1},
+            {"deck_radius": 1},
+            {"clique_bound": 999},
+            {"clique_max_edges": 99999},
+        ):
+            altered = {**row, "witness": {**witness, **change}}
+            with self.subTest(witness=change):
+                with self.assertRaisesRegex(ValueError, "finite family"):
+                    followup.validate_cover_family(altered, g)
+        for change in (
+            {"cover_classes_total": 2},
+            {"cover_classes_checked": 2},
+            {"cover_candidates_checked": 2},
+            {"morphism_states": settings["max_morphism_states"]+1},
+            {"morphism_assignments": settings["max_morphism_assignments"]+1},
+        ):
+            altered = {**row, "search": {**details, **change}}
+            with self.subTest(search=change):
+                with self.assertRaisesRegex(ValueError, "finite family"):
+                    followup.validate_cover_family(altered, g)
+
+    @unittest.skipUnless(V3_AVAILABLE, "Requires the separate pinned v3 checkout")
+    def test_raw_positive_verdict_cannot_disagree_with_certificate(self):
+        previous, _, tasks = followup.cohort()
+        i = next(i for kind, i in tasks if kind == "bound")
+        forged = {
+            "kind": "bound", "core_id": i,
+            "scope": "nine_vertex_core_only",
+            "input_graph6": previous[i]["graph6"],
+            "status": "DIVERGENT", "verdict": "DIVERGENT",
+            "raw_verdict": "INDETERMINATE",
+            "proof_status": "verified_chain",
+            "clique_bound": worker.BOUND,
+            "proof": {
+                "origin_graph6": previous[i]["graph6"],
+                "clique_bound": worker.BOUND,
+            },
+        }
+        with patch.object(worker, "verify_record", return_value=True):
+            with self.assertRaisesRegex(ValueError, "positive proof"):
+                followup.validate_record(forged, "bound", i, previous)
+            followup.validate_record({
+                **forged, "raw_verdict": "DIVERGENT"
+            }, "bound", i, previous)
 
     def test_verify_missing_stage_does_not_write(self):
         with tempfile.TemporaryDirectory() as directory:
