@@ -1,0 +1,17 @@
+{
+  "batch": 6,
+  "core_ids": [
+    7454135,
+    9678187,
+    10760192,
+    10768817,
+    11363569
+  ],
+  "statuses": {
+    "10760192": "BOUND_EXCEEDED",
+    "10768817": "INDETERMINATE",
+    "11363569": "INDETERMINATE",
+    "7454135": "DIVERGENT",
+    "9678187": "DIVERGENT"
+  }
+}

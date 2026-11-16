@@ -1,0 +1,11 @@
+{
+  "complete_batches": 7,
+  "counts": {
+    "BOUND_EXCEEDED": 29,
+    "DIVERGENT": 4,
+    "INDETERMINATE": 2
+  },
+  "processed": 35,
+  "total": 35,
+  "total_batches": 7
+}

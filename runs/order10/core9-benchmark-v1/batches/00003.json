@@ -1,0 +1,17 @@
+{
+  "batch": 3,
+  "core_ids": [
+    6923598,
+    6938156,
+    6938923,
+    6938971,
+    6939156
+  ],
+  "statuses": {
+    "6923598": "BOUND_EXCEEDED",
+    "6938156": "BOUND_EXCEEDED",
+    "6938923": "DIVERGENT",
+    "6938971": "BOUND_EXCEEDED",
+    "6939156": "BOUND_EXCEEDED"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "batch": 6,
+  "bound": 120,
+  "bound_exceeded": false,
+  "certificate_rule": "theorem_4_6_suspension_2_coaffination",
+  "certificate_target_status": "proven_divergent",
+  "conjectured_references_ignored": true,
+  "core_id": 11363569,
+  "diagnostic_schema": 3,
+  "elapsed_seconds": 0.225,
+  "graph6": "HUzrv~}",
+  "in_progress_method": null,
+  "iterates": [
+    {
+      "index": 0,
+      "pared_edges": 28,
+      "pared_order": 9
+    }
+  ],
+  "iterations_checked": 1,
+  "last_progress_event": "method_end",
+  "member_count": 36,
+  "methods_tried": [
+    {
+      "method": "classify_reference_graph",
+      "outcome": "no_certificate",
+      "seconds": 0.0
+    },
+    {
+      "method": "classify_suspension_2_coaffination",
+      "outcome": "DIVERGENT",
+      "seconds": 0.001
+    }
+  ],
+  "peak_rss_kib": 152352,
+  "proof": null,
+  "proof_status": "not_serialized",
+  "raw_verdict": "DIVERGENT",
+  "reason": "[LNP09, Theorem 4.6]: graph is the suspension of a connected graph H admitting a 2-coaffination; hence it is expansive and therefore clique divergent",
+  "retraction_depth": 2,
+  "scope": "pared_core_only",
+  "status": "INDETERMINATE",
+  "verdict": "DIVERGENT"
+}

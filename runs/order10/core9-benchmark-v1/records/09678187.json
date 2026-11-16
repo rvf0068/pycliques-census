@@ -1,0 +1,219 @@
+{
+  "batch": 6,
+  "bound": 120,
+  "bound_exceeded": false,
+  "certificate_rule": "special_octahedron",
+  "certificate_target_status": "proven_divergent",
+  "conjectured_references_ignored": true,
+  "core_id": 9678187,
+  "diagnostic_schema": 3,
+  "elapsed_seconds": 3.686,
+  "graph6": "HQyuzpt",
+  "in_progress_method": null,
+  "iterates": [
+    {
+      "index": 0,
+      "pared_edges": 22,
+      "pared_order": 9
+    },
+    {
+      "index": 1,
+      "pared_edges": 50,
+      "pared_order": 13,
+      "raw_edges": 50,
+      "raw_order": 13,
+      "status": "completed"
+    },
+    {
+      "index": 2,
+      "pared_edges": 142,
+      "pared_order": 21,
+      "raw_edges": 142,
+      "raw_order": 21,
+      "status": "completed"
+    },
+    {
+      "index": 3,
+      "pared_edges": 1142,
+      "pared_order": 57,
+      "raw_edges": 1142,
+      "raw_order": 57,
+      "status": "completed"
+    }
+  ],
+  "iterations_checked": 4,
+  "last_progress_event": "method_end",
+  "member_count": 37,
+  "methods_tried": [
+    {
+      "method": "classify_reference_graph",
+      "outcome": "no_certificate",
+      "seconds": 0.0
+    },
+    {
+      "method": "classify_suspension_2_coaffination",
+      "outcome": "no_certificate",
+      "seconds": 0.0
+    },
+    {
+      "method": "test_clockwork",
+      "outcome": "no_certificate",
+      "seconds": 0.012
+    },
+    {
+      "iterate": 0,
+      "method": "clique_helly",
+      "outcome": "no_certificate",
+      "seconds": 0.0,
+      "source_order": 9
+    },
+    {
+      "iterate": 0,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.001,
+      "source_order": 9,
+      "target_order": 7
+    },
+    {
+      "iterate": 0,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.0,
+      "source_order": 9,
+      "target_order": 8
+    },
+    {
+      "iterate": 0,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.0,
+      "source_order": 9,
+      "target_order": 9
+    },
+    {
+      "iterate": 0,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.0,
+      "source_order": 9,
+      "target_order": 8
+    },
+    {
+      "iterate": 0,
+      "method": "special_octahedron_test",
+      "outcome": "no_certificate",
+      "seconds": 0.0,
+      "source_order": 9
+    },
+    {
+      "iterate": 1,
+      "method": "clique_helly",
+      "outcome": "no_certificate",
+      "seconds": 0.001,
+      "source_order": 13
+    },
+    {
+      "iterate": 1,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.051,
+      "source_order": 13,
+      "target_order": 7
+    },
+    {
+      "iterate": 1,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.04,
+      "source_order": 13,
+      "target_order": 8
+    },
+    {
+      "iterate": 1,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.02,
+      "source_order": 13,
+      "target_order": 9
+    },
+    {
+      "iterate": 1,
+      "method": "fixed_target_retraction",
+      "outcome": "no_certificate",
+      "seconds": 0.037,
+      "source_order": 13,
+      "target_order": 8
+    },
+    {
+      "iterate": 1,
+      "method": "special_octahedron_test",
+      "outcome": "no_certificate",
+      "seconds": 0.0,
+      "source_order": 13
+    },
+    {
+      "iterate": 2,
+      "method": "clique_helly",
+      "outcome": "no_certificate",
+      "seconds": 0.002,
+      "source_order": 21
+    },
+    {
+      "iterate": 2,
+      "method": "special_octahedron_test",
+      "outcome": "no_certificate",
+      "seconds": 0.0,
+      "source_order": 21
+    },
+    {
+      "iterate": 3,
+      "method": "clique_helly",
+      "outcome": "no_certificate",
+      "seconds": 0.073,
+      "source_order": 57
+    },
+    {
+      "iterate": 3,
+      "method": "special_octahedron_test",
+      "outcome": "positive",
+      "seconds": 0.001,
+      "source_order": 57
+    },
+    {
+      "iterate": 3,
+      "method": "special_octahedron_witness",
+      "outcome": "positive",
+      "seconds": 0.001,
+      "source_order": 57
+    }
+  ],
+  "peak_rss_kib": 152352,
+  "proof": {
+    "antipode_indices": [
+      27,
+      1,
+      10,
+      40
+    ],
+    "clique_bound": 120,
+    "clique_indices": [
+      2,
+      45,
+      52,
+      17
+    ],
+    "iterate_index": 3,
+    "origin_graph6": "HQyuzpt",
+    "rule": "special_octahedron",
+    "schema": 3,
+    "source_graph6": "x~~~~~~~~~~~~~~~~~~~~~~~~~}~nw~p|^z~V{~}KN~_??^?@w~?@~~zo~~y~V~~Vo~~{\\gv~wgNn~wiD~~{SF~~~ynwBxnV}?]K|^gHwr~~o@`f~~OXdf~~E}v~~~oJk}~wBwB~~}xk@n~~|?WA^~~~B}?]N~}x{@fV~~M]@\\v~~|BwA]N~~{p~P~~x|zn}bwnrzy~qBoFv~{o~r~~px~Kn{~V{U^w@~f~~b~~~w~s~fuwF~o~gy^nqN~y~gg~nuN}F}~~yNFw"
+  },
+  "proof_status": "verified_chain",
+  "raw_verdict": "DIVERGENT",
+  "reason": "eventually has a special octahedron (index 3, dimension 4)",
+  "retraction_depth": 2,
+  "scope": "pared_core_only",
+  "status": "DIVERGENT",
+  "verdict": "DIVERGENT"
+}
