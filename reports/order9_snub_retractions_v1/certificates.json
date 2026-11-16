@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "title": "Three stiff order-nine graphs retracting onto the snub disphenoid",
+  "notation": "Vertices are 0..8 in original McKay/pyg6data graph6 order, all nine-graphs use vertex 2 -> 1 and fix the remaining vertices",
+  "snub_graph6": "GQyuzw",
+  "source": "reports/order10_core9_crossref_v1/matches.tsv",
+  "second_iterates": "runs/order10/core9-followup-v1/isomorphism.json",
+  "status": "independent finite retraction and induced-target isomorphism certificates; not clique-divergence certificates",
+  "certificates": [
+    {
+      "order9_index": 232592,
+      "core_id": 4929602,
+      "original_graph6": "HCprnzy",
+      "core_graph6": "HCprnzy",
+      "original_members": 82,
+      "removed_vertex": 2,
+      "image_vertex": 1,
+      "induced_target_to_snub": [
+        0,
+        7,
+        null,
+        6,
+        2,
+        3,
+        1,
+        5,
+        4
+      ]
+    },
+    {
+      "order9_index": 233586,
+      "core_id": 4972358,
+      "original_graph6": "HCpvVn{",
+      "core_graph6": "HCpvVn{",
+      "original_members": 223,
+      "removed_vertex": 2,
+      "image_vertex": 1,
+      "induced_target_to_snub": [
+        6,
+        7,
+        null,
+        0,
+        1,
+        2,
+        3,
+        5,
+        4
+      ]
+    },
+    {
+      "order9_index": 244584,
+      "core_id": 5645085,
+      "original_graph6": "HCvbvZu",
+      "core_graph6": "HCvbvnk",
+      "original_members": 207,
+      "removed_vertex": 2,
+      "image_vertex": 1,
+      "induced_target_to_snub": [
+        6,
+        7,
+        null,
+        0,
+        5,
+        1,
+        2,
+        3,
+        4
+      ]
+    }
+  ]
+}
