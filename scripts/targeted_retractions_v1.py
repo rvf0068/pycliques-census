@@ -246,10 +246,42 @@ def resource_limit() -> None:
     resource.setrlimit(resource.RLIMIT_AS,(maximum,maximum))
 
 
+def finished_record(path: Path, index: int, input_g6: str) -> bool:
+    """Quickly reject malformed records when building a resumable worklist.
+
+    Full iterate-chain and witness checks are performed by verify_record,
+    but even 'plan' must never count an unfinished file as completed.
+    """
+    if not path.exists():
+        return False
+    record = read_json(path)
+    if (
+        record.get("schema") != SCHEMA
+        or record.get("index") != index
+        or record.get("no_automatic_behavior_verdict") is not True
+    ):
+        raise ValueError("Malformed targeted stage record; cannot resume safely")
+    if record.get("status") in {"TIMEOUT", "ERROR"}:
+        return True
+    levels = record.get("levels")
+    if (
+        record.get("status") != "COMPLETED"
+        or record.get("analysis_complete") is not True
+        or record.get("input_graph6") != input_g6
+        or record.get("scope") != "pared_input_and_pared_iterates_only"
+        or not isinstance(levels, list)
+        or not levels
+        or len(levels) > ITERATES
+        or (levels[-1].get("status") == "COMPLETED" and len(levels) < ITERATES)
+    ):
+        raise ValueError("Incomplete targeted stage record; cannot resume safely")
+    return True
+
+
 def run_one(order:int,index:int) -> None:
     directory=require_manifest(order)
     path=directory/"records"/f"{index:08d}.json"
-    if path.exists():
+    if finished_record(path, index, input_rows(order)[index]):
         return
     cmd=[sys.executable,str(SCRIPT),"worker","--order",str(order),
          "--index",str(index)]
@@ -458,7 +490,9 @@ def main() -> None:
         return
     pending=[
         index for index in rows
-        if not (directory/"records"/f"{index:08d}.json").exists()
+        if not finished_record(
+            directory/"records"/f"{index:08d}.json", index, rows[index]
+        )
     ]
     if args.action=="plan":
         print(json.dumps({
