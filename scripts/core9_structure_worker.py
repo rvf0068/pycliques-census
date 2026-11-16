@@ -139,9 +139,12 @@ def inspect(graph6: str, expected_iterates: list[dict] | None = None) -> dict:
     sequence = CliqueSequence(graph, bound=CLIQUE_BOUND)
     results = []
     for step in range(4):
-        g = sequence[step]
-        if g is None:
+        raw_graph = sequence[step]
+        if raw_graph is None:
             raise ValueError(f"Stored core9 benchmark implies G_{step} exists")
+        # Clique-graph vertices may be frozensets. Work with numbered copies
+        # for GF(2) matrices, triangle bounds, and reproducible witnesses.
+        g = nx.convert_node_labels_to_integers(raw_graph)
         g6 = encode(g)
         b1, triangles, rank = betti1_mod2(g)
         degrees = sorted(d for _, d in g.degree())
