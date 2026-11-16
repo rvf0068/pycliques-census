@@ -439,6 +439,17 @@ def prepare(root: Path = ROOT, output_script: Path | None = None) -> dict[str, b
                 f"| {i} | {record[3]} | {record[6]} | {record[8]} |"
             )
     doc.extend([
+        "", "## Cores already divergent in the initial order-nine census", "",
+        "| Order-10 core ID | Order-9 index | Original members | Initial reason |",
+        "|---:|---:|---:|---|",
+    ])
+    for line in lines[1:]:
+        fields = line.split("\t")
+        if fields[6] == "initial" and fields[5] == "DIVERGENT":
+            doc.append(
+                f"| {fields[0]} | {fields[3]} | {fields[2]} | {fields[8]} |"
+            )
+    doc.extend([
         "", "## Outputs", "",
         "- matches.tsv: all 35 isomorphism matches, historical verdicts, and evidence paths",
         "- unclassified.tsv: representatives still unresolved after all historical stages",
