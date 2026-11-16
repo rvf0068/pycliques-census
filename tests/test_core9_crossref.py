@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 from pathlib import Path
 import sys
 import tempfile
@@ -123,6 +124,94 @@ class Core9CrossrefTests(unittest.TestCase):
                        for old in unresolved_graphs)
         }
         self.assertEqual(initially_classified, {10768817, 11363569})
+
+    def test_historical_chain_and_final_rows_detect_tampering(self):
+        _, _, originals = cross.initial_data()
+        stages = {
+            name: cross.load_stage_records(name, originals)[0]
+            for name in cross.STAGES
+        }
+        expected = cross.validate_complete_history(originals, stages)
+        self.assertEqual(expected, cross.final_unresolved())
+
+        with self.assertRaisesRegex(ValueError, "Bound-60 cohort"):
+            changed = {k: dict(v) for k, v in stages.items()}
+            changed["bound60"].pop(next(iter(changed["bound60"])))
+            cross.validate_complete_history(originals, changed)
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            origin = root / "runs/order9/initial/order9/indeterminate_order_9.txt"
+            origin.parent.mkdir(parents=True)
+            shutil.copyfile(
+                cross.ROOT / "runs/order9/initial/order9/indeterminate_order_9.txt",
+                origin,
+            )
+            final = root / "indeterminate_order_9.txt"
+            shutil.copyfile(cross.FINAL9, final)
+            self.assertEqual(
+                cross.validate_complete_history(originals, stages, root),
+                expected,
+            )
+
+            lines = final.read_text().splitlines()
+            k = next(i for i, line in enumerate(lines)
+                     if line and not line.startswith("#"))
+            saved = lines[k]
+            fields = saved.split()
+            fields[2] = "HEnb~jl" if fields[2] != "HEnb~jl" else "HEht}pl"
+            lines[k] = " ".join(fields)
+            final.write_text("\n".join(lines) + "\n")
+            with self.assertRaisesRegex(ValueError, "source/paring fields"):
+                cross.validate_complete_history(originals, stages, root)
+
+            # Keep the same row count, substitute an already-resolved index.
+            lines[k] = saved
+            fields = lines[k].split()
+            fields[0] = "250684"
+            lines[k] = " ".join(fields)
+            final.write_text("\n".join(lines) + "\n")
+            with self.assertRaisesRegex(ValueError, "unresolved set"):
+                cross.validate_complete_history(originals, stages, root)
+
+    def test_stage_predecessor_and_status_counts_cannot_be_forged(self):
+        _, _, originals = cross.initial_data()
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            for path in (
+                "runs/order9/initial/summary.json",
+                "runs/order9/c10/summary.json",
+                "runs/order9/bound60/summary.json",
+                "runs/order9/bound60/manifest.json",
+            ):
+                dest = root / path
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(cross.ROOT / path, dest)
+            records = root / "runs/order9/bound60/records"
+            records.mkdir(parents=True)
+            for source in sorted(
+                (cross.ROOT / "runs/order9/bound60/records").glob("*.json")
+            ):
+                shutil.copyfile(source, records / source.name)
+            loaded, _ = cross.load_stage_records("bound60", originals, root)
+            self.assertEqual(len(loaded), 23)
+
+            record_path = next(iter(records.glob("*.json")))
+            original_bytes = record_path.read_bytes()
+            changed = json.loads(original_bytes)
+            changed["verdict"] = (
+                "DIVERGENT" if changed["verdict"] == "INDETERMINATE"
+                else "INDETERMINATE"
+            )
+            record_path.write_text(json.dumps(changed))
+            with self.assertRaisesRegex(ValueError, "status counts"):
+                cross.load_stage_records("bound60", originals, root)
+            record_path.write_bytes(original_bytes)
+
+            predecessor = root / "runs/order9/c10/summary.json"
+            predecessor.write_bytes(predecessor.read_bytes() + b" ")
+            with self.assertRaisesRegex(ValueError, "predecessor provenance"):
+                cross.load_stage_records("bound60", originals, root)
 
     def test_build_is_immutable_and_missing_file_rejected(self):
         expected = {
