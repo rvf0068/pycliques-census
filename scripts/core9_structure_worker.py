@@ -83,14 +83,14 @@ def clique_sample(graph: nx.Graph, limit: int = MAX_CLIQUES) -> dict:
                 "exact": False,
                 "maximal_cliques_at_least": count,
                 "maximal_cliques_exact": None,
-                "partial_size_histogram": dict(sorted(hist.items())),
+                "partial_size_histogram": {str(k): v for k, v in sorted(hist.items())},
             }
         hist[len(complete)] += 1
     return {
         "exact": True,
         "maximal_cliques_at_least": count,
         "maximal_cliques_exact": count,
-        "partial_size_histogram": dict(sorted(hist.items())),
+        "partial_size_histogram": {str(k): v for k, v in sorted(hist.items())},
     }
 
 
