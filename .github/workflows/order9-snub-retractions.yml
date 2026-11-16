@@ -1,0 +1,45 @@
+name: Order9 snub disphenoid retraction certificates
+
+on:
+  pull_request:
+    paths:
+      - "reports/order9_snub_retractions_v1/**"
+      - "scripts/verify_order9_snub_retractions.py"
+      - "tests/test_order9_snub_retractions.py"
+      - ".github/workflows/order9-snub-retractions.yml"
+      - "reports/order10_core9_crossref_v1/**"
+      - "reports/order10_core_index_v1/**"
+      - "runs/order10/core9-followup-v1/**"
+      - "runs/order10/core9-structure-v1/**"
+  workflow_dispatch:
+
+jobs:
+  verify-retractions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Prepare historical environment without changing its pin
+        run: bash scripts/bootstrap.sh
+      - name: Independent three-retraction verification
+        run: .venv/bin/python scripts/verify_order9_snub_retractions.py
+      - name: Test mapping tampering and exact iterate chain
+        run: .venv/bin/python -m unittest discover -s tests -p test_order9_snub_retractions.py -v
+      - name: Ensure historical source files are unchanged by this PR
+        if: github.event_name == 'pull_request'
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          # Compare two commits, not merely the working tree at PR HEAD.
+          # The separately checked SHA-256 manifest chain protects recorded
+          # source bytes in both PR and workflow_dispatch executions.
+          git diff --exit-code "$PR_BASE_SHA" HEAD -- \
+            runs/ reports/order10_core9_crossref_v1/ reports/order10_core_index_v1/
+      - name: Ensure the verifier made no local edits to historical files
+        run: |
+          git diff --exit-code -- runs/ reports/order10_core9_crossref_v1/ reports/order10_core_index_v1/
