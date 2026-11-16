@@ -1,0 +1,217 @@
+{
+  "bound_exceeded": true,
+  "certificate_rule": null,
+  "certificate_target_status": null,
+  "clique_bound": 350,
+  "core_id": 10760192,
+  "elapsed_seconds": 9.102,
+  "input_graph6": "HTzR~y}",
+  "iterations_checked": 4,
+  "kind": "bound",
+  "peak_rss_kib": 153544,
+  "proof": null,
+  "proof_status": "not_serialized",
+  "raw_verdict": "INDETERMINATE",
+  "reason": "clique count exceeded bound",
+  "retraction_depth": 2,
+  "scope": "nine_vertex_core_only",
+  "status": "BOUND_EXCEEDED",
+  "trace": {
+    "diagnostic_schema": 3,
+    "in_progress_method": null,
+    "iterates": [
+      {
+        "index": 0,
+        "pared_edges": 26,
+        "pared_order": 9
+      },
+      {
+        "index": 1,
+        "pared_edges": 52,
+        "pared_order": 12,
+        "raw_edges": 60,
+        "raw_order": 13,
+        "status": "completed"
+      },
+      {
+        "index": 2,
+        "pared_edges": 176,
+        "pared_order": 21,
+        "raw_edges": 176,
+        "raw_order": 21,
+        "status": "completed"
+      },
+      {
+        "index": 3,
+        "pared_edges": 7880,
+        "pared_order": 132,
+        "raw_edges": 7880,
+        "raw_order": 132,
+        "status": "completed"
+      },
+      {
+        "index": 4,
+        "status": "clique_bound_exceeded"
+      }
+    ],
+    "last_progress_event": "method_end",
+    "methods_tried": [
+      {
+        "method": "classify_reference_graph",
+        "outcome": "no_certificate",
+        "seconds": 0.0
+      },
+      {
+        "method": "classify_suspension_2_coaffination",
+        "outcome": "no_certificate",
+        "seconds": 0.0
+      },
+      {
+        "method": "test_clockwork",
+        "outcome": "no_certificate",
+        "seconds": 0.014
+      },
+      {
+        "iterate": 0,
+        "method": "clique_helly",
+        "outcome": "no_certificate",
+        "seconds": 0.0,
+        "source_order": 9
+      },
+      {
+        "iterate": 0,
+        "method": "fixed_target_retraction",
+        "outcome": "no_certificate",
+        "seconds": 0.012,
+        "source_order": 9,
+        "target_order": 7
+      },
+      {
+        "iterate": 0,
+        "method": "fixed_target_retraction",
+        "outcome": "no_certificate",
+        "seconds": 0.008,
+        "source_order": 9,
+        "target_order": 8
+      },
+      {
+        "iterate": 0,
+        "method": "fixed_target_retraction",
+        "outcome": "no_certificate",
+        "seconds": 0.0,
+        "source_order": 9,
+        "target_order": 9
+      },
+      {
+        "iterate": 0,
+        "method": "fixed_target_retraction",
+        "outcome": "no_certificate",
+        "seconds": 0.002,
+        "source_order": 9,
+        "target_order": 8
+      },
+      {
+        "iterate": 0,
+        "method": "special_octahedron_test",
+        "outcome": "no_certificate",
+        "seconds": 0.0,
+        "source_order": 9
+      },
+      {
+        "iterate": 1,
+        "method": "clique_helly",
+        "outcome": "no_certificate",
+        "seconds": 0.001,
+        "source_order": 12
+      },
+      {
+        "iterate": 1,
+        "method": "fixed_target_retraction",
+        "outcome": "no_certificate",
+        "seconds": 0.082,
+        "source_order": 12,
+        "target_order": 7
+      },
+      {
+        "iterate": 1,
+        "method": "fixed_target_retraction",
+        "outcome": "no_certificate",
+        "seconds": 0.082,
+        "source_order": 12,
+        "target_order": 8
+      },
+      {
+        "iterate": 1,
+        "method": "fixed_target_retraction",
+        "outcome": "no_certificate",
+        "seconds": 0.081,
+        "source_order": 12,
+        "target_order": 9
+      },
+      {
+        "iterate": 1,
+        "method": "fixed_target_retraction",
+        "outcome": "no_certificate",
+        "seconds": 0.015,
+        "source_order": 12,
+        "target_order": 8
+      },
+      {
+        "iterate": 1,
+        "method": "special_octahedron_test",
+        "outcome": "no_certificate",
+        "seconds": 0.0,
+        "source_order": 12
+      },
+      {
+        "iterate": 2,
+        "method": "clique_helly",
+        "outcome": "no_certificate",
+        "seconds": 0.003,
+        "source_order": 21
+      },
+      {
+        "iterate": 2,
+        "method": "special_octahedron_test",
+        "outcome": "no_certificate",
+        "seconds": 0.001,
+        "source_order": 21
+      },
+      {
+        "iterate": 3,
+        "method": "clique_helly",
+        "outcome": "no_certificate",
+        "seconds": 4.819,
+        "source_order": 132
+      },
+      {
+        "iterate": 3,
+        "method": "special_octahedron_test",
+        "outcome": "no_certificate",
+        "seconds": 2.661,
+        "source_order": 132
+      },
+      {
+        "method": "classify_reference_dependency",
+        "outcome": "no_certificate",
+        "seconds": 0.014
+      },
+      {
+        "method": "classify_local_bridge",
+        "outcome": "no_certificate",
+        "seconds": 0.002
+      },
+      {
+        "method": "classify_non_triangle_edge",
+        "outcome": "no_certificate",
+        "seconds": 0.0
+      },
+      {
+        "method": "classify_inverse_cutpoint_extension",
+        "outcome": "no_certificate",
+        "seconds": 0.001
+      }
+    ]
+  },
+  "verdict": "INDETERMINATE"
+}

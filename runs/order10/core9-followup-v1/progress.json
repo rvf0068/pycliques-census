@@ -1,0 +1,9 @@
+{
+  "counts": {
+    "bound:BOUND_EXCEEDED": 5,
+    "cover:LIMIT_REACHED": 8
+  },
+  "iso_verified": true,
+  "processed": 13,
+  "total": 13
+}

@@ -1,0 +1,170 @@
+{
+  "counts": {
+    "bound:BOUND_EXCEEDED": 5,
+    "cover:LIMIT_REACHED": 8
+  },
+  "iso_verified": true,
+  "manifest": {
+    "batch_size": 4,
+    "bootstrap_sha256": "e4163884704fd35c58ddd3c722838ac60e167edfbc4259272002c399e42dadb5",
+    "bound": 350,
+    "certificate_sha256": "a56b571739d60d8031ae67a545a1779bcb647795ffebe8b69965b57e7413ad39",
+    "core_ids": [
+      2317843,
+      3148541,
+      3505942,
+      3663513,
+      4929602,
+      4952669,
+      4953338,
+      4972358,
+      5418647,
+      5519188,
+      5601875,
+      5645085,
+      6912818,
+      6914104,
+      6923397,
+      6923598,
+      6938156,
+      6938971,
+      6939156,
+      6946361,
+      6957324,
+      6958650,
+      6962151,
+      6974529,
+      7275185,
+      7315343,
+      7316198,
+      7363619,
+      10760192
+    ],
+    "cover_limits": {
+      "max_clique_edges": 6000,
+      "max_clique_vertices": 350,
+      "max_cover_classes": 1,
+      "max_cover_edges": 62,
+      "max_cover_vertices": 18,
+      "max_m": 3,
+      "max_morphism_assignments": 100000,
+      "max_morphism_states": 25000,
+      "max_n": 0,
+      "max_source_order": 18
+    },
+    "cover_search_adapter_sha256": "eb0b5ef88ffeb02d5d739876fabe2e8397ce4f99bf58a1fdf889b63bb5708e4f",
+    "iso_comparison_ids": [
+      4929602,
+      4972358,
+      5645085
+    ],
+    "launcher_sha256": "fa78eb3e26f8fb02c4061a6831f584b7e3e8e80afe9ddb4266ad00ad441c0065",
+    "memory_mib": 2048,
+    "parallel_workers": 1,
+    "pin_checker_sha256": "375b1ab5fb3abc4bc6fbc174dc56887c0258099850fd527663a468e16d8ca794",
+    "research_scope": "strictly bounded explorations; positive claims replayed",
+    "retraction_depth": 2,
+    "runner_sha256": "27edc6dc464d38999527292e9190184330e4fc60d061ddb3b14978e4c067745d",
+    "schema": 1,
+    "scope": "nine_vertex_pared_cores_only",
+    "source_manifest_sha256": "cc6849a3f79e96a89ecc4a30aedc36d2ea2010bbede8ac36e71161063e4c1519",
+    "source_record_sha256": {
+      "10760192": "f80c2986b3a636c23727d453884deb035c638e0748b25474dc92e8a0dbccb3bb",
+      "2317843": "36e1bfa62cdf35efd5cc841feed832b8ccdd720f45e31732212cff4225ec220d",
+      "3148541": "79671e2872dbd9cbd8afb83e9e6c5523cd964075f90be2f59a7be21e715930c2",
+      "3505942": "57da941940c7259d1ee6ef99d29d67937b24f62dc044ee96fee36f684d0a540b",
+      "3663513": "78975c800512c533de4925be0fc74f92890b7e9213e84b7459ef670cc9b61fd6",
+      "4929602": "f8660e9dcce5a80d9f1b7af28aef307213252673df97cd22ec71ab24991fd6ee",
+      "4952669": "2f3eec71c501c4cbe2dda3e78bd9c519cc48be09e3d370dc1728ea21b04995f3",
+      "4953338": "ad7512aca549e70675abb4cb6f2fe6111922a0a6b6d2ec482e6e4294506cbaa5",
+      "4972358": "ae9591e74b62d8152387e5ad21db96234557ab4dbe8ec96130612e63dfdf2c36",
+      "5418647": "9acd279ffec1aae8469e6affbb00c11545521df7dbb24d097b9b808947c60644",
+      "5519188": "b3d955482b19aad8c361b5faf8ca050cab8ff3a2f2d4f3941b2cfe799514a909",
+      "5601875": "3580466b2e5f3b17cfb4abaeaae35140a852ee47f4e902f19e5fe3fa2f608e5f",
+      "5645085": "5eaa9d150aa49d462aca3295c89107771535b595165e2b60ed58e97d598af67d",
+      "6912818": "14040e2fe134b537b0eec014845d1dad9ca894ffc712ed3ee044ac5a7d5dbf64",
+      "6914104": "46c9035a8a940127f6184343ff0d0ac94e478c908b08e3bb8271673faddf0b65",
+      "6923397": "765e917a9e13b21566bf562999101eb6feb69ece48f050a175c0bff7903a66f9",
+      "6923598": "c27afed3cfd5877f41aaa55b0f05e764f4758261918530ecc104d9c5595d6039",
+      "6938156": "5bcd61b5d6cee9822f27b77f0817082d1a2d521404ef75292c9a2a3f245769fd",
+      "6938971": "b60dc6f1936a17a2e061c560d240e75cf8d2fbdf578d5eb3722f85837d5632f3",
+      "6939156": "b0bb3d187d049c834a31fdfb0562a31fa49f8aed8e0d694c9f15fa08019d06e4",
+      "6946361": "63ef481cd284c0d4e8ae74b2700a5fdcfb3a99df5c7ee5d5966df95c3ef62efa",
+      "6957324": "b877ebb5b9d4ca4d7a4e48f4ef743708b59913e28640d57164ae8a1717d0954c",
+      "6958650": "fdfa74265ebf62ad0970207b40dfd036e423688cfc2410104aabf2156d152761",
+      "6962151": "d8fbb29ca02fdd52b58dbf3c9fd7fcf482417232f8f0c31c51ab969033436475",
+      "6974529": "fd516a2ccea6ef1fa6ff271b1556c336bb24babebb3145cd49236971fd2b8ffa",
+      "7275185": "2510d3870001650213ec0f4e97c9947064ba60b350a532efed24f3f56e9a39ff",
+      "7315343": "9d84fa4d7936e728951cb57a175b44d23d5c86913dd9a3f9c4e6a2782c2cc157",
+      "7316198": "ec26fe3bf1631c4f411ea9e423b3b3027f7231fa2ab2f778f473c100a57871f9",
+      "7363619": "8ab88c557a53c0976b1278409be6c77933e37529fe71bce85c7a152df7746034"
+    },
+    "source_report_sha256": "27c421fc6c140171eb9904ba64696b17185efeada9fd754da714076c20686c65",
+    "source_summary_sha256": "a44356357a6294adde2482cfd7feef0458c7fe63f1c5092853f8d3912983e68f",
+    "stage": "core9-followup-v1",
+    "structure_runner_sha256": "32c6c58122ba513678ae68b8a6b0032518e33622dce386c2f7b6b75e3453ad87",
+    "structure_worker_sha256": "d8b7ef81633486239e609172d5a9cae8e843903c9f73de9974d18dead44eacab",
+    "tasks": [
+      {
+        "core_id": 2317843,
+        "kind": "cover"
+      },
+      {
+        "core_id": 3148541,
+        "kind": "cover"
+      },
+      {
+        "core_id": 3505942,
+        "kind": "cover"
+      },
+      {
+        "core_id": 4952669,
+        "kind": "cover"
+      },
+      {
+        "core_id": 4953338,
+        "kind": "cover"
+      },
+      {
+        "core_id": 5601875,
+        "kind": "cover"
+      },
+      {
+        "core_id": 6938156,
+        "kind": "cover"
+      },
+      {
+        "core_id": 7315343,
+        "kind": "cover"
+      },
+      {
+        "core_id": 6914104,
+        "kind": "bound"
+      },
+      {
+        "core_id": 6938971,
+        "kind": "bound"
+      },
+      {
+        "core_id": 6946361,
+        "kind": "bound"
+      },
+      {
+        "core_id": 6962151,
+        "kind": "bound"
+      },
+      {
+        "core_id": 10760192,
+        "kind": "bound"
+      }
+    ],
+    "time_limit_per_task_seconds": 75,
+    "trace_sha256": "15c775693f9ca5516f43c24ac9fb2693d0fffd0d28ca7a8176a9f93de182e2a2",
+    "trace_v2_sha256": "52c843524706b62d05e0a1027a0c035416009c5d8db436fa7130722d970b2d6d",
+    "upstream_commit": "d6753ac445b57740d90997008aa96830d4fc117c",
+    "v3_pin_file_sha256": "3df2f4948f9ece8f5347253b7d6896db42240c76dda48386637f5aca376a50b4",
+    "worker_sha256": "7e6897a92e3a9dc6363b2828f82f6fbf746558890eee3c7ab9f791f77a9fa5b3"
+  },
+  "processed": 13,
+  "total": 13
+}

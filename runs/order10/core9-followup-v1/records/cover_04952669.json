@@ -1,0 +1,47 @@
+{
+  "core_id": 4952669,
+  "elapsed_seconds": 1.231,
+  "input_graph6": "HCpumzi",
+  "kind": "cover",
+  "peak_rss_kib": 147516,
+  "proof_status": "none",
+  "scope": "nine_vertex_core_only",
+  "search": {
+    "configured_source_parameters": [
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "cover_candidates_checked": 1,
+    "cover_classes_checked": 1,
+    "cover_classes_complete": true,
+    "cover_classes_total": 1,
+    "limits": {
+      "max_clique_edges": 6000,
+      "max_clique_vertices": 350,
+      "max_cover_classes": 1,
+      "max_cover_edges": 62,
+      "max_cover_vertices": 18,
+      "max_m": 3,
+      "max_morphism_assignments": 100000,
+      "max_morphism_states": 25000,
+      "max_n": 0,
+      "max_source_order": 18
+    },
+    "morphism_assignments": 100000,
+    "morphism_searches_exhausted": 1,
+    "morphism_states": 3575,
+    "morphisms_complete": false,
+    "reasons": [
+      "morphism search for R_{6}^0 reached a configured limit"
+    ],
+    "search_status": "LIMIT_REACHED"
+  },
+  "status": "LIMIT_REACHED",
+  "witness": null
+}
