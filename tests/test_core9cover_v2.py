@@ -114,6 +114,62 @@ class CoverAC3V2Tests(unittest.TestCase):
                 "baseline", i, selected,
             )
 
+    def test_worker_timeout_is_checkpointed_without_repeating_work(self) -> None:
+        selected = runner.cohort()
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            output = root / "output"
+            original = root / "historical.txt"
+            original.write_text("unchanged", encoding="utf-8")
+            calls = []
+            def fake_worker(mode: str, graph6: str) -> dict:
+                calls.append((mode, graph6))
+                return {"status": "TIMEOUT", "elapsed_seconds": 90.0}
+            with (
+                patch.object(runner, "ROOT", root),
+                patch.object(runner, "OUTPUT", output),
+                patch.object(runner, "require_pin"),
+                patch.object(runner, "cohort", return_value=selected),
+                patch.object(runner, "manifest", return_value={"stage": "test"}),
+                patch.object(runner, "run_worker", side_effect=fake_worker),
+            ):
+                self.assertTrue(runner.run("0"))
+                self.assertTrue(runner.run("0"))
+                self.assertEqual(len(calls), 4)
+                saved = runner.records(selected)
+                self.assertEqual(len(saved), 4)
+                self.assertTrue(all(x["status"] == "TIMEOUT" for x in saved.values()))
+                self.assertTrue(all(x["kind"] == "baseline" for x in saved.values()))
+            self.assertEqual(original.read_text(encoding="utf-8"), "unchanged")
+
+    def test_dirty_pinned_dependency_is_rejected(self) -> None:
+        with patch.object(runner.subprocess, "check_output", side_effect=[
+            runner.PIN + "\n", " M packages/pycombtop/src/example.py\n"
+        ]):
+            with self.assertRaisesRegex(ValueError, "working tree is dirty"):
+                runner.require_pin()
+
+    def test_replay_timeout_is_explicit_failure(self) -> None:
+        selected = runner.cohort()
+        mode, i = runner.tasks()[0]
+        recorded = {
+            "mode": mode, "core_id": i,
+            **worker.investigate(mode, selected[i]["graph6"]),
+        }
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "results"
+            runner.atomic(output / "manifest.json", {"stage": "test"})
+            runner.atomic(output / "records" / f"{mode}_{i:08d}.json", recorded)
+            with (
+                patch.object(runner, "OUTPUT", output),
+                patch.object(runner, "require_pin"),
+                patch.object(runner, "cohort", return_value=selected),
+                patch.object(runner, "manifest", return_value={"stage": "test"}),
+                patch.object(runner, "run_worker", return_value={"status": "TIMEOUT"}),
+            ):
+                with self.assertRaisesRegex(ValueError, "Bounded replay failed"):
+                    runner.verify(replay=True)
+
 
 if __name__ == "__main__":
     unittest.main()
