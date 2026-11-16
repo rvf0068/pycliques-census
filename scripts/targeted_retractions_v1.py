@@ -269,36 +269,143 @@ def run_one(order:int,index:int) -> None:
         })
 
 
-def verify_record(record:dict, graph6_input:str, directory:Path) -> None:
-    if record.get("input_graph6") != graph6_input:
-        raise ValueError("Wrong source graph in stored result")
-    for level in record.get("levels",[]):
-        if level["status"]!="COMPLETED":
+def verify_record(
+    record: dict, graph6_input: str, directory: Path, *, index: int | None = None
+) -> None:
+    """Replay the complete pared-iterate chain and every positive witness.
+
+    We deliberately do not rerun the possibly expensive negative searches.
+    Their finite scope is retained as a record, not a negative theorem.
+    """
+    if (
+        record.get("schema") != SCHEMA
+        or record.get("status") != "COMPLETED"
+        or record.get("analysis_complete") is not True
+        or record.get("input_graph6") != graph6_input
+        or record.get("scope") != "pared_input_and_pared_iterates_only"
+        or record.get("no_automatic_behavior_verdict") is not True
+        or type(record.get("index")) is not int
+        or (index is not None and record["index"] != index)
+    ):
+        raise ValueError("Incomplete or incorrectly scoped targeted record")
+
+    levels = record.get("levels")
+    if not isinstance(levels, list) or not levels or len(levels) > ITERATES:
+        raise ValueError("Missing/truncated targeted iterate data")
+
+    source = nx.from_graph6_bytes(graph6_input.encode("ascii"))
+    sequence = CliqueSequence(source, bound=MAX_CLIQUE_BOUND)
+    expected_families = {"octahedra", "suspensions", "cycle_complements"}
+    terminal = {"CLIQUE_BOUND_EXCEEDED", "HOST_ORDER_LIMIT"}
+
+    for position, level in enumerate(levels):
+        if not isinstance(level, dict) or level.get("level") != position:
+            raise ValueError("Noncontiguous or malformed iterate record")
+        current = sequence[position]
+        status = level.get("status")
+        if status in terminal:
+            if position != len(levels) - 1:
+                raise ValueError("Terminal iterate cannot have later results")
+            if status == "CLIQUE_BOUND_EXCEEDED" and current is not None:
+                raise ValueError("False clique-bound termination")
+            if status == "HOST_ORDER_LIMIT" and (
+                current is None or len(current) <= MAX_HOST_VERTICES
+                or level.get("graph6") != graph6(current)
+            ):
+                raise ValueError("False host-order-limit termination")
             continue
-        graph=nx.from_graph6_bytes(level["graph6"].encode("ascii"))
-        key=digest(level["graph6"].encode("ascii"))
-        cache=read_json(directory/"homology_cache"/(key+".json"))
-        if cache.get("graph6")!=level["graph6"]:
-            raise ValueError("Cache graph mismatch")
-        if cache.get("betti_numbers")!=level["betti_known"]:
-            raise ValueError("Cached and recorded homology disagree")
-        if len(graph)!=level["order"] or graph.number_of_edges()!=level["edges"]:
-            raise ValueError("Wrong stored iterate order or size")
-        for family,data in level["families"].items():
-            if data["status"]!="FOUND":
+
+        if (
+            status != "COMPLETED"
+            or current is None
+            or len(current) > MAX_HOST_VERTICES
+        ):
+            raise ValueError("Invalid completed-iterate status")
+        expected_encoding = graph6(current)
+        if level.get("graph6") != expected_encoding:
+            raise ValueError("Stored graph is not the actual pared clique iterate")
+        graph = nx.from_graph6_bytes(expected_encoding.encode("ascii"))
+        if (
+            len(graph) != level.get("order")
+            or graph.number_of_edges() != level.get("edges")
+        ):
+            raise ValueError("Wrong stored iterate order or edge count")
+
+        key = digest(expected_encoding.encode("ascii"))
+        if level.get("homology_cache_key") != key:
+            raise ValueError("Incorrect cached graph key")
+        cache = read_json(directory/"homology_cache"/(key+".json"))
+        if (
+            cache.get("schema") != SCHEMA
+            or cache.get("graph6") != expected_encoding
+            or cache.get("algorithm") !=
+            "pycombtop.bounded_betti.bounded_reduced_betti_mod2"
+            or cache.get("max_faces") != MAX_BETTI_FACES
+            or cache.get("max_partial_degree") != MAX_BETTI_PARTIAL_DEGREE
+            or cache.get("mode") not in {"full", "partial", "face_limit"}
+            or cache.get("betti_numbers") != level.get("betti_known")
+        ):
+            raise ValueError("Cached Betti data/provenance does not match iterate")
+        ranks = cache["betti_numbers"]
+        if ranks is not None:
+            if (
+                not isinstance(ranks, dict)
+                or any(
+                    not isinstance(d, str) or not d.isdigit()
+                    or type(v) is not int or v < 0
+                    for d, v in ranks.items()
+                )
+            ):
+                raise ValueError("Invalid exact Betti data")
+            if cache["mode"] == "partial" and (
+                set(ranks) != {str(d) for d in range(MAX_BETTI_PARTIAL_DEGREE+1)}
+            ):
+                raise ValueError("Partial ranks do not cover the declared degrees")
+        elif cache["mode"] != "face_limit":
+            raise ValueError("Unknown Betti data must have face-limit status")
+
+        families = level.get("families")
+        if not isinstance(families, dict) or set(families) != expected_families:
+            raise ValueError("One or more target-family results are missing")
+        for family, data in families.items():
+            if not isinstance(data, dict) or data.get("status") not in {
+                "FOUND", "EXHAUSTED", "LIMIT_REACHED", "HOMOLOGY_EXCLUDED",
+            }:
+                raise ValueError("Invalid target-family result")
+            if any(
+                type(data.get(field)) is not int or data[field] < 0
+                for field in ("patterns", "induced_targets",
+                              "states", "assignments")
+            ):
+                raise ValueError("Malformed search counters")
+            if data["status"] != "FOUND":
+                if any(k in data for k in (
+                    "target_indices", "projection_indices", "kind",
+                )):
+                    raise ValueError("A negative/limited result contains a witness")
                 continue
-            target_indices=data["target_indices"]
-            projection_indices=data["projection_indices"]
-            if len(projection_indices)!=len(graph):
-                raise ValueError("Projection list has wrong length")
-            test=TargetRetractionResult(
-                family=family,status=TargetSearchStatus.FOUND,
-                target_kind=data["kind"],
+            target_indices = data.get("target_indices")
+            projection_indices = data.get("projection_indices")
+            if (
+                not isinstance(target_indices, list)
+                or not isinstance(projection_indices, list)
+                or not target_indices
+                or len(projection_indices) != len(graph)
+                or len(target_indices) != len(set(target_indices))
+                or any(type(v) is not int or v not in graph
+                       for v in target_indices+projection_indices)
+            ):
+                raise ValueError("Malformed graph-retraction witness arrays")
+            test = TargetRetractionResult(
+                family=family, status=TargetSearchStatus.FOUND,
+                target_kind=data.get("kind"),
                 target_vertices=tuple(target_indices),
-                projection={v:projection_indices[v] for v in graph},
+                projection={v: projection_indices[v] for v in graph},
             )
-            if not verify_targeted_retraction(graph,test):
+            if not verify_targeted_retraction(graph, test):
                 raise ValueError("Positive retraction failed independent replay")
+    if levels[-1]["status"] == "COMPLETED" and len(levels) != ITERATES:
+        raise ValueError("Successful record ends before requested iterate count")
 
 
 def verify_all(order:int) -> dict:
@@ -312,9 +419,15 @@ def verify_all(order:int) -> dict:
             continue
         record=read_json(path)
         if record.get("status") in ("TIMEOUT","ERROR"):
+            if (
+                record.get("schema") != SCHEMA
+                or record.get("index") != index
+                or record.get("no_automatic_behavior_verdict") is not True
+            ):
+                raise ValueError("Malformed terminal worker record")
             counts[record["status"]]+=1
             continue
-        verify_record(record,g6,directory)
+        verify_record(record,g6,directory,index=index)
         counts["COMPLETED"]+=1
         counts["FOUND"]+=sum(
             result["status"]=="FOUND"
