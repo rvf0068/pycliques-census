@@ -118,6 +118,13 @@ def require_manifest(order: int) -> Path:
         if read_json(frozen)!=current:
             raise ValueError("Frozen targeted postpass sources/parameters changed")
     else:
+        # Never adopt old records or cache files under a newly generated
+        # manifest. Their source, pin, and limits are unverified.
+        if directory.exists() and any(directory.iterdir()):
+            raise ValueError(
+                "Targeted stage has artifacts without manifest.json; "
+                "archive/remove them before starting a new frozen stage"
+            )
         atomic(frozen,current)
     return directory
 
@@ -219,6 +226,8 @@ def analyze(index: int, input_g6: str, directory: Path) -> dict:
         "schema":SCHEMA,"index":index,"input_graph6":input_g6,
         "scope":"pared_input_and_pared_iterates_only",
         "no_automatic_behavior_verdict":True,
+        "analysis_complete":True,
+        "status":"COMPLETED",
         "levels":levels,
     }
 
