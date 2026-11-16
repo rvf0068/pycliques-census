@@ -910,3 +910,37 @@ reviewing the generated report and replay:
     git add runs/order10/core9-cover-iterates-v1/
     git commit -m "Record verified covering searches on pared G1/G2 cores"
     git push origin main
+
+## Snub-disphenoid special-octahedron obstruction through K³
+
+The snub disphenoid `S` is the eight-vertex graph `GQyuzw`,
+whose clique complex is a triangulated sphere. The fundamental group
+of the clique complex is preserved by the clique graph operator
+(Larrión–Pizaña–Villarroel-Flores, *European Journal of
+Combinatorics* 30 (2009), 288–294), so no new simply-connectivity
+claim should be inferred from the density of its fourth iterate.
+
+A distinct, exact finite computation verifies that **none** of
+`S, K(S), K²(S), K³(S)` has a *special octahedron* in the sense of
+`pycliques.retractions.find_special_octahedron_witness`. The checker
+independently enumerates all maximal cliques, and for each clique either
+finds an empty antipode domain or a pair of antipode domains with no
+adjacent representatives. This is a complete negative certificate
+**for those four finite graphs only**. The corresponding maximal-clique
+counts are 12, 20, 56 and 1,076. At the third iterate, only four
+of the 1,076 maximal cliques have all nonempty antipode domains, and
+all four have a pairwise obstruction.
+
+Run in the repository root:
+
+    bash scripts/bootstrap_core9cover_v2.sh
+    .venv-core9cover-v2/bin/python scripts/check_snub_special_octahedra.py
+    .venv-core9cover-v2/bin/python -m unittest discover -s tests -p test_snub_special_octahedra.py -v
+
+The program cross-checks with the separately implemented optimized
+special-octahedron finder in the pinned `pycliques-project` library.
+It also independently reconstructs and compares each clique iterate.
+This is **not** a clique-divergence verdict for `S` or any core, nor
+does it exclude a special octahedron in `K⁴(S)` or other divergent
+mechanisms. The historical classification of the 29 unresolved cores
+and all existing conjectural snub dependencies are unchanged.
