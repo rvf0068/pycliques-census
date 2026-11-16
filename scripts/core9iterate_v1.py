@@ -180,6 +180,8 @@ def manifest(selected: dict[int, dict]) -> dict:
         "runner_sha256": ROOT / "scripts/core9iterate_v1.py",
         "worker_sha256": ROOT / "scripts/core9iterate_v1_worker.py",
         "launcher_sha256": ROOT / "scripts/core9iterate_v1.sh",
+        "tests_sha256": ROOT / "tests/test_core9iterate_v1.py",
+        "workflow_sha256": ROOT / ".github/workflows/core9-cover-iterates-v1.yml",
         "existing_worker_sha256": ROOT / "scripts/core9cover_v2_worker.py",
         "existing_pin_guard_sha256": ROOT / "scripts/core9cover_v2.py",
         "source_manifest_sha256": SOURCE / "manifest.json",
