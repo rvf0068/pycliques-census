@@ -1011,3 +1011,51 @@ pared input or specific pared clique iterate in its stored record.
 The stage freezes its source list, code hash, dependency pin, and search
 limits on initial execution. Thus subsequent changes cannot accidentally
 mix incompatible computations in the same output directory.
+
+
+## Divergent-family targeted retractions (v2; correcting the cycle bound)
+
+The versioned v1 stage is **frozen**: its 54 completed order-nine records
+and earlier order-ten pilot results must remain unchanged. In particular,
+order-ten graph **2318241**, on its first completely pared clique
+iterate (16 vertices), has a genuine but irrelevant graph retraction onto
+the **non-divergent** complement of a 6-cycle. The v1 search included
+\(\overline{C_5}\), \(\overline{C_6}\), and \(\overline{C_7}\),
+so its *first* positive witness could conceal a retraction onto a genuinely
+divergent target.
+
+The v2 driver pins the **merged pycliques-project PR #17** and therefore
+only searches for cycle complements \(\overline{C_n}\) with \(n\geq8\).
+Its existing octahedron and suspension target families are unchanged.
+V2 uses its own environment, code file, source-and-code hash manifest,
+and separate result directory. No v1 artifacts are adopted or rewritten.
+
+From `pycliques-census` (for example on the Dell):
+
+```bash
+git pull --ff-only
+bash scripts/bootstrap_targeted_v2.sh
+.venv-targeted-v2/bin/python scripts/targeted_retractions_v2.py plan --order 10
+time .venv-targeted-v2/bin/python scripts/targeted_retractions_v2.py next --order 10 --index 2318241
+.venv-targeted-v2/bin/python scripts/targeted_retractions_v2.py verify --order 10
+time .venv-targeted-v2/bin/python scripts/targeted_retractions_v2.py next --order 10 --batch-size 5
+```
+
+The `next --index` option is a **single-record, timeout-isolated** rerun
+that skips a previously completed record in v2. It is invalid for
+`plan`, `all`, and `verify`. Ordinary `next --batch-size N` processes
+the next N pending inputs; `all` resumes any remaining inputs. The
+per-worker limits remain 120 seconds and 2 GiB, with bounded clique
+iterations and exact cached mod-2 homology. A completed worker may still
+contain `LIMIT_REACHED` for a particular family; those results are not
+exhaustive negative certificates.
+
+The corrected one-off replay of index 2318241 in `pycliques-project`
+also independently enumerates every chordless cycle in the complement
+of the saved 16-vertex iterate: none has length 8 or larger, so the
+divergent cycle-complement search is genuinely exhausted there.
+
+The already committed order-nine v1 results need not be repeated: their
+**negative/exhausted** cycle-complement outcomes included the larger
+family \(n\geq8\). For order ten, v2 is a new investigation; its results
+belong under `runs/order10/targeted-retractions-v2/` only.
