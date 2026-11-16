@@ -7,6 +7,7 @@ on:
       - "tests/test_snub_special_octahedra.py"
       - ".github/workflows/snub-special-octahedron-v1.yml"
       - "config/pycliques_commit_core9cover_v2.txt"
+      - "scripts/bootstrap_core9cover_v2.sh"
   workflow_dispatch:
 
 jobs:
