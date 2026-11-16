@@ -658,3 +658,48 @@ After verification, commit only the new stage:
     git push origin main
 
 All manually cloned GitHub repositories should use SSH.
+
+## Historical order-9 cross-reference for the 35 order-9 pared cores
+
+The 35 nine-vertex representatives in the post-v3 order-10 core index
+can be matched against **all 261,080 connected nine-vertex graphs** from
+the exact original McKay/pyg6data graph6 dataset. The new script
+`scripts/core9_crossref.py` performs this match using a degree-sequence
+prefilter followed by exact graph isomorphism (not graph6 text equality).
+
+It then reads the original order-9 census chunks and every completed
+historical order-9 stage (C10, bound 60 and bound 70), rather than
+relying on the original or current unresolved list alone. It records
+the first positive historical verdict, the stage, its stated rule/reason,
+its precise source file, and whether the graph is in the final unresolved
+list. A separate TSV lists only those cores still unresolved historically.
+
+From the repository root, using the unchanged separately pinned
+witness-capable v3 environment:
+
+    bash scripts/bootstrap_v3.sh
+    .venv-v3/bin/python scripts/core9_crossref.py build
+    .venv-v3/bin/python scripts/core9_crossref.py verify
+
+The new immutable output directory is
+`reports/order10_core9_crossref_v1/` with `matches.tsv`,
+`unclassified.tsv`, `summary.md`, and `manifest.json`.
+The manifest hashes the compressed original 9-graph dataset,
+frozen source files, later stage records, and all generated outputs.
+Re-running build refuses to overwrite changed data.
+
+**The cross-reference is read-only.** It does not edit any old census
+stage, reclassify any original ten-vertex graph, or claim that a
+historical verdict is a newly replayed certificate. In particular,
+the four new positive core9 certificates were already historically
+classified in the order-9 bound-60/70 stages; this tool makes such
+duplication visible *before* running further experiments.
+
+After verifying the cross-reference, optionally commit only its
+newly generated directory:
+
+    git add reports/order10_core9_crossref_v1/
+    git commit -m "Record verified order-9 historical cross-reference"
+    git push origin main
+
+Keep manually cloned GitHub repositories on SSH remotes.
