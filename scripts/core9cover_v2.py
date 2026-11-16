@@ -32,9 +32,10 @@ import time
 import networkx as nx
 
 import core9cover_v2_worker as worker
-from s1_divergence import verify_cover_witness
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "postpasses"))
+from s1_divergence import verify_cover_witness  # noqa: E402
 OLD = ROOT / "runs/order10/core9-followup-v1"
 OUTPUT = ROOT / "runs/order10/core9-cover-ac3-v2"
 PIN_FILE = ROOT / "config/pycliques_commit_core9cover_v2.txt"
