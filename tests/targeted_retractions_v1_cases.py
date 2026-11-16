@@ -58,7 +58,8 @@ def test_positive_target_retraction_record_and_independent_replay(tmp_path):
             "status":"COMPLETED",
             "homology_cache_key":stage.cache_homology(graph,tmp_path)[1],
             "betti_known":{"0":0,"1":0,"2":1},
-            "families":{"octahedra":saved},
+            "families":{name:stage.serialize_family(graph,result)
+                        for name,result in family.items()},
         }],
     }
     stage.verify_record(record,record["input_graph6"],tmp_path)
