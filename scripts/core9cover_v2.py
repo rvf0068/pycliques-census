@@ -81,6 +81,12 @@ def require_pin() -> None:
     ).strip()
     if got != PIN:
         raise ValueError("Loaded pycombtop checkout differs from frozen new pin")
+    dirty = subprocess.check_output(
+        ["git", "-C", str(DEPENDENCY), "status", "--porcelain"],
+        text=True,
+    )
+    if dirty.strip():
+        raise ValueError("Pinned pycliques dependency working tree is dirty")
 
 
 def cohort() -> dict[int, dict]:
@@ -429,7 +435,7 @@ def run(batch: str) -> bool:
                 continue
             print(f"Core {i}, {mode} family", flush=True)
             entry = {
-                "core_id": i, "mode": mode,
+                "core_id": i, "mode": mode, "kind": mode,
                 "input_graph6": selected[i]["graph6"],
                 "scope": "nine_vertex_core_only",
                 **run_worker(mode, selected[i]["graph6"]),
@@ -461,7 +467,9 @@ def verify(*, replay: bool) -> None:
             key = f"{mode}_{i:08d}.json"
             if key not in saved or saved[key]["status"] in {"TIMEOUT", "ERROR"}:
                 continue
-            fresh = worker.investigate(mode, selected[i]["graph6"])
+            fresh = run_worker(mode, selected[i]["graph6"])
+            if fresh["status"] in {"TIMEOUT", "ERROR"}:
+                raise ValueError(f"Bounded replay failed for {mode}:{i}: {fresh['status']}")
             old = saved[key]
             for field in ("kind", "status", "input_graph6", "eligible", "search", "witness", "proof_status"):
                 if fresh[field] != old[field]:
