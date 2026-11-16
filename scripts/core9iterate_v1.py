@@ -196,7 +196,7 @@ def manifest(selected: dict[int, dict]) -> dict:
         "source_iterates": [1, 2],
         "tasks": [{"mode": mode, "core_id": i} for mode, i in tasks()],
         "source_records_sha256": {str(i): selected[i]["source_sha256"] for i in EXPECTED_IDS},
-        "input_graph6": {str(i): selected[i]["graph6"][mode] for i in EXPECTED_IDS},
+        "input_graph6": {str(i): selected[i]["graph6"] for i in EXPECTED_IDS},
         "limits_by_iterate": worker.LIMITS,
         "batch_size": BATCH_SIZE,
         "timeout_seconds": TIMEOUT_SECONDS,
@@ -452,7 +452,7 @@ def run(batch: str) -> bool:
                 "core_id": i, "mode": mode, "kind": mode,
                 "input_graph6": selected[i]["graph6"],
                 "scope": "pared_iterate_only",
-                **run_worker(mode, selected[i]["graph6"]),
+                **run_worker(mode, selected[i]["graph6"][mode]),
             }
             validate_record(entry, mode, i, selected)
             atomic(OUTPUT / "records" / name, entry)
