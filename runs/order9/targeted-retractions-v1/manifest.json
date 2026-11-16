@@ -1,0 +1,21 @@
+{
+  "code_sha256": "77cbd323ed91197cc22f3c7852917c858655d81f14de5a74ad969284c2c7b16f",
+  "dependency_pin": "32f752f62c676bb6868674e024e073d89733cdeb",
+  "order": 9,
+  "schema": 1,
+  "scope": "pared input and verified pared iterates only",
+  "settings": {
+    "clique_bound": 120,
+    "iterates": 3,
+    "max_assignments": 250000,
+    "max_betti_faces": 150000,
+    "max_host_vertices": 80,
+    "max_partial_degree": 3,
+    "max_patterns": 20000,
+    "max_states": 100000,
+    "max_target_order": 16,
+    "memory_mib": 2048,
+    "timeout_seconds": 120
+  },
+  "source_sha256": "bebf5e0d0e0415b8facd6df24a7591ed199a56666d9a8419a63d1b84a814527a"
+}
