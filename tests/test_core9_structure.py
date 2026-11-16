@@ -94,6 +94,31 @@ class StructureTests(unittest.TestCase):
                             found["conclusion"],
                             "induced_observation_only_not_host_divergence",
                         )
+                verified = {
+                    "core_id": i, "input_graph6": record["graph6"],
+                    "member_count": record["member_count"],
+                    "status": "OK", "scope": "structural_diagnostics_only",
+                    **result,
+                }
+                stage.validate_record(verified, i, selected)
+                # Same nine vertices and same edge count, but NOT the source
+                # core. A self-consistent forged checkpoint must be rejected.
+                fake = json.loads(json.dumps(verified))
+                actual_graph = nx.from_graph6_bytes(
+                    record["graph6"].encode("ascii")
+                )
+                counterfeit = next(
+                    g for seed in range(1, 20)
+                    if not nx.is_isomorphic(
+                        (g := nx.gnm_random_graph(
+                            9, actual_graph.number_of_edges(), seed=seed
+                        )), actual_graph
+                    )
+                )
+                fake["iterates"][0]["graph6"] = worker.encode(counterfeit)
+                with self.assertRaisesRegex(ValueError, "actual clique iterate"):
+                    stage.validate_record(fake, i, selected)
+
                 with self.assertRaisesRegex(ValueError, "differs"):
                     changed = json.loads(json.dumps(record["expected_iterates"]))
                     changed[0]["pared_edges"] += 1
@@ -141,6 +166,19 @@ class StructureTests(unittest.TestCase):
             self.assertEqual(
                 historical.read_bytes(), b"historical census stays immutable\n"
             )
+
+    def test_verify_missing_stage_has_no_side_effect(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "new-stage"
+            with (
+                patch.object(stage, "FOLDER", output),
+                patch.object(stage, "cohort", return_value={}),
+                patch.object(stage, "manifest", return_value={"dummy": True}),
+            ):
+                with self.assertRaisesRegex(ValueError, "has started"):
+                    stage.verify()
+                self.assertFalse(output.exists())
 
     def test_stage_record_rejects_forged_status(self):
         selected = {123: {
