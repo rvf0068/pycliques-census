@@ -814,3 +814,53 @@ the prior second-iterate isomorphism maps are independently checked in
 This observation does **not** prove divergence of the snub disphenoid
 or of the three retracting nine-vertex graphs, and does not classify
 the 512 original ten-vertex graphs represented by their core classes.
+
+
+## Post-PR14 coaffine-cover experiment on eight nine-vertex cores
+
+This independent stage uses the improved `pycombtop` search from
+`pycliques-project` commit
+`005f6cc06a3bf1332bf6e729af73eea8ff26a40d`. It does **not**
+change the historical v3 environment, pin, or previously committed results.
+
+The 16 tasks compare two parameterized families for each of the eight
+previously indeterminate nine-vertex completely pared core classes:
+
+- **Baseline:** historical `m<=3,n=0`, source order at most 18,
+  maximum 100,000 candidate assignments, now using the AC-3 solver.
+- **Expanded:** `m<=4,n<=2`, source order at most 42,
+  maximum 500,000 candidate assignments, using the same solver.
+  Results record the actual eligible `(m,n)` pairs determined by the
+  triangular double cover's deck radius. Nominal but ineligible sources
+  are not counted as tested.
+
+Both searches retain the original cover and clique graph size limits
+and the unique connected triangular double cover's cohomology class.
+Any found positive certificate is independently replayed. An
+`EXHAUSTED` search covers only **this finite family**, not every
+possible divergence mechanism or convergence behavior. None of the
+core-only conclusions automatically transfers to the original
+ten-vertex graphs.
+
+From `pycliques-census`:
+
+    bash scripts/bootstrap_core9cover_v2.sh
+    bash scripts/core9cover_v2.sh plan
+    bash scripts/core9cover_v2.sh next
+    bash scripts/core9cover_v2.sh all
+    bash scripts/core9cover_v2.sh verify
+    bash scripts/core9cover_v2.sh replay
+    cat runs/order10/core9-cover-ac3-v2/report.md
+
+`next` runs four pending tasks, `all` resumes the rest, and
+`replay` reruns the completed successful searches to corroborate
+reported negative results as computations. Each task has a 90-second
+wall-clock and 2-GiB address-space limit. Atomic records, a
+byte-hashed immutable provenance manifest, summary, and readable report
+appear under `runs/order10/core9-cover-ac3-v2/`.
+
+After reviewing and verifying:
+
+    git add runs/order10/core9-cover-ac3-v2/
+    git commit -m "Record post-PR14 baseline and expanded core9 covering searches"
+    git push origin main
