@@ -8,17 +8,19 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-import core9cover_v2 as runner
-import core9cover_v2_worker as worker
-
-
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
 NEW_PIN_AVAILABLE = (
-    Path(__file__).resolve().parents[1]
-    / ".deps/pycliques-project-core9cover-v2/.git"
-).is_dir()
+    (ROOT / ".deps/pycliques-project-core9cover-v2/.git").is_dir()
+    and (ROOT / ".venv-core9cover-v2/bin/python").exists()
+)
+# Historical smoke must not import or execute the new pinned worker.
+if NEW_PIN_AVAILABLE:
+    import core9cover_v2 as runner
+    import core9cover_v2_worker as worker
 
 
+@unittest.skipUnless(NEW_PIN_AVAILABLE, "Requires the isolated post-PR14 environment")
 class CoverAC3V2Tests(unittest.TestCase):
     def test_original_census_pinned_and_eight_cases_exact(self) -> None:
         selected = runner.cohort()
@@ -32,7 +34,6 @@ class CoverAC3V2Tests(unittest.TestCase):
         self.assertEqual(worker.EXPANDED["max_n"], 2)
         self.assertEqual(worker.BASELINE["max_morphism_assignments"], 100000)
 
-    @unittest.skipUnless(NEW_PIN_AVAILABLE, "Requires the separately pinned post-PR14 pycombtop")
     def test_one_baseline_search_repeats_exact_exhaustion(self) -> None:
         selected = runner.cohort()
         record = worker.investigate("baseline", selected[2317843]["graph6"])
@@ -48,7 +49,6 @@ class CoverAC3V2Tests(unittest.TestCase):
             "baseline", 2317843, selected,
         )
 
-    @unittest.skipUnless(NEW_PIN_AVAILABLE, "Requires the separately pinned post-PR14 pycombtop")
     def test_deck_geometry_prunes_nominally_eligible_parameters(self) -> None:
         selected = runner.cohort()
         graph6 = selected[2317843]["graph6"]
@@ -65,7 +65,6 @@ class CoverAC3V2Tests(unittest.TestCase):
             "Expanded configuration must actually test different source families",
         )
 
-    @unittest.skipUnless(NEW_PIN_AVAILABLE, "Requires the separately pinned post-PR14 pycombtop")
     def test_invalid_negative_result_cannot_claim_exhaustive(self) -> None:
         selected = runner.cohort()
         i = 2317843
