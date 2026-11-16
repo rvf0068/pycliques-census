@@ -43,6 +43,14 @@ class ParedIterateCoverTests(unittest.TestCase):
         saved = worker.investigate(mode, selected[i]["graph6"][mode])
         row = {"mode": mode, "core_id": i, **saved}
         runner.validate_record(row, mode, i, selected)
+        permuted = copy.deepcopy(row)
+        permuted["search"]["configured_source_parameters"].reverse()
+        runner.validate_record(permuted, mode, i, selected)
+        duplicated = copy.deepcopy(row)
+        params = duplicated["search"]["configured_source_parameters"]
+        params[0] = params[1][:]
+        with self.assertRaisesRegex(ValueError, "frozen finite family"):
+            runner.validate_record(duplicated, mode, i, selected)
         self.assertEqual(saved["search"]["cover_classes_total"], 1)
         self.assertNotIn(saved["status"], {"ERROR", "TIMEOUT"})
         self.assertEqual(saved["eligible"]["covers"][0]["cover_order"],
@@ -84,6 +92,19 @@ class ParedIterateCoverTests(unittest.TestCase):
                 self.assertEqual(len(invoked), 4)
                 self.assertEqual(len(runner.records(selected)), 4)
             self.assertEqual(old.read_text(encoding="utf-8"), "protected")
+
+    def test_second_process_gets_clear_lock_message(self) -> None:
+        selected = runner.cohort()
+        with tempfile.TemporaryDirectory() as tmp:
+            with (
+                patch.object(runner, "ROOT", Path(tmp)),
+                patch.object(runner, "require_pin"),
+                patch.object(runner, "cohort", return_value=selected),
+                patch.object(runner, "manifest", return_value={"stage":"test"}),
+                patch.object(runner.fcntl, "flock", side_effect=BlockingIOError()),
+            ):
+                with self.assertRaisesRegex(SystemExit, "Another core9iterate-v1 run"):
+                    runner.run("next")
 
     def test_invalid_identity_and_false_proof_rejected(self) -> None:
         selected = runner.cohort()
