@@ -42,15 +42,15 @@ The computation gives
 | \(K^3(S)\) | 56 | 1,196 | \(\widetilde\beta_1=\widetilde\beta_2=\widetilde\beta_3=0\); higher degrees uncomputed |
 
 The first three Betti calculations enumerate **all** faces of their clique
-complexes and reduce all boundary matrices over \\(\mathbb F_2\).
+complexes and reduce all boundary matrices over \(\mathbb F_2\).
 For \(K^3(S)\), the exact low-dimensional computation enumerates
 13,120 triangles, 85,368 tetrahedra, and 365,272 five-vertex cliques;
 the ranks of boundaries in degrees 2, 3, and 4 are respectively
 1,141, 11,979, and 73,389. These imply precisely the stated vanishing
-through degree three. No claim is made about \\(\widetilde H_j\) for \\(j\ge4\),
-integral torsion, or the full homotopy type of \(K^3\(S\)\).
+through degree three. No claim is made about \(\widetilde H_j\) for \(j\ge4\),
+integral torsion, or the full homotopy type of \(K^3(S)\).
 
-## Complete retraction searches on S, K\(S\), K²\(S\)
+## Complete retraction searches on S, K(S), K²(S)
 
 Homology rules out \(O_d\) for \(d\ne3\), and all \(C_n^c\), \(n\ge5\),
 except \(n=8,10\). The suspended-cycle targets remain admissible in
