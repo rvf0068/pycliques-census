@@ -32,6 +32,11 @@ The standard target homotopy types are:
   (for the relevant \(n\ge5\)). The verifier independently checks
   these mod-2 Betti groups for \(5\le n\le15\).
 
+The JSON field `betti_mod2` uses **ordinary homology**, including
+`beta_0=1` for each connected graph. In the table below, only the
+positive-degree Betti numbers are reported; these agree with reduced
+homology. Reduced `beta_0` is zero throughout.
+
 The computation gives
 
 | Raw iterate | Vertices | Edges | Exact positive-degree mod-2 Betti information |
