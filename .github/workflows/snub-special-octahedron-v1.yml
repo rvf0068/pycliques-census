@@ -1,0 +1,33 @@
+name: Snub disphenoid special-octahedron census through K3
+
+on:
+  pull_request:
+    paths:
+      - "scripts/check_snub_special_octahedra.py"
+      - "tests/test_snub_special_octahedra.py"
+      - ".github/workflows/snub-special-octahedron-v1.yml"
+      - "config/pycliques_commit_core9cover_v2.txt"
+      - "scripts/bootstrap_core9cover_v2.sh"
+  workflow_dispatch:
+
+jobs:
+  exact-obstruction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap isolated pinned library
+        run: bash scripts/bootstrap_core9cover_v2.sh
+      - name: Run exact unit tests
+        run: .venv-core9cover-v2/bin/python -m unittest discover -s tests -p test_snub_special_octahedra.py -v
+      - name: Check independent exact enumeration and library replay
+        run: .venv-core9cover-v2/bin/python scripts/check_snub_special_octahedra.py
+      - name: Reject changes to historical census records
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        if: github.event_name == 'pull_request'
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- runs/ reports/ postpasses/ config/pycliques_commit_core9cover_v2.txt
