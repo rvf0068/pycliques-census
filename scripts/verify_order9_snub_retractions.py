@@ -9,6 +9,7 @@ literature. No inference of clique divergence is made.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -37,13 +38,10 @@ def verify_retraction_certificate(entry: dict, snub: nx.Graph) -> None:
     removed = entry["removed_vertex"]
     image = entry["image_vertex"]
     if (
-        not isinstance(removed, int)
-        or not isinstance(image, int)
-        or removed == image
-        or removed not in graph
-        or image not in graph
+        removed != 2 or image != 1
+        or removed not in graph or image not in graph
     ):
-        raise ValueError("The retraction's deleted vertex or image is invalid")
+        raise ValueError("Retraction must have the claimed original-label map 2 -> 1")
     target = graph.copy()
     target.remove_node(removed)
     if len(target) != 8:
@@ -111,7 +109,115 @@ def index_entries() -> dict[int, dict]:
     return entries
 
 
+def file_sha256(path: Path) -> str:
+    """Hash the actual binary bytes, including source graph6 data."""
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def check_sha(path: Path, expected: str) -> None:
+    if (
+        not isinstance(expected, str)
+        or len(expected) != 64
+        or file_sha256(path) != expected
+    ):
+        raise ValueError(f"Frozen provenance SHA-256 mismatch: {path.relative_to(ROOT)}")
+
+
+def verify_frozen_provenance() -> None:
+    """Validate the committed cross-reference and structure/follow-up hash chain.
+
+    These are *additional* checks, not a replacement for comparing old files
+    against the PR base in CI. In particular the follow-up stage had no hash
+    for its own isomorphism.json: its explicit adjacency proof is verified
+    below, and CI also rejects changes to this prior-stage file.
+    """
+    xref = ROOT / "reports/order10_core9_crossref_v1"
+    xref_manifest = json.loads((xref / "manifest.json").read_text(encoding="utf-8"))
+    if xref_manifest.get("schema") != 1:
+        raise ValueError("Invalid historical cross-reference manifest")
+    for filename in ("matches.tsv", "unclassified.tsv", "summary.md"):
+        check_sha(
+            xref / filename,
+            xref_manifest["output_sha256"][filename],
+        )
+    index = ROOT / "reports/order10_core_index_v1"
+    for rel in (
+        "reports/order10_core_index_v1/manifest.json",
+        "reports/order10_core_index_v1/classes.tsv",
+        "reports/order10_core_index_v1/assignments.tsv",
+    ):
+        check_sha(ROOT / rel, xref_manifest["input_sha256"][rel])
+
+    structure = ROOT / "runs/order10/core9-structure-v1"
+    structure_manifest = json.loads(
+        (structure / "manifest.json").read_text(encoding="utf-8")
+    )
+    if (
+        structure_manifest.get("schema") != 1
+        or structure_manifest.get("stage") != "core9-structure-v1"
+    ):
+        raise ValueError("Invalid prior structural manifest")
+    check_sha(
+        xref / "manifest.json",
+        structure_manifest["crossref_manifest_sha256"],
+    )
+    check_sha(
+        xref / "matches.tsv",
+        structure_manifest["crossref_matches_sha256"],
+    )
+
+    followup = ROOT / "runs/order10/core9-followup-v1"
+    followup_manifest = json.loads(
+        (followup / "manifest.json").read_text(encoding="utf-8")
+    )
+    if (
+        followup_manifest.get("schema") != 1
+        or followup_manifest.get("stage") != "core9-followup-v1"
+        or followup_manifest.get("iso_comparison_ids")
+            != [4929602, 4972358, 5645085]
+    ):
+        raise ValueError("Invalid prior follow-up manifest")
+    check_sha(
+        structure / "manifest.json",
+        followup_manifest["source_manifest_sha256"],
+    )
+    check_sha(
+        structure / "summary.json",
+        followup_manifest["source_summary_sha256"],
+    )
+    check_sha(
+        structure / "report.md",
+        followup_manifest["source_report_sha256"],
+    )
+    structure_summary = json.loads(
+        (structure / "summary.json").read_text(encoding="utf-8")
+    )
+    if (
+        structure_summary.get("manifest") != structure_manifest
+        or structure_summary.get("processed") != 29
+        or structure_summary.get("counts") != {"OK": 29}
+    ):
+        raise ValueError("Inconsistent prior structure summary")
+
+    # The parent follow-up manifest pins every source structural JSON.
+    for core_id in (4929602, 4972358, 5645085):
+        record = structure / "records" / f"{core_id:08d}.json"
+        check_sha(
+            record, followup_manifest["source_record_sha256"][str(core_id)]
+        )
+    followup_summary = json.loads(
+        (followup / "summary.json").read_text(encoding="utf-8")
+    )
+    if (
+        followup_summary.get("manifest") != followup_manifest
+        or followup_summary.get("processed") != 13
+        or followup_summary.get("iso_verified") is not True
+    ):
+        raise ValueError("Inconsistent prior follow-up summary")
+
+
 def verify_all(certificates: dict) -> dict:
+    verify_frozen_provenance()
     if (
         certificates.get("schema") != 1
         or certificates.get("snub_graph6") != SNUB
