@@ -797,3 +797,20 @@ After verifying, commit only this new output directory:
     git add runs/order10/core9-followup-v1/
     git commit -m "Record verified targeted core9 follow-up experiments"
     git push origin main
+
+## Three nine-vertex graphs retracting onto the snub disphenoid
+
+Order-nine indices **232592, 233586, 244584** (respectively core
+classes 4929602, 4972358, 5645085) have explicit graph retractions
+onto induced eight-vertex snub disphenoid graphs (`GQyuzw`).
+On all three original graph6 labelings the retraction is the identity
+except vertex `2` maps to vertex `1`; these vertices are nonadjacent,
+so this is not a dominated-vertex fold. Exact target isomorphisms and
+the prior second-iterate isomorphism maps are independently checked in
+`reports/order9_snub_retractions_v1/`.
+
+    .venv/bin/python scripts/verify_order9_snub_retractions.py
+
+This observation does **not** prove divergence of the snub disphenoid
+or of the three retracting nine-vertex graphs, and does not classify
+the 512 original ten-vertex graphs represented by their core classes.
