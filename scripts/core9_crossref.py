@@ -228,6 +228,22 @@ def load_stage_records(stage: str, original_unresolved: dict[int, dict],
     summary = json.loads(summary_path.read_text(encoding="utf-8"))
     if (meta.get("order"), meta.get("stage")) != (9, stage) or summary.get("manifest") != meta:
         raise ValueError(f"Historical stage provenance mismatch: {stage}")
+    required_predecessors = {
+        "initial_summary_sha256": root / "runs/order9/initial/summary.json",
+    }
+    if stage in {"bound60", "bound70"}:
+        required_predecessors["c10_summary_sha256"] = (
+            root / "runs/order9/c10/summary.json"
+        )
+    if stage == "bound70":
+        required_predecessors["bound60_summary_sha256"] = (
+            root / "runs/order9/bound60/summary.json"
+        )
+    for field, predecessor in required_predecessors.items():
+        if meta.get(field) != sha(predecessor):
+            raise ValueError(
+                f"Broken {stage} predecessor provenance: {field}"
+            )
     indices = meta.get("indices")
     if not isinstance(indices, list) or len(set(indices)) != len(indices):
         raise ValueError(f"Malformed cohort indices for stage {stage}")
@@ -263,6 +279,10 @@ def load_stage_records(stage: str, original_unresolved: dict[int, dict],
         saved[i] = row
     if set(saved) != set(indices):
         raise ValueError(f"Historical {stage} records do not match cohort indices")
+    status_field = "status" if stage == "c10" else "verdict"
+    observed = dict(Counter(row[status_field] for row in saved.values()))
+    if observed != summary.get("counts"):
+        raise ValueError(f"Historical {stage} status counts disagree with summary")
     return saved, hashes
 
 
@@ -282,6 +302,102 @@ def final_unresolved(root: Path = ROOT) -> set[int]:
     if len(indices) != 54:
         raise ValueError("Unexpected size of historical final order-nine list")
     return indices
+
+
+def validate_complete_history(initial_unresolved: dict[int, dict],
+                              stages: dict[str, dict[int, dict]],
+                              root: Path = ROOT) -> set[int]:
+    """Recompute the complete historical stage cohorts and final working list.
+
+    Follow the original order-nine stage_selection/refresh decisions, without
+    importing or calling the old mutating stage runner.
+    """
+    origin_path = root / "runs/order9/initial/order9/indeterminate_order_9.txt"
+    origins = {}
+    for line in origin_path.read_text(encoding="utf-8").splitlines():
+        if not line or line.startswith("#"):
+            continue
+        fields = line.split()
+        if len(fields) != 6:
+            raise ValueError("Malformed original order-nine working-list row")
+        idx = int(fields[0])
+        if idx not in initial_unresolved or idx in origins:
+            raise ValueError("Original order-nine working list has wrong indices")
+        pared = nx.from_graph6_bytes(fields[2].encode("ascii"))
+        if pared.order() != int(fields[1]):
+            raise ValueError(f"Invalid original pared graph at order-nine index {idx}")
+        origins[idx] = fields
+    if set(origins) != set(initial_unresolved):
+        raise ValueError("Original order-nine unresolved list disagrees with initial summary")
+
+    c10_expected = {
+        idx for idx, fields in origins.items()
+        if fields[4] != "conjectured_divergent"
+    }
+    if set(stages["c10"]) != c10_expected:
+        raise ValueError("C10 stage cohort disagrees with original nonconjectural selection")
+
+    resolved_c10 = {
+        idx for idx, row in stages["c10"].items()
+        if row["status"] == "RETRACTION_FOUND"
+    }
+    bound60_expected = c10_expected - resolved_c10
+    if set(stages["bound60"]) != bound60_expected:
+        raise ValueError("Bound-60 cohort differs from the completed C10 stage")
+
+    resolved60 = {
+        idx for idx, row in stages["bound60"].items()
+        if row["verdict"] in POSITIVE
+    }
+    bound70_expected = {
+        idx for idx in bound60_expected
+        if idx not in resolved60
+        and stages["bound60"][idx].get("certificate_target_status")
+            != "conjectured_divergent"
+    }
+    if set(stages["bound70"]) != bound70_expected:
+        raise ValueError("Bound-70 cohort differs from C10/bound-60 outcomes")
+
+    resolved70 = {
+        idx for idx, row in stages["bound70"].items()
+        if row["verdict"] in POSITIVE
+    }
+    expected_final = set(initial_unresolved) - resolved_c10 - resolved60 - resolved70
+    saved_final = {}
+    for line in (root / "indeterminate_order_9.txt").read_text(
+        encoding="utf-8"
+    ).splitlines():
+        if not line or line.startswith("#"):
+            continue
+        fields = line.split()
+        if len(fields) != 6:
+            raise ValueError("Malformed final order-nine working-list row")
+        idx = int(fields[0])
+        if idx not in initial_unresolved or idx in saved_final:
+            raise ValueError("Final order-nine working list has an invalid/duplicated index")
+        saved_final[idx] = fields
+    if set(saved_final) != expected_final:
+        raise ValueError("Final order-nine unresolved set differs from all completed stages")
+
+    for idx in sorted(expected_final):
+        source_fields = origins[idx]
+        latest = stages["bound70"].get(idx) or stages["bound60"].get(idx)
+        if latest is not None and latest["verdict"] == "INDETERMINATE":
+            expected = [
+                str(idx), str(latest["pared_order"]), latest["pared_graph6"],
+                latest["certificate_rule"], latest["certificate_target_status"],
+                latest["certificate_target_label"],
+            ]
+        else:
+            expected = source_fields
+        if saved_final[idx] != expected:
+            raise ValueError(
+                f"Final order-nine source/paring fields do not match history: {idx}"
+            )
+        graph = nx.from_graph6_bytes(saved_final[idx][2].encode("ascii"))
+        if graph.order() != int(saved_final[idx][1]):
+            raise ValueError(f"Malformed pared graph in final order-nine row: {idx}")
+    return expected_final
 
 
 def historical_verdict(initial: dict, stages: dict[str, dict | None],
@@ -349,9 +465,12 @@ def prepare(root: Path = ROOT, output_script: Path | None = None) -> dict[str, b
     for stage in STAGES:
         stages[stage], hashed = load_stage_records(stage, initial_unresolved, root)
         dependency_hashes.update(hashed)
-    unresolved = final_unresolved(root)
-    if not unresolved.issubset(initial_unresolved):
-        raise ValueError("Final order-nine unresolved list contains new source indices")
+    unresolved = validate_complete_history(initial_unresolved, stages, root)
+    if unresolved != final_unresolved(root):
+        raise ValueError("Final order-nine unresolved index listing changed")
+    dependency_hashes[str(
+        (root / "runs/order9/initial/order9/indeterminate_order_9.txt").relative_to(root)
+    )] = sha(root / "runs/order9/initial/order9/indeterminate_order_9.txt")
     dependency_hashes.update({
         "reports/order10_core_index_v1/manifest.json": sha(core_folder / "manifest.json"),
         "reports/order10_core_index_v1/classes.tsv": sha(core_folder / "classes.tsv"),
