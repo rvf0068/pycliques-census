@@ -73,7 +73,7 @@ class ExactSnubRetractionTests(unittest.TestCase):
         self.assertEqual(status,"FOUND")
         self.assertEqual(map_[6],0)
         self.assertTrue(validate_retraction(extended,set(target),map_))
-        map_[6]=1
+        map_[6]=2
         self.assertFalse(validate_retraction(extended,set(target),map_))
 
     def test_homology_of_target_cycle_complements(self):
