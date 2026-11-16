@@ -20,6 +20,7 @@ class ExactSnubRetractionTests(unittest.TestCase):
 
     def test_homology_and_coverage(self):
         rows = self.result["results"]
+        # JSON records ordinary beta_0=1. Reduced beta_0=0.
         self.assertEqual(len(rows),4)
         self.assertEqual([r["order"] for r in rows],[8,12,20,56])
         for row in rows[:3]:
