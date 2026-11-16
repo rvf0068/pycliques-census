@@ -134,6 +134,52 @@ def graph6(graph: nx.Graph) -> str:
     return nx.to_graph6_bytes(numbered,header=False).decode("ascii").strip()
 
 
+def validate_homology_cache(saved: dict, encoded: str) -> dict[int, int] | None:
+    """Validate a cached exact profile before it reaches any search.
+
+    The frozen stage manifest validates source/code/dependency settings.
+    Each cached graph also carries explicit algorithm and degree/budget
+    provenance. Never coerce malformed Betti values into integers.
+    """
+    if not isinstance(saved, dict) or (
+        saved.get("schema") != SCHEMA
+        or saved.get("graph6") != encoded
+        or saved.get("algorithm")
+        != "pycombtop.bounded_betti.bounded_reduced_betti_mod2"
+        or saved.get("max_faces") != MAX_BETTI_FACES
+        or saved.get("max_partial_degree") != MAX_BETTI_PARTIAL_DEGREE
+        or saved.get("mode") not in {"full", "partial", "face_limit"}
+    ):
+        raise ValueError("Homology cache key/provenance mismatch")
+    mode = saved["mode"]
+    raw = saved.get("betti_numbers")
+    if mode == "face_limit":
+        if raw is not None:
+            raise ValueError("Invalid face-limited homology cache profile")
+        return None
+    if not isinstance(raw, dict) or any(
+        type(degree) is not str or not degree.isdecimal()
+        or str(int(degree)) != degree
+        or type(rank) is not int or rank < 0
+        for degree, rank in raw.items()
+    ):
+        raise ValueError("Invalid cached reduced Betti profile")
+    degrees = {int(degree) for degree in raw}
+    if mode == "partial":
+        required = set(range(MAX_BETTI_PARTIAL_DEGREE + 1))
+        if degrees != required:
+            raise ValueError("Incomplete partial homology cache profile")
+    else:
+        # The bounded full algorithm returns one rank for each dimension
+        # from zero through the maximal simplex dimension, inclusive.
+        if not degrees or degrees != set(range(max(degrees) + 1)):
+            raise ValueError("Incomplete full homology cache profile")
+        order = len(nx.from_graph6_bytes(encoded.encode("ascii")))
+        if max(degrees) >= order:
+            raise ValueError("Impossible full homology cache degree")
+    return {int(degree): rank for degree, rank in raw.items()}
+
+
 def cache_homology(graph: nx.Graph, directory: Path) -> tuple[dict[int,int]|None,str]:
     """Return one persisted exact profile for this exact labeled encoding."""
     encoded=graph6(graph)
@@ -141,13 +187,7 @@ def cache_homology(graph: nx.Graph, directory: Path) -> tuple[dict[int,int]|None
     cache_path=directory/"homology_cache"/(key+".json")
     if cache_path.exists():
         saved=read_json(cache_path)
-        if saved.get("schema")!=SCHEMA or saved.get("graph6")!=encoded:
-            raise ValueError("Homology cache key/provenance mismatch")
-        data=saved["betti_numbers"]
-        known=None if data is None else {int(d):int(v) for d,v in data.items()}
-        if known is not None and any(d<0 or v<0 for d,v in known.items()):
-            raise ValueError("Invalid cached reduced Betti profile")
-        return known,key
+        return validate_homology_cache(saved,encoded),key
     known=bounded_reduced_betti_mod2(graph,max_faces=MAX_BETTI_FACES)
     mode="full"
     if known is None:
@@ -367,34 +407,12 @@ def verify_record(
         if level.get("homology_cache_key") != key:
             raise ValueError("Incorrect cached graph key")
         cache = read_json(directory/"homology_cache"/(key+".json"))
-        if (
-            cache.get("schema") != SCHEMA
-            or cache.get("graph6") != expected_encoding
-            or cache.get("algorithm") !=
-            "pycombtop.bounded_betti.bounded_reduced_betti_mod2"
-            or cache.get("max_faces") != MAX_BETTI_FACES
-            or cache.get("max_partial_degree") != MAX_BETTI_PARTIAL_DEGREE
-            or cache.get("mode") not in {"full", "partial", "face_limit"}
-            or cache.get("betti_numbers") != level.get("betti_known")
-        ):
+        ranks = validate_homology_cache(cache, expected_encoding)
+        actual = None if ranks is None else {
+            str(degree): rank for degree, rank in ranks.items()
+        }
+        if actual != level.get("betti_known"):
             raise ValueError("Cached Betti data/provenance does not match iterate")
-        ranks = cache["betti_numbers"]
-        if ranks is not None:
-            if (
-                not isinstance(ranks, dict)
-                or any(
-                    not isinstance(d, str) or not d.isdigit()
-                    or type(v) is not int or v < 0
-                    for d, v in ranks.items()
-                )
-            ):
-                raise ValueError("Invalid exact Betti data")
-            if cache["mode"] == "partial" and (
-                set(ranks) != {str(d) for d in range(MAX_BETTI_PARTIAL_DEGREE+1)}
-            ):
-                raise ValueError("Partial ranks do not cover the declared degrees")
-        elif cache["mode"] != "face_limit":
-            raise ValueError("Unknown Betti data must have face-limit status")
 
         families = level.get("families")
         if not isinstance(families, dict) or set(families) != expected_families:
