@@ -245,13 +245,26 @@ def validate_record(entry: dict, mode: str, i: int, selected: dict[int, dict]) -
         [m, n] for m in range(2, limits["max_m"] + 1)
         for n in range(limits["max_n"] + 1)
     ]
+    # The finite family is a multiset; ordering is not part of a witness.
+    # Counter preserves the multiplicity check (unlike a bare set).
+    configured = search.get("configured_source_parameters")
+    parameters_valid = (
+        isinstance(configured, list)
+        and all(
+            isinstance(pair, list)
+            and len(pair) == 2
+            and all(type(x) is int for x in pair)
+            for pair in configured
+        )
+        and Counter(map(tuple, configured)) == Counter(map(tuple, expected_parameters))
+    )
     if (
         eligible != actual_eligible
         or search.get("limits") != limits
         or search.get("cover_classes_total") != 1
         or search.get("cover_classes_checked") != 1
         or search.get("cover_candidates_checked") != 1
-        or search.get("configured_source_parameters") != expected_parameters
+        or not parameters_valid
         or not all(
             isinstance(search.get(k), int) and 0 <= search[k] <= limits[cap]
             for k, cap in (
@@ -426,7 +439,12 @@ def run(batch: str) -> bool:
     lockpath = ROOT / ".deps/core9iterate-v1.lock"
     lockpath.parent.mkdir(exist_ok=True)
     with lockpath.open("w") as lock:
-        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as error:
+            raise SystemExit(
+                f"Another core9iterate-v1 run is in progress ({lockpath})"
+            ) from error
         ensure_manifest(meta, create=True)
         (OUTPUT / "records").mkdir(exist_ok=True)
         saved = records(selected)
