@@ -1,0 +1,71 @@
+name: Divergent-target cached retraction v2
+
+on:
+  pull_request:
+    paths:
+      - "scripts/targeted_retractions_v2.py"
+      - "scripts/bootstrap_targeted_v2.sh"
+      - "config/pycliques_commit_targeted_v2.txt"
+      - "tests/targeted_retractions_v2_cases.py"
+      - ".github/workflows/targeted-retractions-v2.yml"
+      - "README.md"
+      - "indeterminate_order_9.txt"
+      - "indeterminate_order_10.txt"
+  workflow_dispatch:
+
+jobs:
+  targeted-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap independent v2 environment
+        run: bash scripts/bootstrap_targeted_v2.sh
+      - name: Install pytest for isolated tests
+        run: uv pip install --python .venv-targeted-v2/bin/python pytest
+      - name: Check manifest, cache, witnesses and excluded C6
+        run: .venv-targeted-v2/bin/python -m pytest tests/targeted_retractions_v2_cases.py -v
+      - name: Rerun order10 graph 2318241 with pinned corrected targets
+        run: |
+          .venv-targeted-v2/bin/python scripts/targeted_retractions_v2.py plan --order 10
+          .venv-targeted-v2/bin/python scripts/targeted_retractions_v2.py next --order 10 --index 2318241
+          .venv-targeted-v2/bin/python scripts/targeted_retractions_v2.py verify --order 10
+          .venv-targeted-v2/bin/python - <<'PY'
+          import json
+          from pathlib import Path
+          file = Path("runs/order10/targeted-retractions-v2/records/02318241.json")
+          record = json.loads(file.read_text())
+          assert record["index"] == 2318241
+          assert record["status"] == "COMPLETED"
+          assert record["levels"][1]["order"] == 16
+          family = record["levels"][1]["families"]["cycle_complements"]
+          assert family["status"] == "EXHAUSTED"
+          assert family["induced_targets"] == 0
+          for level in record["levels"]:
+              if level["status"] != "COMPLETED":
+                  continue
+              for result in level["families"].values():
+                  if result["status"] == "FOUND" and result["kind"].startswith("cycle_complements:"):
+                      assert int(result["kind"].rsplit(":", 1)[1]) >= 8
+          print("Validated complete v2 rerun of graph 2318241")
+          PY
+      - name: Small order10 v2 pilot
+        run: |
+          .venv-targeted-v2/bin/python scripts/targeted_retractions_v2.py next --order 10 --batch-size 2
+          .venv-targeted-v2/bin/python scripts/targeted_retractions_v2.py verify --order 10
+      - name: Protect historical census stages and original inputs
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ \
+            config/pycliques_commit_targeted_v1.txt \
+            scripts/targeted_retractions_v1.py \
+            scripts/bootstrap_targeted_v1.sh \
+            tests/targeted_retractions_v1_cases.py \
+            .github/workflows/targeted-retractions-v1.yml \
+            indeterminate_order_9.txt indeterminate_order_10.txt
