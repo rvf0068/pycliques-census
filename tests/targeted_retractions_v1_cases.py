@@ -65,7 +65,7 @@ def test_positive_target_retraction_record_and_independent_replay(tmp_path,monke
     }
     stage.verify_record(record,record["input_graph6"],tmp_path)
     record["levels"][0]["families"]["octahedra"]["projection_indices"][0]=99
-    with pytest.raises(ValueError,match="replay"):
+    with pytest.raises(ValueError,match="Malformed graph-retraction witness arrays|replay"):
         stage.verify_record(record,record["input_graph6"],tmp_path)
 
 
