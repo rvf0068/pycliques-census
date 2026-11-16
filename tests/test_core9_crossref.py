@@ -110,6 +110,19 @@ class Core9CrossrefTests(unittest.TestCase):
         self.assertEqual(
             actual, initial["bundled_connected_graph6_sha256"]["9"]
         )
+        # These two 9-cores never entered the initial 9-vertex
+        # unresolved cohort: they were already classified at bound 30.
+        _, _, old_unresolved = cross.initial_data()
+        unresolved_graphs = [
+            nx.from_graph6_bytes(record["graph6"].encode("ascii"))
+            for record in old_unresolved.values()
+        ]
+        initially_classified = {
+            core_id for core_id, core in cores.items()
+            if not any(nx.is_isomorphic(core["graph"], old)
+                       for old in unresolved_graphs)
+        }
+        self.assertEqual(initially_classified, {10768817, 11363569})
 
     def test_build_is_immutable_and_missing_file_rejected(self):
         expected = {
