@@ -2,6 +2,8 @@
 .deps/
 .venv
 .venv-v3
+.venv-targeted-v1
+.venv-targeted-v2
 __pycache__/
 *.py[cod]
 .pytest_cache/
