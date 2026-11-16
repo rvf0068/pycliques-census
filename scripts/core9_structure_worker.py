@@ -137,8 +137,19 @@ def inspect(graph6: str, expected_iterates: list[dict] | None = None) -> dict:
     if graph.number_of_nodes() != 9 or not nx.is_connected(graph):
         raise ValueError("Expected a connected nine-vertex pared core")
     sequence = CliqueSequence(graph, bound=CLIQUE_BOUND)
+    failure_at = None
+    if expected_iterates is not None:
+        failure_events = [
+            row["index"] for row in expected_iterates
+            if row.get("status") == "clique_bound_exceeded"
+        ]
+        if len(failure_events) != 1 or failure_events[0] not in (3, 4):
+            raise ValueError("Historical benchmark must fail at G3 or G4")
+        failure_at = failure_events[0]
+    # One core already exceeds 120 cliques at G3; do not invent its G3.
+    built_prefix = failure_at if failure_at is not None else 4
     results = []
-    for step in range(4):
+    for step in range(built_prefix):
         raw_graph = sequence[step]
         if raw_graph is None:
             raise ValueError(f"Stored core9 benchmark implies G_{step} exists")
@@ -182,10 +193,11 @@ def inspect(graph6: str, expected_iterates: list[dict] | None = None) -> dict:
                 raise ValueError(
                     f"Reconstructed G_{row['index']} differs from frozen benchmark"
                 )
-        if past.get(4, {}).get("status") != "clique_bound_exceeded":
-            raise ValueError("Historical benchmark did not stop at G_4")
+        if past.get(failure_at, {}).get("status") != "clique_bound_exceeded":
+            raise ValueError("Historical failure-iterate provenance mismatch")
     return {
         "input_graph6": graph6,
+        "failure_iterate": failure_at,
         "scope": "structural_diagnostics_only",
         "max_clique_sample": MAX_CLIQUES,
         "clique_sequence_bound": CLIQUE_BOUND,
