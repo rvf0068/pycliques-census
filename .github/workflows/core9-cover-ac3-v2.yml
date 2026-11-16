@@ -11,13 +11,14 @@ on:
       - "tests/test_core9cover_v2.py"
       - ".github/workflows/core9-cover-ac3-v2.yml"
       - "runs/order10/core9-followup-v1/**"
+      - "reports/order10_core9_crossref_v1/**"
       - "postpasses/s1_divergence.py"
   workflow_dispatch:
 
 jobs:
   full-comparison:
     runs-on: ubuntu-latest
-    timeout-minutes: 38
+    timeout-minutes: 65
     steps:
       - uses: actions/checkout@v4
         with:
@@ -46,7 +47,8 @@ jobs:
             runs/order9/ runs/order10/core9-followup-v1/ \
             runs/order10/core9-structure-v1/ \
             runs/order10/core9-benchmark-v1/ \
-            config/pycliques_commit_v3.txt scripts/bootstrap_v3.sh
+            config/pycliques_commit_v3.txt scripts/bootstrap_v3.sh \
+            reports/order10_core9_crossref_v1/
       - uses: actions/upload-artifact@v4
         with:
           name: core9-post-pr14-baseline-expanded-cover-search
