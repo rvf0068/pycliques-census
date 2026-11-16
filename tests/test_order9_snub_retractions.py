@@ -6,11 +6,13 @@ import json
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
 
 import networkx as nx
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
+import verify_order9_snub_retractions as verifier  # noqa: E402
 from verify_order9_snub_retractions import (  # noqa: E402
     CERTS, EXPECTED, SNUB, decode,
     verify_all, verify_retraction_certificate,
@@ -44,7 +46,12 @@ class SnubRetractionTests(unittest.TestCase):
             with self.subTest(index=row["order9_index"]):
                 wrong = deepcopy(row)
                 wrong["image_vertex"] = 0
-                with self.assertRaisesRegex(ValueError, "not a graph morphism|containment"):
+                with self.assertRaisesRegex(ValueError, "claimed original-label map"):
+                    verify_retraction_certificate(wrong, snub)
+
+                wrong = deepcopy(row)
+                wrong["removed_vertex"] = 0
+                with self.assertRaisesRegex(ValueError, "claimed original-label map"):
                     verify_retraction_certificate(wrong, snub)
 
                 wrong = deepcopy(row)
@@ -52,6 +59,20 @@ class SnubRetractionTests(unittest.TestCase):
                 images[0], images[1] = images[1], images[0]
                 with self.assertRaisesRegex(ValueError, "not an isomorphism"):
                     verify_retraction_certificate(wrong, snub)
+
+    def test_frozen_source_hashes_are_verified(self):
+        verifier.verify_frozen_provenance()
+        # Tamper with a hash result while keeping every saved graph and
+        # retraction entry unchanged. The verifier must fail *before*
+        # accepting the existing old-stage isomorphism maps.
+        actual = verifier.file_sha256
+        def corrupted(path):
+            if path.name == "matches.tsv":
+                return "0" * 64
+            return actual(path)
+        with patch.object(verifier, "file_sha256", side_effect=corrupted):
+            with self.assertRaisesRegex(ValueError, "SHA-256 mismatch"):
+                verifier.verify_all(self.payload)
 
     def test_cross_reference_identity_is_essential(self):
         wrong = deepcopy(self.payload)
