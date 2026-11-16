@@ -212,6 +212,34 @@ def verify_iso(saved: dict, prior: dict[int, dict]) -> None:
             raise ValueError("Invalid isomorphism verdict")
 
 
+def validate_cover_family(row: dict, g: nx.Graph) -> None:
+    """Check that a saved cover proof respects this *specific* finite search.
+
+    The theorem certificate is separately replayed; search diagnostics such
+    as states checked are not themselves a mathematical nonexistence proof.
+    """
+    limits = worker.COVER_LIMITS
+    witness = row["witness"]
+    details = row["search"]
+    m, n = witness.get("m"), witness.get("n")
+    if (
+        not isinstance(m, int) or not 2 <= m <= limits["max_m"]
+        or not isinstance(n, int) or not 0 <= n <= limits["max_n"]
+        or 2*m*(n+3) > limits["max_source_order"]
+        or witness.get("deck_radius") != m+1
+        or witness.get("clique_bound") != limits["max_clique_vertices"]
+        or witness.get("clique_max_edges") != limits["max_clique_edges"]
+        or 2*len(g) > limits["max_cover_vertices"]
+        or 2*g.number_of_edges() > limits["max_cover_edges"]
+        or details.get("cover_classes_total") != 1
+        or not 1 <= details.get("cover_classes_checked", -1) <= limits["max_cover_classes"]
+        or not 1 <= details.get("cover_candidates_checked", -1) <= details["cover_classes_checked"]
+        or not 0 <= details.get("morphism_states", -1) <= limits["max_morphism_states"]
+        or not 0 <= details.get("morphism_assignments", -1) <= limits["max_morphism_assignments"]
+    ):
+        raise ValueError("Cover witness or search diagnostics exceed this stage's finite family")
+
+
 def validate_record(row: dict, kind: str, core_id: int, previous: dict) -> None:
     if (
         row.get("kind") != kind or row.get("core_id") != core_id
@@ -239,13 +267,11 @@ def validate_record(row: dict, kind: str, core_id: int, previous: dict) -> None:
         if details.get("search_status") != expected_search_status:
             raise ValueError("Cover search status and record disagree")
         if state == "DIVERGENT":
-            if (
-                row.get("proof_status") != "verified"
-                or not isinstance(row.get("witness"), dict)
-                or not worker.verify_cover_witness(
-                    graph6_decode(previous[core_id]["graph6"]), row["witness"]
-                )
-            ):
+            if row.get("proof_status") != "verified" or not isinstance(row.get("witness"), dict):
+                raise ValueError("Cover-based divergence claim lacks a verified witness")
+            source = graph6_decode(previous[core_id]["graph6"])
+            validate_cover_family(row, source)
+            if not worker.verify_cover_witness(source, row["witness"]):
                 raise ValueError("Cover-based divergence claim failed witness replay")
         elif row.get("witness") is not None or row.get("proof_status") != "none":
             raise ValueError("Nonpositive cover result cannot carry a proof")
@@ -257,6 +283,7 @@ def validate_record(row: dict, kind: str, core_id: int, previous: dict) -> None:
         if state in POSITIVE:
             if (
                 row.get("verdict") != state
+                or row.get("raw_verdict") != state
                 or row.get("proof_status") != "verified_chain"
                 or not isinstance(row.get("proof"), dict)
                 or row["proof"].get("origin_graph6") != previous[core_id]["graph6"]
