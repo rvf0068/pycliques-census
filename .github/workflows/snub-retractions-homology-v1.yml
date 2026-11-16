@@ -1,0 +1,40 @@
+name: Snub homology and non-special retractions
+
+on:
+  pull_request:
+    paths:
+      - "scripts/snub_retractions_homology_v1.py"
+      - "tests/test_snub_retractions_homology_v1.py"
+      - ".github/workflows/snub-retractions-homology-v1.yml"
+      - "scripts/bootstrap_core9cover_v2.sh"
+      - "config/pycliques_commit_core9cover_v2.txt"
+      - "reports/snub_retraction_homology_v1/**"
+      - "README.md"
+  workflow_dispatch:
+
+jobs:
+  exact-bounded-search:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap existing clean pinned monorepo
+        run: bash scripts/bootstrap_core9cover_v2.sh
+      - name: Run exact homology/retraction and positive-control tests
+        run: .venv-core9cover-v2/bin/python -m unittest discover -s tests -p test_snub_retractions_homology_v1.py -v
+      - name: Independently execute full finite search and display records
+        run: .venv-core9cover-v2/bin/python scripts/snub_retractions_homology_v1.py print
+      - name: Replay and compare the committed exact result artifact
+        run: .venv-core9cover-v2/bin/python scripts/snub_retractions_homology_v1.py verify
+      - name: Ensure old census results are not modified
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/order10_core9_crossref_v1/ \
+            reports/order9_snub_retractions_v1/ \
+            config/pycliques_commit_core9cover_v2.txt
