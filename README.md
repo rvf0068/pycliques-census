@@ -944,3 +944,41 @@ This is **not** a clique-divergence verdict for `S` or any core, nor
 does it exclude a special octahedron in `K⁴(S)` or other divergent
 mechanisms. The historical classification of the 29 unresolved cores
 and all existing conjectural snub dependencies are unchanged.
+
+## General homology-guided targeted retractions (v1)
+
+A separate, resumable postpass can now examine **all remaining order-nine
+and order-ten indeterminate pared graphs** and their first three completely
+pared clique iterates. Its general algorithms are in the pinned
+`pycliques-project` monorepo; the census runner does no specialized
+graph-theory search itself.
+
+Crucially, exact reduced mod-2 Betti numbers are **computed once and
+persisted** in `runs/orderN/targeted-retractions-v1/homology_cache/`.
+They are automatically reused by every later search on the same encoded
+graph. If full homology exceeds the configured face budget, a bounded
+degree-3 attempt is made; if even that fails, the saved rank profile is
+unknown. No missing Betti number is silently treated as zero.
+
+Run from this repository root after merging the pinned monorepo change:
+
+```bash
+bash scripts/bootstrap_targeted_v1.sh
+.venv-targeted-v1/bin/python scripts/targeted_retractions_v1.py plan --order 9
+.venv-targeted-v1/bin/python scripts/targeted_retractions_v1.py next --order 9
+.venv-targeted-v1/bin/python scripts/targeted_retractions_v1.py all --order 9
+.venv-targeted-v1/bin/python scripts/targeted_retractions_v1.py verify --order 9
+.venv-targeted-v1/bin/python scripts/targeted_retractions_v1.py plan --order 10
+.venv-targeted-v1/bin/python scripts/targeted_retractions_v1.py next --order 10
+```
+
+The first `next` processes five records, with per-record timeout and
+memory isolation. Use repeated `next` calls or `all` as appropriate.
+Existing historical census records and conjectural snub dependencies are
+never changed or automatically promoted to a proven verdict. A positive
+ordinary graph retraction is independently replayed, and its scope is the
+pared input or specific pared clique iterate in its stored record.
+
+The stage freezes its source list, code hash, dependency pin, and search
+limits on initial execution. Thus subsequent changes cannot accidentally
+mix incompatible computations in the same output directory.
