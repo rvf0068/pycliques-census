@@ -411,11 +411,25 @@ def summarize(tasks: list[tuple[str, int]], saved: dict[str, dict], previous: di
               "|---|---:|---:|---|---:|---|"]
     for kind, i in tasks:
         row = saved[f"{kind}_{i:08d}.json"]
-        detail = (
-            row.get("search", {}).get("search_status", "-")
-            if kind == "cover"
-            else f"raw={row.get('raw_verdict', '-')}, iterates={row.get('iterations_checked', '-')}"
-        )
+        if kind == "cover":
+            search = row.get("search", {})
+            reasons = "; ".join(search.get("reasons", ())) or "-"
+            detail = (
+                f"classes={search.get('cover_classes_checked','-')}/"
+                f"{search.get('cover_classes_total','-')}, "
+                f"morphism_states={search.get('morphism_states','-')}; "
+                f"{reasons}"
+            )
+        else:
+            trace = row.get("trace") or {}
+            failures = [
+                r.get("index") for r in trace.get("iterates", ())
+                if r.get("status") == "clique_bound_exceeded"
+            ]
+            detail = (
+                f"raw={row.get('raw_verdict', '-')}, "
+                f"last_failed_iterate={failures[-1] if failures else '-'}"
+            )
         lines.append(
             f"| {kind} | {i} | {previous[i]['member_count']} "
             f"| {row['status']} | {row.get('elapsed_seconds',0):.2f} | {detail} |"
