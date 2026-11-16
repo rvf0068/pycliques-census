@@ -1,0 +1,66 @@
+{
+  "core_id": 7315343,
+  "elapsed_seconds": 1.28,
+  "eligible": {
+    "checked_cover_classes": 1,
+    "covers": [
+      {
+        "cover_edges": 44,
+        "cover_order": 18,
+        "deck_radius": 4,
+        "source_parameters_eligible": [
+          [
+            2,
+            0
+          ],
+          [
+            3,
+            0
+          ]
+        ]
+      }
+    ]
+  },
+  "input_graph6": "HElzvJb",
+  "kind": "baseline",
+  "mode": "baseline",
+  "peak_rss_kib": 147788,
+  "proof_status": "none",
+  "scope": "nine_vertex_core_only",
+  "search": {
+    "configured_source_parameters": [
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "cover_candidates_checked": 1,
+    "cover_classes_checked": 1,
+    "cover_classes_complete": true,
+    "cover_classes_total": 1,
+    "limits": {
+      "max_clique_edges": 6000,
+      "max_clique_vertices": 350,
+      "max_cover_classes": 1,
+      "max_cover_edges": 62,
+      "max_cover_vertices": 18,
+      "max_m": 3,
+      "max_morphism_assignments": 100000,
+      "max_morphism_states": 25000,
+      "max_n": 0,
+      "max_source_order": 18
+    },
+    "morphism_assignments": 132,
+    "morphism_searches_exhausted": 2,
+    "morphism_states": 30,
+    "morphisms_complete": true,
+    "reasons": [],
+    "search_status": "EXHAUSTED"
+  },
+  "status": "EXHAUSTED",
+  "witness": null
+}

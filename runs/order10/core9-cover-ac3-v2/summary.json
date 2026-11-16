@@ -1,0 +1,140 @@
+{
+  "counts": {
+    "baseline:EXHAUSTED": 8,
+    "expanded:EXHAUSTED": 8
+  },
+  "manifest": {
+    "batch_size": 4,
+    "bootstrap_sha256": "0faa9e1a1f576df9c7ba9b4e8e6c94d9e122b997320383b4dd9ed92480e3b239",
+    "historical_crossref_sha256": "b82e969a9f140956be03060bcca0a8ec92e5a624df3813851b6d8a0d7788bc8c",
+    "launcher_sha256": "9bf79d77ea797eb16fda0ff84a89f9897de0b6fa70dc6b48ca427bf92cf35471",
+    "limits_by_mode": {
+      "baseline": {
+        "max_clique_edges": 6000,
+        "max_clique_vertices": 350,
+        "max_cover_classes": 1,
+        "max_cover_edges": 62,
+        "max_cover_vertices": 18,
+        "max_m": 3,
+        "max_morphism_assignments": 100000,
+        "max_morphism_states": 25000,
+        "max_n": 0,
+        "max_source_order": 18
+      },
+      "expanded": {
+        "max_clique_edges": 6000,
+        "max_clique_vertices": 350,
+        "max_cover_classes": 1,
+        "max_cover_edges": 62,
+        "max_cover_vertices": 18,
+        "max_m": 4,
+        "max_morphism_assignments": 500000,
+        "max_morphism_states": 100000,
+        "max_n": 2,
+        "max_source_order": 42
+      }
+    },
+    "memory_mib": 2048,
+    "negative_scope": "configured double-cover and clockwork family only",
+    "old_manifest_sha256": "e6a16c11fd7c74dfaea1b756b0d362be89a34ccee768af0d1cfefdbac0cc5d12",
+    "old_summary_sha256": "bc08df1f8ece2a8539ba8b5a301e2abef0b6f790bcd8bbb2ad83e0c520a2b70b",
+    "pin_file_sha256": "cccfaee8e656670790c824c3f7bec42edd7dfa99644f657f3f60b528a51f0a80",
+    "runner_sha256": "c37740900e0107c746338b856df00043e6af78c5d589ac1087f288127951e418",
+    "schema": 1,
+    "scope": "nine_vertex_pared_cores_only",
+    "source_core_ids": [
+      2317843,
+      3148541,
+      3505942,
+      4952669,
+      4953338,
+      5601875,
+      6938156,
+      7315343
+    ],
+    "source_original_member_total": 881,
+    "source_records_sha256": {
+      "2317843": "b14269d9f2e8689a08d3647391485a5d3924d1d846d4259ba5402faf381a3518",
+      "3148541": "45c1cc7c6a7db936cfdf007e953f02b3d3e55d9e3edd8ec86be1ff205150e20d",
+      "3505942": "3a05b80a557d4f02ba6866d73fb4250cce30c6e9d2733c9443a44e195484de4b",
+      "4952669": "212258e2afdf38c02d86da22e3cbb397f2e71818c8bf48b651b3ddae5bfd2633",
+      "4953338": "788fcac3fa96526a99a7e52276c25353d8900eeae688261a4d8696148b064948",
+      "5601875": "2b741233af296aa10fff3ca60cc862ab3946d2389041ceefae7b3cb0e036fa46",
+      "6938156": "04c6ab524ea64f195bd97935990147819f7041e745bd0a5096e988721348d5b1",
+      "7315343": "cf05d1137f0c33a41bc44e729e98723e1f97e4cdece48e79ea130b77e017b11d"
+    },
+    "stage": "core9-cover-ac3-v2",
+    "tasks": [
+      {
+        "core_id": 2317843,
+        "mode": "baseline"
+      },
+      {
+        "core_id": 3148541,
+        "mode": "baseline"
+      },
+      {
+        "core_id": 3505942,
+        "mode": "baseline"
+      },
+      {
+        "core_id": 4952669,
+        "mode": "baseline"
+      },
+      {
+        "core_id": 4953338,
+        "mode": "baseline"
+      },
+      {
+        "core_id": 5601875,
+        "mode": "baseline"
+      },
+      {
+        "core_id": 6938156,
+        "mode": "baseline"
+      },
+      {
+        "core_id": 7315343,
+        "mode": "baseline"
+      },
+      {
+        "core_id": 2317843,
+        "mode": "expanded"
+      },
+      {
+        "core_id": 3148541,
+        "mode": "expanded"
+      },
+      {
+        "core_id": 3505942,
+        "mode": "expanded"
+      },
+      {
+        "core_id": 4952669,
+        "mode": "expanded"
+      },
+      {
+        "core_id": 4953338,
+        "mode": "expanded"
+      },
+      {
+        "core_id": 5601875,
+        "mode": "expanded"
+      },
+      {
+        "core_id": 6938156,
+        "mode": "expanded"
+      },
+      {
+        "core_id": 7315343,
+        "mode": "expanded"
+      }
+    ],
+    "timeout_seconds": 90,
+    "upstream_commit": "005f6cc06a3bf1332bf6e729af73eea8ff26a40d",
+    "witness_verifier_sha256": "eb0b5ef88ffeb02d5d739876fabe2e8397ce4f99bf58a1fdf889b63bb5708e4f",
+    "worker_sha256": "ecaa19fd6216a9d44f69765d05c4843a32d2d04256f56f047a42647077aa9df7"
+  },
+  "processed": 16,
+  "total": 16
+}
