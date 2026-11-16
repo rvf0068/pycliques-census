@@ -1,0 +1,253 @@
+{
+  "clique_sequence_bound": 120,
+  "core_id": 7316198,
+  "elapsed_seconds": 0.624,
+  "failure_iterate": 4,
+  "input_graph6": "HEl~vJb",
+  "iterates": [
+    {
+      "betti1_mod2": 0,
+      "coaffination_radius2": {
+        "complete": true,
+        "examples": [],
+        "searched_at_most": 17
+      },
+      "complement_component_orders": [
+        9
+      ],
+      "connected_triangular_double_cover_possible": false,
+      "degree_sequence": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        6
+      ],
+      "divergent_induced_clockwork": {
+        "candidates_checked": 1,
+        "candidates_total": 1,
+        "conclusion": "induced_observation_only_not_host_divergence",
+        "status": "EXHAUSTED",
+        "witnesses": []
+      },
+      "edges": 23,
+      "graph6": "HEl~vJb",
+      "index": 0,
+      "maximal_cliques": {
+        "exact": true,
+        "maximal_cliques_at_least": 14,
+        "maximal_cliques_exact": 14,
+        "partial_size_histogram": {
+          "3": 13,
+          "4": 1
+        }
+      },
+      "nontriangle_edges": 0,
+      "order": 9,
+      "triangle_boundary_rank_mod2": 15,
+      "triangles": 17,
+      "wl3_hash": "e5be561761fcf6a1e90b777a0f11618f"
+    },
+    {
+      "betti1_mod2": 0,
+      "complement_component_orders": [
+        13
+      ],
+      "connected_triangular_double_cover_possible": false,
+      "degree_sequence": [
+        7,
+        7,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        9,
+        9,
+        9,
+        9
+      ],
+      "divergent_induced_clockwork": {
+        "candidates_checked": 96,
+        "candidates_total": 1001,
+        "conclusion": "induced_observation_only_not_host_divergence",
+        "status": "LIMIT_REACHED",
+        "witnesses": []
+      },
+      "edges": 53,
+      "graph6": "L~}mM[vNylY\\[n",
+      "index": 1,
+      "maximal_cliques": {
+        "exact": true,
+        "maximal_cliques_at_least": 21,
+        "maximal_cliques_exact": 21,
+        "partial_size_histogram": {
+          "4": 13,
+          "5": 8
+        }
+      },
+      "nontriangle_edges": 0,
+      "order": 13,
+      "triangle_boundary_rank_mod2": 41,
+      "triangles": 83,
+      "wl3_hash": "db666d187b2f6404e0e9d2803360e8b6"
+    },
+    {
+      "betti1_mod2": 0,
+      "complement_component_orders": [
+        21
+      ],
+      "connected_triangular_double_cover_possible": false,
+      "degree_sequence": [
+        13,
+        13,
+        13,
+        13,
+        14,
+        14,
+        14,
+        14,
+        14,
+        14,
+        14,
+        14,
+        15,
+        15,
+        15,
+        15,
+        15,
+        15,
+        16,
+        16,
+        16
+      ],
+      "edges": 151,
+      "graph6": "T~~~y{^UWzr~b^`^mN|\\}{U~e^zvr^eb^uP~",
+      "index": 2,
+      "maximal_cliques": {
+        "exact": true,
+        "maximal_cliques_at_least": 60,
+        "maximal_cliques_exact": 60,
+        "partial_size_histogram": {
+          "6": 18,
+          "7": 35,
+          "8": 7
+        }
+      },
+      "nontriangle_edges": 0,
+      "order": 21,
+      "triangle_boundary_rank_mod2": 131,
+      "triangles": 491,
+      "wl3_hash": "48498e0de57cd04b4acfc4089adf91aa"
+    },
+    {
+      "betti1_mod2": 0,
+      "complement_component_orders": [
+        58
+      ],
+      "connected_triangular_double_cover_possible": false,
+      "degree_sequence": [
+        41,
+        41,
+        41,
+        41,
+        42,
+        42,
+        42,
+        42,
+        42,
+        42,
+        42,
+        42,
+        42,
+        43,
+        43,
+        43,
+        43,
+        43,
+        43,
+        44,
+        44,
+        44,
+        44,
+        44,
+        44,
+        45,
+        45,
+        45,
+        45,
+        45,
+        45,
+        45,
+        45,
+        45,
+        45,
+        46,
+        46,
+        46,
+        46,
+        46,
+        46,
+        46,
+        46,
+        46,
+        46,
+        46,
+        46,
+        46,
+        46,
+        46,
+        46,
+        46,
+        47,
+        47,
+        47,
+        47,
+        47,
+        47
+      ],
+      "edges": 1289,
+      "graph6": "y~~~~~~~~~~~~~~~~~~~~~~~~~~~~xn~|o~~[B~~~~z~r~n|B~~}B~^}@~~~`~~~j~Fy?Jo^py`E~n~^w_~^No?~~vopN~~~}_~~~~qB|~~vpN~~~qpN~~~}?F~~wV_B~~~r{?k^~}n{~gN~w^h~_^~wNj~d~~~n{zGN~~~~mrB~~~_V^~~~~_KN}^~~~SG~|~~~~S?z~~~~~~~}B~~~fN}~H~~~pvj~~yF~N|xO~~v~r~nW^~~_~h~mWV~~b~j~}[F~~q~o^~N?^~{~{^zrw",
+      "index": 3,
+      "maximal_cliques": {
+        "exact": false,
+        "maximal_cliques_at_least": 513,
+        "maximal_cliques_exact": null,
+        "partial_size_histogram": {
+          "10": 42,
+          "11": 25,
+          "12": 16,
+          "13": 7,
+          "14": 8,
+          "15": 39,
+          "16": 44,
+          "17": 71,
+          "18": 103,
+          "19": 62,
+          "20": 14,
+          "21": 6,
+          "22": 1,
+          "7": 10,
+          "8": 21,
+          "9": 43
+        }
+      },
+      "nontriangle_edges": 0,
+      "order": 58,
+      "triangle_boundary_rank_mod2": 1232,
+      "triangles": 14776,
+      "wl3_hash": "01ac8fec60db02e6fe4eccffdf10acf2"
+    }
+  ],
+  "max_clique_sample": 512,
+  "member_count": 142,
+  "peak_rss_kib": 153856,
+  "scope": "structural_diagnostics_only",
+  "status": "OK"
+}
