@@ -261,14 +261,17 @@ def test_cache_load_accepts_valid_face_limit_and_partial_mode(tmp_path, monkeypa
     cache.write_text(json.dumps(face_limit), encoding="utf-8")
     assert stage.cache_homology(graph, tmp_path) == (None, key)
 
+    exact_partial = stage.bounded_reduced_betti_mod2(
+        graph, max_faces=stage.MAX_BETTI_FACES,
+        max_degree=stage.MAX_BETTI_PARTIAL_DEGREE,
+    )
+    assert exact_partial is not None
     partial = dict(original, mode="partial", betti_numbers={
-        str(degree): 0 for degree in range(stage.MAX_BETTI_PARTIAL_DEGREE + 1)
+        str(degree): rank for degree, rank in exact_partial.items()
     })
     cache.write_text(json.dumps(partial), encoding="utf-8")
     known, key2 = stage.cache_homology(graph, tmp_path)
-    assert known == {
-        degree: 0 for degree in range(stage.MAX_BETTI_PARTIAL_DEGREE + 1)
-    }
+    assert known == exact_partial
     assert key2 == key
 
     partial["betti_numbers"].pop(str(stage.MAX_BETTI_PARTIAL_DEGREE))
