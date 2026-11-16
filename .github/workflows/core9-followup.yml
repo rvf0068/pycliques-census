@@ -1,0 +1,49 @@
+name: Targeted core9 covers, higher bounds, and exact iterate isomorphisms
+
+on:
+  pull_request:
+    paths:
+      - "scripts/core9_followup.py"
+      - "scripts/core9_followup_worker.py"
+      - "scripts/core9_followup.sh"
+      - "tests/test_core9_followup.py"
+      - ".github/workflows/core9-followup.yml"
+      - "scripts/core9_structure.py"
+      - "scripts/core9_structure_worker.py"
+      - "postpasses/s1_divergence.py"
+      - "scripts/certificate_records_v3.py"
+      - "scripts/bootstrap_v3.sh"
+      - "scripts/timeboxed_v3.py"
+      - "config/pycliques_commit_v3.txt"
+      - "runs/order10/core9-structure-v1/**"
+  workflow_dispatch:
+
+jobs:
+  all-targeted-followups:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+      - name: Prepare unchanged v3 witness-capable environment
+        run: bash scripts/bootstrap_v3.sh
+      - name: Test selection, explicit mapping, and certificate safeguards
+        run: .venv-v3/bin/python -m unittest discover -s tests -p test_core9_followup.py -v
+      - name: Verify frozen research targets and upstream pin
+        run: bash scripts/core9_followup.sh plan
+      - name: Run exact G2 isomorphism checks and all 13 bounded core tasks
+        run: bash scripts/core9_followup.sh all
+      - name: Independently verify all positive witnesses and isomorphism maps
+        run: bash scripts/core9_followup.sh verify
+      - name: Print research report
+        run: cat runs/order10/core9-followup-v1/report.md
+      - name: Ensure all earlier census and structural stages are unchanged
+        run: |
+          git diff --exit-code -- runs/order9/ runs/order10/core9-structure-v1/ \
+            runs/order10/core9-benchmark-v1/ indeterminate_order_9.txt \
+            indeterminate_order_10_v3.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: core9-targeted-followups-v1
+          path: runs/order10/core9-followup-v1/
+          if-no-files-found: error
