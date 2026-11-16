@@ -1,0 +1,33 @@
+name: Order9 snub disphenoid retraction certificates
+
+on:
+  pull_request:
+    paths:
+      - "reports/order9_snub_retractions_v1/**"
+      - "scripts/verify_order9_snub_retractions.py"
+      - "tests/test_order9_snub_retractions.py"
+      - ".github/workflows/order9-snub-retractions.yml"
+      - "reports/order10_core9_crossref_v1/matches.tsv"
+      - "reports/order10_core_index_v1/classes.tsv"
+      - "runs/order10/core9-followup-v1/isomorphism.json"
+      - "runs/order10/core9-structure-v1/records/**"
+  workflow_dispatch:
+
+jobs:
+  verify-retractions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Prepare historical environment without changing its pin
+        run: bash scripts/bootstrap.sh
+      - name: Independent three-retraction verification
+        run: .venv/bin/python scripts/verify_order9_snub_retractions.py
+      - name: Test mapping tampering and exact iterate chain
+        run: .venv/bin/python -m unittest discover -s tests -p test_order9_snub_retractions.py -v
+      - name: Assert historical census files are read-only
+        run: |
+          git diff --exit-code -- runs/ reports/order10_core9_crossref_v1/ reports/order10_core_index_v1/
