@@ -703,3 +703,51 @@ newly generated directory:
     git push origin main
 
 Keep manually cloned GitHub repositories on SSH remotes.
+
+## Targeted structural investigation of the 29 unresolved nine-vertex cores
+
+The frozen historical cross-reference confirms that only **29** of the 35
+nine-vertex pared core classes remain unresolved (3,738 original order-10
+graph members). The new `core9-structure-v1` stage inspects these cores,
+not the already classified six. It is independent of all previous stages.
+
+From the repository root with the separate pinned v3 environment:
+
+    bash scripts/core9_structure.sh plan
+    bash scripts/core9_structure.sh next
+    bash scripts/core9_structure.sh all
+    bash scripts/core9_structure.sh verify
+
+Use `next` to do five representatives; `all` resumes the remaining
+batches without repeating completed records. Results are under
+`runs/order10/core9-structure-v1/` with per-core JSON records,
+`progress.json`, an immutable manifest, `summary.json`, and a human
+readable `report.md` when all 29 have been processed.
+
+Every probe is a separate process with 45 seconds and 2 GiB virtual
+memory limits. It reconstructs only the pared iterates genuinely
+constructed by the original bound-120 core benchmark, comparing
+their orders and edge counts against the saved traces. One core
+(10760192) exceeds the bound at G3; all others at G4.
+
+The stage saves the actual graph6 of each constructed iterate, exact
+mod-2 first Betti numbers of its clique complex, triangle and degree
+data, complement components, exact-or-capped maximal-clique counts
+(up to 512, recorded explicitly as lower bounds if truncated),
+and a bounded search for divergent induced clockwork subgraphs.
+Induced clockworks and coaffinations are **observations**, not
+proofs of divergence of the containing graph. A zero mod-2
+first Betti number rules out connected triangular double covers
+of that iterate, not all possible divergence methods.
+
+No `CONVERGENT` or `DIVERGENT` verdict is issued by this stage.
+It does not change historical classifications or certify any
+of the original ten-vertex members. A `verify` command independently
+recomputes the saved finite Betti and clique-count observations.
+
+After examining the report and checking the result, commit only
+the new versioned output directory:
+
+    git add runs/order10/core9-structure-v1/
+    git commit -m "Record targeted structural diagnostics for 29 nine-cores"
+    git push origin main
