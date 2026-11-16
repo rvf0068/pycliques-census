@@ -1,0 +1,56 @@
+name: Core9 post-PR14 AC-3 covering search
+
+on:
+  pull_request:
+    paths:
+      - "config/pycliques_commit_core9cover_v2.txt"
+      - "scripts/bootstrap_core9cover_v2.sh"
+      - "scripts/core9cover_v2.py"
+      - "scripts/core9cover_v2_worker.py"
+      - "scripts/core9cover_v2.sh"
+      - "tests/test_core9cover_v2.py"
+      - ".github/workflows/core9-cover-ac3-v2.yml"
+      - "runs/order10/core9-followup-v1/**"
+      - "reports/order10_core9_crossref_v1/**"
+      - "postpasses/s1_divergence.py"
+  workflow_dispatch:
+
+jobs:
+  full-comparison:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Install independent pinned post-PR14 environment
+        run: bash scripts/bootstrap_core9cover_v2.sh
+      - name: Test exact frozen selection, parameter extension, certificate restrictions
+        run: .venv-core9cover-v2/bin/python -m unittest discover -s tests -p test_core9cover_v2.py -v
+      - name: Explain new source families and pin
+        run: bash scripts/core9cover_v2.sh plan
+      - name: Run all 16 baseline and expanded search comparisons
+        run: bash scripts/core9cover_v2.sh all
+      - name: Check saved records and independently replay positive witnesses
+        run: bash scripts/core9cover_v2.sh verify
+      - name: Re-run completed computational searches for status integrity
+        run: bash scripts/core9cover_v2.sh replay
+      - name: Show full comparative report
+        run: cat runs/order10/core9-cover-ac3-v2/report.md
+      - name: Prevent PR changes to frozen historical stages
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/order9/ runs/order10/core9-followup-v1/ \
+            runs/order10/core9-structure-v1/ \
+            runs/order10/core9-benchmark-v1/ \
+            config/pycliques_commit_v3.txt scripts/bootstrap_v3.sh \
+            reports/order10_core9_crossref_v1/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: core9-post-pr14-baseline-expanded-cover-search
+          path: runs/order10/core9-cover-ac3-v2/
+          if-no-files-found: error
