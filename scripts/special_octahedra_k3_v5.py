@@ -94,6 +94,29 @@ def path_for(encoded: str, kind: str) -> Path:
     return STAGE / kind / (digest(encoded.encode("ascii")) + ".json")
 
 
+def complete_v3_source(record: dict) -> bool:
+    """V5 is defined only for the first three fully computed pared levels.
+
+    A top-level COMPLETED v3 capsule may nonetheless have terminated early
+    with CLIQUE_BOUND_EXCEEDED or HOST_ORDER_LIMIT. These are not eligible
+    for the K3 special-only queue, rather than failed v5 calculations.
+    """
+    if not isinstance(record, dict):
+        return False
+    levels = record.get("levels")
+    return (
+        isinstance(levels, list)
+        and len(levels) == 3
+        and all(
+            isinstance(row, dict)
+            and type(row.get("level")) is int
+            and row["level"] == index
+            and row.get("status") == "COMPLETED"
+            for index, row in enumerate(levels)
+        )
+    )
+
+
 def verify_import(encoded: str) -> dict:
     receipt = read(path_for(encoded, "imports"))
     original = v3.record_path(encoded)
@@ -118,6 +141,8 @@ def verify_import(encoded: str) -> dict:
     v3.verify_capsule(capsule, encoded)
     if receipt["index"] != capsule["record"]["index"]:
         raise ValueError("V5 import original-index mismatch")
+    if not complete_v3_source(capsule["record"]):
+        raise ValueError("V5 imported v3 source lacks three completed pared levels")
     return capsule["record"]
 
 
@@ -126,6 +151,8 @@ def import_v3() -> dict:
     v3.require_stage()
     count = 0
     represented = 0
+    skipped_incomplete = 0
+    skipped_incomplete_indices = 0
     manifest_sha = digest((v3.STAGE / "manifest.json").read_bytes())
     for group in groups():
         encoded = group["graph6"]
@@ -136,6 +163,16 @@ def import_v3() -> dict:
         if capsule.get("status") != "COMPLETED":
             continue
         v3.verify_capsule(capsule, encoded)
+        if not complete_v3_source(capsule["record"]):
+            # Keep a definite audit count; a valid v3 COMPLETED status does
+            # not guarantee three fully available clique iterates.
+            if path_for(encoded, "imports").exists():
+                raise ValueError(
+                    "Previously imported v3 source now lacks three completed levels"
+                )
+            skipped_incomplete += 1
+            skipped_incomplete_indices += len(group["indices"])
+            continue
         receipt = {
             "schema": SCHEMA, "graph6": encoded,
             "index": capsule["record"]["index"],
@@ -150,7 +187,12 @@ def import_v3() -> dict:
             v2.atomic(target, receipt)
         count += 1
         represented += len(group["indices"])
-    return {"imported_unique": count, "original_indices_represented": represented}
+    return {
+        "imported_unique": count,
+        "original_indices_represented": represented,
+        "skipped_incomplete_v3_unique": skipped_incomplete,
+        "skipped_incomplete_v3_indices": skipped_incomplete_indices,
+    }
 
 
 def imported_groups() -> list[dict]:
