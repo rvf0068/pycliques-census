@@ -1,0 +1,84 @@
+name: Fast special-octahedron K3 census v5
+
+on:
+  pull_request:
+    paths:
+      - "scripts/special_octahedra_k3_v5.py"
+      - "scripts/bootstrap_special_k3_v5.sh"
+      - "config/pycliques_commit_special_k3_v5.txt"
+      - "tests/special_octahedra_k3_v5_cases.py"
+      - "scripts/targeted_retractions_v2.py"
+      - "scripts/targeted_retractions_v3.py"
+      - "config/pycliques_commit_targeted_v2.txt"
+      - "config/pycliques_commit_targeted_v3.txt"
+      - "runs/order10/targeted-retractions-v2/**"
+      - "runs/order10/targeted-retractions-v3/**"
+      - ".github/workflows/special-octahedra-k3-v5.yml"
+      - ".gitignore"
+      - "README.md"
+      - "indeterminate_order_10.txt"
+  workflow_dispatch:
+
+jobs:
+  special-only-k3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap frozen special-only dependency
+        run: bash scripts/bootstrap_special_k3_v5.sh
+      - name: Install pytest
+        run: uv pip install --python .venv-special-k3-v5/bin/python pytest
+      - name: Special certificate and exact K3 replay tests
+        run: |
+          .venv-special-k3-v5/bin/python -m pytest \
+            tests/special_octahedra_k3_v5_cases.py -v
+      - name: Verify v3 data and import completed exact-graph6 results
+        run: |
+          .venv-special-k3-v5/bin/python scripts/special_octahedra_k3_v5.py import-v3
+          .venv-special-k3-v5/bin/python scripts/special_octahedra_k3_v5.py plan
+          .venv-special-k3-v5/bin/python - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0, str(Path("scripts").resolve()))
+          import special_octahedra_k3_v5 as stage
+          data = stage.summary()
+          assert data["imported_unique"] >= 469, data
+          assert data["original_indices_represented"] >= 2262, data
+          assert data["pending_unique"] == data["imported_unique"]
+          print("Special-only imported and verified", data["imported_unique"])
+          PY
+      - name: Special-only K3 pilot on the previously timed-out v4 input
+        run: |
+          .venv-special-k3-v5/bin/python \
+            scripts/special_octahedra_k3_v5.py next --index 5418647
+          .venv-special-k3-v5/bin/python scripts/special_octahedra_k3_v5.py verify
+          .venv-special-k3-v5/bin/python scripts/special_octahedra_k3_v5.py report
+          .venv-special-k3-v5/bin/python - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0, str(Path("scripts").resolve()))
+          import special_octahedra_k3_v5 as stage
+          data = stage.summary(strict=True)
+          assert data["completed_unique"] == 1, data
+          assert data["timeouts"] == 0, data
+          assert data["errors"] == 0, data
+          assert data["negative_through_k3"] + data["certified_divergent_unique"] + data["clique_bound_exceeded"] == 1, data
+          PY
+      - name: Assert historical source and v1-v4 algorithms are unmodified
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ \
+            scripts/targeted_retractions_v1.py \
+            scripts/targeted_retractions_v2.py \
+            scripts/targeted_retractions_v3.py \
+            scripts/targeted_retractions_v4.py \
+            config/pycliques_commit_targeted_v3.txt \
+            config/pycliques_commit_targeted_v4.txt \
+            indeterminate_order_9.txt indeterminate_order_10.txt
