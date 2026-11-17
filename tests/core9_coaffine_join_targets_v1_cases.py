@@ -120,3 +120,54 @@ def test_exhaustive_replay_is_separately_bounded(monkeypatch,tmp_path):
     assert observed["args"][2]=="check"
     assert observed["kwargs"]["timeout"]==stage.TIMEOUT_SECONDS
     assert observed["kwargs"]["preexec_fn"] is stage.restrict_resources
+
+
+
+def test_icosahedral_suspensions_are_divergent_and_not_induced_targets():
+    """A second natural coaffine seed, independently excluded by VF2/ISMAGS.
+
+    Icosaheral graph has an antipodal automorphism moving each vertex to
+    distance three. The one- and two-fold suspensions are therefore
+    certified divergent by the same suspension/coaffination theorem,
+    and have reduced homology S3 and S4 respectively.
+    """
+    from networkx.algorithms.isomorphism import GraphMatcher, ISMAGS
+    from pycombtop.bounded_betti import bounded_reduced_betti_mod2
+
+    ico = nx.icosahedral_graph()
+    antipodal = {}
+    for v in ico:
+        farthest = [
+            u for u in ico
+            if nx.shortest_path_length(ico, v, u) == 3
+        ]
+        assert len(farthest) == 1
+        antipodal[v] = farthest[0]
+    assert set(antipodal.values()) == set(ico)
+    assert all(
+        ico.has_edge(antipodal[u], antipodal[v])
+        for u, v in ico.edges()
+    )
+
+    for core_id, r, expected_degree in (
+        (6914104, 1, 3), (6962151, 2, 4)
+    ):
+        host, _ = stage.earlier.host(core_id)
+        # Complement of ico * O_r is ico^c disjoint union r copies K2.
+        target_comp = nx.disjoint_union_all(
+            [nx.complement(ico)] + [nx.path_graph(2) for _ in range(r)]
+        )
+        target = nx.complement(target_comp)
+        hom = bounded_reduced_betti_mod2(
+            target, max_degree=5, max_faces=100000
+        )
+        assert hom is not None
+        assert hom == {d:int(d == expected_degree) for d in range(6)}
+        comp_host = nx.complement(host)
+        # Both algorithms search *induced* embeddings, not monomorphisms.
+        assert not list(GraphMatcher(
+            comp_host, target_comp
+        ).subgraph_isomorphisms_iter())
+        assert not list(ISMAGS(
+            comp_host, target_comp
+        ).subgraph_isomorphisms_iter())
