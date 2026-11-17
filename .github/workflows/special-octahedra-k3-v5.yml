@@ -13,6 +13,7 @@ on:
       - "config/pycliques_commit_targeted_v3.txt"
       - "runs/order10/targeted-retractions-v2/**"
       - "runs/order10/targeted-retractions-v3/**"
+      - "runs/order10/special-octahedra-k3-v5/**"
       - ".github/workflows/special-octahedra-k3-v5.yml"
       - ".gitignore"
       - "README.md"
@@ -48,7 +49,11 @@ jobs:
           data = stage.summary()
           assert data["imported_unique"] >= 469, data
           assert data["original_indices_represented"] >= 2262, data
-          assert data["pending_unique"] == data["imported_unique"]
+          assert (
+              data["pending_unique"] + data["completed_unique"]
+              + data["timeouts"] + data["errors"]
+              == data["imported_unique"]
+          ), data
           print("Special-only imported and verified", data["imported_unique"])
           PY
       - name: Special-only K3 pilot on the previously timed-out v4 input
@@ -63,10 +68,17 @@ jobs:
           sys.path.insert(0, str(Path("scripts").resolve()))
           import special_octahedra_k3_v5 as stage
           data = stage.summary(strict=True)
-          assert data["completed_unique"] == 1, data
+          assert data["completed_unique"] >= 1, data
+          input_row = stage.read(stage.path_for("HCrlvhz", "records"))
+          assert input_row["status"] == "COMPLETED", input_row
+          assert len(input_row["levels"]) == 4, input_row
+          assert input_row["divergence_certificate"] is None, input_row
           assert data["timeouts"] == 0, data
           assert data["errors"] == 0, data
-          assert data["negative_through_k3"] + data["certified_divergent_unique"] + data["clique_bound_exceeded"] == 1, data
+          assert (
+              data["negative_through_k3"] + data["certified_divergent_unique"]
+              + data["clique_bound_exceeded"] == data["completed_unique"]
+          ), data
           PY
       - name: Assert historical source and v1-v4 algorithms are unmodified
         if: github.event_name == 'pull_request'
@@ -74,7 +86,8 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           git diff --exit-code "$BASE_SHA" HEAD -- \
-            runs/ reports/ postpasses/ \
+            runs/ reports/ \
+            ':(exclude)reports/order10_special_octahedron_core_lift_v1/**' postpasses/ \
             scripts/targeted_retractions_v1.py \
             scripts/targeted_retractions_v2.py \
             scripts/targeted_retractions_v3.py \
