@@ -193,13 +193,15 @@ def validate_member(
     representative: nx.Graph
 ) -> None:
     """Replay every fold and the edge-preserving vertex bijection."""
-    graph = decode(original_graph6)
-    if len(graph) != 10 or not nx.is_connected(graph):
-        raise ValueError("Expected a connected original ten-vertex census graph")
+    # Check provenance before parsing arbitrary source text. A mismatched
+    # graph6 must fail with a source identity error, not a decoder exception.
     if row["original_graph6"] != original_graph6:
         raise ValueError("Original graph6 no longer agrees with initial census")
     if row["historical_pared_graph6"] != historical_graph6:
         raise ValueError("Historical pared graph6 does not match original index")
+    graph = decode(original_graph6)
+    if len(graph) != 10 or not nx.is_connected(graph):
+        raise ValueError("Expected a connected original ten-vertex census graph")
     seen: set[int] = set()
     for vertices in row["dominated_folds"]:
         if (
