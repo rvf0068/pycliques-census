@@ -1,0 +1,67 @@
+name: Replayed historical nine-core divergence certificates (167 originals)
+
+on:
+  pull_request:
+    paths:
+      # Follow imported scripts, bootstrap settings and pinned upstream versions
+      # transitively; a later change must never bypass certificate verification.
+      - "scripts/**"
+      - "config/**"
+      - "tests/**"
+      - ".github/workflows/historical-ninecore-lift-v1.yml"
+      - "reports/**"
+      - "runs/**"
+      - "indeterminate_order_9.txt"
+      - "indeterminate_order_10.txt"
+      - "indeterminate_order_10_v3.txt"
+      - "README.md"
+  workflow_dispatch:
+
+jobs:
+  independently-replayed-167:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap existing pinned certificate environment
+        run: bash scripts/bootstrap_special_k3_v5.sh
+      - name: Install pytest
+        run: uv pip install --python .venv-special-k3-v5/bin/python pytest
+      - name: Test raw special octahedra and coaffination and full 167-member lift
+        run: |
+          .venv-special-k3-v5/bin/python -m pytest \
+            tests/historical_ninecore_lift_v1_cases.py -v
+      - name: Create and independently replay complete additional certificates
+        run: |
+          .venv-special-k3-v5/bin/python \
+            scripts/historical_ninecore_lift_v1.py \
+            --output "$RUNNER_TEMP/historical-ninecore-lift-167.json"
+          .venv-special-k3-v5/bin/python \
+            scripts/historical_ninecore_lift_v1.py \
+            --verify "$RUNNER_TEMP/historical-ninecore-lift-167.json"
+          .venv-special-k3-v5/bin/python \
+            scripts/historical_ninecore_lift_v1.py
+      - name: Publish independently verified 167-member proof index
+        uses: actions/upload-artifact@v4
+        with:
+          name: historical-ninecore-lift-167
+          path: ${{ runner.temp }}/historical-ninecore-lift-167.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: Preserve historical census data and earlier certifications
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ \
+            scripts/special_octahedron_class_lift_v1.py \
+            scripts/core_isomorphism_index.py \
+            scripts/special_octahedra_k3_v5.py \
+            scripts/targeted_retractions_v3.py \
+            indeterminate_order_9.txt \
+            indeterminate_order_10.txt \
+            indeterminate_order_10_v3.txt

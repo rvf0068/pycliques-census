@@ -1336,3 +1336,63 @@ silently repair an existing report whose bytes differ from the
 recomputed evidence. The CI workflow also builds and independently
 verifies the same output and publishes its four files as a downloadable
 artifact for code review.
+
+
+## Independently replayed historical nine-core K-divergence (167 additional originals)
+
+The immutable order-nine cross-reference identifies six historically
+K-divergent nine-vertex stiff-core classes with **300** original order-ten
+members. The v5 special-O4 certificate lift already certifies **133**
+of them (two classes). The separate
+`scripts/historical_ninecore_lift_v1.py` independently verifies the
+other **four classes and 167 original members**, without changing any
+historical verdicts, stage outputs, or prior certificates.
+
+| Nine-core representative ID | Core graph6 | Independent proof on the core | Original ten-vertex members |
+|---:|---|---|---:|
+| 7454135 | `HEnb~jl` | Explicit special `O_7` in *raw* K³ | 61 |
+| 9678187 | `HQyuzpt` | Explicit special `O_4` in *raw* K³ | 37 |
+| 10768817 | `HUZ~v~}` | Suspension of connected 7-vertex coaffine graph | 33 |
+| 11363569 | `HUzrv~}` | Suspension of connected 7-vertex coaffine graph | 36 |
+| **Additional** | | | **167** |
+
+For the two special-octahedron cores, the checker independently constructs
+raw K, K² and K³ by enumerating maximal cliques and their intersections
+with a deterministic labeling, then checks the exact privileged maximal
+clique, aligned antipodes and all induced adjacency/nonadjacency
+constraints. For the other two cores, it verifies the suspension poles,
+connectivity of the base, and a complete automorphism taking every base
+vertex to a distinct nonneighbor. The latter uses Larrión, Neumann-Lara
+and Pizaña, *On expansive graphs*, *European Journal of Combinatorics*
+30 (2009), Theorem 4.6, to conclude clique divergence.
+
+For **each of the 167 original ten-vertex members**, the script
+reconstructs the initial original graph6, validates every
+closed-neighborhood-dominated deletion and a complete graph isomorphism
+onto the certified core. By the dismantling preservation theorem
+(Frías-Armenta, Neumann-Lara and Pizaña, 2004), the divergence transfers
+to each original. These 167 original indices are explicitly checked
+against and disjoint from the previously certified 133, giving **300
+original ten-vertex graphs with replayable positive certificates**.
+The proof concerns the stiff core; it makes no false claim about raw
+K³ of the original ten-vertex graph.
+
+To produce and verify a human-readable and machine-readable JSON
+proof index (no historical data modified):
+
+```bash
+cd ~/Python/pycliques-census
+git pull --ff-only
+bash scripts/bootstrap_special_k3_v5.sh
+.venv-special-k3-v5/bin/python scripts/historical_ninecore_lift_v1.py \
+  --output historical-ninecore-lift-167.json
+.venv-special-k3-v5/bin/python scripts/historical_ninecore_lift_v1.py \
+  --verify historical-ninecore-lift-167.json
+```
+
+The GitHub Actions workflow runs the tests, reconstructs and independently
+verifies the same complete index, then publishes it as a downloadable
+artifact. No expensive large-scale census run is required. The 29 other
+historically indeterminate nine-core classes, together with the
+remaining order-eight and order-ten core classes, remain unclassified
+by these positive certificates.
