@@ -1,0 +1,70 @@
+{
+  "divergence_certificate": {
+    "conclusion": "proven_divergent",
+    "dimension": 4,
+    "iterate_index": 3,
+    "rule": "special_octahedron",
+    "target_kind": "octahedra:4"
+  },
+  "graph6": "HEhutxm",
+  "index": 6945573,
+  "levels": [
+    {
+      "edges": 21,
+      "graph6": "HEhutxm",
+      "level": 0,
+      "order": 9,
+      "special": {
+        "status": "EXHAUSTED"
+      },
+      "status": "COMPLETED"
+    },
+    {
+      "edges": 57,
+      "graph6": "M~{|iOFs}Rq~ZYJx_",
+      "level": 1,
+      "order": 14,
+      "special": {
+        "status": "EXHAUSTED"
+      },
+      "status": "COMPLETED"
+    },
+    {
+      "edges": 162,
+      "graph6": "V~~~~Y`i^b~N?^B{aTY{Fr|~^B{R~~d\\_qjp\\a|X`~f_",
+      "level": 2,
+      "order": 23,
+      "special": {
+        "status": "EXHAUSTED"
+      },
+      "status": "COMPLETED"
+    },
+    {
+      "edges": 1290,
+      "graph6": "}~~~~~~~~~~~~~~~~~~~~~~~~~~{?v|V~}B~}Iv~pun}EO^{Ge~}i~~}??^~_?~~{?E~|n?Z~wM?V~z}F~~}oqB~~_K?~~w??F~~k?B^~~^r~{~r^r~{~rlxn}^zz}^~B}^Rv^wNv{FSi_~~y]gvL~~wMgTL~~{DSAe~~~k^_f~n@wNwSL^z~on_Ptvd~_^?fnnJ~R~~w@v~zp~{@_vd~w^~w?M~~~B~y?@~^~~o~f~w{?udb~G~twJ|{j~GXDo^~}~~c^AwD~~f~xB?mB~~{~~G?Do~~~~F}~~FoAO~}N|~}N?Dh~}^|V}N?Fn~_",
+      "level": 3,
+      "order": 62,
+      "special": {
+        "antipode_indices": [
+          1,
+          42,
+          9,
+          23
+        ],
+        "clique_indices": [
+          47,
+          0,
+          18,
+          5
+        ],
+        "dimension": 4,
+        "status": "FOUND"
+      },
+      "status": "COMPLETED"
+    }
+  ],
+  "no_convergence_inference": true,
+  "schema": 5,
+  "scope": "special_octahedron_only_pared_levels_0_to_3",
+  "status": "COMPLETED"
+}
