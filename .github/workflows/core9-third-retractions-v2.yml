@@ -76,6 +76,23 @@ jobs:
           path: ${{ runner.temp }}/core9-third-retractions-v2/
           retention-days: 30
           if-no-files-found: error
+      - name: Independently verify permanent research records committed outside CI
+        run: |
+          REPORT=research/order10_core9_third_retractions_v2
+          .venv-core9-three-v1/bin/python \
+            scripts/core9_third_retractions_v2.py verify --output "$REPORT"
+          .venv-core9-three-v1/bin/python - <<'PY'
+          import json, os
+          from pathlib import Path
+          saved = Path("research/order10_core9_third_retractions_v2")
+          verified = Path(os.environ["RUNNER_TEMP"]) / "core9-third-retractions-v2"
+          names = ["manifest.json", "records/06914104.json", "records/06962151.json"]
+          for name in names:
+              assert json.loads((saved / name).read_text()) == json.loads(
+                  (verified / name).read_text()
+              ), name
+          print("All permanent research files exactly match authenticated CI evidence")
+          PY
       - name: Prevent changes to all frozen census stages and previous proofs
         if: github.event_name == 'pull_request'
         env:
