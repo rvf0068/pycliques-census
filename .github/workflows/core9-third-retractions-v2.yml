@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     permissions:
-      contents: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
         with:
@@ -66,6 +66,9 @@ jobs:
                   "positive": row.get("positive_certificates", []),
               }, sort_keys=True))
           PY
+      # The pull-request code is untrusted: never grant it repository-write credentials.
+      # Publish for human review; any immutable commit is made separately with
+      # the authenticated GitHub connector, not by this executing workflow.
       - name: Upload complete independently verified artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -73,25 +76,6 @@ jobs:
           path: ${{ runner.temp }}/core9-third-retractions-v2/
           retention-days: 30
           if-no-files-found: error
-      - name: Commit separately versioned immutable verified evidence
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-        env:
-          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
-        run: |
-          REPORT=research/order10_core9_third_retractions_v2
-          if [[ -d "$REPORT" ]]; then
-            .venv-core9-three-v1/bin/python scripts/core9_third_retractions_v2.py verify --output "$REPORT"
-            diff -r "$RUNNER_TEMP/core9-third-retractions-v2" "$REPORT"
-          else
-            mkdir -p "$REPORT"
-            cp -a "$RUNNER_TEMP/core9-third-retractions-v2/." "$REPORT/"
-            .venv-core9-three-v1/bin/python scripts/core9_third_retractions_v2.py verify --output "$REPORT"
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add "$REPORT"
-            git commit -m "Record exact homology and non-special K3 retraction pilot results"
-            git push origin "HEAD:$PR_HEAD_REF"
-          fi
       - name: Prevent changes to all frozen census stages and previous proofs
         if: github.event_name == 'pull_request'
         env:
