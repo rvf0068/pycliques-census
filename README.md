@@ -1059,3 +1059,64 @@ The already committed order-nine v1 results need not be repeated: their
 **negative/exhausted** cycle-complement outcomes included the larger
 family \(n\geq8\). For order ten, v2 is a new investigation; its results
 belong under `runs/order10/targeted-retractions-v2/` only.
+
+
+## Deduplicated divergent-target census (v3)
+
+The **v3 postpass** makes the existing order-ten v2 investigation more
+efficient without editing, reclassifying, or replacing any original
+record. Both v2 and v3 use the *same frozen pycliques-project commit*
+(merged PR #17): only the census orchestration differs.
+
+The frozen input contains **8,648 original indices** but **5,266 distinct
+graph6 strings**. v3 stores one calculation per **identical graph6 string**,
+with a deterministic map back to *all* corresponding original indices.
+This is not an isomorphism-class cache: distinct graph6 encodings are never
+implicitly identified.
+
+Before any new searches, `import-v2` independently checks every completed
+v2 record against its actual clique-iterate sequence, validates its homology
+cache provenance, and replays positive retraction witnesses. Existing
+v2 records for identical graph6 strings must agree (apart from their
+original index); contradictory records make the importer fail closed.
+The imported result and its exact homology-cache files are copied into a
+**separate v3 results directory**, with a provenance fingerprint identifying
+the original v2 record and manifest. The v2 data remain unchanged.
+
+The deterministic v3 queue prioritizes distinct graph6 inputs whose
+frozen source annotation is `-` (not already marked conjecturally
+divergent), then processes the annotated conjectural-divergence group.
+Results are stored under `runs/order10/targeted-retractions-v3/`.
+Each new distinct graph6 input uses the same 120-second, 2-GiB isolated
+worker and the same bounded search as v2.
+
+From the `pycliques-census` root on the Dell, **after merging the v3 PR**:
+
+```bash
+git pull --ff-only
+bash scripts/bootstrap_targeted_v3.sh
+.venv-targeted-v3/bin/python scripts/targeted_retractions_v3.py import-v2
+.venv-targeted-v3/bin/python scripts/targeted_retractions_v3.py plan
+time nice -n 10 .venv-targeted-v3/bin/python scripts/targeted_retractions_v3.py next --batch-size 20
+.venv-targeted-v3/bin/python scripts/targeted_retractions_v3.py verify
+.venv-targeted-v3/bin/python scripts/targeted_retractions_v3.py report
+```
+
+`plan` distinguishes **completed distinct graph6 computations** from
+**original input indices covered by those computations**, including exact
+duplicates. `report` aggregates target-family statuses, induced target
+candidates and CSP search states without counting duplicated indices
+as new computations. A positive witness is stored once and can be
+replayed independently on every identical graph6 input.
+
+Run `import-v2` again if later v2 records are committed; the import is
+idempotent and refuses incompatible provenance. `next` processes the
+next N unique pending inputs in frozen priority order; `all` is resumable
+but is not recommended for initial laptop pilots. A completed computation
+may still contain `LIMIT_REACHED` for an individual target family.
+
+The negative-search conclusion is restricted to the bounded target
+families. The verifier independently reconstructs each clique-iterate
+chain and verifies cached Betti metadata and positive witnesses; it does
+*not* repeat all negative CSP searches. In particular, importing v2
+preserves the original v2 computation provenance and its exact scope.
