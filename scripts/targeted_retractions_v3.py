@@ -169,9 +169,13 @@ def import_v2() -> dict:
         target = record_path(encoded)
         if target.exists():
             capsule = read(target)
-            if capsule.get("graph6") != encoded:
-                raise ValueError("Existing v3 record collides with source")
-            continue
+            # A previous timeout/error is not a permanent negative verdict.
+            # Validate its source index, then replace it with the newly
+            # verified completed v2 result. Never silently adopt a corrupt
+            # or inconsistent completed v3 capsule.
+            verify_capsule(capsule, encoded)
+            if capsule["status"] == "COMPLETED":
+                continue
         copy_verified_caches(original)
         capsule = {
             "schema": SCHEMA,
@@ -205,8 +209,14 @@ def verify_capsule(capsule: dict, encoded: str) -> None:
     ):
         raise ValueError("Incorrect v3 result identity/provenance")
     if capsule.get("status") in {"TIMEOUT", "ERROR"}:
-        if capsule["origin"] != "v3_worker" or "record" in capsule:
-            raise ValueError("Malformed v3 terminal worker result")
+        source_index = capsule.get("index")
+        if (
+            capsule["origin"] != "v3_worker"
+            or "record" in capsule
+            or type(source_index) is not int
+            or index_to_graph6().get(source_index) != encoded
+        ):
+            raise ValueError("Malformed v3 terminal worker index/provenance")
         return
     if capsule.get("status") != "COMPLETED":
         raise ValueError("Invalid v3 result status")
@@ -326,6 +336,10 @@ def summary(groups: list[dict], *, exhaustive_verify: bool = False) -> dict:
                 for result in level["families"].values()
             )
         elif data["status"] in {"TIMEOUT", "ERROR"}:
+            # A fast plan should never conceal a terminal record for the
+            # wrong source index, even when full replay was not requested.
+            if not exhaustive_verify:
+                verify_capsule(data, encoded)
             counts["timeouts" if data["status"] == "TIMEOUT" else "errors"] += 1
         else:
             raise ValueError("Unknown v3 graph6 result status")
