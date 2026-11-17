@@ -1211,9 +1211,17 @@ each verified positive witness proves K-divergence. The reverse
 implication is false: ordinary octahedral retractions may be nonspecial,
 so a negative v5 result **does not prove non-divergence**.
 
-For each **completed, independently verified v3 exact-graph6 record**,
-v5 reuses the recorded completely pared levels 0, 1, 2 and computes
+For each **completed, independently verified v3 exact-graph6 record**
+with **three fully computed pared levels**, v5 reuses the recorded
+completely pared levels 0, 1, 2 and computes
 only the missing completely pared (K^3(G)) from the saved level 2.
+A v3 record can have top-level status `COMPLETED` while its clique
+sequence ended early with `CLIQUE_BOUND_EXCEEDED` or a host-order limit.
+Such records are **excluded from the v5 imported cohort** and explicitly
+counted as `skipped_incomplete_v3_unique` and
+`skipped_incomplete_v3_indices`; they are never treated as failed v5
+calculations or negative special-octahedron searches.
+
 It checks all four levels, stopping at the first positive
 special-octahedron witness. Each positive record stores the maximal
 clique and aligned antipodes, exact level, dimension and original
