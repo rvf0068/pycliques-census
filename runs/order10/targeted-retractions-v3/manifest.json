@@ -1,0 +1,25 @@
+{
+  "algorithm": "pinned-v2-exact-graph6-dedup-v1",
+  "code_sha256": "7e2ad447b4e03cc948a0785d59000b93136873dfd41d1c2f9543cb8667fd7678",
+  "dependency_pin": "a78e4d979c70b0a242fa89efd2fcf3e058c318b1",
+  "key": "exact_graph6_sha256",
+  "priority": "unclassified_first_stable_source_order",
+  "schema": 3,
+  "scope": "completely_pared_graph_and_first_two_pared_clique_iterates",
+  "source_sha256": "c1ab6347ead9e2cd9b6c4157425b2cfda2203d079137c6fda89a7677f7657aa4",
+  "v2_code_sha256": "a65b911a40b80257bcf5924d66e196193126b18ca49b067f625e9221f455d24d",
+  "v2_schema": 2,
+  "v2_settings": {
+    "clique_bound": 120,
+    "iterates": 3,
+    "max_assignments": 250000,
+    "max_betti_faces": 150000,
+    "max_host_vertices": 80,
+    "max_partial_degree": 3,
+    "max_patterns": 20000,
+    "max_states": 100000,
+    "max_target_order": 16,
+    "memory_mib": 2048,
+    "timeout_seconds": 120
+  }
+}
