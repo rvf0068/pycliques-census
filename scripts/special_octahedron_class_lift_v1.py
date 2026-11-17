@@ -83,7 +83,14 @@ def write_tsv(header: tuple[str, ...], rows: list[dict]) -> bytes:
 
 
 def saved_core_index() -> tuple[dict[int, dict], dict[int, dict]]:
-    """Validate frozen class/index inputs before accepting any assignments."""
+    """Reconstruct the complete original index; do not trust self-supplied hashes.
+
+    Rebuilding old_index.prepare() checks the original 10-vertex sources,
+    the post-v3 active cohort, all 153 v3-stage records, and every
+    core-isomorphism assignment. Compare its *expected bytes* with the
+    committed index before considering the two certified core classes.
+    """
+    old_index.check_saved(INDEX, old_index.prepare())
     meta = json.loads((INDEX / "manifest.json").read_text(encoding="utf-8"))
     for filename in ("classes.tsv", "assignments.tsv", "summary.md"):
         if file_sha(INDEX / filename) != meta["output_sha256"][filename]:
