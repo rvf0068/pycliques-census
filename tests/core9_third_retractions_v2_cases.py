@@ -29,7 +29,6 @@ def test_eligible_parameters_exclude_all_known_homology_obstructions():
     first = stage.target_candidates({0: 0, 1: 0, 2: 0, 3: 1, 4: 0, 5: 0})
     second = stage.target_candidates({0: 0, 1: 0, 2: 0, 3: 0, 4: 1, 5: 0})
     assert [x["parameter"] for x in first["octahedra"]] == [4]
-    assert [x["parameter"] for x in first["cycle_complements"]] == [11]
     assert [x["parameter"] for x in first["cycle_complements"]] == [11, 13]
     assert first["suspensions"] == []
     assert [x["parameter"] for x in second["octahedra"]] == [5]
