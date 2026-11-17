@@ -1,0 +1,144 @@
+{
+  "graph6": "I?qbT~{|g",
+  "origin": "v3_worker",
+  "record": {
+    "analysis_complete": true,
+    "index": 6945043,
+    "input_graph6": "I?qbT~{|g",
+    "levels": [
+      {
+        "betti_known": {
+          "0": 0,
+          "1": 1,
+          "2": 1,
+          "3": 0
+        },
+        "edges": 26,
+        "families": {
+          "cycle_complements": {
+            "assignments": 0,
+            "induced_targets": 0,
+            "patterns": 0,
+            "reason": "All requested target patterns were exhausted",
+            "states": 0,
+            "status": "EXHAUSTED"
+          },
+          "octahedra": {
+            "assignments": 0,
+            "induced_targets": 0,
+            "patterns": 0,
+            "reason": "All requested target patterns were exhausted",
+            "states": 0,
+            "status": "EXHAUSTED"
+          },
+          "suspensions": {
+            "assignments": 0,
+            "induced_targets": 0,
+            "patterns": 0,
+            "reason": "All requested target patterns were exhausted",
+            "states": 0,
+            "status": "EXHAUSTED"
+          }
+        },
+        "graph6": "I?qbT~{|g",
+        "homology_cache_key": "7eb71171bde1e33adbd1c88a5c0aa223b2cbfe87bc25d71294832c9ef3405974",
+        "level": 0,
+        "order": 10,
+        "status": "COMPLETED"
+      },
+      {
+        "betti_known": {
+          "0": 0,
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "edges": 65,
+        "families": {
+          "cycle_complements": {
+            "assignments": 0,
+            "induced_targets": 2,
+            "patterns": 2,
+            "reason": "All requested target patterns were exhausted",
+            "states": 2,
+            "status": "EXHAUSTED"
+          },
+          "octahedra": {
+            "assignments": 0,
+            "induced_targets": 0,
+            "patterns": 0,
+            "reason": "All requested target patterns were exhausted",
+            "states": 0,
+            "status": "EXHAUSTED"
+          },
+          "suspensions": {
+            "assignments": 2,
+            "induced_targets": 4,
+            "patterns": 4,
+            "reason": "All requested target patterns were exhausted",
+            "states": 6,
+            "status": "EXHAUSTED"
+          }
+        },
+        "graph6": "N~~~k^rCw^djMFKNgBw",
+        "homology_cache_key": "bb512b34fdd3aae0e344a34ef4856347ac12ff027accc3393d180356f3fc71c1",
+        "level": 1,
+        "order": 15,
+        "status": "COMPLETED"
+      },
+      {
+        "betti_known": {
+          "0": 0,
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0,
+          "8": 0
+        },
+        "edges": 154,
+        "families": {
+          "cycle_complements": {
+            "assignments": 10,
+            "induced_targets": 139,
+            "patterns": 139,
+            "reason": "All requested target patterns were exhausted",
+            "states": 149,
+            "status": "EXHAUSTED"
+          },
+          "octahedra": {
+            "assignments": 272,
+            "induced_targets": 73,
+            "patterns": 73,
+            "reason": "All requested target patterns were exhausted",
+            "states": 345,
+            "status": "EXHAUSTED"
+          },
+          "suspensions": {
+            "assignments": 286,
+            "induced_targets": 323,
+            "patterns": 469,
+            "reason": "All requested target patterns were exhausted",
+            "states": 609,
+            "status": "EXHAUSTED"
+          }
+        },
+        "graph6": "U~~~~BfpYjy~AUFVFJLRrFv[~Xy}z|urzjxpi}\\W",
+        "homology_cache_key": "12bc6861dda34282673b8dc15839cff285e8f921730057b1c4c03024a861562a",
+        "level": 2,
+        "order": 22,
+        "status": "COMPLETED"
+      }
+    ],
+    "no_automatic_behavior_verdict": true,
+    "schema": 2,
+    "scope": "pared_input_and_pared_iterates_only",
+    "status": "COMPLETED"
+  },
+  "schema": 3,
+  "status": "COMPLETED"
+}

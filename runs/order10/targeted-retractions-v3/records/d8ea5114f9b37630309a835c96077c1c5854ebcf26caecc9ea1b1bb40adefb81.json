@@ -1,0 +1,140 @@
+{
+  "graph6": "HEj\\rXr",
+  "origin": "v3_worker",
+  "record": {
+    "analysis_complete": true,
+    "index": 7199091,
+    "input_graph6": "HEj\\rXr",
+    "levels": [
+      {
+        "betti_known": {
+          "0": 0,
+          "1": 0,
+          "2": 1
+        },
+        "edges": 21,
+        "families": {
+          "cycle_complements": {
+            "assignments": 0,
+            "induced_targets": 0,
+            "patterns": 0,
+            "reason": "All requested target patterns were exhausted",
+            "states": 0,
+            "status": "EXHAUSTED"
+          },
+          "octahedra": {
+            "assignments": 0,
+            "induced_targets": 0,
+            "patterns": 0,
+            "reason": "All requested target patterns were exhausted",
+            "states": 0,
+            "status": "EXHAUSTED"
+          },
+          "suspensions": {
+            "assignments": 0,
+            "induced_targets": 0,
+            "patterns": 0,
+            "reason": "All requested target patterns were exhausted",
+            "states": 0,
+            "status": "EXHAUSTED"
+          }
+        },
+        "graph6": "HEj\\rXr",
+        "homology_cache_key": "d8ea5114f9b37630309a835c96077c1c5854ebcf26caecc9ea1b1bb40adefb81",
+        "level": 0,
+        "order": 9,
+        "status": "COMPLETED"
+      },
+      {
+        "betti_known": {
+          "0": 0,
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        },
+        "edges": 57,
+        "families": {
+          "cycle_complements": {
+            "assignments": 0,
+            "induced_targets": 0,
+            "patterns": 0,
+            "reason": "All requested target patterns were exhausted",
+            "states": 0,
+            "status": "EXHAUSTED"
+          },
+          "octahedra": {
+            "assignments": 0,
+            "induced_targets": 0,
+            "patterns": 0,
+            "reason": "All requested target patterns were exhausted",
+            "states": 0,
+            "status": "EXHAUSTED"
+          },
+          "suspensions": {
+            "assignments": 1,
+            "induced_targets": 1,
+            "patterns": 1,
+            "reason": "All requested target patterns were exhausted",
+            "states": 2,
+            "status": "EXHAUSTED"
+          }
+        },
+        "graph6": "M~AmW^nNTxnJsxUt_",
+        "homology_cache_key": "33511457380bb6c59c8d220e4418363434622dbecf58b16a951bb9f89644c785",
+        "level": 1,
+        "order": 14,
+        "status": "COMPLETED"
+      },
+      {
+        "betti_known": {
+          "0": 0,
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "edges": 162,
+        "families": {
+          "cycle_complements": {
+            "assignments": 0,
+            "induced_targets": 18,
+            "patterns": 18,
+            "reason": "All requested target patterns were exhausted",
+            "states": 18,
+            "status": "EXHAUSTED"
+          },
+          "octahedra": {
+            "assignments": 95,
+            "induced_targets": 5,
+            "patterns": 5,
+            "reason": "All requested target patterns were exhausted",
+            "states": 100,
+            "status": "EXHAUSTED"
+          },
+          "suspensions": {
+            "assignments": 107,
+            "induced_targets": 74,
+            "patterns": 84,
+            "reason": "All requested target patterns were exhausted",
+            "states": 181,
+            "status": "EXHAUSTED"
+          }
+        },
+        "graph6": "V~~~~jr{\\J_NW~w^rhcY^fbKMN|yzztmHYeLQjvY{Lz_",
+        "homology_cache_key": "c2a5a9773a837a9bb3f2e9a3f26c1227f7d569aea03bcb347d89816c83af107e",
+        "level": 2,
+        "order": 23,
+        "status": "COMPLETED"
+      }
+    ],
+    "no_automatic_behavior_verdict": true,
+    "schema": 2,
+    "scope": "pared_input_and_pared_iterates_only",
+    "status": "COMPLETED"
+  },
+  "schema": 3,
+  "status": "COMPLETED"
+}

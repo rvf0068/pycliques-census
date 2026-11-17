@@ -1,0 +1,140 @@
+{
+  "graph6": "HEhutxm",
+  "origin": "v3_worker",
+  "record": {
+    "analysis_complete": true,
+    "index": 6945573,
+    "input_graph6": "HEhutxm",
+    "levels": [
+      {
+        "betti_known": {
+          "0": 0,
+          "1": 0,
+          "2": 1
+        },
+        "edges": 21,
+        "families": {
+          "cycle_complements": {
+            "assignments": 0,
+            "induced_targets": 0,
+            "patterns": 0,
+            "reason": "All requested target patterns were exhausted",
+            "states": 0,
+            "status": "EXHAUSTED"
+          },
+          "octahedra": {
+            "assignments": 0,
+            "induced_targets": 0,
+            "patterns": 0,
+            "reason": "All requested target patterns were exhausted",
+            "states": 0,
+            "status": "EXHAUSTED"
+          },
+          "suspensions": {
+            "assignments": 0,
+            "induced_targets": 0,
+            "patterns": 0,
+            "reason": "All requested target patterns were exhausted",
+            "states": 0,
+            "status": "EXHAUSTED"
+          }
+        },
+        "graph6": "HEhutxm",
+        "homology_cache_key": "42624232af8ec9b7e1744703f905502fbfc58b8e580d83db9e95c912ff1b12c2",
+        "level": 0,
+        "order": 9,
+        "status": "COMPLETED"
+      },
+      {
+        "betti_known": {
+          "0": 0,
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 0
+        },
+        "edges": 57,
+        "families": {
+          "cycle_complements": {
+            "assignments": 0,
+            "induced_targets": 0,
+            "patterns": 0,
+            "reason": "All requested target patterns were exhausted",
+            "states": 0,
+            "status": "EXHAUSTED"
+          },
+          "octahedra": {
+            "assignments": 0,
+            "induced_targets": 0,
+            "patterns": 0,
+            "reason": "All requested target patterns were exhausted",
+            "states": 0,
+            "status": "EXHAUSTED"
+          },
+          "suspensions": {
+            "assignments": 1,
+            "induced_targets": 1,
+            "patterns": 1,
+            "reason": "All requested target patterns were exhausted",
+            "states": 2,
+            "status": "EXHAUSTED"
+          }
+        },
+        "graph6": "M~{|iOFs}Rq~ZYJx_",
+        "homology_cache_key": "d38303a5e32e7c2aecc442b000a5b41300d48a4f28c6b070a65f550b4e218107",
+        "level": 1,
+        "order": 14,
+        "status": "COMPLETED"
+      },
+      {
+        "betti_known": {
+          "0": 0,
+          "1": 0,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "edges": 162,
+        "families": {
+          "cycle_complements": {
+            "assignments": 0,
+            "induced_targets": 18,
+            "patterns": 18,
+            "reason": "All requested target patterns were exhausted",
+            "states": 18,
+            "status": "EXHAUSTED"
+          },
+          "octahedra": {
+            "assignments": 96,
+            "induced_targets": 5,
+            "patterns": 5,
+            "reason": "All requested target patterns were exhausted",
+            "states": 101,
+            "status": "EXHAUSTED"
+          },
+          "suspensions": {
+            "assignments": 112,
+            "induced_targets": 74,
+            "patterns": 84,
+            "reason": "All requested target patterns were exhausted",
+            "states": 186,
+            "status": "EXHAUSTED"
+          }
+        },
+        "graph6": "V~~~~Y`i^b~N?^B{aTY{Fr|~^B{R~~d\\_qjp\\a|X`~f_",
+        "homology_cache_key": "9d214ce6bfce65f83a284e2856d5e9d3d4ee6785b6cc4e47aadfbeb8f656c6ec",
+        "level": 2,
+        "order": 23,
+        "status": "COMPLETED"
+      }
+    ],
+    "no_automatic_behavior_verdict": true,
+    "schema": 2,
+    "scope": "pared_input_and_pared_iterates_only",
+    "status": "COMPLETED"
+  },
+  "schema": 3,
+  "status": "COMPLETED"
+}

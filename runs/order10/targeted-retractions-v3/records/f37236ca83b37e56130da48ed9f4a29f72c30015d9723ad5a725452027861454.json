@@ -1,0 +1,145 @@
+{
+  "graph6": "I?qbVr}|o",
+  "origin": "v3_worker",
+  "record": {
+    "analysis_complete": true,
+    "index": 6962586,
+    "input_graph6": "I?qbVr}|o",
+    "levels": [
+      {
+        "betti_known": {
+          "0": 0,
+          "1": 1,
+          "2": 1,
+          "3": 0
+        },
+        "edges": 26,
+        "families": {
+          "cycle_complements": {
+            "assignments": 0,
+            "induced_targets": 0,
+            "patterns": 0,
+            "reason": "All requested target patterns were exhausted",
+            "states": 0,
+            "status": "EXHAUSTED"
+          },
+          "octahedra": {
+            "assignments": 0,
+            "induced_targets": 0,
+            "patterns": 0,
+            "reason": "All requested target patterns were exhausted",
+            "states": 0,
+            "status": "EXHAUSTED"
+          },
+          "suspensions": {
+            "assignments": 0,
+            "induced_targets": 0,
+            "patterns": 0,
+            "reason": "All requested target patterns were exhausted",
+            "states": 0,
+            "status": "EXHAUSTED"
+          }
+        },
+        "graph6": "I?qbVr}|o",
+        "homology_cache_key": "f37236ca83b37e56130da48ed9f4a29f72c30015d9723ad5a725452027861454",
+        "level": 0,
+        "order": 10,
+        "status": "COMPLETED"
+      },
+      {
+        "betti_known": {
+          "0": 0,
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0
+        },
+        "edges": 76,
+        "families": {
+          "cycle_complements": {
+            "assignments": 0,
+            "induced_targets": 0,
+            "patterns": 0,
+            "reason": "All requested target patterns were exhausted",
+            "states": 0,
+            "status": "EXHAUSTED"
+          },
+          "octahedra": {
+            "assignments": 0,
+            "induced_targets": 0,
+            "patterns": 0,
+            "reason": "All requested target patterns were exhausted",
+            "states": 0,
+            "status": "EXHAUSTED"
+          },
+          "suspensions": {
+            "assignments": 10,
+            "induced_targets": 2,
+            "patterns": 2,
+            "reason": "All requested target patterns were exhausted",
+            "states": 12,
+            "status": "EXHAUSTED"
+          }
+        },
+        "graph6": "O~~{mLJqwn`^o~G~bpwp^",
+        "homology_cache_key": "f3aa7cfc3373d5720aa3890fdab7cdec5e504e5d0f500d88af6debd17d052494",
+        "level": 1,
+        "order": 16,
+        "status": "COMPLETED"
+      },
+      {
+        "betti_known": {
+          "0": 0,
+          "1": 1,
+          "2": 1,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0
+        },
+        "edges": 123,
+        "families": {
+          "cycle_complements": {
+            "assignments": 9,
+            "induced_targets": 35,
+            "patterns": 35,
+            "reason": "All requested target patterns were exhausted",
+            "states": 44,
+            "status": "EXHAUSTED"
+          },
+          "octahedra": {
+            "assignments": 228,
+            "induced_targets": 51,
+            "patterns": 51,
+            "reason": "All requested target patterns were exhausted",
+            "states": 279,
+            "status": "EXHAUSTED"
+          },
+          "suspensions": {
+            "assignments": 231,
+            "induced_targets": 205,
+            "patterns": 307,
+            "reason": "All requested target patterns were exhausted",
+            "states": 436,
+            "status": "EXHAUSTED"
+          }
+        },
+        "graph6": "S~~~~{}ezxb~_^a~}dvAV_JB@NvH^mE}k",
+        "homology_cache_key": "926c9c6b91186cd5eb8aa2d60933f65eab32fe13ddfc1884c259bbdf0be26fb8",
+        "level": 2,
+        "order": 20,
+        "status": "COMPLETED"
+      }
+    ],
+    "no_automatic_behavior_verdict": true,
+    "schema": 2,
+    "scope": "pared_input_and_pared_iterates_only",
+    "status": "COMPLETED"
+  },
+  "schema": 3,
+  "status": "COMPLETED"
+}
