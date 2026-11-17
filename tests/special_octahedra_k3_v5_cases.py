@@ -139,6 +139,10 @@ def test_manifest_is_frozen_and_refuses_unversioned_adoption(
     with pytest.raises(ValueError, match="Frozen v5"):
         v5.require_stage()
     (target / "manifest.json").unlink()
+    # An empty stage can legitimately be initialized again. Adoption is
+    # forbidden only if other result artifacts survive without a manifest.
+    (target / "records").mkdir()
+    (target / "records" / "orphan.json").write_text("{}", encoding="utf-8")
     with pytest.raises(ValueError, match="without a frozen manifest"):
         v5.require_stage()
 
