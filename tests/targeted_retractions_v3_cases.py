@@ -203,6 +203,7 @@ def test_import_v2_replaces_verified_terminal_and_is_idempotent(
     encoded = v3.index_to_graph6()[index]
     monkeypatch.setattr(v3, "index_to_graph6", lambda: {index: encoded})
     v2.require_manifest(10)
+    v3.require_stage()  # Existing worker files require the frozen v3 manifest.
     original = v2.analyze(index, encoded, source_stage)
     v2.verify_record(original, encoded, source_stage, index=index)
     v2.atomic(v3.v2_source_path(index), original)
@@ -279,6 +280,7 @@ def test_import_v2_rejects_bad_terminal_instead_of_overwriting(
     encoded = v3.index_to_graph6()[index]
     monkeypatch.setattr(v3, "index_to_graph6", lambda: {index: encoded})
     v2.require_manifest(10)
+    v3.require_stage()  # Existing worker files require the frozen v3 manifest.
     original = v2.analyze(index, encoded, source_stage)
     v2.atomic(v3.v2_source_path(index), original)
     terminal = {
