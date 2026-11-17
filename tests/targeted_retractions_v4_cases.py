@@ -181,3 +181,45 @@ def test_v4_reports_legacy_and_k3_results_separately(tmp_path, monkeypatch):
     assert summary["certified_special"] == 1
     assert summary["certified_special_at_k3"] == 1
     assert summary["pending_unique"] == 1
+
+
+def test_atomic_progress_journal_is_diagnostic_only(tmp_path, monkeypatch):
+    monkeypatch.setattr(v4, "STAGE", tmp_path)
+    monkeypatch.setattr(
+        v3, "index_to_graph6", lambda: {2317572: "GQyuzw"}
+    )
+    v4.write_progress(
+        2317572, "GQyuzw", 3, "SPECIAL_OCTAHEDRON_SEARCH"
+    )
+    assert v4.read_progress(2317572, "GQyuzw") == {
+        "schema": v4.SCHEMA,
+        "index": 2317572,
+        "graph6": "GQyuzw",
+        "level": 3,
+        "phase": "SPECIAL_OCTAHEDRON_SEARCH",
+    }
+    timeout = {
+        "schema": v4.SCHEMA,
+        "graph6": "GQyuzw",
+        "status": "TIMEOUT",
+        "index": 2317572,
+        "last_progress": v4.read_progress(2317572, "GQyuzw"),
+    }
+    v4.verify_terminal(timeout, "GQyuzw")
+    wrong = deepcopy(timeout)
+    wrong["last_progress"]["level"] = 4
+    with pytest.raises(ValueError, match="terminal progress"):
+        v4.verify_terminal(wrong, "GQyuzw")
+
+
+def test_invalid_progress_source_is_rejected(tmp_path, monkeypatch):
+    monkeypatch.setattr(v4, "STAGE", tmp_path)
+    monkeypatch.setattr(
+        v3, "index_to_graph6", lambda: {2317572: "GQyuzw"}
+    )
+    with pytest.raises(ValueError, match="Invalid progress"):
+        v4.write_progress(
+            2317572, "HCrlvhz", 2, "SPECIAL_OCTAHEDRON_SEARCH"
+        )
+    with pytest.raises(ValueError, match="Invalid progress"):
+        v4.write_progress(2317572, "GQyuzw", 4, "LEVEL_COMPLETED")
