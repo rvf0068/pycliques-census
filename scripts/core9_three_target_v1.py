@@ -259,6 +259,22 @@ def replay_target(graph: nx.Graph, row: dict) -> None:
         raise ValueError("Saved positive retraction does not replay")
 
 
+def validate_targeted_rows(graph: nx.Graph, b1: int, rows: list[dict]) -> None:
+    """Re-run the entire bounded search: a FOUND may not be hidden as EXHAUSTED.
+
+    No claim of mathematical nonexistence follows from the bounded negative
+    search; however, the saved diagnostics must be *exactly* reproducible
+    with the pinned implementation and limits.
+    """
+    expected = targeted_result(graph, b1)
+    if rows != expected:
+        raise ValueError(
+            "Saved targeted search diagnostics differ from a fresh bounded replay"
+        )
+    for row in rows:
+        replay_target(graph, row)
+
+
 def probe(core_id: int) -> dict:
     """Never infer a positive verdict from a failed/limited search."""
     pared = pared_iterates(core_id)
@@ -326,8 +342,15 @@ def validate_record(record: dict, core_id: int) -> None:
     ):
         raise ValueError("Incorrect source identity in saved core record")
     if record.get("status") == "TIMEOUT":
-        if record.get("positive_certificates") or record.get("pared_levels"):
-            raise ValueError("Timed-out record must not claim positive proofs")
+        allowed = {
+            "schema", "core_id", "core_graph6", "original_members",
+            "status", "limit_seconds", "phase",
+        }
+        if (
+            set(record) != allowed or record.get("limit_seconds") != WORKER_SECONDS
+            or record.get("phase") != "probe"
+        ):
+            raise ValueError("Timed-out record has invalid limit, phase or extra data")
         return
     if record.get("status") != "COMPLETED":
         raise ValueError("Invalid worker status")
@@ -367,8 +390,8 @@ def validate_record(record: dict, core_id: int) -> None:
                     or [r.get("family") for r in row.get("targeted", [])] != list(FAMILIES)
                 ):
                     raise ValueError("Saved topology, coaffination or search scope differs")
+                validate_targeted_rows(graph, b1, row["targeted"])
                 for hit in row["targeted"]:
-                    replay_target(graph, hit)
                     if hit["status"] == "FOUND":
                         discovered.append({
                             "level": level, "mode": mode,
@@ -421,6 +444,28 @@ def limit_worker() -> None:
     resource.setrlimit(resource.RLIMIT_AS, (memory, memory))
 
 
+def bounded_validate_record(path: Path, core_id: int) -> None:
+    """Independently replay in an 80-second, 2-GiB subprocess, never parent."""
+    command = [
+        sys.executable, str(Path(__file__)), "check",
+        "--core-id", str(core_id), "--output", str(path),
+    ]
+    try:
+        completed = subprocess.run(
+            command, timeout=WORKER_SECONDS, preexec_fn=limit_worker,
+            capture_output=True, text=True,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise TimeoutError(
+            f"Independent verification of core {core_id} exceeded 80 seconds"
+        ) from exc
+    if completed.returncode:
+        raise ValueError(
+            f"Bounded independent verification of {core_id} failed:\n"
+            f"{completed.stderr[-4000:]}"
+        )
+
+
 def run(destination: Path) -> None:
     meta = manifest()
     destination.mkdir(parents=True, exist_ok=True)
@@ -435,7 +480,7 @@ def run(destination: Path) -> None:
     for core_id in CORE:
         path = destination / "records" / f"{core_id:08d}.json"
         if path.exists():
-            validate_record(json.loads(path.read_text()), core_id)
+            bounded_validate_record(path, core_id)
             print(f"Verified existing core {core_id}", flush=True)
             continue
         with tempfile.TemporaryDirectory(prefix="core9-three-worker-") as tmp:
@@ -454,13 +499,14 @@ def run(destination: Path) -> None:
                     "original_members": CORE[core_id][1],
                     "status": "TIMEOUT",
                     "limit_seconds": WORKER_SECONDS,
+                    "phase": "probe",
                 })
                 print(f"Core {core_id}: TIMEOUT; no mathematical negative claim", flush=True)
                 continue
             if child.returncode:
                 raise RuntimeError(f"Worker {core_id} failed:\n{child.stderr[-4000:]}")
+            bounded_validate_record(result, core_id)
             row = json.loads(result.read_text())
-            validate_record(row, core_id)
             atomic_json(path, row)
             print(f"Core {core_id}: {len(row['positive_certificates'])} certificates", flush=True)
     verify(destination)
@@ -476,8 +522,7 @@ def verify(destination: Path) -> None:
     if not record_dir.is_dir() or {p.name for p in record_dir.iterdir()} != expected:
         raise ValueError("The three-core stage is missing records or contains extras")
     for core_id in CORE:
-        row = json.loads((record_dir / f"{core_id:08d}.json").read_text())
-        validate_record(row, core_id)
+        bounded_validate_record(record_dir / f"{core_id:08d}.json", core_id)
     print("Verified three-core targeted stage and all available positive witnesses")
 
 
@@ -507,7 +552,7 @@ def report(destination: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=("plan", "worker", "run", "verify", "report"))
+    parser.add_argument("action", choices=("plan", "worker", "check", "run", "verify", "report"))
     parser.add_argument("--core-id", type=int)
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
@@ -515,6 +560,12 @@ def main() -> None:
         if args.core_id not in CORE or args.output is None:
             parser.error("worker requires an allowed --core-id and --output file")
         atomic_json(args.output, probe(args.core_id))
+        return
+    if args.action == "check":
+        if args.core_id not in CORE or args.output is None:
+            parser.error("check requires an allowed --core-id and an existing --output")
+        validate_record(json.loads(args.output.read_text()), args.core_id)
+        print(f"Independently replayed core {args.core_id}")
         return
     if args.action == "plan":
         print(json.dumps(manifest(), sort_keys=True, indent=2))
