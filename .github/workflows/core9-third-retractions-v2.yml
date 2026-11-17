@@ -1,0 +1,107 @@
+name: Exact homology and non-special third-iterate retraction census
+
+on:
+  pull_request:
+    paths:
+      - "scripts/**"
+      - "config/**"
+      - "tests/**"
+      - "research/order10_core9_three_target_v1/**"
+      - "research/order10_core9_third_retractions_v2/**"
+      - ".github/workflows/core9-third-retractions-v2.yml"
+      - "reports/**"
+      - "runs/**"
+      - "README.md"
+  workflow_dispatch:
+
+jobs:
+  two-third-iterate-cores:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap existing separately pinned optimized pycliques-project
+        run: bash scripts/bootstrap_core9_three_target_v1.sh
+      - name: Install pytest
+        run: uv pip install --python .venv-core9-three-v1/bin/python pytest
+      - name: Exact homology, retraction and integrity regression tests
+        run: |
+          .venv-core9-three-v1/bin/python -m pytest \
+            tests/core9_third_retractions_v2_cases.py -v
+      - name: Run two non-special third-iterate retraction investigations
+        run: |
+          .venv-core9-three-v1/bin/python \
+            scripts/core9_third_retractions_v2.py run \
+            --output "$RUNNER_TEMP/core9-third-retractions-v2"
+          .venv-core9-three-v1/bin/python \
+            scripts/core9_third_retractions_v2.py report \
+            --output "$RUNNER_TEMP/core9-third-retractions-v2"
+      - name: Require two authenticated, bounded and separately identified records
+        run: |
+          .venv-core9-three-v1/bin/python - <<'PY'
+          from pathlib import Path
+          import os, json
+          root = Path(os.environ["RUNNER_TEMP"]) / "core9-third-retractions-v2"
+          names = sorted(x.name for x in (root / "records").glob("*.json"))
+          assert names == ["06914104.json", "06962151.json"], names
+          rows = [json.loads((root / "records" / name).read_text()) for name in names]
+          assert all(row["status"] in ("COMPLETED", "TIMEOUT") for row in rows)
+          assert sum(r["represented_originals"] for r in rows) == 461
+          for row in rows:
+              print(json.dumps({
+                  "core": row["core_id"], "status": row["status"],
+                  "eligible": row.get("eligible_target_parameters"),
+                  "searches": [
+                      {k: r[k] for k in (
+                          "family", "status", "patterns", "locally_impossible",
+                          "locally_feasible", "retractions_attempted",
+                      )} for r in row.get("family_searches", [])
+                  ],
+                  "positive": row.get("positive_certificates", []),
+              }, sort_keys=True))
+          PY
+      - name: Upload complete independently verified artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: core9-third-nonspecial-retractions-v2
+          path: ${{ runner.temp }}/core9-third-retractions-v2/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Commit separately versioned immutable verified evidence
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          REPORT=research/order10_core9_third_retractions_v2
+          if [[ -d "$REPORT" ]]; then
+            .venv-core9-three-v1/bin/python scripts/core9_third_retractions_v2.py verify --output "$REPORT"
+            diff -r "$RUNNER_TEMP/core9-third-retractions-v2" "$REPORT"
+          else
+            mkdir -p "$REPORT"
+            cp -a "$RUNNER_TEMP/core9-third-retractions-v2/." "$REPORT/"
+            .venv-core9-three-v1/bin/python scripts/core9_third_retractions_v2.py verify --output "$REPORT"
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add "$REPORT"
+            git commit -m "Record exact homology and non-special K3 retraction pilot results"
+            git push origin "HEAD:$PR_HEAD_REF"
+          fi
+      - name: Prevent changes to all frozen census stages and previous proofs
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ \
+            indeterminate_order_9.txt indeterminate_order_10.txt \
+            indeterminate_order_10_v3.txt \
+            research/order10_core9_three_target_v1/ \
+            scripts/core9_three_target_v1.py \
+            scripts/historical_ninecore_lift_v1.py \
+            scripts/special_octahedron_class_lift_v1.py
