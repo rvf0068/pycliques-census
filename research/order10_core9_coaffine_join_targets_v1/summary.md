@@ -130,3 +130,32 @@ record, and the provenance manifest are included in the
 [successful workflow artifact](https://github.com/rvf0068/pycliques-census/actions/runs/44192083811).
 Every result is replayed in a separately bounded subprocess;
 the repository CI uses read-only credentials.
+
+
+## Additional certified divergent candidate: the icosahedron suspension
+
+The regular icosahedral graph I has 12 vertices and a triangulated
+2-sphere as its clique complex. Every vertex has a unique antipodal
+vertex at graph distance three. The antipodal permutation is a graph
+automorphism and moves every vertex to a nonneighbor, so I admits a
+2-coaffination. The same published suspension/coaffination theorem
+therefore certifies the divergence of I*O_r, for every r>=1.
+
+In particular, I*O_1 has 14 vertices and homotopy type S^3,
+while I*O_2 has 16 vertices and homotopy type S^4. These are
+two further **explicit, homologically admissible, certified divergent
+targets** beyond the ten cycle-complement joins.
+
+The new regression test constructs both graphs independently,
+certifies their mod-2 homology by exact boundary reduction,
+constructs the antipodal automorphism explicitly, and searches
+for induced copies in the corresponding third pared host
+complements using **two independent induced-subgraph algorithms,
+VF2 and ISMAGS**. Both independently find **zero induced copies**
+in both cases; hence neither target can be a graph retract.
+
+This extra calculation is kept separate from the ten-family
+`target_counts.tsv` index because the underlying icosahedral
+seed is not a cycle complement. It is reproducible by the
+`test_icosahedral_suspensions_are_divergent_and_not_induced_targets`
+regression test and included in the read-only PR CI workflow.
