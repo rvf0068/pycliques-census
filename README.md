@@ -1512,14 +1512,29 @@ complexes, reduced homology of its target is a direct summand of
 the reduced homology of its source. The script independently computes
 the Betti vectors of each small named candidate target using the
 pinned `pycombtop.bounded_betti.bounded_reduced_betti_mod2`.
-Restricting to the previously established K-divergent target
-families and at most 12 target vertices gives the following precise
-remaining candidate families:
+Restricting to previously established K-divergent target families,
+and independently checking all possible induced octahedra and chordless
+complement cycles, gives the following precise candidate families:
 
 | Core | Octahedra O_d | Cycle complements C_n^c | Cycle suspensions |
 |---:|---|---|---|
-| 6914104 | O_4 | C_11^c | None |
-| 6962151 | O_5 | None | None |
+| 6914104 | O_4 | C_11^c and C_13^c | None |
+| 6962151 | O_5 | C_14^c | None |
+
+Before the retraction search, the program exhaustively checks
+all induced O_6 subgraphs in each source (there are none), and all
+chordless cycles in each complement (maximum lengths 12 and 14,
+respectively). Consequently no O_d with d >= 6 or cycle complement
+C_n^c with n > 14 can occur as an induced target. Every suspension
+of a cycle has nonzero reduced H_2 regardless of its order, so the
+vanishing second Betti number excludes all those targets without
+a size cutoff.
+
+The unique induced C_14^c of the 40-vertex iterate is explicitly
+tested using an independently replayed bounded graph-retraction
+algorithm; its failure is not inferred from the homology obstruction
+alone. The C_13^c option for the 37-vertex iterate is ruled out by
+the exhaustive induced-cycle enumeration.
 
 The new `scripts/core9_third_retractions_v2.py` enumerates these
 non-special induced candidates using the separately pinned
@@ -1552,7 +1567,9 @@ bash scripts/bootstrap_core9_three_target_v1.sh
 .venv-core9-three-v1/bin/python scripts/core9_third_retractions_v2.py report
 ```
 
-The CI job separately verifies and commits its JSON proofs under
+The read-only PR CI job separately verifies and uploads the JSON proofs
+as a GitHub Actions artifact. After successful verification, the
+authenticated GitHub connector can commit reviewed immutable outputs under
 `research/order10_core9_third_retractions_v2/` without changing
 historical census files. If a positive retraction is found for
 one of these cores, a separate dominated-vertex fold witness must
