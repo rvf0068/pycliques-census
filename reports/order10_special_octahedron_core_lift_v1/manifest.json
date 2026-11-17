@@ -1,0 +1,33 @@
+{
+  "additional_lifted_original_indices": 108,
+  "classes": 2,
+  "direct_v5_original_indices": 25,
+  "inputs_sha256": {
+    "active_v3_sha256": "06d98896a18dacc95009e3824ecf69844e7a2f30d1efe7e24417c770d4fbcc30",
+    "all_v5_records_sha256": "c8d35627ea6f642a15b002845e43f534f498775d09772de2b10c744fa97b1085",
+    "core_index_assignments_sha256": "b9cbe4f71631f65ff1193eb16e3a706ddd08372fa9fb30c69be27acd36c14dc6",
+    "core_index_classes_sha256": "5a9b08c548aa5671f9c1403cf1badd0044211f7ef75129c83980462efa6f16eb",
+    "core_index_manifest_sha256": "f0bffdb9e75704207ca16dbb5380801c3666a928982d36453908f33cbb1b47ff",
+    "historical_sha256": "c1ab6347ead9e2cd9b6c4157425b2cfda2203d079137c6fda89a7677f7657aa4",
+    "original_census_manifest_sha256": "bf67418879792228d52d4e081d9aa37e16b4b92db02457f8c87fc28d96e63d6a",
+    "original_census_summary_sha256": "a67d3334adfee1bdd774f0dc927acfc000cc4b1d179bf9f018134c4b891574d7",
+    "script_sha256": "3b56fcc56b6d79253be75a47400061214ec44426fa8c6a1d5f9feac8ad146f64",
+    "v2_script_sha256": "a65b911a40b80257bcf5924d66e196193126b18ca49b067f625e9221f455d24d",
+    "v3_script_sha256": "7e2ad447b4e03cc948a0785d59000b93136873dfd41d1c2f9543cb8667fd7678",
+    "v5_manifest_sha256": "9b437bc4f0e7bc026517e55b0cf766950e7422beb5ad5fa15f351dab1d8e6b76",
+    "v5_pin_sha256": "7a9ec5001ec6336c96ab691f6617e9edf8d63cae28ced38f026bbfec943e5609",
+    "v5_script_sha256": "b0b7c7bcbf43b7c3560b1ff112019d8417bfd40148c99249e0427fdbb977a5e4"
+  },
+  "method": "independent_v5_special_witness_and_explicit_closed_neighborhood_fold_chain",
+  "original_members_certified": 133,
+  "outputs_sha256": {
+    "classes.tsv": "361a3b6a4e61c168b5ac11892a020d388846e48a944f5a7fe8326ba612a86a15",
+    "members.tsv": "e96442f2f5b0c86c9dff442db0fb3c902e61f6e8ba9d4ea66afa18f7d6b978e4",
+    "summary.md": "3520e0ae73e893aae3c77683daa4cb6fd688d3bd57b90b02a10e4fae3d79239b"
+  },
+  "positive_graph6_records": 11,
+  "schema": 1,
+  "stage": "order10_special_octahedron_core_lift_v1",
+  "theorem": "M. E. Frias-Armenta, V. Neumann-Lara, M. A. Pizana, Dismantlings and iterated clique graphs, Discrete Mathematics 282 (2004)",
+  "theorem_url": "https://www.sciencedirect.com/science/article/pii/S0012365X04000561"
+}
