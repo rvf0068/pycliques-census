@@ -126,7 +126,7 @@ def test_exhaustive_replay_is_separately_bounded(monkeypatch,tmp_path):
 def test_icosahedral_suspensions_are_divergent_and_not_induced_targets():
     """A second natural coaffine seed, independently excluded by VF2/ISMAGS.
 
-    Icosaheral graph has an antipodal automorphism moving each vertex to
+    The icosahedral graph has an antipodal automorphism moving each vertex to
     distance three. The one- and two-fold suspensions are therefore
     certified divergent by the same suspension/coaffination theorem,
     and have reduced homology S3 and S4 respectively.
