@@ -1,0 +1,15 @@
+{
+  "algorithm": "exact-graph6-verified-v3-special-only-k3-v1",
+  "clique_bound": 120,
+  "code_sha256": "b0b7c7bcbf43b7c3560b1ff112019d8417bfd40148c99249e0427fdbb977a5e4",
+  "dependency_pin": "a78e4d979c70b0a242fa89efd2fcf3e058c318b1",
+  "max_level": 3,
+  "memory_mib": 2048,
+  "priority": "unclassified_first_stable_source_order",
+  "schema": 5,
+  "source_sha256": "c1ab6347ead9e2cd9b6c4157425b2cfda2203d079137c6fda89a7677f7657aa4",
+  "timeout_seconds": 120,
+  "v2_code_sha256": "a65b911a40b80257bcf5924d66e196193126b18ca49b067f625e9221f455d24d",
+  "v3_code_sha256": "7e2ad447b4e03cc948a0785d59000b93136873dfd41d1c2f9543cb8667fd7678",
+  "worker": "special_octahedron_only; no Betti or general retraction"
+}
