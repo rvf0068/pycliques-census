@@ -1712,9 +1712,9 @@ The next bounded search uses a family not covered by the previous
 octahedron, cycle-complement, suspension-of-cycle and first-clique-graph
 target stages:
 
-``math
-T_{n,r} = C_n^c * O_r, \quad n \geq 5,\quad r\geq 1.
-``
+$
+T_{n,r} = C_n^c * O_r, \qquad n \geq 5,\quad r\geq 1.
+$
 
 Here `O_r` is the complement of `r` disjoint edges, so
 `T_{n,r}` is a repeated suspension of `C_n^c`.
