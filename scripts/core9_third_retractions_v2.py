@@ -50,7 +50,7 @@ SCHEMA = 2
 K_LEVEL = 3
 MAX_DEGREE = 5
 MAX_FACES = 500_000
-MAX_TARGET_ORDER = 12
+MAX_TARGET_ORDER = 14
 MAX_PATTERNS = 50_000
 MAX_FEASIBLE = 5_000
 MAX_STATES = 250_000
@@ -147,7 +147,9 @@ def target_candidates(betti: dict[int, int]) -> dict[str, list[dict]]:
     """
     answer: dict[str, list[dict]] = {family: [] for family in FAMILIES}
     parameters = {
-        "octahedra": range(3, MAX_TARGET_ORDER // 2 + 1),
+        # Larger O_d contains an induced O_6; its absence is authenticated
+        # independently by structural_target_ceiling before using this list.
+        "octahedra": range(3, min(5, MAX_TARGET_ORDER // 2) + 1),
         "cycle_complements": range(8, MAX_TARGET_ORDER + 1),
         "suspensions": range(4, MAX_TARGET_ORDER - 1),
     }
@@ -169,6 +171,40 @@ def target_candidates(betti: dict[int, int]) -> dict[str, list[dict]]:
                     "target_betti": {str(k): v for k, v in exact.items()},
                 })
     return answer
+
+
+def structural_target_ceiling(graph: nx.Graph) -> dict:
+    """Exhaustively rule out *all* named targets above the parameter cutoff.
+
+    An induced O_d with d >= 6 necessarily contains an induced O_6.
+    An induced C_n^c is a chordless n-cycle in the complement. We count
+    every such cycle, not a bounded prefix, to rule out all n > 14.
+    A suspension of any cycle has nonzero reduced H_2 and is excluded
+    at every order by the exact host Betti-2 calculation.
+    """
+    induced_o5 = sum(1 for _ in _octahedra(graph, {5}))
+    induced_o6 = sum(1 for _ in _octahedra(graph, {6}))
+    cycles: dict[int, int] = {}
+    complement = nx.complement(graph)
+    for cycle in nx.chordless_cycles(complement, length_bound=len(graph)):
+        n = len(cycle)
+        if n >= 8:
+            cycles[n] = cycles.get(n, 0) + 1
+    last = max(cycles, default=0)
+    if induced_o6 or last > MAX_TARGET_ORDER:
+        raise ValueError(
+            "Named targets exceed the certified structural ceilings; "
+            "a new versioned target family is required"
+        )
+    return {
+        "induced_o5": induced_o5, "induced_o6": induced_o6,
+        "maximum_complement_chordless_cycle": last,
+        "cycle_complement_candidates_by_length": {
+            str(k): v for k, v in sorted(cycles.items())
+        },
+        "certified_no_larger_octahedra": induced_o6 == 0,
+        "certified_no_larger_cycle_complements": last <= MAX_TARGET_ORDER,
+    }
 
 
 def fixed_target_feasible(graph: nx.Graph, vertices: frozenset[int]) -> bool:
@@ -341,6 +377,9 @@ def compute(core_id: int) -> dict:
     }
     if betti != expected[core_id]:
         raise ValueError(f"Exact independently computed Betti disagrees: {core_id}: {betti}")
+    bounds = structural_target_ceiling(graph)
+    if betti[2] != 0:
+        raise ValueError("Cannot exclude longer cycle-suspension targets")
     candidates = target_candidates(betti)
     searches = [run_family(graph, family, candidates[family]) for family in FAMILIES]
     positives = [
@@ -356,6 +395,7 @@ def compute(core_id: int) -> dict:
             str(k): v for k, v in betti.items()
         },
         "eligible_target_parameters": candidates,
+        "structural_target_ceiling": bounds,
         "family_searches": searches,
         "positive_certificates": positives,
         "status": "COMPLETED",
@@ -387,6 +427,11 @@ def manifest() -> dict:
         "total_represented_originals": sum(prior.CORE[i][1] for i in CORES),
         "input_pared_iterate": K_LEVEL,
         "maximum_prototype_order": MAX_TARGET_ORDER,
+        "named_family_search_complete_above_cutoff": (
+            "All larger octahedra contain an induced O6; all larger cycle "
+            "complements require a longer chordless complement cycle; "
+            "all suspensions have nonzero reduced H2"
+        ),
         "homology_degree_max": MAX_DEGREE,
         "max_simplicial_faces": MAX_FACES,
         "family_limits": {
