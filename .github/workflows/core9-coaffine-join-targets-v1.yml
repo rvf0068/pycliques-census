@@ -104,7 +104,7 @@ jobs:
           checksums = (report / "artifact_checksums.md").read_text()
           for name in ("manifest.json", "records/06914104.json", "records/06962151.json"):
               actual = hashlib.sha256((root/name).read_bytes()).hexdigest()
-              assert f"\`{name}\` | \`{actual}\`" in checksums, name
+              assert f"`{name}` | `{actual}`" in checksums, name
           print("All 10 permanent proof-index rows and all three complete JSON SHA256 values match")
           PY
       - name: Upload full independent proof records (read-only)
