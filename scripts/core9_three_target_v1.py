@@ -307,7 +307,9 @@ def probe(core_id: int) -> dict:
         "core_id": core_id, "core_graph6": CORE[core_id][0],
         "original_members": CORE[core_id][1],
         "raw_levels": raw_results, "pared_levels": results,
-        "positive_certificates": positives,
+        "positive_certificates": sorted(
+            positives, key=lambda row: (row["level"], row["mode"], row["rule"])
+        ),
         "interpretation": (
             "Only independently replayed positive witnesses certify K-divergence; "
             "negative targeted-search results are scoped to configured budgets"
