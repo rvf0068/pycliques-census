@@ -1704,3 +1704,84 @@ bash scripts/bootstrap_core9_three_target_v1.sh
 
 As always, failure to retract to these particular targets does
 **not** prove K-convergence or rule out other divergent targets.
+
+
+## New certified K-divergent targets: coaffine joins (v1)
+
+The next bounded search uses a family not covered by the previous
+octahedron, cycle-complement, suspension-of-cycle and first-clique-graph
+target stages:
+
+``math
+T_{n,r} = C_n^c * O_r, \quad n \geq 5,\quad r\geq 1.
+``
+
+Here `O_r` is the complement of `r` disjoint edges, so
+`T_{n,r}` is a repeated suspension of `C_n^c`.
+Indeed `T_{n,r} = susp(C_n^c*O_{r-1})`, interpreting
+`O_0` as the empty join factor. The cyclic permutation
+`v -> v+1` is a nonadjacent-vertex automorphism of
+`C_n^c`, while swapping each nonedge pair gives a
+2-coaffination of `O_{r-1}`. Their join has a
+2-coaffination, so the suspension/expansivity criterion
+[LNP09, Theorem 4.6] proves each `T_{n,r}` K-divergent.
+
+The special case `T_{5,2}` is exactly the **historically
+certified divergent nine-core** `HUZ~v~}` (core 10768817).
+The graph `K(HUzrv~})`, for the other historical suspension
+core 11363569, is simply `C_{14}^c` and was *already*
+excluded as a retract in PR #22.
+
+The independence-complex homotopy formula for cycles yields
+`Delta(T_{n,r}) = Ind(C_n)*S^{r-1}`.
+Since `Ind(C_{3k})` is a wedge of two `S^{k-1}`,
+`Ind(C_{3k+1})` is `S^{k-1}`, and
+`Ind(C_{3k+2})` is `S^k`, the new stage enumerates
+**all rank-one target members in dimensions three or four**:
+
+| Source nine-core | Candidates in homological target family |
+|---:|---|
+| 6914104 (37-vertex pared K³, reduced beta3 = 1) | T(5,2), T(7,2), T(8,1), T(10,1) |
+| 6962151 (40-vertex pared K³, reduced beta4 = 1) | T(5,3), T(7,3), T(8,2), T(10,2), T(11,1), T(13,1) |
+
+These target Betti profiles are additionally checked using an
+independent exact mod-2 boundary-matrix implementation.
+
+For each pair `(n,r)`, the experiment enumerates every induced
+chordless `C_n` in the **complement** of the host, then adds
+`r` mutually separated induced complement edges.
+This is an exact characterization of the induced
+`C_n^c*O_r` patterns. Every selected graph is independently
+checked by graph isomorphism. A necessary fixed-target-neighborhood
+test discards impossible retractions. Remaining targets are passed to
+two separately implemented ordinary graph-retraction solvers,
+with their positive and nonpositive results cross-checked.
+
+The first full structural pass gave the following exact counts:
+
+| Host | n,r | Induced targets | Failed local test | CSP cases |
+|---:|---|---:|---:|---:|
+| 6914104 | (5,2) | 821 | 820 | 1 |
+| 6914104 | (7,2) | 629 | 0 | 629 |
+| 6914104 | (8,1) | 704 | 704 | 0 |
+| 6914104 | (10,1) | 71 | 71 | 0 |
+| 6962151 | (5,3), (7,3), (8,2), (10,2), (11,1), (13,1) | 0 | 0 | 0 |
+
+No positive graph retraction was found. These findings are being
+independently replayed in a new read-only CI job; its verified JSON
+artifact is versioned separately from earlier census results.
+
+```bash
+bash scripts/bootstrap_core9_three_target_v1.sh
+.venv-core9-three-v1/bin/python scripts/core9_coaffine_join_targets_v1.py plan
+.venv-core9-three-v1/bin/python scripts/core9_coaffine_join_targets_v1.py run
+.venv-core9-three-v1/bin/python scripts/core9_coaffine_join_targets_v1.py verify
+.venv-core9-three-v1/bin/python scripts/core9_coaffine_join_targets_v1.py report
+```
+
+The negative conclusion is **only** about the homology-matched
+rank-one coaffine joins listed above. Higher-dimensional homology
+of the hosts has not been certified by this stage, so targets whose
+homology lies above the verified range are not ruled out. Nor is
+any clique-convergence conclusion drawn for the 461 original
+ten-vertex graphs.
