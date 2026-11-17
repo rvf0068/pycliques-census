@@ -223,3 +223,25 @@ def test_invalid_progress_source_is_rejected(tmp_path, monkeypatch):
         )
     with pytest.raises(ValueError, match="Invalid progress"):
         v4.write_progress(2317572, "GQyuzw", 4, "LEVEL_COMPLETED")
+
+
+def test_four_level_chain_completes_and_independently_verifies_k3(
+    tmp_path, monkeypatch
+):
+    """Small synthetic control verifies actual K^3 construction and new targets."""
+    graph = nx.path_graph(5)
+    encoded = v2.graph6(graph)
+    source = {"levels": []}
+    monkeypatch.setattr(v3, "index_to_graph6", lambda: {42: encoded})
+    monkeypatch.setattr(v4, "STAGE", tmp_path)
+    record = v4.analyze(42, encoded, source)
+    assert record["status"] == "COMPLETED"
+    assert record["divergence_certificate"] is None
+    assert len(record["levels"]) == 4
+    assert [level["level"] for level in record["levels"]] == [0, 1, 2, 3]
+    assert record["levels"][3]["retractions"]["mode"] == "NEW_V4"
+    v4.verify_record(record, encoded, source)
+    tampered = deepcopy(record)
+    tampered["levels"][3]["graph6"] = "bogus"
+    with pytest.raises(ValueError, match="correct pared iterate"):
+        v4.verify_record(tampered, encoded, source)
