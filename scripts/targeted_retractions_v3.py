@@ -16,6 +16,7 @@ import argparse
 import hashlib
 import json
 import resource
+from functools import lru_cache
 import subprocess
 import sys
 from pathlib import Path
@@ -40,9 +41,15 @@ def read(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+@lru_cache(maxsize=1)
+def index_to_graph6() -> dict[int, str]:
+    """Cache immutable frozen source validation within this invocation."""
+    return v2.input_rows(10)
+
+
 def source_groups() -> list[dict]:
     """Stable deterministic order; each index appears once and each graph6 once."""
-    validated = v2.input_rows(10)
+    validated = index_to_graph6()
     groups: dict[str, dict] = {}
     observed: set[int] = set()
     for line in SOURCE.read_text(encoding="utf-8").splitlines():
@@ -138,7 +145,7 @@ def import_v2() -> dict:
     """
     require_stage()
     manifest_hash = source_manifest_sha()
-    by_index = v2.input_rows(10)
+    by_index = index_to_graph6()
     by_encoding: dict[str, dict] = {}
     imported = 0
     for index, encoded in by_index.items():
@@ -209,7 +216,7 @@ def verify_capsule(capsule: dict, encoded: str) -> None:
     source_index = record.get("index")
     if (
         type(source_index) is not int
-        or v2.input_rows(10).get(source_index) != encoded
+        or index_to_graph6().get(source_index) != encoded
         or record.get("input_graph6") != encoded
     ):
         raise ValueError("V3 record cannot be tied to the original input")
