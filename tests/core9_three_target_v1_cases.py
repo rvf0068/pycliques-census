@@ -69,9 +69,43 @@ def test_timeout_cannot_claim_divergence():
     good = {
         "schema": stage.SCHEMA, "core_id": index, "core_graph6": g6,
         "original_members": size, "status": "TIMEOUT",
-        "limit_seconds": stage.WORKER_SECONDS,
+        "limit_seconds": stage.WORKER_SECONDS, "phase": "probe",
     }
     stage.validate_record(good, index)
     bad = dict(good, positive_certificates=[{"rule": "special_octahedron"}])
     with pytest.raises(ValueError, match="Timed-out"):
         stage.validate_record(bad, index)
+
+
+
+def test_negative_row_cannot_hide_discovered_positive():
+    graph = nx.octahedral_graph()
+    actual = stage.targeted_result(graph, 0)
+    stage.validate_targeted_rows(graph, 0, actual)
+    changed = [dict(x) for x in actual]
+    assert changed[0]["status"] == "FOUND"
+    changed[0]["status"] = "EXHAUSTED"
+    changed[0]["target_kind"] = None
+    changed[0]["vertices"] = None
+    changed[0]["projection"] = None
+    with pytest.raises(ValueError, match="differ from a fresh bounded replay"):
+        stage.validate_targeted_rows(graph, 0, changed)
+
+
+def test_timeout_requires_exact_resource_limit_and_no_extra_fields():
+    core_id = 6914104
+    g6, size = stage.CORE[core_id]
+    record = {
+        "schema": stage.SCHEMA,
+        "core_id": core_id, "core_graph6": g6,
+        "original_members": size, "status": "TIMEOUT",
+        "limit_seconds": stage.WORKER_SECONDS, "phase": "probe",
+    }
+    stage.validate_record(record, core_id)
+    for forged in (
+        dict(record, limit_seconds=1234),
+        dict(record, raw_levels=[{"status": "FOUND"}]),
+        dict(record, phase="unbounded_validation"),
+    ):
+        with pytest.raises(ValueError, match="invalid limit, phase or extra data"):
+            stage.validate_record(forged, core_id)
