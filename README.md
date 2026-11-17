@@ -1295,7 +1295,10 @@ closed-neighborhood dominated-vertex deletion, confirms that the
 terminal graph is stiff, and supplies a complete vertex bijection
 verifying exact adjacency equivalence to its certified nine-vertex
 class representative. The positive v5 `K^3` special-octahedron
-witnesses are also independently replayed.
+witnesses are also independently replayed. The old core index is
+**recomputed from its original census sources and compared byte-for-byte**
+with its frozen snapshot; a hash recorded in the snapshot itself is
+not accepted as independent evidence.
 
 The mathematical transfer uses Frías-Armenta, Neumann-Lara and
 Pizaña, *Dismantlings and iterated clique graphs*,
