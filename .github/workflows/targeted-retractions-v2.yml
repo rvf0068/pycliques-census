@@ -61,6 +61,7 @@ jobs:
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
+          # Allow the scoped v1 workflow adjustment for the new class-lift report.
           git diff --exit-code "$BASE_SHA" HEAD -- \
             runs/ reports/ \
             ':(exclude)reports/order10_special_octahedron_core_lift_v1/**' postpasses/ \
@@ -68,5 +69,4 @@ jobs:
             scripts/targeted_retractions_v1.py \
             scripts/bootstrap_targeted_v1.sh \
             tests/targeted_retractions_v1_cases.py \
-            # v1's CI guard is updated solely to exclude the new immutable class-lift report.
             indeterminate_order_9.txt indeterminate_order_10.txt
