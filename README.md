@@ -1785,3 +1785,14 @@ of the hosts has not been certified by this stage, so targets whose
 homology lies above the verified range are not ruled out. Nor is
 any clique-convergence conclusion drawn for the 461 original
 ten-vertex graphs.
+
+
+A supplementary mathematical regression checks the **icosahedron
+suspension** as another certified divergent, homology-matched target.
+The antipodal symmetry of the icosahedral graph I is a 2-coaffination,
+so the 14-vertex I*O_1 (homotopy S^3) and the 16-vertex I*O_2
+(homotopy S^4) are K-divergent. Two independent induced-subgraph
+algorithms (VF2 and ISMAGS) find **no induced copies** of these
+targets in the respective third pared hosts, and therefore no
+ordinary graph retraction to either. The reproducible calculation is
+recorded in the new tests and in the coaffine-join research summary.
