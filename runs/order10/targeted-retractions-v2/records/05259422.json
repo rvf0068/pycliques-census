@@ -1,0 +1,135 @@
+{
+  "analysis_complete": true,
+  "index": 5259422,
+  "input_graph6": "HCrItvu",
+  "levels": [
+    {
+      "betti_known": {
+        "0": 0,
+        "1": 1,
+        "2": 1
+      },
+      "edges": 20,
+      "families": {
+        "cycle_complements": {
+          "assignments": 0,
+          "induced_targets": 0,
+          "patterns": 0,
+          "reason": "All requested target patterns were exhausted",
+          "states": 0,
+          "status": "EXHAUSTED"
+        },
+        "octahedra": {
+          "assignments": 0,
+          "induced_targets": 0,
+          "patterns": 0,
+          "reason": "All requested target patterns were exhausted",
+          "states": 0,
+          "status": "EXHAUSTED"
+        },
+        "suspensions": {
+          "assignments": 0,
+          "induced_targets": 0,
+          "patterns": 0,
+          "reason": "All requested target patterns were exhausted",
+          "states": 0,
+          "status": "EXHAUSTED"
+        }
+      },
+      "graph6": "HCrItvu",
+      "homology_cache_key": "b669dce0eb5c415fdc001b2b77a11c3def74a5108404e11e1a8aa3b73ffd7a30",
+      "level": 0,
+      "order": 9,
+      "status": "COMPLETED"
+    },
+    {
+      "betti_known": {
+        "0": 0,
+        "1": 1,
+        "2": 1,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      },
+      "edges": 56,
+      "families": {
+        "cycle_complements": {
+          "assignments": 0,
+          "induced_targets": 0,
+          "patterns": 0,
+          "reason": "All requested target patterns were exhausted",
+          "states": 0,
+          "status": "EXHAUSTED"
+        },
+        "octahedra": {
+          "assignments": 0,
+          "induced_targets": 0,
+          "patterns": 0,
+          "reason": "All requested target patterns were exhausted",
+          "states": 0,
+          "status": "EXHAUSTED"
+        },
+        "suspensions": {
+          "assignments": 12,
+          "induced_targets": 8,
+          "patterns": 8,
+          "reason": "All requested target patterns were exhausted",
+          "states": 20,
+          "status": "EXHAUSTED"
+        }
+      },
+      "graph6": "M~~~EDrLwn`HprdV_",
+      "homology_cache_key": "43490c854cedb368d3473e2ecb0bee50d93e2af96efa0061886db6de57b7acd2",
+      "level": 1,
+      "order": 14,
+      "status": "COMPLETED"
+    },
+    {
+      "betti_known": {
+        "0": 0,
+        "1": 1,
+        "2": 1,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0
+      },
+      "edges": 138,
+      "families": {
+        "cycle_complements": {
+          "assignments": 0,
+          "induced_targets": 72,
+          "patterns": 72,
+          "reason": "All requested target patterns were exhausted",
+          "states": 72,
+          "status": "EXHAUSTED"
+        },
+        "octahedra": {
+          "assignments": 541,
+          "induced_targets": 142,
+          "patterns": 142,
+          "reason": "All requested target patterns were exhausted",
+          "states": 683,
+          "status": "EXHAUSTED"
+        },
+        "suspensions": {
+          "assignments": 541,
+          "induced_targets": 318,
+          "patterns": 602,
+          "reason": "All requested target patterns were exhausted",
+          "states": 859,
+          "status": "EXHAUSTED"
+        }
+      },
+      "graph6": "T~~~}]FD~Ze^{^`^fu{~zF|[C?Fo^Ny]Dy^j",
+      "homology_cache_key": "334f364f885d032ed0f2e1c15574ed1c04a9cbce64571d253e2105d971f81112",
+      "level": 2,
+      "order": 21,
+      "status": "COMPLETED"
+    }
+  ],
+  "no_automatic_behavior_verdict": true,
+  "schema": 2,
+  "scope": "pared_input_and_pared_iterates_only",
+  "status": "COMPLETED"
+}

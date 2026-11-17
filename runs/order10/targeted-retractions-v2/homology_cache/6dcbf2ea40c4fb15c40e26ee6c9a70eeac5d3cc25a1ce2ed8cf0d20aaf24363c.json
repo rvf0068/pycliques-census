@@ -1,0 +1,15 @@
+{
+  "algorithm": "pycombtop.bounded_betti.bounded_reduced_betti_mod2",
+  "betti_numbers": {
+    "0": 0,
+    "1": 1,
+    "2": 1,
+    "3": 0,
+    "4": 0
+  },
+  "graph6": "M~}HhPPMzfxksZj\\_",
+  "max_faces": 150000,
+  "max_partial_degree": 3,
+  "mode": "full",
+  "schema": 2
+}
