@@ -332,10 +332,56 @@ def summary(groups: list[dict], *, exhaustive_verify: bool = False) -> dict:
     return counts
 
 
+
+def report(groups: list[dict]) -> dict:
+    """Summarize unique-graph outcomes, candidate counts and search budgets."""
+    from collections import Counter
+
+    family_statuses: Counter = Counter()
+    target_candidates: Counter = Counter()
+    states: Counter = Counter()
+    level_statuses: Counter = Counter()
+    by_category: Counter = Counter()
+    found_targets: list[dict] = []
+    for group in groups:
+        path = record_path(group["graph6"])
+        if not path.exists():
+            continue
+        capsule = read(path)
+        if capsule.get("status") != "COMPLETED":
+            continue
+        label = "unclassified" if group["unclassified"] else "conjectured"
+        by_category[label] += 1
+        for level in capsule["record"]["levels"]:
+            level_statuses[level["status"]] += 1
+            if level["status"] != "COMPLETED":
+                continue
+            for family, outcome in level["families"].items():
+                family_statuses[f"{family}:{outcome['status']}"] += 1
+                target_candidates[family] += outcome["induced_targets"]
+                states[family] += outcome["states"]
+                if outcome["status"] == "FOUND":
+                    found_targets.append({
+                        "representative_index": capsule["record"]["index"],
+                        "level": level["level"],
+                        "family": family,
+                        "kind": outcome["kind"],
+                        "graph6": group["graph6"],
+                    })
+    return {
+        "completed_by_category": dict(sorted(by_category.items())),
+        "level_statuses": dict(sorted(level_statuses.items())),
+        "family_statuses": dict(sorted(family_statuses.items())),
+        "total_induced_targets_checked": dict(sorted(target_candidates.items())),
+        "total_search_states": dict(sorted(states.items())),
+        "found_targets": found_targets,
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "action", choices=("plan", "import-v2", "next", "all", "verify", "worker")
+        "action", choices=("plan", "import-v2", "next", "all", "verify", "report", "worker")
     )
     parser.add_argument("--batch-size", type=int, default=20)
     parser.add_argument("--index", type=int)
@@ -360,6 +406,9 @@ def main() -> None:
         return
     if args.action == "plan":
         print(json.dumps(summary(groups), sort_keys=True))
+        return
+    if args.action == "report":
+        print(json.dumps(report(groups), sort_keys=True, indent=2))
         return
     if not (STAGE / "import_v2_receipt.json").exists():
         parser.error("Run import-v2 before new v3 searches")
