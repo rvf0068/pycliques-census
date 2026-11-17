@@ -129,8 +129,15 @@ def imported_capsule(encoded: str) -> tuple[dict, dict]:
     if capsule.get("status") != "COMPLETED":
         raise ValueError("V4 can reuse only completed v3 source results")
     v3.require_stage()
+    if digest((v3.STAGE / "manifest.json").read_bytes()) != receipt.get(
+        "v3_manifest_sha256"
+    ):
+        raise ValueError("Imported v3 manifest fingerprint has changed")
     v3.verify_capsule(capsule, encoded)
-    if capsule["record"].get("index") != receipt.get("source_index"):
+    if (
+        type(receipt.get("source_index")) is not int
+        or capsule["record"].get("index") != receipt["source_index"]
+    ):
         raise ValueError("Imported v3 source index has changed")
     return receipt, capsule
 
@@ -177,6 +184,52 @@ def source_levels(record: dict) -> dict[int, dict]:
     return {x["level"]: x for x in record["levels"]}
 
 
+PROGRESS_PHASES = frozenset((
+    "CONSTRUCT_CLIQUE_ITERATE",
+    "SPECIAL_OCTAHEDRON_SEARCH",
+    "K3_BETTI_AND_RETRACTIONS",
+    "LEVEL_COMPLETED",
+    "CERTIFIED_SPECIAL",
+))
+
+
+def progress_path(encoded: str) -> Path:
+    return key_path(encoded, "progress")
+
+
+def write_progress(index: int, encoded: str, level: int, phase: str) -> None:
+    """Atomic worker diagnostics, not a mathematical or negative certificate."""
+    if (
+        type(index) is not int or v3.index_to_graph6().get(index) != encoded
+        or type(level) is not int or not 0 <= level <= MAX_LEVEL
+        or phase not in PROGRESS_PHASES
+    ):
+        raise ValueError("Invalid progress phase/index for v4 worker")
+    v2.atomic(progress_path(encoded), {
+        "schema": SCHEMA, "index": index, "graph6": encoded,
+        "level": level, "phase": phase,
+    })
+
+
+def read_progress(index: int, encoded: str) -> dict | None:
+    path = progress_path(encoded)
+    if not path.exists():
+        return None
+    row = read(path)
+    if (
+        row.get("schema") != SCHEMA
+        or row.get("graph6") != encoded
+        or type(row.get("index")) is not int
+        or row["index"] != index
+        or v3.index_to_graph6().get(index) != encoded
+        or type(row.get("level")) is not int
+        or not 0 <= row["level"] <= MAX_LEVEL
+        or row.get("phase") not in PROGRESS_PHASES
+    ):
+        raise ValueError("Corrupted v4 worker progress diagnostic")
+    return row
+
+
 def serialize_special(graph: nx.Graph, witness: SpecialOctahedronWitness) -> dict:
     if not verify_special_octahedron_witness(graph, witness):
         raise ValueError("Invalid special octahedron from upstream finder")
@@ -213,7 +266,8 @@ def verify_special(graph: nx.Graph, data: dict) -> bool:
 
 
 def serialize_level(
-    index: int, graph: nx.Graph, level: int, inherited: dict[int, dict]
+    index: int, graph: nx.Graph, level: int, inherited: dict[int, dict],
+    *, diagnostic: bool = False,
 ) -> dict:
     encoded = v2.graph6(graph)
     row = {
@@ -224,6 +278,9 @@ def serialize_level(
 
     # A special O_d is a sufficient divergence/retraction certificate.
     # Search it before starting ANY expensive retraction check at this level.
+    if diagnostic:
+        write_progress(index, v3.index_to_graph6()[index], level,
+                       "SPECIAL_OCTAHEDRON_SEARCH")
     witness = find_special_octahedron_witness(graph)
     if witness is not None:
         row["special"] = serialize_special(graph, witness)
@@ -256,6 +313,9 @@ def serialize_level(
         }
         return row
 
+    if diagnostic:
+        write_progress(index, v3.index_to_graph6()[index], level,
+                       "K3_BETTI_AND_RETRACTIONS")
     known, cache_key = v2.cache_homology(graph, STAGE)
     candidates = search_targeted_retractions(
         graph, betti_numbers=known,
@@ -278,13 +338,17 @@ def serialize_level(
     return row
 
 
-def analyze(index: int, encoded: str, source: dict) -> dict:
+def analyze(
+    index: int, encoded: str, source: dict, *, diagnostic: bool = False
+) -> dict:
     graph = nx.from_graph6_bytes(encoded.encode("ascii"))
     seq = CliqueSequence(graph, bound=MAX_CLIQUE_BOUND)
     old_levels = source_levels(source)
     levels: list[dict] = []
     certificate: dict | None = None
     for i in range(MAX_LEVEL + 1):
+        if diagnostic:
+            write_progress(index, encoded, i, "CONSTRUCT_CLIQUE_ITERATE")
         current = seq[i]
         if current is None:
             levels.append({"level": i, "status": "CLIQUE_BOUND_EXCEEDED"})
@@ -295,9 +359,14 @@ def analyze(index: int, encoded: str, source: dict) -> dict:
                 "order": len(current), "graph6": v2.graph6(current),
             })
             break
-        row = serialize_level(index, current, i, old_levels)
+        row = serialize_level(index, current, i, old_levels,
+                              diagnostic=diagnostic)
         levels.append(row)
+        if diagnostic:
+            write_progress(index, encoded, i, "LEVEL_COMPLETED")
         if row["special"]["status"] == "FOUND":
+            if diagnostic:
+                write_progress(index, encoded, i, "CERTIFIED_SPECIAL")
             certificate = {
                 "rule": "special_octahedron",
                 "iterate_index": i,
@@ -480,6 +549,17 @@ def verify_terminal(data: dict, encoded: str) -> None:
         or v3.index_to_graph6().get(data["index"]) != encoded
     ):
         raise ValueError("Malformed v4 terminal worker provenance")
+    progress = data.get("last_progress")
+    if progress is not None and (
+        not isinstance(progress, dict)
+        or progress.get("schema") != SCHEMA
+        or progress.get("graph6") != encoded
+        or progress.get("index") != data["index"]
+        or type(progress.get("level")) is not int
+        or not 0 <= progress["level"] <= MAX_LEVEL
+        or progress.get("phase") not in PROGRESS_PHASES
+    ):
+        raise ValueError("Malformed v4 terminal progress diagnostic")
 
 
 def worker(index: int) -> None:
@@ -491,7 +571,7 @@ def worker(index: int) -> None:
     if path.exists():
         raise ValueError("V4 worker refuses to overwrite an existing result")
     _, source = imported_capsule(encoded)
-    result = analyze(index, encoded, source["record"])
+    result = analyze(index, encoded, source["record"], diagnostic=True)
     verify_record(result, encoded, source["record"])
     v2.atomic(path, result)
 
@@ -516,11 +596,13 @@ def run_one(group: dict) -> None:
                 "schema": SCHEMA, "graph6": encoded,
                 "status": "ERROR", "index": index,
                 "error": p.stderr[-2000:],
+                "last_progress": read_progress(index, encoded),
             })
     except subprocess.TimeoutExpired:
         v2.atomic(path, {
             "schema": SCHEMA, "graph6": encoded,
             "status": "TIMEOUT", "index": index,
+            "last_progress": read_progress(index, encoded),
         })
 
 
@@ -544,8 +626,9 @@ def summary(*, verify_all: bool = False) -> dict:
         "target_family_found": 0,
         "family_statuses": {},
         "level_statuses": {},
+        "terminal_phases": {},
     }
-    families, levels = Counter(), Counter()
+    families, levels, terminal_phases = Counter(), Counter(), Counter()
     for group in groups:
         encoded = group["graph6"]
         path = record_path(encoded)
@@ -558,6 +641,10 @@ def summary(*, verify_all: bool = False) -> dict:
         if data["status"] in ("TIMEOUT", "ERROR"):
             verify_terminal(data, encoded)
             counts["timeouts" if data["status"] == "TIMEOUT" else "errors"] += 1
+            progress = data.get("last_progress")
+            key = ("unknown" if progress is None
+                   else f"level{progress['level']}:{progress['phase']}")
+            terminal_phases[key] += 1
             continue
         if data["status"] != "COMPLETED":
             raise ValueError("Unknown v4 result status")
@@ -581,6 +668,7 @@ def summary(*, verify_all: bool = False) -> dict:
                 counts["target_family_found"] += result["status"] == "FOUND"
     counts["family_statuses"] = dict(sorted(families.items()))
     counts["level_statuses"] = dict(sorted(levels.items()))
+    counts["terminal_phases"] = dict(sorted(terminal_phases.items()))
     return counts
 
 
