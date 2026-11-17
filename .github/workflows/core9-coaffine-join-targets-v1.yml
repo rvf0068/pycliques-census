@@ -1,0 +1,93 @@
+name: Certified coaffine join targets of third pared clique iterates
+
+on:
+  pull_request:
+    paths:
+      - "scripts/**"
+      - "tests/**"
+      - "config/**"
+      - "runs/**"
+      - "reports/**"
+      - "research/order10_core9_coaffine_join_targets_v1/**"
+      - "research/order10_core9_clique_targets_v1/**"
+      - "research/order10_core9_third_retractions_v2/**"
+      - ".github/workflows/core9-coaffine-join-targets-v1.yml"
+      - "README.md"
+  workflow_dispatch:
+
+jobs:
+  certified-coaffine-join-targets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap separately pinned optimized library
+        run: bash scripts/bootstrap_core9_three_target_v1.sh
+      - name: Install isolated test runner
+        run: uv pip install --python .venv-core9-three-v1/bin/python pytest
+      - name: Mathematical and reproducibility unit tests
+        run: |
+          .venv-core9-three-v1/bin/python -m pytest \
+            tests/core9_coaffine_join_targets_v1_cases.py -v
+      - name: Enumerate every homology-matched induced target and check retractions
+        run: |
+          .venv-core9-three-v1/bin/python \
+            scripts/core9_coaffine_join_targets_v1.py run \
+            --output "$RUNNER_TEMP/core9-coaffine-join-targets-v1"
+          .venv-core9-three-v1/bin/python \
+            scripts/core9_coaffine_join_targets_v1.py report \
+            --output "$RUNNER_TEMP/core9-coaffine-join-targets-v1"
+      - name: Authenticate all 10 named target families
+        run: |
+          .venv-core9-three-v1/bin/python - <<'PY'
+          import json, os
+          from pathlib import Path
+          base = Path(os.environ["RUNNER_TEMP"]) / "core9-coaffine-join-targets-v1"
+          names = sorted(p.name for p in (base / "records").glob("*.json"))
+          assert names == ["06914104.json", "06962151.json"], names
+          rows = [json.loads((base / "records" / name).read_text()) for name in names]
+          assert all(row["status"] in ("COMPLETED","TIMEOUT") for row in rows)
+          assert sum(row.get("represented_ten_vertex_graphs", 0) for row in rows
+                     if row["status"] == "COMPLETED") in (0,219,242,461)
+          for row in rows:
+              if row["status"] != "COMPLETED":
+                  continue
+              print(json.dumps({
+                  "core_id":row["core_id"],
+                  "probes":[{
+                      "n":p["n"],"r":p["r"],
+                      "induced":p["induced_target_count"],
+                      "local_impossible":p["local_impossible"],
+                      "csp_exhausted":p["csp_exhausted"],
+                      "csp_states":p["csp_states_total"],
+                      "found":p["found_count"],
+                  } for p in row["probes"]],
+                  "positive":len(row["positive_witnesses"]),
+              },sort_keys=True))
+          PY
+      - name: Upload full independent proof records (read-only)
+        uses: actions/upload-artifact@v4
+        with:
+          name: core9-coaffine-join-targets-v1
+          path: ${{ runner.temp }}/core9-coaffine-join-targets-v1/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Reject modifications to frozen census data and old certificates
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ \
+            indeterminate_order_9.txt indeterminate_order_10.txt \
+            research/order10_core9_three_target_v1/ \
+            research/order10_core9_third_retractions_v2/ \
+            research/order10_core9_clique_targets_v1/ \
+            scripts/core9_three_target_v1.py \
+            scripts/core9_third_retractions_v2.py \
+            scripts/core9_clique_targets_v1.py
