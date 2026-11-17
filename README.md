@@ -1455,3 +1455,36 @@ The new GitHub Actions workflow runs this bounded pilot, independently
 replays the available positive witness types, verifies provenance and
 publishes the three machine-readable case records as a workflow artifact.
 The stage does not require regenerating historical census data.
+
+
+### Verified findings from the first three-core pilot
+
+The completed 2026-11-17 GitHub Actions pilot reconstructed all three
+cores and found **no special octahedron** in any of their raw or
+completely pared iterates K^0 through K^3. The independent exhaustive
+facet/antipode enumeration agrees with the pinned library implementation.
+All twelve *pared* graphs have diameter exactly 2 and exact
+mod-2 first Betti number zero. Thus no direct radius-3
+coaffination or connected triangular double cover exists in these
+specific iterates.
+
+| Core ID | Original ten-vertex members | Pared orders K^0..K^3 | Special O_d | Positive retraction |
+|---:|---:|---|---|---|
+| 6914104 | 219 | 9, 13, 19, 37 | none through level 3 | none found |
+| 6962151 | 242 | 9, 14, 19, 40 | none through level 3 | none found |
+| 6974529 | 235 | 9, 13, 20, 55 | none through level 3 | none found |
+
+All three target-retraction families were fully exhausted on levels
+0 and 1. Level 2 also exhausted several target families, but other
+families reached the 120-pattern budget. At level 3, every targeted
+family reached that pattern limit. None yielded a positive retraction.
+
+The pinned manifest and complete per-core JSON diagnostics were
+independently verified in CI and committed under
+`research/order10_core9_three_target_v1/` (separate from frozen
+`runs/` and `reports/`). The first successful run was
+[GitHub Actions 44175126696](https://github.com/rvf0068/pycliques-census/actions/runs/44175126696).
+
+**No graph in these three core classes has been classified by this
+stage.** Exhaustion of a limited family of divergent targets is not a
+certificate of K-convergence or K-nondivergence.
