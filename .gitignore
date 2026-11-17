@@ -18,3 +18,4 @@ __pycache__/
 
 # Local shell history
 /history/bash_history
+.venv-special-k3-v5
