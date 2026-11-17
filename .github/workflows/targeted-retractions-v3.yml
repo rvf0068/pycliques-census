@@ -1,0 +1,77 @@
+name: Verified deduplicated divergent-target census v3
+
+on:
+  pull_request:
+    paths:
+      - "scripts/targeted_retractions_v3.py"
+      - "scripts/bootstrap_targeted_v3.sh"
+      - "config/pycliques_commit_targeted_v3.txt"
+      - "tests/targeted_retractions_v3_cases.py"
+      - ".github/workflows/targeted-retractions-v3.yml"
+      - "README.md"
+      - ".gitignore"
+      - "indeterminate_order_10.txt"
+  workflow_dispatch:
+
+jobs:
+  import-and-priority-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap pinned v3 dependency
+        run: bash scripts/bootstrap_targeted_v3.sh
+      - name: Install test dependency
+        run: uv pip install --python .venv-targeted-v3/bin/python pytest
+      - name: Run v3 isolated tests
+        run: .venv-targeted-v3/bin/python -m pytest tests/targeted_retractions_v3_cases.py -v
+      - name: Import and verify committed v2 computation results
+        run: |
+          .venv-targeted-v3/bin/python scripts/targeted_retractions_v3.py plan
+          .venv-targeted-v3/bin/python scripts/targeted_retractions_v3.py import-v2
+          .venv-targeted-v3/bin/python scripts/targeted_retractions_v3.py verify
+      - name: Verify deduplication, priority, and two new unique inputs
+        run: |
+          .venv-targeted-v3/bin/python - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          sys.path.insert(0, str(Path("scripts").resolve()))
+          import targeted_retractions_v3 as stage
+          groups = stage.source_groups()
+          assert len(groups) == 5266
+          assert sum(len(g["indices"]) for g in groups) == 8648
+          current = stage.summary(groups, exhaustive_verify=True)
+          assert current["imported_unique"] > 0
+          assert current["covered_input_indices"] >= 520
+          assert current["unclassified_pending_unique"] > 0
+          assert current["conjectured_pending_unique"] > 0
+          next_group = next(
+              g for g in groups if not stage.record_path(g["graph6"]).exists()
+          )
+          assert next_group["unclassified"] is True
+          print(json.dumps(current, sort_keys=True))
+          PY
+          .venv-targeted-v3/bin/python scripts/targeted_retractions_v3.py next --batch-size 2
+          .venv-targeted-v3/bin/python scripts/targeted_retractions_v3.py verify
+          .venv-targeted-v3/bin/python scripts/targeted_retractions_v3.py report
+      - name: Protect historical v1/v2 calculations and source lists
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ \
+            scripts/targeted_retractions_v1.py \
+            scripts/targeted_retractions_v2.py \
+            scripts/bootstrap_targeted_v1.sh \
+            scripts/bootstrap_targeted_v2.sh \
+            tests/targeted_retractions_v1_cases.py \
+            tests/targeted_retractions_v2_cases.py \
+            config/pycliques_commit_targeted_v1.txt \
+            config/pycliques_commit_targeted_v2.txt \
+            indeterminate_order_9.txt indeterminate_order_10.txt
