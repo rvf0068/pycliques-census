@@ -1120,3 +1120,76 @@ families. The verifier independently reconstructs each clique-iterate
 chain and verifies cached Betti metadata and positive witnesses; it does
 *not* repeat all negative CSP searches. In particular, importing v2
 preserves the original v2 computation provenance and its exact scope.
+
+
+## Special-octahedron-first fourth-iterate postpass (v4)
+
+The order-ten **v4** stage checks the completely pared clique iterates
+(G, K(G), K^2(G), K^3(G)), i.e. **levels 0 through 3**. In contrast,
+v3 only covered levels 0 through 2.
+
+The search order at **each** level is mathematically important:
+
+1. Find a **special octahedron** using the pinned
+   `pycliques.retractions.find_special_octahedron_witness`. A positive
+   certificate consists of a maximal host clique and its ordered opposite
+   vertices. The independent verifier checks this witness using
+   `verify_special_octahedron_witness`. By the established
+   special-octahedron retraction theorem, such a certificate proves a
+   retraction onto an `O_d` and thus divergence.
+2. **Only if no special octahedron was found**, use the bounded retraction
+   search on the three previously configured target families (octahedra,
+   cycle suspensions and complements of cycles).
+3. At levels 0, 1 and 2, v4 **reuses the corresponding existing v3
+   retraction results** (rather than repeating the target search);
+   this reuse is conditional on the full v3 iterate-chain, cache and
+   witness verification. At level 3, the target-family search is new.
+   Consequently, a nonspecial induced `O_d` may still yield a positive
+   retraction witness even if the special-octahedron search is negative.
+
+A special octahedron is **sufficient, not necessary**, for an octahedral
+retraction. The special-octahedron search does not test merely for an
+induced octahedron. Neither negative special searches nor the bounded
+target-family results prove convergence.
+
+V4 has its own frozen source/code/dependency manifest and a pinned
+virtual environment. It **does not edit** v2 or v3. The v4 input cohort
+is the set of **completed exact-graph6 v3 records** available at import
+time. It currently prioritizes the distinct unclassified cores among
+that cohort; the original index-to-graph6 aliases are preserved.
+
+A completed v4 record may also report a `CLIQUE_BOUND_EXCEEDED` iterate
+or `SKIPPED_HOST_ORDER_LIMIT` for the target search. The special
+octahedron search is performed **before** applying the 80-vertex target
+search limit, and can inspect pared hosts up to the 120-vertex clique
+bound. The worker has a 180-second wall-clock and 2-GiB memory cap. A timeout is
+**not** a negative result: a separate atomic `progress/` journal records
+the last attempted level and search phase, copied into the terminal
+record as `last_progress` and aggregated under `terminal_phases`.
+These diagnostics cannot be interpreted as certificates. A timeout
+is preserved as a terminal result under the frozen v4 budget; retrying
+it with new budgets would require a separate versioned stage.
+
+After merging v4, run in the census repository on the Dell:
+
+```bash
+git pull --ff-only
+bash scripts/bootstrap_targeted_v4.sh
+.venv-targeted-v4/bin/python scripts/targeted_retractions_v4.py import-v3
+.venv-targeted-v4/bin/python scripts/targeted_retractions_v4.py plan
+time nice -n 10 .venv-targeted-v4/bin/python \
+  scripts/targeted_retractions_v4.py next --batch-size 1
+.venv-targeted-v4/bin/python scripts/targeted_retractions_v4.py verify
+.venv-targeted-v4/bin/python scripts/targeted_retractions_v4.py report
+```
+
+The `import-v3` action verifies all completed v3 source capsules and
+records their SHA-256 fingerprints. These original source files and their
+cached homology data are *read-only dependencies* of the new v4 records;
+their modification or disappearance is detected during independent
+verification. Running `import-v3` again can add newly completed v3
+graphs, but refuses to silently replace previously imported data.
+V4 reports distinct computations separately from original indices covered
+and records positive special-octahedron proofs by their exact iterate
+index. Do not launch a large batch before reviewing the first two K3
+results, which may be significantly more expensive than v3.
