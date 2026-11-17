@@ -68,5 +68,5 @@ jobs:
             scripts/targeted_retractions_v1.py \
             scripts/bootstrap_targeted_v1.sh \
             tests/targeted_retractions_v1_cases.py \
-            .github/workflows/targeted-retractions-v1.yml \
+            # v1's CI guard is updated solely to exclude the new immutable class-lift report.
             indeterminate_order_9.txt indeterminate_order_10.txt
