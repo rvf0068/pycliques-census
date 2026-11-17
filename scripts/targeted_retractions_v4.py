@@ -172,8 +172,9 @@ def import_v3() -> dict:
     }
 
 
-def source_levels(capsule: dict) -> dict[int, dict]:
-    return {x["level"]: x for x in capsule["record"]["levels"]}
+def source_levels(record: dict) -> dict[int, dict]:
+    """The already verified inner v3 computation record, not its capsule."""
+    return {x["level"]: x for x in record["levels"]}
 
 
 def serialize_special(graph: nx.Graph, witness: SpecialOctahedronWitness) -> dict:
