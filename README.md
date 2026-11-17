@@ -1488,3 +1488,72 @@ independently verified in CI and committed under
 **No graph in these three core classes has been classified by this
 stage.** Exhaustion of a limited family of divergent targets is not a
 certificate of K-convergence or K-nondivergence.
+
+
+## Homology-guided non-special K³ retractions (v2)
+
+This separately versioned experiment investigates the third **completely
+pared** clique iterates of two unresolved nine-vertex stiff cores,
+representing **461** original ten-vertex graphs.
+
+### Exact reduced mod-2 Betti numbers
+
+All faces through dimension six are enumerated and their boundary
+matrices reduced over GF(2), establishing the following exact results
+(in degrees 0 through 5), not merely estimated homotopy types.
+
+| Nine-core ID | Order of pared K³ | beta_1 | beta_2 | beta_3 | beta_4 | beta_5 |
+|---:|---:|---:|---:|---:|---:|---:|
+| 6914104 | 37 | 0 | 0 | 1 | 0 | 0 |
+| 6962151 | 40 | 0 | 0 | 0 | 1 | 0 |
+
+Since a retraction of graphs induces a retraction of their clique
+complexes, reduced homology of its target is a direct summand of
+the reduced homology of its source. The script independently computes
+the Betti vectors of each small named candidate target using the
+pinned `pycombtop.bounded_betti.bounded_reduced_betti_mod2`.
+Restricting to the previously established K-divergent target
+families and at most 12 target vertices gives the following precise
+remaining candidate families:
+
+| Core | Octahedra O_d | Cycle complements C_n^c | Cycle suspensions |
+|---:|---|---|---|
+| 6914104 | O_4 | C_11^c | None |
+| 6962151 | O_5 | None | None |
+
+The new `scripts/core9_third_retractions_v2.py` enumerates these
+non-special induced candidates using the separately pinned
+`pycliques-project` revision
+`a78e4d979c70b0a242fa89efd2fcf3e058c318b1`.
+It eliminates impossible candidates with a necessary
+closed-neighborhood test: for each vertex x outside a prospective
+target H, there must be a target vertex t satisfying
+N_G(x) intersect V(H) subseteq N_H[t]. This holds for every
+retraction because vertices of H are fixed.
+
+Only surviving targets undergo full bounded graph-retraction CSP
+search. Positive witnesses are independently replayed. The precise
+caps are 50,000 target patterns, 5,000 locally feasible targets,
+250,000 CSP states and 500,000 candidate assignments per family.
+Each core computation and independent verification uses its own
+125-second, 2-GiB subprocess. Negative statuses are recomputed
+exactly and remain negative only for the specifically searched
+finite family; in particular no K-convergence is inferred.
+
+Run with the existing isolated pin:
+
+```bash
+cd ~/Python/pycliques-census
+git pull --ff-only
+bash scripts/bootstrap_core9_three_target_v1.sh
+.venv-core9-three-v1/bin/python scripts/core9_third_retractions_v2.py plan
+.venv-core9-three-v1/bin/python scripts/core9_third_retractions_v2.py run
+.venv-core9-three-v1/bin/python scripts/core9_third_retractions_v2.py verify
+.venv-core9-three-v1/bin/python scripts/core9_third_retractions_v2.py report
+```
+
+The CI job separately verifies and commits its JSON proofs under
+`research/order10_core9_third_retractions_v2/` without changing
+historical census files. If a positive retraction is found for
+one of these cores, a separate dominated-vertex fold witness must
+be replayed for every represented original ten-vertex graph.
