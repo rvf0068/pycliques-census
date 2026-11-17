@@ -4,6 +4,7 @@
 .venv-v3
 .venv-targeted-v1
 .venv-targeted-v2
+.venv-targeted-v3
 __pycache__/
 *.py[cod]
 .pytest_cache/
