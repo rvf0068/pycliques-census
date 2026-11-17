@@ -109,3 +109,22 @@ def test_timeout_requires_exact_resource_limit_and_no_extra_fields():
     ):
         with pytest.raises(ValueError, match="invalid limit, phase or extra data"):
             stage.validate_record(forged, core_id)
+
+
+
+def test_full_record_replay_invokes_resource_limited_subprocess(monkeypatch, tmp_path):
+    import subprocess
+
+    observed = {}
+
+    def fake_run(arguments, **kwargs):
+        observed["arguments"] = arguments
+        observed["kwargs"] = kwargs
+        return subprocess.CompletedProcess(arguments, 0, stdout="replayed", stderr="")
+
+    monkeypatch.setattr(stage.subprocess, "run", fake_run)
+    stage.bounded_validate_record(tmp_path / "record.json", 6914104)
+    assert observed["arguments"][2] == "check"
+    assert observed["kwargs"]["timeout"] == stage.WORKER_SECONDS
+    assert observed["kwargs"]["preexec_fn"] is stage.limit_worker
+    assert observed["kwargs"]["capture_output"] is True
