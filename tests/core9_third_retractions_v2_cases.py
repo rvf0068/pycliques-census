@@ -30,9 +30,10 @@ def test_eligible_parameters_exclude_all_known_homology_obstructions():
     second = stage.target_candidates({0: 0, 1: 0, 2: 0, 3: 0, 4: 1, 5: 0})
     assert [x["parameter"] for x in first["octahedra"]] == [4]
     assert [x["parameter"] for x in first["cycle_complements"]] == [11]
+    assert [x["parameter"] for x in first["cycle_complements"]] == [11, 13]
     assert first["suspensions"] == []
     assert [x["parameter"] for x in second["octahedra"]] == [5]
-    assert second["cycle_complements"] == []
+    assert [x["parameter"] for x in second["cycle_complements"]] == [14]
     assert second["suspensions"] == []
 
 
@@ -107,3 +108,30 @@ def test_two_frozen_cores_exactly_match_prior_research_scope():
     assert sum(stage.prior.CORE[i][1] for i in stage.CORES) == 461
     assert stage.MAX_PATTERNS > stage.prior.TARGET_LIMITS["max_patterns"]
     assert stage.MAX_DEGREE == 5
+
+
+
+def test_global_named_target_ceiling_from_exhaustive_complement_graphs():
+    first = stage.prior.pared_iterates(6914104)[3]
+    second = stage.prior.pared_iterates(6962151)[3]
+    a = stage.structural_target_ceiling(first)
+    b = stage.structural_target_ceiling(second)
+    assert a["induced_o5"] == 0
+    assert a["induced_o6"] == b["induced_o6"] == 0
+    assert b["induced_o5"] == 6
+    assert a["maximum_complement_chordless_cycle"] == 12
+    assert b["maximum_complement_chordless_cycle"] == 14
+    assert b["cycle_complement_candidates_by_length"]["14"] == 1
+
+
+def test_unique_c14_complement_candidate_is_not_a_retract():
+    graph = stage.prior.pared_iterates(6962151)[3]
+    eligible = [{
+        "parameter": 14, "target_betti": {"4": 1},
+    }]
+    result = stage.run_family(graph, "cycle_complements", eligible)
+    assert result["status"] == "EXHAUSTED"
+    assert result["patterns"] == 1
+    assert result["locally_feasible"] == 1
+    assert result["retractions_attempted"] == 1
+    assert result["witness"] is None
