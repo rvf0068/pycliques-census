@@ -3,16 +3,15 @@ name: Replayed historical nine-core divergence certificates (167 originals)
 on:
   pull_request:
     paths:
-      - "scripts/historical_ninecore_lift_v1.py"
-      - "tests/historical_ninecore_lift_v1_cases.py"
+      # Follow imported scripts, bootstrap settings and pinned upstream versions
+      # transitively; a later change must never bypass certificate verification.
+      - "scripts/**"
+      - "config/**"
+      - "tests/**"
       - ".github/workflows/historical-ninecore-lift-v1.yml"
-      - "scripts/bootstrap_special_k3_v5.sh"
-      - "scripts/special_octahedron_class_lift_v1.py"
-      - "scripts/core_isomorphism_index.py"
-      - "reports/order10_core_index_v1/**"
-      - "reports/order10_special_octahedron_core_lift_v1/**"
-      - "runs/order10/initial/**"
-      - "runs/order10/targeted-retractions-v3/**"
+      - "reports/**"
+      - "runs/**"
+      - "indeterminate_order_9.txt"
       - "indeterminate_order_10.txt"
       - "indeterminate_order_10_v3.txt"
       - "README.md"
