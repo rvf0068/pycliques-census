@@ -1,0 +1,38 @@
+{
+  "core_ids": [
+    6914104,
+    6962151,
+    6974529
+  ],
+  "max_level": 3,
+  "memory_mib": 2048,
+  "pared_clique_bound": 120,
+  "per_core_timeout_seconds": 80,
+  "represented_originals": 696,
+  "schema": 1,
+  "scope": "exploratory; positive proof replay only; no historical verdict modifications",
+  "source_sha256": {
+    "config/pycliques_commit_core9_three_target_v1.txt": "7a9ec5001ec6336c96ab691f6617e9edf8d63cae28ced38f026bbfec943e5609",
+    "reports/order10_core_index_v1/manifest.json": "f0bffdb9e75704207ca16dbb5380801c3666a928982d36453908f33cbb1b47ff",
+    "runs/order10/core9-structure-v1/records/06914104.json": "46c9035a8a940127f6184343ff0d0ac94e478c908b08e3bb8271673faddf0b65",
+    "runs/order10/core9-structure-v1/records/06962151.json": "d8fbb29ca02fdd52b58dbf3c9fd7fcf482417232f8f0c31c51ab969033436475",
+    "runs/order10/core9-structure-v1/records/06974529.json": "fd516a2ccea6ef1fa6ff271b1556c336bb24babebb3145cd49236971fd2b8ffa",
+    "scripts/bootstrap_core9_three_target_v1.sh": "f35b82fc62b237430eaff2bc6f566d84146ab854d2a287503b259ae3bd8532e1",
+    "scripts/core9_structure_worker.py": "d8b7ef81633486239e609172d5a9cae8e843903c9f73de9974d18dead44eacab",
+    "scripts/core9_three_target_v1.py": "f58bb51c9836b6689c5009bcf2d3ae0f286e54b120a042c89f3c6933c091fc9a",
+    "scripts/special_octahedron_class_lift_v1.py": "8bc1c5a7dd16e1a7edd22849e6837133b34f326a3ef0c5278b236a353ee91ae6"
+  },
+  "stage": "order10_core9_three_target_v1",
+  "target_families": [
+    "octahedra",
+    "suspensions",
+    "cycle_complements"
+  ],
+  "target_limits": {
+    "max_assignments": 30000,
+    "max_patterns": 120,
+    "max_states": 15000,
+    "max_target_order": 12
+  },
+  "upstream_pin": "a78e4d979c70b0a242fa89efd2fcf3e058c318b1"
+}
