@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import argparse
 import csv
-import hashlib
+import io
 import json
 from pathlib import Path
 
@@ -164,15 +164,55 @@ def core_certificate(core_id: int, spec: dict) -> dict:
     raise ValueError("Unrecognized certificate method")
 
 
+def authenticated_previous_members() -> set[int]:
+    """Recompute *all* prior certificates and compare every saved report byte.
+
+    A self-consistent but forged/stale 133-row TSV is not accepted. Replay
+    the previous special-O4 witnesses, full source index and dominated folds
+    using the merged, independently verified PR #19 implementation.
+    """
+    expected = previous.prepare()
+    previous.check_saved(OLD_REPORT.parent, expected)
+    with io.StringIO(expected["members.tsv"].decode("utf-8")) as stream:
+        reader = csv.DictReader(stream, delimiter="\t")
+        if tuple(reader.fieldnames or ()) != (
+            "index", "original_graph6", "historical_pared_graph6", "core_id",
+            "core_graph6", "dominated_folds", "residual_graph6",
+            "residual_to_core", "certified_direct_v5",
+        ):
+            raise ValueError("Unexpected verified prior certificate schema")
+        rows = list(reader)
+    indices = [int(row["index"]) for row in rows]
+    if len(indices) != 133 or len(set(indices)) != 133:
+        raise ValueError("Prior certified cohort must have 133 unique members")
+    return set(indices)
+
+
+def certified_method_totals(proofs: list[dict]) -> dict[str, int]:
+    """Summarize verified core proofs; never trust separate literal totals."""
+    totals = {
+        "special_raw_K3_originals": 0,
+        "suspension_coaffine_originals": 0,
+    }
+    methods = {
+        "special_O_d_in_raw_K3": "special_raw_K3_originals",
+        "suspension_of_connected_coaffine_graph": "suspension_coaffine_originals",
+    }
+    for proof in proofs:
+        method = proof["method"]
+        size = proof["original_members"]
+        if method not in methods or type(size) is not int or size < 1:
+            raise ValueError("Invalid verified core proof method or class size")
+        totals[methods[method]] += size
+    return totals
+
+
 def certify() -> dict:
     # Reconstruct, not merely hash-check, the entire previously frozen index.
     classes, assignments = previous.saved_core_index()
     originals = old_index.original_graph6_by_index()
     historical = old_index.load_rows(old_index.HISTORICAL)
-    with OLD_REPORT.open(encoding="utf-8", newline="") as stream:
-        old_members = {int(row["index"]) for row in csv.DictReader(stream, delimiter="\t")}
-    if len(old_members) != 133:
-        raise ValueError("Previously certified class-lift cohort changed")
+    old_members = authenticated_previous_members()
 
     proofs = []
     members = []
@@ -228,6 +268,9 @@ def certify() -> dict:
         raise ValueError("Certificate lift must add exactly 167 distinct originals")
     if len(old_members | unique) != 300:
         raise ValueError("The six certified nine-core classes must cover 300 originals")
+    method_totals = certified_method_totals(proofs)
+    if sum(method_totals.values()) != len(members):
+        raise ValueError("Certificate proof subtotals disagree with member cohort")
     return {
         "schema": 1,
         "scope": "four additional order-nine core classes from frozen post-v3 order-ten census",
@@ -235,8 +278,7 @@ def certify() -> dict:
         "certified_originals_new": len(members),
         "certified_originals_previous": len(old_members),
         "certified_originals_total": len(old_members | unique),
-        "special_raw_K3_originals": 98,
-        "suspension_coaffine_originals": 69,
+        **method_totals,
         "core_proofs": proofs,
         "members": members,
     }
