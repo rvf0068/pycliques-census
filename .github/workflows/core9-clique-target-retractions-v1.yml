@@ -59,6 +59,32 @@ jobs:
                       "positive": row["positive_retraction_found"],
                   }, sort_keys=True))
           PY
+      - name: Authenticate the permanent 24-copy negative proof index
+        run: |
+          .venv-core9-three-v1/bin/python - <<'PY'
+          import csv, json, os
+          from pathlib import Path
+          root = Path(os.environ["RUNNER_TEMP"]) / "core9-clique-targets-v1"
+          data = json.loads((root / "records/06914104.json").read_text())
+          attempted = data["k_c10_retraction_search"]["candidate_embeddings"]
+          with Path("research/order10_core9_clique_targets_v1/induced_kc10_negative_index.tsv").open(
+              encoding="utf-8", newline=""
+          ) as stream:
+              index = list(csv.DictReader(stream, delimiter="\t"))
+          assert len(index) == len(attempted) == 24
+          for n, (row, proof) in enumerate(zip(index, attempted)):
+              assert int(row["copy_id"]) == n
+              assert [int(v) for v in row["vertex_set"].split(",")] == proof["target_vertices"]
+              assert row["status"] == proof["status"] == "EXHAUSTED"
+              for stored, calculated in (
+                  ("independent_states", "independent_states"),
+                  ("pinned_states", "pinned_states"),
+                  ("independent_assignments", "independent_assignments"),
+                  ("pinned_assignments", "pinned_assignments"),
+              ):
+                  assert int(row[stored]) == proof[calculated], (n, stored)
+          print("24 authenticated induced copies, all independently rejected")
+          PY
       - name: Upload complete, replayed JSON proof records
         uses: actions/upload-artifact@v4
         with:
