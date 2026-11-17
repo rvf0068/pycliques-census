@@ -10,18 +10,20 @@ on:
       - "reports/**"
       - ".github/workflows/core9-three-target-v1.yml"
       - "README.md"
+      - "research/order10_core9_three_target_v1/**"
   workflow_dispatch:
 
 jobs:
   three-core-pilot:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     timeout-minutes: 16
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: astral-sh/setup-uv@v4
       - name: Bootstrap separately pinned optimized library
         run: bash scripts/bootstrap_core9_three_target_v1.sh
@@ -60,6 +62,27 @@ jobs:
           path: ${{ runner.temp }}/core9-three-target-v1/
           retention-days: 30
           if-no-files-found: error
+      - name: Check in the immutable, separately versioned experiment evidence
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          REPORT=research/order10_core9_three_target_v1
+          if [[ -d "$REPORT" ]]; then
+            # Reports already committed are never silently overwritten.
+            .venv-core9-three-v1/bin/python scripts/core9_three_target_v1.py verify --output "$REPORT"
+            diff -r "$RUNNER_TEMP/core9-three-target-v1" "$REPORT"
+            echo "Previously committed experiment evidence is byte-exact"
+          else
+            mkdir -p "$REPORT"
+            cp -a "$RUNNER_TEMP/core9-three-target-v1/." "$REPORT/"
+            .venv-core9-three-v1/bin/python scripts/core9_three_target_v1.py verify --output "$REPORT"
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add "$REPORT"
+            git commit -m "Record independently checked three-core targeted pilot diagnostics"
+            git push origin "HEAD:$PR_HEAD_REF"
+          fi
       - name: Reject any modification to frozen census data or prior proof reports
         if: github.event_name == 'pull_request'
         env:
