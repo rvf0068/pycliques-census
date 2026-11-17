@@ -1396,3 +1396,95 @@ artifact. No expensive large-scale census run is required. The 29 other
 historically indeterminate nine-core classes, together with the
 remaining order-eight and order-ten core classes, remain unclassified
 by these positive certificates.
+
+
+## Targeted three-core divergence investigation (versioned v1 pilot)
+
+Three unresolved stiff nine-vertex cores represent **696** original
+ten-vertex graphs: core `6962151` (`HEhvfzm`, 242 members),
+`6914104` (`HEhev^{`, 219 members) and
+`6974529` (`HEh~dzm`, 235 members). Their earlier completely
+pared iterates through level 3 have exact first mod-2 Betti number zero.
+Consequently the connected triangular double-cover method (including
+the optimized AC-3 search in pycombtop) is not applicable to these
+particular iterates, although it remains useful on other cores.
+
+The isolated `scripts/core9_three_target_v1.py` uses the separately
+pinned optimized pycliques-project code at `a78e4d979c70b0a242fa89efd2fcf3e058c318b1`.
+For each selected core it reconstructs and checks all four completely
+pared iterates against the independently frozen structural dataset.
+It additionally builds *raw* K^0 through K^3 with a separate maximal-clique
+intersection implementation. For every constructed graph it independently
+searches for special O_d by exhaustive privileged-facet/antipode
+enumeration and cross-checks the library's optimized implementation.
+
+For completely pared iterates, the stage also performs strictly bounded
+retraction searches onto proven divergent target families: octahedral
+graphs O_d, suspensions of cycles, and complements of cycles C_n^c
+with n at least 8. The current caps are 12 target vertices, 120
+patterns, 15,000 search states and 30,000 assignments *per family
+per iterate*. Each core runs in a single 2-GiB worker with an 80-second
+wall-time limit. Exact H_1(F_2) and graph diameter diagnostics explain
+when a connected triangular double cover or a direct radius-3
+coaffination cannot exist in a given iterate.
+
+**Logical interpretation:** A verified special octahedron or retraction
+to a known divergent target in a (pared) iterate certifies divergence
+of that nine-vertex core. Transferring a new positive result to all
+original ten-vertex members still requires independent dominated-fold
+and isomorphism certificates, as in PRs #19 and #20. Negative special
+searches certify only absence of special octahedra in the *specific*
+examined graphs. `EXHAUSTED`, `LIMIT_REACHED`, timeouts and
+other nonpositive bounded retraction-search outcomes do *not*
+certify clique convergence or nondivergence. No original census
+verdict is changed.
+
+Run the new stage in an isolated environment:
+
+```bash
+cd ~/Python/pycliques-census
+git pull --ff-only
+bash scripts/bootstrap_core9_three_target_v1.sh
+.venv-core9-three-v1/bin/python scripts/core9_three_target_v1.py plan
+.venv-core9-three-v1/bin/python scripts/core9_three_target_v1.py run
+.venv-core9-three-v1/bin/python scripts/core9_three_target_v1.py verify
+.venv-core9-three-v1/bin/python scripts/core9_three_target_v1.py report
+```
+
+The new GitHub Actions workflow runs this bounded pilot, independently
+replays the available positive witness types, verifies provenance and
+publishes the three machine-readable case records as a workflow artifact.
+The stage does not require regenerating historical census data.
+
+
+### Verified findings from the first three-core pilot
+
+The completed 2026-11-17 GitHub Actions pilot reconstructed all three
+cores and found **no special octahedron** in any of their raw or
+completely pared iterates K^0 through K^3. The independent exhaustive
+facet/antipode enumeration agrees with the pinned library implementation.
+All twelve *pared* graphs have diameter exactly 2 and exact
+mod-2 first Betti number zero. Thus no direct radius-3
+coaffination or connected triangular double cover exists in these
+specific iterates.
+
+| Core ID | Original ten-vertex members | Pared orders K^0..K^3 | Special O_d | Positive retraction |
+|---:|---:|---|---|---|
+| 6914104 | 219 | 9, 13, 19, 37 | none through level 3 | none found |
+| 6962151 | 242 | 9, 14, 19, 40 | none through level 3 | none found |
+| 6974529 | 235 | 9, 13, 20, 55 | none through level 3 | none found |
+
+All three target-retraction families were fully exhausted on levels
+0 and 1. Level 2 also exhausted several target families, but other
+families reached the 120-pattern budget. At level 3, every targeted
+family reached that pattern limit. None yielded a positive retraction.
+
+The pinned manifest and complete per-core JSON diagnostics were
+independently verified in CI and committed under
+`research/order10_core9_three_target_v1/` (separate from frozen
+`runs/` and `reports/`). The first successful run was
+[GitHub Actions 44175126696](https://github.com/rvf0068/pycliques-census/actions/runs/44175126696).
+
+**No graph in these three core classes has been classified by this
+stage.** Exhaustion of a limited family of divergent targets is not a
+certificate of K-convergence or K-nondivergence.
