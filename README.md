@@ -1611,3 +1611,96 @@ complement `C_n^c` with n at least 8, or any suspension of a
 cycle. This rules out these familiar divergence mechanisms via
 retractions, **not clique divergence itself**. All 461 represented
 ten-vertex original graphs remain unclassified by this stage.
+
+
+## Retractions onto clique graphs of divergent cycles and suspensions (v1)
+
+This follow-up investigates ordinary graph retractions from the third
+**completely pared** clique iterates of nine-vertex stiff cores 6914104
+(37 vertices; 219 original order-ten members) and 6962151
+(40 vertices; 242 original members), targeting **clique graphs** of
+the established divergent families rather than the original
+suspensions or complements of cycles:
+
+- `K(susp(C_n))` for n at least 4 (suspension of the cycle);
+- `K(C_n^c)` for n at least 8.
+
+A retraction to one of these targets would certify K-divergence,
+because K-divergence of a graph is preserved under the clique operator,
+and divergence is inherited by a graph admitting a retraction onto
+a divergent graph. Not all copies of those target graphs need be
+special octahedra.
+
+### Independent homology and finite target reduction
+
+For n=4, `susp(C_4) = O_3` and `K(susp(C_4)) = O_4`.
+The preceding versioned stage already excluded all O_4 retractions.
+For n from 5 through 20, exact mod-2 boundary-matrix reduction shows
+that `K(susp(C_n))` has reduced second Betti number one.
+Both source third iterates have reduced second Betti number zero,
+so homology rules out every such retraction. For n at least 21
+these targets have 2n > 40 vertices and cannot embed.
+
+For the cycle-complement family, the number of maximal cliques of
+`C_n^c`, hence the vertices of its clique graph, is
+the Perrin number `P_n` satisfying
+`P_n=P_{n-2}+P_{n-3}`, with
+`P_8=10`, `P_9=12`, `P_10=17`,
+`P_11=22`, `P_12=29`,
+`P_13=39`, and `P_14=51`.
+This follows from the characterization of maximal independent sets
+of a cycle as cyclic 0/1 words with no consecutive ones and no
+three consecutive zeros. For n>=14, the clique graph has more
+than 40 vertices and cannot occur as an induced subgraph of either
+host.
+
+Homology excludes `K(C_8^c)` (reduced beta_2=1),
+`K(C_9^c)` (reduced beta_3=4), and
+`K(C_11^c)` (reduced beta_5=1).
+Although `K(C_{12}^c)` has only 29 vertices,
+it has 46 edges in its complement. Every induced 29-vertex
+subgraph of the complement of the 37-vertex host has **at least
+73 edges**, and of the complement of the 40-vertex host has
+**at least 57 edges**, so the target cannot embed in either.
+`K(C_{13}^c)` has 39 vertices, exceeding the first
+host's 37; it also has 663 edges, exceeding the second host's 601.
+
+Thus the **only remaining homologically and structurally admissible
+target** is `K(C_{10}^c)`, which has 17 vertices,
+110 edges and reduced third Betti number one. It is admissible
+only for the 37-vertex host (core 6914104).
+
+### Complete finite retraction search
+
+The new `scripts/core9_clique_targets_v1.py` builds target
+clique graphs independently from sorted maximal cliques. It locates
+every induced `K(C_{10}^c)` using two independent subgraph
+isomorphism implementations (ISMAGS and VF2) on complements,
+explicitly cross-checks their *vertex sets*, then applies two
+independent retraction solvers to each candidate: its own
+backtracking over necessary fixed-target domains and the general
+pinned `pycliques.retractions.bounded_retraction` engine.
+The latter's state/assignment caps must never be reached for an
+exhaustive negative conclusion.
+
+The stage pins the same previously verified upstream revision,
+`a78e4d979c70b0a242fa89efd2fcf3e058c318b1`,
+rechecks the previously committed exact host homology and
+graph6 sources, isolates workers and independent full replays
+within 110-second/2-GiB budgets, and never modifies historical
+verdicts or earlier proof records. Pull-request CI is read-only,
+uploads independently checked JSON results, and never runs PR
+code with repository-write permissions.
+
+To reproduce after the bootstrap from the previous stage:
+
+```bash
+bash scripts/bootstrap_core9_three_target_v1.sh
+.venv-core9-three-v1/bin/python scripts/core9_clique_targets_v1.py plan
+.venv-core9-three-v1/bin/python scripts/core9_clique_targets_v1.py run
+.venv-core9-three-v1/bin/python scripts/core9_clique_targets_v1.py verify
+.venv-core9-three-v1/bin/python scripts/core9_clique_targets_v1.py report
+```
+
+As always, failure to retract to these particular targets does
+**not** prove K-convergence or rule out other divergent targets.

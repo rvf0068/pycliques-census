@@ -1,0 +1,106 @@
+name: Clique-graph targets of suspensions and cycle complements
+
+on:
+  pull_request:
+    paths:
+      - "scripts/**"
+      - "tests/**"
+      - "config/**"
+      - "research/order10_core9_third_retractions_v2/**"
+      - "research/order10_core9_clique_targets_v1/**"
+      - ".github/workflows/core9-clique-target-retractions-v1.yml"
+      - "runs/**"
+      - "reports/**"
+      - "README.md"
+  workflow_dispatch:
+
+jobs:
+  clique-target-experiment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap isolated pinned graph/census libraries
+        run: bash scripts/bootstrap_core9_three_target_v1.sh
+      - name: Install pytest into isolated pinned environment
+        run: uv pip install --python .venv-core9-three-v1/bin/python pytest
+      - name: Verify target homology, Perrin sizes and independent CSP logic
+        run: |
+          .venv-core9-three-v1/bin/python -m pytest \
+            tests/core9_clique_targets_v1_cases.py -v
+      - name: Search and independently replay both bounded experiments
+        run: |
+          .venv-core9-three-v1/bin/python scripts/core9_clique_targets_v1.py run \
+            --output "$RUNNER_TEMP/core9-clique-targets-v1"
+          .venv-core9-three-v1/bin/python scripts/core9_clique_targets_v1.py report \
+            --output "$RUNNER_TEMP/core9-clique-targets-v1"
+      - name: Assert no unsupported positive or negative census classifications
+        run: |
+          .venv-core9-three-v1/bin/python - <<'PY'
+          import json, os
+          from pathlib import Path
+          root = Path(os.environ["RUNNER_TEMP"]) / "core9-clique-targets-v1"
+          files = sorted((root / "records").glob("*.json"))
+          assert [p.name for p in files] == ["06914104.json", "06962151.json"]
+          rows = [json.loads(p.read_text()) for p in files]
+          for row in rows:
+              assert row["status"] in ("COMPLETED", "TIMEOUT")
+              if row["status"] == "COMPLETED":
+                  assert row["core_id"] in (6914104, 6962151)
+                  print(json.dumps({
+                      "core": row["core_id"],
+                      "eligible": row["target_screen"]["parameters_remaining_for_retraction"],
+                      "search": row.get("k_c10_retraction_search",{}),
+                      "positive": row["positive_retraction_found"],
+                  }, sort_keys=True))
+          PY
+      - name: Authenticate the permanent 24-copy negative proof index
+        run: |
+          .venv-core9-three-v1/bin/python - <<'PY'
+          import csv, json, os
+          from pathlib import Path
+          root = Path(os.environ["RUNNER_TEMP"]) / "core9-clique-targets-v1"
+          data = json.loads((root / "records/06914104.json").read_text())
+          attempted = data["k_c10_retraction_search"]["candidate_embeddings"]
+          with Path("research/order10_core9_clique_targets_v1/induced_kc10_negative_index.tsv").open(
+              encoding="utf-8", newline=""
+          ) as stream:
+              index = list(csv.DictReader(stream, delimiter="\t"))
+          assert len(index) == len(attempted) == 24
+          for n, (row, proof) in enumerate(zip(index, attempted)):
+              assert int(row["copy_id"]) == n
+              assert [int(v) for v in row["vertex_set"].split(",")] == proof["target_vertices"]
+              assert row["status"] == proof["status"] == "EXHAUSTED"
+              for stored, calculated in (
+                  ("independent_states", "independent_states"),
+                  ("pinned_states", "pinned_states"),
+                  ("independent_assignments", "independent_assignments"),
+                  ("pinned_assignments", "pinned_assignments"),
+              ):
+                  assert int(row[stored]) == proof[calculated], (n, stored)
+          print("24 authenticated induced copies, all independently rejected")
+          PY
+      - name: Upload complete, replayed JSON proof records
+        uses: actions/upload-artifact@v4
+        with:
+          name: core9-clique-target-retractions-v1
+          path: ${{ runner.temp }}/core9-clique-targets-v1/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Forbid modifications to historical census and earlier proof stages
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ \
+            research/order10_core9_three_target_v1/ \
+            research/order10_core9_third_retractions_v2/ \
+            scripts/core9_three_target_v1.py \
+            scripts/core9_third_retractions_v2.py \
+            indeterminate_order_9.txt indeterminate_order_10.txt
