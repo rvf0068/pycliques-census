@@ -8,6 +8,7 @@ on:
       - ".github/workflows/special-octahedron-class-lift-v1.yml"
       - "scripts/core_isomorphism_index.py"
       - "scripts/special_octahedra_k3_v5.py"
+      - "scripts/bootstrap_special_k3_v5.sh"
       - "scripts/targeted_retractions_v3.py"
       - "scripts/targeted_retractions_v2.py"
       - "config/pycliques_commit_special_k3_v5.txt"
@@ -45,8 +46,16 @@ jobs:
             tests/special_octahedron_class_lift_v1_cases.py -v
       - name: Build and independently verify immutable class-level report
         run: |
+          # Explicitly regenerate a fresh independently checked candidate in
+          # a temporary directory. During PR development the committed
+          # manifest is refreshed only after the updated verifier succeeds.
+          REPORT_STAGING="$RUNNER_TEMP/special-O4-lift-index"
           .venv-special-k3-v5/bin/python \
-            scripts/special_octahedron_class_lift_v1.py build
+            scripts/special_octahedron_class_lift_v1.py build --output "$REPORT_STAGING"
+          .venv-special-k3-v5/bin/python \
+            scripts/special_octahedron_class_lift_v1.py verify --output "$REPORT_STAGING"
+          mkdir -p reports/order10_special_octahedron_core_lift_v1
+          cp "$REPORT_STAGING"/* reports/order10_special_octahedron_core_lift_v1/
           .venv-special-k3-v5/bin/python \
             scripts/special_octahedron_class_lift_v1.py verify
           .venv-special-k3-v5/bin/python \
