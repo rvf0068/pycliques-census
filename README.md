@@ -1193,3 +1193,70 @@ V4 reports distinct computations separately from original indices covered
 and records positive special-octahedron proofs by their exact iterate
 index. Do not launch a large batch before reviewing the first two K3
 results, which may be significantly more expensive than v3.
+
+
+## Fast special-octahedron-only K³ postpass (v5)
+
+The v4 stage correctly discovers special-octahedron witnesses through
+the **third pared clique iterate**, but even one graph may spend its
+180-second worker budget on the *subsequent* K³ homology/retraction
+search. In particular, the first v4 pilot, original index `5418647`
+(graph6 `HCrlvhz`), timed out after the special tests completed.
+This is **not** a negative retraction certificate.
+
+The independent v5 stage **only checks special octahedra** and does
+*not* compute homology or general retractions. Since a special octahedron
+in a graph (X) implies that (X) retracts onto an octahedron (O_d),
+each verified positive witness proves K-divergence. The reverse
+implication is false: ordinary octahedral retractions may be nonspecial,
+so a negative v5 result **does not prove non-divergence**.
+
+For each **completed, independently verified v3 exact-graph6 record**,
+v5 reuses the recorded completely pared levels 0, 1, 2 and computes
+only the missing completely pared (K^3(G)) from the saved level 2.
+It checks all four levels, stopping at the first positive
+special-octahedron witness. Each positive record stores the maximal
+clique and aligned antipodes, exact level, dimension and original
+index, and `verify` reconstructs the relevant pared graph and replays
+the witness with `verify_special_octahedron_witness`.
+Negative results are scoped to the four checked graphs and are not
+independently searched again during verification.
+
+The stage uses the existing **120-clique bound**, a 120-second
+per-worker limit and a 2-GiB memory cap. A clique-bound failure or
+worker timeout is recorded explicitly, with an atomic phase diagnostic,
+and must never be interpreted as negative evidence. No earlier files
+or historical verdicts are modified. The deterministic queue prioritizes
+unclassified graph6 inputs, then conjecturally divergent inputs.
+Each finished distinct graph6 result covers every *exact* duplicate
+original input index.
+
+On the Dell, after merging the v5 PR:
+
+```bash
+cd ~/Python/pycliques-census
+git pull --ff-only
+bash scripts/bootstrap_special_k3_v5.sh
+.venv-special-k3-v5/bin/python scripts/special_octahedra_k3_v5.py import-v3
+.venv-special-k3-v5/bin/python scripts/special_octahedra_k3_v5.py plan
+
+# Reproduce the graph that previously exhausted v4's 180-second budget:
+time nice -n 10 .venv-special-k3-v5/bin/python \
+  scripts/special_octahedra_k3_v5.py next --index 5418647
+
+# Then run a small, resume-safe sample of distinct imported inputs:
+time nice -n 10 .venv-special-k3-v5/bin/python \
+  scripts/special_octahedra_k3_v5.py next --batch-size 20
+
+.venv-special-k3-v5/bin/python scripts/special_octahedra_k3_v5.py verify
+.venv-special-k3-v5/bin/python scripts/special_octahedra_k3_v5.py report
+```
+
+The current committed v3 population comprises 469 distinct cores,
+representing 2,262 original indices. Running `import-v3` again
+after additional verified v3 results are committed can expand the
+v5 cohort without changing the frozen input list, code or parameters.
+The `report` distinguishes certified divergence by first detected
+iterate, exhaustive absence through K³, clique-bound failures,
+timeouts and errors. Do not confuse completed distinct computations
+with original indices covered by deduplication.
