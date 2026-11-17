@@ -26,11 +26,14 @@ on:
 jobs:
   certified-133-originals:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: astral-sh/setup-uv@v4
       - name: Bootstrap pinned special-O4 verifier dependencies
         run: bash scripts/bootstrap_special_k3_v5.sh
@@ -81,3 +84,17 @@ jobs:
             scripts/special_octahedra_k3_v5.py \
             scripts/core_isomorphism_index.py \
             indeterminate_order_10.txt indeterminate_order_10_v3.txt
+      - name: Commit independently checked report to this PR branch
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reports/order10_special_octahedron_core_lift_v1/
+          if git diff --cached --quiet; then
+            echo "Immutable proof index already committed; no changes"
+          else
+            git commit -m "Record verified special-O4 class-lift certificates for 133 originals"
+            git push origin "HEAD:$PR_HEAD_REF"
+          fi
