@@ -1574,3 +1574,40 @@ authenticated GitHub connector can commit reviewed immutable outputs under
 historical census files. If a positive retraction is found for
 one of these cores, a separate dominated-vertex fold witness must
 be replayed for every represented original ten-vertex graph.
+
+
+### Verified complete result for the three named target families
+
+The independently checked CI experiment (November 17, 2026) actually
+finished **all** the homologically eligible searches. In addition,
+the exhaustive structural ceiling checks show there are no induced
+`O_6` subgraphs in either host, and no induced complement of a
+cycle longer than 12 (core `6914104`) or 14 (core `6962151`).
+Therefore the following negative conclusions hold **without any
+target-size cutoff** in the three named target families.
+
+| Third pared iterate of core | Complete octahedron tests | Complete cycle-complement tests |
+|---:|---|---|
+| 6914104 (37 vertices) | 1,412 induced O_4 candidates; 1,252 locally feasible retractions exhaustively rejected (7,837 CSP states); no induced O_5 or O_6 | 275 induced C_11^c candidates all fail necessary local condition; no induced C_13^c, no complement cycle longer than 12 |
+| 6962151 (40 vertices) | All six induced O_5 candidates fail necessary local condition; no induced O_6 | The unique induced C_14^c is not a retract (8 CSP states); no complement cycle longer than 14 |
+
+All cycle-suspension retractions are excluded, regardless of order,
+because such a target has nonzero reduced second mod-2 homology while
+both hosts have zero reduced second homology.
+
+A short **human-checkable obstruction** for the single `C_14^c`
+candidate is committed in
+`research/order10_core9_third_retractions_v2/C14_obstruction.md`:
+the forced retraction values of vertices 27 and 33 imply incompatible
+constraints on vertex 4. The entire verified machine-readable
+manifest and both per-core records are committed under the same
+`research/` directory. The pull-request CI verifies and compares
+the saved records **with read-only repository permissions**; it cannot
+push code or data.
+
+**Mathematical scope:** Neither third pared iterate admits an ordinary
+graph retraction onto any `O_d` with d at least 3, any cycle
+complement `C_n^c` with n at least 8, or any suspension of a
+cycle. This rules out these familiar divergence mechanisms via
+retractions, **not clique divergence itself**. All 461 represented
+ten-vertex original graphs remain unclassified by this stage.
