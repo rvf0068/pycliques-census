@@ -1315,21 +1315,18 @@ isomorphism maps), `summary.md` (proof scope and totals), and
 No existing census verdicts, original input files, or frozen v2-v5
 results are changed.
 
-After the PR introducing this stage is merged, regenerate and
-commit its mathematical certificates with:
+The **four independently verified proof-index files are committed
+in this PR**. After merging, reproduce their verification with:
 
 ```bash
 cd ~/Python/pycliques-census
 git pull --ff-only
 bash scripts/bootstrap_special_k3_v5.sh
-.venv-special-k3-v5/bin/python scripts/special_octahedron_class_lift_v1.py build
 .venv-special-k3-v5/bin/python scripts/special_octahedron_class_lift_v1.py verify
 .venv-special-k3-v5/bin/python scripts/special_octahedron_class_lift_v1.py report
-
-git add reports/order10_special_octahedron_core_lift_v1/
-git commit -m "Record independently verified special-O4 class lift to 133 originals"
-git push origin main
 ```
+
+There is no need to generate or commit the same results again.
 
 The `build` command is idempotent: it refuses to replace or
 silently repair an existing report whose bytes differ from the
