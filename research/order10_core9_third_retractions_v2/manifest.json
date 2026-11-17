@@ -1,0 +1,35 @@
+{
+  "claim_scope": "exact homology constraints and independently replayed positive ordinary retractions; bounded negatives do not classify K-behavior",
+  "core_ids": [
+    6914104,
+    6962151
+  ],
+  "family_limits": {
+    "assignments": 500000,
+    "feasible": 5000,
+    "patterns": 50000,
+    "states": 250000
+  },
+  "homology_degree_max": 5,
+  "input_pared_iterate": 3,
+  "max_simplicial_faces": 500000,
+  "maximum_prototype_order": 12,
+  "per_core_timeout_seconds": 125,
+  "per_worker_memory_mib": 2048,
+  "schema": 2,
+  "source_sha256": {
+    "config/pycliques_commit_core9_three_target_v1.txt": "7a9ec5001ec6336c96ab691f6617e9edf8d63cae28ced38f026bbfec943e5609",
+    "reports/order10_core_index_v1/manifest.json": "f0bffdb9e75704207ca16dbb5380801c3666a928982d36453908f33cbb1b47ff",
+    "research/order10_core9_three_target_v1/manifest.json": "4913898a050ed0bfe754af721cdc995ead09107c48be703893e39150aba197f6",
+    "research/order10_core9_three_target_v1/records/06914104.json": "8480b3cb5b1d9acd06b50a8f36ebe4cc3d0912e8fc29e0d3a2c0404f2ec1da31",
+    "research/order10_core9_three_target_v1/records/06962151.json": "c214333740e4feaa21064883acba7ffd902dac3ed0700ba6d3279bb228a8e4c4",
+    "scripts/bootstrap_core9_three_target_v1.sh": "f35b82fc62b237430eaff2bc6f566d84146ab854d2a287503b259ae3bd8532e1",
+    "scripts/core9_structure_worker.py": "d8b7ef81633486239e609172d5a9cae8e843903c9f73de9974d18dead44eacab",
+    "scripts/core9_third_retractions_v2.py": "61ab38ae41e5d2f2e4240a8b6d223829777aa9585761bda12bf1640c7905a9ff",
+    "scripts/core9_three_target_v1.py": "d96ef5826f2edc78be8502285406ffb5cda9a22c5288e36eab24c3447128a5b2",
+    "scripts/special_octahedron_class_lift_v1.py": "8bc1c5a7dd16e1a7edd22849e6837133b34f326a3ef0c5278b236a353ee91ae6"
+  },
+  "stage": "core9_third_nonspecial_retractions_v2",
+  "total_represented_originals": 461,
+  "upstream_pycliques_project_pin": "a78e4d979c70b0a242fa89efd2fcf3e058c318b1"
+}
