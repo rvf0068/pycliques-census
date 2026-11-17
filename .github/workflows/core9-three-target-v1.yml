@@ -1,0 +1,73 @@
+name: Targeted special-octahedron and retraction probes on three nine-cores
+
+on:
+  pull_request:
+    paths:
+      - "scripts/**"
+      - "config/**"
+      - "tests/**"
+      - "runs/**"
+      - "reports/**"
+      - ".github/workflows/core9-three-target-v1.yml"
+      - "README.md"
+  workflow_dispatch:
+
+jobs:
+  three-core-pilot:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap separately pinned optimized library
+        run: bash scripts/bootstrap_core9_three_target_v1.sh
+      - name: Install isolated test dependencies
+        run: uv pip install --python .venv-core9-three-v1/bin/python pytest
+      - name: Test mathematical witnesses and bounded-search integrity
+        run: |
+          .venv-core9-three-v1/bin/python -m pytest \
+            tests/core9_three_target_v1_cases.py -v
+      - name: Execute three bounded, independently checked probes
+        run: |
+          .venv-core9-three-v1/bin/python \
+            scripts/core9_three_target_v1.py run --output "$RUNNER_TEMP/core9-three-target-v1"
+          .venv-core9-three-v1/bin/python \
+            scripts/core9_three_target_v1.py verify --output "$RUNNER_TEMP/core9-three-target-v1"
+          .venv-core9-three-v1/bin/python \
+            scripts/core9_three_target_v1.py report --output "$RUNNER_TEMP/core9-three-target-v1"
+      - name: Require all three cases to have explicit completed-or-timeout records
+        run: |
+          .venv-core9-three-v1/bin/python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          folder = Path(os.environ["RUNNER_TEMP"]) / "core9-three-target-v1"
+          names = sorted(x.name for x in (folder / "records").glob("*.json"))
+          assert names == ["06914104.json", "06962151.json", "06974529.json"], names
+          rows = [json.loads((folder / "records" / name).read_text()) for name in names]
+          assert all(row["status"] in ("COMPLETED", "TIMEOUT") for row in rows)
+          assert sum(row["original_members"] for row in rows) == 696
+          print("3 strictly bounded core probes, representing 696 originals; no unsupported verdicts")
+          PY
+      - name: Publish raw verified diagnostic records and manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: core9-three-target-v1-diagnostics
+          path: ${{ runner.temp }}/core9-three-target-v1/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Reject any modification to frozen census data or prior proof reports
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ \
+            indeterminate_order_9.txt indeterminate_order_10.txt \
+            indeterminate_order_10_v3.txt \
+            scripts/historical_ninecore_lift_v1.py \
+            scripts/special_octahedron_class_lift_v1.py
