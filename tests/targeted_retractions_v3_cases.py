@@ -187,3 +187,108 @@ def test_report_aggregates_exact_search_results(tmp_path, monkeypatch):
     assert result["family_statuses"] == {"cycle_complements:EXHAUSTED": 1}
     assert result["total_induced_targets_checked"] == {"cycle_complements": 7}
     assert result["total_search_states"] == {"cycle_complements": 20}
+
+
+@pytest.mark.parametrize("terminal_status", ["TIMEOUT", "ERROR"])
+def test_import_v2_replaces_verified_terminal_and_is_idempotent(
+    tmp_path, monkeypatch, terminal_status
+):
+    source_stage = tmp_path / "frozen-v2"
+    target_stage = tmp_path / "new-v3"
+    monkeypatch.setattr(v3, "V2_STAGE", source_stage)
+    monkeypatch.setattr(v3, "STAGE", target_stage)
+    monkeypatch.setattr(v2, "root_dir", lambda _order: source_stage)
+
+    index = 2317572
+    encoded = v3.index_to_graph6()[index]
+    monkeypatch.setattr(v3, "index_to_graph6", lambda: {index: encoded})
+    v2.require_manifest(10)
+    original = v2.analyze(index, encoded, source_stage)
+    v2.verify_record(original, encoded, source_stage, index=index)
+    v2.atomic(v3.v2_source_path(index), original)
+
+    # The previously terminal v3 worker has a valid graph6 and source index,
+    # but must not block a later completed, independently verified v2 import.
+    v2.atomic(
+        v3.record_path(encoded),
+        {
+            "schema": v3.SCHEMA,
+            "graph6": encoded,
+            "status": terminal_status,
+            "origin": "v3_worker",
+            "index": index,
+        },
+    )
+    receipt = v3.import_v2()
+    assert receipt["verified_v2_records"] == 1
+    assert receipt["distinct_verified_v2_graph6"] == 1
+    capsule = v3.read(v3.record_path(encoded))
+    assert capsule["status"] == "COMPLETED"
+    assert capsule["origin"] == "verified_v2_import"
+    assert capsule["v2_source_index"] == index
+    v3.verify_capsule(capsule, encoded)
+
+    # Reimport must retain this already verified capsule unchanged.
+    before = v3.record_path(encoded).read_bytes()
+    assert v3.import_v2() == receipt
+    assert v3.record_path(encoded).read_bytes() == before
+
+    # A corrupt existing completed capsule must never be silently skipped.
+    corrupted = deepcopy(capsule)
+    corrupted["record"]["levels"][0]["graph6"] = "tampered"
+    v2.atomic(v3.record_path(encoded), corrupted)
+    with pytest.raises(ValueError, match="actual pared clique iterate"):
+        v3.import_v2()
+
+
+@pytest.mark.parametrize(
+    "bad_index",
+    [None, True, "2317572", 99999999, 2318241],
+)
+@pytest.mark.parametrize("status", ["TIMEOUT", "ERROR"])
+def test_terminal_capsule_requires_source_index_matching_graph6(
+    monkeypatch, status, bad_index
+):
+    index = 2317572
+    encoded = v3.index_to_graph6()[index]
+    good = {
+        "schema": v3.SCHEMA,
+        "graph6": encoded,
+        "status": status,
+        "origin": "v3_worker",
+        "index": index,
+    }
+    v3.verify_capsule(good, encoded)
+    bad = dict(good, index=bad_index)
+    with pytest.raises(ValueError, match="terminal worker index/provenance"):
+        v3.verify_capsule(bad, encoded)
+    del bad["index"]
+    with pytest.raises(ValueError, match="terminal worker index/provenance"):
+        v3.verify_capsule(bad, encoded)
+
+
+def test_import_v2_rejects_bad_terminal_instead_of_overwriting(
+    tmp_path, monkeypatch
+):
+    source_stage = tmp_path / "frozen-v2"
+    target_stage = tmp_path / "new-v3"
+    monkeypatch.setattr(v3, "V2_STAGE", source_stage)
+    monkeypatch.setattr(v3, "STAGE", target_stage)
+    monkeypatch.setattr(v2, "root_dir", lambda _order: source_stage)
+    index = 2317572
+    encoded = v3.index_to_graph6()[index]
+    monkeypatch.setattr(v3, "index_to_graph6", lambda: {index: encoded})
+    v2.require_manifest(10)
+    original = v2.analyze(index, encoded, source_stage)
+    v2.atomic(v3.v2_source_path(index), original)
+    terminal = {
+        "schema": v3.SCHEMA,
+        "graph6": encoded,
+        "origin": "v3_worker",
+        "status": "TIMEOUT",
+        "index": 2318241,
+    }
+    v2.atomic(v3.record_path(encoded), terminal)
+    with pytest.raises(ValueError, match="terminal worker index/provenance"):
+        v3.import_v2()
+    assert v3.read(v3.record_path(encoded)) == terminal
