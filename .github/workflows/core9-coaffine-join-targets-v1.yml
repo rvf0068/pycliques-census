@@ -70,6 +70,43 @@ jobs:
                   "positive":len(row["positive_witnesses"]),
               },sort_keys=True))
           PY
+      - name: Cross-check the permanent ten-case index and SHA256 fingerprints
+        run: |
+          .venv-core9-three-v1/bin/python - <<'PY'
+          import csv, hashlib, json, os, re
+          from pathlib import Path
+          root = Path(os.environ["RUNNER_TEMP"]) / "core9-coaffine-join-targets-v1"
+          report = Path("research/order10_core9_coaffine_join_targets_v1")
+          with (report / "target_counts.tsv").open(encoding="utf-8", newline="") as f:
+              index = list(csv.DictReader(f, delimiter="\t"))
+          observations = {}
+          for core_id in (6914104,6962151):
+              row = json.loads((root/"records"/f"{core_id:08d}.json").read_text())
+              if row["status"] != "COMPLETED":
+                  raise AssertionError("Cannot authenticate a timed-out case with negative counts")
+              for group in row["probes"]:
+                  observations[(core_id,group["n"],group["r"])] = group
+          assert len(index) == len(observations) == 10
+          for line in index:
+              key = (int(line["core_id"]),int(line["n"]),int(line["r"]))
+              proof = observations[key]
+              for stored,calculated in (
+                  ("chordless_cycles","cycle_count"),
+                  ("induced_targets","induced_target_count"),
+                  ("locally_impossible","local_impossible"),
+                  ("csp_exhausted","csp_exhausted"),
+                  ("independent_states","csp_states_total"),
+                  ("pinned_states","pinned_states_total"),
+                  ("positive","found_count"),
+              ):
+                  assert int(line[stored]) == proof[calculated], (key, stored)
+              assert line["target_sets_sha256"] == proof["target_sets_sha256"]
+          checksums = (report / "artifact_checksums.md").read_text()
+          for name in ("manifest.json", "records/06914104.json", "records/06962151.json"):
+              actual = hashlib.sha256((root/name).read_bytes()).hexdigest()
+              assert f"\`{name}\` | \`{actual}\`" in checksums, name
+          print("All 10 permanent proof-index rows and all three complete JSON SHA256 values match")
+          PY
       - name: Upload full independent proof records (read-only)
         uses: actions/upload-artifact@v4
         with:
