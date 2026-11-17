@@ -59,7 +59,8 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           git diff --exit-code "$BASE_SHA" HEAD -- \
-            runs/ reports/ postpasses/ \
+            runs/ reports/ \
+            ':(exclude)reports/order10_special_octahedron_core_lift_v1/**' postpasses/ \
             scripts/targeted_retractions_v1.py \
             scripts/targeted_retractions_v2.py \
             scripts/targeted_retractions_v3.py \

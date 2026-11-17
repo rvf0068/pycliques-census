@@ -1,0 +1,109 @@
+name: Independently verified K3 special-O4 class lift
+
+on:
+  pull_request:
+    paths:
+      - "scripts/special_octahedron_class_lift_v1.py"
+      - "tests/special_octahedron_class_lift_v1_cases.py"
+      - ".github/workflows/special-octahedron-class-lift-v1.yml"
+      - "scripts/core_isomorphism_index.py"
+      - "scripts/special_octahedra_k3_v5.py"
+      - "scripts/bootstrap_special_k3_v5.sh"
+      - "scripts/targeted_retractions_v3.py"
+      - "scripts/targeted_retractions_v2.py"
+      - "config/pycliques_commit_special_k3_v5.txt"
+      - "config/pycliques_commit_targeted_v3.txt"
+      - "config/pycliques_commit_targeted_v2.txt"
+      - "reports/order10_special_octahedron_core_lift_v1/**"
+      - "reports/order10_core_index_v1/**"
+      - "runs/order10/special-octahedra-k3-v5/**"
+      - "runs/order10/targeted-retractions-v3/**"
+      - "runs/order10/initial/**"
+      - "indeterminate_order_10.txt"
+      - "indeterminate_order_10_v3.txt"
+      - "README.md"
+  workflow_dispatch:
+
+jobs:
+  certified-133-originals:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap pinned special-O4 verifier dependencies
+        run: bash scripts/bootstrap_special_k3_v5.sh
+      - name: Install pytest
+        run: uv pip install --python .venv-special-k3-v5/bin/python pytest
+      - name: Test dominated fold witnesses, isomorphism maps and full source replay
+        run: |
+          .venv-special-k3-v5/bin/python -m pytest \
+            tests/special_octahedron_class_lift_v1_cases.py -v
+      - name: Build and independently verify immutable class-level report
+        run: |
+          # Explicitly regenerate a fresh independently checked candidate in
+          # a temporary directory. During PR development the committed
+          # manifest is refreshed only after the updated verifier succeeds.
+          REPORT_STAGING="$RUNNER_TEMP/special-O4-lift-index"
+          .venv-special-k3-v5/bin/python \
+            scripts/special_octahedron_class_lift_v1.py build --output "$REPORT_STAGING"
+          .venv-special-k3-v5/bin/python \
+            scripts/special_octahedron_class_lift_v1.py verify --output "$REPORT_STAGING"
+          mkdir -p reports/order10_special_octahedron_core_lift_v1
+          cp "$REPORT_STAGING"/* reports/order10_special_octahedron_core_lift_v1/
+          .venv-special-k3-v5/bin/python \
+            scripts/special_octahedron_class_lift_v1.py verify
+          .venv-special-k3-v5/bin/python \
+            scripts/special_octahedron_class_lift_v1.py report
+          .venv-special-k3-v5/bin/python - <<'PY'
+          from pathlib import Path
+          import json
+          directory = Path("reports/order10_special_octahedron_core_lift_v1")
+          data = json.loads((directory / "manifest.json").read_text())
+          assert data["classes"] == 2, data
+          assert data["positive_graph6_records"] == 11, data
+          assert data["original_members_certified"] == 133, data
+          assert data["direct_v5_original_indices"] == 25, data
+          assert data["additional_lifted_original_indices"] == 108, data
+          assert len((directory / "members.tsv").read_text().splitlines()) == 134
+          print("All 133 original ten-vertex graphs have independently replayable fold/isomorphism witnesses")
+          PY
+      - name: Publish generated verified class-lift index for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: certified-k3-special-O4-lift-133
+          path: reports/order10_special_octahedron_core_lift_v1/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Prevent modification of historical census artifacts
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ \
+            reports/order10_core_index_v1/ \
+            scripts/targeted_retractions_v2.py \
+            scripts/targeted_retractions_v3.py \
+            scripts/special_octahedra_k3_v5.py \
+            scripts/core_isomorphism_index.py \
+            indeterminate_order_10.txt indeterminate_order_10_v3.txt
+      - name: Commit independently checked report to this PR branch
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reports/order10_special_octahedron_core_lift_v1/
+          if git diff --cached --quiet; then
+            echo "Immutable proof index already committed; no changes"
+          else
+            git commit -m "Record verified special-O4 class-lift certificates for 133 originals"
+            git push origin "HEAD:$PR_HEAD_REF"
+          fi

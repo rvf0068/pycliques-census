@@ -61,11 +61,44 @@ jobs:
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
+          # Allow the scoped v1 workflow adjustment for the new class-lift report.
           git diff --exit-code "$BASE_SHA" HEAD -- \
-            runs/ reports/ postpasses/ \
+            runs/ reports/ \
+            ':(exclude)reports/order10_special_octahedron_core_lift_v1/**' postpasses/ \
             config/pycliques_commit_targeted_v1.txt \
             scripts/targeted_retractions_v1.py \
             scripts/bootstrap_targeted_v1.sh \
             tests/targeted_retractions_v1_cases.py \
-            .github/workflows/targeted-retractions-v1.yml \
             indeterminate_order_9.txt indeterminate_order_10.txt
+      - name: Authenticate allowed v1 workflow guard change
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          import subprocess
+
+          workflow = ".github/workflows/targeted-retractions-v1.yml"
+          original = subprocess.check_output(
+              ["git", "show", f"{os.environ['BASE_SHA']}:{workflow}"], text=True
+          )
+          old_guard = "            runs/ reports/ postpasses/ " + chr(92) + "\n"
+          new_guard = (
+              "            runs/ reports/ " + chr(92) + "\n"
+              + "            ':(exclude)reports/order10_special_octahedron_core_lift_v1/**' postpasses/ "
+              + chr(92) + "\n"
+          )
+          allowed = {original}
+          if old_guard in original:
+              assert original.count(old_guard) == 1
+              allowed.add(original.replace(old_guard, new_guard, 1))
+          else:
+              assert new_guard in original, "Unexpected historical v1 guard baseline"
+          assert Path(workflow).read_text() in allowed, (
+              "The historical v1 workflow has changes beyond the narrowly approved "
+              "class-lift report exclusion"
+          )
+          print("Historical v1 workflow preserved (except approved report exclusion)")
+          PY

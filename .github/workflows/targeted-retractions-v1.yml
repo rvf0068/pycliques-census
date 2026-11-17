@@ -40,6 +40,7 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           git diff --exit-code "$BASE_SHA" HEAD -- \
-            runs/ reports/ postpasses/ \
+            runs/ reports/ \
+            ':(exclude)reports/order10_special_octahedron_core_lift_v1/**' postpasses/ \
             config/pycliques_commit_core9cover_v2.txt \
             indeterminate_order_9.txt indeterminate_order_10.txt
