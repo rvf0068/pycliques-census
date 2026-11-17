@@ -89,7 +89,10 @@ def test_solver_positive_and_forged_positive_are_rejected():
     # and its pointwise-fixed retraction.
     extra = graph.copy()
     extra.add_node(len(graph))
-    extra.add_edges_from((len(graph),v) for v in graph)
+    extra.add_edges_from(
+        (len(graph),v) for v in graph
+        if v == 0 or graph.has_edge(0,v)
+    )
     assert stage.check_retraction(extra,list(graph))["status"] == "FOUND"
 
 
