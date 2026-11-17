@@ -88,8 +88,9 @@ def test_same_count_forged_previous_certificates_are_rejected(tmp_path, monkeypa
         "residual_to_core\tcertified_direct_v5\n"
     )
     original = header + "".join(
-        f"{1000 + i}\tI?qbT^[\\g\tHEht}pl\t6938923\tHEht}pl\t"
-        f"[[3,8]]\tHEht}pl\t[]\tfalse\n"
+        f"{1000 + i}\t"
+        + "test_original\tpared_graph\t6938923\tcore_graph\t"
+        + "[]\tcore_graph\t[]\tfalse\n"
         for i in range(133)
     )
     expected = {"members.tsv": original.encode(), "manifest.json": b"{}"}
