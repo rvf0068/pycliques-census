@@ -1162,7 +1162,13 @@ A completed v4 record may also report a `CLIQUE_BOUND_EXCEEDED` iterate
 or `SKIPPED_HOST_ORDER_LIMIT` for the target search. The special
 octahedron search is performed **before** applying the 80-vertex target
 search limit, and can inspect pared hosts up to the 120-vertex clique
-bound. The worker has a 180-second wall-clock and 2-GiB memory cap.
+bound. The worker has a 180-second wall-clock and 2-GiB memory cap. A timeout is
+**not** a negative result: a separate atomic `progress/` journal records
+the last attempted level and search phase, copied into the terminal
+record as `last_progress` and aggregated under `terminal_phases`.
+These diagnostics cannot be interpreted as certificates. A timeout
+is preserved as a terminal result under the frozen v4 budget; retrying
+it with new budgets would require a separate versioned stage.
 
 After merging v4, run in the census repository on the Dell:
 
@@ -1172,7 +1178,7 @@ bash scripts/bootstrap_targeted_v4.sh
 .venv-targeted-v4/bin/python scripts/targeted_retractions_v4.py import-v3
 .venv-targeted-v4/bin/python scripts/targeted_retractions_v4.py plan
 time nice -n 10 .venv-targeted-v4/bin/python \
-  scripts/targeted_retractions_v4.py next --batch-size 2
+  scripts/targeted_retractions_v4.py next --batch-size 1
 .venv-targeted-v4/bin/python scripts/targeted_retractions_v4.py verify
 .venv-targeted-v4/bin/python scripts/targeted_retractions_v4.py report
 ```
