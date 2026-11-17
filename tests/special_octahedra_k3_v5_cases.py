@@ -182,3 +182,98 @@ def test_reject_incorrect_level0_encoding(monkeypatch):
     record["levels"][0]["graph6"] = "bad"
     with pytest.raises(ValueError, match="actual pared iterate"):
         v5.verify_record(record, encoded, source)
+
+
+@pytest.mark.parametrize("status", ["CLIQUE_BOUND_EXCEEDED", "HOST_ORDER_LIMIT"])
+def test_v3_completed_capsule_with_early_terminal_is_ineligible(status):
+    # A v3 outer COMPLETED means its analysis finished, not that
+    # all three requested pared iterates were successfully constructed.
+    inner = {
+        "levels": [
+            {"level": 0, "status": "COMPLETED"},
+            {"level": 1, "status": status},
+        ]
+    }
+    assert not v5.complete_v3_source(inner)
+    assert not v5.complete_v3_source({"levels": inner["levels"] + [
+        {"level": 2, "status": "COMPLETED"},
+    ]})
+    assert v5.complete_v3_source({"levels": [
+        {"level": i, "status": "COMPLETED"} for i in range(3)
+    ]})
+
+
+def test_v3_early_terminal_is_skipped_on_import_and_rejected_on_replay(
+    tmp_path, monkeypatch
+):
+    encoded = "GQyuzw"
+    index = 2317572
+    original_v3 = tmp_path / "source-v3"
+    current_v5 = tmp_path / "stage-v5"
+    monkeypatch.setattr(v5, "STAGE", current_v5)
+    monkeypatch.setattr(v3, "STAGE", original_v3)
+    monkeypatch.setattr(v3, "index_to_graph6", lambda: {index: encoded})
+    monkeypatch.setattr(v5, "groups", lambda: [{
+        "graph6": encoded, "indices": [index, 2317841],
+        "unclassified": True,
+    }])
+    monkeypatch.setattr(v3, "require_stage", lambda: original_v3)
+    # Source provenance is checked separately by v3 in production; use a
+    # synthetic valid-v3 capsule here to isolate v5 cohort selection.
+    checked = []
+    monkeypatch.setattr(
+        v3, "verify_capsule",
+        lambda capsule, graph6: checked.append((capsule, graph6)),
+    )
+    v2.atomic(original_v3 / "manifest.json", {"synthetic": True})
+    original_path = v3.record_path(encoded)
+    incomplete = {
+        "schema": v3.SCHEMA,
+        "graph6": encoded,
+        "status": "COMPLETED",
+        "origin": "v3_worker",
+        "record": {
+            "index": index,
+            "input_graph6": encoded,
+            "levels": [
+                {"level": 0, "status": "COMPLETED"},
+                {"level": 1, "status": "CLIQUE_BOUND_EXCEEDED"},
+            ],
+        },
+    }
+    v2.atomic(original_path, incomplete)
+    result = v5.import_v3()
+    assert result["imported_unique"] == 0
+    assert result["skipped_incomplete_v3_unique"] == 1
+    assert result["skipped_incomplete_v3_indices"] == 2
+    assert checked and checked[0][1] == encoded
+    assert not v5.path_for(encoded, "imports").exists()
+    assert v5.imported_groups() == []
+
+    # Even a forged receipt does not allow an early-terminated v3 capsule
+    # to enter the worker or its independent verifier.
+    v2.atomic(v5.path_for(encoded, "imports"), {
+        "schema": v5.SCHEMA, "graph6": encoded, "index": index,
+        "source_sha256": v5.digest(original_path.read_bytes()),
+        "source_manifest_sha256": v5.digest(
+            (original_v3 / "manifest.json").read_bytes()
+        ),
+    })
+    with pytest.raises(ValueError, match="lacks three completed"):
+        v5.verify_import(encoded)
+    # Reject silently adopting an old, ineligible imported record.
+    with pytest.raises(ValueError, match="Previously imported"):
+        v5.import_v3()
+
+    # Once a verified source has three completed levels, it is eligible.
+    # Remove the old synthetic receipt and refresh its hash.
+    v5.path_for(encoded, "imports").unlink()
+    complete = deepcopy(incomplete)
+    complete["record"]["levels"] = [
+        {"level": i, "status": "COMPLETED"} for i in range(3)
+    ]
+    v2.atomic(original_path, complete)
+    outcome = v5.import_v3()
+    assert outcome["imported_unique"] == 1
+    assert outcome["skipped_incomplete_v3_unique"] == 0
+    assert v5.verify_import(encoded) == complete["record"]
