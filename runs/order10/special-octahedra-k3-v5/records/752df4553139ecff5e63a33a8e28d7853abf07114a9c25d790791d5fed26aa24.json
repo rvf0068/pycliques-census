@@ -1,0 +1,51 @@
+{
+  "divergence_certificate": null,
+  "graph6": "I?qdszu^o",
+  "index": 7154887,
+  "levels": [
+    {
+      "edges": 25,
+      "graph6": "I?qdszu^o",
+      "level": 0,
+      "order": 10,
+      "special": {
+        "status": "EXHAUSTED"
+      },
+      "status": "COMPLETED"
+    },
+    {
+      "edges": 75,
+      "graph6": "O~~E^NfarFbFLF[^fB{s~",
+      "level": 1,
+      "order": 16,
+      "special": {
+        "status": "EXHAUSTED"
+      },
+      "status": "COMPLETED"
+    },
+    {
+      "edges": 155,
+      "graph6": "U~~~~}vQInGd\\zmzdTxN^vRnKKzOZ~tJn{[n}DZw",
+      "level": 2,
+      "order": 22,
+      "special": {
+        "status": "EXHAUSTED"
+      },
+      "status": "COMPLETED"
+    },
+    {
+      "edges": 1413,
+      "graph6": "}~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~_??O~o?B~srB{XEEw|~x~FN~F{{F{^wKPx~xg@w~{s@{^~^N~F~zwnw~~na^b~~~?DB~~~D~B~~~aZ`~~~wNw^~~~?TB~~~~?@r~f~FXff~C~EPbf~L{^~~y~~^_~~}n~fw|~~t~~~_v~~V~~~FN~}n~~~_qN]~~n~~~|][W^yn~}BfFN}j~|oQxz~t^z~jrbAFt~v~~dECN~~V|vfeCNz~bwprren|~q~~{ko`~~}V~~t~{N~~~~xl[^~wN}~|rQx~~o^x~\\rQz~~O~h_",
+      "level": 3,
+      "order": 62,
+      "special": {
+        "status": "EXHAUSTED"
+      },
+      "status": "COMPLETED"
+    }
+  ],
+  "no_convergence_inference": true,
+  "schema": 5,
+  "scope": "special_octahedron_only_pared_levels_0_to_3",
+  "status": "COMPLETED"
+}
