@@ -42,7 +42,7 @@ import core9_structure_worker
 import special_octahedron_class_lift_v1 as previous
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "runs/order10/core9-three-target-v1"
+OUTPUT = ROOT / "research/order10_core9_three_target_v1"
 SOURCE = ROOT / "runs/order10/core9-structure-v1/records"
 PIN = ROOT / "config/pycliques_commit_core9_three_target_v1.txt"
 CORE = {
