@@ -67,6 +67,7 @@ iterate index 3. The independently constructed target graph6 is
 - The standalone domain-reduction retraction solver fully exhausted all 24 copies with **166 states** and **142 candidate assignments** in total; every result was negative.
 - Independently, the pinned general graph retraction engine also exhausted all 24, with the same total of **166 states** and **142 assignments**; no configured resource bound was reached.
 - Each search fixes the target pointwise and permits edges to be mapped to edges **or equal** vertices, as required by the graph-morphism convention.
+- The complete list of all 24 target vertex sets in the frozen graph6 labeling, plus their search/assignment counts, is permanently recorded in [induced_kc10_negative_index.tsv](induced_kc10_negative_index.tsv) and verified row-by-row in CI against the regenerated JSON artifact.
 
 Consequently, neither of the two third pared iterates retracts onto any
 `K(susp(Cn))` for n >= 4 nor onto any `K(Cn^c)` for
