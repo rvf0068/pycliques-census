@@ -1,0 +1,108 @@
+name: Exact homology and non-special third-iterate retraction census
+
+on:
+  pull_request:
+    paths:
+      - "scripts/**"
+      - "config/**"
+      - "tests/**"
+      - "research/order10_core9_three_target_v1/**"
+      - "research/order10_core9_third_retractions_v2/**"
+      - ".github/workflows/core9-third-retractions-v2.yml"
+      - "reports/**"
+      - "runs/**"
+      - "README.md"
+  workflow_dispatch:
+
+jobs:
+  two-third-iterate-cores:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap existing separately pinned optimized pycliques-project
+        run: bash scripts/bootstrap_core9_three_target_v1.sh
+      - name: Install pytest
+        run: uv pip install --python .venv-core9-three-v1/bin/python pytest
+      - name: Exact homology, retraction and integrity regression tests
+        run: |
+          .venv-core9-three-v1/bin/python -m pytest \
+            tests/core9_third_retractions_v2_cases.py -v
+      - name: Run two non-special third-iterate retraction investigations
+        run: |
+          .venv-core9-three-v1/bin/python \
+            scripts/core9_third_retractions_v2.py run \
+            --output "$RUNNER_TEMP/core9-third-retractions-v2"
+          .venv-core9-three-v1/bin/python \
+            scripts/core9_third_retractions_v2.py report \
+            --output "$RUNNER_TEMP/core9-third-retractions-v2"
+      - name: Require two authenticated, bounded and separately identified records
+        run: |
+          .venv-core9-three-v1/bin/python - <<'PY'
+          from pathlib import Path
+          import os, json
+          root = Path(os.environ["RUNNER_TEMP"]) / "core9-third-retractions-v2"
+          names = sorted(x.name for x in (root / "records").glob("*.json"))
+          assert names == ["06914104.json", "06962151.json"], names
+          rows = [json.loads((root / "records" / name).read_text()) for name in names]
+          assert all(row["status"] in ("COMPLETED", "TIMEOUT") for row in rows)
+          assert sum(r["represented_originals"] for r in rows) == 461
+          for row in rows:
+              print(json.dumps({
+                  "core": row["core_id"], "status": row["status"],
+                  "eligible": row.get("eligible_target_parameters"),
+                  "searches": [
+                      {k: r[k] for k in (
+                          "family", "status", "patterns", "locally_impossible",
+                          "locally_feasible", "retractions_attempted",
+                      )} for r in row.get("family_searches", [])
+                  ],
+                  "positive": row.get("positive_certificates", []),
+              }, sort_keys=True))
+          PY
+      # The pull-request code is untrusted: never grant it repository-write credentials.
+      # Publish for human review; any immutable commit is made separately with
+      # the authenticated GitHub connector, not by this executing workflow.
+      - name: Upload complete independently verified artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: core9-third-nonspecial-retractions-v2
+          path: ${{ runner.temp }}/core9-third-retractions-v2/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Independently verify permanent research records committed outside CI
+        run: |
+          REPORT=research/order10_core9_third_retractions_v2
+          .venv-core9-three-v1/bin/python \
+            scripts/core9_third_retractions_v2.py verify --output "$REPORT"
+          .venv-core9-three-v1/bin/python - <<'PY'
+          import json, os
+          from pathlib import Path
+          saved = Path("research/order10_core9_third_retractions_v2")
+          verified = Path(os.environ["RUNNER_TEMP"]) / "core9-third-retractions-v2"
+          names = ["manifest.json", "records/06914104.json", "records/06962151.json"]
+          for name in names:
+              assert json.loads((saved / name).read_text()) == json.loads(
+                  (verified / name).read_text()
+              ), name
+          print("All permanent research files exactly match authenticated CI evidence")
+          PY
+      - name: Prevent changes to all frozen census stages and previous proofs
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ \
+            indeterminate_order_9.txt indeterminate_order_10.txt \
+            indeterminate_order_10_v3.txt \
+            research/order10_core9_three_target_v1/ \
+            scripts/core9_three_target_v1.py \
+            scripts/historical_ninecore_lift_v1.py \
+            scripts/special_octahedron_class_lift_v1.py
