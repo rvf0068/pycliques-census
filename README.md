@@ -1268,3 +1268,71 @@ The `report` distinguishes certified divergence by first detected
 iterate, exhaustive absence through K³, clique-bound failures,
 timeouts and errors. Do not confuse completed distinct computations
 with original indices covered by deduplication.
+
+
+## Certified special-O4 divergence propagated to original order-10 graphs (core-lift v1)
+
+The completed v5 special-octahedron sweep discovered **11 distinct positive
+graph6 strings**, all at the third *completely pared* clique iterate, all
+retracting onto `O_4`. The frozen
+[post-v3 nine-vertex core index](reports/order10_core_index_v1/summary.md)
+shows that these represent only **two nine-vertex isomorphism classes**:
+
+| Core ID | Representative core graph6 | Original ten-vertex members | Directly positive in v5 | Additional via dismantling |
+|---:|---|---:|---:|---:|
+| 6938923 | `HEht}pl` | 23 | 4 | 19 |
+| 6939350 | `HEht~bl` | 110 | 21 | 89 |
+| **Total** | | **133** | **25** | **108** |
+
+The separate, versioned
+`scripts/special_octahedron_class_lift_v1.py` verifies the two
+positive core classes and **all 133 original members**, not just the
+25 original indices with exact graph6 matches to v5 positives.
+For each member, it reconstructs the **original ten-vertex graph**
+from the frozen initial census (not merely the pared graph6 in the
+historical indeterminate list), records and checks each
+closed-neighborhood dominated-vertex deletion, confirms that the
+terminal graph is stiff, and supplies a complete vertex bijection
+verifying exact adjacency equivalence to its certified nine-vertex
+class representative. The positive v5 `K^3` special-octahedron
+witnesses are also independently replayed.
+
+The mathematical transfer uses Frías-Armenta, Neumann-Lara and
+Pizaña, *Dismantlings and iterated clique graphs*,
+*Discrete Mathematics* 282 (2004), which establishes that removing
+a dominated vertex preserves clique-convergence/divergence behavior.
+Thus each original graph is K-divergent because its stiff core is
+K-divergent. **This does not claim that the unpared original graph
+itself contains a special octahedron at its own third iterate.**
+It also does not classify any other still-indeterminate graphs.
+
+The stage writes its verified, **immutable** proof index under
+`reports/order10_special_octahedron_core_lift_v1/`:
+`classes.tsv` (two representatives and all positive encodings),
+`members.tsv` (133 original graph6 strings, explicit folds and
+isomorphism maps), `summary.md` (proof scope and totals), and
+`manifest.json` (input/code/certificate/result SHA-256 fingerprints).
+No existing census verdicts, original input files, or frozen v2-v5
+results are changed.
+
+After the PR introducing this stage is merged, regenerate and
+commit its mathematical certificates with:
+
+```bash
+cd ~/Python/pycliques-census
+git pull --ff-only
+bash scripts/bootstrap_special_k3_v5.sh
+.venv-special-k3-v5/bin/python scripts/special_octahedron_class_lift_v1.py build
+.venv-special-k3-v5/bin/python scripts/special_octahedron_class_lift_v1.py verify
+.venv-special-k3-v5/bin/python scripts/special_octahedron_class_lift_v1.py report
+
+git add reports/order10_special_octahedron_core_lift_v1/
+git commit -m "Record independently verified special-O4 class lift to 133 originals"
+git push origin main
+```
+
+The `build` command is idempotent: it refuses to replace or
+silently repair an existing report whose bytes differ from the
+recomputed evidence. The CI workflow also builds and independently
+verifies the same output and publishes its four files as a downloadable
+artifact for code review.
