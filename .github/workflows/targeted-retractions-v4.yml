@@ -1,0 +1,68 @@
+name: Special octahedron through K3 targeted census v4
+
+on:
+  pull_request:
+    paths:
+      - "scripts/targeted_retractions_v4.py"
+      - "scripts/bootstrap_targeted_v4.sh"
+      - "config/pycliques_commit_targeted_v4.txt"
+      - "tests/targeted_retractions_v4_cases.py"
+      - ".github/workflows/targeted-retractions-v4.yml"
+      - "README.md"
+      - ".gitignore"
+      - "indeterminate_order_10.txt"
+  workflow_dispatch:
+
+jobs:
+  verified-k3-special-and-retraction-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap pinned v4 library
+        run: bash scripts/bootstrap_targeted_v4.sh
+      - name: Install pytest for isolated tests
+        run: uv pip install --python .venv-targeted-v4/bin/python pytest
+      - name: Unit tests for special-first search and certificate verification
+        run: |
+          .venv-targeted-v4/bin/python -m pytest \
+            tests/targeted_retractions_v4_cases.py -v
+      - name: Independently import existing v3 results
+        run: |
+          .venv-targeted-v4/bin/python scripts/targeted_retractions_v4.py import-v3
+          .venv-targeted-v4/bin/python scripts/targeted_retractions_v4.py plan
+          .venv-targeted-v4/bin/python - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0, str(Path("scripts").resolve()))
+          import targeted_retractions_v4 as stage
+          pending = stage.imported_groups()
+          summary = stage.summary()
+          assert summary["distinct_v3_imports"] >= 469
+          assert summary["input_indices_represented"] >= 2262
+          assert pending[0]["unclassified"] is True
+          assert pending[0]["graph6"] != ""
+          assert summary["pending_unique"] == summary["distinct_v3_imports"]
+          print("Verified v3 unique imports", summary["distinct_v3_imports"])
+          PY
+      - name: Run one unclassified unique graph through special-first K3 postpass
+        run: |
+          .venv-targeted-v4/bin/python scripts/targeted_retractions_v4.py next --batch-size 1
+          .venv-targeted-v4/bin/python scripts/targeted_retractions_v4.py verify
+          .venv-targeted-v4/bin/python scripts/targeted_retractions_v4.py report
+      - name: Assert frozen historical files are unchanged
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ \
+            scripts/targeted_retractions_v1.py \
+            scripts/targeted_retractions_v2.py \
+            scripts/targeted_retractions_v3.py \
+            tests/targeted_retractions_v3_cases.py \
+            config/pycliques_commit_targeted_v3.txt \
+            indeterminate_order_9.txt indeterminate_order_10.txt
