@@ -409,7 +409,7 @@ def prepare() -> dict[str, bytes]:
     ]
     for row in class_rows:
         body.append(
-            f"| {row['core_id']} | \`{row['core_graph6']}\` | {row['original_members']} "
+            f"| {row['core_id']} | `{row['core_graph6']}` | {row['original_members']} "
             f"| {row['direct_v5_members']} | {row['lifted_only_members']} |"
         )
     body += [
