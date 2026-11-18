@@ -231,7 +231,9 @@ def manifest()->dict:
     return {
         "schema":SCHEMA,"stage":"historical_small_retractions_v1",
         "input_historically_proven_graphs":240,
-        "candidate_keys":sorted([list(x) for x in EXPECTED_ENGINES]),
+        "distinct_target_classes_expected":9,
+        "candidate_host_pairs_expected":12,
+        "candidate_size_edge_buckets":sorted([list(x) for x in EXPECTED_ENGINES]),
         "isomorphism_engines":dict((str(k),v) for k,v in EXPECTED_ENGINES.items()),
         "max_csp_states":MAX_CSP_STATES,
         "max_csp_assignments":MAX_CSP_ASSIGNMENTS,
