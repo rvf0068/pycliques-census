@@ -1,0 +1,39 @@
+# One-time deterministic artifact generator, limited to this PR branch.
+# Removes itself once exact output artifacts are committed.
+name: Generate exhaustive snub-ninecore certificates once
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/core9-snub-generate-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'research/core9-snub-retraction-exhaustive-v2'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap pinned graph research environment
+        run: bash scripts/bootstrap_special_k3_v5.sh
+      - name: Construct and independently test the full finite certificates
+        run: |
+          .venv-special-k3-v5/bin/python scripts/core9_snub_retractions_v2.py build
+          .venv-special-k3-v5/bin/python -m unittest discover \
+            -s tests -p 'test_core9_snub_retractions_v2.py' -v
+          .venv-special-k3-v5/bin/python scripts/core9_snub_retractions_v2.py verify
+      - name: Commit reproducible artifacts and remove this temporary generator
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add reports/order9_snub_retractions_v2/
+          git rm .github/workflows/core9-snub-generate-once.yml
+          git commit -m 'Commit exhaustive 29-core snub retraction certificates and K2 equivalences'
+          git push origin HEAD:research/core9-snub-retraction-exhaustive-v2
