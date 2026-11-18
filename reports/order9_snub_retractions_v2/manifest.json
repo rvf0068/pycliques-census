@@ -1,0 +1,16 @@
+{
+  "inputs_sha256": {
+    "classes.tsv": "5a9b08c548aa5671f9c1403cf1badd0044211f7ef75129c83980462efa6f16eb",
+    "indeterminate_order_10_v4.txt": "c750eb9ca2b33ed5641870507fa72c02860c03acf0d5ae51bdd16bbbdb67f731",
+    "old_certificates.json": "07d01974e626e8eda17efbdbd823cd636254a04878c96d9f6e0b0ecb9cff1ec4",
+    "unclassified.tsv": "b82e969a9f140956be03060bcca0a8ec92e5a624df3813851b6d8a0d7788bc8c"
+  },
+  "new_positive_originals": 710,
+  "originals_before": 3738,
+  "outputs_sha256": {
+    "certificates.json": "e24b6fd591ae04d209237a7a7ba13d3dbf712b8bc5a66f4009007836f7f6d225",
+    "summary.md": "938c895648ed3911baa384044c189de4401ea04323a08bc98fcc6098d0b45998"
+  },
+  "schema": 2,
+  "stage": "order9_snub_retractions_v2"
+}
