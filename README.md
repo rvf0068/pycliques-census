@@ -1975,10 +1975,55 @@ To rerun the retraction search against a locally saved pilot
 artifact, use:
 
 ```bash
+# These hashes must come from the successful upstream proof run,
+# not from the untrusted downloaded artifact.
+VERIFIED_CATALOG_SHA256="<upstream CI job output catalog_sha256>"
+VERIFIED_MANIFEST_SHA256="<upstream CI job output manifest_sha256>"
 .venv-core9-three-v1/bin/python \
   scripts/historical_small_retractions_v1.py run \
-  --catalog /path/to/historical-small-pilot-v1/catalog.json
+  --catalog /path/to/historical-small-pilot-v1/catalog.json \
+  --catalog-sha256 "$VERIFIED_CATALOG_SHA256" \
+  --catalog-manifest-sha256 "$VERIFIED_MANIFEST_SHA256"
 .venv-core9-three-v1/bin/python \
   scripts/historical_small_retractions_v1.py verify \
-  --catalog /path/to/historical-small-pilot-v1/catalog.json
+  --catalog /path/to/historical-small-pilot-v1/catalog.json \
+  --catalog-sha256 "$VERIFIED_CATALOG_SHA256" \
+  --catalog-manifest-sha256 "$VERIFIED_MANIFEST_SHA256"
 ```
+
+
+#### Independent upstream content attestation (Copilot rereview)
+
+The checked sidecar manifest **alone** is not a cryptographic
+attestation of the catalog: an altered `catalog.json` could
+retain the same manifest and summary counts. The follow-up now
+closes that gap. After the pilot successfully **recomputes and
+independently replays every source**, CI emits exact SHA-256
+hashes of its `catalog.json` and `manifest.json`
+as separate **producer job outputs**. The consumer retrieves
+these values using its successful `needs` dependency,
+not from the artifact being authenticated, and compares both
+downloaded files byte-for-byte by their SHA-256 digests
+**before** launching retraction tests.
+
+The two expected digests are also mandatory explicit arguments
+to *both* the independently bounded retraction worker and
+checker. Their output manifest records the expected and actual
+catalog/sidecar hashes, so a result cannot silently be replayed
+against a different target inventory. Omitting either attestation
+rejects an artifact.
+
+As a second defense, the consumer independently validates
+**every** candidate's canonical graph6 syntax, order, edge
+count, connectivity, uniqueness, exact-or-incomplete Betti
+profile and rank inequalities, per-host Betti audit, and
+structural eligibility. It requires **exactly nine** previously
+unsearched target classes and **twelve distinct eligible
+host-target pairs**, with consistent complete per-host totals.
+The negative regression now explicitly rejects a forged
+candidate with graph6 `test`, even if the forged bytes
+are accompanied by matching hashes.
+
+The hashing/structural checks complement rather than replace
+the original full historical proof replay in the upstream
+pilot. No previous census verdict has changed.
