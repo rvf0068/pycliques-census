@@ -1704,3 +1704,72 @@ bash scripts/bootstrap_core9_three_target_v1.sh
 
 As always, failure to retract to these particular targets does
 **not** prove K-convergence or rule out other divergent targets.
+
+
+## Historical-divergence-derived target discovery (versioned v1)
+
+The early exhaustive clique-behavior census contains **10,096
+historically proved divergent connected graphs** on 6..9 vertices:
+1 of order six, 9 of order seven, 222 of order eight, and 9,864
+of order nine. The frozen order-nine C10-retraction, bound-60 and
+bound-70 stages add **4 + 1 + 3 = 8** more proved divergent graphs,
+for **10,104 original divergence witnesses** in total. The
+snub disphenoid, conjectured surfaces and all conditional or
+resource-limited cases are excluded.
+
+The `scripts/historical_divergent_targets_v1.py` stage reads
+the entire set of historic verdict chunks and the eight positive
+order-nine post-stage records, alongside their original McKay
+graph6 sources. It validates source order, original indices and
+the frozen known positive counts, and includes each input
+file checksum in a separate experimental manifest.
+
+From every proved-divergent graph H, it generates H, K(H) and K²(H)
+as **raw** clique iterates, using at most 40 maximal cliques
+per generated graph to limit target order. A graph that exceeds
+this size bound is skipped with an explicit count; it is never
+interpreted as nondivergent or absent. Every constructed candidate
+T undergoes a deterministic sequence of closed-neighborhood
+dominated-vertex deletions to a stiff graph S. Every deletion
+has a recorded dominator, and the folded graph remains an
+induced retract of T. By the established clique-behavior
+invariance under dominated-vertex deletions, S remains
+K-divergent. Moreover, any graph retracting onto T also
+retracts onto S, so this reduction loses no positive ordinary
+retractions **to the historically generated candidate targets**.
+
+Isomorphic stiff targets are deduplicated by a fast
+Weisfeiler-Lehman hash bucket followed by exact isomorphism,
+never just by graph6 text or the hash alone. Each surviving
+target keeps its first source order/index, graph6, frozen
+positive stage/reason, iterate index, raw-iterate graph6 and
+the full dominated-vertex deletion sequence.
+
+The 37- and 40-vertex third pared clique iterates of cores
+`6914104` and `6962151` are screened by
+necessary order, edge, degree, complement-degree and
+complement-edge-count conditions, followed by mod-2 Betti
+inequalities through dimension 5. **Limited homology
+computations never mean homology vanishes.** The catalog tags
+graphs isomorphic to already searched named target families
+(PRs #22 and #23, plus the still-open PR #24) so the next
+retraction stage can favor genuinely new candidates.
+
+This is a **target-discovery** stage, not yet a full
+induced-embedding or retraction search. Passing the
+homology/structural screen is only a necessary condition,
+not proof of a retraction or of K-divergence of either host.
+The new read-only CI job independently reconstructs and
+replays the complete catalog in separately resource-limited
+subprocesses, and saves full machine-readable results as an
+artifact. No frozen census results are modified.
+
+To reproduce:
+
+```bash
+bash scripts/bootstrap_core9_three_target_v1.sh
+.venv-core9-three-v1/bin/python scripts/historical_divergent_targets_v1.py plan
+.venv-core9-three-v1/bin/python scripts/historical_divergent_targets_v1.py run
+.venv-core9-three-v1/bin/python scripts/historical_divergent_targets_v1.py verify
+.venv-core9-three-v1/bin/python scripts/historical_divergent_targets_v1.py report
+```
