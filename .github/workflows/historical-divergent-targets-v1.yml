@@ -1,0 +1,82 @@
+name: Catalog proved divergent graphs and iterates from early census
+
+on:
+  pull_request:
+    paths:
+      - "scripts/**"
+      - "tests/**"
+      - "config/**"
+      - "runs/**"
+      - "reports/**"
+      - "research/order10_historical_divergent_targets_v1/**"
+      - ".github/workflows/historical-divergent-targets-v1.yml"
+      - "README.md"
+  workflow_dispatch:
+
+jobs:
+  historical-target-discovery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap isolated exact-version library with historical datasets
+        run: bash scripts/bootstrap_core9_three_target_v1.sh
+      - name: Install regression test runner
+        run: uv pip install --python .venv-core9-three-v1/bin/python pytest
+      - name: Test historical proof inventory, folds and safe homology filters
+        run: |
+          .venv-core9-three-v1/bin/python -m pytest \
+            tests/historical_divergent_targets_v1_cases.py -v
+      - name: Build and independently replay complete positive-target catalog
+        run: |
+          .venv-core9-three-v1/bin/python \
+            scripts/historical_divergent_targets_v1.py run \
+            --output "$RUNNER_TEMP/historical-divergent-targets-v1"
+          .venv-core9-three-v1/bin/python \
+            scripts/historical_divergent_targets_v1.py report \
+            --output "$RUNNER_TEMP/historical-divergent-targets-v1"
+      - name: Require all 10104 historical proved divergence sources
+        run: |
+          .venv-core9-three-v1/bin/python - <<'PY'
+          from pathlib import Path
+          import json, os
+          root=Path(os.environ["RUNNER_TEMP"])/"historical-divergent-targets-v1"
+          data=json.loads((root/"catalog.json").read_text())
+          assert data["status"]=="COMPLETED", data
+          assert data["historical_original_graph_count"]==10104
+          assert data["historical_positive_stages"]=={
+              "initial":10096,"c10":4,"bound60":1,"bound70":3}
+          assert all(set(row["eligible_hosts"])<= {6914104,6962151}
+                     for row in data["candidate_targets"])
+          assert len(data["candidate_targets"])==data["remaining_candidate_classes"]
+          print("VERIFIED HISTORICAL CATALOG",
+                data["all_unique_stiff_target_isomorphism_classes"],
+                data["remaining_by_host"],
+                data["candidate_classes_with_no_old_family_match"])
+          PY
+      - name: Upload versioned historical candidate catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: historical-divergent-targets-v1
+          path: ${{ runner.temp }}/historical-divergent-targets-v1/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Reject edits to all historical census inputs and prior proof records
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ \
+            research/order10_core9_three_target_v1/ \
+            research/order10_core9_third_retractions_v2/ \
+            research/order10_core9_clique_targets_v1/ \
+            scripts/core9_three_target_v1.py \
+            scripts/core9_third_retractions_v2.py \
+            scripts/core9_clique_targets_v1.py \
+            indeterminate_order_9.txt indeterminate_order_10.txt
