@@ -225,6 +225,26 @@ def staged_proven_positive_indices() -> dict[int, dict]:
     return evidence
 
 
+def require_certified_initial_reason(
+    reason:str, order:int, index:int,
+) -> None:
+    """Reject purported early positive verdicts without a proven rule.
+
+    Match the initial-source rule in both full and pilot inventories,
+    so a conditional/conjectural saved positive is never promoted to
+    a K-divergence certificate. Unknown or empty reasons also fail.
+    """
+    if (
+        not isinstance(reason,str)
+        or not reason.strip()
+        or any(word in reason.lower() for word in ("conjectur","conditional"))
+    ):
+        raise ValueError(
+            f"Conditional or missing historical positive reason "
+            f"at order {order}, index {index}"
+        )
+
+
 def historic_inputs():
     """Stream all stable original graphs paired with archived verdicts."""
     # This hash is a mathematical precondition: the saved verdict index
@@ -251,8 +271,7 @@ def historic_inputs():
             totals[n] += 1
             if status == "DIVERGENT":
                 observed[n] += 1
-                if any(word in reason.lower() for word in ("conjectur","conditional")):
-                    raise ValueError("Conditional historical verdict falsely marked divergent")
+                require_certified_initial_reason(reason,n,idx)
                 yield {
                     "order":n,"index":idx,"graph6":graph6(graph),
                     "stage":"initial","historical_reason":reason
