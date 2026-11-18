@@ -1938,3 +1938,47 @@ certificate.
 
 All these steps are performed **after** the exact mod-2
 Betti-number restrictions, not as a replacement for them.
+
+
+#### Separately attested pilot and retraction jobs
+
+The previous monolithic retraction worker recomputed the complete
+240-source pilot at the beginning of both its worker and verifier.
+That computation had **already been independently replayed** by
+the upstream pilot job, so this was duplicate expensive work,
+not a necessary independent retraction check.
+
+The read-only CI is now a two-stage proof pipeline:
+
+1. `early-historical-pilot` reconstructs all 240 original positive
+   sources, checks original graph6 archives, complete stage history,
+   domination folds and the exact Betti inequalities, then replays
+   its *whole* catalog independently under resource caps. Only on
+   success does it publish an immutable `manifest.json` and
+   `catalog.json` artifact.
+2. `historical-small-retractions` has a strict GitHub Actions
+   `needs` dependency on the successful first job, downloads
+   that exact artifact, and independently validates its manifest
+   against the frozen sources. Both its separately bounded search
+   worker **and** its independently rerunning checker operate on
+   the same SHA-256-pinned artifact. Each recomputes every exact
+   triangle obstruction, induced-target enumeration, and
+   retraction certificate; neither repeats the full source census.
+
+Thus the Betti-number filter and historical positive-source
+verification have **not** been bypassed. They remain mandatory
+in the already completed upstream proof job. The second
+stage independently reproduces **all twelve** finite retraction
+checks using the authenticated input.
+
+To rerun the retraction search against a locally saved pilot
+artifact, use:
+
+```bash
+.venv-core9-three-v1/bin/python \
+  scripts/historical_small_retractions_v1.py run \
+  --catalog /path/to/historical-small-pilot-v1/catalog.json
+.venv-core9-three-v1/bin/python \
+  scripts/historical_small_retractions_v1.py verify \
+  --catalog /path/to/historical-small-pilot-v1/catalog.json
+```
