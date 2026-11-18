@@ -97,3 +97,47 @@ def test_bounded_worker_replay_and_strict_timeout_schema(tmp_path,monkeypatch):
     path.write_text(json.dumps({**correct,"candidate_targets":[]}))
     with pytest.raises(ValueError,match="Forged timeout"):
         stage.authenticate(path)
+
+
+
+def test_historical_six_divergent_nine_cores_and_first_iterates():
+    """Independent, small finite screen before mining the 10,104 records."""
+    from pycombtop.bounded_betti import bounded_reduced_betti_mod2
+    sources = {
+        6938923: "HEht}pl",
+        6939350: "HEht~bl",
+        7454135: "HEnb~jl",
+        9678187: "HQyuzpt",
+        10768817: "HUZ~v~}",
+        11363569: "HUzrv~}",
+    }
+    for index, source in sources.items():
+        graph = nx.from_graph6_bytes(source.encode("ascii"))
+        for level in range(3):
+            if graph is None:
+                assert level == 2
+                break
+            stiff, steps = stage.stiff_fold(graph)
+            assert not steps
+            betti = bounded_reduced_betti_mod2(
+                stiff, max_faces=stage.MAX_FACES, max_degree=5
+            )
+            assert betti is not None
+            if index in (6938923, 6939350, 7454135, 9678187):
+                assert betti == {i:int(i==2) for i in range(6)}
+            elif index == 10768817:
+                assert betti == {
+                    i:int(i==(3 if level==0 else 5)) for i in range(6)
+                }
+            else:
+                assert betti == {
+                    i:int(i==(2 if level==0 else 4)) for i in range(6)
+                }
+            if level < 2:
+                graph = stage.raw_clique_graph_bounded(graph)
+        if index in (10768817, 11363569):
+            assert graph is None  # The next raw clique graph exceeds 40.
+    graph=nx.from_graph6_bytes(b"HUzrv~}")
+    target=stage.raw_clique_graph_bounded(graph)
+    assert target is not None
+    assert nx.is_isomorphic(target,nx.complement(nx.cycle_graph(14)))
