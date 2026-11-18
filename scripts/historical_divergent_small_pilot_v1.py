@@ -78,7 +78,7 @@ def compute():
             stiff,steps=full.stiff_fold(current)
             key=full.candidate_isomorphic_key(stiff)
             existing=next((k for k in buckets[key]
-                           if nx.is_isomorphic(classes[k]["graph"],stiff)),None)
+                           if full.bounded_isomorphic(classes[k]["graph"],stiff,skipped)),None)
             if existing is not None:
                 classes[existing]["instances"]+=1
                 continue
@@ -145,7 +145,10 @@ def compute():
         "source_graphs":sum(counts.values()),
         "historical_positive_stages":dict(counts),
         "unique_stiff_isomorphism_classes":len(classes),
-        "raw_iterate_skips_exceeding_40":dict(skipped),
+        "raw_iterate_skips_exceeding_40":{
+            k:v for k,v in skipped.items() if k.startswith("K")
+        },
+        "timed_out_graph_isomorphisms_kept_separate":skipped["isomorphism_timeouts"],
         "filter_counts":dict(filter_counts),
         "eligible_target_classes":len(results),
         "novel_target_classes":sum(
