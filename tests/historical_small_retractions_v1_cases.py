@@ -17,8 +17,20 @@ def target_from_historical_graph(graph6:str)->nx.Graph:
     for _ in range(2):
         g=stage.pilot.full.raw_clique_graph_bounded(g)
         assert g is not None
+    raw=g.copy()
     stiff,steps=stage.pilot.full.stiff_fold(g)
-    assert not steps
+    # K^2(H) need not be stiff: validate each explicit domination fold
+    # rather than incorrectly requiring zero folds. For this example
+    # the two legitimate deletions are [11,13] and [17,15].
+    for deleted,dominator in steps:
+        assert deleted in raw and dominator in raw and deleted!=dominator
+        assert (set(raw[deleted]) | {deleted}) <= (
+            set(raw[dominator]) | {dominator}
+        )
+        raw.remove_node(deleted)
+    assert nx.is_isomorphic(raw,stiff)
+    if graph6=="GUZvvW":
+        assert steps==[[11,13],[17,15]]
     return stiff
 
 
