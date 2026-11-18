@@ -198,11 +198,21 @@ jobs:
           assert data["historical_positives_screened"]==240
           assert data["new_candidate_graphs"]==9
           assert data["candidate_host_pairs"]==12
-          assert data["induced_target_copies"]==69
-          assert data["local_retraction_obstructions"]==69
-          assert data["positive_retractions"]==0
+          # 69 certified copies come from one selected 16-vertex target.
+          # The other *nonisomorphic* targets in the same size/edge
+          # bucket must be searched as well. Never force a negative
+          # verdict on a legitimate new positive retraction witness.
+          assert data["induced_target_copies"]>=69
+          assert data["local_retraction_obstructions"]>=69
           assert data["incomplete_searches"]==0
-          print("69 induced copies rejected by explicit empty-domain witnesses")
+          print("CERTIFIED REPLAY:",json.dumps({
+              "target_classes":data["new_candidate_graphs"],
+              "host_pairs":data["candidate_host_pairs"],
+              "induced_copies":data["induced_target_copies"],
+              "local_obstructions":data["local_retraction_obstructions"],
+              "positive_retractions":data["positive_retractions"],
+              "incomplete_searches":data["incomplete_searches"],
+          },sort_keys=True))
           PY
       - name: Upload complete, independently replayed retraction records
         uses: actions/upload-artifact@v4
