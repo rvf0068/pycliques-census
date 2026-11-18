@@ -1,0 +1,290 @@
+name: Catalog proved divergent graphs and iterates from early census
+
+on:
+  pull_request:
+    paths:
+      - "scripts/**"
+      - "tests/**"
+      - "config/**"
+      - "runs/**"
+      - "reports/**"
+      - "research/order10_historical_divergent_targets_v1/**"
+      - ".github/workflows/historical-divergent-targets-v1.yml"
+      - "README.md"
+  workflow_dispatch:
+
+jobs:
+  historical-target-discovery:
+    # The all-10,104-source scan is a separate experimental manual job.
+    # Its first monolithic prototype exceeded the 260-second worker limit,
+    # so it must not turn PR validation into an unsupported negative claim.
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap isolated exact-version library with historical datasets
+        run: bash scripts/bootstrap_core9_three_target_v1.sh
+      - name: Install regression test runner
+        run: uv pip install --python .venv-core9-three-v1/bin/python pytest
+      - name: Test historical proof inventory, folds and safe homology filters
+        run: |
+          .venv-core9-three-v1/bin/python -m pytest \
+            tests/historical_divergent_targets_v1_cases.py -v
+      - name: Build and independently replay complete positive-target catalog
+        run: |
+          .venv-core9-three-v1/bin/python \
+            scripts/historical_divergent_targets_v1.py run \
+            --output "$RUNNER_TEMP/historical-divergent-targets-v1"
+          # run already performed one complete independently bounded
+          # replay of the generated catalog; do not rerun the same
+          # 261,080-source historical scan merely to print a summary.
+          .venv-core9-three-v1/bin/python - <<'PY'
+          import json,os
+          from pathlib import Path
+          path=Path(os.environ["RUNNER_TEMP"])/"historical-divergent-targets-v1"/"catalog.json"
+          data=json.loads(path.read_text())
+          if data["status"]=="COMPLETED":
+              print(json.dumps({
+                  "all_unique_stiff_target_classes":data["all_unique_stiff_target_isomorphism_classes"],
+                  "remaining_by_host":data["remaining_by_host"],
+                  "new_targets":data["candidate_classes_with_no_old_family_match"],
+                  "skipped_expansions":data["skipped_expansions_exceeding_40"],
+                  "homology_limits":data["homology_resource_limits"],
+              },sort_keys=True))
+          else:
+              print("Catalog did not complete:",data["status"])
+          PY
+      - name: Require all 10104 historical proved divergence sources
+        run: |
+          .venv-core9-three-v1/bin/python - <<'PY'
+          from pathlib import Path
+          import json, os
+          root=Path(os.environ["RUNNER_TEMP"])/"historical-divergent-targets-v1"
+          data=json.loads((root/"catalog.json").read_text())
+          assert data["status"]=="COMPLETED", data
+          assert data["historical_original_graph_count"]==10104
+          assert data["historical_positive_stages"]=={
+              "initial":10096,"c10":4,"bound60":1,"bound70":3}
+          assert all(set(row["eligible_hosts"])<= {6914104,6962151}
+                     for row in data["candidate_targets"])
+          assert len(data["candidate_targets"])==data["remaining_candidate_classes"]
+          print("VERIFIED HISTORICAL CATALOG",
+                data["all_unique_stiff_target_isomorphism_classes"],
+                data["remaining_by_host"],
+                data["candidate_classes_with_no_old_family_match"])
+          PY
+      - name: Upload versioned historical candidate catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: historical-divergent-targets-v1
+          path: ${{ runner.temp }}/historical-divergent-targets-v1/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Reject edits to all historical census inputs and prior proof records
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ \
+            research/order10_core9_three_target_v1/ \
+            research/order10_core9_third_retractions_v2/ \
+            research/order10_core9_clique_targets_v1/ \
+            scripts/core9_three_target_v1.py \
+            scripts/core9_third_retractions_v2.py \
+            scripts/core9_clique_targets_v1.py \
+            indeterminate_order_9.txt indeterminate_order_10.txt
+
+
+  early-historical-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    outputs:
+      catalog_sha256: ${{ steps.proof_digests.outputs.catalog_sha256 }}
+      manifest_sha256: ${{ steps.proof_digests.outputs.manifest_sha256 }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap separately pinned upstream
+        run: bash scripts/bootstrap_core9_three_target_v1.sh
+      - name: Install review regression runner
+        run: uv pip install --python .venv-core9-three-v1/bin/python pytest
+      - name: Check new historical source, cohort and K-iterate regressions
+        run: |
+          .venv-core9-three-v1/bin/python -m pytest -v \
+            tests/historical_divergent_targets_v1_cases.py \
+            -k 'historical_six_divergent_nine_cores_and_first_iterates or initial_divergence_verdict_rejects_uncertified_reasons or historical_pilot_rejects_early_conditional_positive or pilot_manifest_closes_historical_cohort_hash_chain'
+      - name: Independently enumerate 240 certified historical sources
+        run: |
+          .venv-core9-three-v1/bin/python \
+            scripts/historical_divergent_small_pilot_v1.py run \
+            --output "$RUNNER_TEMP/historical-small-pilot-v1"
+          .venv-core9-three-v1/bin/python \
+            scripts/historical_divergent_small_pilot_v1.py report \
+            --output "$RUNNER_TEMP/historical-small-pilot-v1"
+      - name: Require complete positive-only provenance and new candidate census
+        run: |
+          .venv-core9-three-v1/bin/python - <<'PY'
+          import json, os
+          from pathlib import Path
+          base = Path(os.environ["RUNNER_TEMP"]) / "historical-small-pilot-v1"
+          r=json.loads((base / "catalog.json").read_text())
+          assert r["status"]=="COMPLETED"
+          assert r["source_graphs"]==240
+          assert r["historical_positive_stages"]=={
+              "initial":232,"c10":4,"bound60":1,"bound70":3}
+          assert len(r["candidate_targets"])==r["eligible_target_classes"]
+          print("Independently checked pilot:",
+                r["unique_stiff_isomorphism_classes"],
+                "stiff target classes,",r["novel_target_classes"],
+                "genuinely new candidate targets")
+          PY
+      - name: Attest exact catalog and manifest bytes after independent replay
+        id: proof_digests
+        run: |
+          set -euo pipefail
+          catalog="$RUNNER_TEMP/historical-small-pilot-v1/catalog.json"
+          manifest="$RUNNER_TEMP/historical-small-pilot-v1/manifest.json"
+          test -s "$catalog"
+          test -s "$manifest"
+          echo "catalog_sha256=$(sha256sum "$catalog" | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+          echo "manifest_sha256=$(sha256sum "$manifest" | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+      - name: Publish fully replayed 240-source target shortlist
+        uses: actions/upload-artifact@v4
+        with:
+          name: historical-small-divergent-target-pilot-v1
+          path: ${{ runner.temp }}/historical-small-pilot-v1/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Guard all historical census data and previous proof stages
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ \
+            research/order10_core9_three_target_v1/ \
+            research/order10_core9_third_retractions_v2/ \
+            research/order10_core9_clique_targets_v1/ \
+            scripts/core9_three_target_v1.py \
+            scripts/core9_third_retractions_v2.py \
+            scripts/core9_clique_targets_v1.py \
+            indeterminate_order_9.txt indeterminate_order_10.txt
+
+  historical-small-retractions:
+    # The pilot's original census and its independent full replay must
+    # finish successfully BEFORE we use its immutable artifact. Do not
+    # re-enumerate 240 sources inside each retraction worker/replay.
+    needs: early-historical-pilot
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download the independently replayed 240-source catalog
+        uses: actions/download-artifact@v4
+        with:
+          name: historical-small-divergent-target-pilot-v1
+          path: ${{ runner.temp }}/historical-small-pilot-v1
+      - name: Authenticate exact downloaded catalog and manifest bytes
+        env:
+          VERIFIED_CATALOG_SHA256: ${{ needs.early-historical-pilot.outputs.catalog_sha256 }}
+          VERIFIED_MANIFEST_SHA256: ${{ needs.early-historical-pilot.outputs.manifest_sha256 }}
+        run: |
+          set -euo pipefail
+          catalog="$RUNNER_TEMP/historical-small-pilot-v1/catalog.json"
+          manifest="$RUNNER_TEMP/historical-small-pilot-v1/manifest.json"
+          test -n "$VERIFIED_CATALOG_SHA256"
+          test -n "$VERIFIED_MANIFEST_SHA256"
+          test "$(sha256sum "$catalog" | cut -d' ' -f1)" = "$VERIFIED_CATALOG_SHA256"
+          test "$(sha256sum "$manifest" | cut -d' ' -f1)" = "$VERIFIED_MANIFEST_SHA256"
+          echo "Authenticated exact upstream proof artifact against job-output SHA-256 digests"
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap isolated optimized K-divergence library
+        run: bash scripts/bootstrap_core9_three_target_v1.sh
+      - name: Install mathematical test runner
+        run: uv pip install --python .venv-core9-three-v1/bin/python pytest
+      - name: Regression-test 69 induced targets and independent CSPs
+        run: |
+          .venv-core9-three-v1/bin/python -m pytest \
+            tests/historical_small_retractions_v1_cases.py -v
+      - name: Exhaustively search and independently replay nine distinct historic targets
+        run: |
+          # The digest comes from the successful predecessor job output,
+          # never from the downloadable artifact being authenticated.
+          test -n "${{ needs.early-historical-pilot.outputs.catalog_sha256 }}"
+          test -n "${{ needs.early-historical-pilot.outputs.manifest_sha256 }}"
+          .venv-core9-three-v1/bin/python \
+            scripts/historical_small_retractions_v1.py run \
+            --catalog "$RUNNER_TEMP/historical-small-pilot-v1/catalog.json" \
+            --catalog-sha256 "${{ needs.early-historical-pilot.outputs.catalog_sha256 }}" \
+            --catalog-manifest-sha256 "${{ needs.early-historical-pilot.outputs.manifest_sha256 }}" \
+            --output "$RUNNER_TEMP/historical-small-retractions-v1"
+          .venv-core9-three-v1/bin/python \
+            scripts/historical_small_retractions_v1.py report \
+            --catalog "$RUNNER_TEMP/historical-small-pilot-v1/catalog.json" \
+            --catalog-sha256 "${{ needs.early-historical-pilot.outputs.catalog_sha256 }}" \
+            --catalog-manifest-sha256 "${{ needs.early-historical-pilot.outputs.manifest_sha256 }}" \
+            --output "$RUNNER_TEMP/historical-small-retractions-v1"
+      - name: Require nine independent targets and all host pairs, no hidden limits
+        run: |
+          .venv-core9-three-v1/bin/python - <<'PY'
+          import os,json
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"historical-small-retractions-v1"
+          data=json.loads((root/"records.json").read_text())
+          assert data["status"]=="COMPLETED"
+          assert data["historical_positives_screened"]==240
+          assert data["new_candidate_graphs"]==9
+          assert data["candidate_host_pairs"]==12
+          # 69 certified copies come from one selected 16-vertex target.
+          # The other *nonisomorphic* targets in the same size/edge
+          # bucket must be searched as well. Never force a negative
+          # verdict on a legitimate new positive retraction witness.
+          assert data["induced_target_copies"]>=69
+          assert data["local_retraction_obstructions"]>=69
+          assert data["incomplete_searches"]==0
+          print("CERTIFIED REPLAY:",json.dumps({
+              "target_classes":data["new_candidate_graphs"],
+              "host_pairs":data["candidate_host_pairs"],
+              "induced_copies":data["induced_target_copies"],
+              "local_obstructions":data["local_retraction_obstructions"],
+              "positive_retractions":data["positive_retractions"],
+              "incomplete_searches":data["incomplete_searches"],
+          },sort_keys=True))
+          PY
+      - name: Upload complete, independently replayed retraction records
+        uses: actions/upload-artifact@v4
+        with:
+          name: historical-small-retractions-v1
+          path: ${{ runner.temp }}/historical-small-retractions-v1/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Reject changes to historical census inputs and prior proofs
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ \
+            research/order10_core9_three_target_v1/ \
+            research/order10_core9_third_retractions_v2/ \
+            research/order10_core9_clique_targets_v1/ \
+            scripts/core9_three_target_v1.py \
+            scripts/core9_third_retractions_v2.py \
+            scripts/core9_clique_targets_v1.py \
+            indeterminate_order_9.txt indeterminate_order_10.txt
