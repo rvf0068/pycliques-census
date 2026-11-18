@@ -225,7 +225,7 @@ def validate_pilot_candidates(data:dict)->None:
             raise ValueError("Invalid candidate graph6")
         try:
             graph=nx.from_graph6_bytes(g6.encode("ascii"))
-        except (ValueError,IndexError,TypeError) as exc:
+        except (ValueError,IndexError,TypeError,nx.NetworkXError) as exc:
             raise ValueError("Invalid candidate graph6") from exc
         if (
             nx.to_graph6_bytes(graph,header=False).decode("ascii").strip()!=g6
