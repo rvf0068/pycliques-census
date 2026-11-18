@@ -29,7 +29,7 @@ from graph_sources import connected_graphs,EXPECTED_COUNTS
 ROOT=full.ROOT
 OUTPUT=ROOT/"research/order10_historical_divergent_targets_v1/pilot"
 SCHEMA=1
-TIMEOUT_SECONDS=120
+TIMEOUT_SECONDS=240
 MEMORY_MIB=2500
 
 
