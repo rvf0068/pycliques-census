@@ -107,6 +107,9 @@ jobs:
     timeout-minutes: 12
     permissions:
       contents: read
+    outputs:
+      catalog_sha256: ${{ steps.proof-digests.outputs.catalog_sha256 }}
+      manifest_sha256: ${{ steps.proof-digests.outputs.manifest_sha256 }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -139,6 +142,16 @@ jobs:
                 "stiff target classes,",r["novel_target_classes"],
                 "genuinely new candidate targets")
           PY
+      - name: Attest exact catalog and manifest bytes after independent replay
+        id: proof-digests
+        run: |
+          set -euo pipefail
+          catalog="$RUNNER_TEMP/historical-small-pilot-v1/catalog.json"
+          manifest="$RUNNER_TEMP/historical-small-pilot-v1/manifest.json"
+          test -s "$catalog"
+          test -s "$manifest"
+          echo "catalog_sha256=$(sha256sum "$catalog" | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+          echo "manifest_sha256=$(sha256sum "$manifest" | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
       - name: Publish fully replayed 240-source target shortlist
         uses: actions/upload-artifact@v4
         with:
@@ -191,13 +204,21 @@ jobs:
             tests/historical_small_retractions_v1_cases.py -v
       - name: Exhaustively search and independently replay nine distinct historic targets
         run: |
+          # The digest comes from the successful predecessor job output,
+          # never from the downloadable artifact being authenticated.
+          test -n "${{ needs.early-historical-pilot.outputs.catalog_sha256 }}"
+          test -n "${{ needs.early-historical-pilot.outputs.manifest_sha256 }}"
           .venv-core9-three-v1/bin/python \
             scripts/historical_small_retractions_v1.py run \
             --catalog "$RUNNER_TEMP/historical-small-pilot-v1/catalog.json" \
+            --catalog-sha256 "${{ needs.early-historical-pilot.outputs.catalog_sha256 }}" \
+            --catalog-manifest-sha256 "${{ needs.early-historical-pilot.outputs.manifest_sha256 }}" \
             --output "$RUNNER_TEMP/historical-small-retractions-v1"
           .venv-core9-three-v1/bin/python \
             scripts/historical_small_retractions_v1.py report \
             --catalog "$RUNNER_TEMP/historical-small-pilot-v1/catalog.json" \
+            --catalog-sha256 "${{ needs.early-historical-pilot.outputs.catalog_sha256 }}" \
+            --catalog-manifest-sha256 "${{ needs.early-historical-pilot.outputs.manifest_sha256 }}" \
             --output "$RUNNER_TEMP/historical-small-retractions-v1"
       - name: Require nine independent targets and all host pairs, no hidden limits
         run: |
