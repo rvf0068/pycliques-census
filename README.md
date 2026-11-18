@@ -1815,3 +1815,63 @@ bash scripts/bootstrap_core9_three_target_v1.sh
 .venv-core9-three-v1/bin/python scripts/historical_divergent_small_pilot_v1.py verify
 .venv-core9-three-v1/bin/python scripts/historical_divergent_small_pilot_v1.py report
 ```
+
+
+### Corrections from PR #26 review and explicit Betti filter
+
+The original frozen McKay graph6 archives for orders 6–9 are now
+validated byte-for-byte against their recorded SHA-256 values **before
+any original verdict index is used**. The complete C10, bound60 and
+bound70 cohorts, predecessor hashes, exact record sets and final
+unresolved index are revalidated using the existing
+`core9_crossref` historical verifier. The eight later
+certified nine-vertex positives are kept as a genuinely additional
+set, with no conjectural snub-disphenoid cases.
+
+The completely deduplicated class index now preserves the **full
+provenance of every occurrence** (not just a first example):
+original zero-based index and graph6, positive rule/reason and stage,
+raw clique-iterate graph6, iterate level and the complete
+closed-neighborhood domination deletion witness.
+
+**Homology is a necessary test, not an optional ranking heuristic.**
+If a host graph `X` retracts onto `T`, then
+`Delta(T)` is a topological retract of `Delta(X)`.
+Consequently, for every dimension in which both reduced mod-2
+Betti numbers have been certified,
+
+\[
+\widetilde\beta_i(T;\mathbb F_2)
+\le \widetilde\beta_i(X;\mathbb F_2).
+\]
+
+The third completely pared hosts have the exact reduced mod-2
+profiles through degree five:
+
+| Core | beta0 | beta1 | beta2 | beta3 | beta4 | beta5 |
+|---:|---:|---:|---:|---:|---:|---:|
+| 6914104 | 0 | 0 | 0 | 1 | 0 | 0 |
+| 6962151 | 0 | 0 | 0 | 0 | 1 | 0 |
+
+Any candidate violating **even one** inequality is excluded from
+retraction searches for that host, regardless of the size limit.
+If homology computation reaches its resource budget or does not
+supply all six required degrees, its status is explicitly
+`UNKNOWN` and it is **not** excluded by homology. Vanishing
+Betti numbers through degree five do not imply contractibility.
+
+In the first fully verified **240-original pilot**, these exact
+restrictions, combined with structural tests and deduplication,
+identified nine genuinely new admissible target classes. Six
+distinct target shapes underwent an independent induced-embedding
+and graph-retraction search. Only one 16-vertex target admits
+induced copies in a host: its 69 induced copies in the 37-vertex
+host are all independently obstructed by empty retraction-image
+domains. No nine-core K-dynamical verdict was changed.
+
+The experimental monolithic 10,104-original catalog job still
+requires bounded sharding: the full prototype exceeded its time
+budget. Automatic PR validation covers only the completed,
+independently replayed 240-source pilot and the 69-copy
+retraction check. The uncompleted large run does not justify any
+negative claim.
