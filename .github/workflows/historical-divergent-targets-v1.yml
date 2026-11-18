@@ -37,9 +37,25 @@ jobs:
           .venv-core9-three-v1/bin/python \
             scripts/historical_divergent_targets_v1.py run \
             --output "$RUNNER_TEMP/historical-divergent-targets-v1"
-          .venv-core9-three-v1/bin/python \
-            scripts/historical_divergent_targets_v1.py report \
-            --output "$RUNNER_TEMP/historical-divergent-targets-v1"
+          # run already performed one complete independently bounded
+          # replay of the generated catalog; do not rerun the same
+          # 261,080-source historical scan merely to print a summary.
+          .venv-core9-three-v1/bin/python - <<'PY'
+          import json,os
+          from pathlib import Path
+          path=Path(os.environ["RUNNER_TEMP"])/"historical-divergent-targets-v1"/"catalog.json"
+          data=json.loads(path.read_text())
+          if data["status"]=="COMPLETED":
+              print(json.dumps({
+                  "all_unique_stiff_target_classes":data["all_unique_stiff_target_isomorphism_classes"],
+                  "remaining_by_host":data["remaining_by_host"],
+                  "new_targets":data["candidate_classes_with_no_old_family_match"],
+                  "skipped_expansions":data["skipped_expansions_exceeding_40"],
+                  "homology_limits":data["homology_resource_limits"],
+              },sort_keys=True))
+          else:
+              print("Catalog did not complete:",data["status"])
+          PY
       - name: Require all 10104 historical proved divergence sources
         run: |
           .venv-core9-three-v1/bin/python - <<'PY'
