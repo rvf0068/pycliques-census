@@ -181,10 +181,42 @@ def probe(host:nx.Graph,target:nx.Graph,method:str) -> dict:
     }
 
 
-def compute()->dict:
-    survey=pilot.compute()
-    if survey["status"]!="COMPLETED" or survey["source_graphs"]!=240:
-        raise ValueError("240-source pilot did not complete")
+def authenticated_pilot(catalog:Path|None=None)->dict:
+    """Consume the exact artifact already independently replayed by CI.
+
+    The upstream workflow job generates the pilot, replays it in a
+    separate bounded worker, and publishes an immutable artifact.
+    This second stage verifies its frozen manifest and exact bytes
+    rather than re-enumerating the 240 sources INSIDE EACH retraction
+    worker and independent retraction replay.
+
+    Without an artifact, the standalone manual invocation retains the
+    slower fallback that independently recomputes the full pilot.
+    """
+    if catalog is None:
+        data=pilot.compute()
+    else:
+        manifest_file=catalog.parent/"manifest.json"
+        if not manifest_file.is_file():
+            raise ValueError("Pilot artifact has no provenance manifest")
+        if json.loads(manifest_file.read_text())!=pilot.manifest():
+            raise ValueError("Pilot artifact manifest differs from frozen sources")
+        data=json.loads(catalog.read_text())
+    if (
+        data.get("schema")!=pilot.SCHEMA
+        or data.get("status")!="COMPLETED"
+        or data.get("source_graphs")!=240
+        or data.get("historical_positive_stages")!={
+            "initial":232,"c10":4,"bound60":1,"bound70":3
+        }
+        or len(data.get("candidate_targets",[]))!=data.get("eligible_target_classes")
+    ):
+        raise ValueError("Incomplete or structurally inconsistent pilot catalog")
+    return data
+
+
+def compute(catalog:Path|None=None)->dict:
+    survey=authenticated_pilot(catalog)
     candidates=[
         c for c in survey["candidate_targets"]
         if c["previously_searched_family"] is None
@@ -251,7 +283,7 @@ def compute()->dict:
     }
 
 
-def manifest()->dict:
+def manifest(catalog:Path|None=None)->dict:
     deps=[
         Path(__file__),
         ROOT/"scripts/historical_divergent_small_pilot_v1.py",
@@ -273,6 +305,11 @@ def manifest()->dict:
         "worker_and_verifier_seconds":TIMEOUT_SECONDS,
         "worker_and_verifier_memory_mib":MEMORY_MIB,
         "source_sha256":{str(p.relative_to(ROOT)):sha(p) for p in deps},
+        "pilot_artifact_sha256":sha(catalog) if catalog else None,
+        "pilot_manifest_sha256":(
+            sha(catalog.parent/"manifest.json") if catalog else None
+        ),
+        "pilot_attestation":"upstream independently verified CI job, full immutable artifact",
     }
 
 
@@ -294,12 +331,14 @@ def limit():
     resource.setrlimit(resource.RLIMIT_AS,(bytes_,bytes_))
 
 
-def bounded(action:str,path:Path):
+def bounded(action:str,path:Path,catalog:Path|None=None):
+    args=[sys.executable,str(Path(__file__)),action,"--output",str(path)]
+    if catalog is not None:
+        args.extend(("--catalog",str(catalog)))
     try:
         process=subprocess.run(
-            [sys.executable,str(Path(__file__)),action,"--output",str(path)],
-            capture_output=True,text=True,timeout=TIMEOUT_SECONDS,
-            preexec_fn=limit,
+            args,capture_output=True,text=True,
+            timeout=TIMEOUT_SECONDS,preexec_fn=limit,
         )
     except subprocess.TimeoutExpired as exc:
         raise TimeoutError("Bounded independent historical retraction search timed out") from exc
@@ -307,13 +346,13 @@ def bounded(action:str,path:Path):
         raise RuntimeError(f"Historical {action} failed: {process.stderr[-3500:]}")
 
 
-def authenticate(path:Path):
-    if json.loads(path.read_text())!=compute():
+def authenticate(path:Path,catalog:Path|None=None):
+    if json.loads(path.read_text())!=compute(catalog):
         raise ValueError("Saved positive or negative retraction claims differ from full replay")
 
 
-def run(directory:Path):
-    meta=manifest()
+def run(directory:Path,catalog:Path|None=None):
+    meta=manifest(catalog)
     directory.mkdir(parents=True,exist_ok=True)
     head=directory/"manifest.json"
     if head.exists():
@@ -322,18 +361,18 @@ def run(directory:Path):
         if any(directory.iterdir()):raise ValueError("Existing unversioned results")
         save(head,meta)
     result=directory/"records.json"
-    if result.exists():bounded("check",result);return
+    if result.exists():bounded("check",result,catalog);return
     with tempfile.TemporaryDirectory() as td:
         temp=Path(td)/"result.json"
-        bounded("worker",temp)
-        bounded("check",temp)
+        bounded("worker",temp,catalog)
+        bounded("check",temp,catalog)
         save(result,json.loads(temp.read_text()))
 
 
-def verify(directory:Path):
-    if json.loads((directory/"manifest.json").read_text())!=manifest():
+def verify(directory:Path,catalog:Path|None=None):
+    if json.loads((directory/"manifest.json").read_text())!=manifest(catalog):
         raise ValueError("Source code/provenance differs")
-    bounded("check",directory/"records.json")
+    bounded("check",directory/"records.json",catalog)
     print("All nine distinct historical targets independently replayed")
 
 
@@ -341,15 +380,16 @@ def main():
     a=argparse.ArgumentParser(description=__doc__)
     a.add_argument("action",choices=("run","worker","check","verify","report"))
     a.add_argument("--output",type=Path)
+    a.add_argument("--catalog",type=Path,help="Preverified source catalog.json artifact")
     args=a.parse_args()
     if args.action in ("worker","check"):
         if args.output is None:a.error("Need --output record")
-        if args.action=="worker":save(args.output,compute())
-        else:authenticate(args.output)
+        if args.action=="worker":save(args.output,compute(args.catalog))
+        else:authenticate(args.output,args.catalog)
         return
     root=args.output or OUTPUT
-    if args.action=="run":run(root);return
-    if args.action=="verify":verify(root);return
+    if args.action=="run":run(root,args.catalog);return
+    if args.action=="verify":verify(root,args.catalog);return
     data=json.loads((root/"records.json").read_text())
     print(json.dumps({k:v for k,v in data.items() if k!="candidates"},indent=2,sort_keys=True))
     for x in data["candidates"]:
