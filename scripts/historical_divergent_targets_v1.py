@@ -34,6 +34,7 @@ import resource
 import subprocess
 import sys
 import tempfile
+import time
 
 import networkx as nx
 from pycombtop.bounded_betti import bounded_reduced_betti_mod2
@@ -263,6 +264,7 @@ def make_catalog() -> dict:
     hosts={i:prior.host(i)[0] for i in HOST_IDS}
     host_betti={i:prior.host(i)[1] for i in HOST_IDS}
     hist_counts=Counter()
+    started=time.monotonic()
     source_examples=[]
     classes=[]
     buckets=defaultdict(list)
@@ -305,6 +307,15 @@ def make_catalog() -> dict:
             })
             buckets[identity].append(i)
         counters["historical_input_graphs"]+=1
+        if counters["historical_input_graphs"]%1000==0:
+            print(f"PROGRESS historical={counters['historical_input_graphs']} "
+                  f"stiff_classes={len(classes)} "
+                  f"elapsed={time.monotonic()-started:.1f}s",
+                  file=sys.stderr,flush=True)
+    print(f"PHASE screened-source inventory built: "
+          f"classes={len(classes)} "
+          f"elapsed={time.monotonic()-started:.1f}s",
+          file=sys.stderr,flush=True)
     if counters["historical_input_graphs"]!=10104 or (
         hist_counts!=Counter({"initial":10096,"c10":4,"bound60":1,"bound70":3})
     ):
@@ -313,7 +324,11 @@ def make_catalog() -> dict:
     eligible_by_host=Counter()
     eliminations=Counter()
     candidates=[]
-    for record in classes:
+    for class_index,record in enumerate(classes):
+        if class_index%100==0:
+            print(f"PROGRESS target_betti={class_index}/{len(classes)} "
+                  f"elapsed={time.monotonic()-started:.1f}s",
+                  file=sys.stderr,flush=True)
         graph=record["graph"]
         raw_struct={i:structural_necessary(graph,hosts[i]) for i in HOST_IDS}
         if all(v is not None for v in raw_struct.values()):
@@ -464,6 +479,11 @@ def subprocess_bounded(action:str,path:Path) -> None:
         p=subprocess.run(args,timeout=TIMEOUT_SECONDS,preexec_fn=limit,
                          text=True,capture_output=True)
     except subprocess.TimeoutExpired as exc:
+        captured=exc.stderr or b""
+        if isinstance(captured,bytes):
+            captured=captured.decode("utf-8",errors="replace")
+        print(f"Bounded {action} timed out. Latest worker diagnostics:\n"
+              f"{captured[-7000:]}",file=sys.stderr,flush=True)
         raise TimeoutError(f"Historical target {action} exceeded {TIMEOUT_SECONDS}s") from exc
     if p.returncode:
         raise RuntimeError(f"Historical target {action} failed:\n{p.stderr[-4500:]}")
