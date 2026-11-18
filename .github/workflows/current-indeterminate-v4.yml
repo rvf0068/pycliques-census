@@ -3,15 +3,19 @@ name: Verify certified current order-10 unresolved list (v4)
 on:
   pull_request:
     paths:
+      - "scripts/**"
+      - "config/**"
+      - "reports/**"
+      - "runs/**"
+      - "postpasses/**"
+      - "tests/**"
+      - "indeterminate_order_9.txt"
+      - "indeterminate_order_10.txt"
+      - "indeterminate_order_10_v3.txt"
       - "indeterminate_order_10_v4.txt"
-      - "scripts/current_indeterminate_v4.py"
-      - "tests/test_current_indeterminate_v4.py"
       - "research/order10_current_indeterminates_v4/**"
       - ".github/workflows/current-indeterminate-v4.yml"
-      - "reports/order10_core_index_v1/**"
-      - "reports/order10_special_octahedron_core_lift_v1/**"
-      - "scripts/historical_ninecore_lift_v1.py"
-      - "scripts/special_octahedron_class_lift_v1.py"
+      - "README.md"
   workflow_dispatch:
 
 permissions:
