@@ -189,5 +189,5 @@ def test_positive_stages_match_complete_frozen_cohorts():
         {"c10":4,"bound60":1,"bound70":3}
     )
     assert len(evidence)==8
-    assert all(row["record_sha256"] and len(row["graph6"])==9
+    assert all(row["record_sha256"] and len(nx.from_graph6_bytes(row["graph6"].encode("ascii")))==9
                for row in evidence.values())
