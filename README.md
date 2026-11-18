@@ -1756,7 +1756,7 @@ complement-edge-count conditions, followed by mod-2 Betti
 inequalities through dimension 5. **Limited homology
 computations never mean homology vanishes.** The catalog tags
 graphs isomorphic to already searched named target families
-(PRs #22 and #23, plus the still-open PR #24) so the next
+(PRs #22 and #23, plus merged PR #24) so the next
 retraction stage can favor genuinely new candidates.
 
 This is a **target-discovery** stage, not yet a full
@@ -2127,3 +2127,39 @@ recognizes these ten coaffine-join targets and two icosahedron suspensions
 as *previously searched* families. That catalog does not reproduce the
 complete negative retraction proofs; their exact counts, search methods,
 and verification records are documented in this coaffine-join experiment.
+
+
+## Current order-10 unresolved cases: certified six-core reconciliation (v4)
+
+The existing `indeterminate_order_10_v3.txt` was a frozen **8,533-case**
+snapshot created before later independently verified divergence certificates
+had been propagated to every original order-ten member of six
+nine-vertex stiff-core isomorphism classes.
+
+The separately verified six-class lifts certify **300** of those
+original graphs as K-divergent (133 special-`O_4`-class certificates
+and 167 historical raw-`K^3` special-octahedron/coaffine-suspension
+certificates). All 300 source indices were still present in v3;
+there is no overlap between these classes.
+
+The new, versioned `indeterminate_order_10_v4.txt` therefore has
+**8,233 remaining unresolved original graphs**:
+
+| Pared core order | Original graphs still unresolved |
+|---:|---:|
+| 8, conjectural snub-disphenoid-dependent core | 2,092 |
+| 9, distributed over 29 unresolved core classes | 3,738 |
+| 10, stiff original classes | 2,403 |
+
+The 4,608 rows marked `conjectured_divergent` remain unproved and
+remain on the new list. The original 8,648-entry and v3 8,533-entry
+lists are immutable; this is a **current-status index**, not an
+alteration of historical verdicts or a new divergence theorem.
+
+Exact original zero-based indices and source proof families:
+`research/order10_current_indeterminates_v4/certified_divergent.tsv`.
+The corresponding summary documents the theorems, replayable
+certificates, and full reproduction commands. Run
+`scripts/current_indeterminate_v4.py verify` to reconstruct and
+validate all three v4 artifacts. Its read-only GitHub Actions workflow
+also replays each of the **300 individual positive certificates**.
