@@ -76,6 +76,13 @@ def test_historical_target_models_are_nonempty_and_previous_families_tagged():
     g=nx.octahedral_graph()
     assert any(name=="O_d" and nx.is_isomorphic(g,m)
                for name,m in models)
+    # A later induced-O6 exclusion rules out all larger octahedra.
+    # The "previously searched" tag must cover *every* O_d whose
+    # target order does not exceed the bound, not only O3..O6.
+    octahedral_models=[g for label,g in models if label=="O_d"]
+    assert {len(g) for g in octahedral_models}==set(range(
+        6,stage.MAX_TARGET_ORDER+1,2
+    ))
 
 
 def test_bounded_worker_replay_and_strict_timeout_schema(tmp_path,monkeypatch):
