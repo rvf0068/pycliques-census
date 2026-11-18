@@ -153,7 +153,7 @@ def generate(root: Path = ROOT) -> dict[str, bytes]:
         "|---:|---|---:|---|",
     ]
     for core_id, (encoded, expected, family) in sorted(PROOFS.items()):
-        summary_lines.append(f"| {core_id} | \`{encoded}\` | {expected} | {family} |")
+        summary_lines.append(f"| {core_id} | `{encoded}` | {expected} | {family} |")
     summary_lines.extend([
         "",
         "**Total newly excluded from the stale v3 working list: 300**",
@@ -193,13 +193,13 @@ def generate(root: Path = ROOT) -> dict[str, bytes]:
         "",
         "From the census repository with the pinned historical environment:",
         "",
-        "\`\`\`bash",
+        "```bash",
         "bash scripts/bootstrap_special_k3_v5.sh",
         ".venv-special-k3-v5/bin/python scripts/special_octahedron_class_lift_v1.py verify",
         ".venv-special-k3-v5/bin/python scripts/historical_ninecore_lift_v1.py --output /tmp/historical-ninecore-lift-167.json",
         ".venv-special-k3-v5/bin/python scripts/historical_ninecore_lift_v1.py --verify /tmp/historical-ninecore-lift-167.json",
         ".venv-special-k3-v5/bin/python scripts/current_indeterminate_v4.py verify",
-        "\`\`\`",
+        "```",
         "",
         "The v4 verification command independently rebuilds all three",
         "committed v4 artifacts in memory and compares their bytes. Its",
