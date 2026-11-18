@@ -330,6 +330,36 @@ def structural_necessary(target:nx.Graph,host:nx.Graph) -> str | None:
     return None
 
 
+def homology_necessary(
+    target_betti: dict[int,int] | None,
+    host_betti: dict[int,int],
+) -> tuple[str,list[int]]:
+    """Exact mod-2 retract obstruction in EVERY certified degree 0..5.
+
+    Any ordinary graph retraction induces a split injection on reduced
+    simplicial homology. Therefore b_i(target) <= b_i(host), for each
+    i whose values are established. If either input is incomplete,
+    do NOT substitute zero or falsely reject a target.
+    """
+    if target_betti is None:
+        return "UNKNOWN_BETTI_RESOURCE_LIMIT", []
+    degrees = set(range(6))
+    if (
+        set(target_betti) != degrees or set(host_betti) != degrees
+        or any(
+            type(value) is not int or value < 0
+            for value in [*target_betti.values(),*host_betti.values()]
+        )
+    ):
+        return "UNKNOWN_INCOMPLETE_BETTI", []
+    violating = [
+        i for i in sorted(degrees)
+        if target_betti[i] > host_betti[i]
+    ]
+    return ("HOMOLOGY_OBSTRUCTED" if violating else
+            "PASSES_BETTI_0_TO_5"), violating
+
+
 def make_catalog() -> dict:
     hosts={i:prior.host(i)[0] for i in HOST_IDS}
     host_betti={i:prior.host(i)[1] for i in HOST_IDS}
@@ -423,11 +453,16 @@ def make_catalog() -> dict:
         )
         keep=[]
         reasons={}
+        betti_results={}
         for core_id in HOST_IDS:
             reason=raw_struct[core_id]
-            if reason is None and betti is not None:
-                if any(betti.get(k,0)>host_betti[core_id][k] for k in range(6)):
-                    reason="HOMOLOGY"
+            status, violating=homology_necessary(betti,host_betti[core_id])
+            betti_results[str(core_id)]={
+                "status":status,
+                "obstructing_degrees":violating,
+            }
+            if reason is None and violating:
+                reason="HOMOLOGY"
             if reason is None:
                 keep.append(core_id)
                 eligible_by_host[core_id]+=1
@@ -451,6 +486,7 @@ def make_catalog() -> dict:
             "homology_status":homology_status,
             "eligible_hosts":keep,
             "host_filters":reasons,
+            "homology_obstructions_by_host":betti_results,
         })
     candidates.sort(key=lambda c:(
         c["known_previously_searched_family"] is not None,
@@ -483,6 +519,11 @@ def make_catalog() -> dict:
         },
         "classes_excluded_by_cheap_structure":counters["candidate_structurally_excluded"],
         "homology_resource_limits":counters["homology_incomplete"],
+        "homology_obstruction_test":"b_i(target;F2) <= b_i(host;F2), all certified i=0..5",
+        "host_certified_betti_0_to_5":{
+            str(h):{str(i):host_betti[h][i] for i in range(6)}
+            for h in HOST_IDS
+        },
         "exact_iso_comparison_timeouts_kept_distinct":counters["isomorphism_timeouts"],
         "remaining_candidate_classes":len(candidates),
         "remaining_by_host":{str(k):eligible_by_host[k] for k in HOST_IDS},
@@ -650,7 +691,8 @@ def report(directory:Path) -> None:
     if data["status"]=="TIMEOUT":
         print(json.dumps({"status":"INCONCLUSIVE_TIMEOUT"}))
         return
-    summary={k:v for k,v in data.items() if k!="candidate_targets"}
+    summary={k:v for k,v in data.items()
+             if k not in {"candidate_targets","all_class_provenance"}}
     print(json.dumps(summary,indent=2,sort_keys=True))
     for h in HOST_IDS:
         subset=[c for c in data["candidate_targets"]
