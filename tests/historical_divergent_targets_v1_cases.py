@@ -205,3 +205,53 @@ def test_positive_stages_match_complete_frozen_cohorts():
     assert len(evidence)==8
     assert all(row["record_sha256"] and len(nx.from_graph6_bytes(row["graph6"].encode("ascii")))==9
                for row in evidence.values())
+
+
+
+@pytest.mark.parametrize("reason",[
+    "conjectured divergent", "conditional: special octahedron",
+    "", "  ", None,
+])
+def test_initial_divergence_verdict_rejects_uncertified_reasons(reason):
+    with pytest.raises(ValueError, match="Conditional or missing"):
+        stage.require_certified_initial_reason(reason, 6, 0)
+
+
+def test_historical_pilot_rejects_early_conditional_positive(monkeypatch):
+    import historical_divergent_small_pilot_v1 as pilot
+
+    monkeypatch.setattr(pilot.full,"validate_source_archives",lambda:{})
+    monkeypatch.setattr(
+        pilot,"connected_graphs",
+        lambda n:iter([nx.complete_graph(n)]),
+    )
+    monkeypatch.setattr(
+        pilot,"iter_chunks",
+        lambda directory,n,batch:iter([
+            (0,"DIVERGENT","conjectured divergent by an unknown rule")
+        ]),
+    )
+    with pytest.raises(ValueError,match="Conditional or missing"):
+        next(pilot.sources())
+
+
+def test_pilot_manifest_closes_historical_cohort_hash_chain():
+    import historical_divergent_small_pilot_v1 as pilot
+
+    sources=pilot.manifest()["source_sha256"]
+    required={
+        "runs/baseline-through8-bound30/manifest.json",
+        "runs/order9/initial/manifest.json",
+        "runs/order9/initial/order9/indeterminate_order_9.txt",
+        "indeterminate_order_9.txt",
+        "scripts/core9_crossref.py",
+        "scripts/validate.py",
+        "scripts/graph_sources.py",
+    }
+    for stage_name in stage.ADDITIONAL_NINE:
+        required.update({
+            f"runs/order9/{stage_name}/manifest.json",
+            f"runs/order9/{stage_name}/summary.json",
+        })
+    assert required <= set(sources)
+    assert all(len(sources[path])==64 for path in required)
