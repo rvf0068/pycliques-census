@@ -14,12 +14,14 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 from io import StringIO
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = "indeterminate_order_10_v3.txt"
 CLASS_INDEX = "reports/order10_core_index_v1/classes.tsv"
+ASSIGNMENTS = "reports/order10_core_index_v1/assignments.tsv"
 OLD_CERTIFICATES = "reports/order10_special_octahedron_core_lift_v1/members.tsv"
 OUTPUT = "indeterminate_order_10_v4.txt"
 PROVEN_INDEX = "research/order10_current_indeterminates_v4/certified_divergent.tsv"
@@ -36,6 +38,20 @@ PROOFS: dict[int, tuple[str, int, str]] = {
     11363569: ("HUzrv~}", 36, "historical_coaffine_suspension"),
 }
 OLD_CORES = frozenset((6938923, 6939350))
+# SHA-256 values from the independently committed frozen core-index manifest.
+# Pin actual payload bytes, not merely a mutable manifest or matching row counts.
+FROZEN_SHA256 = {
+    SOURCE: "06d98896a18dacc95009e3824ecf69844e7a2f30d1efe7e24417c770d4fbcc30",
+    CLASS_INDEX: "5a9b08c548aa5671f9c1403cf1badd0044211f7ef75129c83980462efa6f16eb",
+    ASSIGNMENTS: "b9cbe4f71631f65ff1193eb16e3a706ddd08372fa9fb30c69be27acd36c14dc6",
+}
+
+
+def require_frozen_inputs(root: Path) -> None:
+    for name, expected in FROZEN_SHA256.items():
+        actual = hashlib.sha256((root / name).read_bytes()).hexdigest()
+        if actual != expected:
+            raise ValueError(f"frozen v3/core-index SHA-256 mismatch: {name}")
 
 
 def tsv(text: str) -> list[dict[str, str]]:
@@ -44,6 +60,7 @@ def tsv(text: str) -> list[dict[str, str]]:
 
 def generate(root: Path = ROOT) -> dict[str, bytes]:
     """Construct all v4 artifacts, rejecting any source/provenance change."""
+    require_frozen_inputs(root)
     source_text = (root / SOURCE).read_text(encoding="utf-8")
     head, *rest = source_text.splitlines()
     if head != "# Order-10 unresolved cases, after independently verified v3 positives":
@@ -93,6 +110,38 @@ def generate(root: Path = ROOT) -> dict[str, bytes]:
                 raise ValueError(f"Saved proven core does not match certificate {core_id}")
     if all_member_ids != set(source_rows):
         raise ValueError("Core index does not cover precisely the v3 unresolved indices")
+
+    # A valid class membership LIST alone cannot prove that a given source
+    # index belongs to that core. Check the separately frozen per-index
+    # assignment table, its recorded pared graph, and exact source status.
+    assignments = tsv((root / ASSIGNMENTS).read_text(encoding="utf-8"))
+    if len(assignments) != len(source_rows):
+        raise ValueError("Authoritative assignment table has wrong population")
+    by_index: dict[int, dict[str, str]] = {}
+    for assignment in assignments:
+        index = int(assignment["index"])
+        if index in by_index or index not in source_rows:
+            raise ValueError("Duplicate or extraneous authoritative assignment")
+        fields = source_rows[index].split()
+        if (
+            fields[1] != assignment["pared_order"]
+            or fields[2] != assignment["pared_graph6"]
+            or fields[4] != assignment["original_target_status"]
+        ):
+            raise ValueError("Frozen v3 row disagrees with authoritative assignment")
+        by_index[index] = assignment
+    for core_id, indices in members_by_core.items():
+        for index in indices:
+            assignment = by_index.get(index)
+            if (
+                assignment is None
+                or int(assignment["core_id"]) != core_id
+                or assignment["core_graph6"] != next(
+                    row["core_graph6"] for row in classes
+                    if int(row["core_id"]) == core_id
+                )
+            ):
+                raise ValueError("Core membership disagrees with authoritative assignment")
 
     old_rows = tsv((root / OLD_CERTIFICATES).read_text(encoding="utf-8"))
     expected_old = {
