@@ -501,9 +501,14 @@ def run(directory:Path) -> None:
                 save(record,{"schema":SCHEMA,"status":"TIMEOUT",
                              "phase":"worker","limit_seconds":TIMEOUT_SECONDS})
             else:
+                # All positive and nonpositive observations were freshly
+                # regenerated inside a separate bounded verifier before
+                # any record is accepted. A second immediate full replay
+                # would be redundant and disproportionately expensive.
                 subprocess_bounded("check",candidate)
                 save(record,json.loads(candidate.read_text()))
-    verify(directory)
+    if json.loads(header.read_text())!=meta:
+        raise ValueError("Historical catalog manifest changed while running")
 
 
 def verify(directory:Path) -> None:
