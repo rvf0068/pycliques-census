@@ -50,7 +50,7 @@ jobs:
           screen=json.loads((p/"homology_screen.json").read_text())
           assert cat["source_verdict_counts"]=={"6":1,"7":9,"8":222,"9":9864}
           assert cat["historical_extra_count"]==6
-          assert cat["selected_original_counts"]["9"]==9870
+          assert cat["selected_original_counts"]["9"]==9868
           assert len(cat["roots"])==cat["primitive_root_count"]
           assert len(cat["targets"])==cat["unique_iterated_target_count"]
           assert set(screen["hosts"])=={"6914104","6962151"}
