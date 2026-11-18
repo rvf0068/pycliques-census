@@ -1714,9 +1714,10 @@ divergence verdicts** and their clique iterates.
 
 The frozen initial census recorded 1 divergent connected graph of
 order 6, 9 of order 7, 222 of order 8 and 9,864 of order 9.
-Six further nine-vertex stiff cores have independently replayed
-positive divergence certificates in the order-ten core9 crossreference;
-they were not initially classified as divergent. **No case marked
+Six nine-vertex stiff cores have independently replayed positive
+divergence certificates in the order-ten core9 crossreference.
+Two were already classified as divergent in the initial stage;
+the other four became certified in subsequent bounded searches. **No case marked
 indeterminate on account of the snub disphenoid is promoted.**
 
 New, independent script
