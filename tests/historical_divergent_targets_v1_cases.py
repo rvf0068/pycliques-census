@@ -141,3 +141,53 @@ def test_historical_six_divergent_nine_cores_and_first_iterates():
     target=stage.raw_clique_graph_bounded(graph)
     assert target is not None
     assert nx.is_isomorphic(target,nx.complement(nx.cycle_graph(14)))
+
+
+
+def test_historical_graph6_source_archives_are_exactly_frozen():
+    checksums = stage.validate_source_archives()
+    assert set(checksums) == {"6","7","8","9"}
+    assert all(len(digest)==64 for digest in checksums.values())
+
+
+def test_betti_retract_inequality_and_unknown_status_are_not_zero_filled():
+    zero = {i:0 for i in range(6)}
+    host3 = {i:int(i==3) for i in range(6)}
+    host4 = {i:int(i==4) for i in range(6)}
+    sphere3 = {i:int(i==3) for i in range(6)}
+    sphere4 = {i:int(i==4) for i in range(6)}
+    excess3 = dict(sphere3, **{})
+    excess3[3] = 2
+    assert stage.homology_necessary(sphere3,host3)==(
+        "PASSES_BETTI_0_TO_5",[]
+    )
+    assert stage.homology_necessary(sphere4,host3)==(
+        "HOMOLOGY_OBSTRUCTED",[4]
+    )
+    assert stage.homology_necessary(sphere3,host4)==(
+        "HOMOLOGY_OBSTRUCTED",[3]
+    )
+    assert stage.homology_necessary(excess3,host3)==(
+        "HOMOLOGY_OBSTRUCTED",[3]
+    )
+    assert stage.homology_necessary(zero,host3)==(
+        "PASSES_BETTI_0_TO_5",[]
+    )
+    assert stage.homology_necessary(None,host3)==(
+        "UNKNOWN_BETTI_RESOURCE_LIMIT",[]
+    )
+    partial={3:1}
+    assert stage.homology_necessary(partial,host3)==(
+        "UNKNOWN_INCOMPLETE_BETTI",[]
+    )
+
+
+def test_positive_stages_match_complete_frozen_cohorts():
+    evidence=stage.staged_proven_positive_indices()
+    from collections import Counter
+    assert Counter(row["stage"] for row in evidence.values()) == Counter(
+        {"c10":4,"bound60":1,"bound70":3}
+    )
+    assert len(evidence)==8
+    assert all(row["record_sha256"] and len(row["graph6"])==9
+               for row in evidence.values())
