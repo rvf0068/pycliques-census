@@ -44,6 +44,9 @@ def sources():
             ix,status,reason=next(records)
             if ix!=index:raise ValueError("Historical index mismatched")
             if status=="DIVERGENT":
+                # Only certified positive reasons are admissible. Share
+                # exactly the same rule as the complete historical scan.
+                full.require_certified_initial_reason(reason,n,index)
                 seen[n]+=1
                 yield {"order":n,"index":index,"graph6":full.graph6(g),
                        "stage":"initial","historical_reason":reason},g
@@ -186,6 +189,10 @@ def manifest():
         Path(__file__),
         ROOT/"scripts/historical_divergent_targets_v1.py",
         ROOT/"scripts/core9_crossref.py",
+        ROOT/"scripts/validate.py",
+        ROOT/"scripts/graph_sources.py",
+        ROOT/"scripts/core_isomorphism_index.py",
+        ROOT/"scripts/bootstrap_core9_three_target_v1.sh",
         ROOT/"scripts/core9_clique_targets_v1.py",
         ROOT/"scripts/core9_third_retractions_v2.py",
         ROOT/"scripts/core9_three_target_v1.py",
@@ -193,7 +200,11 @@ def manifest():
         ROOT/"research/order10_core9_three_target_v1/manifest.json",
         ROOT/"research/order10_core9_third_retractions_v2/manifest.json",
         ROOT/"runs/baseline-through8-bound30/summary.json",
+        ROOT/"runs/baseline-through8-bound30/manifest.json",
         ROOT/"runs/order9/initial/summary.json",
+        ROOT/"runs/order9/initial/manifest.json",
+        ROOT/"runs/order9/initial/order9/indeterminate_order_9.txt",
+        ROOT/"indeterminate_order_9.txt",
     ]
     for n in (6,7,8):
         files.extend(sorted((full.BASE/f"order{n}"/"chunks").glob("*.tsv.gz")))
@@ -204,8 +215,16 @@ def manifest():
             ROOT/f"research/order10_core9_third_retractions_v2/records/{core_id:08d}.json",
         ])
     for stage in full.ADDITIONAL_NINE:
+        # Full historical cohort validation reads BOTH the named cohort
+        # manifest and the summary, as well as every stage record.
         files.extend(sorted((full.NINE/stage/"records").glob("*.json")))
         files.append(full.NINE/stage/"summary.json")
+        files.append(full.NINE/stage/"manifest.json")
+    # Do not accidentally accept a source-dependent output under a
+    # provenance manifest that omits or duplicates an input path.
+    names=[str(p.relative_to(ROOT)) for p in files]
+    if len(names)!=len(set(names)):
+        raise ValueError("Duplicate historical provenance dependency")
     return {
         "schema":SCHEMA,"stage":"historical_divergent_small_pilot_v1",
         "expected_positive_graphs":240,
