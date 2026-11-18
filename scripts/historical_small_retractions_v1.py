@@ -37,7 +37,7 @@ import core9_clique_targets_v1 as prior
 ROOT=pilot.ROOT
 OUTPUT=ROOT/"research/order10_historical_divergent_targets_v1/retraction_pilot"
 SCHEMA=1
-TIMEOUT_SECONDS=170
+TIMEOUT_SECONDS=300
 MEMORY_MIB=2500
 MAX_CSP_STATES=100_000
 MAX_CSP_ASSIGNMENTS=200_000
