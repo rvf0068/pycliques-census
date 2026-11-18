@@ -27,6 +27,7 @@ import csv
 import gzip
 import hashlib
 from itertools import islice
+from importlib import resources
 import json
 import os
 from pathlib import Path
@@ -43,6 +44,7 @@ from pycombtop.bounded_betti import bounded_reduced_betti_mod2
 from graph_sources import connected_graphs, EXPECTED_COUNTS
 from validate import iter_chunks, iter_verdicts
 import core9_clique_targets_v1 as prior
+import core9_crossref as historical_crossref
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "research/order10_historical_divergent_targets_v1"
@@ -150,45 +152,85 @@ def raw_clique_graph_bounded(graph: nx.Graph) -> nx.Graph | None:
     return h
 
 
+def validate_source_archives() -> dict[str, str]:
+    """The original verdict indices only apply to these EXACT graph6 archives."""
+    baseline = json.loads((BASE / "summary.json").read_text())["manifest"]
+    nine = json.loads((NINE / "initial" / "summary.json").read_text())["manifest"]
+    digests = {}
+    for n in range(6, 10):
+        reference = (baseline if n <= 8 else nine)[
+            "bundled_connected_graph6_sha256"
+        ][str(n)]
+        data = resources.files("pyg6data.data").joinpath(
+            f"graph{n}c.g6.gz"
+        ).read_bytes()
+        digest = hashlib.sha256(data).hexdigest()
+        if digest != reference:
+            raise ValueError(
+                f"Connected graph6 archive order {n} differs from "
+                "frozen census; historical indices cannot be reused"
+            )
+        digests[str(n)] = digest
+    return digests
+
+
 def staged_proven_positive_indices() -> dict[int, dict]:
-    """Only frozen positive records; nothing conjectural or merely limited."""
+    """Validate ALL historical stage cohorts and certificate provenance.
+
+    Reuse the original (independently maintained) cross-reference
+    validator, including exact cohort memberships, predecessor hashes,
+    complete record sets and final unresolved transitions. Merely seeing
+    verdict==DIVERGENT is not enough.
+    """
+    initial_meta, _summary, original_unresolved = historical_crossref.initial_data()
+    historical_crossref.validate_dataset(initial_meta)
+    stages = {}
+    for stage in ADDITIONAL_NINE:
+        stages[stage], _hashes = historical_crossref.load_stage_records(
+            stage, original_unresolved
+        )
+    historical_crossref.validate_complete_history(original_unresolved, stages)
+
     evidence = {}
     for stage, expected in ADDITIONAL_NINE.items():
-        folder = NINE / stage
-        summary = json.loads((folder / "summary.json").read_text())
-        manifest = json.loads((folder / "manifest.json").read_text())
-        if summary["manifest"] != manifest or manifest.get("stage") != stage:
-            raise ValueError(f"Wrong frozen order-nine {stage} provenance")
         positives = []
-        for p in sorted((folder / "records").glob("*.json")):
-            row = json.loads(p.read_text())
-            idx = row.get("index")
-            if not isinstance(idx,int) or p.name != f"{idx:08d}.json":
-                raise ValueError("Malformed staged index")
+        for idx, row in stages[stage].items():
+            path = NINE / stage / "records" / f"{idx:08d}.json"
             if stage == "c10":
-                good = (row.get("status") == "RETRACTION_FOUND"
-                        and isinstance(row.get("witness"),dict))
-                reason = "verified C10-complement K-retraction"
+                good = (
+                    row["status"] == "RETRACTION_FOUND"
+                    and isinstance(row.get("witness"), dict)
+                )
+                reason = row.get("reason") or "saved C10-complement retraction"
             else:
-                good = row.get("verdict") == "DIVERGENT"
-                reason = row.get("reason", "")
-            if good:
-                if idx in evidence:
-                    raise ValueError(f"Duplicate later nine-vertex proof for {idx}")
-                if any(word in reason.lower() for word in ("conjectur","conditional")):
-                    raise ValueError(f"Conditional divergence falsely used at {idx}")
-                evidence[idx] = {
-                    "stage":stage, "graph6":row["graph6"],
-                    "reason":reason, "record_sha256":sha(p),
-                }
-                positives.append(idx)
+                good = row["verdict"] == "DIVERGENT"
+                reason = row.get("reason") or ""
+            if not good:
+                continue
+            if not reason or any(
+                word in reason.lower() for word in ("conjectur", "conditional")
+            ):
+                raise ValueError(f"Unproved or conditional stage positive at {idx}")
+            if idx in evidence:
+                raise ValueError(f"Duplicate historical positive at {idx}")
+            evidence[idx] = {
+                "stage": stage, "graph6": row["graph6"],
+                "reason": reason, "record_sha256": sha(path),
+            }
+            positives.append(idx)
         if len(positives) != expected:
-            raise ValueError(f"Unexpected historical positive {stage}: {positives}")
+            raise ValueError(
+                f"Historical {stage} positive set disagrees: {positives}"
+            )
     return evidence
 
 
 def historic_inputs():
     """Stream all stable original graphs paired with archived verdicts."""
+    # This hash is a mathematical precondition: the saved verdict index
+    # identifies the exact graph in McKay's frozen archive, not a generic
+    # connected graph of the same order.
+    validate_source_archives()
     extras = staged_proven_positive_indices()
     observed = Counter()
     totals = Counter()
