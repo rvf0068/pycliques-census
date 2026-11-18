@@ -1738,9 +1738,13 @@ K-divergent. Moreover, any graph retracting onto T also
 retracts onto S, so this reduction loses no positive ordinary
 retractions **to the historically generated candidate targets**.
 
-Isomorphic stiff targets are deduplicated by a fast
-Weisfeiler-Lehman hash bucket followed by exact isomorphism,
-never just by graph6 text or the hash alone. Each surviving
+Stiff targets are grouped by a fast Weisfeiler-Lehman hash
+bucket followed by independently verified exact isomorphisms,
+never just by the hash alone. Pathologically expensive
+isomorphism comparisons receive a 50-ms budget; if the
+comparison cannot finish, the two candidates remain **distinct**.
+This can overcount classes but cannot merge nonisomorphic
+targets or silently discard a viable retraction target. Each surviving
 target keeps its first source order/index, graph6, frozen
 positive stage/reason, iterate index, raw-iterate graph6 and
 the full dominated-vertex deletion sequence.
