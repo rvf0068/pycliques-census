@@ -1890,3 +1890,51 @@ after exact graph-isomorphism checks; their equivalence is not
 assumed. This additional route is inherited from the now-superseded
 PR #26, whereas the automatic 240-source pilot retains its
 original raw-iterate scope.
+
+
+### Fast, exact nonembedding checks for historical targets
+
+The nine-target retraction follow-up initially exceeded its
+300-second worker budget because it tried general induced
+subgraph searches for all twelve host-target pairs, including
+very sparse complement patterns. This is a **search-resource
+timeout**, not evidence that a retraction exists or does not exist.
+
+For any *induced* target `T` of a host `X`,
+the complement `X^c` contains an induced copy of
+`T^c`. Every triangle of `T^c` must therefore be
+one of the triangles of `X^c`. The implementation tests
+the rigorous necessary inequality
+
+\[
+t(T^c)\le t(X^c),
+\]
+
+where `t` counts triangles **exactly**.
+
+The third pared iterates of core 6914104 and core 6962151
+have respectively **7** and **3** complement triangles.
+The following historical target shapes fail this condition:
+
+| Target order / edges | Target complement triangles | Relevant host(s) |
+|---|---:|---|
+| 24 / 220 | 8 | 6914104 |
+| 25 / 268 (four nonisomorphic targets) | 6 each | 6962151 |
+| 26 / 256 | 12 | 6914104, 6962151 |
+
+Every such exclusion is immediate, needs no retraction CSP,
+and has a machine-replayable count witness in the result
+JSON. The sixteen-vertex, 94-edge target, whose 69 induced
+copies already have fixed-domain obstructions, is unaffected.
+
+The only other larger target families are the 20-vertex,
+174-edge and 24-vertex, 234-edge patterns. For these the
+search uses the **symmetry-aware ISMAGS algorithm** on
+complements in place of the slower VF2 enumeration.
+A local exact run found zero embeddings in both hosts.
+CI independently replays the complete search and refuses
+to promote a timeout or a bounded CSP result to a negative
+certificate.
+
+All these steps are performed **after** the exact mod-2
+Betti-number restrictions, not as a replacement for them.
