@@ -1,0 +1,84 @@
+name: Historical certified divergent target library and K iterates
+
+on:
+  pull_request:
+    paths:
+      - "scripts/**"
+      - "tests/**"
+      - "runs/baseline-through8-bound30/**"
+      - "runs/order9/initial/**"
+      - "reports/order10_core9_crossref_v1/**"
+      - "research/historical_divergent_target_library_v1/**"
+      - ".github/workflows/historical-divergent-target-library-v1.yml"
+      - "README.md"
+  workflow_dispatch:
+
+jobs:
+  target-library:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap pinned pycliques and bundled historical connected graphs
+        run: bash scripts/bootstrap_core9_three_target_v1.sh
+      - name: Install unit-test framework into isolated environment
+        run: uv pip install --python .venv-core9-three-v1/bin/python pytest
+      - name: Validate historical positives and mathematical screening safeguards
+        run: |
+          .venv-core9-three-v1/bin/python -m pytest \
+            tests/historical_divergent_target_library_v1_cases.py -v
+      - name: Reconstruct all saved positive sources, deduplicate and screen K iterates
+        run: |
+          .venv-core9-three-v1/bin/python \
+            scripts/historical_divergent_target_library_v1.py run \
+            --output "$RUNNER_TEMP/historical-divergent-library-v1"
+          .venv-core9-three-v1/bin/python \
+            scripts/historical_divergent_target_library_v1.py report \
+            --output "$RUNNER_TEMP/historical-divergent-library-v1"
+      - name: Authenticate all four source verdict counts and both host screens
+        run: |
+          .venv-core9-three-v1/bin/python - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ["RUNNER_TEMP"])/"historical-divergent-library-v1"
+          cat=json.loads((p/"certified_targets.json").read_text())
+          screen=json.loads((p/"homology_screen.json").read_text())
+          assert cat["source_verdict_counts"]=={"6":1,"7":9,"8":222,"9":9864}
+          assert cat["historical_extra_count"]==6
+          assert cat["selected_original_counts"]["9"]==9870
+          assert len(cat["roots"])==cat["primitive_root_count"]
+          assert len(cat["targets"])==cat["unique_iterated_target_count"]
+          assert set(screen["hosts"])=={"6914104","6962151"}
+          assert screen["target_count"]==cat["unique_iterated_target_count"]
+          for core,row in screen["hosts"].items():
+              print(json.dumps({
+                  "core":core,"primitive_roots":cat["primitive_root_count"],
+                  "unique_targets":cat["unique_iterated_target_count"],
+                  "filters":row["filter_counts"],
+                  "shortlist":row["priority_shortlist"],
+                  "unlisted":row["unlisted_candidate_count"],
+              },sort_keys=True))
+          PY
+      - name: Upload complete reproducible library and homology shortlists
+        uses: actions/upload-artifact@v4
+        with:
+          name: historical-divergent-target-library-v1
+          path: ${{ runner.temp }}/historical-divergent-library-v1/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Prevent any change to prior graph censuses or proof repositories
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ history/ \
+            research/order10_core9_three_target_v1/ \
+            research/order10_core9_third_retractions_v2/ \
+            research/order10_core9_clique_targets_v1/ \
+            indeterminate_order_9.txt indeterminate_order_10.txt
