@@ -158,8 +158,18 @@ def compute()->dict:
         if c["previously_searched_family"] is None
     ]
     observed={(x["order"],x["edges"]) for x in candidates}
-    if observed!=set(EXPECTED_ENGINES) or len(candidates)!=len(observed):
-        raise ValueError(f"New historical candidate set differs: {observed}")
+    # There are NINE distinct stiff graph classes in SIX (order,edges)
+    # buckets. Multiple nonisomorphic graphs have order 25 and 268
+    # edges; never collapse them just because these invariants agree!
+    if (
+        observed!=set(EXPECTED_ENGINES)
+        or len(candidates)!=9
+        or len({x["graph6"] for x in candidates})!=9
+    ):
+        raise ValueError(
+            f"New historical candidate classes differ: "
+            f"{len(candidates)} classes in buckets {observed}"
+        )
     hosts={cid:prior.host(cid)[0] for cid in (6914104,6962151)}
     rows=[]
     for case in candidates:
