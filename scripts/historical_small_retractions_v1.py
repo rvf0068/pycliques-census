@@ -45,7 +45,7 @@ EXPECTED_ENGINES={
     (16,94):"ISMAGS",
     (20,174):"ISMAGS",
     (24,220):"VF2",
-    (24,234):"VF2",
+    (24,234):"ISMAGS",
     (25,268):"VF2",
     (26,256):"VF2",
 }
@@ -101,9 +101,40 @@ def two_solvers(host:nx.Graph,vertices:list[int]) -> dict:
     }
 
 
+def complement_triangle_count(graph:nx.Graph) -> int:
+    """Exact, deterministic triangle count in the graph complement."""
+    comp=nx.complement(graph)
+    three_times=sum(nx.triangles(comp).values())
+    assert three_times%3==0
+    return three_times//3
+
+
 def probe(host:nx.Graph,target:nx.Graph,method:str) -> dict:
     h_comp=nx.complement(host)
     t_comp=nx.complement(target)
+    host_triangles=sum(nx.triangles(h_comp).values())//3
+    target_triangles=sum(nx.triangles(t_comp).values())//3
+    # Every triangle of an induced subgraph of the complement
+    # must be a triangle in the ambient complement. Thus a larger
+    # target triangle count proves NO induced target, and hence
+    # NO ordinary graph retraction. This is an exact obstruction,
+    # not a bounded search or a heuristic.
+    if target_triangles>host_triangles:
+        return {
+            "status":"EXHAUSTED",
+            "method":"COMPLEMENT_TRIANGLE_OBSTRUCTION",
+            "obstruction":{
+                "type":"COMPLEMENT_TRIANGLE_COUNT",
+                "host_triangles":host_triangles,
+                "target_triangles":target_triangles,
+            },
+            "labeled_embedding_maps":0,
+            "induced_vertex_sets":0,
+            "locally_impossible":0,
+            "fully_tested_csp":0,
+            "positive_retractions":0,
+            "negative_certificates":[],
+        }
     matcher=(
         ISMAGS(h_comp,t_comp) if method=="ISMAGS"
         else GraphMatcher(h_comp,t_comp)
@@ -136,6 +167,7 @@ def probe(host:nx.Graph,target:nx.Graph,method:str) -> dict:
     return {
         "status":status,
         "method":method,
+        "obstruction":None,
         "labeled_embedding_maps":maps,
         "induced_vertex_sets":len(cases),
         "locally_impossible":sum(
@@ -237,6 +269,7 @@ def manifest()->dict:
         "isomorphism_engines":dict((str(k),v) for k,v in EXPECTED_ENGINES.items()),
         "max_csp_states":MAX_CSP_STATES,
         "max_csp_assignments":MAX_CSP_ASSIGNMENTS,
+        "necessary_induced_obstruction":"exact complement triangle count",
         "worker_and_verifier_seconds":TIMEOUT_SECONDS,
         "worker_and_verifier_memory_mib":MEMORY_MIB,
         "source_sha256":{str(p.relative_to(ROOT)):sha(p) for p in deps},
@@ -301,7 +334,7 @@ def verify(directory:Path):
     if json.loads((directory/"manifest.json").read_text())!=manifest():
         raise ValueError("Source code/provenance differs")
     bounded("check",directory/"records.json")
-    print("All six new targets independently replayed")
+    print("All nine distinct historical targets independently replayed")
 
 
 def main():
