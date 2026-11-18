@@ -26,6 +26,7 @@ from collections import Counter, defaultdict
 import csv
 import gzip
 import hashlib
+from importlib import resources
 from itertools import islice
 import json
 import os
@@ -116,6 +117,30 @@ def verdict_files(n: int) -> list[Path]:
     if not files:
         raise ValueError(f"Historical verdict chunks are missing for order {n}")
     return files
+
+
+def validate_source_archives() -> dict[str, str]:
+    """Verify byte-for-byte original compressed McKay graph6 archives.
+
+    The initial census indexed these archives directly, so the original
+    verdict index is meaningful ONLY after their checksums agree.
+    """
+    small=json.loads((BASE/"summary.json").read_text())["manifest"]
+    large=json.loads((NINE/"summary.json").read_text())["manifest"]
+    results={}
+    for n in range(6,10):
+        expected=(small if n<=8 else large)[
+            "bundled_connected_graph6_sha256"
+        ][str(n)]
+        source=resources.files("pyg6data.data").joinpath(f"graph{n}c.g6.gz")
+        actual=hashlib.sha256(source.read_bytes()).hexdigest()
+        if actual!=expected:
+            raise ValueError(
+                f"Installed graph{n}c.g6.gz archive does not match "
+                f"historical indexed source SHA-256"
+            )
+        results[str(n)]=actual
+    return results
 
 
 def saved_divergent_verdicts() -> dict[int, dict[int, str]]:
@@ -214,6 +239,7 @@ class IsoIndex:
 
 def generate() -> dict:
     """Reconstruct ONLY verified divergent sources and their small K iterates."""
+    archives = validate_source_archives()
     verdicts = saved_divergent_verdicts()
     extras = extra_nine_proofs()
     for i,x in extras.items():
@@ -255,15 +281,15 @@ def generate() -> dict:
                         "verdict_origin": label, "positive_reason": reason,
                     },
                     "member_counts_by_order": {},
-                    "example_originals": [],
+                    "original_sources": [],
                 })
             record = roots[cid]
             key = str(n)
             record["member_counts_by_order"][key] = record["member_counts_by_order"].get(key,0)+1
-            if len(record["example_originals"]) < 4:
-                record["example_originals"].append({
-                    "order":n, "index":index, "graph6":g6, "origin":label,
-                })
+            record["original_sources"].append({
+                "order":n, "index":index, "graph6":g6,
+                "verdict_origin":label, "positive_reason":reason,
+            })
     if set(seen_extra) != set(extras):
         raise ValueError("A certified nine-core source was not traversed")
     for n, count in HISTORICAL_DIVERGENT_COUNTS.items():
@@ -306,6 +332,7 @@ def generate() -> dict:
             g = core(raw)
     return {
         "schema":SCHEMA, "status":"COMPLETE_WITH_BOUNDED_ITERATES",
+        "archive_sha256":archives,
         "source_verdict_counts":{str(n):len(verdicts[n]) for n in range(6,10)},
         "historical_extra_count":len(extras),
         "selected_original_counts":{str(n):selected_counts[n] for n in range(6,10)},
@@ -384,7 +411,15 @@ def screen(library: dict) -> dict:
                        "homology_status":"PASSES_THROUGH_DEGREE_5",
                        "betti":{str(i):hom[i] for i in range(MAX_HOMOLOGY_DEGREE+1)}}
                 entry["matched_homology_rank"]=hom[3 if core_id==6914104 else 4]
-            entry["original_witnesses"]=target["source_certificates"][:4]
+            entry["source_certificates"]=target["source_certificates"][:4]
+            entry["representative_certified_originals"]=[
+                {
+                    "root_id":source["root_id"],
+                    "level":source["level"],
+                    "original":library["roots"][source["root_id"]]["original_sources"][0],
+                }
+                for source in target["source_certificates"][:4]
+            ]
             candidates.append(entry)
         candidates.sort(key=lambda x:(
             x.get("homology_status")=="INCOMPLETE",
@@ -426,8 +461,10 @@ def manifest() -> dict:
     dependencies.extend(
         p for n in range(6,10) for p in verdict_files(n)
     )
+    archives=validate_source_archives()
     return {
         "schema":SCHEMA,"stage":"historical_divergent_target_library_v1",
+        "indexed_source_archive_sha256":archives,
         "historical_orders":[6,7,8,9],
         "historical_divergent_counts":HISTORICAL_DIVERGENT_COUNTS,
         "certified_extra_nine_cases":EXTRA_NINE_CLASSES,
