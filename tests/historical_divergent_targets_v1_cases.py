@@ -53,7 +53,7 @@ def test_stiff_octahedron_and_its_clique_iterate():
 
 def test_structural_filters_are_only_necessary():
     host=nx.complete_graph(6)
-    assert stage.structural_necessary(nx.path_graph(4),host) is None
+    assert stage.structural_necessary(nx.complete_graph(4),host) is None
     assert stage.structural_necessary(nx.empty_graph(7),host)=="ORDER"
     assert stage.structural_necessary(nx.empty_graph(4),host) in (
         "COMPLEMENT_DEGREES","COMPLEMENT_EDGE_BOUND"
