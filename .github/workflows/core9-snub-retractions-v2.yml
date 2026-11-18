@@ -7,6 +7,7 @@ on:
       - "tests/**"
       - "config/**"
       - "reports/**"
+      - "research/order9_snub_retractions_v2/**"
       - "runs/**"
       - "postpasses/**"
       - "indeterminate_order_9.txt"

@@ -2224,7 +2224,7 @@ order-ten indeterminate graphs therefore remains **unchanged**.
 
 The versioned immutable results and explicit exhaustive positive and
 negative certificates are in
-[`reports/order9_snub_retractions_v2/`](reports/order9_snub_retractions_v2/summary.md).
+[`research/order9_snub_retractions_v2/`](research/order9_snub_retractions_v2/summary.md).
 Use the historical pinned environment to replay them:
 
 ```bash

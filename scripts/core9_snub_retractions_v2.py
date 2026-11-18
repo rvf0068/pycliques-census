@@ -33,7 +33,7 @@ CLASSES = ROOT / "reports/order10_core_index_v1/classes.tsv"
 CORE_MANIFEST = ROOT / "reports/order10_core_index_v1/manifest.json"
 V4 = ROOT / "indeterminate_order_10_v4.txt"
 OLD_CERTS = ROOT / "reports/order9_snub_retractions_v1/certificates.json"
-OUTPUT = ROOT / "reports/order9_snub_retractions_v2"
+OUTPUT = ROOT / "research/order9_snub_retractions_v2"
 SNUB_G6 = "GQyuzw"
 ORIGINAL_THREE = {4929602, 4972358, 5645085}
 EXPECTED_RETRACTS = {
@@ -440,7 +440,7 @@ def prepare(root: Path = ROOT) -> dict[str, bytes]:
         "outputs_sha256": {key: sha(value) for key, value in sorted(output.items())},
     }
     output["manifest.json"] = (json.dumps(manifest, sort_keys=True, indent=2) + "\n").encode()
-    return {str(Path("reports/order9_snub_retractions_v2") / key): value
+    return {str(Path("research/order9_snub_retractions_v2") / key): value
             for key, value in output.items()}
 
 
@@ -466,7 +466,7 @@ def main() -> None:
     if args.action != "report":
         verify()
     if args.action == "report":
-        print(payload["reports/order9_snub_retractions_v2/summary.md"].decode())
+        print(payload["research/order9_snub_retractions_v2/summary.md"].decode())
     else:
         print("29 cores checked; 9 retract onto the snub (6 new); "
               "1222 represented originals; three exact pared K² equivalences.")

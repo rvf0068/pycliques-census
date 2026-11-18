@@ -18,7 +18,7 @@ class SnubExhaustiveTests(unittest.TestCase):
     def setUpClass(cls):
         cls.payload = study.prepare()
         cls.data = json.loads(
-            cls.payload["reports/order9_snub_retractions_v2/certificates.json"]
+            cls.payload["research/order9_snub_retractions_v2/certificates.json"]
         )
         cls.records = {r["core_id"]: r for r in cls.data["records"]}
         cls.snub = study.decode(study.SNUB_G6)
