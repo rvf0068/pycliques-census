@@ -87,6 +87,12 @@ def frozen_sources(root: Path = ROOT) -> list[dict]:
     if len(rows) != 29:
         raise ValueError("Expected exactly 29 unresolved nine-vertex core classes")
     classes = {int(row["core_id"]): row for row in read_tsv(core / "classes.tsv")}
+    assignments = {
+        int(row["index"]): row
+        for row in read_tsv(core / "assignments.tsv")
+    }
+    if len(classes) != 2439 or len(assignments) != 8533:
+        raise ValueError("Original exact core-class and per-index assignment populations changed")
     remaining = {}
     for line in (root / "indeterminate_order_10_v4.txt").read_text(
         encoding="utf-8"
@@ -118,6 +124,22 @@ def frozen_sources(root: Path = ROOT) -> list[dict]:
         ):
             raise ValueError("Invalid frozen original membership in nine-core class")
         seen_members.update(members)
+        for index in members:
+            assignment = assignments.get(index)
+            fields = remaining.get(index)
+            if (
+                assignment is None or fields is None
+                or int(assignment["core_id"]) != i
+                or assignment["core_graph6"] != row["core_graph6"]
+                or assignment["pared_order"] != "9"
+                or fields[1] != "9"
+                or assignment["pared_graph6"] != fields[2]
+                or assignment["original_target_status"] != fields[4]
+            ):
+                raise ValueError(
+                    f"Original {index} core assignment disagrees with independently "
+                    "frozen member/class and v4 source records"
+                )
         if any(
             x not in remaining
             or int(remaining[x][1]) != 9
