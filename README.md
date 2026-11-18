@@ -2163,3 +2163,76 @@ certificates, and full reproduction commands. Run
 `scripts/current_indeterminate_v4.py verify` to reconstruct and
 validate all three v4 artifacts. Its read-only GitHub Actions workflow
 also replays each of the **300 individual positive certificates**.
+
+
+## Exhaustive snub retractions and clique-behavior equivalence for nine-cores (v2)
+
+An exact fresh enumeration of **all 29 historically unresolved stiff
+nine-vertex pared cores** distinguishes ordinary graph retractions onto
+the snub disphenoid `S` (graph6 `GQyuzw`) from mere induced copies.
+
+A graph retraction from a nine-vertex graph `G` to the eight-vertex
+snub must fix an induced eight-vertex graph `G - v` isomorphic to
+`S`, mapping the ninth vertex `v` to some `u` in the remaining
+graph. The new verifier examines **every one of the nine possible
+deletions and eight possible image vertices**, testing adjacency or
+equality on every source edge, and records explicit vertex isomorphisms
+and per-image obstructions.
+
+| Exact nine-core result | Core classes | Original ten-vertex members |
+|---|---:|---:|
+| Retracts onto induced snub | 9 | 1,222 |
+| Induced snub, but no graph retraction | 6 | 811 |
+| No induced snub | 14 | 1,705 |
+| **Total** | **29** | **3,738** |
+
+The original ten-vertex graphs in these nine classes **also have an
+actual induced snub retract**: their independently indexed completely
+pared nine-vertex core is obtained by closed-neighborhood dominated
+deletions, each of which is itself a graph retraction. Composing
+these fold retractions with the explicit core-to-snub retraction
+gives a retraction of the original ten-vertex graph onto an induced
+eight-vertex copy of `S`. This argument applies to all **1,222
+original ten-vertex graphs** in the nine classes, not merely to
+the nine core representatives. It does not infer any positive
+K-divergence classification while the snub remains unproved.
+
+Of the nine certified snub-retracting classes, **six are newly
+identified**, accounting for **710 original ten-vertex graphs**. They
+are representatives `2317843`, `3148541`, `3505942`,
+`4952669`, `4953338`, and `5601875`. Each has an induced
+snub as the deletion of vertex 2, with a valid nonadjacent
+one-vertex retraction. The previous three are
+`4929602`, `4972358`, and `5645085` (512 original members).
+
+A stronger statement holds for precisely those **three previously
+identified cores**: their **second completely pared clique iterates**
+are not only mutually isomorphic, but each is **isomorphic to the
+second completely pared clique iterate of `S`**, which has 20
+vertices and 136 edges. Explicit 20-vertex isomorphisms are recorded
+and independently checked. Combining that equality with the published
+closed-neighborhood dismantling theorem shows those three cores
+and their 512 original ten-vertex members have **exactly the same
+K-convergence/divergence behavior as `S`**. This is a proof of
+*equivalence of behavior*, **not** a proof that the snub is divergent.
+
+For the other six retracting cores, the retraction supplies only
+the one-way implication: if the snub is K-divergent, these cores
+are K-divergent. Neither the converse nor any unconditional divergence
+verdict follows from these certificates. The status of the 8,233
+order-ten indeterminate graphs therefore remains **unchanged**.
+
+The versioned immutable results and explicit exhaustive positive and
+negative certificates are in
+[`research/order9_snub_retractions_v2/`](research/order9_snub_retractions_v2/summary.md).
+Use the historical pinned environment to replay them:
+
+```bash
+bash scripts/bootstrap_special_k3_v5.sh
+.venv-special-k3-v5/bin/python scripts/core9_snub_retractions_v2.py verify
+.venv-special-k3-v5/bin/python -m unittest discover -s tests -p 'test_core9_snub_retractions_v2.py' -v
+```
+
+The dedicated GitHub Actions workflow independently constructs and verifies
+all 29 experiments, checks the previously committed three retractions, and
+rejects changes to historical census inputs and previously certified artifacts.
