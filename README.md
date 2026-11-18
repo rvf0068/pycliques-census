@@ -1704,3 +1704,67 @@ bash scripts/bootstrap_core9_three_target_v1.sh
 
 As always, failure to retract to these particular targets does
 **not** prove K-convergence or rule out other divergent targets.
+
+
+## Certified divergent targets recovered from the original census (v1)
+
+Rather than generating ad hoc divergent graph targets, the next
+investigation returns directly to the historical **saved certified
+divergence verdicts** and their clique iterates.
+
+The frozen initial census recorded 1 divergent connected graph of
+order 6, 9 of order 7, 222 of order 8 and 9,864 of order 9.
+Six further nine-vertex stiff cores have independently replayed
+positive divergence certificates in the order-ten core9 crossreference;
+they were not initially classified as divergent. **No case marked
+indeterminate on account of the snub disphenoid is promoted.**
+
+New, independent script
+`scripts/historical_divergent_target_library_v1.py`:
+
+1. Reads all historical compressed verdict chunks, verifies zero-based
+   indices, positivity reasons and complete per-order summary counts.
+   Reconstructs the exact original graphs from the pinned pyg6data
+   and compares the six later certified nine-core source graph6 strings.
+2. Completely pares each certified divergent graph and deduplicates
+   the resulting stiff graph representatives by **exact isomorphism**
+   (Weisfeiler-Lehman hashing is only a fast bucket prefilter).
+   Each root records original order, graph index, saved verdict reason,
+   and how many original graphs it represents.
+3. Forms levels 0, 1 and 2 of the clique graph sequence, with
+   completely pared graphs at each level. Divergence transfers to
+   these targets by the established dominated-fold theorem and the
+   clique operator. Each duplicate target is merged with all its
+   distinct source-certificate references.
+4. Screens the targets against the **37-vertex** third pared iterate
+   of nine-core 6914104 and the **40-vertex** third pared iterate of
+   nine-core 6962151. Necessary induced-subgraph conditions include
+   vertex/edge counts, both ordinary and complement degree majorants,
+   and a complement-edge lower bound. Any surviving target is
+   subjected to exact mod-2 Betti calculations through degree five.
+   Only candidates that pass the known homological restrictions
+   enter a reproducible priority shortlist.
+
+This **catalog and screening stage** deliberately does not yet claim
+positive retractions or even absence of retractions. It is intended
+to identify mathematically promising previously classified
+divergent graphs (and their new clique-iterate targets) before
+spending CPU time on independent retraction CSP proofs. If the
+maximal clique construction reaches its explicit cap of 160 or an
+iterate exceeds 40 vertices, that omitted target is recorded in
+`omitted_iterates`. Positive but low-dimensional-acyclic
+targets may be screened too; acyclicity alone is not treated as
+evidence of convergence.
+
+The new GitHub Actions workflow uses read-only repository
+permissions, generates a source/provenance manifest and full
+JSON catalog, independently replays both outputs under worker
+time/memory limits, and uploads a complete artifact separately
+from all existing historical results.
+
+```bash
+bash scripts/bootstrap_core9_three_target_v1.sh
+.venv-core9-three-v1/bin/python scripts/historical_divergent_target_library_v1.py plan
+.venv-core9-three-v1/bin/python scripts/historical_divergent_target_library_v1.py run
+.venv-core9-three-v1/bin/python scripts/historical_divergent_target_library_v1.py report
+```
