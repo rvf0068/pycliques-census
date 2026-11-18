@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "scripts/**"
+      - "config/pycliques_commit_core9_three_target_v1.txt"
       - "tests/**"
       - "runs/baseline-through8-bound30/**"
       - "runs/order9/initial/**"
@@ -53,6 +54,12 @@ jobs:
           assert cat["selected_original_counts"]["9"]==9868
           assert len(cat["roots"])==cat["primitive_root_count"]
           assert len(cat["targets"])==cat["unique_iterated_target_count"]
+          assert set(cat["archive_sha256"])=={"6","7","8","9"}
+          assert all(
+              sum(root["member_counts_by_order"].values())==len(root["original_sources"])
+              and all(source["positive_reason"] for source in root["original_sources"])
+              for root in cat["roots"]
+          )
           assert set(screen["hosts"])=={"6914104","6962151"}
           assert screen["target_count"]==cat["unique_iterated_target_count"]
           for core,row in screen["hosts"].items():
