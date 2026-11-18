@@ -374,10 +374,10 @@ def make_catalog() -> dict:
         if len(source_examples)<5:
             source_examples.append(source)
 
-        # The raw path and pared-first path provide two legitimate but
-        # generally different K-divergent target sources. They may not
-        # be identified termwise by isomorphism, even though domination
-        # preserves K-behavior. Keep BOTH with labeled provenance.
+        # The raw and pared-first paths each yield certified divergent
+        # targets. Do not ASSUME their stiff iterates are isomorphic;
+        # retain both (and deduplicate if they prove to be isomorphic)
+        # until a rigorous equivalence theorem is available.
         pared_root,_root_folds=stiff_fold(original)
         for construction in ("raw_iterate","pared_first"):
             current=original if construction=="raw_iterate" else pared_root
@@ -418,8 +418,9 @@ def make_catalog() -> dict:
                         "all_provenance":[occurrence],
                     })
                     buckets[identity].append(k)
-                # K(pare(X)) can differ from pare(K(X)); in the second
-                # construction, ALWAYS iterate the pared result.
+                # Do not assume K(pare(X)) agrees with pare(K(X)).
+                # In the second construction ALWAYS iterate the
+                # pared result, keeping exact source provenance.
                 if construction=="pared_first":
                     current=pared
         counters["historical_input_graphs"]+=1
