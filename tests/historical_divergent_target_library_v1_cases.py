@@ -19,7 +19,10 @@ def test_saved_divergent_certificates_not_confused_with_snub_conjectures():
     assert len(extra)==6
     assert all("diverg" not in x["stage"].lower() for x in extra.values())
     assert all("snub" not in x["reason"].lower() for x in extra.values())
-    assert all(i not in known[9] for i in extra)
+    # Two of the six nine-core proofs were already recognized at the
+    # initial stage; four are new beyond its 9864 positives.
+    assert len(set(extra) & set(known[9])) == 2
+    assert len(set(extra) - set(known[9])) == 4
 
 
 def test_source_graph6_provenance_includes_historial_extra():
