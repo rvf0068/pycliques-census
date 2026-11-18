@@ -117,6 +117,13 @@ jobs:
       - uses: astral-sh/setup-uv@v4
       - name: Bootstrap separately pinned upstream
         run: bash scripts/bootstrap_core9_three_target_v1.sh
+      - name: Install review regression runner
+        run: uv pip install --python .venv-core9-three-v1/bin/python pytest
+      - name: Check new historical source, cohort and K-iterate regressions
+        run: |
+          .venv-core9-three-v1/bin/python -m pytest -v \
+            tests/historical_divergent_targets_v1_cases.py \
+            -k 'historical_six_divergent_nine_cores_and_first_iterates or initial_divergence_verdict_rejects_uncertified_reasons or historical_pilot_rejects_early_conditional_positive or pilot_manifest_closes_historical_cohort_hash_chain'
       - name: Independently enumerate 240 certified historical sources
         run: |
           .venv-core9-three-v1/bin/python \
