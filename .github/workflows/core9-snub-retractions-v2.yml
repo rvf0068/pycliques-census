@@ -1,0 +1,57 @@
+name: Exhaustive snub retracts and pared K2 behavior equivalence for nine-cores
+
+on:
+  pull_request:
+    paths:
+      - "scripts/**"
+      - "tests/**"
+      - "config/**"
+      - "reports/**"
+      - "runs/**"
+      - "postpasses/**"
+      - "indeterminate_order_9.txt"
+      - "indeterminate_order_10.txt"
+      - "indeterminate_order_10_v3.txt"
+      - "indeterminate_order_10_v4.txt"
+      - ".github/workflows/core9-snub-retractions-v2.yml"
+      - "README.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-snubretract-and-second-iterate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap separately pinned NetworkX and pycliques monorepo dependency
+        run: bash scripts/bootstrap_special_k3_v5.sh
+      - name: Independent complete 29-core positive/negative regression tests
+        run: |
+          .venv-special-k3-v5/bin/python -m unittest discover \
+            -s tests -p 'test_core9_snub_retractions_v2.py' -v
+      - name: Replay the original three graph retraction certificates unchanged
+        run: |
+          .venv-special-k3-v5/bin/python scripts/verify_order9_snub_retractions.py
+      - name: Reconstruct three frozen v2 reports exactly from all 29 graph6 records
+        run: |
+          .venv-special-k3-v5/bin/python scripts/core9_snub_retractions_v2.py verify
+          .venv-special-k3-v5/bin/python scripts/core9_snub_retractions_v2.py report
+      - name: Reject changes to every historical census/proof input
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ postpasses/ \
+            reports/order9_snub_retractions_v1/ \
+            reports/order10_core9_crossref_v1/ \
+            reports/order10_core_index_v1/ \
+            reports/order10_current_indeterminates_v4/ \
+            indeterminate_order_9.txt indeterminate_order_10.txt \
+            indeterminate_order_10_v3.txt indeterminate_order_10_v4.txt
