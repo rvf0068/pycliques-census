@@ -331,8 +331,14 @@ def authenticated_pilot(
     validate_pilot_candidates(data)
     return data
 
-def compute(catalog:Path|None=None)->dict:
-    survey=authenticated_pilot(catalog)
+def compute(
+    catalog:Path|None=None,
+    expected_catalog_sha256:str|None=None,
+    expected_manifest_sha256:str|None=None,
+)->dict:
+    survey=authenticated_pilot(
+        catalog,expected_catalog_sha256,expected_manifest_sha256
+    )
     candidates=[
         c for c in survey["candidate_targets"]
         if c["previously_searched_family"] is None
@@ -399,7 +405,21 @@ def compute(catalog:Path|None=None)->dict:
     }
 
 
-def manifest(catalog:Path|None=None)->dict:
+def manifest(
+    catalog:Path|None=None,
+    expected_catalog_sha256:str|None=None,
+    expected_manifest_sha256:str|None=None,
+)->dict:
+    if catalog is not None:
+        if (
+            sha(catalog)!=verified_hex_digest(expected_catalog_sha256,"catalog")
+            or sha(catalog.parent/"manifest.json")!=verified_hex_digest(
+                expected_manifest_sha256,"manifest"
+            )
+        ):
+            raise ValueError("Pilot artifact SHA-256 differs from upstream job outputs")
+    elif expected_catalog_sha256 is not None or expected_manifest_sha256 is not None:
+        raise ValueError("Digests without an input catalog")
     deps=[
         Path(__file__),
         ROOT/"scripts/historical_divergent_small_pilot_v1.py",
@@ -425,6 +445,8 @@ def manifest(catalog:Path|None=None)->dict:
         "pilot_manifest_sha256":(
             sha(catalog.parent/"manifest.json") if catalog else None
         ),
+        "upstream_catalog_sha256":expected_catalog_sha256,
+        "upstream_manifest_sha256":expected_manifest_sha256,
         "pilot_attestation":"upstream independently verified CI job, full immutable artifact",
     }
 
@@ -447,10 +469,22 @@ def limit():
     resource.setrlimit(resource.RLIMIT_AS,(bytes_,bytes_))
 
 
-def bounded(action:str,path:Path,catalog:Path|None=None):
+def bounded(
+    action:str,path:Path,catalog:Path|None=None,
+    expected_catalog_sha256:str|None=None,
+    expected_manifest_sha256:str|None=None,
+):
     args=[sys.executable,str(Path(__file__)),action,"--output",str(path)]
     if catalog is not None:
-        args.extend(("--catalog",str(catalog)))
+        args.extend((
+            "--catalog",str(catalog),
+            "--catalog-sha256",verified_hex_digest(
+                expected_catalog_sha256,"catalog"
+            ),
+            "--catalog-manifest-sha256",verified_hex_digest(
+                expected_manifest_sha256,"manifest"
+            ),
+        ))
     try:
         process=subprocess.run(
             args,capture_output=True,text=True,
@@ -462,13 +496,23 @@ def bounded(action:str,path:Path,catalog:Path|None=None):
         raise RuntimeError(f"Historical {action} failed: {process.stderr[-3500:]}")
 
 
-def authenticate(path:Path,catalog:Path|None=None):
-    if json.loads(path.read_text())!=compute(catalog):
+def authenticate(
+    path:Path,catalog:Path|None=None,
+    expected_catalog_sha256:str|None=None,
+    expected_manifest_sha256:str|None=None,
+):
+    if json.loads(path.read_text())!=compute(
+        catalog,expected_catalog_sha256,expected_manifest_sha256
+    ):
         raise ValueError("Saved positive or negative retraction claims differ from full replay")
 
 
-def run(directory:Path,catalog:Path|None=None):
-    meta=manifest(catalog)
+def run(
+    directory:Path,catalog:Path|None=None,
+    expected_catalog_sha256:str|None=None,
+    expected_manifest_sha256:str|None=None,
+):
+    meta=manifest(catalog,expected_catalog_sha256,expected_manifest_sha256)
     directory.mkdir(parents=True,exist_ok=True)
     head=directory/"manifest.json"
     if head.exists():
@@ -477,18 +521,35 @@ def run(directory:Path,catalog:Path|None=None):
         if any(directory.iterdir()):raise ValueError("Existing unversioned results")
         save(head,meta)
     result=directory/"records.json"
-    if result.exists():bounded("check",result,catalog);return
+    if result.exists():
+        bounded(
+            "check",result,catalog,expected_catalog_sha256,expected_manifest_sha256
+        )
+        return
     with tempfile.TemporaryDirectory() as td:
         temp=Path(td)/"result.json"
-        bounded("worker",temp,catalog)
-        bounded("check",temp,catalog)
+        bounded(
+            "worker",temp,catalog,expected_catalog_sha256,expected_manifest_sha256
+        )
+        bounded(
+            "check",temp,catalog,expected_catalog_sha256,expected_manifest_sha256
+        )
         save(result,json.loads(temp.read_text()))
 
 
-def verify(directory:Path,catalog:Path|None=None):
-    if json.loads((directory/"manifest.json").read_text())!=manifest(catalog):
+def verify(
+    directory:Path,catalog:Path|None=None,
+    expected_catalog_sha256:str|None=None,
+    expected_manifest_sha256:str|None=None,
+):
+    if json.loads((directory/"manifest.json").read_text())!=manifest(
+        catalog,expected_catalog_sha256,expected_manifest_sha256
+    ):
         raise ValueError("Source code/provenance differs")
-    bounded("check",directory/"records.json",catalog)
+    bounded(
+        "check",directory/"records.json",catalog,
+        expected_catalog_sha256,expected_manifest_sha256
+    )
     print("All nine distinct historical targets independently replayed")
 
 
@@ -496,16 +557,19 @@ def main():
     a=argparse.ArgumentParser(description=__doc__)
     a.add_argument("action",choices=("run","worker","check","verify","report"))
     a.add_argument("--output",type=Path)
-    a.add_argument("--catalog",type=Path,help="Preverified source catalog.json artifact")
+    a.add_argument("--catalog",type=Path,help="Upstream verified pilot catalog.json")
+    a.add_argument("--catalog-sha256",help="SHA-256 emitted by the verified upstream CI job")
+    a.add_argument("--catalog-manifest-sha256",help="SHA-256 of upstream verified manifest")
     args=a.parse_args()
+    opts=(args.catalog,args.catalog_sha256,args.catalog_manifest_sha256)
     if args.action in ("worker","check"):
         if args.output is None:a.error("Need --output record")
-        if args.action=="worker":save(args.output,compute(args.catalog))
-        else:authenticate(args.output,args.catalog)
+        if args.action=="worker":save(args.output,compute(*opts))
+        else:authenticate(args.output,*opts)
         return
     root=args.output or OUTPUT
-    if args.action=="run":run(root,args.catalog);return
-    if args.action=="verify":verify(root,args.catalog);return
+    if args.action=="run":run(root,*opts);return
+    if args.action=="verify":verify(root,*opts);return
     data=json.loads((root/"records.json").read_text())
     print(json.dumps({k:v for k,v in data.items() if k!="candidates"},indent=2,sort_keys=True))
     for x in data["candidates"]:
