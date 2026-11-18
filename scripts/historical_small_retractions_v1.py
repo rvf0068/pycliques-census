@@ -21,6 +21,7 @@ from collections import Counter
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import resource
 import subprocess
@@ -181,39 +182,154 @@ def probe(host:nx.Graph,target:nx.Graph,method:str) -> dict:
     }
 
 
-def authenticated_pilot(catalog:Path|None=None)->dict:
-    """Consume the exact artifact already independently replayed by CI.
+def verified_hex_digest(value:str|None,description:str)->str:
+    if not isinstance(value,str) or re.fullmatch(r"[a-f0-9]{64}",value) is None:
+        raise ValueError(
+            f"Missing or malformed independent SHA-256 attestation: {description}"
+        )
+    return value
 
-    The upstream workflow job generates the pilot, replays it in a
-    separate bounded worker, and publishes an immutable artifact.
-    This second stage verifies its frozen manifest and exact bytes
-    rather than re-enumerating the 240 sources INSIDE EACH retraction
-    worker and independent retraction replay.
 
-    Without an artifact, the standalone manual invocation retains the
-    slower fallback that independently recomputes the full pilot.
+def validate_pilot_candidates(data:dict)->None:
+    """Validate every candidate and twelve distinct new host-target pairs.
+
+    The upstream digest is authoritative; semantic checks additionally
+    reject malformed graph6, forged Betti profiles, and truncated host lists.
     """
-    if catalog is None:
-        data=pilot.compute()
-    else:
-        manifest_file=catalog.parent/"manifest.json"
-        if not manifest_file.is_file():
-            raise ValueError("Pilot artifact has no provenance manifest")
-        if json.loads(manifest_file.read_text())!=pilot.manifest():
-            raise ValueError("Pilot artifact manifest differs from frozen sources")
-        data=json.loads(catalog.read_text())
+    stages={"initial":232,"c10":4,"bound60":1,"bound70":3}
     if (
         data.get("schema")!=pilot.SCHEMA
         or data.get("status")!="COMPLETED"
         or data.get("source_graphs")!=240
-        or data.get("historical_positive_stages")!={
-            "initial":232,"c10":4,"bound60":1,"bound70":3
-        }
-        or len(data.get("candidate_targets",[]))!=data.get("eligible_target_classes")
+        or data.get("historical_positive_stages")!=stages
     ):
-        raise ValueError("Incomplete or structurally inconsistent pilot catalog")
-    return data
+        raise ValueError("Incomplete or inconsistent historical pilot catalog")
+    candidates=data.get("candidate_targets")
+    if (
+        not isinstance(candidates,list)
+        or len(candidates)!=data.get("eligible_target_classes")
+        or not isinstance(data.get("eligible_by_host"),dict)
+    ):
+        raise ValueError("Incomplete candidate list or host totals")
+    hosts={cid:prior.host(cid)[0] for cid in (6914104,6962151)}
+    host_betti={cid:prior.host(cid)[1] for cid in hosts}
+    observed_host_counts=Counter()
+    seen_graphs:set[str]=set()
+    novel=[]
+    pairs=set()
+    for entry in candidates:
+        if not isinstance(entry,dict):
+            raise ValueError("Malformed candidate target")
+        g6=entry.get("graph6")
+        if not isinstance(g6,str) or not g6.isascii():
+            raise ValueError("Invalid candidate graph6")
+        try:
+            graph=nx.from_graph6_bytes(g6.encode("ascii"))
+        except (ValueError,IndexError,TypeError) as exc:
+            raise ValueError("Invalid candidate graph6") from exc
+        if (
+            nx.to_graph6_bytes(graph,header=False).decode("ascii").strip()!=g6
+            or g6 in seen_graphs
+            or type(entry.get("order")) is not int
+            or type(entry.get("edges")) is not int
+            or len(graph)!=entry["order"]
+            or graph.number_of_edges()!=entry["edges"]
+            or not nx.is_connected(graph)
+        ):
+            raise ValueError("Candidate graph6, order/edges, uniqueness or connectivity invalid")
+        seen_graphs.add(g6)
+        eligible=entry.get("eligible_hosts")
+        if (
+            not isinstance(eligible,list)
+            or not eligible
+            or any(type(cid) is not int or cid not in hosts for cid in eligible)
+            or len(eligible)!=len(set(eligible))
+        ):
+            raise ValueError("Invalid or repeated eligible host")
+        status=entry.get("homology_status")
+        betti=entry.get("mod2_betti_degrees_0_to_5")
+        if status=="EXACT_THROUGH_5":
+            if (
+                not isinstance(betti,dict)
+                or set(betti)!={str(i) for i in range(6)}
+                or any(type(v) is not int or v<0 for v in betti.values())
+            ):
+                raise ValueError("Invalid exact Betti vector")
+            homology={int(k):v for k,v in betti.items()}
+        elif status=="LIMIT" and betti is None:
+            homology=None
+        else:
+            raise ValueError("Invalid or incomplete Betti status")
+        checked=entry.get("homology_obstructions_by_host")
+        if not isinstance(checked,dict) or set(checked)!={str(cid) for cid in hosts}:
+            raise ValueError("Missing per-host Betti audit")
+        for cid in hosts:
+            reason,blocked=pilot.full.homology_necessary(
+                homology,host_betti[cid]
+            )
+            if checked[str(cid)]!={"status":reason,"obstructing_degrees":blocked}:
+                raise ValueError("Forged target Betti obstruction record")
+        for cid in eligible:
+            observed_host_counts[cid]+=1
+            if pilot.full.structural_necessary(graph,hosts[cid]) is not None:
+                raise ValueError("Candidate cannot structurally embed in claimed host")
+            if pilot.full.homology_necessary(
+                homology,host_betti[cid]
+            )[1]:
+                raise ValueError("Candidate violates mandatory Betti retraction restriction")
+        if "previously_searched_family" not in entry:
+            raise ValueError("Candidate lacks prior-family classification")
+        if entry["previously_searched_family"] is None:
+            novel.append(entry)
+            pairs.update((g6,cid) for cid in eligible)
+    if (
+        data.get("eligible_by_host")!={
+            str(cid):observed_host_counts[cid] for cid in hosts
+        }
+        or len(novel)!=data.get("novel_target_classes")
+        or len(novel)!=9
+        or len(pairs)!=12
+        or len(pairs)!=sum(len(row["eligible_hosts"]) for row in novel)
+    ):
+        raise ValueError("Incomplete or duplicated historical host-target pairs")
 
+
+def authenticated_pilot(
+    catalog:Path|None=None,
+    expected_catalog_sha256:str|None=None,
+    expected_manifest_sha256:str|None=None,
+)->dict:
+    """Accept only catalog bytes authenticated by the upstream CI job.
+
+    Upstream independently replays the 240-source census before
+    publishing its exact catalog and manifest SHA-256 digests as job
+    outputs. Both downstream worker and checker receive those digests
+    directly from the predecessor job, not from the artifact itself.
+    Without an artifact, standalone users can recompute the full pilot.
+    """
+    if catalog is None:
+        if expected_catalog_sha256 is not None or expected_manifest_sha256 is not None:
+            raise ValueError("Unexpected digests without a catalog")
+        data=pilot.compute()
+    else:
+        expected_catalog_sha256=verified_hex_digest(
+            expected_catalog_sha256,"catalog"
+        )
+        expected_manifest_sha256=verified_hex_digest(
+            expected_manifest_sha256,"manifest"
+        )
+        manifest_file=catalog.parent/"manifest.json"
+        if not manifest_file.is_file():
+            raise ValueError("Pilot artifact has no provenance manifest")
+        if sha(manifest_file)!=expected_manifest_sha256:
+            raise ValueError("Pilot artifact manifest digest differs from upstream attestation")
+        if sha(catalog)!=expected_catalog_sha256:
+            raise ValueError("Pilot catalog digest differs from upstream attestation")
+        if json.loads(manifest_file.read_text())!=pilot.manifest():
+            raise ValueError("Pilot artifact manifest differs from frozen sources")
+        data=json.loads(catalog.read_text())
+    validate_pilot_candidates(data)
+    return data
 
 def compute(catalog:Path|None=None)->dict:
     survey=authenticated_pilot(catalog)
