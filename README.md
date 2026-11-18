@@ -2186,6 +2186,17 @@ and per-image obstructions.
 | No induced snub | 14 | 1,705 |
 | **Total** | **29** | **3,738** |
 
+The original ten-vertex graphs in these nine classes **also have an
+actual induced snub retract**: their independently indexed completely
+pared nine-vertex core is obtained by closed-neighborhood dominated
+deletions, each of which is itself a graph retraction. Composing
+these fold retractions with the explicit core-to-snub retraction
+gives a retraction of the original ten-vertex graph onto an induced
+eight-vertex copy of `S`. This argument applies to all **1,222
+original ten-vertex graphs** in the nine classes, not merely to
+the nine core representatives. It does not infer any positive
+K-divergence classification while the snub remains unproved.
+
 Of the nine certified snub-retracting classes, **six are newly
 identified**, accounting for **710 original ten-vertex graphs**. They
 are representatives `2317843`, `3148541`, `3505942`,
