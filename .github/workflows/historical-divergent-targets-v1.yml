@@ -108,8 +108,8 @@ jobs:
     permissions:
       contents: read
     outputs:
-      catalog_sha256: ${{ steps.proof-digests.outputs.catalog_sha256 }}
-      manifest_sha256: ${{ steps.proof-digests.outputs.manifest_sha256 }}
+      catalog_sha256: ${{ steps.proof_digests.outputs.catalog_sha256 }}
+      manifest_sha256: ${{ steps.proof_digests.outputs.manifest_sha256 }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -143,7 +143,7 @@ jobs:
                 "genuinely new candidate targets")
           PY
       - name: Attest exact catalog and manifest bytes after independent replay
-        id: proof-digests
+        id: proof_digests
         run: |
           set -euo pipefail
           catalog="$RUNNER_TEMP/historical-small-pilot-v1/catalog.json"
@@ -193,6 +193,19 @@ jobs:
         with:
           name: historical-small-divergent-target-pilot-v1
           path: ${{ runner.temp }}/historical-small-pilot-v1
+      - name: Authenticate exact downloaded catalog and manifest bytes
+        env:
+          VERIFIED_CATALOG_SHA256: ${{ needs.early-historical-pilot.outputs.catalog_sha256 }}
+          VERIFIED_MANIFEST_SHA256: ${{ needs.early-historical-pilot.outputs.manifest_sha256 }}
+        run: |
+          set -euo pipefail
+          catalog="$RUNNER_TEMP/historical-small-pilot-v1/catalog.json"
+          manifest="$RUNNER_TEMP/historical-small-pilot-v1/manifest.json"
+          test -n "$VERIFIED_CATALOG_SHA256"
+          test -n "$VERIFIED_MANIFEST_SHA256"
+          test "$(sha256sum "$catalog" | cut -d' ' -f1)" = "$VERIFIED_CATALOG_SHA256"
+          test "$(sha256sum "$manifest" | cut -d' ' -f1)" = "$VERIFIED_MANIFEST_SHA256"
+          echo "Authenticated exact upstream proof artifact against job-output SHA-256 digests"
       - uses: astral-sh/setup-uv@v4
       - name: Bootstrap isolated optimized K-divergence library
         run: bash scripts/bootstrap_core9_three_target_v1.sh
