@@ -80,7 +80,7 @@ class CertifiedCurrentListTests(unittest.TestCase):
 
     def test_swapping_member_indices_across_cores_is_rejected(self):
         path = self.root / v4.CLASS_INDEX
-        rows = list(csv.DictReader(StringIO(path.read_text(encoding="utf-8")), delimiter="\\t"))
+        rows = list(csv.DictReader(StringIO(path.read_text(encoding="utf-8")), delimiter="\t"))
         by_core = {int(row["core_id"]): row for row in rows}
         a, b = by_core[7454135], by_core[6962151]
         aa, bb = a["member_indices"].split(","), b["member_indices"].split(",")
@@ -89,7 +89,7 @@ class CertifiedCurrentListTests(unittest.TestCase):
         a["member_indices"] = ",".join(aa)
         b["member_indices"] = ",".join(bb)
         with path.open("w", encoding="utf-8", newline="") as handle:
-            writer = csv.DictWriter(handle, fieldnames=list(rows[0]), delimiter="\\t", lineterminator="\\n")
+            writer = csv.DictWriter(handle, fieldnames=list(rows[0]), delimiter="\t", lineterminator="\n")
             writer.writeheader()
             writer.writerows(rows)
         amended_digest = hashlib.sha256(path.read_bytes()).hexdigest()
