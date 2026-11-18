@@ -179,7 +179,7 @@ jobs:
         run: |
           .venv-core9-three-v1/bin/python -m pytest \
             tests/historical_small_retractions_v1_cases.py -v
-      - name: Exhaustively search and independently replay six new historic targets
+      - name: Exhaustively search and independently replay nine distinct historic targets
         run: |
           .venv-core9-three-v1/bin/python \
             scripts/historical_small_retractions_v1.py run \
@@ -187,7 +187,7 @@ jobs:
           .venv-core9-three-v1/bin/python \
             scripts/historical_small_retractions_v1.py report \
             --output "$RUNNER_TEMP/historical-small-retractions-v1"
-      - name: Require exactly six new historical targets, no hidden limits
+      - name: Require nine independent targets and all host pairs, no hidden limits
         run: |
           .venv-core9-three-v1/bin/python - <<'PY'
           import os,json
@@ -196,8 +196,8 @@ jobs:
           data=json.loads((root/"records.json").read_text())
           assert data["status"]=="COMPLETED"
           assert data["historical_positives_screened"]==240
-          assert data["new_candidate_graphs"]==6
-          assert data["candidate_host_pairs"]==9
+          assert data["new_candidate_graphs"]==9
+          assert data["candidate_host_pairs"]==12
           assert data["induced_target_copies"]==69
           assert data["local_retraction_obstructions"]==69
           assert data["positive_retractions"]==0
