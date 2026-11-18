@@ -83,3 +83,68 @@ def test_expected_novel_candidate_families():
     assert len(stage.EXPECTED_ENGINES)==6
     assert stage.EXPECTED_ENGINES[(16,94)]=="ISMAGS"
     assert stage.EXPECTED_ENGINES[(26,256)]=="VF2"
+
+
+
+def test_exact_complement_triangle_obstruction_on_historical_targets():
+    """Triangle counts rule out large stiff targets without CSP search."""
+    host37,_=stage.prior.host(6914104)
+    host40,_=stage.prior.host(6962151)
+    assert stage.complement_triangle_count(host37)==7
+    assert stage.complement_triangle_count(host40)==3
+
+    # Independent graph6 inputs reproduced from completed pilot.
+    sources = [
+        ("W~~~~zz|~ZX|rzj^tnw^~VnsN~xnzw^~tuv~Vnnxnv~`~|~",
+         24,220,8,host37),
+        (r"Y~~~~~~~v}~n~n{~|rf]xrdNm]lSx~^}~^n\rzn|n}nsz~~\zo^BfN~?",
+         26,256,12,host37),
+        ("X~~~~~~~~}^f~N}~}~~n~z~~^~m~}|~^}~^~^n^zzz~nv^}^]~z",
+         25,268,6,host40),
+        (r"X~~~~~~~~}^v~^}z~Z~N~x~~^~}~~|~~y~~z\~|z^~nm~|}Z~zz",
+         25,268,6,host40),
+        ("X~~~~~~~~}^v}^}^}~~n~z~~^n}}~|~~]~~^^^nzv|~nnn}]~^z",
+         25,268,6,host40),
+        ("X~~~~~~~~~^r~V~N~^~~]~fN|Y~xr~vn~v~~r~~|^~~r~~~^~~~",
+         25,268,6,host40),
+    ]
+    for name,n,m,triangles,host in sources:
+        target=nx.from_graph6_bytes(name.encode("ascii"))
+        assert (len(target),target.number_of_edges())==(n,m)
+        assert stage.complement_triangle_count(target)==triangles
+        result=stage.probe(host,target,"VF2")
+        assert result["status"]=="EXHAUSTED"
+        assert result["method"]=="COMPLEMENT_TRIANGLE_OBSTRUCTION"
+        assert result["labeled_embedding_maps"]==0
+        assert result["induced_vertex_sets"]==0
+        assert result["obstruction"]=={
+            "type":"COMPLEMENT_TRIANGLE_COUNT",
+            "host_triangles":stage.complement_triangle_count(host),
+            "target_triangles":triangles,
+        }
+
+
+def test_triangle_obstruction_never_rejects_an_induced_copy():
+    host=nx.cycle_graph(5)
+    target=host.subgraph([0,1,2]).copy()
+    assert stage.complement_triangle_count(target)<=stage.complement_triangle_count(host)
+    res=stage.probe(host,target,"ISMAGS")
+    assert res["induced_vertex_sets"]>=1
+    assert res["method"]=="ISMAGS"
+
+
+def test_symmetry_aware_matcher_completely_excludes_remnant_large_patterns():
+    target20=nx.from_graph6_bytes(
+        b"S~~~~~~~~}^v~^}z~Z~N~v~}~~zn~z^~{"
+    )
+    target24=nx.from_graph6_bytes(
+        b"W~~~~~~~~~~{~d~b~n~un}j~f~}n~m^~]vv~jz~zmlnltl}"
+    )
+    for host_id in (6914104,6962151):
+        host,_=stage.prior.host(host_id)
+        for target in (target20,target24):
+            assert (len(target),target.number_of_edges()) in stage.EXPECTED_ENGINES
+            found=stage.probe(host,target,"ISMAGS")
+            assert found["status"]=="EXHAUSTED"
+            assert found["induced_vertex_sets"]==0
+            assert found["obstruction"] is None
