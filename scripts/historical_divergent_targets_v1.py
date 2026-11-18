@@ -373,44 +373,55 @@ def make_catalog() -> dict:
         hist_counts[source["stage"]]+=1
         if len(source_examples)<5:
             source_examples.append(source)
-        current=original
-        for level in range(LEVELS+1):
-            if level:
-                if current is None:
-                    break
-                current=raw_clique_graph_bounded(current)
-                if current is None:
-                    counters[f"iterate_limit_K{level}"]+=1
-                    break
-            pared,folds=stiff_fold(current)
-            if not nx.is_connected(pared):
-                raise AssertionError("A connected source must remain connected after folds")
-            # Retain the *entire* source and domination sequence even
-            # when this candidate is isomorphic to an earlier class.
-            occurrence={
-                "historical_graph":dict(source),
-                "iterate_level":level,
-                "raw_iterate_graph6":graph6(current),
-                "dominated_deletions":folds,
-            }
-            identity=candidate_isomorphic_key(pared)
-            existing=next((
-                i for i in buckets[identity]
-                if bounded_isomorphic(classes[i]["graph"],pared,counters)
-            ),None)
-            if existing is not None:
-                classes[existing]["occurrences"]+=1
-                classes[existing]["by_level"][str(level)]+=1
-                classes[existing]["all_provenance"].append(occurrence)
-                continue
-            i=len(classes)
-            classes.append({
-                "graph":pared,"graph6":graph6(pared),
-                "occurrences":1,"by_level":Counter({str(level):1}),
-                "provenance":occurrence,
-                "all_provenance":[occurrence],
-            })
-            buckets[identity].append(i)
+
+        # The raw path and pared-first path provide two legitimate but
+        # generally different K-divergent target sources. They may not
+        # be identified termwise by isomorphism, even though domination
+        # preserves K-behavior. Keep BOTH with labeled provenance.
+        pared_root,_root_folds=stiff_fold(original)
+        for construction in ("raw_iterate","pared_first"):
+            current=original if construction=="raw_iterate" else pared_root
+            for level in range(LEVELS+1):
+                if level:
+                    current=raw_clique_graph_bounded(current)
+                    if current is None:
+                        counters[f"iterate_limit_{construction}_K{level}"]+=1
+                        break
+                pared,folds=stiff_fold(current)
+                if not nx.is_connected(pared):
+                    raise AssertionError("Connected source became disconnected after folds")
+                occurrence={
+                    "historical_graph":dict(source),
+                    "construction_route":construction,
+                    "iterate_level":level,
+                    "raw_iterate_graph6":graph6(current),
+                    "dominated_deletions":folds,
+                }
+                identity=candidate_isomorphic_key(pared)
+                existing=next((
+                    k for k in buckets[identity]
+                    if bounded_isomorphic(classes[k]["graph"],pared,counters)
+                ),None)
+                if existing is not None:
+                    classes[existing]["occurrences"]+=1
+                    classes[existing]["by_level"][str(level)]+=1
+                    classes[existing]["by_route"][construction]+=1
+                    classes[existing]["all_provenance"].append(occurrence)
+                else:
+                    k=len(classes)
+                    classes.append({
+                        "graph":pared,"graph6":graph6(pared),
+                        "occurrences":1,
+                        "by_level":Counter({str(level):1}),
+                        "by_route":Counter({construction:1}),
+                        "provenance":occurrence,
+                        "all_provenance":[occurrence],
+                    })
+                    buckets[identity].append(k)
+                # K(pare(X)) can differ from pare(K(X)); in the second
+                # construction, ALWAYS iterate the pared result.
+                if construction=="pared_first":
+                    current=pared
         counters["historical_input_graphs"]+=1
         if counters["historical_input_graphs"]%1000==0:
             print(f"PROGRESS historical={counters['historical_input_graphs']} "
@@ -509,6 +520,7 @@ def make_catalog() -> dict:
                 "graph6":class_row["graph6"],
                 "occurrences":class_row["occurrences"],
                 "origins_by_iterate":dict(class_row["by_level"]),
+                "origins_by_construction":dict(class_row["by_route"]),
                 "all_provenance":class_row["all_provenance"],
             }
             for idx,class_row in enumerate(classes)
@@ -593,6 +605,7 @@ def manifest() -> dict:
         "memory_mib":MEMORY_MIB,
         "indexed_graph6_archive_sha256":validate_source_archives(),
         "complete_historical_class_provenance":True,
+        "construction_routes":["raw_iterate","pared_first"],
         "isomorphism_comparison_max_seconds":ISOMORPHISM_SECONDS,
         "uncompleted_isomorphism_comparisons_kept_as_separate_candidates":True,
         "source_sha256":{
