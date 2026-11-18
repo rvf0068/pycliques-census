@@ -31,6 +31,7 @@ import json
 import os
 from pathlib import Path
 import resource
+import signal
 import subprocess
 import sys
 import tempfile
@@ -56,6 +57,7 @@ MAX_TARGET_ORDER = 40
 MAX_FACES = 150000
 TIMEOUT_SECONDS = 260
 MEMORY_MIB = 2800
+ISOMORPHISM_SECONDS = 0.05
 
 
 def sha(path: Path) -> str:
@@ -75,7 +77,33 @@ def graph_from_g6(string: str) -> nx.Graph:
 
 def candidate_isomorphic_key(graph: nx.Graph) -> tuple:
     return (len(graph), graph.number_of_edges(),
-            nx.weisfeiler_lehman_graph_hash(graph, iterations=3))
+            nx.weisfeiler_lehman_graph_hash(graph, iterations=5))
+
+
+def bounded_isomorphic(a: nx.Graph, b: nx.Graph, diagnostics: Counter) -> bool:
+    """Never allow one hard Graph Isomorphism case to stall the whole census.
+
+    An unverified comparison is treated as *distinct*, never merged.
+    Thus this affects the efficiency of deduplication but cannot
+    falsify a mathematical result or lose a candidate.
+    """
+    if a.number_of_nodes() <= 12:
+        return nx.is_isomorphic(a,b)
+    if graph6(a) == graph6(b):
+        return True
+    previous_handler=signal.getsignal(signal.SIGALRM)
+    def expired(*_):
+        raise TimeoutError("Only the candidate graph isomorphism test exceeded budget")
+    signal.signal(signal.SIGALRM,expired)
+    signal.setitimer(signal.ITIMER_REAL,ISOMORPHISM_SECONDS)
+    try:
+        return nx.is_isomorphic(a,b)
+    except TimeoutError:
+        diagnostics["isomorphism_timeouts"]+=1
+        return False
+    finally:
+        signal.setitimer(signal.ITIMER_REAL,0)
+        signal.signal(signal.SIGALRM,previous_handler)
 
 
 def stiff_fold(graph: nx.Graph) -> tuple[nx.Graph, list[list[int]]]:
@@ -288,7 +316,7 @@ def make_catalog() -> dict:
             identity=candidate_isomorphic_key(pared)
             existing=next((
                 i for i in buckets[identity]
-                if nx.is_isomorphic(classes[i]["graph"],pared)
+                if bounded_isomorphic(classes[i]["graph"],pared,counters)
             ),None)
             if existing is not None:
                 classes[existing]["occurrences"]+=1
@@ -396,6 +424,7 @@ def make_catalog() -> dict:
         },
         "classes_excluded_by_cheap_structure":counters["candidate_structurally_excluded"],
         "homology_resource_limits":counters["homology_incomplete"],
+        "exact_iso_comparison_timeouts_kept_distinct":counters["isomorphism_timeouts"],
         "remaining_candidate_classes":len(candidates),
         "remaining_by_host":{str(k):eligible_by_host[k] for k in HOST_IDS},
         "candidate_classes_with_no_old_family_match":sum(
@@ -448,6 +477,8 @@ def manifest() -> dict:
         "homology_through_degree":5,"max_faces":MAX_FACES,
         "hosts":list(HOST_IDS),"timeout_seconds":TIMEOUT_SECONDS,
         "memory_mib":MEMORY_MIB,
+        "isomorphism_comparison_max_seconds":ISOMORPHISM_SECONDS,
+        "uncompleted_isomorphism_comparisons_kept_as_separate_candidates":True,
         "source_sha256":{
             str(p.relative_to(ROOT)):sha(p) for p in full
         },
