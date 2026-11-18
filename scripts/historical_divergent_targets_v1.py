@@ -355,6 +355,14 @@ def make_catalog() -> dict:
             pared,folds=stiff_fold(current)
             if not nx.is_connected(pared):
                 raise AssertionError("A connected source must remain connected after folds")
+            # Retain the *entire* source and domination sequence even
+            # when this candidate is isomorphic to an earlier class.
+            occurrence={
+                "historical_graph":dict(source),
+                "iterate_level":level,
+                "raw_iterate_graph6":graph6(current),
+                "dominated_deletions":folds,
+            }
             identity=candidate_isomorphic_key(pared)
             existing=next((
                 i for i in buckets[identity]
@@ -363,17 +371,14 @@ def make_catalog() -> dict:
             if existing is not None:
                 classes[existing]["occurrences"]+=1
                 classes[existing]["by_level"][str(level)]+=1
+                classes[existing]["all_provenance"].append(occurrence)
                 continue
             i=len(classes)
             classes.append({
                 "graph":pared,"graph6":graph6(pared),
                 "occurrences":1,"by_level":Counter({str(level):1}),
-                "provenance":{
-                    "historical_graph":source,
-                    "iterate_level":level,
-                    "raw_iterate_graph6":graph6(current),
-                    "dominated_deletions":folds,
-                },
+                "provenance":occurrence,
+                "all_provenance":[occurrence],
             })
             buckets[identity].append(i)
         counters["historical_input_graphs"]+=1
@@ -436,7 +441,9 @@ def make_catalog() -> dict:
             "order":len(graph),"edges":graph.number_of_edges(),
             "occurrences":record["occurrences"],
             "origins_by_iterate":dict(record["by_level"]),
+            "class_index":class_index,
             "representative_provenance":record["provenance"],
+            "provenance_count":len(record["all_provenance"]),
             "known_previously_searched_family":known,
             "target_betti_mod2_degrees_0_to_5":(
                 {str(k):v for k,v in betti.items()} if betti is not None else None
@@ -460,6 +467,16 @@ def make_catalog() -> dict:
         "historical_original_graph_count":counters["historical_input_graphs"],
         "historical_positive_stages":dict(hist_counts),
         "all_unique_stiff_target_isomorphism_classes":len(classes),
+        "all_class_provenance":[
+            {
+                "class_index":idx,
+                "graph6":class_row["graph6"],
+                "occurrences":class_row["occurrences"],
+                "origins_by_iterate":dict(class_row["by_level"]),
+                "all_provenance":class_row["all_provenance"],
+            }
+            for idx,class_row in enumerate(classes)
+        ],
         "max_raw_clique_iterate":LEVELS,
         "skipped_expansions_exceeding_40":{
             k:v for k,v in counters.items() if k.startswith("iterate_limit_")
@@ -486,12 +503,26 @@ def manifest() -> dict:
         Path(__file__),
         ROOT/"scripts/core9_clique_targets_v1.py",
         ROOT/"scripts/core9_third_retractions_v2.py",
+        ROOT/"scripts/core9_three_target_v1.py",
+        ROOT/"scripts/core9_crossref.py",
+        ROOT/"scripts/core_isomorphism_index.py",
         ROOT/"scripts/validate.py",
         ROOT/"scripts/graph_sources.py",
+        ROOT/"scripts/bootstrap_core9_three_target_v1.sh",
         ROOT/"config/pycliques_commit_core9_three_target_v1.txt",
         BASE/"summary.json",BASE/"manifest.json",
         NINE/"initial"/"summary.json",NINE/"initial"/"manifest.json",
+        NINE/"initial"/"order9"/"indeterminate_order_9.txt",
+        ROOT/"indeterminate_order_9.txt",
+        ROOT/"research/order10_core9_three_target_v1/manifest.json",
+        ROOT/"research/order10_core9_third_retractions_v2/manifest.json",
     ]
+    for core_id in HOST_IDS:
+        paths.extend([
+            ROOT/f"runs/order10/core9-structure-v1/records/{core_id:08d}.json",
+            ROOT/f"research/order10_core9_three_target_v1/records/{core_id:08d}.json",
+            ROOT/f"research/order10_core9_third_retractions_v2/records/{core_id:08d}.json",
+        ])
     for stage in ADDITIONAL_NINE:
         paths.extend([NINE/stage/"manifest.json",NINE/stage/"summary.json"])
     # Every original verdict chunk is authenticated through its own SHA.
@@ -519,6 +550,8 @@ def manifest() -> dict:
         "homology_through_degree":5,"max_faces":MAX_FACES,
         "hosts":list(HOST_IDS),"timeout_seconds":TIMEOUT_SECONDS,
         "memory_mib":MEMORY_MIB,
+        "indexed_graph6_archive_sha256":validate_source_archives(),
+        "complete_historical_class_provenance":True,
         "isomorphism_comparison_max_seconds":ISOMORPHISM_SECONDS,
         "uncompleted_isomorphism_comparisons_kept_as_separate_candidates":True,
         "source_sha256":{
