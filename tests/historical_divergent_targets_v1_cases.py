@@ -120,10 +120,13 @@ def test_historical_six_divergent_nine_cores_and_first_iterates():
     }
     for index, source in sources.items():
         graph = nx.from_graph6_bytes(source.encode("ascii"))
-        for level in range(3):
-            if graph is None:
-                assert level == 2
-                break
+        # The two suspension-type cores have K^0 and K^1 inside the
+        # 40-vertex construction limit, but their RAW K^2 exceeds it.
+        # Test the attempted expansion *explicitly*; do not assert on
+        # the final loop variable, which can refer to either K^1 or K^2.
+        limited_at_k2 = index in (10768817, 11363569)
+        last_computed_level = 1 if limited_at_k2 else 2
+        for level in range(last_computed_level + 1):
             stiff, steps = stage.stiff_fold(graph)
             assert not steps
             betti = bounded_reduced_betti_mod2(
@@ -140,10 +143,14 @@ def test_historical_six_divergent_nine_cores_and_first_iterates():
                 assert betti == {
                     i:int(i==(2 if level==0 else 4)) for i in range(6)
                 }
-            if level < 2:
-                graph = stage.raw_clique_graph_bounded(graph)
-        if index in (10768817, 11363569):
-            assert graph is None  # The next raw clique graph exceeds 40.
+            if level < last_computed_level:
+                next_graph = stage.raw_clique_graph_bounded(graph)
+                assert next_graph is not None, (index, level)
+                graph = next_graph
+        if limited_at_k2:
+            # This checks the actual next K expansion, not a stale
+            # non-None graph from the preceding homology computation.
+            assert stage.raw_clique_graph_bounded(graph) is None
     graph=nx.from_graph6_bytes(b"HUzrv~}")
     target=stage.raw_clique_graph_bounded(graph)
     assert target is not None
