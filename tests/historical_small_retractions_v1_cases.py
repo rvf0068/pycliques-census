@@ -148,3 +148,48 @@ def test_symmetry_aware_matcher_completely_excludes_remnant_large_patterns():
             assert found["status"]=="EXHAUSTED"
             assert found["induced_vertex_sets"]==0
             assert found["obstruction"] is None
+
+
+
+def test_preverified_pilot_catalog_requires_matching_manifest(monkeypatch,tmp_path):
+    """Separate retraction worker consumes only CI-attested immutable data."""
+    manifest={"stage":"pilot-test","sha256":"a"*64}
+    monkeypatch.setattr(stage.pilot,"manifest",lambda:manifest)
+    records={
+        "schema":stage.pilot.SCHEMA,
+        "status":"COMPLETED",
+        "source_graphs":240,
+        "historical_positive_stages":{
+            "initial":232,"c10":4,"bound60":1,"bound70":3,
+        },
+        "candidate_targets":[{"graph6":"test"}],
+        "eligible_target_classes":1,
+    }
+    path=tmp_path/"catalog.json"
+    (tmp_path/"manifest.json").write_text(json.dumps(manifest))
+    path.write_text(json.dumps(records))
+    assert stage.authenticated_pilot(path)==records
+    (tmp_path/"manifest.json").write_text(json.dumps({"stage":"wrong"}))
+    with pytest.raises(ValueError,match="manifest differs"):
+        stage.authenticated_pilot(path)
+    (tmp_path/"manifest.json").write_text(json.dumps(manifest))
+    records["status"]="INCOMPLETE"
+    path.write_text(json.dumps(records))
+    with pytest.raises(ValueError,match="Incomplete"):
+        stage.authenticated_pilot(path)
+
+
+def test_bounded_replayer_passes_same_pilot_catalog_to_subprocess(monkeypatch,tmp_path):
+    import subprocess
+    observed={}
+    def mock_run(args,**kwargs):
+        observed["args"]=args
+        observed["kwargs"]=kwargs
+        return subprocess.CompletedProcess(args,0,"","")
+    monkeypatch.setattr(stage.subprocess,"run",mock_run)
+    catalog=tmp_path/"catalog.json"
+    stage.bounded("check",tmp_path/"retractions.json",catalog)
+    assert observed["args"][2]=="check"
+    assert observed["args"][-2:]==["--catalog",str(catalog)]
+    assert observed["kwargs"]["timeout"]==stage.TIMEOUT_SECONDS
+    assert observed["kwargs"]["preexec_fn"] is stage.limit
