@@ -239,7 +239,7 @@ def known_target_models() -> list[tuple[str,nx.Graph]]:
     def add(name,g):
         if len(g)<=MAX_TARGET_ORDER:
             models.append((name,g))
-    for d in range(3,7):
+    for d in range(3,MAX_TARGET_ORDER//2+1):
         add("O_d",nx.complement(nx.disjoint_union_all(
             [nx.path_graph(2) for _ in range(d)])))
     for n in range(4,21):
