@@ -1862,12 +1862,17 @@ Betti numbers through degree five do not imply contractibility.
 
 In the first fully verified **240-original pilot**, these exact
 restrictions, combined with structural tests and deduplication,
-identified nine genuinely new admissible target classes. Six
-distinct target shapes underwent an independent induced-embedding
-and graph-retraction search. Only one 16-vertex target admits
-induced copies in a host: its 69 induced copies in the 37-vertex
-host are all independently obstructed by empty retraction-image
-domains. No nine-core K-dynamical verdict was changed.
+identified nine genuinely new admissible target classes,
+distributed among **six vertex-count/edge-count buckets**.
+Those buckets are not graph isomorphism classes: several
+nonisomorphic graphs have 25 vertices and 268 edges.
+An individual 16-vertex target has exactly **69 induced copies**
+in the 37-vertex host, each with an independently checkable
+empty-image-domain obstruction. The separate retraction stage
+tests **all nine candidate graph classes and twelve host/target
+pairs**, accepting any certified positive projection rather than
+hard-coding a negative verdict. No nine-core K-dynamical verdict
+is changed merely by screening.
 
 The experimental monolithic 10,104-original catalog job still
 requires bounded sharding: the full prototype exceeded its time
@@ -1875,3 +1880,13 @@ budget. Automatic PR validation covers only the completed,
 independently replayed 240-source pilot and the 69-copy
 retraction check. The uncompleted large run does not justify any
 negative claim.
+
+
+The full-catalog prototype also retains **both** target construction
+routes: raw \(K^j(H)\) followed by domination paring, and iterative
+\(K^j(H')\) starting with the completely pared root \(H'\) and
+paring after each clique iteration. Outputs are deduplicated only
+after exact graph-isomorphism checks; their equivalence is not
+assumed. This additional route is inherited from the now-superseded
+PR #26, whereas the automatic 240-source pilot retains its
+original raw-iterate scope.
