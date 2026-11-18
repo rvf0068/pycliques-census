@@ -34,6 +34,9 @@ MEMORY_MIB=2500
 
 
 def sources():
+    # The pilot must authenticate the 6..8 graph6 archives too,
+    # rather than relying on a checksum check only in the full worker.
+    full.validate_source_archives()
     seen=Counter()
     for n in (6,7,8):
         records=iter_chunks(full.BASE/f"order{n}",n,500)
@@ -76,21 +79,25 @@ def compute():
                     skipped[f"K{level}"]+=1
                     break
             stiff,steps=full.stiff_fold(current)
+            occurrence={
+                "historical_graph":dict(source),
+                "raw_iterate_level":level,
+                "raw_iterate_graph6":full.graph6(current),
+                "folded_graph6":full.graph6(stiff),
+                "dominated_deletions":steps,
+            }
             key=full.candidate_isomorphic_key(stiff)
             existing=next((k for k in buckets[key]
                            if full.bounded_isomorphic(classes[k]["graph"],stiff,skipped)),None)
             if existing is not None:
                 classes[existing]["instances"]+=1
+                classes[existing]["all_provenance"].append(occurrence)
                 continue
             k=len(classes)
             classes.append({
                 "graph":stiff,"instances":1,
-                "provenance":{
-                    "historical_graph":source,"raw_iterate_level":level,
-                    "raw_iterate_graph6":full.graph6(current),
-                    "folded_graph6":full.graph6(stiff),
-                    "dominated_deletions":steps,
-                }
+                "provenance":occurrence,
+                "all_provenance":[occurrence],
             })
             buckets[key].append(k)
     if counts!=Counter({"initial":232,"c10":4,"bound60":1,"bound70":3}):
@@ -109,11 +116,15 @@ def compute():
             graph,max_faces=full.MAX_FACES,max_degree=5)
         if betti is None:filter_counts["homology_limited"]+=1
         eligible=[]
+        checked={}
         for cid in full.HOST_IDS:
+            status,blocked=full.homology_necessary(betti,hom[cid])
+            checked[str(cid)]={
+                "status":status,
+                "obstructing_degrees":blocked,
+            }
             if struc[cid] is not None:continue
-            if betti is not None and any(
-                betti[d]>hom[cid][d] for d in range(6)
-            ):
+            if blocked:
                 filter_counts[f"homology_{cid}"]+=1
                 continue
             eligible.append(cid)
@@ -129,6 +140,8 @@ def compute():
             "edges":graph.number_of_edges(),
             "instances":row["instances"],
             "provenance":row["provenance"],
+            "all_provenance":row["all_provenance"],
+            "homology_obstructions_by_host":checked,
             "mod2_betti_degrees_0_to_5":(
                 {str(k):v for k,v in betti.items()} if betti is not None else None
             ),
@@ -142,6 +155,7 @@ def compute():
     ))
     return {
         "schema":SCHEMA,"status":"COMPLETED",
+        "historical_source_archives_sha256":full.validate_source_archives(),
         "source_graphs":sum(counts.values()),
         "historical_positive_stages":dict(counts),
         "unique_stiff_isomorphism_classes":len(classes),
@@ -171,19 +185,33 @@ def manifest():
     files=[
         Path(__file__),
         ROOT/"scripts/historical_divergent_targets_v1.py",
+        ROOT/"scripts/core9_crossref.py",
         ROOT/"scripts/core9_clique_targets_v1.py",
         ROOT/"scripts/core9_third_retractions_v2.py",
+        ROOT/"scripts/core9_three_target_v1.py",
+        ROOT/"config/pycliques_commit_core9_three_target_v1.txt",
+        ROOT/"research/order10_core9_three_target_v1/manifest.json",
+        ROOT/"research/order10_core9_third_retractions_v2/manifest.json",
         ROOT/"runs/baseline-through8-bound30/summary.json",
         ROOT/"runs/order9/initial/summary.json",
     ]
     for n in (6,7,8):
         files.extend(sorted((full.BASE/f"order{n}"/"chunks").glob("*.tsv.gz")))
+    for core_id in full.HOST_IDS:
+        files.extend([
+            ROOT/f"runs/order10/core9-structure-v1/records/{core_id:08d}.json",
+            ROOT/f"research/order10_core9_three_target_v1/records/{core_id:08d}.json",
+            ROOT/f"research/order10_core9_third_retractions_v2/records/{core_id:08d}.json",
+        ])
     for stage in full.ADDITIONAL_NINE:
         files.extend(sorted((full.NINE/stage/"records").glob("*.json")))
         files.append(full.NINE/stage/"summary.json")
     return {
         "schema":SCHEMA,"stage":"historical_divergent_small_pilot_v1",
         "expected_positive_graphs":240,
+        "indexed_graph6_archives_sha256":full.validate_source_archives(),
+        "complete_target_occurrence_provenance":True,
+        "exact_betti_inequalities_required":list(range(6)),
         "max_raw_K_level":2,"max_target_order":40,
         "source_sha256":{str(p.relative_to(ROOT)):sha(p) for p in files},
         "worker_and_verifier_seconds":TIMEOUT_SECONDS,
