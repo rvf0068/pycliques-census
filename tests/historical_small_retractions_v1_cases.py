@@ -151,8 +151,10 @@ def test_symmetry_aware_matcher_completely_excludes_remnant_large_patterns():
 
 
 
-def test_preverified_pilot_catalog_requires_matching_manifest(monkeypatch,tmp_path):
-    """Separate retraction worker consumes only CI-attested immutable data."""
+def test_preverified_pilot_catalog_rejects_forged_bytes_and_bad_candidate(
+    monkeypatch,tmp_path
+):
+    """An attested manifest cannot authenticate altered or malformed data."""
     manifest={"stage":"pilot-test","sha256":"a"*64}
     monkeypatch.setattr(stage.pilot,"manifest",lambda:manifest)
     records={
@@ -164,19 +166,64 @@ def test_preverified_pilot_catalog_requires_matching_manifest(monkeypatch,tmp_pa
         },
         "candidate_targets":[{"graph6":"test"}],
         "eligible_target_classes":1,
+        "eligible_by_host":{"6914104":1,"6962151":0},
     }
     path=tmp_path/"catalog.json"
-    (tmp_path/"manifest.json").write_text(json.dumps(manifest))
+    manifest_file=tmp_path/"manifest.json"
+    manifest_file.write_text(json.dumps(manifest))
     path.write_text(json.dumps(records))
-    assert stage.authenticated_pilot(path)==records
-    (tmp_path/"manifest.json").write_text(json.dumps({"stage":"wrong"}))
-    with pytest.raises(ValueError,match="manifest differs"):
-        stage.authenticated_pilot(path)
-    (tmp_path/"manifest.json").write_text(json.dumps(manifest))
+    digests=(stage.sha(path),stage.sha(manifest_file))
+    # Even with matching SHA-256, bad graph6 is rejected independently.
+    with pytest.raises(ValueError,match="Invalid candidate graph6"):
+        stage.authenticated_pilot(path,*digests)
+
+    # Tampering with catalog bytes or its sidecar cannot be covered up by
+    # the other file; expected hashes came from a separate upstream job.
+    path.write_text(json.dumps({**records,"candidate_targets":[]}))
+    with pytest.raises(ValueError,match="catalog digest differs"):
+        stage.authenticated_pilot(path,*digests)
+    path.write_text(json.dumps(records))
+    manifest_file.write_text(json.dumps({"stage":"wrong"}))
+    with pytest.raises(ValueError,match="manifest digest differs"):
+        stage.authenticated_pilot(path,*digests)
+    manifest_file.write_text(json.dumps(manifest))
+    with pytest.raises(ValueError,match="Missing or malformed"):
+        stage.authenticated_pilot(path,None,None)
+
     records["status"]="INCOMPLETE"
     path.write_text(json.dumps(records))
+    # Even a hypothetical valid digest must fail on an incomplete catalog.
     with pytest.raises(ValueError,match="Incomplete"):
-        stage.authenticated_pilot(path)
+        stage.authenticated_pilot(path,stage.sha(path),stage.sha(manifest_file))
+
+
+def test_semantic_catalog_checker_rejects_duplicate_host_pairs_and_bad_betti():
+    """The structural layer is independent from the byte-level seal."""
+    fake={
+        "schema":stage.pilot.SCHEMA,
+        "status":"COMPLETED",
+        "source_graphs":240,
+        "historical_positive_stages":{
+            "initial":232,"c10":4,"bound60":1,"bound70":3,
+        },
+        "eligible_target_classes":1,
+        "eligible_by_host":{"6914104":2,"6962151":0},
+        "candidate_targets":[{
+            "graph6":nx.to_graph6_bytes(nx.path_graph(4),header=False)
+                        .decode("ascii").strip(),
+            "order":4,"edges":3,
+            "eligible_hosts":[6914104,6914104],
+        }],
+    }
+    with pytest.raises(ValueError,match="repeated eligible host"):
+        stage.validate_pilot_candidates(fake)
+    fake["candidate_targets"][0]["eligible_hosts"]=[6914104]
+    fake["candidate_targets"][0]["homology_status"]="EXACT_THROUGH_5"
+    fake["candidate_targets"][0]["mod2_betti_degrees_0_to_5"]={
+        str(i):("not-a-number" if i==3 else 0) for i in range(6)
+    }
+    with pytest.raises(ValueError,match="Invalid exact Betti"):
+        stage.validate_pilot_candidates(fake)
 
 
 def test_bounded_replayer_passes_same_pilot_catalog_to_subprocess(monkeypatch,tmp_path):
@@ -188,8 +235,16 @@ def test_bounded_replayer_passes_same_pilot_catalog_to_subprocess(monkeypatch,tm
         return subprocess.CompletedProcess(args,0,"","")
     monkeypatch.setattr(stage.subprocess,"run",mock_run)
     catalog=tmp_path/"catalog.json"
-    stage.bounded("check",tmp_path/"retractions.json",catalog)
+    digest1="a"*64
+    digest2="b"*64
+    stage.bounded("check",tmp_path/"retractions.json",catalog,digest1,digest2)
     assert observed["args"][2]=="check"
-    assert observed["args"][-2:]==["--catalog",str(catalog)]
+    assert observed["args"][-6:]==[
+        "--catalog",str(catalog),
+        "--catalog-sha256",digest1,
+        "--catalog-manifest-sha256",digest2,
+    ]
     assert observed["kwargs"]["timeout"]==stage.TIMEOUT_SECONDS
     assert observed["kwargs"]["preexec_fn"] is stage.limit
+    with pytest.raises(ValueError,match="Missing or malformed"):
+        stage.bounded("check",tmp_path/"retractions.json",catalog)
