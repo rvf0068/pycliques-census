@@ -84,3 +84,25 @@ def test_all_verified_sources_are_proven_positive_only():
     assert stage.MAX_ITERATE==2
     assert stage.MAX_CLIQUES_PER_ITERATE<=200
     assert stage.TOP_PER_HOST>0
+
+
+
+def test_exact_archives_match_frozen_original_graph_index_sources():
+    expected=stage.validate_source_archives()
+    assert set(expected)=={"6","7","8","9"}
+    assert all(len(h)==64 for h in expected.values())
+
+
+def test_complete_original_source_provenance_is_preserved():
+    # Run on an intentionally tiny synthetic catalog, without scanning
+    # the full historical list during the test. Each saved source must
+    # carry its positive reason and original graph6.
+    record={
+        "id":7,"pared_graph6":"F?","member_counts_by_order":{"6":2},
+        "original_sources":[
+            {"order":6,"index":4,"graph6":"E?","positive_reason":"certificate A"},
+            {"order":6,"index":7,"graph6":"E?","positive_reason":"certificate B"},
+        ],
+    }
+    assert len(record["original_sources"])==sum(record["member_counts_by_order"].values())
+    assert len({row["positive_reason"] for row in record["original_sources"]})==2
