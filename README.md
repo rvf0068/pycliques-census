@@ -1706,15 +1706,338 @@ As always, failure to retract to these particular targets does
 **not** prove K-convergence or rule out other divergent targets.
 
 
+## Historical-divergence-derived target discovery (versioned v1)
+
+The early exhaustive clique-behavior census contains **10,096
+historically proved divergent connected graphs** on 6..9 vertices:
+1 of order six, 9 of order seven, 222 of order eight, and 9,864
+of order nine. The frozen order-nine C10-retraction, bound-60 and
+bound-70 stages add **4 + 1 + 3 = 8** more proved divergent graphs,
+for **10,104 original divergence witnesses** in total. The
+snub disphenoid, conjectured surfaces and all conditional or
+resource-limited cases are excluded.
+
+The `scripts/historical_divergent_targets_v1.py` stage reads
+the entire set of historic verdict chunks and the eight positive
+order-nine post-stage records, alongside their original McKay
+graph6 sources. It validates source order, original indices and
+the frozen known positive counts, and includes each input
+file checksum in a separate experimental manifest.
+
+From every proved-divergent graph H, it generates H, K(H) and K²(H)
+as **raw** clique iterates, using at most 40 maximal cliques
+per generated graph to limit target order. A graph that exceeds
+this size bound is skipped with an explicit count; it is never
+interpreted as nondivergent or absent. Every constructed candidate
+T undergoes a deterministic sequence of closed-neighborhood
+dominated-vertex deletions to a stiff graph S. Every deletion
+has a recorded dominator, and the folded graph remains an
+induced retract of T. By the established clique-behavior
+invariance under dominated-vertex deletions, S remains
+K-divergent. Moreover, any graph retracting onto T also
+retracts onto S, so this reduction loses no positive ordinary
+retractions **to the historically generated candidate targets**.
+
+Stiff targets are grouped by a fast Weisfeiler-Lehman hash
+bucket followed by independently verified exact isomorphisms,
+never just by the hash alone. Pathologically expensive
+isomorphism comparisons receive a 50-ms budget; if the
+comparison cannot finish, the two candidates remain **distinct**.
+This can overcount classes but cannot merge nonisomorphic
+targets or silently discard a viable retraction target. Each surviving
+target keeps its first source order/index, graph6, frozen
+positive stage/reason, iterate index, raw-iterate graph6 and
+the full dominated-vertex deletion sequence.
+
+The 37- and 40-vertex third pared clique iterates of cores
+`6914104` and `6962151` are screened by
+necessary order, edge, degree, complement-degree and
+complement-edge-count conditions, followed by mod-2 Betti
+inequalities through dimension 5. **Limited homology
+computations never mean homology vanishes.** The catalog tags
+graphs isomorphic to already searched named target families
+(PRs #22 and #23, plus the still-open PR #24) so the next
+retraction stage can favor genuinely new candidates.
+
+This is a **target-discovery** stage, not yet a full
+induced-embedding or retraction search. Passing the
+homology/structural screen is only a necessary condition,
+not proof of a retraction or of K-divergence of either host.
+The new read-only CI job independently reconstructs and
+replays the complete catalog in separately resource-limited
+subprocesses, and saves full machine-readable results as an
+artifact. No frozen census results are modified.
+
+To reproduce:
+
+```bash
+bash scripts/bootstrap_core9_three_target_v1.sh
+.venv-core9-three-v1/bin/python scripts/historical_divergent_targets_v1.py plan
+.venv-core9-three-v1/bin/python scripts/historical_divergent_targets_v1.py run
+.venv-core9-three-v1/bin/python scripts/historical_divergent_targets_v1.py verify
+.venv-core9-three-v1/bin/python scripts/historical_divergent_targets_v1.py report
+```
+
+
+### Independently reproducible first historical pilot (240 sources)
+
+The complete 10,104-original archive is too expensive to process
+as a **single 260-second worker**: the first monolithic implementation
+timed out, so that attempt is explicitly **inconclusive** and its
+outputs are not accepted as a complete catalog. The full prototype
+remains accessible under `scripts/historical_divergent_targets_v1.py`,
+but its workflow job is restricted to manual dispatch until its
+search is divided into bounded shards.
+
+Rather than conflating an incomplete run with a proof, PR validation
+runs `scripts/historical_divergent_small_pilot_v1.py` on a
+smaller, **complete historical cohort**: all 232 originally
+classified divergent graphs of orders 6–8, together with
+all eight later certified order-nine cases. These **240
+nonconjectural sources** and their raw K^0, K^1, K^2
+iterations are folded, deduplicated by exact isomorphism,
+screened by the same necessary homology/embedding filters
+and completely reconstructed in an independently bounded
+verifier before being uploaded as a GitHub Actions artifact.
+
+The pilot is not claimed to contain all divergent order-nine
+graphs: the **9,864 order-nine initial positives** still require a
+sharded follow-up. A separate standalone test also verifies the
+Betti profiles of the six familiar divergent nine-vertex cores and
+their early clique iterates; see
+`research/order10_historical_divergent_targets_v1/six_historical_ninecores.md`.
+
+To reproduce the completed pilot:
+
+```bash
+bash scripts/bootstrap_core9_three_target_v1.sh
+.venv-core9-three-v1/bin/python scripts/historical_divergent_small_pilot_v1.py run
+.venv-core9-three-v1/bin/python scripts/historical_divergent_small_pilot_v1.py verify
+.venv-core9-three-v1/bin/python scripts/historical_divergent_small_pilot_v1.py report
+```
+
+
+### Corrections from PR #26 review and explicit Betti filter
+
+The original frozen McKay graph6 archives for orders 6–9 are now
+validated byte-for-byte against their recorded SHA-256 values **before
+any original verdict index is used**. The complete C10, bound60 and
+bound70 cohorts, predecessor hashes, exact record sets and final
+unresolved index are revalidated using the existing
+`core9_crossref` historical verifier. The eight later
+certified nine-vertex positives are kept as a genuinely additional
+set, with no conjectural snub-disphenoid cases.
+
+The completely deduplicated class index now preserves the **full
+provenance of every occurrence** (not just a first example):
+original zero-based index and graph6, positive rule/reason and stage,
+raw clique-iterate graph6, iterate level and the complete
+closed-neighborhood domination deletion witness.
+
+**Homology is a necessary test, not an optional ranking heuristic.**
+If a host graph `X` retracts onto `T`, then
+`Delta(T)` is a topological retract of `Delta(X)`.
+Consequently, for every dimension in which both reduced mod-2
+Betti numbers have been certified,
+
+\[
+\widetilde\beta_i(T;\mathbb F_2)
+\le \widetilde\beta_i(X;\mathbb F_2).
+\]
+
+The third completely pared hosts have the exact reduced mod-2
+profiles through degree five:
+
+| Core | beta0 | beta1 | beta2 | beta3 | beta4 | beta5 |
+|---:|---:|---:|---:|---:|---:|---:|
+| 6914104 | 0 | 0 | 0 | 1 | 0 | 0 |
+| 6962151 | 0 | 0 | 0 | 0 | 1 | 0 |
+
+Any candidate violating **even one** inequality is excluded from
+retraction searches for that host, regardless of the size limit.
+If homology computation reaches its resource budget or does not
+supply all six required degrees, its status is explicitly
+`UNKNOWN` and it is **not** excluded by homology. Vanishing
+Betti numbers through degree five do not imply contractibility.
+
+In the first fully verified **240-original pilot**, these exact
+restrictions, combined with structural tests and deduplication,
+identified nine genuinely new admissible target classes,
+distributed among **six vertex-count/edge-count buckets**.
+Those buckets are not graph isomorphism classes: several
+nonisomorphic graphs have 25 vertices and 268 edges.
+An individual 16-vertex target has exactly **69 induced copies**
+in the 37-vertex host, each with an independently checkable
+empty-image-domain obstruction. The separate retraction stage
+tests **all nine candidate graph classes and twelve host/target
+pairs**, accepting any certified positive projection rather than
+hard-coding a negative verdict. No nine-core K-dynamical verdict
+is changed merely by screening.
+
+The experimental monolithic 10,104-original catalog job still
+requires bounded sharding: the full prototype exceeded its time
+budget. Automatic PR validation covers only the completed,
+independently replayed 240-source pilot and the 69-copy
+retraction check. The uncompleted large run does not justify any
+negative claim.
+
+
+The full-catalog prototype also retains **both** target construction
+routes: raw \(K^j(H)\) followed by domination paring, and iterative
+\(K^j(H')\) starting with the completely pared root \(H'\) and
+paring after each clique iteration. Outputs are deduplicated only
+after exact graph-isomorphism checks; their equivalence is not
+assumed. This additional route is inherited from the now-superseded
+PR #26, whereas the automatic 240-source pilot retains its
+original raw-iterate scope.
+
+
+### Fast, exact nonembedding checks for historical targets
+
+The nine-target retraction follow-up initially exceeded its
+300-second worker budget because it tried general induced
+subgraph searches for all twelve host-target pairs, including
+very sparse complement patterns. This is a **search-resource
+timeout**, not evidence that a retraction exists or does not exist.
+
+For any *induced* target `T` of a host `X`,
+the complement `X^c` contains an induced copy of
+`T^c`. Every triangle of `T^c` must therefore be
+one of the triangles of `X^c`. The implementation tests
+the rigorous necessary inequality
+
+\[
+t(T^c)\le t(X^c),
+\]
+
+where `t` counts triangles **exactly**.
+
+The third pared iterates of core 6914104 and core 6962151
+have respectively **7** and **3** complement triangles.
+The following historical target shapes fail this condition:
+
+| Target order / edges | Target complement triangles | Relevant host(s) |
+|---|---:|---|
+| 24 / 220 | 8 | 6914104 |
+| 25 / 268 (four nonisomorphic targets) | 6 each | 6962151 |
+| 26 / 256 | 12 | 6914104, 6962151 |
+
+Every such exclusion is immediate, needs no retraction CSP,
+and has a machine-replayable count witness in the result
+JSON. The sixteen-vertex, 94-edge target, whose 69 induced
+copies already have fixed-domain obstructions, is unaffected.
+
+The only other larger target families are the 20-vertex,
+174-edge and 24-vertex, 234-edge patterns. For these the
+search uses the **symmetry-aware ISMAGS algorithm** on
+complements in place of the slower VF2 enumeration.
+A local exact run found zero embeddings in both hosts.
+CI independently replays the complete search and refuses
+to promote a timeout or a bounded CSP result to a negative
+certificate.
+
+All these steps are performed **after** the exact mod-2
+Betti-number restrictions, not as a replacement for them.
+
+
+#### Separately attested pilot and retraction jobs
+
+The previous monolithic retraction worker recomputed the complete
+240-source pilot at the beginning of both its worker and verifier.
+That computation had **already been independently replayed** by
+the upstream pilot job, so this was duplicate expensive work,
+not a necessary independent retraction check.
+
+The read-only CI is now a two-stage proof pipeline:
+
+1. `early-historical-pilot` reconstructs all 240 original positive
+   sources, checks original graph6 archives, complete stage history,
+   domination folds and the exact Betti inequalities, then replays
+   its *whole* catalog independently under resource caps. Only on
+   success does it publish an immutable `manifest.json` and
+   `catalog.json` artifact.
+2. `historical-small-retractions` has a strict GitHub Actions
+   `needs` dependency on the successful first job, downloads
+   that exact artifact, and independently validates its manifest
+   against the frozen sources. Both its separately bounded search
+   worker **and** its independently rerunning checker operate on
+   the same SHA-256-pinned artifact. Each recomputes every exact
+   triangle obstruction, induced-target enumeration, and
+   retraction certificate; neither repeats the full source census.
+
+Thus the Betti-number filter and historical positive-source
+verification have **not** been bypassed. They remain mandatory
+in the already completed upstream proof job. The second
+stage independently reproduces **all twelve** finite retraction
+checks using the authenticated input.
+
+To rerun the retraction search against a locally saved pilot
+artifact, use:
+
+```bash
+# These hashes must come from the successful upstream proof run,
+# not from the untrusted downloaded artifact.
+VERIFIED_CATALOG_SHA256="<upstream CI job output catalog_sha256>"
+VERIFIED_MANIFEST_SHA256="<upstream CI job output manifest_sha256>"
+.venv-core9-three-v1/bin/python \
+  scripts/historical_small_retractions_v1.py run \
+  --catalog /path/to/historical-small-pilot-v1/catalog.json \
+  --catalog-sha256 "$VERIFIED_CATALOG_SHA256" \
+  --catalog-manifest-sha256 "$VERIFIED_MANIFEST_SHA256"
+.venv-core9-three-v1/bin/python \
+  scripts/historical_small_retractions_v1.py verify \
+  --catalog /path/to/historical-small-pilot-v1/catalog.json \
+  --catalog-sha256 "$VERIFIED_CATALOG_SHA256" \
+  --catalog-manifest-sha256 "$VERIFIED_MANIFEST_SHA256"
+```
+
+
+#### Independent upstream content attestation (Copilot rereview)
+
+The checked sidecar manifest **alone** is not a cryptographic
+attestation of the catalog: an altered `catalog.json` could
+retain the same manifest and summary counts. The follow-up now
+closes that gap. After the pilot successfully **recomputes and
+independently replays every source**, CI emits exact SHA-256
+hashes of its `catalog.json` and `manifest.json`
+as separate **producer job outputs**. The consumer retrieves
+these values using its successful `needs` dependency,
+not from the artifact being authenticated, and compares both
+downloaded files byte-for-byte by their SHA-256 digests
+**before** launching retraction tests.
+
+The two expected digests are also mandatory explicit arguments
+to *both* the independently bounded retraction worker and
+checker. Their output manifest records the expected and actual
+catalog/sidecar hashes, so a result cannot silently be replayed
+against a different target inventory. Omitting either attestation
+rejects an artifact.
+
+As a second defense, the consumer independently validates
+**every** candidate's canonical graph6 syntax, order, edge
+count, connectivity, uniqueness, exact-or-incomplete Betti
+profile and rank inequalities, per-host Betti audit, and
+structural eligibility. It requires **exactly nine** previously
+unsearched target classes and **twelve distinct eligible
+host-target pairs**, with consistent complete per-host totals.
+The negative regression now explicitly rejects a forged
+candidate with graph6 `test`, even if the forged bytes
+are accompanied by matching hashes.
+
+The hashing/structural checks complement rather than replace
+the original full historical proof replay in the upstream
+pilot. No previous census verdict has changed.
+
+
 ## New certified K-divergent targets: coaffine joins (v1)
 
-The next bounded search uses a family not covered by the previous
+This independently verified bounded search uses a family not covered by the previous
 octahedron, cycle-complement, suspension-of-cycle and first-clique-graph
 target stages:
 
-$
+$$
 T_{n,r} = C_n^c * O_r, \qquad n \geq 5,\quad r\geq 1.
-$
+$$
 
 Here `O_r` is the complement of `r` disjoint edges, so
 `T_{n,r}` is a repeated suspension of `C_n^c`.
@@ -1757,7 +2080,7 @@ test discards impossible retractions. Remaining targets are passed to
 two separately implemented ordinary graph-retraction solvers,
 with their positive and nonpositive results cross-checked.
 
-The first full structural pass gave the following exact counts:
+The full independently replayed structural search gave these exact counts:
 
 | Host | n,r | Induced targets | Failed local test | CSP cases |
 |---:|---|---:|---:|---:|
@@ -1767,9 +2090,9 @@ The first full structural pass gave the following exact counts:
 | 6914104 | (10,1) | 71 | 71 | 0 |
 | 6962151 | (5,3), (7,3), (8,2), (10,2), (11,1), (13,1) | 0 | 0 | 0 |
 
-No positive graph retraction was found. These findings are being
-independently replayed in a new read-only CI job; its verified JSON
-artifact is versioned separately from earlier census results.
+No positive graph retraction was found. These findings were independently replayed in the read-only CI job
+[44193980628](https://github.com/rvf0068/pycliques-census/actions/runs/44193980628);
+its verified JSON artifact is versioned separately from earlier census results.
 
 ```bash
 bash scripts/bootstrap_core9_three_target_v1.sh
@@ -1796,3 +2119,11 @@ algorithms (VF2 and ISMAGS) find **no induced copies** of these
 targets in the respective third pared hosts, and therefore no
 ordinary graph retraction to either. The reproducible calculation is
 recorded in the new tests and in the coaffine-join research summary.
+
+
+The historical-divergence target catalog consolidated in
+[PR #25](https://github.com/rvf0068/pycliques-census/pull/25)
+recognizes these ten coaffine-join targets and two icosahedron suspensions
+as *previously searched* families. That catalog does not reproduce the
+complete negative retraction proofs; their exact counts, search methods,
+and verification records are documented in this coaffine-join experiment.
