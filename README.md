@@ -1773,3 +1773,41 @@ bash scripts/bootstrap_core9_three_target_v1.sh
 .venv-core9-three-v1/bin/python scripts/historical_divergent_targets_v1.py verify
 .venv-core9-three-v1/bin/python scripts/historical_divergent_targets_v1.py report
 ```
+
+
+### Independently reproducible first historical pilot (240 sources)
+
+The complete 10,104-original archive is too expensive to process
+as a **single 260-second worker**: the first monolithic implementation
+timed out, so that attempt is explicitly **inconclusive** and its
+outputs are not accepted as a complete catalog. The full prototype
+remains accessible under `scripts/historical_divergent_targets_v1.py`,
+but its workflow job is restricted to manual dispatch until its
+search is divided into bounded shards.
+
+Rather than conflating an incomplete run with a proof, PR validation
+runs `scripts/historical_divergent_small_pilot_v1.py` on a
+smaller, **complete historical cohort**: all 232 originally
+classified divergent graphs of orders 6–8, together with
+all eight later certified order-nine cases. These **240
+nonconjectural sources** and their raw K^0, K^1, K^2
+iterations are folded, deduplicated by exact isomorphism,
+screened by the same necessary homology/embedding filters
+and completely reconstructed in an independently bounded
+verifier before being uploaded as a GitHub Actions artifact.
+
+The pilot is not claimed to contain all divergent order-nine
+graphs: the **9,864 order-nine initial positives** still require a
+sharded follow-up. A separate standalone test also verifies the
+Betti profiles of the six familiar divergent nine-vertex cores and
+their early clique iterates; see
+`research/order10_historical_divergent_targets_v1/six_historical_ninecores.md`.
+
+To reproduce the completed pilot:
+
+```bash
+bash scripts/bootstrap_core9_three_target_v1.sh
+.venv-core9-three-v1/bin/python scripts/historical_divergent_small_pilot_v1.py run
+.venv-core9-three-v1/bin/python scripts/historical_divergent_small_pilot_v1.py verify
+.venv-core9-three-v1/bin/python scripts/historical_divergent_small_pilot_v1.py report
+```
