@@ -1,0 +1,23 @@
+name: Current order-10 unresolved index consistency
+
+on:
+  pull_request:
+    paths:
+      - "indeterminate_order_10.txt"
+      - "indeterminate_order_10_v6.txt"
+      - "historical/indeterminate_order_10_pre_v3.txt"
+      - "tests/test_current_root_index.py"
+      - ".github/workflows/current-root-index.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify-current-index:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify current root and immutable pre-v3 source
+        run: python -m unittest discover -s tests -p test_current_root_index.py -v

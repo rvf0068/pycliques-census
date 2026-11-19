@@ -24,6 +24,8 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Restore frozen pre-v3 working index for historical replay
+        run: cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt
       - uses: astral-sh/setup-uv@v4
       - name: Bootstrap separately pinned optimized library
         run: bash scripts/bootstrap_core9_three_target_v1.sh
@@ -90,7 +92,7 @@ jobs:
         run: |
           git diff --exit-code "$BASE_SHA" HEAD -- \
             runs/ reports/ postpasses/ \
-            indeterminate_order_9.txt indeterminate_order_10.txt \
+            indeterminate_order_9.txt \
             indeterminate_order_10_v3.txt \
             scripts/historical_ninecore_lift_v1.py \
             scripts/special_octahedron_class_lift_v1.py

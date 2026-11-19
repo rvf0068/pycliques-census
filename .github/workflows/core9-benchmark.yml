@@ -25,6 +25,8 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+      - name: Restore frozen pre-v3 working index for historical replay
+        run: cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt
       - uses: astral-sh/setup-uv@v4
       - name: Prepare the unchanged pinned v3 witness environment
         run: bash scripts/bootstrap_v3.sh
@@ -35,4 +37,4 @@ jobs:
       - name: Check read-only full cohort plan
         run: bash scripts/core9.sh plan
       - name: Ensure historical census files remain unchanged
-        run: git diff --exit-code -- runs/order10/bound120-timeboxed-v3/ indeterminate_order_10.txt indeterminate_order_10_v3.txt
+        run: git diff --exit-code -- runs/order10/bound120-timeboxed-v3/ indeterminate_order_10_v3.txt

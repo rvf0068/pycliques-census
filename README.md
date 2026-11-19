@@ -88,6 +88,18 @@ The working clique-behavior files at the repository root are:
 - [`indeterminate_order_9.txt`](indeterminate_order_9.txt)
 - [`indeterminate_order_10.txt`](indeterminate_order_10.txt)
 
+**Current certified snapshot (November 2026):** the order-10 root working
+file exactly matches [`indeterminate_order_10_v6.txt`](indeterminate_order_10_v6.txt):
+8,223 remaining cases, including 4,608 conditional references.
+The previous 8,648-case root file is retained byte-for-byte at
+[`historical/indeterminate_order_10_pre_v3.txt`](historical/indeterminate_order_10_pre_v3.txt)
+because frozen pre-v3/v3 scripts and manifests use it as historical input.
+To replay such older stages, use their original Git checkout/pinned state,
+rather than supplying today's current root index as though it were the
+historical 8,648-case cohort. New certificate stages should read the
+latest versioned index and synchronize the root only after verifying
+positive certificates.
+
 They are automatically updated following each completed stage or partially
 completed post-stage run. Their six columns are the original graph
 index, pared order, pared graph6, certificate rule, target status, and target
