@@ -2313,3 +2313,42 @@ certificates are SHA-pinned and unchanged.
 This finite sixth-level result **does not imply K-divergence**,
 nor does it give an all-iterate induction. In particular, the
 current 8,233 unresolved ten-vertex cases remain unresolved.
+
+
+## Relative sixth-iterate theorem: bridge deletion and dominated folds
+
+The six snub-retracting nine-vertex cores (representing **710 still
+indeterminate ten-vertex originals**) now satisfy the rigorous
+relative homotopy comparison through **j = 6**:
+
+\[
+\Delta(K^6(G))\simeq\Delta(K^6(S))\vee S^1.
+\]
+
+We do **not** calculate the numerical size of `K^6(S)`.
+Instead, a general *cone-bridge theorem* proves that when a
+connected graph `Z` is extended by two adjacent vertices whose
+old neighborhoods are disjoint nonempty induced cones, the next
+clique graph contains `K(Z)` as an induced subgraph. After
+removing the distinguished bridge-clique vertex `{a,b}`, every
+other new vertex has an explicit closed-neighborhood dominator
+and can be folded away; the bridge vertex has a link of two
+disjoint nonempty complete subsets, giving exactly one circle
+summand in homotopy.
+
+The prior K⁵ certificates verify this hypothesis symbolically
+for `Z=K⁵(S)`, without enumerating its enormous maximal-clique
+family. Consequently `K⁶(G)` contains an induced copy of
+`K⁶(S)`, and **`K⁶(G)-c` dismantles to it**. The relative
+vertex-count difference is at least one; for cores `2317843`,
+`3148541` and `4952669`, it lies **between 1 and 3**.
+
+Read the [complete theorem and proof](research/snub_handle_relative_k6_v1.md)
+and its [reproducible structural verifier](scripts/core9_snub_relative_k6_v1.py).
+The dedicated GitHub Actions workflow checks independent finite
+examples, symbolic source authentication and historical status preservation.
+
+This result still gives **no unconditional divergence certificate**
+for these six cores, and the 8,233-case order-ten indeterminate
+list remains unchanged. Further iteration beyond `K⁶` requires
+a genuinely new structural argument.
