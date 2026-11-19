@@ -104,6 +104,10 @@ def initial_embedding(h: nx.Graph, g: nx.Graph) -> list[int]:
 
 
 def verify_small_embedding(h: nx.Graph, g: nx.Graph, phi: list[int]) -> None:
+    # Both circle-attachment gluing lemmas assume the OLD complex is
+    # connected. Check the hypothesis, not merely the map's injectivity.
+    if not h or not nx.is_connected(h):
+        raise ValueError("Old snub iterate is disconnected; circle-wedge gluing invalid")
     if len(phi) != len(h) or len(set(phi)) != len(h):
         raise ValueError("Induced graph embedding is not injective")
     if any(
@@ -167,6 +171,34 @@ def mask(f: frozenset[int]) -> int:
     return sum(1 << v for v in f)
 
 
+def require_connected_clique_graph_from_facets(f: list[frozenset[int]]) -> None:
+    """Certify K(X) connected from complete clique incidence, without building it.
+
+    Two clique-graph vertices are adjacent exactly when their facets
+    share an original vertex. Union all facets incident to each vertex;
+    if one equivalence class remains, K(X) is connected.
+    """
+    if not f:
+        raise ValueError("The old fourth clique graph has no vertices")
+    parents = list(range(len(f)))
+
+    def root(i: int) -> int:
+        while parents[i] != i:
+            parents[i] = parents[parents[i]]
+            i = parents[i]
+        return i
+
+    representative: dict[int, int] = {}
+    for i, facet in enumerate(f):
+        for vertex in facet:
+            if vertex in representative:
+                parents[root(i)] = root(representative[vertex])
+            else:
+                representative[vertex] = i
+    if len({root(i) for i in range(len(f))}) != 1:
+        raise ValueError("Old fourth clique graph is disconnected; wedge proof invalid")
+
+
 def fourth_attachment(
     f_h: list[frozenset[int]],
     f_g: list[frozenset[int]],
@@ -175,6 +207,8 @@ def fourth_attachment(
 ) -> tuple[dict, int, int]:
     # K^4 vertices are facets of the third iterate; intersections of
     # facet bitsets give every edge exactly, without building huge graphs.
+    # Verify the essential connectedness premise with incidence union-find.
+    require_connected_clique_graph_from_facets(f_h)
     a = [mask(f) for f in f_h]
     b = [mask(f) for f in f_g]
     nh = len(f_h)
