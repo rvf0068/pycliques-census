@@ -5,8 +5,10 @@ on:
     paths:
       - "scripts/core9_sphere_collapse_v1.py"
       - "scripts/core9_third_homology_v1.py"
+      - "scripts/core9_prism_wedge_v1.py"
       - "tests/test_core9_sphere_collapse_v1.py"
       - "tests/test_core9_third_homology_v1.py"
+      - "tests/test_core9_prism_wedge_v1.py"
       - "research/order9_two_sphere_collapses_v1/**"
       - ".github/workflows/core9-sphere-collapse-v1.yml"
   workflow_dispatch:
@@ -35,6 +37,11 @@ jobs:
         run: |
           python scripts/core9_third_homology_v1.py
           python -m unittest discover -s tests -p 'test_core9_third_homology_v1.py' -v
+      - name: Independently replay the common prism core and exact wedge of 3 S3
+        run: |
+          python scripts/core9_prism_wedge_v1.py build --output /tmp/prism-wedge.json
+          python scripts/core9_prism_wedge_v1.py verify --output /tmp/prism-wedge.json
+          python -m unittest discover -s tests -p 'test_core9_prism_wedge_v1.py' -v
       - name: Ensure all historical census results and versioned proof files unchanged
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
