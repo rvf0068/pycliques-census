@@ -1,6 +1,6 @@
-# Current order-10 unresolved after v5 and a proved first-K octahedron retraction
-# Remaining=8223 previous_v5=8224 new_certified_divergent=1
-# Historical files and proofs remain frozen; negative limited-family probes imply no convergence.
+# Order-10 unresolved after certified HEher^{ nine-sphere K-divergence lift
+# Remaining=8124 previous_v6=8223 newly_certified_divergent=99
+# Every previously conditional HEher^{ dependency has an independently replayed certificate.
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
 2317572 8 GQyuzw reference conjectured_divergent snub_disphenoid
 2317841 8 GQyuzw reference conjectured_divergent snub_disphenoid
@@ -756,9 +756,6 @@
 6892489 9 HEh^dzm retracts conjectured_divergent snub_disphenoid
 6900183 10 I?qa~q}xo retracts conjectured_divergent snub_disphenoid
 6900194 10 I?qa~q}|o - - -
-6912818 9 HEher^{ reference conjectured_divergent HEher^{
-6913166 9 HEher^{ reference conjectured_divergent HEher^{
-6913181 10 I?qbEXv~_ retracts conjectured_divergent HEher^{
 6914104 9 HEhev^{ - - -
 6914289 9 HEhevzm - - -
 6914645 10 I?qbEZv~_ - - -
@@ -766,9 +763,7 @@
 6918839 9 HEhefzm reference conjectured_divergent HCZTf\}
 6918847 9 HEhefzm reference conjectured_divergent HCZTf\}
 6919307 10 I?qbEr}|o retracts conjectured_divergent HCZTf\}
-6919365 10 I?qbExv~_ retracts conjectured_divergent HEher^{
 6919727 10 I?qbEzf~_ - - -
-6919995 9 HEhevxm reference conjectured_divergent HEher^{
 6919999 9 HEhevzm - - -
 6920008 9 HEhevzm - - -
 6920373 10 I?qbEzv~_ - - -
@@ -920,13 +915,9 @@
 6981996 9 HEha|~{ - - -
 6982203 9 HEha|~{ - - -
 6982742 9 HEha~y} - - -
-6985314 9 HEhblv{ reference conjectured_divergent HEher^{
-6985333 9 HEhblv{ reference conjectured_divergent HEher^{
 6985433 9 HEhbl~{ - - -
-6986367 10 I?qbbU|~_ retracts conjectured_divergent HEher^{
 6988190 9 HEhbnv{ - - -
 6988205 9 HEhbnv{ - - -
-6988214 10 I?qbbVmnO retracts conjectured_divergent HEher^{
 6988217 9 HEhbny} - - -
 6988239 10 I?qbbVm~O - - -
 6989008 10 I?qbbV|~_ - - -
@@ -944,10 +935,8 @@
 6994058 9 HEhbNzy reference conjectured_divergent HCZTf\}
 6994400 10 I?qbbf}~O retracts conjectured_divergent HCZTf\}
 7001157 9 HEhbl~{ - - -
-7001374 10 I?qbbu|~_ retracts conjectured_divergent HEher^{
 7001420 9 HEhbl~{ - - -
 7001909 9 HEhbnv{ - - -
-7001916 9 HEhbnyy reference conjectured_divergent HEher^{
 7001917 9 HEhbny} - - -
 7001922 9 HEhbnzy - - -
 7001935 9 HEhbnzy - - -
@@ -965,10 +954,8 @@
 7007274 9 HEhc~x} - - -
 7016422 9 HEher~{ - - -
 7016434 9 HEher~{ - - -
-7016566 9 HEher^{ reference conjectured_divergent HEher^{
 7016961 9 HEher~{ - - -
 7018885 9 HEhev^{ - - -
-7019414 9 HEhevxm reference conjectured_divergent HEher^{
 7019416 9 HEhevx} - - -
 7019436 9 HEhevzm - - -
 7019444 9 HEhevzm - - -
@@ -985,7 +972,6 @@
 7027489 9 HEhefzm reference conjectured_divergent HCZTf\}
 7028086 10 I?qberv~_ retracts conjectured_divergent HCZTf\}
 7029215 9 HEhel~{ - - -
-7029299 9 HEhel^{ reference conjectured_divergent HEher^{
 7029496 9 HEhel~{ - - -
 7029954 9 HEhen^{ - - -
 7030201 9 HEheny} - - -
@@ -1041,7 +1027,6 @@
 7052986 8 GUZr^o reference conjectured_divergent snub_disphenoid
 7060478 8 G[Y~a{ reference conjectured_divergent snub_disphenoid
 7060502 10 I?qbt~{|g - - -
-7061982 9 HEhudzm reference conjectured_divergent HEher^{
 7062020 9 HEhud~m - - -
 7062690 10 I?qbuq}|o - - -
 7063692 9 HEhuf]} - - -
@@ -1211,7 +1196,6 @@
 7223581 8 G[y^a{ reference conjectured_divergent snub_disphenoid
 7223691 8 GUj^b[ reference conjectured_divergent snub_disphenoid
 7223698 8 GUj^b[ reference conjectured_divergent snub_disphenoid
-7223702 9 HEjT^pf reference conjectured_divergent HEher^{
 7223706 8 GUj^b[ reference conjectured_divergent snub_disphenoid
 7227304 8 GUjur[ reference conjectured_divergent snub_disphenoid
 7227306 9 HEbtvXz - - -
@@ -1219,7 +1203,6 @@
 7237049 9 HEbu\pz retracts conjectured_divergent snub_disphenoid
 7237053 9 HCqu^pV retracts conjectured_divergent snub_disphenoid
 7237054 9 HEbu\pZ retracts conjectured_divergent snub_disphenoid
-7237061 10 I?qevM{]W retracts conjectured_divergent HEher^{
 7237063 8 GUj^b[ reference conjectured_divergent snub_disphenoid
 7237066 9 HEbu\pz retracts conjectured_divergent snub_disphenoid
 7237166 9 HEbu^pj retracts conjectured_divergent snub_disphenoid
@@ -1577,11 +1560,7 @@
 7488174 10 I?qr`~mv_ - - -
 7488176 9 HEh`~z] - - -
 7495877 10 I?qrdX^~_ - - -
-7496001 10 I?qrdXjz_ retracts conjectured_divergent HEher^{
-7496015 9 HEhdrn{ reference conjectured_divergent HEher^{
 7496230 9 HEhdr~{ - - -
-7496992 10 I?qrdXzz_ retracts conjectured_divergent HEher^{
-7497010 10 I?qrdXz~_ retracts conjectured_divergent HEher^{
 7498599 9 HEhcvx} reference conjectured_divergent HCZTf\}
 7498992 9 HEhdvn{ - - -
 7499114 9 HEhdvx} - - -
@@ -1604,7 +1583,6 @@
 7504576 9 HEhd^zu - - -
 7509538 10 I?qrdxn~_ - - -
 7510278 10 I?qrdzj~_ - - -
-7510432 10 I?qrdzm]o retracts conjectured_divergent HEher^{
 7510433 9 HEhdvx} - - -
 7510445 10 I?qrdzmyo - - -
 7510456 10 I?qrdzm}o - - -
@@ -1707,7 +1685,6 @@
 7584464 8 GUuvRk reference conjectured_divergent snub_disphenoid
 7584467 8 GUuvRk reference conjectured_divergent snub_disphenoid
 7584468 8 G[fvQ{ reference conjectured_divergent snub_disphenoid
-7584472 9 HEimvhj reference conjectured_divergent HEher^{
 7584473 8 G[fvQ{ reference conjectured_divergent snub_disphenoid
 7584477 8 GUuvRk reference conjectured_divergent snub_disphenoid
 7584613 9 HEinvhN retracts conjectured_divergent snub_disphenoid
@@ -1778,7 +1755,6 @@
 7692594 9 HCzNthv - - -
 7692605 9 HCzNthV retracts conjectured_divergent snub_disphenoid
 7692608 9 HEjLvh] retracts conjectured_divergent snub_disphenoid
-7692616 10 I?qvLzY]o non_triangle_edge conjectured_divergent HEher^{
 7692617 9 HCzNthv - - -
 7692622 9 HEjLvh} non_triangle_edge conjectured_divergent snub_disphenoid
 7692805 9 HEjlvh] retracts conjectured_divergent snub_disphenoid
@@ -1804,8 +1780,6 @@
 7700052 10 I?qvNZi]W - - -
 7700054 10 I?qvNZi]o - - -
 7700364 10 I?qvNZy]o - - -
-7706014 10 I?qvRq\to retracts conjectured_divergent HEher^{
-7706028 9 HEjRdvm reference conjectured_divergent HEher^{
 7706151 9 HEjRd~m - - -
 7706683 10 I?qvRrVfo - - -
 7706690 9 HEjRf]} - - -
@@ -1865,7 +1839,6 @@
 7834304 8 G^amr[ reference conjectured_divergent snub_disphenoid
 7834309 8 G^amr[ reference conjectured_divergent snub_disphenoid
 7834310 8 GTrmrk reference conjectured_divergent snub_disphenoid
-7834314 9 HEudnXr reference conjectured_divergent HEher^{
 7834315 8 G^amr[ reference conjectured_divergent snub_disphenoid
 7834318 8 GTrmrk reference conjectured_divergent snub_disphenoid
 7834584 8 G^amr[ reference conjectured_divergent snub_disphenoid
@@ -2073,8 +2046,6 @@
 8375837 8 GTrjms reference conjectured_divergent snub_disphenoid
 8376403 8 GQvjls reference conjectured_divergent snub_disphenoid
 8376413 8 GQvjls reference conjectured_divergent snub_disphenoid
-8376535 9 HQjVKxz reference conjectured_divergent HEher^{
-8376539 9 HQjVKxz reference conjectured_divergent HEher^{
 8376611 8 GQvlrk reference conjectured_divergent snub_disphenoid
 8376622 8 GQvlrk reference conjectured_divergent snub_disphenoid
 8376627 8 GQvlrk reference conjectured_divergent snub_disphenoid
@@ -2083,8 +2054,6 @@
 8379003 8 Gejjls reference conjectured_divergent snub_disphenoid
 8379052 8 GTrmrk reference conjectured_divergent snub_disphenoid
 8379056 8 Gejlrk reference conjectured_divergent snub_disphenoid
-8380841 10 ICQUVemVW retracts conjectured_divergent HEher^{
-8380844 9 HQjVKxz reference conjectured_divergent HEher^{
 8380895 9 HCRNlxZ retracts conjectured_divergent snub_disphenoid
 8380903 8 GQvlrk reference conjectured_divergent snub_disphenoid
 8380907 8 GQvlrk reference conjectured_divergent snub_disphenoid
@@ -2123,7 +2092,6 @@
 8417921 9 HQjcr~u - - -
 8419811 9 HQjcu|} - - -
 8420027 9 HQjcvl} - - -
-8420436 9 HQjcul} reference conjectured_divergent HEher^{
 8420527 9 HQjcu|} - - -
 8420994 9 HQjcvl} - - -
 8425892 9 HQjde|} retracts conjectured_divergent snub_disphenoid
@@ -2143,7 +2111,6 @@
 8440234 8 GTzZRk reference conjectured_divergent snub_disphenoid
 8440241 8 GTzZRk reference conjectured_divergent snub_disphenoid
 8446506 8 GQzZtk reference conjectured_divergent snub_disphenoid
-8446508 9 HQjejyZ reference conjectured_divergent HEher^{
 8446512 8 GQzZtk reference conjectured_divergent snub_disphenoid
 8446515 8 GQzZtk reference conjectured_divergent snub_disphenoid
 8446522 8 GTzJuk reference conjectured_divergent snub_disphenoid
@@ -2185,7 +2152,6 @@
 8483189 8 GTzR}W reference conjectured_divergent snub_disphenoid
 8484284 10 ICQVdZZVo - - -
 8484289 9 HQjcvl} - - -
-8484526 9 HQjcul} reference conjectured_divergent HEher^{
 8485881 10 ICQVdrNVo retracts conjectured_divergent snub_disphenoid
 8485885 9 HQjde|} retracts conjectured_divergent snub_disphenoid
 8486072 8 GQyuzw reference conjectured_divergent snub_disphenoid
@@ -2558,7 +2524,6 @@
 9458499 9 HCRIvm} retracts conjectured_divergent snub_disphenoid
 9458684 8 GQtv\w reference conjectured_divergent snub_disphenoid
 9460772 8 GKxu|w reference conjectured_divergent snub_disphenoid
-9460777 10 ICQuQzFmo retracts conjectured_divergent HEher^{
 9460782 8 GKxu|w reference conjectured_divergent snub_disphenoid
 9460792 8 GTpu~W reference conjectured_divergent snub_disphenoid
 9460823 9 HCnAu^u retracts conjectured_divergent snub_disphenoid
@@ -2598,8 +2563,6 @@
 9485206 8 GQvlrk reference conjectured_divergent snub_disphenoid
 9487908 8 Gejlrk reference conjectured_divergent snub_disphenoid
 9491391 8 GKzZls reference conjectured_divergent snub_disphenoid
-9491509 10 ICQuVMyVW retracts conjectured_divergent HEher^{
-9491524 9 HQjU\hz reference conjectured_divergent HEher^{
 9491739 8 GTr^Rk reference conjectured_divergent snub_disphenoid
 9491747 8 GTr^Rk reference conjectured_divergent snub_disphenoid
 9491756 8 GTr^Rk reference conjectured_divergent snub_disphenoid
@@ -2617,7 +2580,6 @@
 9502783 9 HOyZ`}u retracts conjectured_divergent snub_disphenoid
 9502796 9 HCnJa~u retracts conjectured_divergent snub_disphenoid
 9502802 9 HOyZ`~u retracts conjectured_divergent snub_disphenoid
-9503008 10 ICQuZpvmo retracts conjectured_divergent HEher^{
 9503016 8 GTtb~W reference conjectured_divergent snub_disphenoid
 9503030 9 HCnJb~u retracts conjectured_divergent snub_disphenoid
 9503038 9 HCnJb~u retracts conjectured_divergent snub_disphenoid
@@ -2645,7 +2607,6 @@
 9529202 9 HQjde|} retracts conjectured_divergent snub_disphenoid
 9529525 10 ICQudrj^o retracts conjectured_divergent snub_disphenoid
 9531277 8 GQzZtk reference conjectured_divergent snub_disphenoid
-9531279 9 HQjejyZ reference conjectured_divergent HEher^{
 9531283 10 ICQueT]mW retracts conjectured_divergent snub_disphenoid
 9531288 8 GQzZtk reference conjectured_divergent snub_disphenoid
 9531307 8 GTzJuk reference conjectured_divergent snub_disphenoid
@@ -2656,7 +2617,6 @@
 9531982 8 GQzZtk reference conjectured_divergent snub_disphenoid
 9532261 8 GQzZtk reference conjectured_divergent snub_disphenoid
 9533098 8 GTzMjs reference conjectured_divergent snub_disphenoid
-9533524 9 HQjezgz reference conjectured_divergent HEher^{
 9533527 9 HCnUZhZ retracts conjectured_divergent snub_disphenoid
 9533532 8 GTzZRk reference conjectured_divergent snub_disphenoid
 9533539 8 GTzZRk reference conjectured_divergent snub_disphenoid
@@ -3051,7 +3011,6 @@
 9804321 10 ICR`tlmv_ - - -
 9804322 8 GUX^tw reference conjectured_divergent snub_disphenoid
 9804895 8 GUZ|bs reference conjectured_divergent snub_disphenoid
-9804975 9 HQot^x] reference conjectured_divergent HEher^{
 9804979 9 HQot^z] - - -
 9804985 9 HQot^z] - - -
 9805052 8 GUZ}fS reference conjectured_divergent snub_disphenoid
@@ -3064,11 +3023,8 @@
 9805389 10 ICR`tx^~_ - - -
 9806125 9 HQotvx} - - -
 9806783 10 ICR`ug~~_ retracts conjectured_divergent snub_disphenoid
-9806813 10 ICR`uhZv_ retracts conjectured_divergent HEher^{
-9806832 9 HQovRn{ reference conjectured_divergent HEher^{
 9807033 9 HQovR~{ - - -
 9807202 8 GUYr~o reference conjectured_divergent snub_disphenoid
-9807546 10 ICR`uhzv_ non_triangle_edge conjectured_divergent HEher^{
 9807568 10 ICR`uhz~_ - - -
 9808426 8 GUYvrw reference conjectured_divergent snub_disphenoid
 9809004 9 HQovVn{ - - -
@@ -3595,7 +3551,6 @@
 10187247 8 G^`N]w reference conjectured_divergent snub_disphenoid
 10188644 8 GQyuzw reference conjectured_divergent snub_disphenoid
 10188656 9 HB^De~m - - -
-10189076 9 HEubdnm reference conjectured_divergent HEher^{
 10189588 9 HCZTf\} reference conjectured_divergent HCZTf\}
 10189605 9 HB^Df^] - - -
 10189621 9 HB^Df^u - - -
@@ -3613,14 +3568,11 @@
 10196315 8 GJrmtk reference conjectured_divergent snub_disphenoid
 10196318 8 G^amr[ reference conjectured_divergent snub_disphenoid
 10196319 8 GJrmtk reference conjectured_divergent snub_disphenoid
-10196323 9 HB^EnYr reference conjectured_divergent HEher^{
 10196324 8 G^amr[ reference conjectured_divergent snub_disphenoid
 10196327 8 GJrmtk reference conjectured_divergent snub_disphenoid
 10196509 8 GTrmrk reference conjectured_divergent snub_disphenoid
-10198824 10 ICXmfTufW retracts conjectured_divergent HEher^{
 10198829 8 G^bmq[ reference conjectured_divergent snub_disphenoid
 10198830 10 ICXmfTumW - - -
-10198833 9 HQVejYz reference conjectured_divergent HEher^{
 10198944 8 GQzZtk reference conjectured_divergent snub_disphenoid
 10199426 9 HB^FnYZ retracts conjectured_divergent snub_disphenoid
 10199429 8 GJrmtk reference conjectured_divergent snub_disphenoid
@@ -3775,7 +3727,6 @@
 10292361 10 ICZJ`~}~O - - -
 10294254 9 HQda~y} - - -
 10294257 9 HQda~zm - - -
-10294264 9 HQda~ym reference conjectured_divergent HEher^{
 10294271 9 HQda~y} - - -
 10294278 9 HQda~zm - - -
 10294339 8 GUX^tw reference conjectured_divergent snub_disphenoid
@@ -3843,12 +3794,9 @@
 10302873 10 ICZJd]}}o - - -
 10303231 9 HQtc~zu - - -
 10303250 9 HQtc~zu - - -
-10305858 10 ICZJdeln_ retracts conjectured_divergent HEher^{
-10305914 9 HQdfMv{ reference conjectured_divergent HEher^{
 10306024 9 HQdfM~{ - - -
 10306523 10 ICZJde|n_ - - -
 10306555 9 HQdfNv{ - - -
-10306583 10 ICZJde}zO non_triangle_edge conjectured_divergent HEher^{
 10306586 9 HQdfNz] - - -
 10306599 10 ICZJde}~O - - -
 10306646 10 ICZJdfFv_ retracts conjectured_divergent snub_disphenoid
@@ -4292,8 +4240,6 @@
 10400097 8 GLrlno reference conjectured_divergent snub_disphenoid
 10400426 8 GLrntg reference conjectured_divergent snub_disphenoid
 10401092 9 HQffvx} - - -
-10401256 10 ICZLdzeUw retracts conjectured_divergent HEher^{
-10401260 9 HQuduXv reference conjectured_divergent HEher^{
 10401340 8 Gdrtr[ reference conjectured_divergent snub_disphenoid
 10401343 9 HQffux} - - -
 10401483 8 GQu~Rk reference conjectured_divergent snub_disphenoid
@@ -4331,9 +4277,7 @@
 10405279 8 GLrntg reference conjectured_divergent snub_disphenoid
 10405291 9 HBufnzm - - -
 10405602 9 HBufnzm - - -
-10411335 10 ICZLfimUw retracts conjectured_divergent HEher^{
 10411338 10 ICZLfim]o - - -
-10411339 9 HQufSxv reference conjectured_divergent HEher^{
 10411434 10 ICZLfi{Uw retracts conjectured_divergent snub_disphenoid
 10411443 10 ICZLfi{]W retracts conjectured_divergent snub_disphenoid
 10411445 8 GQvlrk reference conjectured_divergent snub_disphenoid
@@ -4504,21 +4448,17 @@
 10471947 10 ICZTdzm^o - - -
 10472502 9 HCZTb~m reference conjectured_divergent HCZTf\}
 10472553 10 ICZTeYj^_ - - -
-10472564 9 HBqetn{ reference conjectured_divergent HEher^{
-10472575 9 HBqetn{ reference conjectured_divergent HEher^{
 10472671 9 HBqet~{ - - -
 10472681 10 ICZTeYxVg retracts conjectured_divergent snub_disphenoid
 10472696 10 ICZTeYx^G retracts conjectured_divergent snub_disphenoid
 10472700 8 GQz\js reference conjectured_divergent snub_disphenoid
 10473084 8 GVjUZs reference conjectured_divergent snub_disphenoid
-10473085 9 HQjcul} reference conjectured_divergent HEher^{
 10473112 9 HBqevn{ - - -
 10473167 10 ICZTeZm^o - - -
 10473172 9 HBqevy} - - -
 10473191 9 HBqevzu - - -
 10473200 9 HQjcu|} - - -
 10473479 9 HBqevzu - - -
-10473650 9 HQyezov reference conjectured_divergent HEher^{
 10473654 10 ICZTe\{Uw retracts conjectured_divergent snub_disphenoid
 10473660 10 ICZTe\{[w retracts conjectured_divergent snub_disphenoid
 10473666 8 GVjZb[ reference conjectured_divergent snub_disphenoid
@@ -4547,7 +4487,6 @@
 10477551 10 ICZTerj^o retracts conjectured_divergent snub_disphenoid
 10477615 10 ICZTerm^_ inverse_cutpoint_extension conjectured_divergent HCZTf\}
 10477617 10 ICZTerm^o - - -
-10478324 9 HEhdrn{ reference conjectured_divergent HEher^{
 10478424 9 HEhdr~{ - - -
 10478428 9 HQyfuwv - - -
 10478923 10 ICZTezm^o - - -
@@ -4699,7 +4638,6 @@
 10501978 8 GUuvRk reference conjectured_divergent snub_disphenoid
 10501992 8 GUuvRk reference conjectured_divergent snub_disphenoid
 10501994 8 G[fvQ{ reference conjectured_divergent snub_disphenoid
-10501997 9 HEimvhj reference conjectured_divergent HEher^{
 10501998 8 G[fvQ{ reference conjectured_divergent snub_disphenoid
 10502001 8 GUuvRk reference conjectured_divergent snub_disphenoid
 10502215 9 HBrNvgn retracts conjectured_divergent snub_disphenoid
@@ -4845,7 +4783,6 @@
 10582552 9 HQrjtvt - - -
 10582637 9 HQrjviz - - -
 10582642 9 HQrjviZ non_triangle_edge conjectured_divergent snub_disphenoid
-10582651 10 ICZejzYnG non_triangle_edge conjectured_divergent HEher^{
 10582653 9 HQrjviz - - -
 10582654 9 HEqnth| non_triangle_edge conjectured_divergent snub_disphenoid
 10582797 10 ICZejzifW retracts conjectured_divergent snub_disphenoid
@@ -4993,7 +4930,6 @@
 10692114 8 GQzZtk reference conjectured_divergent snub_disphenoid
 10692589 9 HTRe~Wz - - -
 10698241 8 GQzZtk reference conjectured_divergent snub_disphenoid
-10698244 9 HTReZyZ reference conjectured_divergent HEher^{
 10698247 8 GQzZtk reference conjectured_divergent snub_disphenoid
 10698253 8 GQzZtk reference conjectured_divergent snub_disphenoid
 10698259 8 GTzJuk reference conjectured_divergent snub_disphenoid
@@ -5018,7 +4954,6 @@
 10717203 9 HTQmb~m - - -
 10718010 9 HTQme|} - - -
 10718190 9 HTQmf\} - - -
-10719118 9 HTQme\} reference conjectured_divergent HEher^{
 10719120 8 GTzUZw reference conjectured_divergent snub_disphenoid
 10721070 9 HTQnE|} retracts conjectured_divergent snub_disphenoid
 10721560 8 GQnezw reference conjectured_divergent snub_disphenoid
@@ -5498,10 +5433,6 @@
 10977103 10 ICpdVx}|o - - -
 10977145 9 HEYvvzm - - -
 10977232 9 HEYvvzm - - -
-10977676 9 HEYbtn{ reference conjectured_divergent HEher^{
-10977698 9 HEYbtn{ reference conjectured_divergent HEher^{
-10978176 9 HEYbtn{ reference conjectured_divergent HEher^{
-10978192 9 HEYbtn{ reference conjectured_divergent HEher^{
 10979836 9 HEYbvn{ - - -
 10979852 9 HEYbvn{ - - -
 10979996 9 HEYbvzu - - -
@@ -5512,7 +5443,6 @@
 10987633 10 ICpdbjz~_ - - -
 10994478 10 ICpdbyz~_ - - -
 10995234 10 ICpdbzj~_ - - -
-10995376 9 HEYbvyu reference conjectured_divergent HEher^{
 10995382 10 ICpdbzmyo - - -
 10995393 9 HEYbvzu - - -
 10995948 10 ICpdbzz~_ - - -
@@ -5527,8 +5457,6 @@
 10998631 8 GQyuzw reference conjectured_divergent snub_disphenoid
 11000041 10 ICpdczf^o retracts conjectured_divergent snub_disphenoid
 11000374 10 ICpdczm^o - - -
-11001542 10 ICpddT|z_ retracts conjectured_divergent HEher^{
-11001554 10 ICpddT|~_ non_triangle_edge conjectured_divergent HEher^{
 11002671 9 HEYdnv{ - - -
 11002682 9 HEYdnzy - - -
 11003116 9 HEYdnv{ - - -
@@ -5538,7 +5466,6 @@
 11015625 10 ICpddzm^o - - -
 11016813 9 HEYej~{ - - -
 11017078 8 GUjZ^c reference conjectured_divergent snub_disphenoid
-11017081 9 HEYej^{ reference conjectured_divergent HEher^{
 11018469 8 GUj^b[ reference conjectured_divergent snub_disphenoid
 11018727 9 HEYen^{ - - -
 11018937 9 HEYenx} - - -
@@ -5546,9 +5473,7 @@
 11019278 9 HEYen^{ - - -
 11019290 8 GUj^b[ reference conjectured_divergent snub_disphenoid
 11019441 9 HEYenx} - - -
-11021681 9 HEYet^{ reference conjectured_divergent HEher^{
 11021959 9 HEYet~{ - - -
-11022274 9 HEYet^{ reference conjectured_divergent HEher^{
 11022516 9 HEYet~{ - - -
 11023111 9 HEYev^{ - - -
 11023283 9 HEYevy} - - -
@@ -5579,7 +5504,6 @@
 11033499 8 GQyr}w reference conjectured_divergent snub_disphenoid
 11034136 8 GQyuzw reference conjectured_divergent snub_disphenoid
 11034155 9 HEYet~{ - - -
-11034299 9 HEYet^{ reference conjectured_divergent HEher^{
 11034639 9 HEYet~{ - - -
 11034645 9 HUQfuwn reference conjectured_divergent HCZTf\}
 11034651 10 ICpdezMTw retracts conjectured_divergent snub_disphenoid
@@ -5662,8 +5586,6 @@
 11065498 10 ICpdlp^ro - - -
 11065505 9 HUQlb~] - - -
 11065517 10 ICpdlp^~_ - - -
-11066950 10 ICpdlrMVo retracts conjectured_divergent HEher^{
-11066965 9 HUQlex} reference conjectured_divergent HEher^{
 11067027 9 HUQle|} - - -
 11067544 9 HUQlfx} - - -
 11068114 10 ICpdlrm^o - - -
@@ -5768,13 +5690,11 @@
 11089165 8 GYh~c{ reference conjectured_divergent snub_disphenoid
 11089327 9 HEYq~qN retracts conjectured_divergent snub_disphenoid
 11089332 8 GYh~c{ reference conjectured_divergent snub_disphenoid
-11089336 10 ICpdq~klW non_triangle_edge conjectured_divergent HEher^{
 11089338 8 GYh~c{ reference conjectured_divergent snub_disphenoid
 11089354 10 ICpdq~ktW retracts conjectured_divergent snub_disphenoid
 11089381 10 ICpdq~k{W retracts conjectured_divergent snub_disphenoid
 11089386 9 HCqy~Rr retracts conjectured_divergent snub_disphenoid
 11089609 9 HCqy~pr retracts conjectured_divergent snub_disphenoid
-11090160 9 HUQq~on reference conjectured_divergent HEher^{
 11090165 8 GUl^b[ reference conjectured_divergent snub_disphenoid
 11090173 8 GUl^b[ reference conjectured_divergent snub_disphenoid
 11090175 10 ICpdr^[\g - - -
@@ -5932,11 +5852,9 @@
 11134911 9 HEZNnql non_triangle_edge conjectured_divergent snub_disphenoid
 11135165 9 HCrV^pt retracts conjectured_divergent snub_disphenoid
 11138573 8 GUjur[ reference conjectured_divergent snub_disphenoid
-11138593 9 HURqrYz reference conjectured_divergent HEher^{
 11138598 8 GUjur[ reference conjectured_divergent snub_disphenoid
 11138607 10 ICperXumW - - -
 11138610 8 GUjur[ reference conjectured_divergent snub_disphenoid
-11138613 9 HURqrYz reference conjectured_divergent HEher^{
 11138979 8 GUjr]s reference conjectured_divergent snub_disphenoid
 11139062 8 GYxutk reference conjectured_divergent snub_disphenoid
 11139073 8 GYxutk reference conjectured_divergent snub_disphenoid
@@ -5989,7 +5907,6 @@
 11172061 9 HURNjq| retracts conjectured_divergent snub_disphenoid
 11172064 9 HCrLnpV retracts conjectured_divergent snub_disphenoid
 11172066 9 HURNjq\ retracts conjectured_divergent snub_disphenoid
-11172074 10 ICpfMt{mg retracts conjectured_divergent HEher^{
 11172075 8 GUunb[ reference conjectured_divergent snub_disphenoid
 11172079 9 HURNjq| retracts conjectured_divergent snub_disphenoid
 11172367 9 HURNnon - - -
@@ -6385,7 +6302,6 @@
 11289775 10 ICqjepv~_ - - -
 11289818 9 HStdf\} - - -
 11290024 9 HUdffhm retracts conjectured_divergent snub_disphenoid
-11290381 10 ICqjerf^_ inverse_cutpoint_extension conjectured_divergent HEher^{
 11290383 10 ICqjerf^o - - -
 11290412 10 ICqjerf~_ - - -
 11290700 9 HElefzm - - -
@@ -6678,7 +6594,6 @@
 11377466 9 HSpR^y} retracts conjectured_divergent snub_disphenoid
 11377474 10 ICrbRm}~O - - -
 11377645 9 HUpR^q] retracts conjectured_divergent snub_disphenoid
-11377653 10 ICrbRn[n_ retracts conjectured_divergent HEher^{
 11377654 9 HCrV\p| retracts conjectured_divergent snub_disphenoid
 11377655 9 HUpR^q} retracts conjectured_divergent snub_disphenoid
 11377882 9 HExr^q] retracts conjectured_divergent snub_disphenoid
@@ -7073,18 +6988,15 @@
 11547340 9 HEhfvx} - - -
 11547644 8 GMjt^o reference conjectured_divergent snub_disphenoid
 11547750 9 HEhev^{ - - -
-11548013 9 HEhb^zY reference conjectured_divergent HEher^{
 11548017 10 IEherZ{z_ - - -
 11548024 9 HEhb^zy - - -
 11548117 10 IEher^sMw retracts conjectured_divergent snub_disphenoid
 11548118 10 IEher^sNg - - -
-11548131 9 HEZR^qf reference conjectured_divergent HEher^{
 11548133 10 IEher^skw retracts conjectured_divergent snub_disphenoid
 11548138 8 GUj^b[ reference conjectured_divergent snub_disphenoid
 11548139 10 IEher^snG - - -
 11548140 9 HQqu~P| - - -
 11548167 8 GMj}fS reference conjectured_divergent snub_disphenoid
-11548170 9 HEher^{ reference conjectured_divergent HEher^{
 11548180 8 GQx}tk reference conjectured_divergent snub_disphenoid
 11548198 9 HDZR~Zx - - -
 11548214 9 HEjZ^ov retracts conjectured_divergent snub_disphenoid
@@ -7099,20 +7011,14 @@
 11548296 9 HEjZ^rr - - -
 11548299 10 IEher^w|G - - -
 11548300 9 HEjZ^rr - - -
-11548310 10 IEher^w~? retracts conjectured_divergent HEher^{
-11548311 9 HEher^{ reference conjectured_divergent HEher^{
-11548355 9 HEhb^zY reference conjectured_divergent HEher^{
 11548357 10 IEher^{yo - - -
 11548361 10 IEher^{|o - - -
 11548364 9 HEhb^zy - - -
-11548366 9 HEher^{ reference conjectured_divergent HEher^{
 11548392 10 IEherhmmO - - -
 11548394 10 IEherhmnO - - -
 11548395 9 HQqvUx} - - -
 11548413 10 IEherhm}O - - -
 11548416 8 GMjVvW reference conjectured_divergent snub_disphenoid
-11548418 10 IEherhm~? retracts conjectured_divergent HEher^{
-11548420 9 HEher^{ reference conjectured_divergent HEher^{
 11548436 8 GMjV^o reference conjectured_divergent snub_disphenoid
 11548449 9 HQqvVx} - - -
 11548468 8 GMjVvW reference conjectured_divergent snub_disphenoid
@@ -7139,9 +7045,6 @@
 11549679 10 IEhernm~O - - -
 11549752 9 HEZR~qf - - -
 11549961 9 HEhbnzy - - -
-11550051 10 IEhethm~? retracts conjectured_divergent HEher^{
-11550052 9 HEher^{ reference conjectured_divergent HEher^{
-11550086 10 IEhethn~? inverse_cutpoint_extension conjectured_divergent HEher^{
 11550088 10 IEhethn~O - - -
 11550658 10 IEhetjhNo retracts conjectured_divergent snub_disphenoid
 11550666 10 IEhetjh]o non_triangle_edge conjectured_divergent snub_disphenoid
@@ -7253,7 +7156,6 @@
 11560154 9 HEZtU^y non_triangle_edge conjectured_divergent snub_disphenoid
 11560156 9 HDZdu~{ - - -
 11560199 8 GYyVmw reference conjectured_divergent snub_disphenoid
-11560213 9 HEhd]n{ reference conjectured_divergent HEher^{
 11560520 8 GYyVmw reference conjectured_divergent snub_disphenoid
 11560534 9 HEhd]~{ - - -
 11560599 9 HDZdu~{ - - -
@@ -7645,7 +7547,6 @@
 11598028 9 HDZe^zy - - -
 11598160 8 GUYnuw reference conjectured_divergent snub_disphenoid
 11598460 9 HQzDmx} retracts conjectured_divergent snub_disphenoid
-11598481 10 IEhvEtmn_ retracts conjectured_divergent HEher^{
 11598482 9 HQzDmx} retracts conjectured_divergent snub_disphenoid
 11598573 10 IEhvEtun_ - - -
 11598823 10 IEhvEu]ZW retracts conjectured_divergent snub_disphenoid
