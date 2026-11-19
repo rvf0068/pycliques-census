@@ -1,0 +1,46 @@
+name: Certify relative snub K5 without enumerating fifth clique graphs
+
+on:
+  pull_request:
+    paths:
+      - "scripts/core9_snub_relative_k5_v1.py"
+      - "scripts/core9_snub_handle_iterates_v1.py"
+      - "tests/test_core9_snub_relative_k5_v1.py"
+      - "research/snub_handle_relative_k5_v1.md"
+      - "research/order9_snub_handle_iterates_v1/**"
+      - ".github/workflows/core9-snub-relative-k5-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-relative-fifth-iterate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Restore exact historical graph environment
+        run: bash scripts/bootstrap_special_k3_v5.sh
+      - name: Verify new fifth-iterate nonmaximality witnesses
+        run: |
+          .venv-special-k3-v5/bin/python scripts/core9_snub_relative_k5_v1.py verify
+          .venv-special-k3-v5/bin/python scripts/core9_snub_relative_k5_v1.py json
+      - name: Independently test structural lemma and invalid cases
+        run: |
+          .venv-special-k3-v5/bin/python -m unittest discover \
+            -s tests -p 'test_core9_snub_relative_k5_v1.py' -v
+      - name: Ensure no historical census proof or status was altered
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ \
+            research/order9_snub_retractions_v2/ \
+            research/order9_snub_handle_iterates_v1/ \
+            indeterminate_order_9.txt indeterminate_order_10.txt \
+            indeterminate_order_10_v3.txt indeterminate_order_10_v4.txt
