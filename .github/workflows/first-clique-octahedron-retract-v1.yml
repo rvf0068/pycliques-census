@@ -1,0 +1,53 @@
+name: Certify new first-clique octahedron retraction and 8223-case v6 index
+
+on:
+  pull_request:
+    paths:
+      - "scripts/**"
+      - "tests/**"
+      - "research/order10_first_clique_octahedron_retract_v1/**"
+      - "reports/order10_core_index_v1/**"
+      - "research/order10_direct_divergent_ninecore_retracts_v1/**"
+      - "indeterminate_order_10_v4.txt"
+      - "indeterminate_order_10_v5.txt"
+      - "indeterminate_order_10_v6.txt"
+      - ".github/workflows/first-clique-octahedron-retract-v1.yml"
+      - "README.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-first-clique-octahedral-retraction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap pinned independently enumerated graphs
+        run: |
+          uv venv .venv-octa
+          uv pip install --python .venv-octa/bin/python networkx==3.6.1
+      - name: Reconstruct all 2394 stiff cases and independently verify exact positive K-to-O3 retraction
+        run: |
+          .venv-octa/bin/python scripts/first_clique_octahedron_retract_v1.py verify
+      - name: Audit all facets, false maps and new unresolved-list population
+        run: |
+          .venv-octa/bin/python -m unittest discover \
+            -s tests -p 'test_first_clique_octahedron_retract_v1.py' -v
+      - name: Prevent modification of any historical proof or census source
+        if: github.event_name == 'pull_request'
+        run: |
+          git diff --exit-code origin/main HEAD -- \
+            runs/ reports/ postpasses/ \
+            research/order10_current_indeterminates_v4/ \
+            research/order10_direct_divergent_ninecore_retracts_v1/ \
+            research/order9_snub_retractions_v2/ \
+            scripts/current_indeterminate_v4.py \
+            scripts/direct_divergent_ninecore_retracts_v1.py \
+            indeterminate_order_10_v3.txt \
+            indeterminate_order_10_v4.txt \
+            indeterminate_order_10_v5.txt
