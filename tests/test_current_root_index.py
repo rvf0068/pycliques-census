@@ -12,6 +12,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 CURRENT = ROOT / "indeterminate_order_10.txt"
 V6 = ROOT / "indeterminate_order_10_v6.txt"
+V7 = ROOT / "indeterminate_order_10_v7.txt"
 HISTORICAL = ROOT / "historical/indeterminate_order_10_pre_v3.txt"
 
 
@@ -22,7 +23,7 @@ def rows(path: Path) -> list[str]:
 
 class CurrentOrder10IndexTests(unittest.TestCase):
     def test_current_root_matches_latest_certified_version(self):
-        self.assertEqual(CURRENT.read_bytes(), V6.read_bytes())
+        self.assertEqual(CURRENT.read_bytes(), V7.read_bytes())
 
     def test_historical_baseline_preserved_and_only_proofs_excluded(self):
         historical_bytes = HISTORICAL.read_bytes()
@@ -32,10 +33,11 @@ class CurrentOrder10IndexTests(unittest.TestCase):
         ).hexdigest()
         self.assertEqual(blob_hash, "05f52c6db0b5642d2b6a856cef53c8fe07309c52")
         old, new = rows(HISTORICAL), rows(CURRENT)
-        self.assertEqual((len(old), len(new)), (8648, 8223))
+        self.assertEqual((len(old), len(new)), (8648, 8124))
         self.assertEqual(len(old), len(set(old)))
         self.assertEqual(len(new), len(set(new)))
-        self.assertEqual(len(set(old) - set(new)), 425)
+        self.assertEqual(len(set(old) - set(new)), 524)
+        self.assertEqual(len(rows(V6)) - len(new), 99)
         self.assertEqual(set(new) - set(old), set())
         self.assertEqual(
             sum(line.split()[4] == "conjectured_divergent" for line in old),
@@ -43,7 +45,7 @@ class CurrentOrder10IndexTests(unittest.TestCase):
         )
         self.assertEqual(
             sum(line.split()[4] == "conjectured_divergent" for line in new),
-            4608,
+            4509,
         )
 
 
