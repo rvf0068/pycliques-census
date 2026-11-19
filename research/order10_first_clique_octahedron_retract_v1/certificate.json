@@ -1,0 +1,140 @@
+{
+  "counts": {
+    "csp_limit_reached": 0,
+    "induced_O3_candidates_in_first_clique_graphs": 3941,
+    "positive_induced_O3_retractions": 1,
+    "sources_with_induced_O3": 39,
+    "stiff_ten_sources_scanned": 2394
+  },
+  "negative_result_never_implies_K_convergence": true,
+  "new_divergent": [
+    {
+      "clique_graph_edges": 87,
+      "clique_graph_order": 17,
+      "full_source_facets": [
+        [
+          1,
+          3,
+          6
+        ],
+        [
+          0,
+          4,
+          6
+        ],
+        [
+          2,
+          4,
+          7
+        ],
+        [
+          1,
+          5,
+          7
+        ],
+        [
+          1,
+          6,
+          7
+        ],
+        [
+          4,
+          6,
+          7
+        ],
+        [
+          0,
+          3,
+          8
+        ],
+        [
+          1,
+          3,
+          8
+        ],
+        [
+          0,
+          4,
+          8
+        ],
+        [
+          2,
+          4,
+          8
+        ],
+        [
+          0,
+          5,
+          8
+        ],
+        [
+          1,
+          5,
+          8
+        ],
+        [
+          2,
+          5,
+          8
+        ],
+        [
+          0,
+          5,
+          9
+        ],
+        [
+          0,
+          3,
+          6,
+          9
+        ],
+        [
+          2,
+          5,
+          7,
+          9
+        ],
+        [
+          6,
+          7,
+          9
+        ]
+      ],
+      "new_status": "CERTIFIED_DIVERGENT",
+      "original_graph6": "IEjer^{lo",
+      "original_index": 11634099,
+      "proof": "K(G) retracts to induced O3; O3 is K-divergent",
+      "retraction": [
+        14,
+        1,
+        5,
+        15,
+        14,
+        5,
+        1,
+        10,
+        1,
+        9,
+        10,
+        10,
+        9,
+        10,
+        14,
+        15,
+        14
+      ],
+      "source_morphism_states": 94,
+      "target_O3_vertices": [
+        1,
+        5,
+        9,
+        10,
+        14,
+        15
+      ]
+    }
+  ],
+  "schema": 1,
+  "scope": "all 2394 still-unresolved stiff ten graphs, first raw clique iterate",
+  "target_family": "ordinary graph retractions onto induced O3"
+}

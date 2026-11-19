@@ -2493,3 +2493,47 @@ retain their previous indeterminate status. Reproduce with:
 ```bash
 uv run --with networkx==3.6.1 python scripts/direct_divergent_ninecore_retracts_v1.py verify
 ```
+
+
+## A new K-divergent stiff ten-vertex graph from an O3 retract of K(G)
+
+The connected stiff ten-vertex graph with original McKay index
+`11634099` (graph6 `IEjer^{lo`) is now **certified K-divergent**.
+Its first raw clique graph `K(G)` has exactly **17 vertices and
+87 edges** and admits an ordinary graph retraction onto an induced
+`O_3 = complement(3 K_2)`. In the reproducible bitmask-sorted
+maximal-clique labeling, the induced octahedron vertices are
+`1,5,9,10,14,15` (missing edges `(1,15),(5,10),(9,14)`).
+
+The explicit retraction on the full set of seventeen clique
+vertices, in label order `0,...,16`, is
+
+```text
+14,1,5,15,14,5,1,10,1,9,10,10,9,10,14,15,14
+```
+
+It fixes the six octahedron vertices pointwise, and every edge
+of `K(G)` maps to an edge **or equality**. Since `O_3` is
+K-divergent (`K(O_d) = O_(2^(d-1))`), the graph retraction theorem
+implies `K(G)`, and therefore `G`, is K-divergent. This is
+**independent of the nine stiff-ten divergence certificates** in
+the preceding v5 working-list stage.
+
+The [versioned exact certificate and all seventeen source
+cliques](research/order10_first_clique_octahedron_retract_v1/certificate.json),
+[mathematical report](research/order10_first_clique_octahedron_retract_v1/summary.md)
+and [new order-ten v6 indeterminate working list](indeterminate_order_10_v6.txt)
+are checked in a dedicated immutable-source CI workflow.
+The independently reconstructed screen examined all **2,394** still
+unresolved stiff ten-vertex graphs, found **3,941 induced octahedra**
+in the first clique graphs of **39 sources**, and identified exactly
+**one** new retraction. No CSP state limit was reached.
+This reduces the unresolved count **8,224 to 8,223**. No
+negative finite retraction screen is used to assert K-convergence.
+
+Reproduce after configuring Python and NetworkX 3.6.1:
+
+```bash
+python scripts/first_clique_octahedron_retract_v1.py verify
+python -m unittest discover -s tests -p 'test_first_clique_octahedron_retract_v1.py' -v
+```
