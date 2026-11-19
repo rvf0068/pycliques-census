@@ -114,6 +114,19 @@ class SnubHandleIteratesTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "adjacency matrices disagree"):
             study.verify_small_embedding(h, g, [0, 1, 2])
 
+    def test_disconnected_old_graph_is_rejected_as_invalid_gluing_premise(self):
+        import networkx as nx
+
+        old = nx.empty_graph(2)
+        host = old.copy()
+        host.add_node(2)
+        with self.assertRaisesRegex(ValueError, "disconnected"):
+            study.verify_small_embedding(old, host, [0, 1])
+        with self.assertRaisesRegex(ValueError, "disconnected"):
+            study.require_connected_clique_graph_from_facets(
+                [frozenset({0}), frozenset({1})]
+            )
+
     def test_convergent_cycle_analogue_has_exact_two_period(self):
         import networkx as nx
 
