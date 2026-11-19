@@ -98,6 +98,29 @@ jobs:
               allowed.add(original.replace(old_guard, new_guard, 1))
           else:
               assert new_guard in original, "Unexpected historical v1 guard baseline"
+          # The root-v6 maintenance change permits only two additional,
+          # exactly reproducible adjustments in the legacy v1 workflow:
+          # restore the archived input in CI and no longer guard the
+          # intentionally updated root working index.
+          checkout = (
+              "      - uses: actions/checkout@v4\n"
+              "        with:\n"
+              "          fetch-depth: 0\n"
+          )
+          restore = (
+              "      - name: Restore frozen pre-v3 working index for historical replay\n"
+              "        run: cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt\n"
+          )
+          old_inputs = "            indeterminate_order_9.txt indeterminate_order_10.txt"
+          archived_variants = set()
+          for historical in tuple(allowed):
+              assert historical.count(checkout) == 1
+              assert historical.count(old_inputs) == 1
+              archived_variants.add(
+                  historical.replace(checkout, checkout + restore, 1)
+                  .replace(old_inputs, "            indeterminate_order_9.txt", 1)
+              )
+          allowed |= archived_variants
           assert Path(workflow).read_text() in allowed, (
               "The historical v1 workflow has changes beyond the narrowly approved "
               "class-lift report exclusion"
