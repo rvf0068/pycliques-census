@@ -1,0 +1,48 @@
+name: Certify induced snub iterates and S1 handle attachments through K4
+
+on:
+  pull_request:
+    paths:
+      - "scripts/**"
+      - "tests/**"
+      - "config/**"
+      - "reports/**"
+      - "research/order9_snub_retractions_v2/**"
+      - "research/order9_snub_handle_iterates_v1/**"
+      - "runs/**"
+      - "indeterminate_order_10_v4.txt"
+      - "README.md"
+      - ".github/workflows/core9-snub-handle-iterates-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-five-iterate-homotopy-certificates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap pinned historical graph research environment
+        run: bash scripts/bootstrap_special_k3_v5.sh
+      - name: Independently regenerate exact incidence and homotopy witnesses
+        run: |
+          .venv-special-k3-v5/bin/python -m unittest discover \
+            -s tests -p 'test_core9_snub_handle_iterates_v1.py' -v
+          .venv-special-k3-v5/bin/python scripts/core9_snub_handle_iterates_v1.py verify
+          .venv-special-k3-v5/bin/python scripts/core9_snub_handle_iterates_v1.py report
+      - name: Preserve every historical census and earlier proof artifact
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ \
+            research/order9_snub_retractions_v2/ \
+            research/order10_current_indeterminates_v4/ \
+            indeterminate_order_9.txt indeterminate_order_10.txt \
+            indeterminate_order_10_v3.txt indeterminate_order_10_v4.txt
