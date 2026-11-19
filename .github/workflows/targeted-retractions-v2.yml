@@ -115,6 +115,10 @@ jobs:
           archived_variants = set()
           for historical in tuple(allowed):
               assert historical.count(checkout) == 1
+              if restore in historical and old_inputs not in historical:
+                  # The approved pre-v3 archive restoration is already in
+                  # the base commit; require exact byte-for-byte identity.
+                  continue
               assert historical.count(old_inputs) == 1
               archived_variants.add(
                   historical.replace(checkout, checkout + restore, 1)
