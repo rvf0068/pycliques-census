@@ -2388,3 +2388,54 @@ and [independent graph-certificate verifier](scripts/core9_snub_relative_k7_v1.p
 This remains a finite homotopy theorem, **not a divergence
 classification**, and the 8,233 unresolved order-ten cases are
 unchanged.
+
+
+## All-iterate complete-ear homotopy theorem (universal)
+
+A new general *two-step marked-ear/dismantling invariant* now
+eliminates the finite-iterate bound from the preceding
+snub-related homotopy comparisons.
+
+**Theorem.** If `X` is any finite connected graph, and `Y`
+is obtained by adding one vertex whose open neighborhood
+is the disjoint union of two nonempty, mutually anticomplete
+**complete** subsets of `X`, then
+
+\[
+\Delta(K^j(Y))\simeq\Delta(K^j(X))\vee S^1
+\quad\text{for every integer } j\ge0.
+\]
+
+The proof is a genuine induction, not an extrapolation from
+large bounded calculations. Define a marked graph extension by
+a distinguished vertex with two anticomplete complete link
+components, where deletion of that vertex leaves a graph that
+dismantles to a specified base. **This extension class is
+preserved by `K²`**. The proof splits into three cases,
+depending on whether neither, one or both link components
+are maximal cliques, and uses exact preserved fold sequences.
+The intervening odd iterate is covered by the previously
+proved one-step complete-ear homotopy lemma.
+
+The six stiff nine-vertex cores **2317843, 3148541, 3505942,
+4952669, 4953338, 5601875** are each an induced snub
+disphenoid plus exactly such a vertex. Consequently
+
+\[
+\Delta(K^j(G))\simeq\Delta(K^j(S))\vee S^1
+\quad\text{for all }j\ge0.
+\]
+
+These cores represent **710 original order-ten graphs**, whose
+**clique convergence/divergence verdicts remain indeterminate**.
+This theorem does not determine the homotopy of each unpared
+original graph, prove the snub's divergence, or compute
+the orders of enormous iterates. The current
+8,233-case unresolved index is unchanged.
+
+See the [complete induction and its three structural
+cases](research/snub_ear_all_iterates_homotopy_v1.md) and
+[replayable finite-structure verifier](scripts/snub_ear_all_iterates_v1.py).
+The dedicated CI replays the pinned previous theorem certificates
+and exhaustively checks the actual maximal-clique and
+dominated-fold structure of many independent small graphs.
