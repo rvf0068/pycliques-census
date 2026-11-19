@@ -2281,3 +2281,35 @@ order-ten unresolved list is unchanged. Showing that the same
 small-attachment pattern is preserved under K *for all iterates*
 would imply clique-behavior equivalence with S; establishing such
 an induction is a possible next theoretical direction.
+
+
+## Fifth-iterate relative snub theorem without enumerating K5
+
+The six unresolved nine-vertex cores representing **710 original
+ten-vertex graphs** admit one more exact relative clique-iterate theorem,
+extending the previously proved circle attachment through `K^4`:
+
+\[
+|K^5(G)|=|K^5(S)|+2,
+\qquad
+\Delta(K^5(G))\simeq\Delta(K^5(S))\vee S^1.
+\]
+
+We **do not construct** the potentially enormous `K^5(S)`.
+At `K^4`, the extra vertex has two disjoint nonempty clique link
+components. The new checker proves that neither component is maximal
+in `K^4(S)`: each is contained in a strictly larger clique,
+witnessed by an explicit outside adjacent vertex in the prior
+deterministic facet labeling.
+
+A general two-clique-extension lemma then shows that the *next*
+clique graph has exactly two additional adjacent vertices, with
+disjoint cone links, giving the homotopy equivalence. The
+[complete proof and six witness pairs](research/snub_handle_relative_k5_v1.md)
+and [reproducible checker](scripts/core9_snub_relative_k5_v1.py)
+are versioned separately. The historical `K^0`–`K^4` proof
+certificates are SHA-pinned and unchanged.
+
+This finite sixth-level result **does not imply K-divergence**,
+nor does it give an all-iterate induction. In particular, the
+current 8,233 unresolved ten-vertex cases remain unresolved.
