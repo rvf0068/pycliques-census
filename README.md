@@ -2493,3 +2493,35 @@ retain their previous indeterminate status. Reproduce with:
 ```bash
 uv run --with networkx==3.6.1 python scripts/direct_divergent_ninecore_retracts_v1.py verify
 ```
+
+
+## New divergent stiff ten-graph from a retract of its first clique graph
+
+The first-clique-graph screen identifies **one additional certified
+K-divergent stiff ten-vertex original**, McKay index **11634099**
+(graph6: IEjer^{lo), still present in the preceding v5 working list.
+
+The first clique graph has **17 vertices and 87 edges**. Its six
+vertices with maximal-clique mask indices **[1,15,5,10,9,14]**
+induce the divergent octahedron O3, and the independently verified
+17-vertex weak graph retraction has projection
+
+    [5,0,2,1,5,2,0,3,0,4,3,3,4,3,5,1,5]
+
+(indices 0..5 are the target vertices in the displayed order).
+Thus O3 retracts from K(G); Neumann-Lara's Retraction Theorem
+proves K(G), and therefore G, K-divergent.
+
+A complete audit of the **2,424 currently active core classes** finds
+40 first clique graphs containing induced O3, with 3,972 induced
+six-vertex candidate sets. Exactly one of these cores admits
+a full weak retraction onto such a copy. The negative results are
+for this target family only, not convergence proofs.
+
+The [certificate and exact census documentation](research/order10_k1_octahedron_retract_v1/summary.md)
+and [replayable verifier](scripts/k1_octahedron_retract_v1.py) give
+the full projection and every original maximal-clique bitmask.
+The new versioned working list
+[indeterminate_order_10_v6.txt](indeterminate_order_10_v6.txt)
+contains **8,223** original unresolved ten-vertex graphs.
+All historical v3/v4/v5 lists and proven statuses are unchanged.
