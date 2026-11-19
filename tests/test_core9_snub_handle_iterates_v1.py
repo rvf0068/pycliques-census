@@ -114,6 +114,23 @@ class SnubHandleIteratesTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "adjacency matrices disagree"):
             study.verify_small_embedding(h, g, [0, 1, 2])
 
+    def test_convergent_cycle_analogue_has_exact_two_period(self):
+        import networkx as nx
+
+        # A persistent +1,+2 vertex difference from a K-fixed base
+        # is NOT by itself a proof of K-divergence.
+        for n in range(5, 16):
+            cycle = nx.cycle_graph(n)
+            g = cycle.copy()
+            g.add_edges_from([(n, 0), (n, 2)])
+            first = study.clique_graph_from_facets(study.facets(g))
+            second = study.clique_graph_from_facets(study.facets(first))
+            self.assertEqual((len(g), len(first), len(second)), (n + 1, n + 2, n + 1))
+            self.assertTrue(nx.is_isomorphic(second, g))
+            self.assertTrue(nx.is_isomorphic(
+                study.clique_graph_from_facets(study.facets(cycle)), cycle
+            ))
+
     def test_committed_bytes_match_reconstructed_proof(self):
         study.verify()
 
