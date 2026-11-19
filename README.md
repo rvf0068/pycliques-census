@@ -2352,3 +2352,39 @@ This result still gives **no unconditional divergence certificate**
 for these six cores, and the 8,233-case order-ten indeterminate
 list remains unchanged. Further iteration beyond `K⁶` requires
 a genuinely new structural argument.
+
+
+## Seventh relative clique iterate: fold preservation and complete-ear homotopy
+
+Two independently proved structural lemmas now extend the relative
+homotopy comparison to **j = 7** for the same six stiff nine-vertex
+snub-retracting cores (710 original order-ten class members):
+
+\[
+\Delta(K^7(G))\simeq\Delta(K^7(S))\vee S^1.
+\]
+
+First, if a vertex is removed by a closed-neighborhood dominated
+deletion, applying the clique-graph operator to both graphs preserves
+that deletion **up to an explicitly verified sequence of dominated
+clique-graph vertices**. Hence graph dismantlings remain valid after
+applying `K`.
+
+Second, adjoining a vertex whose open neighborhood consists of
+two nonempty, anticomplete **complete subsets** of a connected
+graph adds one `S¹` wedge to the **clique complex of its clique
+graph**. The proof distinguishes all three cases according to
+whether zero, one, or both subsets are maximal cliques; the
+conclusion holds in all three.
+
+The earlier sixth-iterate theorem supplies
+`K⁶(G)=F+c`, where `F` dismantles to `K⁶(S)` and the
+link of `c` is two anticomplete complete components. Combining
+the two lemmas yields the seventh-iterate formula **without
+constructing K⁵(S), K⁶(S), or K⁷(S)**.
+
+See the [self-contained proof](research/snub_handle_relative_k7_v1.md)
+and [independent graph-certificate verifier](scripts/core9_snub_relative_k7_v1.py).
+This remains a finite homotopy theorem, **not a divergence
+classification**, and the 8,233 unresolved order-ten cases are
+unchanged.
