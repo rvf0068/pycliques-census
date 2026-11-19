@@ -30,15 +30,15 @@ INPUT_MANIFEST = ROOT / "research/order9_snub_handle_iterates_v1/manifest.json"
 PINNED_INPUT_SHA256 = "16587a7997d377a2c2df9e23c656f9793992436c513e78b5e6e5a9526e385d3d"
 
 # Maximal-clique indices use the stable sorting convention of merged PR #29.
-# Each listed index lies OUTSIDE the corresponding two-clique component
-# and intersects all its members (so the component is not maximal).
+# Each (size, extending_vertex) pair certifies one of the two link cliques.
+# Each extending vertex lies outside its component and meets every member.
 EXPECTED_WITNESSES: dict[int, tuple[tuple[int, int], tuple[int, int]]] = {
-    2317843: ((1, 1), (0, 1)),
-    3148541: ((1, 1), (0, 243)),
-    3505942: ((1, 82), (0, 243)),
-    4952669: ((1, 1), (0, 243)),
-    4953338: ((1, 62), (243, 0)),
-    5601875: ((1, 34), (0, 534)),
+    2317843: ((1, 0), (1, 1)),
+    3148541: ((1, 0), (1, 243)),
+    3505942: ((1, 0), (82, 243)),
+    4952669: ((1, 0), (1, 243)),
+    4953338: ((1, 243), (62, 0)),
+    5601875: ((1, 0), (34, 534)),
 }
 
 
