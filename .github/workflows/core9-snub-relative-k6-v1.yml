@@ -49,5 +49,6 @@ jobs:
             research/order9_snub_handle_iterates_v1/ \
             research/snub_handle_relative_k5_v1.md \
             scripts/core9_snub_relative_k5_v1.py \
+            scripts/core9_snub_handle_iterates_v1.py \
             indeterminate_order_9.txt indeterminate_order_10.txt \
             indeterminate_order_10_v3.txt indeterminate_order_10_v4.txt
