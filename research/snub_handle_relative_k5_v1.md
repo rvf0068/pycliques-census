@@ -28,10 +28,9 @@ by one further iteration.
 ## General two-clique extension lemma
 
 **Lemma.** Let \(X\) be a finite connected graph and let \(A,B\)
-be two nonempty, disjoint cliques (maximal complete subgraphs are *not*
-assumed). Suppose there are **no edges** from \(A\) to \(B\), and
-neither \(A\) nor \(B\) is a clique of \(X\) (i.e. neither is
-inclusion-maximal complete in \(X\)). Let \(Y\) be obtained by
+be two nonempty, disjoint **complete subsets** of \(V(X)\). Suppose there are **no edges** from \(A\) to \(B\), and
+neither \(A\) nor \(B\) is a clique of \(X\) (that is, neither
+is inclusion-maximal complete in \(X\)). Let \(Y\) be obtained by
 adjoining a vertex \(x\) with \(N_Y(x)=A\cup B\). Then:
 
 1. The maximal cliques of \(Y\) are exactly those of \(X\), plus
