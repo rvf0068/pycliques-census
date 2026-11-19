@@ -208,8 +208,10 @@ def verify_six_all_iterates() -> list[dict]:
         ):
             raise ValueError("The original nine-core is not an eight-vertex ear")
         inverse = {label: i for i, label in enumerate(phi)}
+        # The historical link certificate already labels its two
+        # components by vertices of the snub (not by host labels).
         a, b = (
-            {inverse[v] for v in component}
+            set(component)
             for component in level0["link_certificate"]["components"]
         )
         x = extra[0]
