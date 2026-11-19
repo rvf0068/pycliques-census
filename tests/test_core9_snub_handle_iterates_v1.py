@@ -93,7 +93,7 @@ class SnubHandleIteratesTests(unittest.TestCase):
         g = h.copy()
         g.add_node(3)
         g.add_edges_from(((3, 0), (3, 1), (3, 2)))
-        with self.assertRaisesRegex(ValueError, "two disjoint complete"):
+        with self.assertRaisesRegex(ValueError, "disjoint complete link components"):
             study.even_attachment(h, g, [0, 1, 2], 3)
 
         # Two disconnected old-neighbor sets are insufficient: each
