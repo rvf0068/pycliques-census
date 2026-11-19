@@ -2236,3 +2236,48 @@ bash scripts/bootstrap_special_k3_v5.sh
 The dedicated GitHub Actions workflow independently constructs and verifies
 all 29 experiments, checks the previously committed three retractions, and
 rejects changes to historical census inputs and previously certified artifacts.
+
+
+## The S¹ attachment persists through the fourth snub-related clique iterate
+
+A versioned, independently checked investigation of the **six newly
+identified snub-retracting stiff nine-vertex cores** (representing
+**710 original ten-vertex graphs**) establishes a stronger finite
+homotopy comparison. Let `S` denote the snub disphenoid, with
+graph6 `GQyuzw`, and let `G` be any of the six cores.
+
+**For each j=0,1,2,3,4, the clique graph K^j(S) is an induced subgraph
+of K^j(G), and their clique complexes satisfy**
+
+\[
+\Delta(K^j(G))\simeq\Delta(K^j(S))\vee S^1.
+\]
+
+The induced embeddings are certified by explicit vertex maps and
+all-pairs adjacency checks. For j=0,2,4 the larger graph differs by
+exactly one vertex whose open neighborhood is the disjoint union of
+two nonempty cliques. For j=1,3 it differs by two **adjacent** vertices;
+their old-neighbor sets are disjoint and each induces a cone in
+the corresponding snub iterate. Elementary homotopy-pushout
+arguments give the circle wedge in both cases.
+
+| Iterate j | Vertices of K^j(S) | Vertices of K^j(G) |
+|---:|---:|---:|
+| 0 | 8 | 9 |
+| 1 | 12 | 14 |
+| 2 | 20 | 21 |
+| 3 | 56 | 58 |
+| 4 | 1,076 | 1,077 |
+
+The fourth-iterate proof uses exact maximal-clique incidence bitsets
+rather than an expensive full graph construction. The [full research
+report](research/order9_snub_handle_iterates_v1/summary.md) and
+[replayable certificates](research/order9_snub_handle_iterates_v1/certificates.json)
+include every source and embedding.
+
+These are **five finite calculations, not an induction**. They imply
+neither K-divergence nor K-convergence, and the existing 8,233-case
+order-ten unresolved list is unchanged. Showing that the same
+small-attachment pattern is preserved under K *for all iterates*
+would imply clique-behavior equivalence with S; establishing such
+an induction is a possible next theoretical direction.

@@ -1,0 +1,25 @@
+{
+  "checked_iterates": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "cores": [
+    2317843,
+    3148541,
+    3505942,
+    4952669,
+    4953338,
+    5601875
+  ],
+  "outputs_sha256": {
+    "certificates.json": "16587a7997d377a2c2df9e23c656f9793992436c513e78b5e6e5a9526e385d3d",
+    "summary.md": "917bbe90f20f22ed503bfbb55923919009388609d765e187478e24b7124e7cbc"
+  },
+  "schema": 1,
+  "source_class_index_sha256": "5a9b08c548aa5671f9c1403cf1badd0044211f7ef75129c83980462efa6f16eb",
+  "source_sha256": "e24b6fd591ae04d209237a7a7ba13d3dbf712b8bc5a66f4009007836f7f6d225",
+  "stage": "core9_snub_handle_iterates_v1"
+}
