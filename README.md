@@ -89,8 +89,16 @@ The working clique-behavior files at the repository root are:
 - [`indeterminate_order_10.txt`](indeterminate_order_10.txt)
 
 **Current certified snapshot (November 2026):** the order-10 root working
-file exactly matches [`indeterminate_order_10_v6.txt`](indeterminate_order_10_v6.txt):
-8,223 remaining cases, including 4,608 conditional references.
+file exactly matches [`indeterminate_order_10_v7.txt`](indeterminate_order_10_v7.txt):
+**8,124** remaining cases, including **4,509** conditional references.
+The v7 certified lift removes 99 historically conjectural cases whose
+missing target, the nine-vertex flag sphere `HEher^{`, is now
+unconditionally proved K-divergent by an exact third-clique-iterate
+retraction onto O4. The historical v6 list (8,223) is unchanged.
+The 99 independently checked chains use 63 exact references, 28
+ordinary retractions, six non-triangle-edge deletions and two admissible
+inverse-cutpoint extensions. See
+[`research/order10_heher_certificate_lift_v1/summary.md`](research/order10_heher_certificate_lift_v1/summary.md).
 The previous 8,648-case root file is retained byte-for-byte at
 [`historical/indeterminate_order_10_pre_v3.txt`](historical/indeterminate_order_10_pre_v3.txt)
 because frozen pre-v3/v3 scripts and manifests use it as historical input.
