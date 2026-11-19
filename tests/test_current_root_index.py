@@ -28,7 +28,7 @@ class CurrentOrder10IndexTests(unittest.TestCase):
         historical_bytes = HISTORICAL.read_bytes()
         blob_hash = hashlib.sha1(
             b"blob " + str(len(historical_bytes)).encode("ascii")
-            + b"\\0" + historical_bytes
+            + b"\0" + historical_bytes
         ).hexdigest()
         self.assertEqual(blob_hash, "05f52c6db0b5642d2b6a856cef53c8fe07309c52")
         old, new = rows(HISTORICAL), rows(CURRENT)
