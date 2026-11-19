@@ -4,7 +4,9 @@ on:
   pull_request:
     paths:
       - "scripts/core9_sphere_collapse_v1.py"
+      - "scripts/core9_third_homology_v1.py"
       - "tests/test_core9_sphere_collapse_v1.py"
+      - "tests/test_core9_third_homology_v1.py"
       - "research/order9_two_sphere_collapses_v1/**"
       - ".github/workflows/core9-sphere-collapse-v1.yml"
   workflow_dispatch:
@@ -27,6 +29,10 @@ jobs:
           python scripts/core9_sphere_collapse_v1.py build --output /tmp/two-nine-spheres.json
           python scripts/core9_sphere_collapse_v1.py verify --output /tmp/two-nine-spheres.json
           python -m unittest discover -s tests -p 'test_core9_sphere_collapse_v1.py' -v
+      - name: Recompute exact third-iterate GF(2) Betti and boundary ranks
+        run: |
+          python scripts/core9_third_homology_v1.py
+          python -m unittest discover -s tests -p 'test_core9_third_homology_v1.py' -v
       - name: Ensure all historical census results and versioned proof files unchanged
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
