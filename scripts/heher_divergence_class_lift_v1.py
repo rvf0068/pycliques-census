@@ -30,6 +30,9 @@ LATEST = ROOT / "indeterminate_order_10_v7.txt"
 ROOT_LIST = ROOT / "indeterminate_order_10.txt"
 REFERENCE = "HEher^{"
 SOURCE_BLOB = "a625149c7b36ca5b37d818fba2776dea57cdb051"
+# Git blob of the exact K³ -> O₄ witness script merged in PR #39.
+# Any change to that source requires deliberate re-certification.
+PROOF_SOURCE_BLOB = "cd7ffea2e1dc561ad5f7771b7a14107fe7ef6ce0"
 EXPECTED = {"reference": 63, "retracts": 28,
             "non_triangle_edge": 6, "inverse_cutpoint_extension": 2}
 TOTAL_BEFORE = 8223
@@ -44,6 +47,81 @@ def blob(raw: bytes) -> str:
 
 def decode(graph6: str) -> nx.Graph:
     return nx.from_graph6_bytes(graph6.encode("ascii"))
+
+
+def independently_replay_nine_vertex_divergence() -> dict:
+    """Reconstruct raw K³ and verify every edge of the fixed O₄ retraction.
+
+    Use only the *data* TARGET and PROJECTION from the immutable PR #39
+    witness, whose exact Git blob is authenticated below. In particular
+    this function never calls that script's raw_K, third_iterate, or
+    positive_second_graph. Its maximal-clique intersection construction,
+    octahedron recognition, and edge/equality check are local.
+    """
+    proof_path = Path(proof.__file__)
+    if blob(proof_path.read_bytes()) != PROOF_SOURCE_BLOB:
+        raise ValueError("Proof source changed since the merged PR #39 certificate")
+    if proof.GRAPHS.get("248687") != REFERENCE:
+        raise ValueError("Reference graph6 differs from the merged O4 certificate")
+    current = decode(REFERENCE)
+    if (len(current), current.number_of_edges()) != (9, 21):
+        raise ValueError("Incorrect original nine-vertex sphere")
+    expected_sizes = ((14, 58), (23, 160), (60, 1225))
+    for expected_order, expected_edges in expected_sizes:
+        # Deterministic integer-mask clique labeling, independently computed.
+        facets = [set(c) for c in nx.find_cliques(current)]
+        facets.sort(key=lambda q: sum(1 << v for v in q))
+        successor = nx.Graph()
+        successor.add_nodes_from(range(len(facets)))
+        for i in range(len(facets)):
+            for j in range(i + 1, len(facets)):
+                if not facets[i].isdisjoint(facets[j]):
+                    successor.add_edge(i, j)
+        current = successor
+        if (len(current), current.number_of_edges()) != (
+            expected_order, expected_edges
+        ):
+            raise ValueError("Independently reconstructed clique iterate disagrees")
+
+    target_vertices = tuple(proof.TARGET)
+    projection = tuple(proof.PROJECTION)
+    if (len(target_vertices) != 8 or len(set(target_vertices)) != 8
+            or tuple(sorted(target_vertices)) != target_vertices
+            or len(projection) != 60 or set(projection) != set(target_vertices)):
+        raise ValueError("Wrong O4 target or full retraction domain")
+    if any(projection[v] != v for v in target_vertices):
+        raise ValueError("O4 retraction does not fix the target")
+
+    # O4 is precisely K8 minus a perfect matching: every target vertex
+    # has exactly one non-neighbor among the other target vertices.
+    missing_pairs = [
+        (a, b)
+        for i, a in enumerate(target_vertices)
+        for b in target_vertices[i + 1:]
+        if not current.has_edge(a, b)
+    ]
+    if (len(missing_pairs) != 4
+            or set(v for pair in missing_pairs for v in pair)
+            != set(target_vertices)):
+        raise ValueError("The prescribed eight vertices do not induce O4")
+
+    checked = 0
+    for u, v in current.edges():
+        if projection[u] != projection[v] and not current.has_edge(
+            projection[u], projection[v]
+        ):
+            raise ValueError(f"Edge ({u}, {v}) violates the O4 graph morphism")
+        checked += 1
+    if checked != 1225:
+        raise ValueError("Incorrect number of independently checked source edges")
+    return {
+        "source_vertices": 60, "source_edges": checked,
+        "target_vertices": list(target_vertices),
+        "target_missing_pairs": [list(pair) for pair in missing_pairs],
+        "retraction": list(projection),
+        "proof_source_blob": PROOF_SOURCE_BLOB,
+        "verification": "independent_iterate_and_all_edge_constraints",
+    }
 
 
 def canonical_isomorphism(a: nx.Graph, b: nx.Graph) -> dict[int, int] | None:
@@ -183,8 +261,8 @@ def source_rows() -> tuple[list[str], list[dict]]:
 
 
 def certified() -> dict:
-    # The critical positive nine-vertex proof is independently replayed here.
-    witness = proof.positive_second_graph()
+    # Reconstruct the K³ source and replay the fixed map independently.
+    witness = independently_replay_nine_vertex_divergence()
     if (witness["source_vertices"], witness["source_edges"]) != (60, 1225):
         raise AssertionError("Divergence source O4 certificate not reproduced")
     original, rows = source_rows()
