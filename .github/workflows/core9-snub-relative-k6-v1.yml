@@ -1,0 +1,53 @@
+name: Certify cone-bridge theorem and relative snub K6 without K5 enumeration
+
+on:
+  pull_request:
+    paths:
+      - "scripts/core9_snub_relative_k6_v1.py"
+      - "scripts/core9_snub_relative_k5_v1.py"
+      - "scripts/core9_snub_handle_iterates_v1.py"
+      - "tests/test_core9_snub_relative_k6_v1.py"
+      - "research/snub_handle_relative_k6_v1.md"
+      - "research/order9_snub_handle_iterates_v1/**"
+      - "README.md"
+      - ".github/workflows/core9-snub-relative-k6-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-cone-bridge-and-sixth-iterate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap pinned historical monorepo
+        run: bash scripts/bootstrap_special_k3_v5.sh
+      - name: Authenticate earlier complete K4 and relative K5 certificates
+        run: |
+          .venv-special-k3-v5/bin/python scripts/core9_snub_relative_k5_v1.py verify
+      - name: Certify six relative K6 homotopy conclusions symbolically
+        run: |
+          .venv-special-k3-v5/bin/python scripts/core9_snub_relative_k6_v1.py verify
+          .venv-special-k3-v5/bin/python scripts/core9_snub_relative_k6_v1.py json
+      - name: Independently replay generic clique extensions and dominated folds
+        run: |
+          .venv-special-k3-v5/bin/python -m unittest discover \
+            -s tests -p 'test_core9_snub_relative_k6_v1.py' -v
+      - name: Reject mutations to every frozen census and previous proof
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ \
+            research/order9_snub_retractions_v2/ \
+            research/order9_snub_handle_iterates_v1/ \
+            research/snub_handle_relative_k5_v1.md \
+            scripts/core9_snub_relative_k5_v1.py \
+            indeterminate_order_9.txt indeterminate_order_10.txt \
+            indeterminate_order_10_v3.txt indeterminate_order_10_v4.txt
