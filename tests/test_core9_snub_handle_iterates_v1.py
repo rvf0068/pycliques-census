@@ -84,6 +84,36 @@ class SnubHandleIteratesTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "Frozen original"):
                 study.frozen_rows(root)
 
+    def test_attachment_checks_reject_forged_links(self):
+        import networkx as nx
+
+        # A connected noncomplete three-vertex link is not the
+        # disjoint union of two cliques.
+        h = nx.path_graph(3)
+        g = h.copy()
+        g.add_node(3)
+        g.add_edges_from(((3, 0), (3, 1), (3, 2)))
+        with self.assertRaisesRegex(ValueError, "two disjoint complete"):
+            study.even_attachment(h, g, [0, 1, 2], 3)
+
+        # Two disconnected old-neighbor sets are insufficient: each
+        # must be contractible, as witnessed by a cone apex.
+        h = nx.cycle_graph(4)
+        g = h.copy()
+        g.add_nodes_from([4, 5])
+        g.add_edge(4, 5)
+        g.add_edges_from([(4, 0), (4, 2), (5, 1), (5, 3)])
+        with self.assertRaisesRegex(ValueError, "not a verified cone"):
+            study.odd_attachment(h, g, [0, 1, 2, 3], [4, 5])
+
+    def test_embedding_checks_both_edges_and_nonedges(self):
+        import networkx as nx
+
+        h = nx.path_graph(3)
+        g = nx.complete_graph(3)
+        with self.assertRaisesRegex(ValueError, "adjacency matrices disagree"):
+            study.verify_small_embedding(h, g, [0, 1, 2])
+
     def test_committed_bytes_match_reconstructed_proof(self):
         study.verify()
 
