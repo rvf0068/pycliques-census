@@ -133,6 +133,9 @@ class RelativeK6SnubTests(unittest.TestCase):
             with patch.object(study, "PREVIOUS_SOURCE", changed):
                 with self.assertRaisesRegex(ValueError, "modified"):
                     study.verify_six_symbolic_applications()
+            with patch.object(study, "PREVIOUS_K4_HELPER", changed):
+                with self.assertRaisesRegex(ValueError, "modified"):
+                    study.verify_six_symbolic_applications()
 
 
 if __name__ == "__main__":
