@@ -1,0 +1,50 @@
+name: Certify K1 octahedron retraction and v6 unresolved census
+
+on:
+  pull_request:
+    paths:
+      - "scripts/k1_octahedron_retract_v1.py"
+      - "tests/test_k1_octahedron_retract_v1.py"
+      - "research/order10_k1_octahedron_retract_v1/**"
+      - "indeterminate_order_10_v6.txt"
+      - "reports/order10_core_index_v1/**"
+      - "indeterminate_order_10_v5.txt"
+      - "scripts/direct_divergent_ninecore_retracts_v1.py"
+      - "README.md"
+      - ".github/workflows/k1-octahedron-retract-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  proof-and-v6-verification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap pinned historical research environment
+        run: bash scripts/bootstrap_special_k3_v5.sh
+      - name: Reconstruct and check all O3 first-iterate retraction screens
+        run: |
+          .venv-special-k3-v5/bin/python scripts/k1_octahedron_retract_v1.py verify
+      - name: Independently test explicit section and every total weak morphism
+        run: |
+          .venv-special-k3-v5/bin/python -m unittest discover \
+            -s tests -p 'test_k1_octahedron_retract_v1.py' -v
+      - name: Reject edits to any historical source or preceding census verdict
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ \
+            research/order10_current_indeterminates_v4/ \
+            research/order10_direct_divergent_ninecore_retracts_v1/ \
+            scripts/direct_divergent_ninecore_retracts_v1.py \
+            scripts/current_indeterminate_v4.py \
+            indeterminate_order_10_v3.txt indeterminate_order_10_v4.txt \
+            indeterminate_order_10_v5.txt
