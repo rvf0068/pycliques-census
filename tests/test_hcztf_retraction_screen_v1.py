@@ -2,6 +2,7 @@
 import copy
 import importlib.util
 from pathlib import Path
+from unittest import mock
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -31,6 +32,34 @@ class EarlySphereRetractionTests(unittest.TestCase):
         tampered["cases"][0]["witnesses"][0]["outside"] = -1
         with self.assertRaises(ValueError):
             study.verify(tampered)
+
+    def test_replay_does_not_reuse_the_generator_or_obstruction_helper(self):
+        record = study.run()
+        with (
+            mock.patch.object(study, "run", side_effect=AssertionError("run reused")),
+            mock.patch.object(study, "clique_graph",
+                              side_effect=AssertionError("K constructor reused")),
+            mock.patch.object(study, "target_graph",
+                              side_effect=AssertionError("target builder reused")),
+            mock.patch.object(study, "screen",
+                              side_effect=AssertionError("screen reused")),
+            mock.patch.object(study, "obstructed_outside_vertex",
+                              side_effect=AssertionError("domain predicate reused")),
+        ):
+            study.verify(record)
+
+    def test_replay_rejects_invalid_or_incomplete_recorded_witness(self):
+        record = study.run()
+        altered = copy.deepcopy(record)
+        altered["cases"][0]["witnesses"][0]["outside"] = (
+            altered["cases"][0]["witnesses"][0]["vertices"][0]
+        )
+        with self.assertRaisesRegex(ValueError, "obstruction invalid"):
+            study.verify(altered)
+        incomplete = copy.deepcopy(record)
+        incomplete["cases"][0]["witnesses"].pop()
+        with self.assertRaisesRegex(ValueError, "counts disagree"):
+            study.verify(incomplete)
 
     def test_initial_sphere_is_nonisomorphic_to_divergent_reference(self):
         graph = study.decode(study.SOURCE_GRAPH6)
