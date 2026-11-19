@@ -2524,6 +2524,10 @@ cliques](research/order10_first_clique_octahedron_retract_v1/certificate.json),
 [mathematical report](research/order10_first_clique_octahedron_retract_v1/summary.md)
 and [new order-ten v6 indeterminate working list](indeterminate_order_10_v6.txt)
 are checked in a dedicated immutable-source CI workflow.
+The independently reconstructed screen examined all **2,394** still
+unresolved stiff ten-vertex graphs, found **3,941 induced octahedra**
+in the first clique graphs of **39 sources**, and identified exactly
+**one** new retraction. No CSP state limit was reached.
 This reduces the unresolved count **8,224 to 8,223**. No
 negative finite retraction screen is used to assert K-convergence.
 
