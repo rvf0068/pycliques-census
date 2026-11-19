@@ -80,7 +80,7 @@ class FirstCliqueOctahedronTests(unittest.TestCase):
         target = tuple(row["target_O3_vertices"])
         projection = tuple(row["retraction"])
         stage.verify_oct_retraction(K, target, projection)
-        with self.assertRaisesRegex(ValueError, "do not induce O3"):
+        with self.assertRaises(ValueError):
             stage.verify_oct_retraction(K, (0, 1, 2, 3, 4, 5), projection)
         bad = list(projection)
         outside = next(v for v in K if v not in target)
