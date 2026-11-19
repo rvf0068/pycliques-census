@@ -6,6 +6,7 @@ certificate lifts remove only independently proven divergent graphs.
 from __future__ import annotations
 
 from pathlib import Path
+import hashlib
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,6 +25,12 @@ class CurrentOrder10IndexTests(unittest.TestCase):
         self.assertEqual(CURRENT.read_bytes(), V6.read_bytes())
 
     def test_historical_baseline_preserved_and_only_proofs_excluded(self):
+        historical_bytes = HISTORICAL.read_bytes()
+        blob_hash = hashlib.sha1(
+            b"blob " + str(len(historical_bytes)).encode("ascii")
+            + b"\\0" + historical_bytes
+        ).hexdigest()
+        self.assertEqual(blob_hash, "05f52c6db0b5642d2b6a856cef53c8fe07309c52")
         old, new = rows(HISTORICAL), rows(CURRENT)
         self.assertEqual((len(old), len(new)), (8648, 8223))
         self.assertEqual(len(old), len(set(old)))
