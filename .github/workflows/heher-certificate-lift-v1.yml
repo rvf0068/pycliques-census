@@ -1,0 +1,48 @@
+name: Certify 99 ten-vertex HEher divergence dependencies
+
+on:
+  pull_request:
+    paths:
+      - "scripts/heher_divergence_class_lift_v1.py"
+      - "research/order10_heher_certificate_lift_v1/**"
+      - "indeterminate_order_10_v7.txt"
+      - "indeterminate_order_10.txt"
+      - "tests/test_current_root_index.py"
+      - ".github/workflows/heher-certificate-lift-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independent-99-case-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pinned standalone graph dependency
+        run: python -m pip install "networkx==3.6.1"
+      - name: Authenticate K3 to O4 and reconstruct every one of 99 historical dependencies
+        run: |
+          python scripts/heher_divergence_class_lift_v1.py verify
+          python scripts/heher_divergence_class_lift_v1.py certificates --output /tmp/heher-certs.json
+          python -m unittest discover -s tests -p test_current_root_index.py -v
+      - name: Check original proofs, stage files and historic v6 working index unchanged
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- runs/ reports/ postpasses/ \
+            indeterminate_order_9.txt indeterminate_order_10_v3.txt \
+            indeterminate_order_10_v4.txt indeterminate_order_10_v5.txt \
+            indeterminate_order_10_v6.txt historical/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: independent-99-case-divergence-certificates
+          path: /tmp/heher-certs.json
+          if-no-files-found: error
