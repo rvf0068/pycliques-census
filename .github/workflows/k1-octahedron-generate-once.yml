@@ -1,0 +1,38 @@
+# One-time same-repository generator. Commits only new versioned proof data.
+name: Generate K1-to-O3 v6 certified artifacts once
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/k1-octahedron-generate-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'research/k1-octahedron-retract-v1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap pinned graph research environment
+        run: bash scripts/bootstrap_special_k3_v5.sh
+      - name: Generate and independently replay O3 and v6 certificates
+        run: |
+          .venv-special-k3-v5/bin/python scripts/k1_octahedron_retract_v1.py build
+          .venv-special-k3-v5/bin/python scripts/k1_octahedron_retract_v1.py verify
+          .venv-special-k3-v5/bin/python -m unittest discover \
+            -s tests -p 'test_k1_octahedron_retract_v1.py' -v
+      - name: Commit new immutable results and delete this one-time workflow
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add research/order10_k1_octahedron_retract_v1/ indeterminate_order_10_v6.txt
+          git rm .github/workflows/k1-octahedron-generate-once.yml
+          git commit -m 'Commit explicit first-iterate O3 retraction and certified 8223-case v6 list'
+          git push origin HEAD:research/k1-octahedron-retract-v1
