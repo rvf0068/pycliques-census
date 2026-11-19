@@ -25,6 +25,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Restore frozen pre-v3 working index for historical replay
+        run: cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt
       - uses: astral-sh/setup-uv@v4
       - name: Bootstrap existing pinned certificate environment
         run: bash scripts/bootstrap_special_k3_v5.sh
@@ -63,5 +65,5 @@ jobs:
             scripts/special_octahedra_k3_v5.py \
             scripts/targeted_retractions_v3.py \
             indeterminate_order_9.txt \
-            indeterminate_order_10.txt \
+            \
             indeterminate_order_10_v3.txt
