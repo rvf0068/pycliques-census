@@ -1,0 +1,39 @@
+# Temporary one-time certificate renderer; restricted to this exact branch.
+# Commits three generated research artifacts and deletes itself.
+name: Generate finite snub-handle certificates once
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/core9-snub-handle-generate-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'research/core9-snub-handle-iterates-v1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap independently pinned historical environment
+        run: bash scripts/bootstrap_special_k3_v5.sh
+      - name: Regenerate, replay and test exact K0-K4 homotopy certificates
+        run: |
+          .venv-special-k3-v5/bin/python scripts/core9_snub_handle_iterates_v1.py build
+          .venv-special-k3-v5/bin/python -m unittest discover \
+            -s tests -p 'test_core9_snub_handle_iterates_v1.py' -v
+          .venv-special-k3-v5/bin/python scripts/core9_snub_handle_iterates_v1.py verify
+      - name: Freeze exact source and certificate hashes in versioned research
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add research/order9_snub_handle_iterates_v1/
+          git rm .github/workflows/core9-snub-handle-generate-once.yml
+          git commit -m 'Commit independently replayed six-core circle handle certificates through K4'
+          git push origin HEAD:research/core9-snub-handle-iterates-v1
