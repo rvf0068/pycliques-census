@@ -21,6 +21,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Restore frozen pre-v3 working index for historical replay
+        run: cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt
       - uses: astral-sh/setup-uv@v4
       - name: Bootstrap pinned v4 library
         run: bash scripts/bootstrap_targeted_v4.sh
@@ -66,4 +68,4 @@ jobs:
             scripts/targeted_retractions_v3.py \
             tests/targeted_retractions_v3_cases.py \
             config/pycliques_commit_targeted_v3.txt \
-            indeterminate_order_9.txt indeterminate_order_10.txt
+            indeterminate_order_9.txt
