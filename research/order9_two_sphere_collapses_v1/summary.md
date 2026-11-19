@@ -61,6 +61,45 @@ surface with Euler characteristic two, and hence a triangulation of
 \(S^2\). Elementary simplicial collapses preserve homotopy type. This
 proves the theorem, provided the finite certificate replays successfully.
 
+
+## Exact change in homology at the third iterate
+
+A second independent script, `scripts/core9_third_homology_v1.py`,
+enumerates all faces of dimensions 0 through 4 of the **raw**
+third clique iterates, computes all required boundary ranks by
+exact GF(2) Gaussian elimination, and checks the following fixed results.
+
+| Order-9 index | f0 | f1 | f2 | f3 | f4 | rank ∂1 | rank ∂2 | rank ∂3 | rank ∂4 |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 208409 | 56 | 1060 | 9728 | 52237 | 186480 | 55 | 1005 | 8723 | 43511 |
+| 248687 | 60 | 1225 | 12096 | 69836 | 267888 | 59 | 1166 | 10930 | 58903 |
+
+All simplices through dimension four are enumerated, not sampled or
+truncated. With \(f_i=\dim C_i\) and \(r_i=\mathrm{rank}\,\partial_i\), the
+identity \(\beta_i=f_i-r_i-r_{i+1}\) gives, for both graphs,
+
+\[
+H_1(\Delta(K^3(G));\mathbb F_2)=0,\quad
+H_2(\Delta(K^3(G));\mathbb F_2)=0,\quad
+H_3(\Delta(K^3(G));\mathbb F_2)\cong(\mathbb F_2)^3.
+\]
+
+**Consequences.** Both third iterates are not contractible and not
+homotopy-equivalent to \(S^2\). A wedge of three 3-spheres is a plausible
+candidate, **not an established homotopy type**: no claims are made about
+higher Betti numbers or the fundamental group.
+
+The boundary reduction is also calibrated independently against
+\(\Delta(O_3)\simeq S^2\), \(\Delta(O_4)\simeq S^3\),
+and the full tetrahedron.
+
+Reproduce:
+
+```bash
+python scripts/core9_third_homology_v1.py
+python -m unittest discover -s tests -p test_core9_third_homology_v1.py -v
+```
+
 ## Reproduce
 
 With NetworkX 3.6.1 installed, from the repository root:
