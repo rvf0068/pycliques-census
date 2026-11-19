@@ -31,7 +31,9 @@ import core9_snub_relative_k5_v1 as previous
 
 ROOT = Path(__file__).resolve().parents[1]
 PREVIOUS_SOURCE = ROOT / "scripts/core9_snub_relative_k5_v1.py"
+PREVIOUS_K4_HELPER = ROOT / "scripts/core9_snub_handle_iterates_v1.py"
 EXPECTED_PREVIOUS_GIT_BLOB = "fddc20451acbf211876883380928b0326b48e15d"
+EXPECTED_K4_HELPER_GIT_BLOB = "32b46337604f191af229d85a9c0d514b61bcce75"
 EXPECTED_IDS = (2317843, 3148541, 3505942, 4952669, 4953338, 5601875)
 EXPECTED_MEMBERS = (70, 114, 133, 86, 196, 111)
 EXPECTED_COMPONENT_ORDERS = (
@@ -186,6 +188,8 @@ def verify_six_symbolic_applications() -> list[dict]:
     source = PREVIOUS_SOURCE.read_bytes()
     if git_blob_sha(source) != EXPECTED_PREVIOUS_GIT_BLOB:
         raise ValueError("Merged PR #30 K5 certificate verifier was modified")
+    if git_blob_sha(PREVIOUS_K4_HELPER.read_bytes()) != EXPECTED_K4_HELPER_GIT_BLOB:
+        raise ValueError("Merged PR #29 K4 construction and connectivity helper was modified")
     previous_result = previous.verify()
     if [r["core_id"] for r in previous_result] != list(EXPECTED_IDS):
         raise ValueError("Previous core cohort differs from the six proved cases")
