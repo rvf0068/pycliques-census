@@ -2460,6 +2460,15 @@ finds **nine NEW certified K-divergent graphs**:
 | 11660877 | `HUZ~v~}` |
 | 11716425 | `HUzrv~}` |
 
+For a concrete complete certificate, source `ICpU}z~~o` (McKay
+index `10768894`) maps onto `HUZ~v~}` by the
+vertex projection `(0,1,0,2,3,4,5,6,7,8)`. The induced
+section sends target labels `0,...,8` to
+`(0,1,3,4,5,6,7,8,9)`; the composition is the identity.
+Every source edge maps to an edge or collapses to one vertex.
+The eight other independently verified retractions are listed
+with their full maps in the committed TSV certificate.
+
 The two targets are known divergent nine-vertex connected coaffine
 suspensions. The source graphs have **no dominated vertices**;
 these new conclusions are therefore not duplicates of the
