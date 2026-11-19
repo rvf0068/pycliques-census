@@ -1,0 +1,15 @@
+{
+  "input_sha256": {
+    "indeterminate_order_10_v4.txt": "c750eb9ca2b33ed5641870507fa72c02860c03acf0d5ae51bdd16bbbdb67f731",
+    "reports/order10_core_index_v1/classes.tsv": "5a9b08c548aa5671f9c1403cf1badd0044211f7ef75129c83980462efa6f16eb"
+  },
+  "new_proved_divergences": 9,
+  "outputs_sha256": {
+    "certificates.json": "9d75b777f066209fea2b88cbca59c6f34109a52e5045f96731757cca1a8af76d",
+    "new_divergent.tsv": "da5dc4cdc923b2aa3bb3734d3da8616ad25154eeee70174e7fa7b7c629822e9e",
+    "summary.md": "33f9456311b2f5af120f7ebd25b6cbf53af1bb0300fb122d91996f34643f6e21"
+  },
+  "schema": 1,
+  "stage": "order10_direct_divergent_ninecore_retracts_v1",
+  "v5_sha256": "2c0e27711e37f65007d51a12ea26690aceadc54a7148a671de3aa78b5b6586ea"
+}

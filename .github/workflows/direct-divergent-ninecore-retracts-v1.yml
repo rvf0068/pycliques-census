@@ -1,0 +1,52 @@
+name: Certify new stiff-ten divergent retractions and current v5 unresolved index
+
+on:
+  pull_request:
+    paths:
+      - "scripts/**"
+      - "tests/**"
+      - "reports/order10_core_index_v1/**"
+      - "research/order10_direct_divergent_ninecore_retracts_v1/**"
+      - "research/order10_current_indeterminates_v4/**"
+      - "indeterminate_order_10_v3.txt"
+      - "indeterminate_order_10_v4.txt"
+      - "indeterminate_order_10_v5.txt"
+      - ".github/workflows/direct-divergent-ninecore-retracts-v1.yml"
+      - "README.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit-all-2403-stiff-ten-originals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Set up separately pinned exact graph-isomorphism environment
+        run: |
+          uv venv .venv-direct
+          uv pip install --python .venv-direct/bin/python networkx==3.6.1
+      - name: Reverify all nine coaffine suspension retract certificates
+        run: |
+          .venv-direct/bin/python scripts/direct_divergent_ninecore_retracts_v1.py verify
+      - name: Cross-check complete positive and negative source audit
+        run: |
+          .venv-direct/bin/python -m unittest discover \
+            -s tests -p 'test_direct_divergent_ninecore_retracts_v1.py' -v
+      - name: Reject mutation of earlier mathematical proofs or census populations
+        if: github.event_name == 'pull_request'
+        run: |
+          git diff --exit-code origin/main HEAD -- \
+            runs/ reports/ postpasses/ \
+            research/order10_current_indeterminates_v4/ \
+            research/order10_historical_divergent_targets_v1/ \
+            research/order9_snub_retractions_v2/ \
+            scripts/current_indeterminate_v4.py \
+            scripts/historical_ninecore_lift_v1.py \
+            indeterminate_order_9.txt indeterminate_order_10.txt \
+            indeterminate_order_10_v3.txt indeterminate_order_10_v4.txt

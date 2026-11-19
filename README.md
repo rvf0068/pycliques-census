@@ -2439,3 +2439,57 @@ cases](research/snub_ear_all_iterates_homotopy_v1.md) and
 The dedicated CI replays the pinned previous theorem certificates
 and exhaustively checks the actual maximal-clique and
 dominated-fold structure of many independent small graphs.
+
+
+## Nine new K-divergent stiff ten-vertex graphs (direct nine-core retractions)
+
+An exhaustive ordinary graph-retraction screen of **all 2,403
+previously indeterminate stiff ten-vertex graphs** against the
+**six independently proved divergent stiff nine-vertex cores**
+finds **nine NEW certified K-divergent graphs**:
+
+| Original McKay index | Divergent retract |
+|---:|---|
+| 10768894 | `HUZ~v~}` |
+| 11363661 | `HUzrv~}` |
+| 11372238 | `HUzrv~}` |
+| 11475102 | `HUzrv~}` |
+| 11519660 | `HUZ~v~}` |
+| 11541397 | `HUzrv~}` |
+| 11655985 | `HUZ~v~}` |
+| 11660877 | `HUZ~v~}` |
+| 11716425 | `HUzrv~}` |
+
+For a concrete complete certificate, source `ICpU}z~~o` (McKay
+index `10768894`) maps onto `HUZ~v~}` by the
+vertex projection `(0,1,0,2,3,4,5,6,7,8)`. The induced
+section sends target labels `0,...,8` to
+`(0,1,3,4,5,6,7,8,9)`; the composition is the identity.
+Every source edge maps to an edge or collapses to one vertex.
+The eight other independently verified retractions are listed
+with their full maps in the committed TSV certificate.
+
+The two targets are known divergent nine-vertex connected coaffine
+suspensions. The source graphs have **no dominated vertices**;
+these new conclusions are therefore not duplicates of the
+earlier six-core dominated-fold certificate lift. The retraction
+maps are checked on **every edge** with the graph-morphism
+convention *adjacent or equal*. Each has an independently
+checked induced nine-vertex section and retraction equation.
+
+The new [versioned research report](research/order10_direct_divergent_ninecore_retracts_v1/summary.md),
+[machine-replayable certificates](research/order10_direct_divergent_ninecore_retracts_v1/certificates.json),
+and [positive original-index list](research/order10_direct_divergent_ninecore_retracts_v1/new_divergent.tsv)
+are derived only from frozen historical sources.
+The [current unresolved list v5](indeterminate_order_10_v5.txt)
+contains **8,224** original connected ten-vertex graphs, down
+from 8,233 in v4. The historical v3/v4 lists and all
+original certificates remain unchanged.
+
+An exhaustive negative screen against **these six target models**
+does not establish K-convergence, and all remaining cases
+retain their previous indeterminate status. Reproduce with:
+
+```bash
+uv run --with networkx==3.6.1 python scripts/direct_divergent_ninecore_retracts_v1.py verify
+```
