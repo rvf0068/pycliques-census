@@ -1,0 +1,39 @@
+name: Certify nine-sphere HEher O4 divergence
+
+on:
+  pull_request:
+    paths:
+      - "scripts/core9_o4_divergence_v1.py"
+      - "tests/test_core9_o4_divergence_v1.py"
+      - "research/order9_heher_o4_divergence_v1/**"
+      - ".github/workflows/core9-o4-divergence-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-k3-octahedral-retraction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install "networkx==3.6.1"
+      - name: Reconstruct both third iterates and replay every retraction edge
+        run: |
+          python scripts/core9_o4_divergence_v1.py > /tmp/nine-sphere-o4.json
+          python -m unittest discover -s tests -p test_core9_o4_divergence_v1.py -v
+      - name: Guard all pre-existing census data
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- runs/ reports/ postpasses/ \
+            indeterminate_order_9.txt indeterminate_order_10.txt \
+            indeterminate_order_10_v3.txt indeterminate_order_10_v4.txt \
+            indeterminate_order_10_v5.txt indeterminate_order_10_v6.txt
