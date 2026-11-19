@@ -22,7 +22,39 @@ jobs:
         run: |
           bash scripts/bootstrap.sh
           .venv/bin/python -m compileall -q scripts tests postpasses
-          .venv/bin/python -m unittest discover -s tests -v
+          # The current working root is v7 (8,124 graphs), while earlier
+          # stage tests deliberately authenticate the immutable 8,648-case
+          # pre-v3 cohort. Verify the current root before and after replay.
+          .venv/bin/python -m unittest discover -s tests \
+            -p test_current_root_index.py -v
+          current_root="$(mktemp)"
+          cp indeterminate_order_10.txt "$current_root"
+          restore_root() { cp "$current_root" indeterminate_order_10.txt; }
+          trap restore_root EXIT
+          cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt
+          .venv/bin/python - <<'PY'
+          import sys
+          import unittest
+
+          all_tests = unittest.defaultTestLoader.discover("tests")
+
+          def historical_tests(suite):
+              for test in suite:
+                  if isinstance(test, unittest.TestSuite):
+                      yield from historical_tests(test)
+                  elif not test.id().startswith("test_current_root_index."):
+                      yield test
+
+          result = unittest.TextTestRunner(verbosity=2).run(
+              unittest.TestSuite(historical_tests(all_tests))
+          )
+          sys.exit(0 if result.wasSuccessful() else 1)
+          PY
+          restore_root
+          trap - EXIT
+          rm "$current_root"
+          .venv/bin/python -m unittest discover -s tests \
+            -p test_current_root_index.py -v
           bash scripts/stage.sh baseline
       - name: Reproduce the connected census through order 6
         run: MAX_ORDER=6 BATCH_SIZE=100 RUN_DIR="$PWD/runs/ci-order6" bash scripts/run_census.sh
