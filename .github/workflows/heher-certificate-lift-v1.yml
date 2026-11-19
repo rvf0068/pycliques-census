@@ -4,10 +4,13 @@ on:
   pull_request:
     paths:
       - "scripts/heher_divergence_class_lift_v1.py"
+      - "scripts/core9_o4_divergence_v1.py"
+      - "indeterminate_order_10_v6.txt"
       - "research/order10_heher_certificate_lift_v1/**"
       - "indeterminate_order_10_v7.txt"
       - "indeterminate_order_10.txt"
       - "tests/test_current_root_index.py"
+      - "tests/test_heher_divergence_class_lift_v1.py"
       - ".github/workflows/heher-certificate-lift-v1.yml"
   workflow_dispatch:
 
@@ -32,6 +35,7 @@ jobs:
           python scripts/heher_divergence_class_lift_v1.py verify
           python scripts/heher_divergence_class_lift_v1.py certificates --output /tmp/heher-certs.json
           python -m unittest discover -s tests -p test_current_root_index.py -v
+          python -m unittest discover -s tests -p test_heher_divergence_class_lift_v1.py -v
       - name: Check original proofs, stage files and historic v6 working index unchanged
         if: github.event_name == 'pull_request'
         env:
