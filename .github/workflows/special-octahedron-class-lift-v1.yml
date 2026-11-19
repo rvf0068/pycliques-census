@@ -35,6 +35,8 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Restore frozen pre-v3 working index for historical replay
+        run: cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt
       - uses: astral-sh/setup-uv@v4
       - name: Bootstrap pinned special-O4 verifier dependencies
         run: bash scripts/bootstrap_special_k3_v5.sh
@@ -92,7 +94,7 @@ jobs:
             scripts/targeted_retractions_v3.py \
             scripts/special_octahedra_k3_v5.py \
             scripts/core_isomorphism_index.py \
-            indeterminate_order_10.txt indeterminate_order_10_v3.txt
+            indeterminate_order_10_v3.txt
       - name: Commit independently checked report to this PR branch
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         env:
