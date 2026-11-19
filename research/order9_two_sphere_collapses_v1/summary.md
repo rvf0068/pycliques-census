@@ -85,9 +85,9 @@ H_3(\Delta(K^3(G));\mathbb F_2)\cong(\mathbb F_2)^3.
 \]
 
 **Consequences.** Both third iterates are not contractible and not
-homotopy-equivalent to \(S^2\). A wedge of three 3-spheres is a plausible
-candidate, **not an established homotopy type**: no claims are made about
-higher Betti numbers or the fundamental group.
+homotopy-equivalent to \(S^2\). The next section strengthens this homology
+calculation to an **exact homotopy type**; the computation above is an
+independent cross-check of that stronger theorem.
 
 The boundary reduction is also calibrated independently against
 \(\Delta(O_3)\simeq S^2\), \(\Delta(O_4)\simeq S^3\),
@@ -99,6 +99,102 @@ Reproduce:
 python scripts/core9_third_homology_v1.py
 python -m unittest discover -s tests -p test_core9_third_homology_v1.py -v
 ```
+
+
+## Theorem: both third clique iterates are wedges of three 3-spheres
+
+For each input graph \(G\),
+
+\[
+\boxed{\Delta(K^3(G))\simeq S^3\vee S^3\vee S^3.}
+\]
+
+**Step 1 (contractible open links).** The independent certificate
+`scripts/core9_prism_wedge_v1.py` computes raw \(K^3(G)\), then performs
+a sequence of vertex deletions. Immediately before deleting vertex \(v\)
+from \(X\), it checks that the induced graph on the **open neighborhood**
+\(N_X(v)\) dismantles to a single vertex via a complete explicit list
+of closed-neighborhood dominated folds. The verifier independently
+replays every fold. Therefore \(\Delta(N_X(v))\) is contractible, and
+deleting \(v\) preserves the homotopy type: the star of \(v\) is a cone
+on its contractible link, and attaching or removing it along that
+contractible link is a homotopy equivalence.
+
+| Input | Raw third iterate | Number of contractible-link deletions | Terminal induced graph |
+|---|---|---:|---|
+| `HCZTf\}` | 56 vertices, 1060 edges | 40 | 16 vertices, 96 edges |
+| `HEher^{` | 60 vertices, 1225 edges | 44 | 16 vertices, 96 edges |
+
+Each terminal graph has an independently checked induced isomorphism
+to the same graph
+
+\[
+H=\overline{C_8\square K_2},
+\]
+
+where \(C_8\square K_2\) is the **octagonal prism / circular ladder**.
+This is a common *homotopy* reduction, not an ordinary graph-retraction
+certificate and not a K-behavior equivalence.
+
+**Step 2 (collapse a common finite complex).** The clique complex
+\(\Delta(H)\) contains 1154 nonempty faces. Exactly 407 replayed
+elementary simplicial collapses leave a pure 3-complex \(R\) with
+
+\[
+(f_0,f_1,f_2,f_3)=(16,82,153,89).
+\]
+
+The following three tetrahedral facets (listed by their four vertices
+in the canonical NetworkX circular-ladder vertex order) belong to \(R\):
+
+| Mask | Tetrahedron |
+|---:|---|
+| 20490 | \(\{1,3,12,14\}\) |
+| 34849 | \(\{0,5,11,15\}\) |
+| 36929 | \(\{0,6,12,15\}\) |
+
+Delete **only these three maximal tetrahedra**, retaining their boundary
+faces. The resulting subcomplex \(A\) has 337 nonempty faces, and
+168 further independently replayed elementary collapses reduce \(A\)
+to the single vertex 15.
+
+**Step 3 (the topological conclusion).** The inclusion \(A\subseteq R\)
+is a CW cofibration; as \(A\) is contractible, the quotient
+\(R\longrightarrow R/A\) is a homotopy equivalence. Moreover
+
+\[
+R/A\cong S^3\vee S^3\vee S^3
+\]
+
+because it consists of exactly three tetrahedral 3-cells with all
+their boundaries collapsed to the common basepoint. Combining the
+vertex-link deletions and the simplicial collapses proves the theorem.
+
+**Independent verification** reconstructs both raw third iterates,
+checks every neighborhood fold, checks both terminal induced graph
+isomorphisms, replays all 407+168 collapse pairs, checks the three
+maximal tetrahedra, and confirms the final vertex. Tests deliberately
+corrupt fold targets and tetrahedra and require rejection.
+
+Reproduce with NetworkX 3.6.1:
+
+```bash
+python scripts/core9_prism_wedge_v1.py build
+python scripts/core9_prism_wedge_v1.py verify
+python -m unittest discover -s tests -p test_core9_prism_wedge_v1.py -v
+```
+
+The script writes full explicit certificates to
+`research/order9_two_sphere_collapses_v1/prism_wedge_certificate.json`
+on demand.
+
+**What remains open:** Nothing here proves K-convergence or
+K-divergence. The third clique iterate is noncontractible but has
+homotopy type different from the first three levels; these
+contractible-open-neighborhood deletions are *homotopy* operations,
+not necessarily clique-behavior-preserving graph folds. The
+120 and 99 historical conjectural ten-vertex dependencies retain
+their existing status.
 
 ## Reproduce
 
@@ -116,6 +212,6 @@ terminal triangles** to
 artifact, not a historical source). `verify` independently replays the
 pairs. The script refuses to overwrite a different existing certificate.
 
-The conclusions are restricted to \(j=0,1,2\); they say nothing yet about
-the exact homotopy type of \(K^3(G)\), and do not imply K-divergence or
-convergence. No census behavior status is modified.
+The collapse results above determine the exact homotopy types for
+\(j=0,1,2,3\); they do not imply K-divergence or convergence.
+No census behavior status is modified.
