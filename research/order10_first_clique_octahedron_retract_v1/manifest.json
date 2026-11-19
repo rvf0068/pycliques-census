@@ -1,0 +1,10 @@
+{
+  "new_v6_sha256": "13b768996f868b43f7cd8964fb9de0e81828e8442f53bd14cf6f836e07834141",
+  "old_v5_sha256": "2c0e27711e37f65007d51a12ea26690aceadc54a7148a671de3aa78b5b6586ea",
+  "outputs_sha256": {
+    "certificate.json": "65d2ed0157932bbb765815ef8de0d5ef17de6922ba78bd06cbe71b98e20ce375",
+    "summary.md": "be2941b2c4139f924977ebb60b3653806a48f03c98e15240b2bc26229e0e4f15"
+  },
+  "schema": 1,
+  "stage": "order10_first_clique_octahedron_retract_v1"
+}
