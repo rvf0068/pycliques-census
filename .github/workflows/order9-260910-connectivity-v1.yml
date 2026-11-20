@@ -31,6 +31,8 @@ jobs:
           git diff --exit-code "$BASE_SHA" HEAD -- \
             'indeterminate_order_*' homotopy_order_10.tsv \
             historical/ history/ runs/ reports/ \
-            scripts/ config/ postpasses/ tests/ \
-            research/ \
-            ':(exclude)research/order9_260910_connectivity_v1/**'
+            scripts/ config/ postpasses/ tests/
+          # Archive preservation: modifications/deletions/renames of existing
+          # research files are forbidden, but brand-new versioned research
+          # records are append-only additions and therefore allowed.
+          git diff --exit-code --diff-filter=DMRTUXB "$BASE_SHA" HEAD -- research/
