@@ -1,4 +1,4 @@
-name: Certify 19 additional order-ten O4 divergences
+name: Certify 192 additional order-ten O4 divergences
 
 on:
   pull_request:
@@ -28,7 +28,7 @@ jobs:
           python-version: "3.11"
       - name: Install standalone graph dependency
         run: python -m pip install "networkx==3.6.1"
-      - name: Replay explicit 41- and 70-vertex O4 morphisms and certify all 19 indices
+      - name: Replay exact two-core O4 morphisms and certify 147 strings and 192 indices
         run: |
           python scripts/order10_four_o4_lift_v1.py verify
           python scripts/order10_four_o4_lift_v1.py certificates --output /tmp/four-o4-certificates.json
@@ -46,6 +46,6 @@ jobs:
             indeterminate_order_10_v6.txt indeterminate_order_10_v7.txt historical/
       - uses: actions/upload-artifact@v4
         with:
-          name: certified-nineteen-order10-O4-retractions
+          name: certified-192-order10-O4-retractions
           path: /tmp/four-o4-certificates.json
           if-no-files-found: error
