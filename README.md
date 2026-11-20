@@ -90,10 +90,10 @@ The working clique-behavior files at the repository root are:
 
 **Current certified snapshot (November 2026):** the order-10 root working
 file exactly matches [`indeterminate_order_10_v8.txt`](indeterminate_order_10_v8.txt):
-**8,105** remaining cases, including **4,509** conditional references.
-The v8 lift separately certifies 19 further original ten-vertex K-divergences
-through two explicit third-iterate O4 retractions, covering four graph6 strings
-and two nine-vertex isomorphism classes. See
+**7,932** remaining cases, including **4,509** conditional references.
+The v8 lift separately certifies **192** further original ten-vertex K-divergences
+through two explicit third-iterate O4 retractions and exact isomorphism checks
+for **147** nine-vertex graph6 strings representing two isomorphism classes. See
 [`research/order10_four_o4_lift_v1/summary.md`](research/order10_four_o4_lift_v1/summary.md).
 The earlier v7 list (8,124 cases) remains frozen.
 The v7 certified lift removes 99 historically conjectural cases whose
