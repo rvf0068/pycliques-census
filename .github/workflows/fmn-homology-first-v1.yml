@@ -1,0 +1,48 @@
+name: Exact Fmn K3 homology-first certificates
+
+on:
+  pull_request:
+    paths:
+      - "scripts/fmn_homology_first_v1.py"
+      - "tests/test_fmn_homology_first_v1.py"
+      - "research/fmn_homology_first_v1/**"
+      - ".github/workflows/fmn-homology-first-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replay-family-certificates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install "networkx==3.6.1"
+      - name: Build all 28 certificates through max path order 10
+        run: |
+          python scripts/fmn_homology_first_v1.py build \
+            --max-n 10 --output /tmp/fmn-homology-v1.json
+      - name: Independent replay and exact full GF2 rank verification
+        run: |
+          python scripts/fmn_homology_first_v1.py verify \
+            --input /tmp/fmn-homology-v1.json
+          python -m unittest discover -s tests \
+            -p test_fmn_homology_first_v1.py -v
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fmn-homology-first-v1-certificates
+          path: /tmp/fmn-homology-v1.json
+      - name: Preserve historical census inputs
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- runs/ reports/ postpasses/ \
+            indeterminate_order_9.txt indeterminate_order_10.txt \
+            indeterminate_order_10_v*.txt
