@@ -312,8 +312,16 @@ def verify() -> dict:
     canonical = v7_content().encode("utf-8")
     if not LATEST.is_file() or LATEST.read_bytes() != canonical:
         raise ValueError("Versioned v7 index missing or differs from certified lift")
-    if not ROOT_LIST.is_file() or ROOT_LIST.read_bytes() != canonical:
-        raise ValueError("Root working index not synchronized with v7")
+    # The historical v7 certificate stays immutable after later certified
+    # lifts. If the root has advanced, also authenticate the exact v8 root;
+    # never accept a root merely because it is a subset of v7.
+    if not ROOT_LIST.is_file():
+        raise ValueError("Missing current working index")
+    if ROOT_LIST.read_bytes() != canonical:
+        from order10_four_o4_lift_v1 import next_index_content
+
+        if ROOT_LIST.read_bytes() != next_index_content().encode("utf-8"):
+            raise ValueError("Root index differs from certified v7 and v8")
     return result
 
 
@@ -329,7 +337,7 @@ def main():
         args.output.write_text(json.dumps(data, sort_keys=True, indent=2) + "\n",
                                encoding="utf-8")
     print("PROVED 99 order-ten divergences", dict(sorted(data["counts"].items())))
-    print("CURRENT remaining order-ten graphs", TOTAL_AFTER,
+    print("CERTIFIED v7 snapshot remaining order-ten graphs", TOTAL_AFTER,
           "conditional", CONDITIONAL_AFTER)
 
 

@@ -89,8 +89,13 @@ The working clique-behavior files at the repository root are:
 - [`indeterminate_order_10.txt`](indeterminate_order_10.txt)
 
 **Current certified snapshot (November 2026):** the order-10 root working
-file exactly matches [`indeterminate_order_10_v7.txt`](indeterminate_order_10_v7.txt):
-**8,124** remaining cases, including **4,509** conditional references.
+file exactly matches [`indeterminate_order_10_v8.txt`](indeterminate_order_10_v8.txt):
+**7,932** remaining cases, including **4,509** conditional references.
+The v8 lift separately certifies **192** further original ten-vertex K-divergences
+through two explicit third-iterate O4 retractions and exact isomorphism checks
+for **147** nine-vertex graph6 strings representing two isomorphism classes. See
+[`research/order10_four_o4_lift_v1/summary.md`](research/order10_four_o4_lift_v1/summary.md).
+The earlier v7 list (8,124 cases) remains frozen.
 The v7 certified lift removes 99 historically conjectural cases whose
 missing target, the nine-vertex flag sphere `HEher^{`, is now
 unconditionally proved K-divergent by an exact third-clique-iterate
