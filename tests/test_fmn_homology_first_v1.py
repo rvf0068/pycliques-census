@@ -45,19 +45,58 @@ class FamilyHomologyCertificateTests(unittest.TestCase):
         step = next(s for s in record["deletions"] if s["link_folds"])
         x, _ = step["link_folds"][0]
         step["link_folds"][0] = [x, x]
-        with self.assertRaises(AssertionError):
+        with self.assertRaises(ValueError):
             research.verify_case(record)
+
+    def test_batch_requires_complete_grid(self):
+        result = {
+            "schema": 1,
+            "max_n": 5,
+            "cases": [
+                serialized(research.certify_case(m, n))
+                for m, n in ((4, 4), (4, 5), (5, 5))
+            ],
+        }
+        self.assertEqual(research.verify_batch(result), 3)
+        for malformed in (
+            dict(result, cases=result["cases"][:1]),
+            dict(result, cases=result["cases"] + [result["cases"][0]]),
+            dict(result, cases=list(reversed(result["cases"]))),
+            dict(result, max_n=10),
+        ):
+            with self.assertRaises(ValueError):
+                research.verify_batch(malformed)
+
+    def test_optimized_python_cannot_bypass_verifier(self):
+        import subprocess
+        import tempfile
+        result = {
+            "schema": 1, "max_n": 4,
+            "cases": [serialized(research.certify_case(4, 4))],
+        }
+        result["cases"][0]["reduced_betti_mod2"]["5"] = 99
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact = Path(tmp) / "invalid.json"
+            artifact.write_text(json.dumps(result))
+            script = Path(__file__).resolve().parents[1] / "scripts" \
+                / "fmn_homology_first_v1.py"
+            completed = subprocess.run(
+                [sys.executable, "-O", str(script), "verify",
+                 "--input", str(artifact)],
+                capture_output=True, text=True, timeout=60, check=False,
+            )
+        self.assertNotEqual(completed.returncode, 0)
 
     def test_replay_rejects_false_homology_and_collapse(self):
         record = serialized(research.certify_case(5, 7))
         bad = deepcopy(record)
         bad["reduced_betti_mod2"]["2"] = 9
-        with self.assertRaises(AssertionError):
+        with self.assertRaises(ValueError):
             research.verify_case(bad)
         self.assertIn("elementary_collapses", record)
         bad = deepcopy(record)
         bad["elementary_collapses"].append([[999, 1000], [999]])
-        with self.assertRaises(AssertionError):
+        with self.assertRaises(ValueError):
             research.verify_case(bad)
 
 
