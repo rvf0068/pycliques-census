@@ -1,6 +1,6 @@
-"""Verify nineteen order-ten K-divergences using two K^3 -> O4 retracts.
+"""Verify 192 order-ten K-divergences using two K^3 -> O4 retracts.
 
-Four historical pared graph6 strings represent two nine-vertex isomorphism
+147 historical pared graph6 strings represent two nine-vertex isomorphism
 types. Proofs replay every dominated-vertex fold at all four levels,
 independently reconstruct clique graphs from maximal cliques, and check
 every edge of the complete ordinary O4 retractions (edges may map to equality).
@@ -21,12 +21,9 @@ V7 = ROOT / "indeterminate_order_10_v7.txt"
 V8 = ROOT / "indeterminate_order_10_v8.txt"
 CURRENT = ROOT / "indeterminate_order_10.txt"
 V7_BLOB = "4b41da5b49726fb64f56cbfc97c75fc5b3ced5a4"
-GROUPS = {
-    "HQqvUx}": (9943619, 9943624, 9944398, 9964496, 11548395, 11548997),
-    "HEhutzm": (6945593, 6945998, 11589592, 11589624),
-    "HEht}rl": (6938971, 6938987, 11597205),
-    "HEnfbzm": (10547079, 11300525, 11300543, 11652131, 11652585, 11652613),
-}
+SEED_REFERENCES = ("HQqvUx}", "HEnfbzm")
+EXPECTED_REFERENCE_STRINGS = 147
+EXPECTED_ORIGINALS = 192
 
 # Complete proof witnesses for the two nonisomorphic nine-vertex cores.
 # A projection is represented as (source_vertex, fixed_target_image) pairs.
@@ -149,30 +146,66 @@ def frozen_v7_rows() -> list[str]:
             if s and not s.startswith("#")]
     if len(rows) != 8124:
         raise ValueError("Unexpected version-seven population")
-    found = {g: [] for g in GROUPS}
-    for row in rows:
-        index, order, graph6, rule, status, label = row.split(" ", 5)
-        if graph6 in found:
-            if (order, rule, status, label) != ("9", "-", "-", "-"):
-                raise ValueError("Target row has unexpected historical status")
-            found[graph6].append(int(index))
-    if any(tuple(sorted(found[g])) != indices for g, indices in GROUPS.items()):
-        raise ValueError("Historical original-index provenance does not match")
     return rows
+
+
+def certified_coverage() -> tuple[dict[str, list[int]], dict[str, str]]:
+    """Independently check every distinct candidate nine-vertex core.
+
+    The degree sequence is used only as a cheap prefilter; isomorphism
+    to one of the two explicitly proved K-divergent seeds is mandatory.
+    """
+    originals: dict[str, list[int]] = {}
+    canonical: dict[str, str] = {}
+    seeds = {name: decode(name) for name in SEED_REFERENCES}
+    degrees = {
+        name: sorted(dict(graph.degree()).values())
+        for name, graph in seeds.items()
+    }
+    for line in frozen_v7_rows():
+        index, order, graph6, rule, status, label = line.split(" ", 5)
+        if (order, rule, status, label) != ("9", "-", "-", "-"):
+            continue
+        if graph6 not in canonical:
+            graph = decode(graph6)
+            if not any(
+                sorted(dict(graph.degree()).values()) == sequence
+                for sequence in degrees.values()
+            ):
+                continue
+            reference = next(
+                (name for name, known in seeds.items()
+                 if nx.is_isomorphic(graph, known)),
+                None,
+            )
+            if reference is None:
+                continue
+            canonical[graph6] = reference
+            originals[graph6] = []
+        if graph6 in originals:
+            originals[graph6].append(int(index))
+    if (len(originals) != EXPECTED_REFERENCE_STRINGS
+            or sum(map(len, originals.values())) != EXPECTED_ORIGINALS):
+        raise ValueError("Expected 147 exact core isomorphisms and 192 indices")
+    if any(name not in originals for name in
+           ("HQqvUx}", "HEnfbzm", "HEhutzm", "HEht}rl")):
+        raise ValueError("Initial independent retraction references missing")
+    return originals, canonical
 
 
 def next_index_content() -> str:
     rows = frozen_v7_rows()
-    excluded = {index for group in GROUPS.values() for index in group}
+    originals, _ = certified_coverage()
+    excluded = {index for group in originals.values() for index in group}
     remaining = [row for row in rows
                  if int(row.split(" ", 1)[0]) not in excluded]
-    if (len(excluded), len(remaining)) != (19, 8105):
-        raise ValueError("Incorrect 19-case census lift")
+    if (len(excluded), len(remaining)) != (192, 7932):
+        raise ValueError("Incorrect 192-case census lift")
     if sum(row.split(" ")[4] == "conjectured_divergent" for row in remaining) != 4509:
         raise ValueError("A conjectural dependency has changed unexpectedly")
     return "\n".join((
-        "# Order-10 unresolved after certified O4 retractions for four nine-vertex strings",
-        "# Remaining=8105 previous_v7=8124 newly_proved_divergent=19",
+        "# Order-10 unresolved after certified O4 retractions for 147 nine-vertex strings",
+        "# Remaining=7932 previous_v7=8124 newly_proved_divergent=192",
         "# Historical stage reports and all earlier versioned lists remain unchanged.",
         "# Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label",
         *remaining, "",
@@ -181,11 +214,8 @@ def next_index_content() -> str:
 
 def verify() -> dict:
     reports = {g: verify_core(g, proof) for g, proof in PROOFS.items()}
-    canonical = decode("HQqvUx}")
-    for label in ("HEhutzm", "HEht}rl"):
-        if not nx.is_isomorphic(canonical, decode(label)):
-            raise ValueError("Three recorded nine-vertex cores not isomorphic")
-    if nx.is_isomorphic(canonical, decode("HEnfbzm")):
+    originals, associations = certified_coverage()
+    if nx.is_isomorphic(decode("HQqvUx}"), decode("HEnfbzm")):
         raise ValueError("Expected two distinct nine-vertex isomorphism classes")
     expected = next_index_content()
     if V8.read_text(encoding="utf-8") != expected:
@@ -193,9 +223,10 @@ def verify() -> dict:
     if CURRENT.read_text(encoding="utf-8") != expected:
         raise ValueError("Root index not synchronized with v8")
     return {
-        "newly_proved_divergent_original_order10": 19,
-        "remaining": 8105, "conditional": 4509,
-        "covered": {g: list(indices) for g, indices in GROUPS.items()},
+        "newly_proved_divergent_original_order10": 192,
+        "nine_vertex_graph6_representatives": len(originals),
+        "remaining": 7932, "conditional": 4509,
+        "covered": originals, "isomorphism_to_seed": associations,
         "positive_proofs": reports,
     }
 
@@ -214,8 +245,8 @@ def main():
             encoding="utf-8",
         )
     print("CERTIFIED: 2 nonisomorphic nine-vertex O4-retract classes")
-    print("PROVED: 19 original order-ten graphs K-divergent")
-    print("REMAINING: 8105 order-ten cases (4509 conditional)")
+    print("PROVED: 192 original order-ten graphs K-divergent")
+    print("REMAINING: 7932 order-ten cases (4509 conditional)")
 
 
 if __name__ == "__main__":
