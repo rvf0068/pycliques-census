@@ -1,10 +1,8 @@
 name: Audit archived nine-vertex non-octahedral retraction searches
 
 on:
+  # No paths filter: a protected-file-only change must still execute the guard.
   pull_request:
-    paths:
-      - "research/order9_non_octahedral_clique_targets_v1/**"
-      - ".github/workflows/order9-nonoctahedral-negative-record-v1.yml"
   workflow_dispatch:
 
 permissions:
@@ -31,6 +29,8 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           git diff --exit-code "$BASE_SHA" HEAD -- \
-            indeterminate_order_9.txt indeterminate_order_10.txt \
+            'indeterminate_order_*' homotopy_order_10.tsv \
             historical/ history/ runs/ reports/ \
-            scripts/ config/ postpasses/ tests/
+            scripts/ config/ postpasses/ tests/ \
+            research/ \
+            ':(exclude)research/order9_non_octahedral_clique_targets_v1/**'
