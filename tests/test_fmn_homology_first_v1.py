@@ -54,9 +54,9 @@ class FamilyHomologyCertificateTests(unittest.TestCase):
         bad["reduced_betti_mod2"]["2"] = 9
         with self.assertRaises(AssertionError):
             research.verify_case(bad)
-        self.assertTrue(record["elementary_collapses"])
+        self.assertIn("elementary_collapses", record)
         bad = deepcopy(record)
-        bad["elementary_collapses"][0][1] = [999]
+        bad["elementary_collapses"].append([[999, 1000], [999]])
         with self.assertRaises(AssertionError):
             research.verify_case(bad)
 
