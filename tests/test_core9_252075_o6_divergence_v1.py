@@ -120,7 +120,7 @@ class DirectO6RetractionTest(unittest.TestCase):
     def test_mutating_target_rejected(self):
         source = proof.reconstruct()[-1]
         altered = list(proof.TARGET)
-        altered[-1] = 1  # The new ten-element set is not induced O6.
+        altered[-1] = 1  # The altered twelve-element set is not an induced O6.
         with self.assertRaises(ValueError):
             proof.verify_projection(source, target=tuple(altered))
 
