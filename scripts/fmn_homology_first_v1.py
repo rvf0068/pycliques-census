@@ -195,7 +195,13 @@ def elementary_collapses(
                     continue
                 for v in sorted(facet):
                     free_face = facet - {v}
-                    if cofaces[free_face] == 1:
+                    if (
+                        cofaces[free_face] == 1
+                        and not any(
+                            free_face < other and other != facet
+                            for other in current
+                        )
+                    ):
                         chosen = (facet, free_face)
                         break
                 if chosen is not None:
@@ -268,56 +274,104 @@ def _full_face_cofaces(faces: set[frozenset[int]], free: frozenset[int]):
     return [q for q in faces if free < q]
 
 
+def _require(valid: bool, message: str) -> None:
+    """Certificate checks must remain enabled under python -O."""
+    if not valid:
+        raise ValueError(message)
+
+
 def verify_case(record: dict) -> None:
-    """Replay every graph construction, link fold and simplicial collapse."""
+    """Independently replay every open-link fold and face collapse."""
+    _require(isinstance(record, dict), "Case must be a mapping")
     m, n = record["m"], record["n"]
-    assert nx.utils.graphs_equal(family_graph(m, n), independent_family_graph(m, n))
+    _require(type(m) is int and type(n) is int and 4 <= m <= n,
+             "Invalid family parameters")
+    _require(nx.utils.graphs_equal(family_graph(m, n),
+                                   independent_family_graph(m, n)),
+             "Facet and edge constructions disagree")
     raw, stats = third_iterate(m, n)
-    assert stats == record["iterate_stats"]
+    _require(stats == record["iterate_stats"], "Raw iterate statistics mismatch")
     if (m, n) == (4, 4):
-        assert nx.is_isomorphic(family_graph(m, n),
-                                nx.from_graph6_bytes(b"GQyuzw"))
+        _require(nx.is_isomorphic(family_graph(m, n),
+                                  nx.from_graph6_bytes(b"GQyuzw")),
+                 "Snub graph6 identity mismatch")
     if (m, n) == (4, 5):
-        assert nx.is_isomorphic(family_graph(m, n),
-                                nx.from_graph6_bytes(br"HCZTf\}"))
+        _require(nx.is_isomorphic(family_graph(m, n),
+                                  nx.from_graph6_bytes(br"HCZTf\}")),
+                 "Other sphere graph6 identity mismatch")
     graph = raw.copy()
     for step in record["deletions"]:
         v = step["vertex"]
-        assert v in graph
+        _require(v in graph, "Deleted vertex not in source")
         link = graph.subgraph(graph[v]).copy()
-        assert link
+        _require(len(link) > 0, "Empty link is not contractible")
         for x, y in step["link_folds"]:
-            assert x != y and x in link and y in link
-            assert (set(link[x]) | {x}) <= (set(link[y]) | {y})
+            _require(x != y and x in link and y in link,
+                     "Malformed link fold")
+            _require((set(link[x]) | {x}) <= (set(link[y]) | {y}),
+                     "Link fold violates closed-neighborhood domination")
             link.remove_node(x)
-        assert len(link) == 1
+        _require(len(link) == 1, "Deleted vertex has noncontractible link")
         graph.remove_node(v)
-    assert sorted(graph) == record["core_nodes"]
-    assert graph.number_of_edges() == record["core_edges"]
+    _require(sorted(graph) == record["core_nodes"], "Wrong residual vertices")
+    _require(graph.number_of_edges() == record["core_edges"],
+             "Wrong residual edge count")
     faces = faces_of(graph)
     f, betti = face_betti(faces)
-    assert {str(k): v for k, v in f.items()} == record["core_f"]
-    assert {str(k): v for k, v in betti.items()} == record["reduced_betti_mod2"]
+    _require({str(k): v for k, v in f.items()} == record["core_f"],
+             "Wrong complete residual f-vector")
+    _require(
+        {str(k): v for k, v in betti.items()} == record["reduced_betti_mod2"],
+        "Wrong exact mod-2 Betti numbers",
+    )
     positive = {k: v for k, v in betti.items() if v}
     if (m, n) == (4, 4):
-        assert positive == {5: 5}
+        _require(positive == {5: 5}, "Unexpected snub K3 homology")
     elif (m, n) == (4, 5):
-        assert positive == {3: 3}
+        _require(positive == {3: 3}, "Unexpected other sphere K3 homology")
     else:
-        assert positive == {2: 1}
+        _require(positive == {2: 1}, "Unexpected K3 homology")
         for full, free in record["elementary_collapses"]:
             facet = frozenset(full)
             face = frozenset(free)
-            assert facet in faces and face in faces
-            assert face < facet and len(facet) == len(face) + 1
-            assert _full_face_cofaces(faces, face) == [facet]
+            _require(facet in faces and face in faces,
+                     "Collapse face is absent")
+            _require(face < facet and len(facet) == len(face) + 1,
+                     "Collapse pair has incorrect codimension")
+            _require(_full_face_cofaces(faces, face) == [facet],
+                     "Free face has another strict coface")
             faces.remove(facet)
             faces.remove(face)
-        assert is_triangulated_sphere(faces)
+        _require(is_triangulated_sphere(faces),
+                 "Terminal complex is not a triangulated sphere")
         terminal = {
             str(k): sum(len(face) == k + 1 for face in faces) for k in range(3)
         }
-        assert terminal == record["terminal_f"]
+        _require(terminal == record["terminal_f"],
+                 "Wrong terminal sphere f-vector")
+
+
+def verify_batch(result: dict) -> int:
+    """Reject truncated, duplicate or rearranged parameter grids."""
+    _require(isinstance(result, dict) and result.get("schema") == 1,
+             "Unknown certificate schema")
+    upper = result.get("max_n")
+    _require(type(upper) is int and 4 <= upper <= 12,
+             "Certificate must specify max_n between 4 and 12")
+    cases = result.get("cases")
+    _require(isinstance(cases, list), "Missing case sequence")
+    expected = [
+        (m, n) for m in range(4, upper + 1)
+        for n in range(m, upper + 1)
+    ]
+    _require(
+        all(isinstance(record, dict) for record in cases)
+        and [(record.get("m"), record.get("n")) for record in cases] == expected,
+        "Missing, duplicate or out-of-order family cases",
+    )
+    for record in cases:
+        verify_case(record)
+    return len(cases)
 
 
 def main() -> None:
@@ -333,9 +387,8 @@ def main() -> None:
         records = [certify_case(m, n)
                    for m in range(4, args.max_n + 1)
                    for n in range(m, args.max_n + 1)]
-        result = {"schema": 1, "cases": records}
-        for record in records:
-            verify_case(json.loads(json.dumps(record)))
+        result = {"schema": 1, "max_n": args.max_n, "cases": records}
+        verify_batch(json.loads(json.dumps(result)))
         if args.output:
             args.output.write_text(json.dumps(result, indent=2) + "\n")
         for case in records:
@@ -350,10 +403,8 @@ def main() -> None:
         if args.input is None:
             parser.error("verify requires --input")
         result = json.loads(args.input.read_text())
-        assert result["schema"] == 1
-        for record in result["cases"]:
-            verify_case(record)
-        print(f"REPLAYED {len(result['cases'])} finite certificates")
+        count = verify_batch(result)
+        print(f"REPLAYED {count} finite certificates")
 
 
 if __name__ == "__main__":
