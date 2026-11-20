@@ -1,11 +1,11 @@
-# Raw \(K^3\) of McKay graph 252075 retracts directly onto \(O_5\)
+# Raw \(K^3\) of McKay graph 252075 retracts directly onto \(O_6\)
 
 **Graph:** `HEh~dzm`, connected nine-vertex McKay index **252075**.
 
 **New exact result:**
 
 \[
-\boxed{K^3(G)\ \longrightarrow\ O_5=\overline{5K_2}
+\boxed{K^3(G)\ \longrightarrow\ O_6=\overline{6K_2}
 \quad\text{is a graph retraction.}}
 \]
 
@@ -34,7 +34,7 @@ In \(K^3(G)\), the twelve vertices
 T=\{0,4,7,12,21,24,35,38,40,41,43,53\}
 \]
 
-induce \(O_5\); the exact five complementary matching edges are
+induce \(O_6\); the exact six complementary matching edges are
 
 \[
 \{0,53\},\ \{4,43\},\ \{7,35\},\ \{12,38\},\ \{21,40\},\ \{24,41\}.
@@ -53,7 +53,7 @@ vertex order \(0,1,\ldots,55\):
 ```
 
 The standalone verifier checks that \(r(t)=t\) for all \(t\in T\);
-that \(K^3(G)[T]=O_5\); and that, for **every one of the 1,201
+that \(K^3(G)[T]=O_6\); and that, for **every one of the 1,201
 source edges** \(uv\), either \(r(u)=r(v)\) or \(r(u)r(v)\) is a
 target edge.
 
