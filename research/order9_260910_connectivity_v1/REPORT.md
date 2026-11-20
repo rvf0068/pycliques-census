@@ -1,9 +1,9 @@
 # A certified mod-2 homology obstruction for nine-vertex McKay index 260910
 
 **Status:** mathematically certified finite certificate, not a clique-behavior classification.
-**Graph:** \`HUZvvzu\` (McKay index 260910). **Target:** the third
+**Graph:** `HUZvvzu` (McKay index 260910). **Target:** the third
 *completely pared* clique iterate, denoted \(P_3\) below. The root
-\`indeterminate_order_9.txt\` and all earlier research records are unchanged.
+`indeterminate_order_9.txt` and all earlier research records are unchanged.
 
 ## Reconstruction
 
@@ -29,7 +29,7 @@ the four exact graph order/size pairs.
 ## The 14-vertex weighted certificate
 
 Put \(C=\overline{P_3}\), and use the labels produced by the deterministic
-maximal-clique and paring routine in \`verify.py\`.
+maximal-clique and paring routine in `verify.py`.
 Define a weighted set \(A=A_3\sqcup A_1\) by
 
 \[
@@ -118,10 +118,10 @@ of McKay index 260910 remains **indeterminate**.
 
 Python 3.13 (or compatible), NetworkX 3.6.1:
 
-\`\`\`bash
+```bash
 python -m pip install networkx==3.6.1
 python research/order9_260910_connectivity_v1/verify.py --self-test
-\`\`\`
+```
 
 This is a standalone proof replay using exact integer weighted-neighborhood
 checks and GF(2) boundary reductions for the *small target components*.
