@@ -18,14 +18,20 @@ class FourCoreO4DivergenceTests(unittest.TestCase):
             self.assertEqual(result["edge_constraints_verified"],
                              result["final_retract_source_edges"])
             self.assertEqual(len(result["o4_target"]), 8)
-        self.assertEqual(proof.verify()["newly_proved_divergent_original_order10"], 19)
+        self.assertEqual(proof.verify()["newly_proved_divergent_original_order10"], 192)
 
     def test_isomorphic_three_covers_thirteen_original_graphs(self):
         canonical = proof.decode("HQqvUx}")
         self.assertTrue(proof.nx.is_isomorphic(canonical, proof.decode("HEhutzm")))
         self.assertTrue(proof.nx.is_isomorphic(canonical, proof.decode("HEht}rl")))
         self.assertFalse(proof.nx.is_isomorphic(canonical, proof.decode("HEnfbzm")))
-        self.assertEqual(sum(map(len, proof.GROUPS.values())), 19)
+        groups, associations = proof.certified_coverage()
+        self.assertEqual(len(groups), 147)
+        self.assertEqual(sum(map(len, groups.values())), 192)
+        self.assertEqual(set(associations.values()), set(proof.SEED_REFERENCES))
+        for graph6, seed in associations.items():
+            self.assertTrue(proof.nx.is_isomorphic(
+                proof.decode(graph6), proof.decode(seed)))
 
     def test_mutated_graph_retraction_is_rejected(self):
         witness = copy.deepcopy(proof.PROOFS["HQqvUx}"])
