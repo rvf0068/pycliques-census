@@ -1,0 +1,36 @@
+name: Audit archived nine-vertex non-octahedral retraction searches
+
+on:
+  pull_request:
+    paths:
+      - "research/order9_non_octahedral_clique_targets_v1/**"
+      - ".github/workflows/order9-nonoctahedral-negative-record-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  archived-retraction-record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install reproducible graph dependency
+        run: python -m pip install networkx==3.6.1
+      - name: Audit cohort, proved exclusions, timeout semantics and O8 witnesses
+        run: python research/order9_non_octahedral_clique_targets_v1/verify_record.py --self-test
+      - name: Protect all historical census and existing proof records
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            indeterminate_order_9.txt indeterminate_order_10.txt \
+            historical/ history/ runs/ reports/ \
+            scripts/ config/ postpasses/ tests/
