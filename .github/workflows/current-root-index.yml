@@ -6,6 +6,7 @@ on:
       - "indeterminate_order_10.txt"
       - "indeterminate_order_10_v6.txt"
       - "indeterminate_order_10_v7.txt"
+      - "indeterminate_order_10_v8.txt"
       - "historical/indeterminate_order_10_pre_v3.txt"
       - "tests/test_current_root_index.py"
       - ".github/workflows/current-root-index.yml"
