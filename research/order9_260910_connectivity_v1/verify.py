@@ -123,12 +123,17 @@ def verify_weighted_witness(p3: nx.Graph, weights: dict[int, int]) -> dict:
         x: sum(weights.get(y, 0) for y in c[x])
         for x in c
     }
-    require(max(loads.values()) <= 3,
+    maximum_load = max(loads.values())
+    require(0 < maximum_load <= 3,
             "Failed open-neighborhood weight bound")
+    total_weight = sum(weights.values())
+    lower_bound = (total_weight + maximum_load - 1) // maximum_load
+    require(lower_bound >= 9,
+            "Weighted certificate does not establish the intended lower bound")
     return {
-        "support_size": 14, "total_weight": 26,
-        "maximum_open_neighbor_load": max(loads.values()),
-        "minimum_open_domination_of_support": 9,
+        "support_size": 14, "total_weight": total_weight,
+        "maximum_open_neighbor_load": maximum_load,
+        "open_domination_lower_bound_for_support": lower_bound,
         "mod2_homology_vanishing_through": 7,
     }
 
