@@ -107,13 +107,13 @@ class DirectO6RetractionTest(unittest.TestCase):
     def test_mutating_non_target_image_rejected(self):
         source = proof.reconstruct()[-1]
         corrupted = list(proof.PROJECTION)
-        # This source edge cannot map to opposite O6 poles.
-        u, v = next(
-            (u, v) for u, v in source.edges()
-            if u not in proof.TARGET and v in proof.TARGET
-            and not source.has_edge(proof.TARGET[0], v)
-        )
-        corrupted[u] = proof.TARGET[0]
+        # Verified witness: 1--0 is a source edge, but 53 and 0
+        # are opposite (nonadjacent) poles of the induced O6.
+        self.assertNotIn(1, proof.TARGET)
+        self.assertTrue(source.has_edge(1, 0))
+        self.assertFalse(source.has_edge(53, 0))
+        self.assertEqual(proof.PROJECTION[0], 0)
+        corrupted[1] = 53
         with self.assertRaisesRegex(ValueError, "edge constraint"):
             proof.verify_projection(source, projection=tuple(corrupted))
 
