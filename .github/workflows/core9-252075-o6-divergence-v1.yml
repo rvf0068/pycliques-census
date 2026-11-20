@@ -1,0 +1,47 @@
+name: Prove McKay 252075 raw third-iterate O6 divergence
+
+on:
+  pull_request:
+    paths:
+      - "scripts/core9_252075_o6_divergence_v1.py"
+      - "tests/test_core9_252075_o6_divergence_v1.py"
+      - "research/order9_252075_o6_divergence_v1/**"
+      - ".github/workflows/core9-252075-o6-divergence-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-direct-raw-k3-retraction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pinned standalone graph dependency
+        run: python -m pip install "networkx==3.6.1"
+      - name: Replay direct K3 to O6 retraction and independent clique enumeration
+        run: |
+          python scripts/core9_252075_o6_divergence_v1.py verify
+          python scripts/core9_252075_o6_divergence_v1.py certificates --output /tmp/core9-252075-o6-certificate.json
+          python -m unittest discover -s tests -p test_core9_252075_o6_divergence_v1.py -v
+      - name: Ensure every historical census file remains unchanged
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- runs/ reports/ postpasses/ \
+            indeterminate_order_9.txt indeterminate_order_10.txt \
+            indeterminate_order_10_v3.txt indeterminate_order_10_v4.txt \
+            indeterminate_order_10_v5.txt indeterminate_order_10_v6.txt \
+            indeterminate_order_10_v7.txt indeterminate_order_10_v8.txt historical/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: proved-252075-raw-k3-o6-certificate
+          path: /tmp/core9-252075-o6-certificate.json
+          if-no-files-found: error

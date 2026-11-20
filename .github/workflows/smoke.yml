@@ -22,11 +22,13 @@ jobs:
         run: |
           bash scripts/bootstrap.sh
           .venv/bin/python -m compileall -q scripts tests postpasses
-          # The current working root is v7 (8,124 graphs), while earlier
-          # stage tests deliberately authenticate the immutable 8,648-case
-          # pre-v3 cohort. Verify the current root before and after replay.
+          # The current working root is v8 (7,932 graphs). Run all
+          # tests that require its exact bytes before the historical replay.
+          # Older stage tests still use the immutable 8,648-case pre-v3 index.
           .venv/bin/python -m unittest discover -s tests \
             -p test_current_root_index.py -v
+          .venv/bin/python -m unittest discover -s tests \
+            -p test_order10_four_o4_lift_v1.py -v
           current_root="$(mktemp)"
           cp indeterminate_order_10.txt "$current_root"
           restore_root() { cp "$current_root" indeterminate_order_10.txt; }
@@ -42,7 +44,10 @@ jobs:
               for test in suite:
                   if isinstance(test, unittest.TestSuite):
                       yield from historical_tests(test)
-                  elif not test.id().startswith("test_current_root_index."):
+                  elif not test.id().startswith((
+                      "test_current_root_index.",
+                      "test_order10_four_o4_lift_v1.",
+                  )):
                       yield test
 
           result = unittest.TextTestRunner(verbosity=2).run(
