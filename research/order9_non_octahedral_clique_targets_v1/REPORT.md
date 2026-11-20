@@ -26,7 +26,7 @@ The eight-vertex snub disphenoid is **not** assumed divergent. There are 36 snub
 
 **Verified result.** For the 48 smaller records, none of \(P_0,P_1,P_2,P_3\) retracts to either named target family. The proof uses exact homological obstructions, necessary induced-subgraph obstructions, and finite exhaustive searches, not merely unsuccessful timeboxed searches. **Index 260910 is still incomplete at \(P_3\)** and has not been classified. No newly proved clique divergence was found.
 
-`verified_summary.json` reports `"status":"VERIFIED"`; the replay in `verify_all_dbg.py` independently passed, with \(\approx 37\) seconds wall time on Python 3.13.5 / NetworkX 3.6.1. An earlier timeout occurred during additional replay, not during a discovery of a positive retraction.
+The **previous session** reported that its unbundled `verified_summary.json` had `"status":"VERIFIED"` and that its unbundled `verify_all_dbg.py` completed an independent replay (approximately 37 seconds on Python 3.13.5 / NetworkX 3.6.1). **Neither artifact is included here, so this earlier replay cannot be rerun from this checkout.** The runnable audit supplied with this PR checks a narrower set of identities and structural obstructions.
 
 ## Reconstruction and finite checks
 
@@ -40,20 +40,35 @@ The eight-vertex snub disphenoid is **not** assumed divergent. There are 36 snub
 
 ## Outstanding large case: McKay index 260910
 
-\(P_3\) has **132 vertices and 7,880 edges**. The bounded search records in `large_case_260910_bounded.json` explicitly say `TIMEOUT`, not `EXHAUSTED`. In particular a partial \(K(C_{10}^c)\) search enumerated 81 candidate induced copies with no feasible domain so far, which is *not* a proof of absence. Several other candidate target classes were also time-limited. The exact high-degree homology needed for useful further pruning is not complete.
+\(P_3\) has **132 vertices and 7,880 edges**. The prior session's **unbundled** `large_case_260910_bounded.json` reportedly marked this search `TIMEOUT`, not `EXHAUSTED`. In particular a partial \(K(C_{10}^c)\) search enumerated 81 candidate induced copies with no feasible domain so far, which is *not* a proof of absence. Several other candidate target classes were also time-limited. The exact high-degree homology needed for useful further pruning is not complete.
 
-`domination_260910.json` records a separate optimization experiment, but it is not a certified unsatisfiability or non-retraction proof.
+The earlier, **unbundled** `domination_260910.json` reportedly records a separate optimization experiment, not a certified non-retraction proof.
 
-## Reproduce
+## Reproduction and evidentiary scope in this repository
 
-Requirements: Python 3.13.5 (or compatible), NetworkX **3.6.1**, plus the bundled scripts/data. Run from this directory:
+The **available, independently runnable audit** checks the exact frozen 54-case
+source, the derived 49-case cohort, the five already-proved divergent exclusions
+(including one graph-isomorphism comparison), explicit induced-`O_8` certificates
+in six target clique graphs, the `K(C_11^c)` complement-cycle anchor, and the
+mandatory `TIMEOUT_INCOMPLETE` status for case 260910. It does **not**
+recompute the original 48 complete negative retraction searches.
+
+From the repository root, with Python 3.13 (or compatible):
 
 ```bash
-python verify_all_dbg.py
+python -m pip install networkx==3.6.1
+python research/order9_non_octahedral_clique_targets_v1/verify_record.py --self-test
 ```
 
-The debug verifier prints the completion of each stage and checks that the previously saved JSON records are reproduced. Its concluding line begins `VERIFIED`. The underlying modular checks include `matching_witness.py`, `kc11_cycle_anchor.py`, `kc10_cycle_screen.py`, and `targets_search.py`. A timeout or pattern limit must never be promoted into a negative conclusion.
+The archived earlier-session reproduction scripts (`verify_all_dbg.py`,
+`matching_witness.py`, `kc11_cycle_anchor.py`, `kc10_cycle_screen.py`,
+`targets_search.py`), their `previous/` and `cond/` inputs, and the original
+per-search JSON records are **not included** in this PR. Consequently the
+previous-session replay and its exhaustive negative results **cannot be
+reproduced from these committed files alone**. The archive is a research record,
+not a substitute for the missing full certificates.
 
-The `previous/` and `cond/` directories provide the prerequisite nine-core and snub-dependent reconstruction code and frozen evidence. Historical census lists and GitHub classifications are **unchanged**.
-
-**Mathematical caveat:** These results exclude only the named target families and only through the third pared clique iterate. They do not imply \(K\)-convergence or exclude more general divergent retracts or later-iterate phenomena.
+**Mathematical caveat:** These reported results exclude only the named
+target families and only through the third completely pared clique iterate.
+They do not imply K-convergence or exclude other divergent retracts or
+later-iterate phenomena. No existing census verdict is modified.
