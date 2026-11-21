@@ -1,0 +1,51 @@
+name: Timeboxed nonlocal octahedral sweep of remaining nine-cores
+
+on:
+  pull_request:
+    paths:
+      - "research/order9_nonlocal_oct_sweep_v1/**"
+      - ".github/workflows/order9-nonlocal-oct-sweep-v1.yml"
+      - "indeterminate_order_9_v3.txt"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  timeboxed-positive-only-sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install reproducible graph package
+        run: |
+          python -m pip install networkx==3.6.1
+          git -c http.https://github.com/.extraheader= clone --quiet \
+            https://github.com/rvf0068/pycliques-project.git /tmp/pycliques-project
+          git -C /tmp/pycliques-project checkout --quiet \
+            7ae36ffe67fb2e9bbafc68e97347aabcf757c2dc
+          python -m pip install /tmp/pycliques-project/packages/pycliques
+      - name: Check planned McKay indices and read-only command
+        run: |
+          python research/order9_nonlocal_oct_sweep_v1/sweep.py plan
+          python -m unittest discover -s research/order9_nonlocal_oct_sweep_v1 -p test_sweep.py -v
+      - name: Bounded experiment with separate timeout per original graph
+        run: |
+          python research/order9_nonlocal_oct_sweep_v1/sweep.py run \
+            --max-depth 4 --bound 1600 --dimensions 4,5,6,8,10,12 \
+            --restarts 70 --states 1000 --timeout-sec 18 \
+            --output "$RUNNER_TEMP/order9-nonlocal-sweep.json"
+      - name: Independently replay every positive found
+        run: |
+          python research/order9_nonlocal_oct_sweep_v1/sweep.py verify \
+            --input-results "$RUNNER_TEMP/order9-nonlocal-sweep.json"
+          python -c "import json,os; d=json.load(open(os.environ['RUNNER_TEMP']+'/order9-nonlocal-sweep.json')); errors=[r['index'] for r in d['records'] if r['status']=='ERROR']; assert not errors, errors"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: order9-nonlocal-octahedral-positive-only-sweep
+          path: ${{ runner.temp }}/order9-nonlocal-sweep.json
+          if-no-files-found: warn
