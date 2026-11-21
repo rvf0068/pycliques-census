@@ -18,7 +18,7 @@ import networkx as nx
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 from research.order10_nonlocal_oct_stiff_v1.sweep import (  # noqa: E402
-    SOURCE, entries, iterate, verify_record,
+    SOURCE, entries, iterate,
 )
 
 
@@ -91,6 +91,45 @@ def inspect(index: int, g6: str, *, bound: int, max_k3_order: int,
     return report
 
 
+def verify_fourth_record(record: dict, bound: int) -> None:
+    """Replay *exactly the same labeled K3->K4 construction* as inspect.
+
+    The original historical iterate(graph6, 4) does not relabel the
+    intermediate K3 at depth 3; our fourth-stage inspect does. Graphs
+    are isomorphic, but witnesses are coordinate-dependent, so the
+    stage-4 verification must relabel K3 in precisely the same way.
+    This function does not run any randomized embedding or CSP search.
+    """
+    import pycliques
+
+    cert = record["certificate"]
+    k3 = iterate(record["source_graph6"], 3, bound)
+    if k3 is None:
+        raise ValueError("Cannot reconstruct certificate K3")
+    k4_raw = pycliques.clique_graph(k3, bound=bound)
+    if k4_raw is None:
+        raise ValueError("Cannot reconstruct certificate K4")
+    host = nx.convert_node_labels_to_integers(
+        pycliques.completely_pared_graph(k4_raw)
+    )
+    encoded = nx.to_graph6_bytes(host, header=False).decode("ascii").strip()
+    if encoded != cert["host_graph6"]:
+        raise ValueError("Saved host does not equal reconstructed labeled fourth iterate")
+    pairs = [tuple(p) for p in cert["antipodal_pairs"]]
+    if not pycliques.verify_induced_octahedron(host, pairs):
+        raise ValueError("Certificate does not induce an octahedron")
+    images = cert["images"]
+    if len(images) != len(host):
+        raise ValueError("Missing projection entries")
+    target = host.subgraph([v for pair in pairs for v in pair])
+    retraction = {v: images[v] for v in host}
+    inclusion = {v: v for v in target}
+    if not pycliques.verify_retraction_witness(
+        host, target, (retraction, inclusion)
+    ):
+        raise ValueError("Complete saved map is not a graph retraction")
+
+
 def main() -> None:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("action", choices=("plan", "one", "run", "verify"))
@@ -147,7 +186,7 @@ def main() -> None:
             if status == "CERTIFIED_DIVERGENT":
                 if record["certificate"]["depth"] != 4:
                     raise ValueError("Wrong witness depth")
-                verify_record(record, opts["bound"])
+                verify_fourth_record(record, opts["bound"])
         print("Verified", len(saved), "indexed records;", counts)
         return
     if a.action == "one":
