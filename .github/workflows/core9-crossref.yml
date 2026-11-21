@@ -12,6 +12,8 @@ on:
       - "reports/order10_core_index_v1/**"
       - "runs/order9/**"
       - "indeterminate_order_9.txt"
+      - "indeterminate_order_10.txt"
+      - "indeterminate_order_10_v12.txt"
   workflow_dispatch:
 
 jobs:
@@ -36,8 +38,8 @@ jobs:
           cat reports/ci-core9-crossref/summary.md
       - name: Restore authoritative nine-vertex v3 working index
         run: cp indeterminate_order_9_v3.txt indeterminate_order_9.txt
-      - name: Restore authoritative v11 order-ten working root
-        run: cp indeterminate_order_10_v11.txt indeterminate_order_10.txt
+      - name: Restore authoritative v12 order-ten working root
+        run: cp indeterminate_order_10_v12.txt indeterminate_order_10.txt
       - name: Assert historical files remain unchanged
         run: |
           git diff --exit-code -- runs/order9/ runs/order10/ indeterminate_order_9.txt indeterminate_order_10_v3.txt reports/order10_core_index_v1/

@@ -1,0 +1,139 @@
+{
+  "schema": 1,
+  "source": "indeterminate_order_10_v11.txt",
+  "kind": "positive_o6_on_completely_pared_fourth_iterate",
+  "proofs": [
+    {
+      "index": 10223467,
+      "source_graph6": "ICXnRjZmo",
+      "K3": [
+        36,
+        437
+      ],
+      "K4_unpared": [
+        159,
+        9309
+      ],
+      "K4_pared": [
+        151,
+        8413
+      ],
+      "host_sha256": "86d0ce1e43a522f23971a2c3d42d316160cfa4412ed684475cade8c2cef0e4af",
+      "pairs": [
+        [
+          83,
+          117
+        ],
+        [
+          120,
+          52
+        ],
+        [
+          144,
+          1
+        ],
+        [
+          110,
+          41
+        ],
+        [
+          29,
+          113
+        ],
+        [
+          107,
+          77
+        ]
+      ],
+      "images_b64": "TQE0TU00NB0dHR00NDQ0HTQ0NDQdHR0dHR0dHVMdHTQ0NDQ0NDQ0NDQpKSkpdXU0dXU0dTR1dXU0NG5ubm5ubm5ubm5ubk1NTU0dTU1NU01TTU1Tbm5ubm5udZCQTZBuTZCQkJBudXF1dXVrdXFubm5xdXV1dXV4eJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkA=="
+    },
+    {
+      "index": 11104269,
+      "source_graph6": "ICpdupvZo",
+      "K3": [
+        39,
+        495
+      ],
+      "K4_unpared": [
+        178,
+        11290
+      ],
+      "K4_pared": [
+        160,
+        9258
+      ],
+      "host_sha256": "b8fd6aa3c03c5961da44f83274961c846205348f7acec21caef6fd61236c160d",
+      "pairs": [
+        [
+          105,
+          25
+        ],
+        [
+          0,
+          48
+        ],
+        [
+          6,
+          147
+        ],
+        [
+          54,
+          90
+        ],
+        [
+          44,
+          121
+        ],
+        [
+          29,
+          72
+        ]
+      ],
+      "images_b64": "ADY2NjY2BiwGBgYGBgYGBhkZBhkZGRksGRkZGSwdHTY2NjY2NjY2LBkZGSwsBgYwMAY2NjY2NjAwMDAGBgYGBgYZAEgASEhISGl5eXkAAABISEhISABISAAAWgAASEhISEhpSEgGBgZpaWkGaWkGBkgGBkgGBjY2eXk2AJMAkwAAAACTAHl5NgAAAACTNjY2NjY2kzY2NjY2GSwGBgYGGQ=="
+    },
+    {
+      "index": 11563706,
+      "source_graph6": "IEhfe^{zO",
+      "K3": [
+        39,
+        500
+      ],
+      "K4_unpared": [
+        176,
+        11406
+      ],
+      "K4_pared": [
+        159,
+        9276
+      ],
+      "host_sha256": "2f62ea23b2522f0e03e1c893785eaa799011741cee86ff2a8f8ee101d88f7be4",
+      "pairs": [
+        [
+          136,
+          69
+        ],
+        [
+          47,
+          59
+        ],
+        [
+          1,
+          120
+        ],
+        [
+          121,
+          104
+        ],
+        [
+          85,
+          22
+        ],
+        [
+          90,
+          139
+        ]
+      ],
+      "images_b64": "RQEBAQEBAS8veXl5Ly8vL3kvLy8vLxYvFi8WFi8vFhYWFhYWFhYWLxYvFi8WFi8vLwEvLy8BL3haWjs7OztaWlp5eXlVRXlFeUVaAQFaeUV5WlpaWlVaWlpaWjs7OztaWlo7eHh4WlpoWlpaiFqIiIiIiFpaeHl4eHl5eYiIiIiIiHl4iIiIiIh5eYt5eXl5eXh5eHmIiHl5eXmLiIiI"
+    }
+  ]
+}
