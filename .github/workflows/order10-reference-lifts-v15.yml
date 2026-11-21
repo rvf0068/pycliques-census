@@ -26,6 +26,8 @@ jobs:
           python-version: "3.12"
       - name: Install independent graph verifier
         run: python -m pip install networkx==3.6.1
+      - name: Fail fast on verifier syntax errors
+        run: python -m py_compile research/order10_reference_lifts_pilot/verify.py
       - name: Check all saved P2 maps and immutable v14 to v15 transition
         run: python -m research.order10_reference_lifts_pilot.verify
 
