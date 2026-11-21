@@ -22,13 +22,17 @@ jobs:
         run: |
           bash scripts/bootstrap.sh
           .venv/bin/python -m compileall -q scripts tests postpasses
-          # The current working root is v8 (7,932 graphs). Run all
-          # tests that require its exact bytes before the historical replay.
+          # The current working root is v9 (7,920 graphs). Run its
+          # consistency tests before the legacy snapshot replays.
           # Older stage tests still use the immutable 8,648-case pre-v3 index.
           .venv/bin/python -m unittest discover -s tests \
             -p test_current_root_index.py -v
+          # The archived four-O4 verifier requires the frozen v8 root.
+          cp indeterminate_order_10.txt /tmp/current-v9-pre-smoke
+          cp indeterminate_order_10_v8.txt indeterminate_order_10.txt
           .venv/bin/python -m unittest discover -s tests \
             -p test_order10_four_o4_lift_v1.py -v
+          cp /tmp/current-v9-pre-smoke indeterminate_order_10.txt
           current_root="$(mktemp)"
           cp indeterminate_order_10.txt "$current_root"
           restore_root() { cp "$current_root" indeterminate_order_10.txt; }
