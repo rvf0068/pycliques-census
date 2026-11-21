@@ -28,6 +28,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from historical_divergent_targets_v1 import historic_inputs  # noqa: E402
 
 SOURCE = ROOT / "indeterminate_order_10_v15.txt"
+SOURCE9 = ROOT / "indeterminate_order_9_v4.txt"
 EXPECTED_HISTORICAL = 10104
 EXPECTED_V15 = 2541
 K_BOUND = 1500
@@ -166,6 +167,34 @@ def main():
             print("CURRENT_PROGRESS", index,
                   "positive", len(matches),
                   "time", round(time.monotonic()-start,1),flush=True)
+    nine_rows = [
+        fields for line in SOURCE9.read_text().splitlines()
+        if line and not line.startswith("#")
+        for fields in [line.split()]
+    ]
+    assert len(nine_rows) == 12
+    nine_matches = []
+    for row in nine_rows:
+        nine_index, nine_graph6 = int(row[0]), row[2]
+        graph = p2(nx.from_graph6_bytes(nine_graph6.encode("ascii")))
+        if graph is None:
+            skipped["nine_current_K2_bound"] += 1
+            print("NINE_SKIPPED", nine_index, flush=True)
+            continue
+        for reference in buckets.get(fingerprint(graph), []):
+            witness = exact_iso(graph, reference["graph"])
+            if witness is not None:
+                nine_matches.append({
+                    "index": nine_index, "source_graph6": nine_graph6,
+                    "reference": reference["proof"],
+                    "p2_order": len(graph), "p2_edges": graph.number_of_edges(),
+                    "p2_iso": witness,
+                })
+                print("NINE_NEW_POSITIVE", nine_index,
+                      reference["proof"]["order"], reference["proof"]["index"],
+                      len(graph), graph.number_of_edges(), flush=True)
+                break
+
     result = {
         "schema": 1,
         "source_v15_count": EXPECTED_V15,
@@ -175,13 +204,17 @@ def main():
         "distinct_reference_K2_classes": sum(len(v) for v in buckets.values()),
         "skipped": dict(skipped),
         "matched": matches,
+        "nine_source_count": len(nine_rows),
+        "nine_matched": nine_matches,
         "elapsed_seconds": round(time.monotonic()-start,2),
     }
     print("FINAL_SUMMARY", json.dumps({
-        k:v for k,v in result.items() if k != "matched"
+        k:v for k,v in result.items() if k not in ("matched", "nine_matched")
     },sort_keys=True),flush=True)
     print("NEW_POSITIVE_INDICES",
           [x["index"] for x in matches], flush=True)
+    print("NINE_POSITIVE_INDICES",
+          [x["index"] for x in nine_matches], flush=True)
     result_path=ROOT / "research/order10_historical_all9_p2_pilot/last_run.json"
     result_path.parent.mkdir(parents=True, exist_ok=True)
     result_path.write_text(json.dumps(result,indent=2,sort_keys=True)+"\n")
