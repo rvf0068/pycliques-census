@@ -68,11 +68,8 @@ def verify() -> dict:
     require(blob_hash(source) == V9_BLOB, "Frozen v9 source was modified")
     require(blob_hash(CORES.read_bytes()) == CORE_BLOB,
             "Frozen core-class index was modified")
-    # v10 is now a frozen historical proof transition. The independent v11
-    # verifier certifies the newer authoritative current root and its removals.
-    require(CURRENT.read_bytes() in (
-        target, (ROOT / "indeterminate_order_10_v11.txt").read_bytes()
-    ), "Current authoritative index is neither v10 nor v11")
+    require(CURRENT.read_bytes() == target,
+            "Current authoritative index differs from exact v10")
     _, old = parse(source)
     headers, new = parse(target)
     require(headers == HEADER and len(old) == 7920 and len(new) == 7219,
