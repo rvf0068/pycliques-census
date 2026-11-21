@@ -28,6 +28,16 @@ NINE_AFTER = ROOT / "indeterminate_order_9_v3.txt"
 SNUB_OLD = 49
 SNUB_NEW = 13
 NINE_REFERENCE = ("nine-248936-O12", "HEhev^{")
+# These six original nine-vertex cores have positive historical divergence
+# certificates in the archived initial census and later 167-member lift.
+HISTORICAL_NINE_REFERENCES = [
+    ("historical-6938923", "HEht}pl"),
+    ("historical-6939350", "HEht~bl"),
+    ("historical-7454135", "HEnb~jl"),
+    ("historical-9678187", "HQyuzpt"),
+    ("historical-10768817", "HUZ~v~}"),
+    ("historical-11363569", "HUzrv~}"),
+]
 TEN_REFERENCES = [
     ("ten-10223405-O12", "ICXnRi^uo"),
     ("ten-10775850-O12", "ICpVUjx|_"),
@@ -113,6 +123,7 @@ def references(depth: int, bound: int) -> dict[tuple, list[tuple[str, str, nx.Gr
 
     cases = [(f"snub9-{i}", before[i][2]) for i in removed]
     cases.append(NINE_REFERENCE)
+    cases.extend(HISTORICAL_NINE_REFERENCES)
     cases.extend(TEN_REFERENCES)
 
     ref_graphs = defaultdict(list)
