@@ -173,8 +173,10 @@ def verify_positive(record: dict, bound: int) -> None:
     if expected != cert["host_graph6"]:
         raise AssertionError("Host graph6 differs")
     pairs = [tuple(pair) for pair in cert["antipodal_pairs"]]
-    if not pycliques.verify_induced_octahedron(\n        host, pairs, require_dominating=True\n    ):
-        raise AssertionError("Bad induced target")
+    if not pycliques.verify_induced_octahedron(
+        host, pairs, require_dominating=True
+    ):
+            raise AssertionError("Bad induced target")
     images = cert["images"]
     if len(images) != len(host) or any(v not in host for v in images):
         raise AssertionError("Malformed projection")
