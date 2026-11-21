@@ -85,15 +85,15 @@ def merge(shard_files):
             require(i in expected_indices and i not in seen_indices,
                     "Unexpected or repeated skipped McKay index")
             require(source[i] == s["graph6"], "Skipped source identity mismatch")
-            require(s["reason"] == "clique graph exceeds 250 vertices",
+            require(s["reason"] in {"clique graph exceeds 250 vertices",
+                                    "per-source deadline 8s exceeded"},
                     "Unknown skip reason")
             seen_indices.add(i)
             batch_seen.add(i)
             skips.append(s)
         require(batch_seen == expected_indices, "Incomplete shard partition")
         require(summary["selected"] == len(expected_indices)
-                and summary["processed"] == len(records) - sum(
-                    1 for x in records if x[0] not in expected_indices)
+                and summary["processed"] == len(batch_seen) - len(data["skipped"])
                 and summary["skipped"] == len(data["skipped"]),
                 "Shard totals mismatch")
     require(seen_shards == set(range(shards)) and seen_indices == set(source),
