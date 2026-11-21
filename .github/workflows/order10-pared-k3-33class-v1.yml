@@ -1,0 +1,44 @@
+name: Certify 33 McKay ten-core equivalent pared third clique iterates
+on:
+  pull_request:
+    paths:
+      - "research/order10_pared_k3_33class_v1/**"
+      - ".github/workflows/order10-pared-k3-33class-v1.yml"
+      - "indeterminate_order_10_v10.txt"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  certify-common-pared-k3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python -m pip install networkx==3.6.1
+      - name: Replay two independent clique-enumeration algorithms and exact graph isomorphism maps
+        run: |
+          python research/order10_pared_k3_33class_v1/verify.py \
+            --write "$RUNNER_TEMP/pare-k3-33.json" --self-test
+          python research/order10_pared_k3_33class_v1/verify.py \
+            --verify "$RUNNER_TEMP/pare-k3-33.json"
+      - name: Preserve complete explicit maps for all 33 original McKay graphs
+        uses: actions/upload-artifact@v4
+        with:
+          name: certified-pared-k3-33-mckay10
+          path: ${{ runner.temp }}/pare-k3-33.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: Protect historical run and census artifacts
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ postpasses/ historical/ history/ \
+            indeterminate_order_9.txt indeterminate_order_9_v1.txt indeterminate_order_9_v2.txt \
+            'indeterminate_order_10*' scripts/ tests/
