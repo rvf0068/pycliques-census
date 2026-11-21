@@ -42,7 +42,7 @@ jobs:
             --shard ${{ matrix.shard }} --shards 8
           python research/order10_ilp_fourth_v1/sweep.py run \
             --shard ${{ matrix.shard }} --shards 8 \
-            --bound 1500 --max-k3 40 --max-k4 180 \
+            --bound 1500 --max-k3 40 --max-k4 420 \
             --ilp-seconds 3 --restarts 4 --max-states 5000 \
             --timeout 24 \
             --output "$RUNNER_TEMP/ilp-fourth-${{ matrix.shard }}.json"
