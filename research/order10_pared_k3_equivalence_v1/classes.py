@@ -80,10 +80,14 @@ def complete_map(G,H):
         raise ValueError("Invalid explicit graph isomorphism")
     return images
 
-def build():
+def build(shard: int = 0, shards: int = 1):
+    if shards < 1 or not 0 <= shard < shards:
+        raise ValueError("Invalid shard")
+    selected = [(idx, g6) for place, (idx, g6) in enumerate(cases())
+                if place % shards == shard]
     groups=defaultdict(list);skips=[]
     count=0
-    for idx,g6 in cases():
+    for idx,g6 in selected:
         G,stages=reconstruct(g6)
         if G is None:
             skips.append({"index":idx,"graph6":g6,"stages":stages,
@@ -101,6 +105,7 @@ def build():
             winner=(entry,list(range(len(G))))
         entry,mapping=winner
         entry["members"].append({"index":idx,"graph6":g6,"stages":stages,
+                                 "pared_graph6":nx.to_graph6_bytes(G,header=False).decode("ascii").strip(),
                                  "to_representative":mapping})
         count+=1
         if count%100==0:print("PROGRESS",count,flush=True)
@@ -111,20 +116,18 @@ def build():
                             "members":entry["members"]})
     classes.sort(key=lambda c:c["representative"])
     skips.sort(key=lambda s:s["index"])
-    summary={"sources":1043,"processed":count,"skipped":len(skips),
+    summary={"sources":1043,"shard":shard,"shards":shards,"selected":len(selected),"processed":count,"skipped":len(skips),
              "isomorphism_classes":len(classes),
              "nontrivial_classes":sum(len(c["members"])>1 for c in classes),
              "members_in_nontrivial":sum(len(c["members"]) for c in classes if len(c["members"])>1)}
-    if count+len(skips)!=1043:raise ValueError("Incomplete source partition")
+    if count+len(skips)!=len(selected):raise ValueError("Incomplete source partition")
     family=next((c for c in classes if c["representative"]==7002338),None)
-    if family is None or len(family["members"])!=33:
+    if shards == 1 and (family is None or len(family["members"])!=33):
         raise AssertionError("Expected 33-member McKay family not recovered")
     return {"schema":1,"source":"indeterminate_order_10_v10.txt",
             "summary":summary,"classes":classes,"skipped":skips}
 
-def verify(data):
-    expected=build()
-    if data!=expected:raise ValueError("Saved isomorphism classes differ from complete replay")
+def verify(data, shard: int = 0, shards: int = 1):
     # Independently reconstruct all positive maps against full graphs,
     # rather than trusting just a WL hash or the search result.
     for c in data["classes"]:
@@ -140,18 +143,22 @@ def verify(data):
                 raise ValueError("Tampered explicit isomorphism")
             if stages!=member["stages"]:
                 raise ValueError("Fold provenance mismatch")
+    expected=build(shard,shards)
+    if data!=expected:raise ValueError("Saved isomorphism classes differ from complete replay")
     return data["summary"]
 
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--output",type=Path)
     p.add_argument("--verify",type=Path)
+    p.add_argument("--shard",type=int,default=0)
+    p.add_argument("--shards",type=int,default=1)
     args=p.parse_args()
     if args.verify:
         data=json.loads(args.verify.read_text())
-        print("VERIFIED_JSON "+json.dumps(verify(data),sort_keys=True))
+        print("VERIFIED_JSON "+json.dumps(verify(data,args.shard,args.shards),sort_keys=True))
     else:
-        d=build()
+        d=build(args.shard,args.shards)
         if args.output:
             args.output.parent.mkdir(parents=True,exist_ok=True)
             args.output.write_text(json.dumps(d,indent=2,sort_keys=True)+"\n")
