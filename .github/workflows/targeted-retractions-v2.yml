@@ -134,10 +134,12 @@ jobs:
           extra = set()
           for variant in tuple(allowed):
               candidate = variant.replace(
-                  "      - name: Restore frozen pre-v3 working index for historical replay\n"
-                  "        run: cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt\n",
-                  "      - name: Restore frozen pre-v3 working index for historical replay\n"
-                  "        run: cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt\n"
+                  "      - uses: actions/checkout@v4\n"
+                  "        with:\n"
+                  "          fetch-depth: 0\n",
+                  "      - uses: actions/checkout@v4\n"
+                  "        with:\n"
+                  "          fetch-depth: 0\n"
                   "      - name: Restore frozen 54-case order-nine input for historical replay\n"
                   "        run: cp indeterminate_order_9_v1.txt indeterminate_order_9.txt\n",
                   1,
