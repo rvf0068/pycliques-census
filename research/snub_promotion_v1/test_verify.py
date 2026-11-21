@@ -7,7 +7,7 @@ from pathlib import Path
 
 import networkx as nx
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 MODULE = ROOT / "research/snub_promotion_v1/verify.py"
 spec = importlib.util.spec_from_file_location("snub_promotion_verify", MODULE)
 assert spec and spec.loader
