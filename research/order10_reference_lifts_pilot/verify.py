@@ -4,7 +4,7 @@ The saved mappings are between independently reconstructed, sequentially
 pared and relabeled NetworkX clique iterates; each is checked against every
 ordered vertex pair (edges *and* nonedges). Optional --public checks the
 same graphs by the pinned public pycliques algorithm, and --full reruns
-the entire 2,568-source positive-only screen with no P2 cutoff.
+the entire 2,568-source positive-only screen with no P2 cutoff, optionally\nsharded for exhaustive parallel CI replay.
 
 All prior snapshots and source-retraction certificates remain immutable.
 """
@@ -112,7 +112,7 @@ def check_reference_sources() -> None:
     )
 
 
-def verify(*, full: bool = False, public: bool = False) -> None:
+def verify(\n    *,\n    full: bool = False,\n    public: bool = False,\n    shard: int | None = None,\n    shards: int = 8,\n) -> None:\n    if shards < 1 or (shard is not None and not 0 <= shard < shards):\n        raise ValueError("Require shards >= 1 and a shard in range(shards)")\n    if shard is not None and not full:\n        raise ValueError("--shard requires --full")
     raw_old = OLD.read_bytes()
     check(git_blob(raw_old) == V14_BLOB, "Frozen v14 input changed")
     raw_new = NEW.read_bytes()
@@ -196,20 +196,39 @@ def verify(*, full: bool = False, public: bool = False) -> None:
     if full:
         from research.order10_reference_lifts_pilot import screen
 
-        found = []
+        # Each CI job checks a disjoint, complete congruence class of original
+        # McKay indices. All shards must pass for the workflow to be green.
+        selected_shards = range(shards) if shard is None else (shard,)
+        found: list[int] = []
         total = 0
         incomplete = 0
-        for shard in range(8):
-            # Unbounded P2 construction: no dropped source OR reference is
-            # permitted in a complete positive-cohort certificate.
-            result = screen.scan(shard, 8, 2, None)
-            found.extend(row["index"] for row in result["positive"])
-            total += result["processed_original_indices"]
+        for part in selected_shards:
+            # No finite clique bound: a missing source or reference invalidates
+            # a complete-positive-set assertion for this partition.
+            result = screen.scan(part, shards, 2, None)
+            expected_sources = {i for i in old if i % shards == part}
+            observed_sources = result["processed_original_indices"]
+            check(observed_sources == len(expected_sources),
+                  f"Missing original source indices in shard {part}")
+            positives = [row["index"] for row in result["positive"]]
+            check(len(positives) == len(set(positives))
+                  and all(i in expected_sources for i in positives),
+                  f"Invalid or duplicate positive source in shard {part}")
+            found.extend(positives)
+            total += observed_sources
             incomplete += result["bound_exhausted_distinct_core_graph6"]
-            check(not result["exceptions"], f"Search exceptions in shard {shard}")
-        check(total == 2568 and incomplete == 0,
-              "The full second-iterate scan must cover all 2568 sources")
-        check(sorted(found) == indices, "Full scan and saved positives disagree")
+            check(not result["exceptions"], f"Search exceptions in shard {part}")
+        expected_indices = sorted(
+            i for i in indices if shard is None or i % shards == shard
+        )
+        expected_total = (
+            len(old) if shard is None
+            else sum(i % shards == shard for i in old)
+        )
+        check(total == expected_total and incomplete == 0,
+              "The exact second-iterate scan must cover every selected source")
+        check(sorted(found) == expected_indices,
+              "Full scan and saved positives disagree in selected partitions")
 
     print("CERTIFIED_ORDER10_V15 2568->2541 removed_27")
     print("CERTIFIED_27_EXACT_P2_MAPS SNUB=26 SUSPENSION=1")
@@ -217,12 +236,25 @@ def verify(*, full: bool = False, public: bool = False) -> None:
     if public:
         print("PUBLIC_PYCLIQUES_P2_RECONSTRUCTION_PASS")
     if full:
-        print("FULL_2568_SOURCE_SCAN_EXACTLY_27_POSITIVES")
+        if shard is None:
+            print("FULL_2568_SOURCE_SCAN_EXACTLY_27_POSITIVES")
+        else:
+            print(
+                f"FULL_SOURCE_SHARD_VERIFIED shard={shard}/{shards} "
+                f"sources={total} positives={len(found)}"
+            )
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--full", action="store_true")
     parser.add_argument("--public", action="store_true")
+    parser.add_argument("--shard", type=int)
+    parser.add_argument("--shards", type=int, default=8)
     args = parser.parse_args()
-    verify(full=args.full, public=args.public)
+    verify(
+        full=args.full,
+        public=args.public,
+        shard=args.shard,
+        shards=args.shards,
+    )
