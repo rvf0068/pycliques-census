@@ -23,7 +23,7 @@ SOURCE_GIT_BLOB = "34023e9323945c4a6e5e1249c37ba955ba62473f"
 def entries() -> list[tuple[int, str]]:
     raw = SOURCE.read_bytes()
     digest = hashlib.sha1(
-        b"blob " + str(len(raw)).encode("ascii") + b"\\0" + raw
+        b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw
     ).hexdigest()
     if digest != SOURCE_GIT_BLOB:
         raise ValueError("Frozen v11 index changed")
