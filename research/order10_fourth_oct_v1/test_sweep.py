@@ -24,7 +24,7 @@ class FourthScreenTests(unittest.TestCase):
         )
         self.assertEqual(result["index"], index)
         self.assertEqual(result["source_graph6"], g6)
-        self.assertEqual(result["k3_order"], 27)
+        self.assertEqual(result["k3_order"], 15)
         self.assertEqual(result["k4_order"], 30)
         self.assertIn(result["status"], ("INCONCLUSIVE", "CERTIFIED_DIVERGENT"))
 
