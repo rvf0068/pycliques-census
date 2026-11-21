@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "source": "indeterminate_order_10_v11.txt",
+  "proofs": [
+    {
+      "index": 10223405,
+      "source_graph6": "ICXnRi^uo",
+      "k3_order": 37,
+      "k4_raw_order": 250,
+      "k4_order": 182,
+      "k4_edges": 14298,
+      "depth": 4,
+      "host_sha256": "737598a59fabfa22ab95c05581290a2ded7b5f5a0d3ea15422b14f522f55f68b",
+      "pairs": [
+        [
+          93,
+          173
+        ],
+        [
+          52,
+          159
+        ],
+        [
+          152,
+          73
+        ],
+        [
+          147,
+          106
+        ],
+        [
+          84,
+          14
+        ],
+        [
+          83,
+          131
+        ],
+        [
+          51,
+          25
+        ],
+        [
+          19,
+          75
+        ],
+        [
+          87,
+          137
+        ],
+        [
+          149,
+          97
+        ],
+        [
+          53,
+          119
+        ],
+        [
+          116,
+          46
+        ]
+      ],
+      "images_b64": "mDU1LjU0lZitmGqDg5gOlZiDlROJiYODgxkZiYmJExOJiYmYE5WVEy4uLi4uNS4uLi41MzQ1NWpXV0tLV0tUVEtUVFRLVFRUVElUS1RUVFMzU0tTVEtUV0tLVFRdXWpqamFhajNqMzMzamqTk5NUrZ+fVJV0n1R3n5+VlVSfdJ+JiRmDGZ+fn5+JiZWVmBMTE5WVk5WVlZWYmJ+frXetn4mfn62YDpWVlZWYk62tg62tlZWVd60="
+    },
+    {
+      "index": 10775850,
+      "source_graph6": "ICpVUjx|_",
+      "k3_order": 39,
+      "k4_raw_order": 251,
+      "k4_order": 188,
+      "k4_edges": 15083,
+      "depth": 4,
+      "host_sha256": "1d22f6ffb2bb8b1fbe0b7578ce20c1bc086b78b445fec0f17757a27cf92ca000",
+      "pairs": [
+        [
+          105,
+          26
+        ],
+        [
+          124,
+          15
+        ],
+        [
+          126,
+          3
+        ],
+        [
+          182,
+          31
+        ],
+        [
+          56,
+          156
+        ],
+        [
+          150,
+          44
+        ],
+        [
+          120,
+          69
+        ],
+        [
+          178,
+          68
+        ],
+        [
+          63,
+          146
+        ],
+        [
+          32,
+          88
+        ],
+        [
+          123,
+          59
+        ],
+        [
+          41,
+          161
+        ]
+      ],
+      "images_b64": "Dw87AwMDAzsPDw8PDw8PDw87eLK2tpKSKRoaHyAfIB8gKRo4GhoaOBopKSksLCwsOywpKSBEIBo4Gjs7O0Q/PztERERERTs7OztERCl+RBp8GiyctraWlli2WJJYWLZYlpaceHiceHicaViytraSkli2lpKSknuSeHh8e3x8fn5+ln5+fn54kpKSkniykpKSkniSknt7lntYWH6cnH6hlpyhtkSWREUaOCm2snh4eHh4eLJ4eHi2tniceJw="
+    }
+  ]
+}
