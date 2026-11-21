@@ -32,7 +32,18 @@ jobs:
         run: cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt
       - uses: astral-sh/setup-uv@v4
       - name: Bootstrap frozen special-only dependency
-        run: bash scripts/bootstrap_special_k3_v5.sh
+        run: |
+          # A public sibling-repository clone occasionally returns HTTP 403
+          # during concurrent Actions startup; keep the immutable pin and
+          # retry transient bootstrap failures without skipping any checks.
+          for attempt in 1 2 3; do
+            if bash scripts/bootstrap_special_k3_v5.sh; then
+              exit 0
+            fi
+            echo "::warning::Pinned dependency bootstrap failed on attempt $attempt"
+            sleep "$((5 * attempt))"
+          done
+          exit 1
       - name: Install pytest
         run: uv pip install --python .venv-special-k3-v5/bin/python pytest
       - name: Special certificate and exact K3 replay tests
