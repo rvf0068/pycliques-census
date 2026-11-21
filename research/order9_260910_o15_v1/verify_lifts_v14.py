@@ -164,12 +164,14 @@ def verify(*, full: bool = False) -> None:
                 public_p2_reference = p2(reference, public=True)
                 independent_p2_reference = p2(reference, public=False)
                 require(nx.is_isomorphic(
-                    public_p2_reference, independent_p2_reference
+                    nx.complement(public_p2_reference),
+                    nx.complement(independent_p2_reference)
                 ), "Independent and public reference P2 disagree")
             public_source = p2(graph, public=True)
             independent_source = p2(graph, public=False)
-            require(nx.is_isomorphic(public_source, independent_source),
-                    f"Independent source P2 reconstruction disagrees at {index}")
+            require(nx.is_isomorphic(
+                nx.complement(public_source), nx.complement(independent_source)
+            ), f"Independent source P2 reconstruction disagrees at {index}")
             require(
                 (len(public_source), public_source.number_of_edges()) ==
                 (item["p2_order"], item["p2_edges"]),
