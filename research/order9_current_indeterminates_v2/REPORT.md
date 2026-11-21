@@ -2,19 +2,19 @@
 
 This is a **census synchronization**, not a new theorem or a new retraction
 discovery. The historical 54-row working file is retained byte-for-byte as
-[\`indeterminate_order_9_v1.txt\`](../../indeterminate_order_9_v1.txt).
+[`indeterminate_order_9_v1.txt`](../../indeterminate_order_9_v1.txt).
 The corrected root and
-[\`indeterminate_order_9_v2.txt\`](../../indeterminate_order_9_v2.txt)
+[`indeterminate_order_9_v2.txt`](../../indeterminate_order_9_v2.txt)
 are identical and contain **49** original McKay indices:
 **36 conjecture-dependent** and **13 otherwise indeterminate**.
 
 | Order-nine McKay index (zero-based) | Historical graph6 | Already certified by | Date/proof |
 |---:|---|---|---|
-| 242316 | \`HCrlvhz\` | Raw \(K^3(G)\to O_5\) | [PR #44](https://github.com/rvf0068/pycliques-census/pull/44) |
-| 248687 | \`HEher^{\` | Raw \(K^3(G)\to O_4\) | [PR #39](https://github.com/rvf0068/pycliques-census/pull/39) |
-| 250693 | \`HEhutzm\` | Isomorphic to the \(K^3\to O_4\) seed \`HQqvUx}\` | [PR #42](https://github.com/rvf0068/pycliques-census/pull/42) |
-| 252075 | \`HEh~dzm\` | Raw \(K^3(G)\to O_6\) | [PR #45](https://github.com/rvf0068/pycliques-census/pull/45) |
-| 255141 | \`HEnfbzm\` | Certified \(K^3\to O_4\) seed | [PR #42](https://github.com/rvf0068/pycliques-census/pull/42) |
+| 242316 | `HCrlvhz` | Raw \(K^3(G)\to O_5\) | [PR #44](https://github.com/rvf0068/pycliques-census/pull/44) |
+| 248687 | `HEher^{` | Raw \(K^3(G)\to O_4\) | [PR #39](https://github.com/rvf0068/pycliques-census/pull/39) |
+| 250693 | `HEhutzm` | Isomorphic to the \(K^3\to O_4\) seed `HQqvUx}` | [PR #42](https://github.com/rvf0068/pycliques-census/pull/42) |
+| 252075 | `HEh~dzm` | Raw \(K^3(G)\to O_6\) | [PR #45](https://github.com/rvf0068/pycliques-census/pull/45) |
+| 255141 | `HEnfbzm` | Certified \(K^3\to O_4\) seed | [PR #42](https://github.com/rvf0068/pycliques-census/pull/42) |
 
 These five are also identified as proved exclusions in the older
 [49-case non-octahedral research record](../order9_non_octahedral_clique_targets_v1/REPORT.md).
@@ -58,8 +58,8 @@ nine-vertex maintenance action.
 
 ## Reproduce
 
-From the repository root with \`networkx==3.6.1\`:
+From the repository root with `networkx==3.6.1`:
 
-\`\`\`bash
+```bash
 python research/order9_current_indeterminates_v2/verify.py --self-test
-\`\`\`
+```

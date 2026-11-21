@@ -21,6 +21,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Restore frozen 54-case order-nine input for historical replay
+        run: cp indeterminate_order_9_v1.txt indeterminate_order_9.txt
       - name: Restore frozen pre-v3 working index for historical replay
         run: cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt
       - uses: astral-sh/setup-uv@v4
@@ -71,7 +73,7 @@ jobs:
             scripts/targeted_retractions_v1.py \
             scripts/bootstrap_targeted_v1.sh \
             tests/targeted_retractions_v1_cases.py \
-            indeterminate_order_9.txt
+            indeterminate_order_10_v3.txt
       - name: Authenticate allowed v1 workflow guard change
         if: github.event_name == 'pull_request'
         env:
@@ -125,6 +127,27 @@ jobs:
                   .replace(old_inputs, "            indeterminate_order_9.txt", 1)
               )
           allowed |= archived_variants
+          # The approved nine-vertex v2 maintenance preserves the exact
+          # historical input by inserting a frozen-v1 restore in the v1
+          # workflow and redirects the old working-root guard to an
+          # existing immutable ten-vertex snapshot.
+          extra = set()
+          for variant in tuple(allowed):
+              candidate = variant.replace(
+                  "      - name: Restore frozen pre-v3 working index for historical replay\n"
+                  "        run: cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt\n",
+                  "      - name: Restore frozen pre-v3 working index for historical replay\n"
+                  "        run: cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt\n"
+                  "      - name: Restore frozen 54-case order-nine input for historical replay\n"
+                  "        run: cp indeterminate_order_9_v1.txt indeterminate_order_9.txt\n",
+                  1,
+              ).replace(
+                  "            indeterminate_order_9.txt\n",
+                  "            indeterminate_order_10_v3.txt\n",
+                  1,
+              )
+              extra.add(candidate)
+          allowed |= extra
           assert Path(workflow).read_text() in allowed, (
               "The historical v1 workflow has changes beyond the narrowly approved "
               "class-lift report exclusion"

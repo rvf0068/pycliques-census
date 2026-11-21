@@ -1,0 +1,38 @@
+name: Certify order-nine v2 index and original McKay identities
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-nine-current-v2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install pinned graph library
+        run: python -m pip install networkx==3.6.1
+      - name: Independently replay five archived certificates and verify all 49 McKay identities
+        run: python research/order9_current_indeterminates_v2/verify.py --self-test
+      - name: Protect all historic stage and proof inputs
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          test "$(git hash-object indeterminate_order_9_v1.txt)" = "4f210949dad5e7350fc0185c34738e2bf46f9012"
+          cmp indeterminate_order_9.txt indeterminate_order_9_v2.txt
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            runs/ reports/ historical/ history/ config/ postpasses/ \
+            scripts/core9_o4_divergence_v1.py \
+            scripts/core9_242316_o5_divergence_v1.py \
+            scripts/core9_252075_o6_divergence_v1.py \
+            scripts/order10_four_o4_lift_v1.py \
+            research/order9_242316_o5_divergence_v1/ \
+            research/order9_252075_o6_divergence_v1/ \
+            research/order9_heher_o4_divergence_v1/ \
+            research/order10_four_o4_lift_v1/

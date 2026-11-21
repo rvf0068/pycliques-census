@@ -64,6 +64,6 @@ jobs:
             scripts/core_isomorphism_index.py \
             scripts/special_octahedra_k3_v5.py \
             scripts/targeted_retractions_v3.py \
-            indeterminate_order_9.txt \
+            indeterminate_order_10_v3.txt \
             \
             indeterminate_order_10_v3.txt

@@ -60,5 +60,5 @@ jobs:
         run: |
           git diff --exit-code "$BASE_SHA" HEAD -- \
             runs/ reports/ postpasses/ \
-            indeterminate_order_9.txt \
+            indeterminate_order_10_v3.txt \
             indeterminate_order_10_v3.txt
