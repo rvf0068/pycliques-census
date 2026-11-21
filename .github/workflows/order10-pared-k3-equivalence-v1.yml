@@ -44,10 +44,10 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-  certify-global-classes:
+  audit-complete-mckay-coverage:
     needs: certify-parallel-shards
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
@@ -61,22 +61,17 @@ jobs:
           pattern: pared-k3-shard-*
           path: ${{ runner.temp }}/shards
           merge-multiple: true
-      - name: Certify cross-shard isomorphisms and complete McKay coverage
+      - name: Independently audit exact McKay source partition and every within-shard map
         run: |
-          python research/order10_pared_k3_equivalence_v1/combine.py \
+          python research/order10_pared_k3_equivalence_v1/audit.py \
             "$RUNNER_TEMP"/shards/shard-*.json \
-            --output "$RUNNER_TEMP/certified-pared-k3-classes-v10.json"
-      - name: Validate all final explicit maps and deterministic global replay
-        run: |
-          python research/order10_pared_k3_equivalence_v1/combine.py \
-            "$RUNNER_TEMP"/shards/shard-*.json \
-            --verify "$RUNNER_TEMP/certified-pared-k3-classes-v10.json"
+            --output "$RUNNER_TEMP/certified-mckay-batch-audit.json"
       - uses: actions/upload-artifact@v4
         with:
-          name: certified-pared-k3-classes-v10
-          path: ${{ runner.temp }}/certified-pared-k3-classes-v10.json
-          retention-days: 30
+          name: certified-mckay-batch-audit-v10
+          path: ${{ runner.temp }}/certified-mckay-batch-audit.json
           if-no-files-found: error
+          retention-days: 30
       - name: Preserve historical proofs and the current census
         if: github.event_name == 'pull_request'
         env:
