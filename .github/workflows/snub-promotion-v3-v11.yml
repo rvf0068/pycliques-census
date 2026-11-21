@@ -6,7 +6,7 @@ on:
       - "research/snub_promotion_v1/**"
       - "indeterminate_order_9*"
       - "indeterminate_order_10*"
-      - "tests/test_snub_promotion_v1.py"
+      - "research/snub_promotion_v1/test_verify.py"
       - ".github/workflows/snub-promotion-v3-v11.yml"
   pull_request:
     paths:
@@ -31,4 +31,4 @@ jobs:
       - name: Check source hashes, index transitions and all positive proofs
         run: python research/snub_promotion_v1/verify.py
       - name: Regression and negative-case tests
-        run: python -m unittest discover -s tests -p test_snub_promotion_v1.py -v
+        run: python -m unittest discover -s research/snub_promotion_v1 -p test_verify.py -v
