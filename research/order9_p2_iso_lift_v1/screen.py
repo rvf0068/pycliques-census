@@ -56,7 +56,7 @@ def second_pared_iterate(graph6: str) -> nx.Graph | None:
         nx.from_graph6_bytes(graph6.encode("ascii"))
     )
     for _ in range(2):
-        next_graph = pycliques.clique_graph(graph, bound=600)
+        next_graph = pycliques.clique_graph(graph)  # Unbounded exact census.
         if next_graph is None:
             return None
         graph = pycliques.completely_pared_graph(next_graph)
@@ -148,19 +148,21 @@ def main() -> None:
     p.add_argument("action", choices=("scan", "verify"))
     p.add_argument("--output", type=Path)
     opts = p.parse_args()
-    certificate = search()
-    if opts.output:
-        opts.output.parent.mkdir(parents=True, exist_ok=True)
-        opts.output.write_text(
-            json.dumps(certificate, indent=2, sort_keys=True) + "\n",
-            encoding="utf-8"
-        )
     if opts.action == "verify":
-        if not opts.output:
-            raise ValueError("verify requires --output")
-        generated = json.loads(opts.output.read_text())
-        if generated != certificate:
-            raise AssertionError("Saved independently generated cohort differs")
+        if not opts.output or not opts.output.is_file():
+            raise ValueError("verify requires a previously generated --output file")
+        archived = json.loads(opts.output.read_text(encoding="utf-8"))
+        certificate = search()
+        if archived != certificate:
+            raise AssertionError("Saved cohort differs from independent recomputation")
+    else:
+        certificate = search()
+        if opts.output:
+            opts.output.parent.mkdir(parents=True, exist_ok=True)
+            opts.output.write_text(
+                json.dumps(certificate, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8"
+            )
     print("P2_LIFT_SCAN_SUCCESS")
 
 
