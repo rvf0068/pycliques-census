@@ -12,6 +12,8 @@ on:
       - "reports/order10_core_index_v1/**"
       - "runs/order9/**"
       - "indeterminate_order_9.txt"
+      - "indeterminate_order_10.txt"
+      - "indeterminate_order_10_v12.txt"
   workflow_dispatch:
 
 jobs:

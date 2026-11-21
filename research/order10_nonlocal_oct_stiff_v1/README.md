@@ -8,7 +8,10 @@ restricted to the **1,043 unconditional stiff order-ten** entries
 `indeterminate_order_10_v11.txt` (Git blob
 `34023e9323945c4a6e5e1249c37ba955ba62473f`).
 
-All source data, histories, and census classification files remain unchanged.
+This **bounded screening program** is read-only: it does not modify any
+source, historical, or census classification file. The separate certified
+fourth-iterate retraction investigation in this PR does advance the
+current order-ten index from v11 to v12 using positive proof certificates.
 
 ## Verified results (21 November 2026)
 

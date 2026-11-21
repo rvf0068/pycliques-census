@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - "research/order10_fourth_oct_v1/**"
+      - "indeterminate_order_10_v11.txt"
       - "indeterminate_order_10_v12.txt"
       - "indeterminate_order_10.txt"
       - "tests/test_current_root_index.py"
@@ -10,6 +11,7 @@ on:
   push:
     paths:
       - "research/order10_fourth_oct_v1/**"
+      - "indeterminate_order_10_v11.txt"
       - "indeterminate_order_10_v12.txt"
       - "indeterminate_order_10.txt"
       - ".github/workflows/order10-fourth-v12-proofs.yml"
@@ -17,7 +19,7 @@ on:
 permissions:
   contents: read
 jobs:
-  independently-replay-all-37:
+  independently-replay-all-42:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -33,7 +35,7 @@ jobs:
           python -m pip install /tmp/pycliques-project/packages/pycliques
       - name: Verify current-root v12 invariant
         run: python -m unittest discover -s tests -p test_current_root_index.py -v
-      - name: Verify O6 and O12 full maps and exact 33-member lift
+      - name: Verify O6 and O12 full maps and exact 38-member isomorphism lifts
         run: python research/order10_fourth_oct_v1/verify_v12.py
       - name: Verify archived snub proof still replays at historical v11
         run: python research/order10_fourth_oct_v1/replay_snub_v11.py --tests

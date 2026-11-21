@@ -33,7 +33,7 @@ def bits(mask: int):
 
 
 def bk_cliques(g: nx.Graph) -> list[int]:
-    """All maximal completes by a separate Bron-Kerbosch implementation."""
+    """All maximal cliques by a separate Bron-Kerbosch implementation."""
     n = len(g)
     require(set(g) == set(range(n)), "Graph not relabeled")
     neighbors = [sum(1 << v for v in g[i]) for i in range(n)]
