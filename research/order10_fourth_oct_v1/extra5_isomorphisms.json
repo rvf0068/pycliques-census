@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "base": 10223405,
+  "description": "Complete bijections of five additional completely pared fourth iterates to the local 10223405 fourth core",
+  "base_local_sha256": "f327f7ff730fce12af8174c17afd873e478ce11fe5b7f344c728fa652d216a53",
+  "proofs": [
+    {
+      "index": 11251181,
+      "source_graph6": "ICprnr{{o",
+      "K3": [
+        39,
+        552
+      ],
+      "K4_unpared": [
+        253,
+        27261
+      ],
+      "K4_pared": [
+        182,
+        14298
+      ],
+      "host_sha256": "f0b7fb92ef6cc944d641d6fe3078cf6be4c156d6fbffb7c424ef8b53192716f2",
+      "to_base_b64": "pqeogk2EeYNWb4BZWHt0cnCIh4pzf3pMdkiJS3xKcUmBR3duODMxNzIvLi01HyQnIyYiJQkCBQMGAAQUHhMbDRIcGQsdDxUooKKlnaM6RKGcpJ6uraw7RTw/n5uvsrGzsKuqtEBBtTA2LCs0ICEpAQcYGhEMEA4WFwpVUlRRUE5PU1d4bGpraGdmaW1lY2RiYGFfXF5dWlt1kJORj5KMjX59i4aFjjkqCEJGmZSWQ5WXPT6amKk="
+    },
+    {
+      "index": 11425747,
+      "source_graph6": "ICrbvZy|_",
+      "K3": [
+        39,
+        554
+      ],
+      "K4_unpared": [
+        258,
+        28359
+      ],
+      "K4_pared": [
+        182,
+        14298
+      ],
+      "host_sha256": "006122ea8fa73d4d4ee5b55f7b4d0fbdc9da5cefc92b86a60241ce0cf3b3aca7",
+      "to_base_b64": "g4KHgYqEiI6RkI+Sk4x9foaFjYsnpUVEM6KjpDecHR+dL6Acn56hNTo7JC4JlJZDRpWXmauJGbKAfyAQAREsGAoMKzRQVVNSVFFOTUxHSE9LSUo2GnZ4eXt3enwhKRcHFjAOdG9ycG5zcXVqbGtmZ2hpbWVkY2JhYFtcWl5fXVdWWVgxJSIAGwQeLTybPT6YmiMDP0A4QSYyQjkqBggLqrGurA+1sxWvrbQoBRSwEgITDaanqKk="
+    },
+    {
+      "index": 11509851,
+      "source_graph6": "ICvfJr{{o",
+      "K3": [
+        39,
+        551
+      ],
+      "K4_unpared": [
+        256,
+        27890
+      ],
+      "K4_pared": [
+        182,
+        14298
+      ],
+      "host_sha256": "0c54dfc0b85d375a1e898cef28c4ce4a2bc9560c804f356ef2783a6ecc9de775",
+      "to_base_b64": "mj6YPZmXRpVDlpQeGzEtJSIEAJs8RUSlpKOiMycuJDsJN5wdNaGgHJ+eL50fOkIGAyMyOCZAQT8IOSoZqwuqp6aoqRQTBQIoEhUND7W0sK+trrOssrEYGhYREBcODAoHASk2MDQsKyAhf4CJioaFiISDgoeBfn2LjpGQj5KTjI1VVFNSUVBOTUtKSUxIR09ZVldYfHh7eXp3dl9eXVxaW2VkaWhnbGtqY21mYmFgdHJvcHNxbnU="
+    },
+    {
+      "index": 11556261,
+      "source_graph6": "IEhevp}~?",
+      "K3": [
+        40,
+        581
+      ],
+      "K4_unpared": [
+        256,
+        27903
+      ],
+      "K4_pared": [
+        182,
+        14298
+      ],
+      "host_sha256": "4aa2b439e7897555b969c32a17f00ab656a43775e448dfb15d220efac97bf315",
+      "to_base_b64": "fn2Af4GGhYOEgoeIi4mKV1lWWE5MR01IS0lPdnh7eXp3fHRxc3Jwb251aWpjbWVsaGZnYmRrYGFcX15aXVtRUlVQVFNKk5GQj5KOjI06LSMiLiQ7PjElMkBBOCY8PT9CRUYzJ0RDAwYIAAQJOSowNjcrLzQ1LCgpIR8gAgUHARMUFhEbHg4aGRgLCg0MDxwSFRAXHZyrnaGen6CqpqeoqbSvraWyo6SisbWzrqywm5aVl5SZmpg="
+    },
+    {
+      "index": 11599112,
+      "source_graph6": "IEhvEu}^_",
+      "K3": [
+        39,
+        554
+      ],
+      "K4_unpared": [
+        254,
+        27528
+      ],
+      "K4_pared": [
+        182,
+        14298
+      ],
+      "host_sha256": "e782e677e36a67fc0b374eb1c7e03eba05025176349063734388de7b24b989ed",
+      "to_base_b64": "JT0+PDFCP0FAJjgyJ0NGREUzOjskIiMuLQgJBAYAAzkqfX6Gh4GCg4iEhX+Ai4qJjpGPkJKNjJNcWl1eX2FgbWtqbGZpZ2hjYmRlW25vcXByc3R1dnp3eXh7fFVTVFJQUU9OR0hKSUxLTVdYVlkhIB8pKA4WFxoMEBEKGB4dHBsNDxITFBULGQcBBQIwNjcsKy80Naaop6menaChqp+rnKyuoqOtpaSbsK+xsrO0tZiZmpSWlZc="
+    }
+  ]
+}
