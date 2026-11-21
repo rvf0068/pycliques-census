@@ -6,10 +6,32 @@ order 10. All classifications use a pinned revision of the Python monorepo
 The earlier pre-clockwork-fix experiment is retained in Git history; the
 current stage framework uses clean, stable directories.
 
+## Current certified census: snub divergence (November 21, 2026)
+
+The snub disphenoid (graph6 `GQyuzw`) is now **proved K-divergent** by
+an independently verified graph retraction `K^4(S) -> O_24` in
+[`pycliques-project`](https://github.com/rvf0068/pycliques-project/blob/main/docs/snub_o24_retraction.md).
+This resolves **36** conjecture-dependent order-nine McKay indices and
+**4,389** original order-ten indices whose saved certificates depend on that
+reference. The canonical current root indexes are exactly
+[`indeterminate_order_9_v3.txt`](indeterminate_order_9_v3.txt) (**13** remaining)
+and [`indeterminate_order_10_v11.txt`](indeterminate_order_10_v11.txt)
+(**2,830** remaining, including 120 conditional on the separate unresolved
+graph `HCZTf\\}`). All earlier snapshots remain frozen. Every removed
+index is checked by the independent, positive-only
+[`snub_promotion_v1/verify.py`](research/snub_promotion_v1/verify.py).
+
+The 13 remaining order-nine cases have a new read-only, timeboxed search
+driver for general induced octahedra and verified retractions:
+[`order9_nonlocal_oct_sweep_v1/sweep.py`](research/order9_nonlocal_oct_sweep_v1/sweep.py).
+Bounded failures are **inconclusive**. Historical descriptions further below
+retain their original counts and terminology where explicitly labeled as
+historical, and should not be read as present-day conjectures.
+
 ## Codespaces commands
 
-Start once by checking the existing baseline (all connected graphs through
-8 vertices, with the **snub disphenoid as the only indeterminate graph**):
+Start once by checking the **historical** baseline (all connected graphs through
+8 vertices, at which time the snub disphenoid was classified as indeterminate):
 
 ```bash
 bash scripts/stage.sh baseline
@@ -88,8 +110,8 @@ The working clique-behavior files at the repository root are:
 - [`indeterminate_order_9.txt`](indeterminate_order_9.txt)
 - [`indeterminate_order_10.txt`](indeterminate_order_10.txt)
 
-**Order-nine certified index (v2):** the current order-nine working file
-is byte-identical to [`indeterminate_order_9_v2.txt`](indeterminate_order_9_v2.txt),
+**Order-nine historical certified index (v2):** the prior order-nine file
+was byte-identical to [`indeterminate_order_9_v2.txt`](indeterminate_order_9_v2.txt),
 with **49 unresolved McKay indices** (36 conjecture-dependent and
 13 otherwise indeterminate), down from 54. Five previously proved divergent
 graphs—McKay **242316, 248687, 250693, 252075, 255141**—have been
@@ -105,8 +127,8 @@ new result was the explicit 351-member isomorphism lift, not rediscovery
 of those two octahedral projections.
 
 
-**Current certified snapshot (November 2026):** the order-10 root working
-file exactly matches [`indeterminate_order_10_v10.txt`](indeterminate_order_10_v10.txt):
+**Earlier certified snapshot (v10, before snub promotion):** the order-10 working
+file previously matched [`indeterminate_order_10_v10.txt`](indeterminate_order_10_v10.txt):
 **7,219** remaining cases, including **4,509** unchanged conditional references.
 The new v10 certificate lift removes exactly **701** further original
 ten-vertex K-divergences, by complete third-iterate octahedral retractions:
@@ -870,9 +892,10 @@ the prior second-iterate isomorphism maps are independently checked in
 
     .venv/bin/python scripts/verify_order9_snub_retractions.py
 
-This observation does **not** prove divergence of the snub disphenoid
-or of the three retracting nine-vertex graphs, and does not classify
-the 512 original ten-vertex graphs represented by their core classes.
+At the time of this historical observation, the retractions alone did **not**
+prove divergence because divergence of the snub was still open. With the
+later `K^4(S) -> O_24` certificate, these three graphs and the 512 original
+ten-vertex members of their core classes are **now proved divergent**.
 
 
 ## Post-PR14 coaffine-cover experiment on eight nine-vertex cores
@@ -2253,8 +2276,8 @@ these fold retractions with the explicit core-to-snub retraction
 gives a retraction of the original ten-vertex graph onto an induced
 eight-vertex copy of `S`. This argument applies to all **1,222
 original ten-vertex graphs** in the nine classes, not merely to
-the nine core representatives. It does not infer any positive
-K-divergence classification while the snub remains unproved.
+the nine core representatives. At the time of the historical report it did not yield a positive
+K-divergence classification; the snub is now proved divergent.
 
 Of the nine certified snub-retracting classes, **six are newly
 identified**, accounting for **710 original ten-vertex graphs**. They
@@ -2272,14 +2295,14 @@ vertices and 136 edges. Explicit 20-vertex isomorphisms are recorded
 and independently checked. Combining that equality with the published
 closed-neighborhood dismantling theorem shows those three cores
 and their 512 original ten-vertex members have **exactly the same
-K-convergence/divergence behavior as `S`**. This is a proof of
-*equivalence of behavior*, **not** a proof that the snub is divergent.
+K-convergence/divergence behavior as `S`**. This historical argument proves *equivalence of behavior*; the independent
+later `K^4(S) -> O_24` retraction supplies the missing divergence proof.
 
-For the other six retracting cores, the retraction supplies only
-the one-way implication: if the snub is K-divergent, these cores
-are K-divergent. Neither the converse nor any unconditional divergence
-verdict follows from these certificates. The status of the 8,233
-order-ten indeterminate graphs therefore remains **unchanged**.
+For the other six retracting cores, the retraction proves the one-way
+implication from snub divergence. Since the snub's divergence is now
+proved, all six cores are **divergent**. The historical statement that
+8,233 indeterminate order-ten graphs remained unchanged was true at the
+time of that report and has been superseded by certified v11.
 
 The versioned immutable results and explicit exhaustive positive and
 negative certificates are in
