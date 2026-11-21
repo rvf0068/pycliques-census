@@ -89,9 +89,19 @@ The working clique-behavior files at the repository root are:
 - [`indeterminate_order_10.txt`](indeterminate_order_10.txt)
 
 **Current certified snapshot (November 2026):** the order-10 root working
-file exactly matches [`indeterminate_order_10_v9.txt`](indeterminate_order_10_v9.txt):
-**7,920** remaining cases, including **4,509** conditional references.
-The new v9 proof stage certifies **12** further K-divergences among stiff
+file exactly matches [`indeterminate_order_10_v10.txt`](indeterminate_order_10_v10.txt):
+**7,219** remaining cases, including **4,509** unchanged conditional references.
+The new v10 certificate lift removes exactly **701** further original
+ten-vertex K-divergences, by complete third-iterate octahedral retractions:
+**351** originals sharing two nine-vertex stiff cores that retract to
+`O₅` and `O₆`, and **350** distinct stiff ten-vertex graphs retracting
+to `O₄`, `O₅` or `O₆`.
+Both proof archives are independently replayable; see
+[`research/order10_ninecore_high_octahedra_v1/`](research/order10_ninecore_high_octahedra_v1/REPORT.md),
+[`research/order10_third_iterate_high_octahedra_proofs_v1/`](research/order10_third_iterate_high_octahedra_proofs_v1/REPORT.md),
+and [the exact v9-to-v10 index audit](research/order10_current_indeterminates_v10/verify.py).
+The **immutable v9** snapshot (7,920 cases) remains archived.
+The earlier v9 proof stage certifies **12** further K-divergences among stiff
 ten-vertex graphs, each by a complete ordinary graph retraction
 `K²(G) → O₃`. The independent proof archive is
 [`research/order10_second_clique_o3_retracts_v1/`](research/order10_second_clique_o3_retracts_v1/REPORT.md),
