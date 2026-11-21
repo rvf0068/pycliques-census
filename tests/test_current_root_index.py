@@ -17,6 +17,7 @@ V8 = ROOT / "indeterminate_order_10_v8.txt"
 V9 = ROOT / "indeterminate_order_10_v9.txt"
 V10 = ROOT / "indeterminate_order_10_v10.txt"
 V11 = ROOT / "indeterminate_order_10_v11.txt"
+V12 = ROOT / "indeterminate_order_10_v12.txt"
 HISTORICAL = ROOT / "historical/indeterminate_order_10_pre_v3.txt"
 
 
@@ -27,7 +28,7 @@ def rows(path: Path) -> list[str]:
 
 class CurrentOrder10IndexTests(unittest.TestCase):
     def test_current_root_matches_latest_certified_version(self):
-        self.assertEqual(CURRENT.read_bytes(), V11.read_bytes())
+        self.assertEqual(CURRENT.read_bytes(), V12.read_bytes())
 
     def test_historical_baseline_preserved_and_only_proofs_excluded(self):
         historical_bytes = HISTORICAL.read_bytes()
@@ -37,15 +38,17 @@ class CurrentOrder10IndexTests(unittest.TestCase):
         ).hexdigest()
         self.assertEqual(blob_hash, "05f52c6db0b5642d2b6a856cef53c8fe07309c52")
         old, new = rows(HISTORICAL), rows(CURRENT)
-        self.assertEqual((len(old), len(new)), (8648, 2830))
+        self.assertEqual((len(old), len(new)), (8648, 2793))
         self.assertEqual(len(old), len(set(old)))
         self.assertEqual(len(new), len(set(new)))
-        self.assertEqual(len(set(old) - set(new)), 5818)
+        self.assertEqual(len(set(old) - set(new)), 5855)
         self.assertEqual(len(rows(V6)) - len(rows(V7)), 99)
         self.assertEqual(len(rows(V7)) - len(rows(V8)), 192)
         self.assertEqual(len(rows(V8)) - len(rows(V9)), 12)
         self.assertEqual(len(rows(V9)) - len(rows(V10)), 701)
-        self.assertEqual(len(rows(V10)) - len(new), 4389)
+        self.assertEqual(len(rows(V10)) - len(rows(V11)), 4389)
+        self.assertEqual(len(rows(V11)) - len(new), 37)
+        self.assertTrue(set(new).issubset(set(rows(V11))))
         self.assertTrue(set(new).issubset(set(rows(V10))))
         self.assertEqual(set(new) - set(old), set())
         self.assertEqual(
