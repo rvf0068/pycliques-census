@@ -1,0 +1,36 @@
+name: Twelve exact ten-core K2 to O3 retraction certificates
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  twelve-k2-o3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install pinned standalone graph dependency
+        run: python -m pip install networkx==3.6.1
+      - name: Independently rebuild two clique iterates and replay all 12 total maps
+        run: python research/order10_second_clique_o3_retracts_v1/verify.py --self-test
+      - name: Protect immutable versioned census snapshots and old archives
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            'indeterminate_order_9*' \
+            'indeterminate_order_10_v[1-8].txt' \
+            homotopy_order_10.tsv historical/ history/ runs/ reports/
+          # New versioned research additions are permitted. Existing
+          # research evidence cannot be modified, deleted or renamed.
+          git diff --exit-code --diff-filter=DMRTUXB "$BASE_SHA" HEAD -- research/
