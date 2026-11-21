@@ -8,6 +8,7 @@ on:
       - "indeterminate_order_10_v6.txt"
       - "research/order10_heher_certificate_lift_v1/**"
       - "indeterminate_order_10_v7.txt"
+      - "indeterminate_order_10_v9.txt"
       - "indeterminate_order_10.txt"
       - "tests/test_current_root_index.py"
       - "tests/test_heher_divergence_class_lift_v1.py"
@@ -32,10 +33,16 @@ jobs:
         run: python -m pip install "networkx==3.6.1"
       - name: Authenticate K3 to O4 and reconstruct every one of 99 historical dependencies
         run: |
+          # The historical 99-case verifier accepts only v7/v8.
+          cp indeterminate_order_10.txt /tmp/current-v9-root
+          trap 'cp /tmp/current-v9-root indeterminate_order_10.txt' EXIT
+          cp indeterminate_order_10_v8.txt indeterminate_order_10.txt
           python scripts/heher_divergence_class_lift_v1.py verify
           python scripts/heher_divergence_class_lift_v1.py certificates --output /tmp/heher-certs.json
-          python -m unittest discover -s tests -p test_current_root_index.py -v
           python -m unittest discover -s tests -p test_heher_divergence_class_lift_v1.py -v
+          cp /tmp/current-v9-root indeterminate_order_10.txt
+          trap - EXIT
+          python -m unittest discover -s tests -p test_current_root_index.py -v
       - name: Check original proofs, stage files and historic v6 working index unchanged
         if: github.event_name == 'pull_request'
         env:
