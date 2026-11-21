@@ -20,7 +20,7 @@ import networkx as nx
 
 ROOT = Path(__file__).resolve().parents[2]
 CURRENT = ROOT / "indeterminate_order_10_v13.txt"
-CURRENT_BLOB = None  # v13 identity is checked against root byte-for-byte.
+CURRENT_BLOB = "deca07f54c885d41011e266a03868341c054bdf6"
 
 sys.path.insert(0, str(ROOT))
 from research.order10_nonlocal_oct_stiff_v1.sweep import (  # noqa: E402
@@ -30,7 +30,13 @@ from research.order10_nonlocal_oct_stiff_v1.sweep import (  # noqa: E402
 
 
 def cases() -> list[tuple[int, str]]:
-    if (ROOT / "indeterminate_order_10.txt").read_bytes() != CURRENT.read_bytes():
+    raw = CURRENT.read_bytes()
+    actual = hashlib.sha1(
+        b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw
+    ).hexdigest()
+    if actual != CURRENT_BLOB:
+        raise ValueError("Immutable v13 census index has been modified")
+    if (ROOT / "indeterminate_order_10.txt").read_bytes() != raw:
         raise ValueError("The authoritative current index is not v13")
     active = {}
     for line in CURRENT.read_text().splitlines():
@@ -167,7 +173,7 @@ def verify_positive(record: dict, bound: int) -> None:
     if expected != cert["host_graph6"]:
         raise AssertionError("Host graph6 differs")
     pairs = [tuple(pair) for pair in cert["antipodal_pairs"]]
-    if not pycliques.verify_induced_octahedron(host, pairs):
+    if not pycliques.verify_induced_octahedron(\n        host, pairs, require_dominating=True\n    ):
         raise AssertionError("Bad induced target")
     images = cert["images"]
     if len(images) != len(host) or any(v not in host for v in images):
