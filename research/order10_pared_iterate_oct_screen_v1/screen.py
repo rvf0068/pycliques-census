@@ -8,7 +8,7 @@ import networkx as nx
 
 ROOT=Path(__file__).resolve().parents[2]
 SOURCE=ROOT/"indeterminate_order_10_v10.txt"
-BLOB="35acbd4efbe6fd6816ff0b4455d1e"
+BLOB="35acbd4efbe6fd6816ff0b5c749b8b20b4455d1e"
 sys.path.insert(0,str(ROOT/"research/order10_third_iterate_oct_sweep_v1"))
 from sweep import Search,clique_graph,verify_positive
 
