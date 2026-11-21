@@ -163,7 +163,9 @@ def main() -> None:
     args = ap.parse_args()
     v1 = (ROOT / "indeterminate_order_9_v1.txt").read_bytes()
     v2 = (ROOT / "indeterminate_order_9_v2.txt").read_bytes()
-    current = (ROOT / "indeterminate_order_9.txt").read_bytes()
+    # Verify the frozen v1 -> v2 transition, not the newer authoritative root.
+    # The v3 verifier separately requires current root to equal v3.
+    current = v2
     initial = (ROOT / "runs/order9/initial/order9/"
                "indeterminate_order_9.txt").read_bytes()
     result = validate_transition(v1, v2, current, initial)
