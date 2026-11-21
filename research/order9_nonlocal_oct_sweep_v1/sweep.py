@@ -141,11 +141,29 @@ def main() -> None:
             p.error("--input-results is required for verify")
         result = json.loads(a.input_results.read_text())
         expected = dict(candidates)
-        for record in result["records"]:
-            if expected.get(record["index"]) != record["source_graph6"]:
+        if result.get("schema") != 1 or result.get("source") != SOURCE.name:
+            raise ValueError("Unexpected sweep report schema or source")
+        records = result.get("records")
+        if not isinstance(records, list):
+            raise ValueError("Missing sweep records")
+        indices = [record.get("index") for record in records]
+        if len(indices) != len(expected) or set(indices) != set(expected):
+            raise ValueError("Incomplete or duplicated McKay indices in sweep report")
+        if len(set(indices)) != len(indices):
+            raise ValueError("Duplicate McKay index in sweep report")
+        settings = result["settings"]
+        bound = settings["bound"]
+        if type(bound) is not int or bound < 2:
+            raise ValueError("Invalid saved clique bound")
+        for record in records:
+            if expected[record["index"]] != record.get("source_graph6"):
                 raise ValueError("Incorrect indexed source graph6")
-            verify_record(record, result["settings"]["bound"])
-        print("Verified", len(result["records"]), "records")
+            if record.get("status") not in (
+                "INCONCLUSIVE", "TIMEOUT", "CERTIFIED_DIVERGENT", "ERROR"
+            ):
+                raise ValueError("Unknown sweep result status")
+            verify_record(record, bound)
+        print("Verified", len(records), "records")
         return
     if a.max_depth < 0 or a.bound < 2 or a.restarts < 1 or a.states < 1:
         p.error("Invalid search budget")
@@ -162,7 +180,9 @@ def main() -> None:
         return
     if a.output is None:
         p.error("--output is required for run")
-    cases = [row for row in candidates if a.index is None or row[0] == a.index]
+    if a.index is not None:
+        p.error("Use action one --index for a single case; run writes complete reports")
+    cases = candidates
     records = []
     for index, graph6 in cases:
         cmd = [sys.executable, str(Path(__file__)), "one", "--index", str(index),
