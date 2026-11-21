@@ -24,6 +24,7 @@ import sys
 import networkx as nx
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from heher_divergence_class_lift_v1 import (  # noqa: E402
