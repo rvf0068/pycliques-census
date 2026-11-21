@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "original_index": 260910,
+  "source_graph6": "HUZvvzu",
+  "pared_depth": 3,
+  "host_order": 132,
+  "host_edges": 7880,
+  "target_dimension": 15,
+  "opposite_pairs": [
+    [
+      0,
+      58
+    ],
+    [
+      1,
+      83
+    ],
+    [
+      5,
+      112
+    ],
+    [
+      7,
+      130
+    ],
+    [
+      9,
+      70
+    ],
+    [
+      21,
+      53
+    ],
+    [
+      24,
+      113
+    ],
+    [
+      28,
+      95
+    ],
+    [
+      29,
+      50
+    ],
+    [
+      35,
+      56
+    ],
+    [
+      36,
+      88
+    ],
+    [
+      37,
+      49
+    ],
+    [
+      60,
+      126
+    ],
+    [
+      78,
+      114
+    ],
+    [
+      82,
+      129
+    ]
+  ],
+  "pared_graph6_sha256": "248ab6dc4e6bb9317ba2b271bb3e551bbdecae1e8111cf07beb8858a227513a6",
+  "images_b64": "AAEBBwkFJAdyCXIJCSRyIyMJIyOBFXIJGBgjIxwdFQkYGCMjJCUlCV9fX3FwXzEyMTEyMU41Ojo4NTo8PCQkOiQkJAcHTkY6Bzo6BwcHTgdxB1JTB1NTB1gxcjFfMjJfX18ygTWBNYGBgXBxcnIHB3BxcnJygTqBgTqBfnB+fnB+gYKB",
+  "discovery_states": 52
+}
