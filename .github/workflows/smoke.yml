@@ -12,6 +12,7 @@ on:
       - 'indeterminate_order_9_v1.txt'
       - 'indeterminate_order_9_v2.txt'
       - 'research/order9_current_indeterminates_v2/**'
+      - 'runs/order9/**'
       - '.devcontainer/**'
       - 'README.md'
 jobs:
