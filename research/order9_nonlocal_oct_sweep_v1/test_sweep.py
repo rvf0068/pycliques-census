@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import importlib.util
+import json
+import tempfile
 import subprocess
 import sys
 import unittest
@@ -28,6 +30,47 @@ class NonlocalSweepTests(unittest.TestCase):
                            text=True, capture_output=True, check=True)
         self.assertIn('"count": 13', p.stdout)
         self.assertEqual(sweep.SOURCE.read_bytes(), original)
+
+    def _verify_report(self, records):
+        payload = {"schema": 1, "source": sweep.SOURCE.name,
+                   "settings": {"bound": 1600}, "records": records}
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "results.json"
+            output.write_text(json.dumps(payload))
+            return subprocess.run(
+                [sys.executable, str(SCRIPT), "verify",
+                 "--input-results", str(output)],
+                text=True, capture_output=True,
+            )
+
+    def test_replay_requires_all_13_and_unique_mckay_indices(self):
+        records = [
+            {"index": idx, "source_graph6": graph6, "status": "INCONCLUSIVE"}
+            for idx, graph6 in sweep.entries()
+        ]
+        complete = self._verify_report(records)
+        self.assertEqual(complete.returncode, 0, complete.stderr)
+        self.assertIn("Verified 13 records", complete.stdout)
+        for tampered in ([], records[:-1], records[:-1] + [records[0]]):
+            result = self._verify_report(tampered)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertRegex(result.stderr, "Incomplete or duplicated")
+
+    def test_replay_rejects_wrong_source_or_unknown_result_status(self):
+        records = [
+            {"index": idx, "source_graph6": graph6, "status": "TIMEOUT"}
+            for idx, graph6 in sweep.entries()
+        ]
+        bad_source = [*records]
+        bad_source[0] = {**records[0], "source_graph6": "GQyuzw"}
+        result = self._verify_report(bad_source)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("Incorrect indexed source", result.stderr)
+        bad_status = [*records]
+        bad_status[0] = {**records[0], "status": "CLAIMED_EXHAUSTED"}
+        result = self._verify_report(bad_status)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("Unknown sweep result status", result.stderr)
 
 
 if __name__ == "__main__":
