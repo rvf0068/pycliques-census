@@ -29,10 +29,10 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           # Protect all previous census snapshots, proof sources and stages.
-          # v9/current may advance ONLY via independently replayed positives
-          # and the dedicated v9 audit; neither is a historical source.
+          # v10/current may advance ONLY via independently replayed positives
+          # and the dedicated v10 audit; neither is a historical source.
           git diff --exit-code "$BASE_SHA" HEAD -- \
-            'indeterminate_order_9*' 'indeterminate_order_10_v[1-8].txt' \
+            'indeterminate_order_9*' 'indeterminate_order_10_v[1-9].txt' \
             homotopy_order_10.tsv historical/ history/ runs/ reports/ \
             config/ postpasses/
           # Keep old scripts and tests immutable; only the regression test

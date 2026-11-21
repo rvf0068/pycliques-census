@@ -30,7 +30,8 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           git diff --exit-code "$BASE_SHA" HEAD -- \
-            'indeterminate_order_*' homotopy_order_10.tsv \
-            historical/ history/ runs/ reports/ scripts/ tests/ \
+            'indeterminate_order_9*' 'indeterminate_order_10_v[1-9].txt' \
+            homotopy_order_10.tsv historical/ history/ runs/ reports/ \
+            scripts/ tests/ ':(exclude)tests/test_current_root_index.py' \
             config/ postpasses/
           git diff --exit-code --diff-filter=DMRTUXB "$BASE_SHA" HEAD -- research/
