@@ -29,6 +29,6 @@ jobs:
       - name: Install independent verifier dependency
         run: python -m pip install networkx==3.6.1
       - name: Check source hashes, index transitions and all positive proofs
-        run: python research/snub_promotion_v1/verify.py
+        run: python research/order10_fourth_oct_v1/replay_snub_v11.py
       - name: Regression and negative-case tests
-        run: python -m unittest discover -s research/snub_promotion_v1 -p test_verify.py -v
+        run: python research/order10_fourth_oct_v1/replay_snub_v11.py --tests
