@@ -4,7 +4,12 @@ on:
     paths:
       - "research/order9_p2_iso_lift_v1/**"
       - "indeterminate_order_9_v3.txt"
+      - "indeterminate_order_9_v4.txt"
+      - "indeterminate_order_9.txt"
       - "indeterminate_order_10_v13.txt"
+      - "indeterminate_order_10_v14.txt"
+      - "indeterminate_order_10.txt"
+      - "tests/test_current_root_index.py"
       - ".github/workflows/order9-p2-iso-lift-v1.yml"
   workflow_dispatch:
 
@@ -37,6 +42,12 @@ jobs:
         run: |
           python research/order9_p2_iso_lift_v1/screen.py scan \
             --output "$RUNNER_TEMP/order9-p2-lift.json"
+      - name: Verify exact cohort, archived retraction, and v4/v14 index transitions
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python -m research.order9_p2_iso_lift_v1.verify
+          python -m unittest discover -s tests -p test_current_root_index.py -v
       - uses: actions/upload-artifact@v4
         with:
           name: exact-p2-isomorphism-class-candidate
