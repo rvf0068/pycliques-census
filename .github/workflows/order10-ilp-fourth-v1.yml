@@ -1,0 +1,69 @@
+name: Positive-only ILP fourth-iterate octahedral retraction sweep
+
+on:
+  pull_request:
+    paths:
+      - "research/order10_ilp_fourth_v1/**"
+      - ".github/workflows/order10-ilp-fourth-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ilp-octahedral-fourth:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install current released pycliques and optional SciPy solver
+        run: |
+          python -m pip install networkx==3.6.1 scipy
+          git clone --quiet https://github.com/rvf0068/pycliques-project.git /tmp/pycliques-project
+          git -C /tmp/pycliques-project checkout --quiet 782deb653b8748e1b5759389cdd2134beac69351
+          python -m pip install /tmp/pycliques-project/packages/pycliques
+          python - <<'PY'
+          import pycliques
+          from pycliques.octahedral_ilp import find_induced_octahedron_ilp
+          print("USING_PYCLIQUES_ILP",find_induced_octahedron_ilp.__name__)
+          PY
+      - name: Run bounded census scout, saving full positive projections
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python research/order10_ilp_fourth_v1/sweep.py plan \
+            --shard ${{ matrix.shard }} --shards 8
+          python research/order10_ilp_fourth_v1/sweep.py run \
+            --shard ${{ matrix.shard }} --shards 8 \
+            --bound 1500 --max-k3 40 --max-k4 180 \
+            --ilp-seconds 3 --restarts 4 --max-states 5000 \
+            --timeout 24 \
+            --output "$RUNNER_TEMP/ilp-fourth-${{ matrix.shard }}.json"
+      - name: Replay every positive with public pycliques verifier
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python research/order10_ilp_fourth_v1/sweep.py verify \
+            --input-results "$RUNNER_TEMP/ilp-fourth-${{ matrix.shard }}.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          data=json.loads((Path(os.environ["RUNNER_TEMP"])/"ilp-fourth-${{ matrix.shard }}.json").read_text())
+          errors=[r for r in data["records"] if r["status"]=="ERROR"]
+          print("ERROR_COUNT",len(errors))
+          for err in errors[:10]: print("ERROR_DETAIL",err)
+          assert not errors
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ilp-fourth-v1-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/ilp-fourth-${{ matrix.shard }}.json
+          if-no-files-found: warn
