@@ -1,8 +1,9 @@
-# Certified fourth-iterate octahedral retractions: 37 new order-ten divergences
+# Certified fourth-iterate octahedral retractions: 42 new order-ten divergences
 
 **Status:** Five complete positive maps, independently replayed; 33 exact
-previously certified third-iterate isomorphism lifts; order-ten index
-versioned from v11 (**2,830**) to v12 (**2,793**) without modifying
+previously certified third-iterate isomorphism lifts plus five
+verified exact fourth-iterate isomorphism lifts; order-ten index
+versioned from v11 (**2,830**) to v12 (**2,788**) without modifying
 the historical v11 file. Nothing in the bounded negative search is
 treated as a K-convergence result.
 
@@ -75,7 +76,38 @@ Isomorphic third pared iterates have the same eventual clique behavior;
 therefore the proved (P_4(G)\to O_{12}) for one representative
 classifies **all 33** original McKay indices as (K)-divergent.
 The four other original cores in the table are distinct from those
-33. The v12 deletion count is consequently **33 + 4 = 37**.
+33. The v12 deletion count is consequently **33 + 5 + 4 = 42**.
+
+
+### Five more exact fourth-iterate lifts of the O12 proof
+
+Independent bitset-paring reconstructions of the following five cores
+produce completely pared fourth iterates with **182 vertices and 14,298
+edges**, each *exactly* isomorphic to the fourth pared iterate of
+McKay 10223405:
+
+| McKay index | graph6 | K3 vertices / edges | raw K4 vertices | pared K4 |
+|---:|---|---:|---:|---:|
+| 11251181 | `ICprnr{{o` | 39 / 552 | 253 | 182 / 14,298 |
+| 11425747 | `ICrbvZy\|_` | 39 / 554 | 258 | 182 / 14,298 |
+| 11509851 | `ICvfJr{{o` | 39 / 551 | 256 | 182 / 14,298 |
+| 11556261 | `IEhevp}~?` | 40 / 581 | 256 | 182 / 14,298 |
+| 11599112 | `IEhvEu}^_` | 39 / 554 | 254 | 182 / 14,298 |
+
+[`extra5_isomorphisms.json`](extra5_isomorphisms.json) archives the complete
+182-vertex bijection for each graph, together with source identity and
+fully labeled host SHA-256 digests. The independent
+[`verify_extra5.py`](verify_extra5.py) reconstructs all five full K4
+iterates, checks every vertex pair in every bijection, and composes
+those isomorphisms with a separately checked isomorphism between the
+independent K4 labeling and the native `pycliques` labeling of the
+published complete O12 target. It then constructs the transported
+complete O12 retraction on each new host and verifies **all** 14,298
+host edges and all 24 pointwise fixed target vertices. No mere WL-signature
+matching is used as evidence of divergence. Thus the 33-member previously
+certified K3 class and these five additional P4 isomorphism proofs yield
+38 original graphs with the same proved divergent eventual K-behavior;
+including the four remaining standalone positive sources makes **42**.
 
 ## Fourth-iterate search scope and limitations
 
@@ -106,17 +138,20 @@ The 257 reconstructed fourth iterates had between 30 and 1,010
 vertices after paring and yielded 148 distinct Weisfeiler--Lehman
 signatures. **WL signatures are not isomorphism certificates**;
 no extra source was promoted based on a shared signature.
-In particular, five additional fourth iterates had the same
-WL signature as the 33-member family, but they remain indeterminate
-until an actual isomorphism or another certificate is obtained.
+In particular, five additional fourth iterates sharing the same
+WL signature were subsequently checked by **exact graph isomorphism**
+(vertex-by-vertex adjacency and nonadjacency), and the maps were archived
+in `extra5_isomorphisms.json`. These five are now **proved** divergent
+by transported O12 retractions, not by their shared WL signature.
 
 ## Exact census advancement and historical preservation
 
 [`verify_v12.py`](verify_v12.py) authenticates the immutable v11
 Git blob (`34023e9323945c4a6e5e1249c37ba955ba62473f`), checks that
 the current root is byte-for-byte v12, and ensures that the
-**only** deleted rows are the precisely enumerated 33-family members
-and the four separately proved original cores. All retained records
+**only** deleted rows are the precisely enumerated 33-family members,
+five additional fourth-iterate isomorphism lifts, and the four
+separately proved original cores. All retained records
 are unchanged; all 120 conditional `HCZTf\\}` entries are preserved.
 
 The snub-v11 proof and its tests remain unchanged. The
@@ -133,6 +168,7 @@ From the census root, in a Python environment with
 ```sh
 python research/order10_fourth_oct_v1/verify_o6.py
 python research/order10_fourth_oct_v1/verify_o12.py
+python research/order10_fourth_oct_v1/verify_extra5.py
 python research/order10_fourth_oct_v1/verify_v12.py
 python research/order10_fourth_oct_v1/replay_snub_v11.py --tests
 python -m unittest discover -s tests -p test_current_root_index.py -v

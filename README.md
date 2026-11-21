@@ -16,19 +16,21 @@ indeterminate references. The 9-vertex current working index remains
 [`indeterminate_order_9_v3.txt`](indeterminate_order_9_v3.txt)
 (**13** indeterminate).
 
-The **new fourth-iterate retraction certificates** prove another 37
+The **new fourth-iterate retraction certificates** prove another 42
 previously unclassified original ten-vertex graphs K-divergent:
 three independent `O_6` retractions from fourth completely pared
 iterates, two `O_12` retractions, and an independently proved
 33-member class of isomorphic completely pared third iterates
-(including one of the `O_12` positive cores). All complete retraction
+(including one of the `O_12` positive cores), plus five additional
+cores with explicitly verified isomorphisms of their fourth pared
+iterates onto that same O12-positive core. All complete retraction
 maps are replayable. The [proof report](research/order10_fourth_oct_v1/REPORT.md)
 explains the independent replays and the necessary prior isomorphism theorem.
 
 The canonical order-ten root is now
 [`indeterminate_order_10_v12.txt`](indeterminate_order_10_v12.txt):
-**2,793 remaining**, of which **120** depend on the separate unresolved
-reference `HCZTf\\}` and **2,673** are unconditional.
+**2,788 remaining**, of which **120** depend on the separate unresolved
+reference `HCZTf\\}` and **2,668** are unconditional.
 The exact historical v11 snapshot (**2,830**) and earlier source/stage
 files are left untouched. The positive-only
 [`verify_v12.py`](research/order10_fourth_oct_v1/verify_v12.py)

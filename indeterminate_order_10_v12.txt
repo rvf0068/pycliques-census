@@ -1,9 +1,9 @@
 # Connected order-ten unresolved population after certified fourth-iterate octahedral retractions (v12)
-# Remaining=2793 previous_v11=2830 newly_proved_divergent=37
-# 33 graphs have isomorphic completely pared K^3 to index 7002338; O12 retract of pared K^4 of member 10223405 proves divergence of the class.
-# Additional direct fourth-iterate retractions: O12 for 10775850; O6 for 10223467, 11104269, 11563706.
-# Retained 120 HCZTf\} conjecture-conditional records and 2673 otherwise-unclassified entries.
-# Historical v11 and all original stage records are immutable.
+# Remaining=2788 previous_v11=2830 newly_proved_divergent=42
+# O12 P4(10223405) with exact 33-member P3 equivalence and five additional exact P4 isomorphism lifts (38 total).
+# Additional O12 P4(10775850), O6 P4(10223467), P4(11104269), P4(11563706) give four other divergences.
+# Preserved 120 conjecture-conditional HCZTf\} records; remaining unconditional=2668.
+# Historical v11 and all older stage records remain immutable.
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
 3663513 9 HCZTf\} reference conjectured_divergent HCZTf\}
 3663865 10 I?`eTRv^o retracts conjectured_divergent HCZTf\}
@@ -1811,7 +1811,6 @@
 11250385 9 HUXnVj] - - -
 11250408 9 HUXnVj] - - -
 11250890 10 ICprnjyzo - - -
-11251181 10 ICprnr{{o - - -
 11251921 10 ICpujqn~O - - -
 11252089 9 HSYjfv] - - -
 11253045 10 ICpujv[iw - - -
@@ -2023,7 +2022,6 @@
 11424699 10 ICrbuv{|_ - - -
 11425428 10 ICrbvY}\o - - -
 11425675 10 ICrbvZufo - - -
-11425747 10 ICrbvZy|_ - - -
 11426107 10 ICrbvi}]o - - -
 11426255 9 HExvVyu - - -
 11427532 9 HUqr~on - - -
@@ -2111,7 +2109,6 @@
 11505075 10 ICvenzy]w - - -
 11506192 9 HVrrnvm - - -
 11509450 9 HEzjdvu - - -
-11509851 10 ICvfJr{{o - - -
 11510220 10 ICvfJzy|O - - -
 11512182 10 ICvfP~t~_ - - -
 11513188 10 ICvfRg~lo - - -
@@ -2253,7 +2250,6 @@
 11556130 9 HDZV^zy - - -
 11556204 9 HEhfnzy - - -
 11556256 10 IEhevp}|o - - -
-11556261 10 IEhevp}~? - - -
 11556262 9 HEher~{ - - -
 11556383 9 HDZVfzm - - -
 11556387 10 IEhevrm~? - - -
@@ -2494,7 +2490,6 @@
 11598028 9 HDZe^zy - - -
 11598940 10 IEhvEuu^_ - - -
 11598978 9 HE^elzm - - -
-11599112 10 IEhvEu}^_ - - -
 11599494 9 HDZenzy - - -
 11599615 10 IEhvEv{^o - - -
 11599631 9 HEhuvzm - - -

@@ -1,7 +1,8 @@
 """Positive-only exact audit of the order-ten v11 -> v12 transition.
 
 The archived O6 and O12 maps, plus the already independently certified
-33-member K3-isomorphism family, are the only allowed justifications.
+33-member K3 isomorphism family and five P4 isomorphism maps,
+are the only allowed justifications.
 This checker does not modify indexes and never promotes a bounded failure.
 """
 from __future__ import annotations
@@ -16,6 +17,7 @@ sys.path.insert(0, str(ROOT))
 from research.order10_pared_k3_33class_v1.verify import MCKAY
 from research.order10_fourth_oct_v1.verify_o6 import main as verify_o6
 from research.order10_fourth_oct_v1.verify_o12 import main as verify_o12
+from research.order10_fourth_oct_v1.verify_extra5 import main as verify_extra5
 
 ROOT = Path(__file__).resolve().parents[2]
 BEFORE = ROOT / "indeterminate_order_10_v11.txt"
@@ -23,7 +25,8 @@ AFTER = ROOT / "indeterminate_order_10_v12.txt"
 CURRENT = ROOT / "indeterminate_order_10.txt"
 PINNED_V11 = "34023e9323945c4a6e5e1249c37ba955ba62473f"
 DIRECT = {10223467, 10775850, 11104269, 11563706}
-REMOVED = set(MCKAY) | DIRECT
+EXTRA_FOURTH_ISOS = {11251181, 11425747, 11509851, 11556261, 11599112}
+REMOVED = set(MCKAY) | DIRECT | EXTRA_FOURTH_ISOS
 
 
 def require(condition, message):
@@ -51,8 +54,8 @@ def verify_indexes():
     current, after = CURRENT.read_bytes(), AFTER.read_bytes()
     require(current == after, "Current root is not exactly v12")
     old, new = rows(prior), rows(after)
-    require(len(old) == 2830 and len(new) == 2793, "Unexpected record counts")
-    require(len(REMOVED) == 37, "Unexpected proof cohort cardinality")
+    require(len(old) == 2830 and len(new) == 2788, "Unexpected record counts")
+    require(len(REMOVED) == 42, "Unexpected proof cohort cardinality")
     require(set(old) - set(new) == REMOVED, "Wrong McKay deletion set")
     require(all(old[i] == row for i, row in new.items()), "Retained row was changed")
     require(all(old[i][1] == "10" and old[i][3:] == ["-", "-", "-"]
@@ -66,7 +69,8 @@ def main():
     old, new = verify_indexes()
     verify_o6()
     verify_o12()
-    print("CERTIFIED_ORDER10_V12 old=2830 removed=37 remaining=2793")
+    verify_extra5()
+    print("CERTIFIED_ORDER10_V12 old=2830 removed=42 remaining=2788")
     print("CERTIFIED_MCKAY_INDICES", sorted(REMOVED))
 
 
