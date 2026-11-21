@@ -11,7 +11,9 @@ on:
       - 'indeterminate_order_9.txt'
       - 'indeterminate_order_9_v1.txt'
       - 'indeterminate_order_9_v2.txt'
+      - 'indeterminate_order_9_v3.txt'
       - 'research/order9_current_indeterminates_v2/**'
+      - 'research/snub_promotion_v1/**'
       - 'runs/order9/**'
       - '.devcontainer/**'
       - 'README.md'
@@ -27,19 +29,19 @@ jobs:
         run: |
           bash scripts/bootstrap.sh
           .venv/bin/python -m compileall -q scripts tests postpasses
-          # The current working root is v10 (7,219 graphs). Run its
+          # The current working root is v11 (2,830 graphs). Run its
           # consistency tests before the legacy snapshot replays.
           # Older stage tests still use the immutable 8,648-case pre-v3 index.
           .venv/bin/python -m unittest discover -s tests \
             -p test_current_root_index.py -v
-          # Also verify the corrected 49-case current order-nine index.
-          .venv/bin/python research/order9_current_indeterminates_v2/verify.py
+          # Also replay the frozen 49-case order-nine v2 transition.
+          .venv/bin/python research/snub_promotion_v1/replay_historical.py --order 9
           # The archived four-O4 verifier requires the frozen v8 root.
-          cp indeterminate_order_10.txt /tmp/current-v10-pre-smoke
+          cp indeterminate_order_10.txt /tmp/current-v11-pre-smoke
           cp indeterminate_order_10_v8.txt indeterminate_order_10.txt
           .venv/bin/python -m unittest discover -s tests \
             -p test_order10_four_o4_lift_v1.py -v
-          cp /tmp/current-v10-pre-smoke indeterminate_order_10.txt
+          cp /tmp/current-v11-pre-smoke indeterminate_order_10.txt
           current_root="$(mktemp)"
           current_order9="$(mktemp)"
           cp indeterminate_order_10.txt "$current_root"
@@ -50,7 +52,7 @@ jobs:
           }
           trap restore_roots EXIT
           # These old tests reconstruct the 54-case stage output, NOT the
-          # modern 49-case order-nine index. Use its immutable v1 snapshot.
+          # modern 13-case order-nine index. Use its immutable v1 snapshot.
           cp indeterminate_order_9_v1.txt indeterminate_order_9.txt
           cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt
           .venv/bin/python - <<'PY'
@@ -79,7 +81,7 @@ jobs:
           rm "$current_root" "$current_order9"
           .venv/bin/python -m unittest discover -s tests \
             -p test_current_root_index.py -v
-          .venv/bin/python research/order9_current_indeterminates_v2/verify.py
+          .venv/bin/python research/snub_promotion_v1/replay_historical.py --order 9
           bash scripts/stage.sh baseline
       - name: Reproduce the connected census through order 6
         run: MAX_ORDER=6 BATCH_SIZE=100 RUN_DIR="$PWD/runs/ci-order6" bash scripts/run_census.sh
