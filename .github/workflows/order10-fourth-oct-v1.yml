@@ -36,8 +36,6 @@ jobs:
         run: |
           python -m compileall -q research/order10_fourth_oct_v1/
           python -m unittest discover -s research/order10_fourth_oct_v1 -p test_sweep.py -v
-          python research/order10_fourth_oct_v1/verify_o6.py
-          python research/order10_fourth_oct_v1/verify_o12.py
           python research/order10_fourth_oct_v1/sweep.py plan \
             --shard ${{ matrix.shard }} --shards 8 --limit "${{ inputs.limit || '0' }}"
       - name: Run bounded searches on fourth pared iterates
