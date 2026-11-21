@@ -70,12 +70,18 @@ def digest(path: Path) -> str:
     return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
 
 
-def build(graph6: str, depth: int, *, bound: int) -> nx.Graph | None:
+def build(graph6: str, depth: int, *, bound: int | None) -> nx.Graph | None:
     graph = pycliques.completely_pared_graph(
         nx.from_graph6_bytes(graph6.encode("ascii"))
     )
     for _ in range(depth):
-        graph = pycliques.clique_graph(graph, bound=bound)
+        # None means truly unbounded exact verification. A finite bound
+        # belongs only to an exploratory, explicitly incomplete pilot.
+        graph = (
+            pycliques.clique_graph(graph)
+            if bound is None
+            else pycliques.clique_graph(graph, bound=bound)
+        )
         if graph is None:
             return None
         graph = pycliques.completely_pared_graph(graph)
@@ -108,7 +114,7 @@ def exact_map(a: nx.Graph, b: nx.Graph) -> list[int] | None:
     return [mapping[i] for i in range(len(a))]
 
 
-def references(depth: int, bound: int) -> dict[tuple, list[tuple[str, str, nx.Graph]]]:
+def references(depth: int, bound: int | None) -> dict[tuple, list[tuple[str, str, nx.Graph]]]:
     before, after = rows(NINE_BEFORE), rows(NINE_AFTER)
     if len(before) != SNUB_OLD or len(after) != SNUB_NEW:
         raise AssertionError("Wrong source snapshot sizes")
@@ -134,8 +140,11 @@ def references(depth: int, bound: int) -> dict[tuple, list[tuple[str, str, nx.Gr
             cache[graph6] = build(graph6, depth, bound=bound)
         graph = cache[graph6]
         if graph is None:
-            skipped.append(label)
-            continue
+            # Never silently reduce the certified reference set: otherwise
+            # a purported complete positive set could miss true matches.
+            raise AssertionError(
+                f"Certified reference {label} exceeded the clique bound"
+            )
         ref_graphs[fingerprint(graph)].append((label, graph6, graph))
     print("REFERENCES", depth, "certified", len(cases),
           "distinct_graph6", len(cache),
@@ -147,7 +156,7 @@ def references(depth: int, bound: int) -> dict[tuple, list[tuple[str, str, nx.Gr
     return ref_graphs
 
 
-def scan(shard: int, shards: int, depth: int, bound: int) -> dict:
+def scan(shard: int, shards: int, depth: int, bound: int | None) -> dict:
     if not 0 <= shard < shards:
         raise ValueError("Invalid shard")
     if depth not in (2, 3):
