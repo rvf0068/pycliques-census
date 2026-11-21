@@ -103,11 +103,20 @@ jobs:
           original_guard = "            indeterminate_order_9.txt\n"
           archived_guard = "            indeterminate_order_10_v3.txt\n"
           assert original.count(checkout) == 1, "Unexpected checkout stanza"
-          assert original.count(original_guard) == 1, "Unexpected v1 root guard"
-          expected = (
-              original.replace(checkout, checkout + nine_restore, 1)
-              .replace(original_guard, archived_guard, 1)
-          )
+          if (
+              original.count(nine_restore) == 1
+              and original.count(archived_guard) == 1
+              and original_guard not in original
+          ):
+              # The archived v1 workflow on main is already transformed:
+              # permit only exact preservation, not a second insertion.
+              expected = original
+          else:
+              assert original.count(original_guard) == 1, "Unexpected v1 root guard"
+              expected = (
+                  original.replace(checkout, checkout + nine_restore, 1)
+                  .replace(original_guard, archived_guard, 1)
+              )
           assert Path(workflow).read_text() == expected, (
               "Historical targeted-retractions-v1 workflow deviates from its "
               "exact archived replay/guard transformation"

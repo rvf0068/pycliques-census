@@ -27,7 +27,7 @@ jobs:
       - name: Audit original and corrected eight-way discovery records
         run: python research/order10_third_iterate_high_octahedra_proofs_v1/audit_batches.py
       - name: Verify exact v9-to-v10 transition and all conditional references
-        run: python research/order10_current_indeterminates_v10/verify.py
+        run: python research/snub_promotion_v1/replay_historical.py --order 10
       - name: Check authoritative root and immutable historical baseline
         run: python -m unittest discover -s tests -p test_current_root_index.py -v
       - name: Protect all prior versioned census results and archived proofs
