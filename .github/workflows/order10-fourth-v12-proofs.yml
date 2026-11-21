@@ -4,6 +4,7 @@ on:
     paths:
       - "research/order10_fourth_oct_v1/**"
       - "research/order10_o12_dim_v13/replay_v12.py"
+      - "research/order9_p2_iso_lift_v1/replay_old_snub.py"
       - "indeterminate_order_10_v11.txt"
       - "indeterminate_order_10_v12.txt"
       - "indeterminate_order_10_v13.txt"
@@ -47,4 +48,4 @@ jobs:
       - name: Verify O6 and O12 full maps and exact 38-member isomorphism lifts
         run: python -m research.order10_o12_dim_v13.replay_v12
       - name: Verify archived snub proof still replays at historical v11
-        run: python research/order10_fourth_oct_v1/replay_snub_v11.py --tests
+        run: python -m research.order9_p2_iso_lift_v1.replay_old_snub --tests
