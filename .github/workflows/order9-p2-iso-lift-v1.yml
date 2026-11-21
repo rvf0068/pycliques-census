@@ -10,6 +10,10 @@ on:
       - "indeterminate_order_10_v14.txt"
       - "indeterminate_order_10.txt"
       - "tests/test_current_root_index.py"
+      - "research/order10_fourth_oct_v1/**"
+      - "research/order10_nonlocal_oct_stiff_v1/sweep.py"
+      - "research/order10_pared_k3_33class_v1/**"
+      - "indeterminate_order_10_v11.txt"
       - ".github/workflows/order9-p2-iso-lift-v1.yml"
   workflow_dispatch:
 
@@ -41,6 +45,8 @@ jobs:
           PYTHONHASHSEED: "0"
         run: |
           python research/order9_p2_iso_lift_v1/screen.py scan \
+            --output "$RUNNER_TEMP/order9-p2-lift.json"
+          python research/order9_p2_iso_lift_v1/screen.py verify \
             --output "$RUNNER_TEMP/order9-p2-lift.json"
       - name: Verify exact cohort, archived retraction, and v4/v14 index transitions
         env:
