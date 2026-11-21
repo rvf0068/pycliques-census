@@ -32,6 +32,7 @@ from heher_divergence_class_lift_v1 import (  # noqa: E402
     certify_retracts,
     certify_nontriangle,
     certify_inverse_cutpoint,
+    fold_trace,
 )
 
 SOURCE = ROOT / "indeterminate_order_10_v14.txt"
@@ -42,10 +43,42 @@ EXPECTED = {
     "non_triangle_edge": 10,
     "inverse_cutpoint_extension": 3,
 }
+def certify_nontriangle_chain(graph: nx.Graph, target: nx.Graph) -> dict:
+    """Allow either a direct fold or a further retraction after edge deletion.
+
+    The archived classifier's no-triangle theorem permits an arbitrary
+    proved-divergent downstream target. Restrict the downstream step to
+    an independently checked isomorphism or one-vertex retraction to F45.
+    """
+    try:
+        return certify_nontriangle(graph, target)
+    except ValueError:
+        pass
+    for u, v in sorted(tuple(sorted(e)) for e in graph.edges()):
+        if set(graph[u]) & set(graph[v]):
+            continue
+        modified = graph.copy()
+        modified.remove_edge(u, v)
+        reduced, folds = fold_trace(modified)
+        if len(reduced) != len(target) + 1:
+            continue
+        try:
+            further = certify_retracts(reduced, target)
+        except ValueError:
+            continue
+        return {
+            "type": "non_triangle_edge",
+            "edge": [u, v],
+            "dominated_folds": folds,
+            "downstream": further,
+        }
+    raise ValueError("No nontriangle edge with certified F45 downstream chain")
+
+
 CHECKERS = {
     "reference": certify_reference,
     "retracts": certify_retracts,
-    "non_triangle_edge": certify_nontriangle,
+    "non_triangle_edge": certify_nontriangle_chain,
     "inverse_cutpoint_extension": certify_inverse_cutpoint,
 }
 
