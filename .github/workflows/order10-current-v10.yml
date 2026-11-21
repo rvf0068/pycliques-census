@@ -1,0 +1,46 @@
+name: Current v10 index of 7219 unresolved ten-vertex graphs
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify-current-v10:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install pinned independent graph verification dependency
+        run: python -m pip install networkx==3.6.1
+      - name: Independently replay two raw K3-to-O5/O6 nine-core maps and 351 isomorphism lifts
+        run: python research/order10_ninecore_high_octahedra_v1/verify.py --self-test
+      - name: Independently replay all 350 raw K3-to-O4/O5/O6 ten-core maps
+        run: python research/order10_third_iterate_high_octahedra_proofs_v1/verify.py --self-test
+      - name: Audit original and corrected eight-way discovery records
+        run: python research/order10_third_iterate_high_octahedra_proofs_v1/audit_batches.py
+      - name: Verify exact v9-to-v10 transition and all conditional references
+        run: python research/order10_current_indeterminates_v10/verify.py
+      - name: Check authoritative root and immutable historical baseline
+        run: python -m unittest discover -s tests -p test_current_root_index.py -v
+      - name: Protect all prior versioned census results and archived proofs
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            'indeterminate_order_9*' 'indeterminate_order_10_v[1-9].txt' \
+            homotopy_order_10.tsv historical/ history/ runs/ reports/ \
+            config/ scripts/ postpasses/
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            tests/ ':(exclude)tests/test_current_root_index.py'
+          # New research version folders are append-only; no edits or
+          # deletions of already merged mathematical proof archives.
+          git diff --exit-code --diff-filter=DMRTUXB "$BASE_SHA" HEAD -- research/
