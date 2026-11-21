@@ -30,7 +30,7 @@ TEN_GRAPH6 = "ICXnRi^uo"
 def assert_git_blob(path: Path, expected: str) -> bytes:
     raw = path.read_bytes()
     digest = hashlib.sha1(
-        b"blob " + str(len(raw)).encode("ascii") + b"\\0" + raw
+        b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw
     ).hexdigest()
     if digest != expected:
         raise AssertionError("Immutable historical index changed: " + str(path))
