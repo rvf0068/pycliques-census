@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "research/order9_f45_o9_v1/**"
+      - "research/order9_260910_o15_v1/**"
       - ".github/workflows/order9-f45-o9-proof.yml"
       - "indeterminate_order_9_v4.txt"
   workflow_dispatch:
@@ -30,6 +31,10 @@ jobs:
         env:
           PYTHONHASHSEED: "0"
         run: python research/order9_f45_o9_v1/verify.py
+      - name: Independently certify McKay 260910 third-pared O15 retraction
+        env:
+          PYTHONHASHSEED: "0"
+        run: python research/order9_260910_o15_v1/verify.py
       - name: Independently replay the 120 ten-vertex conditional dependencies
         env:
           PYTHONHASHSEED: "0"
