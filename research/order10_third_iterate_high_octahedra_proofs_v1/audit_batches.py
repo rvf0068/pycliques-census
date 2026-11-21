@@ -181,7 +181,7 @@ def main() -> None:
     damaged = copy.deepcopy(archives)
     damaged[5]["summary"]["positive"] += 1
     try:
-        audit(cohort, document["proofs"], damaged)
+        audit(cohort, document["proofs"], damaged, corrected)
     except ValueError:
         pass
     else:
