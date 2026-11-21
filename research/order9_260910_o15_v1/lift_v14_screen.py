@@ -161,6 +161,10 @@ def main() -> None:
             found = {"index": original, "source_g6": g6, "source_order": order, **claim}
             matches.append(found)
             print("POSITIVE", original, claim["kind"], flush=True)
+            # Emit every explicit complete mapping to the archived job log
+            # so it can be independently replayed without rerunning a search.
+            print("CERTIFICATE", json.dumps(found, sort_keys=True, separators=(",", ":")),
+                  flush=True)
         if candidates % 500 == 0:
             print("PROGRESS", args.shard, candidates, "positives", len(matches),
                   "distinct", len(core_cache), flush=True)
