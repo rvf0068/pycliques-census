@@ -1,6 +1,6 @@
-# Order-10 unresolved after certified O4 retractions for 147 nine-vertex strings
-# Remaining=7932 previous_v7=8124 newly_proved_divergent=192
-# Historical stage reports and all earlier versioned lists remain unchanged.
+# Order-10 unresolved after twelve independently certified raw K^2(G) to O3 retractions
+# Remaining=7920 previous_v8=7932 newly_proved_divergent=12
+# Existing v8 and earlier snapshots, historical stage reports and proof records remain unchanged.
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
 2317572 8 GQyuzw reference conjectured_divergent snub_disphenoid
 2317841 8 GQyuzw reference conjectured_divergent snub_disphenoid
@@ -3685,7 +3685,6 @@
 10297684 10 ICZJbninO retracts conjectured_divergent snub_disphenoid
 10298357 8 GQtt~W reference conjectured_divergent snub_disphenoid
 10298559 9 HEffjrl retracts conjectured_divergent snub_disphenoid
-10298587 10 ICZJbu}v_ - - -
 10298588 9 HQdbny} - - -
 10298593 10 ICZJbu}|o - - -
 10298597 10 ICZJbu}~O - - -
@@ -4684,7 +4683,6 @@
 10581624 9 HQrjnqz - - -
 10581868 9 HCzZnpr retracts conjectured_divergent snub_disphenoid
 10582170 10 ICZejv{lo - - -
-10582171 10 ICZejv{nO - - -
 10582239 10 ICZejxylW - - -
 10582240 9 HEqnvhl non_triangle_edge conjectured_divergent snub_disphenoid
 10582245 10 ICZejxynG - - -
@@ -4747,7 +4745,6 @@
 10592274 10 ICZenXylW - - -
 10592275 8 G]fvQs reference conjectured_divergent snub_disphenoid
 10592279 9 HBzNriv - - -
-10592280 10 ICZenXynG - - -
 10592292 10 ICZenXyuW retracts conjectured_divergent snub_disphenoid
 10592318 9 HCz^Rjr retracts conjectured_divergent snub_disphenoid
 10592476 9 HBzNvif - - -
@@ -5387,10 +5384,8 @@
 11030927 9 HEYef^{ reference conjectured_divergent HCZTf\}
 11031156 10 ICpderm\o - - -
 11031157 8 GUjur[ reference conjectured_divergent snub_disphenoid
-11031164 10 ICpderm^o - - -
 11031183 9 HEYefzm reference conjectured_divergent HCZTf\}
 11031615 9 HEYef^{ reference conjectured_divergent HCZTf\}
-11031734 10 ICpder}^o - - -
 11032746 9 HEYen^{ - - -
 11032996 9 HEYenx} - - -
 11033018 9 HEYenzm - - -
@@ -5642,7 +5637,6 @@
 11106298 10 ICpdux}xo - - -
 11106304 10 ICpdux}|o - - -
 11106454 8 GUYr~o reference conjectured_divergent snub_disphenoid
-11106678 10 ICpduzm\o - - -
 11106684 8 GUYvrw reference conjectured_divergent snub_disphenoid
 11106697 9 HEYuvzm - - -
 11106845 9 HEYuvzm - - -
@@ -6894,7 +6888,6 @@
 11550830 10 IEhetjl^o - - -
 11550908 9 HEhev^{ - - -
 11551311 10 IEhetj{zo - - -
-11551444 10 IEhetp}^O - - -
 11551455 10 IEhetp}|o - - -
 11551459 10 IEhetp}~? - - -
 11551460 9 HEher~{ - - -
@@ -7067,7 +7060,6 @@
 11566421 9 HEhfVzu - - -
 11566590 9 HDZfu~{ - - -
 11566610 9 HDZfvz] - - -
-11566611 10 IEhffZmvO - - -
 11566612 9 HDZfvz] - - -
 11566623 9 HEhff^{ - - -
 11566664 9 HEhf^v{ - - -
@@ -7262,7 +7254,6 @@
 11585095 10 IEhuVfwZg non_triangle_edge conjectured_divergent snub_disphenoid
 11585200 10 IEhuVf{^o - - -
 11585213 10 IEhuVf{zO - - -
-11585214 10 IEhuVf{z_ - - -
 11585216 9 HEhvfzm - - -
 11585453 10 IEhuVhz~_ - - -
 11585487 8 GMjVvW reference conjectured_divergent snub_disphenoid
@@ -7386,7 +7377,6 @@
 11599296 9 HE^enY} - - -
 11599494 9 HDZenzy - - -
 11599615 10 IEhvEv{^o - - -
-11599630 10 IEhvEv{z_ - - -
 11599631 9 HEhuvzm - - -
 11600231 9 HE^etzm - - -
 11600288 10 IEhvEy}xo - - -
@@ -7404,7 +7394,6 @@
 11601549 9 HEhvVzu - - -
 11601550 10 IEhvFV{|_ - - -
 11601552 9 HEhvVzu - - -
-11602159 10 IEhvFf{z_ - - -
 11602160 9 HEhvfzm - - -
 11602839 9 H[ZFa}| - - -
 11602919 9 HEjfr~{ - - -
@@ -7550,7 +7539,6 @@
 11624566 10 IEjbuv{^O - - -
 11624567 9 HEjevx} - - -
 11624622 10 IEjbvL{fg - - -
-11624876 10 IEjbvN{}_ - - -
 11625722 10 IEjbvh}n_ - - -
 11625891 9 HDxvVzU - - -
 11625997 10 IEjbvjyz_ - - -

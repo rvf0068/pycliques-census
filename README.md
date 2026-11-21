@@ -89,8 +89,15 @@ The working clique-behavior files at the repository root are:
 - [`indeterminate_order_10.txt`](indeterminate_order_10.txt)
 
 **Current certified snapshot (November 2026):** the order-10 root working
-file exactly matches [`indeterminate_order_10_v8.txt`](indeterminate_order_10_v8.txt):
-**7,932** remaining cases, including **4,509** conditional references.
+file exactly matches [`indeterminate_order_10_v9.txt`](indeterminate_order_10_v9.txt):
+**7,920** remaining cases, including **4,509** conditional references.
+The new v9 proof stage certifies **12** further K-divergences among stiff
+ten-vertex graphs, each by a complete ordinary graph retraction
+`K²(G) → O₃`. The independent proof archive is
+[`research/order10_second_clique_o3_retracts_v1/`](research/order10_second_clique_o3_retracts_v1/REPORT.md),
+and the exact 7,932-to-7,920 census transition is authenticated by
+[`research/order10_current_indeterminates_v9/`](research/order10_current_indeterminates_v9/verify.py).
+The immutable v8 list (7,932 cases) remains available. 
 The v8 lift separately certifies **192** further original ten-vertex K-divergences
 through two explicit third-iterate O4 retractions and exact isomorphism checks
 for **147** nine-vertex graph6 strings representing two isomorphism classes. See
