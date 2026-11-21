@@ -9,7 +9,7 @@ on:
       limit:
         description: "Cores per shard (0 = all 1043 cores)"
         required: true
-        default: "24"
+        default: "0"
         type: string
 
 permissions:
@@ -37,11 +37,11 @@ jobs:
       - name: Check script syntax and pinned census selection
         run: |
           python -m compileall -q research/order10_nonlocal_oct_stiff_v1/
-          python research/order10_nonlocal_oct_stiff_v1/sweep.py plan --shard ${{ matrix.shard }} --shards 8 --limit "${{ inputs.limit || '24' }}"
+          python research/order10_nonlocal_oct_stiff_v1/sweep.py plan --shard ${{ matrix.shard }} --shards 8 --limit "${{ inputs.limit || '0' }}"
       - name: Run bounded per-core experiments
         run: |
           python research/order10_nonlocal_oct_stiff_v1/sweep.py run \
-            --shard ${{ matrix.shard }} --shards 8 --limit "${{ inputs.limit || '24' }}" \
+            --shard ${{ matrix.shard }} --shards 8 --limit "${{ inputs.limit || '0' }}" \
             --max-depth 3 --bound 450 --dimensions 3,4,5,6,8,10 \
             --restarts 160 --states 1200 --timeout-sec 8 \
             --output "$RUNNER_TEMP/order10-shard-${{ matrix.shard }}.json"
@@ -57,6 +57,11 @@ jobs:
           positives=[(r["index"],r["certificate"]["depth"]) for r in records if r["status"]=="CERTIFIED_DIVERGENT"]
           counts={status:sum(r["status"]==status for r in records) for status in ("CERTIFIED_DIVERGENT","INCONCLUSIVE","TIMEOUT","ERROR")}
           print("SEARCH_SUMMARY", json.dumps({"counts":counts,"positives":positives}))
+          depths={str(d):sum(any(step.get("depth")==d for step in rec.get("steps",[])) for rec in records) for d in range(4)}
+          finder_hits=sum(any(t.get("status")=="found" for st in rec.get("steps",[]) for t in st.get("trials",[])) for rec in records)
+          retraction_trials=sum(sum("retraction_status" in t for t in st.get("trials",[])) for rec in records for st in rec.get("steps",[]))
+          best_dimensions={str(d):max([0]+[t.get("best_dimension",0) for rec in records for st in rec.get("steps",[]) if st.get("depth")==d for t in st.get("trials",[])]) for d in range(4)}
+          print("SEARCH_DIAGNOSTICS",json.dumps({"depths_reached":depths,"found_target_graphs":finder_hits,"retraction_trials":retraction_trials,"best_dimensions":best_dimensions}))
           if counts["ERROR"]: raise SystemExit("Explicit ERROR results in shard; inspect artifact")
           PY
       - uses: actions/upload-artifact@v4
