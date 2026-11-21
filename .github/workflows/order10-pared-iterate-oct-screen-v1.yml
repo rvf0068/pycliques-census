@@ -1,0 +1,38 @@
+name: Unclassified McKay-10 pared K2-K4 octahedron discovery
+on:
+  push:
+    branches: ["research/order10-pared-iterate-oct-screen-v1"]
+    paths:
+      - "research/order10_pared_iterate_oct_screen_v1/**"
+      - ".github/workflows/order10-pared-iterate-oct-screen-v1.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  positive-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    strategy:
+      fail-fast: false
+      matrix:
+        batch: [0,1,2,3,4,5,6,7]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install pinned NetworkX
+        run: python -m pip install networkx==3.6.1
+      - name: Screen exact frozen v10 McKay cohort
+        run: |
+          python research/order10_pared_iterate_oct_screen_v1/screen.py \
+            --batch ${{ matrix.batch }} --batches 8 --seconds .55 \
+            --max-facets 140 \
+            --output "$RUNNER_TEMP/pare-oct-v10-${{ matrix.batch }}.json"
+      - name: Archive complete positive maps and bounded summaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: pare-oct-v10-${{ matrix.batch }}
+          path: ${{ runner.temp }}/pare-oct-v10-${{ matrix.batch }}.json
+          if-no-files-found: error
+          retention-days: 30
