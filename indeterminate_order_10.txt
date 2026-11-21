@@ -1,9 +1,8 @@
-# Connected order-ten unresolved population after certified fourth-iterate octahedral retractions (v12)
-# Remaining=2788 previous_v11=2830 newly_proved_divergent=42
-# O12 P4(10223405) with exact 33-member P3 equivalence and five additional exact P4 isomorphism lifts (38 total).
-# Additional O12 P4(10775850), O6 P4(10223467), P4(11104269), P4(11563706) give four other divergences.
-# Preserved 120 conjecture-conditional HCZTf\} records; remaining unconditional=2668.
-# Historical v11 and all older stage records remain immutable.
+# Connected order-ten unresolved population after new independently certified O12 retraction (v13)
+# Remaining=2787 previous_v12=2788 newly_proved_divergent=1
+# New certificate: McKay 10510367, its 64-vertex pared fourth iterate retracts onto O12.
+# All 42 v12 positive classifications remain; historical v12 is immutable.
+# All 120 conditional HCZTf\} records remain unchanged.
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
 3663513 9 HCZTf\} reference conjectured_divergent HCZTf\}
 3663865 10 I?`eTRv^o retracts conjectured_divergent HCZTf\}
@@ -1341,7 +1340,6 @@
 10508710 9 HBrbvy} - - -
 10508960 9 HBrbvy} - - -
 10510233 9 HBrbt~{ - - -
-10510367 10 ICZVByz~_ - - -
 10510415 9 HBrbt~{ - - -
 10510895 10 ICZVBzkkw retracts conjectured_divergent HCZTf\}
 10510973 9 HBrbvy} - - -
