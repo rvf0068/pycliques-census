@@ -197,6 +197,22 @@ def main() -> None:
     if args.verify:
         verify(json.loads(args.verify.read_text()))
     if args.self_test:
+        # Exercise the independent full-adjacency map checker directly,
+        # before the byte-exact certificate comparison in verify().
+        source = cohort()
+        representative, _ = reconstruct(source[MCKAY[0]])
+        second, _ = reconstruct(source[MCKAY[1]])
+        valid_map = cert["members"][1]["to_representative"]
+        check_bijection(second, representative, valid_map)
+        altered_map = valid_map.copy()
+        altered_map[0] = -1
+        try:
+            check_bijection(second, representative, altered_map)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("Independent map checker accepted a corrupt image")
+        # Check separately that exact archival equality detects mutation.
         changed = json.loads(json.dumps(cert))
         changed["members"][1]["to_representative"][0] = -1
         try:
@@ -204,7 +220,7 @@ def main() -> None:
         except ValueError:
             pass
         else:
-            raise AssertionError("Tampered map survived independent verification")
+            raise AssertionError("Tampered archive survived certificate comparison")
     print("VERIFIED_JSON "+json.dumps({
         "representative":MCKAY[0],
         "isomorphic_original_McKay_indices": list(MCKAY),
