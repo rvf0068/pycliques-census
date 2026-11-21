@@ -6,6 +6,7 @@ on:
       - research/order10-reference-lifts-pilot
     paths:
       - ".github/workflows/order10-reference-lifts-p3-pilot.yml"
+      - "research/order10_reference_lifts_pilot/**"
   workflow_dispatch:
 
 permissions:
