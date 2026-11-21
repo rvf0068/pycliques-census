@@ -1,7 +1,13 @@
 name: Exploratory third-iterate O4 through O7 retraction sweep
 
 on:
+  # Broad historical/archive guards run elsewhere. Do not rerun all eight
+  # expensive, frozen-v9 exploratory batches for an unrelated v10 update.
   pull_request:
+    paths:
+      - "research/order10_third_iterate_oct_sweep_v1/sweep.py"
+      - ".github/workflows/order10-third-iterate-oct-sweep-v1.yml"
+      - "indeterminate_order_10_v9.txt"
   workflow_dispatch:
 
 permissions:
@@ -44,7 +50,8 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           git diff --exit-code "$BASE_SHA" HEAD -- \
-            'indeterminate_order_*' homotopy_order_10.tsv \
-            historical/ history/ runs/ reports/ \
-            scripts/ tests/ config/ postpasses/
+            'indeterminate_order_9*' 'indeterminate_order_10_v[1-9].txt' \
+            homotopy_order_10.tsv historical/ history/ runs/ reports/ \
+            scripts/ tests/ ':(exclude)tests/test_current_root_index.py' \
+            config/ postpasses/
           git diff --exit-code --diff-filter=DMRTUXB "$BASE_SHA" HEAD -- research/
