@@ -21,6 +21,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Restore frozen 54-case order-nine input for historical replay
+        run: cp indeterminate_order_9_v1.txt indeterminate_order_9.txt
       - name: Restore frozen pre-v3 working index for historical replay
         run: cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt
       - uses: astral-sh/setup-uv@v4
@@ -71,7 +73,7 @@ jobs:
             scripts/targeted_retractions_v1.py \
             scripts/bootstrap_targeted_v1.sh \
             tests/targeted_retractions_v1_cases.py \
-            indeterminate_order_9.txt
+            indeterminate_order_10_v3.txt
       - name: Authenticate allowed v1 workflow guard change
         if: github.event_name == 'pull_request'
         env:
@@ -86,48 +88,29 @@ jobs:
           original = subprocess.check_output(
               ["git", "show", f"{os.environ['BASE_SHA']}:{workflow}"], text=True
           )
-          old_guard = "            runs/ reports/ postpasses/ " + chr(92) + "\n"
-          new_guard = (
-              "            runs/ reports/ " + chr(92) + "\n"
-              + "            ':(exclude)reports/order10_special_octahedron_core_lift_v1/**' postpasses/ "
-              + chr(92) + "\n"
-          )
-          allowed = {original}
-          if old_guard in original:
-              assert original.count(old_guard) == 1
-              allowed.add(original.replace(old_guard, new_guard, 1))
-          else:
-              assert new_guard in original, "Unexpected historical v1 guard baseline"
-          # The root-v6 maintenance change permits only two additional,
-          # exactly reproducible adjustments in the legacy v1 workflow:
-          # restore the archived input in CI and no longer guard the
-          # intentionally updated root working index.
+          # The base v1 workflow already restores the frozen pre-v3
+          # order-ten root. This one-to-one transformation is the ONLY
+          # permitted change to that archived workflow.
           checkout = (
               "      - uses: actions/checkout@v4\n"
               "        with:\n"
               "          fetch-depth: 0\n"
           )
-          restore = (
-              "      - name: Restore frozen pre-v3 working index for historical replay\n"
-              "        run: cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt\n"
+          nine_restore = (
+              "      - name: Restore frozen 54-case order-nine input for historical replay\n"
+              "        run: cp indeterminate_order_9_v1.txt indeterminate_order_9.txt\n"
           )
-          old_inputs = "            indeterminate_order_9.txt indeterminate_order_10.txt"
-          archived_variants = set()
-          for historical in tuple(allowed):
-              assert historical.count(checkout) == 1
-              if restore in historical and old_inputs not in historical:
-                  # The approved pre-v3 archive restoration is already in
-                  # the base commit; require exact byte-for-byte identity.
-                  continue
-              assert historical.count(old_inputs) == 1
-              archived_variants.add(
-                  historical.replace(checkout, checkout + restore, 1)
-                  .replace(old_inputs, "            indeterminate_order_9.txt", 1)
-              )
-          allowed |= archived_variants
-          assert Path(workflow).read_text() in allowed, (
-              "The historical v1 workflow has changes beyond the narrowly approved "
-              "class-lift report exclusion"
+          original_guard = "            indeterminate_order_9.txt\n"
+          archived_guard = "            indeterminate_order_10_v3.txt\n"
+          assert original.count(checkout) == 1, "Unexpected checkout stanza"
+          assert original.count(original_guard) == 1, "Unexpected v1 root guard"
+          expected = (
+              original.replace(checkout, checkout + nine_restore, 1)
+              .replace(original_guard, archived_guard, 1)
           )
-          print("Historical v1 workflow preserved (except approved report exclusion)")
+          assert Path(workflow).read_text() == expected, (
+              "Historical targeted-retractions-v1 workflow deviates from its "
+              "exact archived replay/guard transformation"
+          )
+          print("Verified exact v1 workflow replay restoration and history guard")
           PY

@@ -16,6 +16,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Restore frozen 54-case order-nine input for historical replay
+        run: cp indeterminate_order_9_v1.txt indeterminate_order_9.txt
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
@@ -23,18 +25,22 @@ jobs:
         run: python -m pip install networkx==3.6.1
       - name: Audit cohort, proved exclusions, timeout semantics and O8 witnesses
         run: python research/order9_non_octahedral_clique_targets_v1/verify_record.py --self-test
+      - name: Restore authoritative v2 working index after historical replay
+        run: cp indeterminate_order_9_v2.txt indeterminate_order_9.txt
       - name: Protect all historical census and existing proof records
         if: github.event_name == 'pull_request'
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
+          # Historical order-nine source is authenticated by its Git blob.
           # Protect all previous census snapshots, proof sources and stages.
           # v10/current may advance ONLY via independently replayed positives
           # and the dedicated v10 audit; neither is a historical source.
           git diff --exit-code "$BASE_SHA" HEAD -- \
-            'indeterminate_order_9*' 'indeterminate_order_10_v[1-9].txt' \
+            'indeterminate_order_10_v[1-9].txt' \
             homotopy_order_10.tsv historical/ history/ runs/ reports/ \
             config/ postpasses/
+          test "$(git hash-object indeterminate_order_9_v1.txt)" = "4f210949dad5e7350fc0185c34738e2bf46f9012"
           # Keep old scripts and tests immutable; only the regression test
           # that checks the authoritative root may track a new version.
           git diff --exit-code "$BASE_SHA" HEAD -- \

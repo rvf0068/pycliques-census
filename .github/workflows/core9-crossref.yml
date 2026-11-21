@@ -20,6 +20,10 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+      - name: Restore archived pre-v3 order-ten input for cross-reference replay
+        run: cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt
+      - name: Restore frozen 54-case order-nine input for historical replay
+        run: cp indeterminate_order_9_v1.txt indeterminate_order_9.txt
       - uses: astral-sh/setup-uv@v4
       - name: Prepare unchanged pinned historical witness environment
         run: bash scripts/bootstrap_v3.sh
@@ -30,6 +34,10 @@ jobs:
           .venv-v3/bin/python scripts/core9_crossref.py build --output reports/ci-core9-crossref
           .venv-v3/bin/python scripts/core9_crossref.py verify --output reports/ci-core9-crossref
           cat reports/ci-core9-crossref/summary.md
+      - name: Restore authoritative nine-vertex v2 working index
+        run: cp indeterminate_order_9_v2.txt indeterminate_order_9.txt
+      - name: Restore authoritative v10 order-ten working root
+        run: cp indeterminate_order_10_v10.txt indeterminate_order_10.txt
       - name: Assert historical files remain unchanged
         run: |
           git diff --exit-code -- runs/order9/ runs/order10/ indeterminate_order_9.txt indeterminate_order_10_v3.txt reports/order10_core_index_v1/

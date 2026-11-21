@@ -1,7 +1,7 @@
-# Current indeterminate connected graphs of order 9
-# Derived from certified stage records; raw initial census remains unchanged.
-# Remaining=54 conjectured_divergent=36
-# C10_checked=27 bound60_checked=23 bound70_checked=21 homotopy_checked=0
+# Current indeterminate connected graphs of order 9, certified version 2
+# Remaining=49 conjectured_divergent=36 unconditional_indeterminate=13
+# Frozen 54-case historical stage output: indeterminate_order_9_v1.txt
+# Removed proved K-divergent McKay indices: 242316 248687 250693 252075 255141
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
 180476 8 GQyuzw reference conjectured_divergent snub_disphenoid
 180593 9 HCRSv\} retracts conjectured_divergent snub_disphenoid
@@ -24,9 +24,7 @@
 233586 9 HCpvVn{ retracts conjectured_divergent snub_disphenoid
 235822 8 GUtfnW reference conjectured_divergent snub_disphenoid
 235974 8 GUtfnW reference conjectured_divergent snub_disphenoid
-242316 9 HCrlvhz - - -
 244584 9 HCvbvZu retracts conjectured_divergent snub_disphenoid
-248687 9 HEher^{ - - -
 248936 9 HEhev^{ - - -
 249436 9 HEhff^{ - - -
 249574 9 HEhfvx} - - -
@@ -34,7 +32,6 @@
 250130 8 GUZr^o reference conjectured_divergent snub_disphenoid
 250595 8 GUYr~o reference conjectured_divergent snub_disphenoid
 250687 8 GUYvrw reference conjectured_divergent snub_disphenoid
-250693 9 HEhutzm - - -
 250814 9 HEhuvzm - - -
 251414 9 HEhvTn{ non_triangle_edge conjectured_divergent snub_disphenoid
 251445 9 HEhvTyu retracts conjectured_divergent snub_disphenoid
@@ -43,10 +40,8 @@
 251741 8 G[Ztq{ reference conjectured_divergent snub_disphenoid
 251759 9 HEhvtzm - - -
 251902 9 HEhvvzm - - -
-252075 9 HEh~dzm - - -
 253650 9 HEjer~{ - - -
 254369 9 HEjfvx} - - -
-255141 9 HEnfbzm - - -
 257459 8 GQtv\w reference conjectured_divergent snub_disphenoid
 257461 8 GQtv\w reference conjectured_divergent snub_disphenoid
 257515 8 GQtv\w reference conjectured_divergent snub_disphenoid

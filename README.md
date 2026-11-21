@@ -88,6 +88,23 @@ The working clique-behavior files at the repository root are:
 - [`indeterminate_order_9.txt`](indeterminate_order_9.txt)
 - [`indeterminate_order_10.txt`](indeterminate_order_10.txt)
 
+**Order-nine certified index (v2):** the current order-nine working file
+is byte-identical to [`indeterminate_order_9_v2.txt`](indeterminate_order_9_v2.txt),
+with **49 unresolved McKay indices** (36 conjecture-dependent and
+13 otherwise indeterminate), down from 54. Five previously proved divergent
+graphs—McKay **242316, 248687, 250693, 252075, 255141**—have been
+removed, independently checking graph isomorphism for alternative graph6
+encodings. The old 54-case
+[`indeterminate_order_9_v1.txt`](indeterminate_order_9_v1.txt) remains
+frozen for historical reproductions. See the
+[versioned verification and explanation](research/order9_current_indeterminates_v2/REPORT.md).
+The nine-core retractions used to classify 351 ten-vertex sources in
+[PR #50](https://github.com/rvf0068/pycliques-census/pull/50)
+were **already proved** in order nine by PRs #44 and #45; PR #50's
+new result was the explicit 351-member isomorphism lift, not rediscovery
+of those two octahedral projections.
+
+
 **Current certified snapshot (November 2026):** the order-10 root working
 file exactly matches [`indeterminate_order_10_v10.txt`](indeterminate_order_10_v10.txt):
 **7,219** remaining cases, including **4,509** unchanged conditional references.

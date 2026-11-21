@@ -87,6 +87,7 @@ jobs:
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
+          test "$(git hash-object indeterminate_order_9_v1.txt)" = "4f210949dad5e7350fc0185c34738e2bf46f9012"
           git diff --exit-code "$BASE_SHA" HEAD -- \
             runs/ reports/ \
             ':(exclude)reports/order10_special_octahedron_core_lift_v1/**' postpasses/ \
@@ -96,4 +97,4 @@ jobs:
             scripts/targeted_retractions_v4.py \
             config/pycliques_commit_targeted_v3.txt \
             config/pycliques_commit_targeted_v4.txt \
-            indeterminate_order_9.txt
+            indeterminate_order_10_v3.txt
