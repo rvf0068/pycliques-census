@@ -1,12 +1,11 @@
-"""Replay the immutable v3/v11 snub-promotion proof with historical roots.
+"""Replay immutable v11 snub-promotion proof against the historical current root.
 
-The historical verifier and its tests require *both* working index files
-to equal their original snapshots (order nine v3, order ten v11). Redirect
-only those two read_bytes() calls to the frozen files. Neither verifier,
-its source hashes, nor the current v4/v14 census files are modified.
+Version v12 is the authoritative root now. The archived v11 verifier and
+its tests explicitly asserted that the working root was v11. Rather than
+rewrite that historical proof, redirect read_bytes() for that one root path
+to the untouched frozen v11 file while replaying it.
 """
 from __future__ import annotations
-
 import argparse
 import runpy
 import sys
@@ -15,12 +14,8 @@ from unittest import TestLoader, TextTestRunner
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[2]
-HISTORICAL_ROOTS = {
-    (ROOT / "indeterminate_order_9.txt").resolve():
-        ROOT / "indeterminate_order_9_v3.txt",
-    (ROOT / "indeterminate_order_10.txt").resolve():
-        ROOT / "indeterminate_order_10_v11.txt",
-}
+CURRENT = (ROOT / "indeterminate_order_10.txt").resolve()
+FROZEN = ROOT / "indeterminate_order_10_v11.txt"
 HISTORICAL_VERIFY = ROOT / "research/snub_promotion_v1/verify.py"
 
 
@@ -31,7 +26,7 @@ def main():
     original = Path.read_bytes
 
     def historical_read(path: Path) -> bytes:
-        return original(HISTORICAL_ROOTS.get(path.resolve(), path))
+        return original(FROZEN if path.resolve() == CURRENT else path)
 
     old_argv = sys.argv
     try:
