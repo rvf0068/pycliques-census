@@ -1,11 +1,10 @@
-# Current indeterminate connected graphs of order 9, certified version 3
-# Remaining=13 previous_v2=49 newly_proved_divergent=36
-# Snub disphenoid is K-divergent by independently replayed K^4(S)->O24 retraction.
-# Removed only 25 isomorphic references, 9 snub retractions, 1 non-triangle-edge and 1 inverse-cutpoint extension.
-# Frozen historical stage and earlier certified versions remain immutable.
+# Current indeterminate connected graphs of order nine, certified v4
+# Remaining=12 previous_v3=13 newly_proved_divergent=1
+# Newly proved: McKay 248936 HEhev^{ by exact P2 isomorphism to
+# O12-positive McKay 10223405, whose complete P4 retraction is archived.
+# Every retained v3 row is unchanged; v3 remains immutable.
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
 208409 9 HCZTf\} - - -
-248936 9 HEhev^{ - - -
 249436 9 HEhff^{ - - -
 249574 9 HEhfvx} - - -
 249576 9 HEhfvzu - - -

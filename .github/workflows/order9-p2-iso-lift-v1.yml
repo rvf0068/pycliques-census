@@ -1,0 +1,60 @@
+name: Discover exact P2 lifts from nine-vertex 248936 to v13 unresolved cores
+on:
+  pull_request:
+    paths:
+      - "research/order9_p2_iso_lift_v1/**"
+      - "indeterminate_order_9_v3.txt"
+      - "indeterminate_order_9_v4.txt"
+      - "indeterminate_order_9.txt"
+      - "indeterminate_order_10_v13.txt"
+      - "indeterminate_order_10_v14.txt"
+      - "indeterminate_order_10.txt"
+      - "tests/test_current_root_index.py"
+      - "research/order10_fourth_oct_v1/**"
+      - "research/order10_nonlocal_oct_stiff_v1/sweep.py"
+      - "research/order10_pared_k3_33class_v1/**"
+      - "indeterminate_order_10_v11.txt"
+      - ".github/workflows/order9-p2-iso-lift-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify-nine-core-and-p2-class:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned public pycliques and NetworkX
+        run: |
+          python -m pip install networkx==3.6.1
+          git clone --quiet https://github.com/rvf0068/pycliques-project.git /tmp/pycliques-project
+          git -C /tmp/pycliques-project checkout --quiet 782deb653b8748e1b5759389cdd2134beac69351
+          python -m pip install /tmp/pycliques-project/packages/pycliques
+      - name: Replay archived O12 retraction proving ten-vertex base divergence
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python research/order10_fourth_oct_v1/verify_o12.py
+      - name: Certify new order-nine base and enumerate all exact P2 lifts
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python research/order9_p2_iso_lift_v1/screen.py scan \
+            --output "$RUNNER_TEMP/order9-p2-lift.json"
+          python research/order9_p2_iso_lift_v1/screen.py verify \
+            --output "$RUNNER_TEMP/order9-p2-lift.json"
+      - name: Verify exact cohort, archived retraction, and v4/v14 index transitions
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python -m research.order9_p2_iso_lift_v1.verify
+          python -m unittest discover -s tests -p test_current_root_index.py -v
+      - uses: actions/upload-artifact@v4
+        with:
+          name: exact-p2-isomorphism-class-candidate
+          path: ${{ runner.temp }}/order9-p2-lift.json

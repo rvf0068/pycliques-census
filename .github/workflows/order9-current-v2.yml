@@ -25,7 +25,8 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           test "$(git hash-object indeterminate_order_9_v1.txt)" = "4f210949dad5e7350fc0185c34738e2bf46f9012"
-          cmp indeterminate_order_9.txt indeterminate_order_9_v3.txt
+          test "$(git hash-object indeterminate_order_9_v3.txt)" = "446cbb0be5f40b6014cdb530b1a314de95ff72b2"
+          cmp indeterminate_order_9.txt indeterminate_order_9_v4.txt
           git diff --exit-code "$BASE_SHA" HEAD -- \
             runs/ reports/ historical/ history/ config/ postpasses/ \
             scripts/core9_o4_divergence_v1.py \

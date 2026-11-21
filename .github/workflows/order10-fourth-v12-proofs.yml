@@ -1,11 +1,16 @@
-name: Recheck historical fourth-iterate v12 proofs under v13
+name: Recheck historical fourth-iterate v12 proofs under current root
 on:
   pull_request:
     paths:
       - "research/order10_fourth_oct_v1/**"
+      - "research/order10_o12_dim_v13/replay_v12.py"
+      - "research/order9_p2_iso_lift_v1/replay_old_snub.py"
       - "indeterminate_order_10_v11.txt"
       - "indeterminate_order_10_v12.txt"
       - "indeterminate_order_10_v13.txt"
+      - "indeterminate_order_10_v14.txt"
+      - "indeterminate_order_9_v4.txt"
+      - "indeterminate_order_9.txt"
       - "indeterminate_order_10.txt"
       - "tests/test_current_root_index.py"
       - ".github/workflows/order10-fourth-v12-proofs.yml"
@@ -15,6 +20,9 @@ on:
       - "indeterminate_order_10_v11.txt"
       - "indeterminate_order_10_v12.txt"
       - "indeterminate_order_10_v13.txt"
+      - "indeterminate_order_10_v14.txt"
+      - "indeterminate_order_9_v4.txt"
+      - "indeterminate_order_9.txt"
       - "indeterminate_order_10.txt"
       - ".github/workflows/order10-fourth-v12-proofs.yml"
   workflow_dispatch:
@@ -35,9 +43,9 @@ jobs:
           git clone --quiet https://github.com/rvf0068/pycliques-project.git /tmp/pycliques-project
           git -C /tmp/pycliques-project checkout --quiet 7ae36ffe67fb2e9bbafc68e97347aabcf757c2dc
           python -m pip install /tmp/pycliques-project/packages/pycliques
-      - name: Verify current-root v13 invariant
+      - name: Verify current-root v14 invariant
         run: python -m unittest discover -s tests -p test_current_root_index.py -v
       - name: Verify O6 and O12 full maps and exact 38-member isomorphism lifts
         run: python -m research.order10_o12_dim_v13.replay_v12
       - name: Verify archived snub proof still replays at historical v11
-        run: python research/order10_fourth_oct_v1/replay_snub_v11.py --tests
+        run: python -m research.order9_p2_iso_lift_v1.replay_old_snub --tests
