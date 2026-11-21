@@ -57,7 +57,7 @@ def rows(path: Path) -> dict[int, list[str]]:
 
 def digest(path: Path) -> str:
     raw = path.read_bytes()
-    return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\\0" + raw).hexdigest()
+    return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
 
 
 def build(graph6: str, depth: int, *, bound: int) -> nx.Graph | None:
@@ -216,7 +216,7 @@ def main():
     args = parser.parse_args()
     result = scan(args.shard, args.shards, args.depth, args.bound)
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(result, sort_keys=True, indent=2) + "\\n",
+    args.output.write_text(json.dumps(result, sort_keys=True, indent=2) + "\n",
                            encoding="utf-8")
 
 
