@@ -91,7 +91,11 @@ def search_one(
         relabeled = nx.relabel_nodes(host, f, copy=True)
         # First try maximal target; alternate pure-feasibility targets.
         maximize = trial % 3 == 0
-        minimum = 3 if trial == 0 else (4 if trial % 3 == 1 else 3)
+        minimum = 3 if trial == 0 else (
+            6 if n >= 100 and trial % 3 == 1 else
+            8 if n >= 100 else
+            4 if trial % 3 == 1 else 3
+        )
         result = find_induced_octahedron_ilp(
             relabeled, min_dimension=minimum,
             maximize_dimension=maximize, require_dominating=True,
