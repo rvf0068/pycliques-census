@@ -9,6 +9,10 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 
+import sys
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT))
+
 from research.order10_pared_k3_33class_v1.verify import MCKAY
 from research.order10_fourth_oct_v1.verify_o6 import main as verify_o6
 from research.order10_fourth_oct_v1.verify_o12 import main as verify_o12
