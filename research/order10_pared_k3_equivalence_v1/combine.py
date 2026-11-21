@@ -13,7 +13,7 @@ import json
 from pathlib import Path
 
 import networkx as nx
-from classes import cases, complete_map, key
+from classes import cases, key
 
 
 def require(condition, message):
@@ -35,6 +35,18 @@ def check_map(source, target, mapping):
         for v in range(u + 1, len(source)):
             require(source.has_edge(u, v) == target.has_edge(mapping[u], mapping[v]),
                     "Invalid adjacency or nonadjacency under explicit map")
+
+
+def fast_exact_map(G, H):
+    """VF2++ finds a full exact isomorphism; every pair is then rechecked."""
+    if len(G) != len(H) or G.number_of_edges() != H.number_of_edges():
+        return None
+    mapping = nx.vf2pp_isomorphism(G, H)
+    if mapping is None:
+        return None
+    images = [int(mapping[v]) for v in range(len(G))]
+    check_map(G, H, images)
+    return images
 
 
 def merge(shard_files):
@@ -104,7 +116,7 @@ def merge(shard_files):
         bucket = groups[key(G)]
         selected = None
         for entry in bucket:
-            mapping = complete_map(G, entry["graph"])
+            mapping = fast_exact_map(G, entry["graph"])
             if mapping is not None:
                 selected = (entry, mapping)
                 break
