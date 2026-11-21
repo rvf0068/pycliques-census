@@ -200,7 +200,9 @@ def verify(*, full: bool = False, public: bool = False) -> None:
         total = 0
         incomplete = 0
         for shard in range(8):
-            result = screen.scan(shard, 8, 2, 1500)
+            # Unbounded P2 construction: no dropped source OR reference is
+            # permitted in a complete positive-cohort certificate.
+            result = screen.scan(shard, 8, 2, None)
             found.extend(row["index"] for row in result["positive"])
             total += result["processed_original_indices"]
             incomplete += result["bound_exhausted_distinct_core_graph6"]
