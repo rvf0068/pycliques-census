@@ -6,27 +6,38 @@ order 10. All classifications use a pinned revision of the Python monorepo
 The earlier pre-clockwork-fix experiment is retained in Git history; the
 current stage framework uses clean, stable directories.
 
-## Current certified census: snub divergence (November 21, 2026)
+## Current certified census: fourth-iterate octahedral retractions (November 21, 2026)
 
-The snub disphenoid (graph6 `GQyuzw`) is now **proved K-divergent** by
-an independently verified graph retraction `K^4(S) -> O_24` in
-[`pycliques-project`](https://github.com/rvf0068/pycliques-project/blob/main/docs/snub_o24_retraction.md).
-This resolves **36** conjecture-dependent order-nine McKay indices and
-**4,389** original order-ten indices whose saved certificates depend on that
-reference. The canonical current root indexes are exactly
-[`indeterminate_order_9_v3.txt`](indeterminate_order_9_v3.txt) (**13** remaining)
-and [`indeterminate_order_10_v11.txt`](indeterminate_order_10_v11.txt)
-(**2,830** remaining, including 120 conditional on the separate unresolved
-graph `HCZTf\\}`). All earlier snapshots remain frozen. Every removed
-index is checked by the independent, positive-only
-[`snub_promotion_v1/verify.py`](research/snub_promotion_v1/verify.py).
+The snub disphenoid remains **proved K-divergent** by an independently
+verified graph retraction `K^4(S) -> O_24` in
+[pycliques-project](https://github.com/rvf0068/pycliques-project/blob/main/docs/snub_o24_retraction.md).
+Its earlier proof removed 36 order-nine and 4,389 order-ten
+indeterminate references. The 9-vertex current working index remains
+[`indeterminate_order_9_v3.txt`](indeterminate_order_9_v3.txt)
+(**13** indeterminate).
 
-The 13 remaining order-nine cases have a new read-only, timeboxed search
-driver for general induced octahedra and verified retractions:
-[`order9_nonlocal_oct_sweep_v1/sweep.py`](research/order9_nonlocal_oct_sweep_v1/sweep.py).
-Bounded failures are **inconclusive**. Historical descriptions further below
-retain their original counts and terminology where explicitly labeled as
-historical, and should not be read as present-day conjectures.
+The **new fourth-iterate retraction certificates** prove another 37
+previously unclassified original ten-vertex graphs K-divergent:
+three independent `O_6` retractions from fourth completely pared
+iterates, two `O_12` retractions, and an independently proved
+33-member class of isomorphic completely pared third iterates
+(including one of the `O_12` positive cores). All complete retraction
+maps are replayable. The [proof report](research/order10_fourth_oct_v1/REPORT.md)
+explains the independent replays and the necessary prior isomorphism theorem.
+
+The canonical order-ten root is now
+[`indeterminate_order_10_v12.txt`](indeterminate_order_10_v12.txt):
+**2,793 remaining**, of which **120** depend on the separate unresolved
+reference `HCZTf\\}` and **2,673** are unconditional.
+The exact historical v11 snapshot (**2,830**) and earlier source/stage
+files are left untouched. The positive-only
+[`verify_v12.py`](research/order10_fourth_oct_v1/verify_v12.py)
+checks every approved deletion. All prior historical replay verifiers
+are preserved, with version-aware read-only wrappers.
+
+The [bounded fourth-iterate sweep](research/order10_fourth_oct_v1/sweep.py)
+uses the existing `pycliques` package. Inconclusive search outcomes do
+**not** imply convergence or absence of retractions.
 
 ## Codespaces commands
 
