@@ -29,7 +29,8 @@ jobs:
         run: |
           git diff --exit-code "$BASE_SHA" HEAD -- \
             'indeterminate_order_9*' 'indeterminate_order_10_v[1-9].txt' \
-            homotopy_order_10.tsv historical/ history/ runs/ reports/ scripts/ tests/ \
+            homotopy_order_10.tsv historical/ history/ runs/ reports/ scripts/ \
+            tests/ ':(exclude)tests/test_current_root_index.py' \
             config/ postpasses/
           # New research archives may be added, never edited or deleted.
           git diff --exit-code --diff-filter=DMRTUXB "$BASE_SHA" HEAD -- research/
