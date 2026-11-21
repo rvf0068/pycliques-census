@@ -1,0 +1,39 @@
+name: Certify fourth-iterate retractions and v12 promotions
+on:
+  pull_request:
+    paths:
+      - "research/order10_fourth_oct_v1/**"
+      - "indeterminate_order_10_v12.txt"
+      - "indeterminate_order_10.txt"
+      - "tests/test_current_root_index.py"
+      - ".github/workflows/order10-fourth-v12-proofs.yml"
+  push:
+    paths:
+      - "research/order10_fourth_oct_v1/**"
+      - "indeterminate_order_10_v12.txt"
+      - "indeterminate_order_10.txt"
+      - ".github/workflows/order10-fourth-v12-proofs.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independently-replay-all-37:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned independent and pycliques verifiers
+        run: |
+          python -m pip install networkx==3.6.1
+          git clone --quiet https://github.com/rvf0068/pycliques-project.git /tmp/pycliques-project
+          git -C /tmp/pycliques-project checkout --quiet 7ae36ffe67fb2e9bbafc68e97347aabcf757c2dc
+          python -m pip install /tmp/pycliques-project/packages/pycliques
+      - name: Verify current-root v12 invariant
+        run: python -m unittest discover -s tests -p test_current_root_index.py -v
+      - name: Verify O6 and O12 full maps and exact 33-member lift
+        run: python research/order10_fourth_oct_v1/verify_v12.py
+      - name: Verify archived snub proof still replays at historical v11
+        run: python research/order10_fourth_oct_v1/replay_snub_v11.py --tests
