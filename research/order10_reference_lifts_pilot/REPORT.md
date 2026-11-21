@@ -101,6 +101,16 @@ unexamined divergent reference.
 7. With `--full`, re-runs the **entire 2,568-case P2 search**, requiring
    exactly the saved 27 positives and no skipped source graph6 inputs.
 
+The exhaustive no-cutoff replay is also available as **eight independent
+CI shards**, grouped by original McKay index modulo 8. Each job recomputes
+every source in its partition with public `pycliques`, refuses skipped
+cores or exceptions, verifies its exact source count, and compares its
+positive index set with the corresponding saved 27-certificate subset.
+The eight partitions are disjoint and cover all 2,568 original indices.
+This replaces the earlier sequential eight-shard CI job, which reached
+its 25-minute runner time limit; no mathematical assertion or negative
+search interpretation was changed.
+
 The historical v4/v14 verifier is retained byte-for-byte and invoked
 through `replay_v14.py`, which changes *read access* to its former
 current-root path only during the historical proof replay. All earlier
@@ -113,7 +123,11 @@ Install NetworkX 3.6.1 and `pycliques` from monorepo commit
 
 ```sh
 python -m research.order10_reference_lifts_pilot.verify
-PYTHONHASHSEED=0 python -m research.order10_reference_lifts_pilot.verify --public --full
+PYTHONHASHSEED=0 python -m research.order10_reference_lifts_pilot.verify --public
+# Optional: reproduce one of the eight exhaustive CI partitions.
+PYTHONHASHSEED=0 python -m research.order10_reference_lifts_pilot.verify --full --shard 0 --shards 8
+# Or omit --shard to check all eight partitions sequentially on one machine.
+PYTHONHASHSEED=0 python -m research.order10_reference_lifts_pilot.verify --full
 PYTHONHASHSEED=0 python -m research.order10_reference_lifts_pilot.replay_v14
 python -m unittest discover -s tests -p test_current_root_index.py -v
 ```
