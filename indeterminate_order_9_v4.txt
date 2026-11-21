@@ -1,0 +1,18 @@
+# Current indeterminate connected graphs of order nine, certified v4
+# Remaining=12 previous_v3=13 newly_proved_divergent=1
+# Newly proved: McKay 248936 HEhev^{ by exact P2 isomorphism to
+# O12-positive McKay 10223405, whose complete P4 retraction is archived.
+# Every retained v3 row is unchanged; v3 remains immutable.
+# Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
+208409 9 HCZTf\} - - -
+249436 9 HEhff^{ - - -
+249574 9 HEhfvx} - - -
+249576 9 HEhfvzu - - -
+250814 9 HEhuvzm - - -
+251628 9 HEhvVn{ - - -
+251759 9 HEhvtzm - - -
+251902 9 HEhvvzm - - -
+253650 9 HEjer~{ - - -
+254369 9 HEjfvx} - - -
+260040 9 HQyvex} - - -
+260910 9 HUZvvzu - - -
