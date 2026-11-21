@@ -1,0 +1,56 @@
+name: Certify 27 additional order-ten P2 lifts and v15 index
+
+on:
+  pull_request:
+    paths:
+      - "research/order10_reference_lifts_pilot/**"
+      - "indeterminate_order_10_v14.txt"
+      - "indeterminate_order_10_v15.txt"
+      - "indeterminate_order_10.txt"
+      - "tests/test_current_root_index.py"
+      - ".github/workflows/order10-reference-lifts-v15.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independent-networkx:
+    name: Independent adjacency-proof and exact 27-deletion audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install independent graph verifier
+        run: python -m pip install networkx==3.6.1
+      - name: Check all saved P2 maps and immutable v14 to v15 transition
+        run: python -m research.order10_reference_lifts_pilot.verify
+
+  public-pycliques-full-replay:
+    name: Reproduce full 2568-case pilot using public pycliques
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install version-pinned public pycliques
+        run: |
+          python -m pip install networkx==3.6.1
+          git clone --quiet https://github.com/rvf0068/pycliques-project.git /tmp/pycliques-project
+          git -C /tmp/pycliques-project checkout --quiet 782deb653b8748e1b5759389cdd2134beac69351
+          python -m pip install /tmp/pycliques-project/packages/pycliques
+      - name: Independently reconstruct positives and rerun complete exact P2 screen
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python -m research.order10_reference_lifts_pilot.verify --public --full
+          python -m unittest discover -s tests -p test_current_root_index.py -v
+      - name: Replay immutable historical v4/v14 proof under v15
+        env:
+          PYTHONHASHSEED: "0"
+        run: python -m research.order10_reference_lifts_pilot.replay_v14
