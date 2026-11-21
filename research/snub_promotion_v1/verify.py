@@ -130,19 +130,24 @@ def proof_by_retraction_or_fold(graph: nx.Graph) -> dict | None:
     return None
 
 
-def proof_nontriangle_edge(graph: nx.Graph) -> dict | None:
+def proof_nontriangle_edge(graph: nx.Graph, *, allow_inverse: bool = True) -> dict | None:
     for u, v in graph.edges():
         if set(graph[u]) & set(graph[v]):
             continue
         target = graph.copy()
         target.remove_edge(u, v)
         proof = proof_by_retraction_or_fold(target)
+        if proof is None and allow_inverse:
+            pared, folds = pare(target)
+            nested = proof_inverse_cutpoint(pared, allow_nontriangle=False)
+            if nested is not None:
+                proof = {"folds": folds, "inverse_cutpoint_subproof": nested}
         if proof is not None:
             return {"removed_triangle_free_edge": [u, v], "subproof": proof}
     return None
 
 
-def proof_inverse_cutpoint(graph: nx.Graph) -> dict | None:
+def proof_inverse_cutpoint(graph: nx.Graph, *, allow_nontriangle: bool = True) -> dict | None:
     """Verify an admissible vertex split followed by triangle-free removal."""
     for w in sorted(graph):
         neighborhood = graph.subgraph(list(graph[w]))
@@ -176,8 +181,8 @@ def proof_inverse_cutpoint(graph: nx.Graph) -> dict | None:
                 require(not (set(ext[u]) & set(ext[v])),
                         "Added edge is contained in a triangle")
                 proof = proof_by_retraction_or_fold(no_edge)
-                if proof is None:
-                    proof = proof_nontriangle_edge(no_edge)
+                if proof is None and allow_nontriangle:
+                    proof = proof_nontriangle_edge(no_edge, allow_inverse=False)
                 if proof is not None:
                     return {
                         "cutpoint": w, "partition": [sorted(left), sorted(right)],
@@ -237,10 +242,13 @@ def verify_order(order: int) -> dict:
         },
         "Did not remove exactly the snub-dependent cohort",
     )
+    missing = []
     for idx, row in removed_rows.items():
         witness = prove(row)
-        require(witness is not None,
-                f"Missing independent snub proof: {order}/{idx} {row}")
+        if witness is None:
+            missing.append((idx, row))
+    require(not missing, f"Missing {len(missing)} independent snub proofs: "
+            + repr(missing[:30]))
     return {
         "order": order, "old": len(old), "new": len(new),
         "proven_divergent": removed,
