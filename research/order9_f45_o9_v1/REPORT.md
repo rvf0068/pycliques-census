@@ -3,7 +3,7 @@
 **Status:** An exact, independently replayable ordinary graph retraction
 of the fourth completely pared clique iterate of the nine-vertex graph
 \(F_{4,5}\) onto \(O_9=\overline{9K_2}\). The original is **McKay 208409**
-(graph6 \`HCZTf\}\`), one of the 12 unresolved graphs in the frozen v4
+(graph6 `HCZTf\}`), one of the 12 unresolved graphs in the frozen v4
 order-nine census. This is a positive theorem; no convergence claim rests
 on a failed bounded search.
 
@@ -13,17 +13,17 @@ Define \(P_0(G)=P(G)\), \(P_{j+1}(G)=P(K(P_j(G)))\), where \(P\)
 deletes dominated vertices sequentially to a fixed point. The graph
 \(P_4(F_{4,5})\) has **202 vertices** and **16,289 edges**.
 
-In the independent labeling defined by \`verify.py\`, the following
+In the independent labeling defined by `verify.py`, the following
 nine nonedges are the antipodal pairs of an **induced \(O_9\)**:
 
-\`\`\`text
+```text
 (1,78)    (29,92)   (40,88)
 (50,122)  (61,64)   (67,121)
 (79,188)  (138,169) (143,196)
-\`\`\`
+```
 
 The saved [certificate.json](certificate.json) gives an explicit
-projection \(r(v)\) for all **202** host vertices (the \`images_b64\`
+projection \(r(v)\) for all **202** host vertices (the `images_b64`
 field is exactly 202 unsigned bytes, encoded in base64). The independent
 verifier checks that the antipodal pairs are disjoint nonedges, that
 every possible cross-pair edge is present, that \(r\) has image exactly
@@ -79,24 +79,24 @@ removes dominated vertices in a deterministic order. It checks
 the SHA-256 of the complete 202-vertex graph6 encoding.
 
 It then **reconstructs the entire fourth pared iterate using
-public \`pycliques.completely_pared_graph\` and
-\`pycliques.clique_graph\`**, transports the saved projection
+public `pycliques.completely_pared_graph` and
+`pycliques.clique_graph`**, transports the saved projection
 through an **exact** graph isomorphism (with every pair checked),
 and invokes
-\`pycliques.verify_induced_octahedron\` and
-\`pycliques.verify_retraction_witness\`.
+`pycliques.verify_induced_octahedron` and
+`pycliques.verify_retraction_witness`.
 
 Pinned environment for CI: NetworkX 3.6.1 and
-\`pycliques-project\` commit
-\`782deb653b8748e1b5759389cdd2134beac69351\`.
+`pycliques-project` commit
+`782deb653b8748e1b5759389cdd2134beac69351`.
 
-\`\`\`bash
+```bash
 python research/order9_f45_o9_v1/verify.py
-\`\`\`
+```
 
 **No previous census file is changed by this proof-only branch.**
 The new proof provides a separate path to promote the nine-vertex
 case and the **120** ten-vertex rows whose historical classification
-depends on \`HCZTf\}\`. Those 120 dependencies must be individually
+depends on `HCZTf\}`. Those 120 dependencies must be individually
 replayed before changing the authoritative ten-vertex index; the
 positive F45 proof alone does not certify arbitrary old census rows.
