@@ -30,7 +30,7 @@ from historical_divergent_targets_v1 import historic_inputs  # noqa: E402
 SOURCE = ROOT / "indeterminate_order_10_v15.txt"
 EXPECTED_HISTORICAL = 10104
 EXPECTED_V15 = 2541
-K_BOUND = 500
+K_BOUND = 1500
 
 
 def g6(graph):
@@ -96,6 +96,10 @@ def main():
         graph = cached[source_key]
         if graph is None:
             skipped["historical_K2_bound"] += 1
+            print(
+                "HISTORICAL_SKIPPED", proof["order"], proof["index"],
+                proof["graph6"], "K_bound", K_BOUND, flush=True,
+            )
             continue
         key = fingerprint(graph)
         candidates = buckets[key]
