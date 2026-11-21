@@ -43,16 +43,25 @@ def rows() -> list[tuple[int, str]]:
     return result
 
 
-def clique_graph(graph: nx.Graph) -> nx.Graph:
-    facets = sorted(
-        (sum(1 << v for v in q) for q in nx.find_cliques(graph))
-    )
+def clique_graph(graph: nx.Graph, max_facets: int = 125,
+                 max_seconds: float = 20.0) -> nx.Graph:
+    """Bound facet generation *before* allocating the next clique graph."""
+    deadline = time.monotonic() + max_seconds
+    facets: list[int] = []
+    for q in nx.find_cliques(graph):
+        if time.monotonic() > deadline:
+            raise TimeoutError("Clique construction exceeded its deadline")
+        facets.append(sum(1 << v for v in q))
+        if len(facets) > max_facets:
+            raise OverflowError("Next clique graph exceeds vertex cap")
+    facets.sort()
     h = nx.Graph()
     h.add_nodes_from(range(len(facets)))
-    h.add_edges_from(
-        (i, j) for i, j in itertools.combinations(range(len(facets)), 2)
-        if facets[i] & facets[j]
-    )
+    for i, j in itertools.combinations(range(len(facets)), 2):
+        if time.monotonic() > deadline:
+            raise TimeoutError("Facet intersection construction timed out")
+        if facets[i] & facets[j]:
+            h.add_edge(i, j)
     return h
 
 
@@ -90,6 +99,8 @@ class Search:
         self.max_patterns = max_patterns
         self.seconds = seconds
         self.started = time.monotonic()
+        self.deadline = self.started + seconds
+        self.limit_hit = False
         self.full = (1 << self.n) - 1
         self.h_neigh = [
             sum(1 << v for v in h[i]) for i in range(self.n)
@@ -105,19 +116,26 @@ class Search:
         ]
         self.compat = []
         for k, (a, b) in enumerate(self.edges):
+            if time.monotonic() > self.deadline:
+                self.limit_hit = True
+                break
             forbidden = self.c_neigh[a] | self.c_neigh[b] | (1 << a) | (1 << b)
             bitmask = 0
             for l in range(k + 1, len(self.edges)):
+                if l % 128 == 0 and time.monotonic() > self.deadline:
+                    self.limit_hit = True
+                    break
                 x, y = self.edges[l]
                 if not (forbidden & ((1 << x) | (1 << y))):
                     bitmask |= 1 << l
             self.compat.append(bitmask)
+            if self.limit_hit:
+                break
         self.covers = [
             self.c_neigh[a] | self.c_neigh[b] | (1 << a) | (1 << b)
             for a, b in self.edges
         ]
         self.patterns = 0
-        self.limit_hit = False
         self.found = None
         self.nodes = 0
         self.visits = 0
@@ -153,7 +171,7 @@ class Search:
             nonlocal visit_count
             visit_count += 1
             self.nodes += 1
-            if visit_count > 2500:
+            if visit_count > 2500 or time.monotonic() > self.deadline:
                 self.limit_hit = True
                 return None
             pending = [
@@ -161,6 +179,9 @@ class Search:
                 if domain.bit_count() == 1
             ]
             while pending:
+                if time.monotonic() > self.deadline:
+                    self.limit_hit = True
+                    return None
                 i = pending.pop()
                 bit = d[i]
                 forbidden = 1 << ((bit.bit_length() - 1) ^ 1)
@@ -205,9 +226,7 @@ class Search:
         if self.found is not None or self.limit_hit:
             return
         self.visits += 1
-        if self.visits % 500 == 0 and (
-            time.monotonic() - self.started > self.seconds
-        ):
+        if time.monotonic() > self.deadline:
             self.limit_hit = True
             return
         if len(matching) == self.d:
@@ -227,6 +246,9 @@ class Search:
             return
         needed = self.d - len(matching)
         while choices and not self.limit_hit and self.found is None:
+            if time.monotonic() > self.deadline:
+                self.limit_hit = True
+                return
             bit = choices & -choices
             choices ^= bit
             edge = bit.bit_length() - 1
@@ -241,6 +263,8 @@ class Search:
             )
 
     def run(self):
+        if self.limit_hit:
+            return None
         self.visit([], (1 << len(self.edges)) - 1, 0, 0)
         return self.found
 
@@ -254,6 +278,7 @@ def scan_batch(batch: int, batches: int, seconds: float,
         "skipped_error": 0, "positive": 0, "bounded": 0
     }
     for idx, g6 in todo:
+        counts["examined"] += 1
         sizes = []
         try:
             g = nx.from_graph6_bytes(g6.encode("ascii"))
@@ -264,8 +289,7 @@ def scan_batch(batch: int, batches: int, seconds: float,
                         raise OverflowError("intermediate clique graph too large")
                     g = clique_graph(g)
             if len(g) > 125:
-                counts["skipped_large"] += 1
-                continue
+                raise OverflowError("Third clique graph exceeds vertex cap")
             found = None
             bounded = False
             for d in (7, 6, 5, 4):
@@ -293,6 +317,8 @@ def scan_batch(batch: int, batches: int, seconds: float,
             counts["bounded"] += bounded
         except OverflowError:
             counts["skipped_large"] += 1
+        except TimeoutError:
+            counts["bounded"] += 1
         except Exception as e:
             counts["skipped_error"] += 1
             print(
@@ -300,7 +326,6 @@ def scan_batch(batch: int, batches: int, seconds: float,
                     {"index": idx, "graph6": g6, "error": repr(e)}
                 ), flush=True
             )
-        counts["examined"] += 1
         if counts["examined"] % 25 == 0:
             print(
                 "PROGRESS_JSON " + json.dumps(
