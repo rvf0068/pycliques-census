@@ -28,7 +28,18 @@ jobs:
         run: cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt
       - uses: astral-sh/setup-uv@v4
       - name: Bootstrap separately pinned optimized library
-        run: bash scripts/bootstrap_core9_three_target_v1.sh
+        run: |
+          # A public sibling-repository clone occasionally returns HTTP 403
+          # during concurrent Actions startup; keep the immutable pin and
+          # retry transient bootstrap failures without skipping any checks.
+          for attempt in 1 2 3; do
+            if bash scripts/bootstrap_core9_three_target_v1.sh; then
+              exit 0
+            fi
+            echo "::warning::Pinned dependency bootstrap failed on attempt $attempt"
+            sleep "$((5 * attempt))"
+          done
+          exit 1
       - name: Install isolated test dependencies
         run: uv pip install --python .venv-core9-three-v1/bin/python pytest
       - name: Test mathematical witnesses and bounded-search integrity
