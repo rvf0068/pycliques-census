@@ -51,7 +51,7 @@ def source_cohort() -> list[int]:
 
 
 def audit(source: list[int], proofs: list[dict],
-          archives: dict[int, dict]) -> dict:
+          archives: dict[int, dict], corrected: dict) -> dict:
     require(len(archives) == 8 and set(archives) == set(range(8)),
             "All eight batch records must be present")
     proof_by_id = {p["index"]: p for p in proofs}
@@ -99,12 +99,54 @@ def audit(source: list[int], proofs: list[dict],
                     " independently checked by raw retraction replay")
             seen.add(idx)
         claimed |= seen
-    require(claimed == set(proof_by_id),
-            "Some consolidated proofs have no original batch witness")
+    # The independent fixed-code rerun successfully finished batch 3.
+    # Its two additional maps supplement the original interrupted 36.
+    require(
+        corrected.get("schema") == 1
+        and corrected.get("run_id") == 44848083302
+        and corrected.get("job_id") == 136672634498
+        and corrected.get("batch") == 3
+        and type(corrected.get("proofs")) is list,
+        "Invalid provenance for corrected batch 3"
+    )
+    summary = corrected["summary"]
+    require(
+        summary.get("batch") == 3
+        and summary.get("batches") == 8
+        and summary.get("input") == len(source[3::8])
+        and summary.get("examined") == summary["input"]
+        and summary.get("positive") == len(corrected["proofs"]) == 38
+        and summary.get("skipped_error") == 0,
+        "Corrected batch 3 did not finish with the recorded count"
+    )
+    old_partial = {
+        p["index"]: p for p in archives[3]["proofs"]
+    }
+    corrected_by_id: dict[int, dict] = {}
+    allowed_corrected = set(source[3::8])
+    for row in corrected["proofs"]:
+        idx = row["index"]
+        require(idx in allowed_corrected and idx not in corrected_by_id,
+                "Duplicate or out-of-cohort corrected proof")
+        require(proof_by_id.get(idx) == row,
+                "Corrected run map differs from the independently"
+                " verified complete retraction")
+        corrected_by_id[idx] = row
+    require(all(corrected_by_id.get(idx) == p
+                for idx, p in old_partial.items()),
+            "A previously certified partial-batch map disappeared")
+    additional = set(corrected_by_id) - set(old_partial)
+    require(additional == {11638656, 11652579},
+            "Unexpected corrected-run additions")
+    require(claimed | set(corrected_by_id) == set(proof_by_id),
+            "Consolidated proofs lack a matching archived batch record")
     return {
-        "archived_batch_files": len(archives),
-        "interrupted_batches": 1,
-        "full_positive_maps_audited": len(claimed),
+        "original_batch_files": len(archives),
+        "corrected_batch3_files": 1,
+        "partially_completed_original_batches": 1,
+        "original_positive_maps": len(claimed),
+        "additional_corrected_positive_maps": len(additional),
+        "total_independently_verified_positive_maps": len(proof_by_id),
     }
 
 
@@ -121,14 +163,17 @@ def main() -> None:
         archives[i] = json.loads(
             (BATCHES / filename).read_text(encoding="utf-8")
         )
-    result = audit(cohort, document["proofs"], archives)
+    corrected = json.loads(
+        (BATCHES / "batch3_corrected.json").read_text(encoding="utf-8")
+    )
+    result = audit(cohort, document["proofs"], archives, corrected)
 
     # Regression mutations: corrupting any archived map or batch summary
     # must be detected even if the verified canonical proofs are untouched.
     damaged = copy.deepcopy(archives)
     damaged[5]["proofs"][0]["projection"][0] = -1234
     try:
-        audit(cohort, document["proofs"], damaged)
+        audit(cohort, document["proofs"], damaged, corrected)
     except ValueError:
         pass
     else:
@@ -141,6 +186,14 @@ def main() -> None:
         pass
     else:
         raise AssertionError("Mutation of batch-5 positive count went undetected")
+    damaged = copy.deepcopy(corrected)
+    damaged["proofs"][-1]["projection"][0] = -1234
+    try:
+        audit(cohort, document["proofs"], archives, damaged)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("Mutation of corrected batch-3 map undetected")
     print(json.dumps(result, sort_keys=True))
     print("VERIFIED: every batch positive equals one complete, independently"
           " replayed raw K³-to-O_d certificate; no negative claim inferred.")
