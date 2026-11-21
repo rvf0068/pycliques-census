@@ -1,0 +1,50 @@
+name: Exploratory third-iterate O4 through O7 retraction sweep
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  positive-only-octahedron-screen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    strategy:
+      fail-fast: false
+      matrix:
+        batch: [0, 1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install pinned standalone graph dependency
+        run: python -m pip install networkx==3.6.1
+      - name: Screen exactly one eighth of 1393 frozen unclassified stiff cores
+        run: |
+          python research/order10_third_iterate_oct_sweep_v1/sweep.py \
+            --batch ${{ matrix.batch }} \
+            --batches 8 \
+            --seconds 0.8 \
+            --output "$RUNNER_TEMP/positive-batch-${{ matrix.batch }}.json"
+      - name: Store positive-only maps and honest bounded counts
+        uses: actions/upload-artifact@v4
+        with:
+          name: k3-positive-oct-batch-${{ matrix.batch }}
+          path: ${{ runner.temp }}/positive-batch-${{ matrix.batch }}.json
+          retention-days: 30
+          if-no-files-found: error
+      - name: Protect immutable historical and prior research records
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            'indeterminate_order_*' homotopy_order_10.tsv \
+            historical/ history/ runs/ reports/ \
+            scripts/ tests/ config/ postpasses/
+          git diff --exit-code --diff-filter=DMRTUXB "$BASE_SHA" HEAD -- research/
