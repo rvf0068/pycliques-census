@@ -1,0 +1,35 @@
+name: Independent K3 O5/O6 proofs and 351 nine-core lifts
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-two-high-octahedra:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install pinned standalone graph dependency
+        run: python -m pip install networkx==3.6.1
+      - name: Independently replay raw K3 to O5/O6 and all 351 core isomorphisms
+        run: python research/order10_ninecore_high_octahedra_v1/verify.py --self-test
+      - name: Protect frozen census indices, old proofs and historical stages
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            'indeterminate_order_*' homotopy_order_10.tsv \
+            historical/ history/ runs/ reports/ scripts/ tests/ \
+            config/ postpasses/
+          # New research archives may be added, never edited or deleted.
+          git diff --exit-code --diff-filter=DMRTUXB "$BASE_SHA" HEAD -- research/
