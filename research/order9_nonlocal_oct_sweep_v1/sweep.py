@@ -97,10 +97,9 @@ def inspect(index: int, graph6: str, *, max_depth: int, bound: int,
 
 
 def verify_record(record: dict, bound: int) -> None:
-    import pycliques
-
     if record["status"] != "CERTIFIED_DIVERGENT":
         return
+    import pycliques
     c = record["certificate"]
     host = iterate(record["source_graph6"], c["depth"], bound)
     if host is None or nx.to_graph6_bytes(host, header=False).decode().strip() != c["host_graph6"]:
