@@ -4,6 +4,10 @@ on:
   pull_request:
     paths:
       - "research/order10_ilp_fourth_v1/**"
+      - "research/order10_nonlocal_oct_stiff_v1/sweep.py"
+      - "indeterminate_order_10_v11.txt"
+      - "indeterminate_order_10_v13.txt"
+      - "indeterminate_order_10.txt"
       - ".github/workflows/order10-ilp-fourth-v1.yml"
   workflow_dispatch:
 
@@ -13,7 +17,7 @@ permissions:
 jobs:
   ilp-octahedral-fourth:
     runs-on: ubuntu-latest
-    timeout-minutes: 22
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
