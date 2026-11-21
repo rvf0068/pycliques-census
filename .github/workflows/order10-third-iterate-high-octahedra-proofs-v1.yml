@@ -1,0 +1,36 @@
+name: Independent ten-core K3 high-octahedron proof replay
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-stiff-ten-k3-oct:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install pinned graph dependency
+        run: python -m pip install networkx==3.6.1
+      - name: Independently rebuild three clique iterates and check every projection
+        run: python research/order10_third_iterate_high_octahedra_proofs_v1/verify.py --self-test
+      - name: Audit all eight search archives and reject batch-5 proof corruption
+        run: python research/order10_third_iterate_high_octahedra_proofs_v1/audit_batches.py
+      - name: Protect previous census versions, scripts and archived research
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git diff --exit-code "$BASE_SHA" HEAD -- \
+            'indeterminate_order_*' homotopy_order_10.tsv \
+            historical/ history/ runs/ reports/ scripts/ tests/ \
+            config/ postpasses/
+          git diff --exit-code --diff-filter=DMRTUXB "$BASE_SHA" HEAD -- research/
