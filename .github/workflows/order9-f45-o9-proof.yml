@@ -30,3 +30,14 @@ jobs:
         env:
           PYTHONHASHSEED: "0"
         run: python research/order9_f45_o9_v1/verify.py
+      - name: Independently replay the 120 ten-vertex conditional dependencies
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python research/order9_f45_o9_v1/lift120.py \
+            --output "${{ runner.temp }}/f45-dependent-120-proof.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: f45-dependent-120-explicit-proofs
+          path: ${{ runner.temp }}/f45-dependent-120-proof.json
+          if-no-files-found: error
