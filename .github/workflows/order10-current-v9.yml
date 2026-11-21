@@ -22,8 +22,14 @@ jobs:
         run: python -m pip install networkx==3.6.1
       - name: Check all twelve explicit K² to O3 proof maps independently
         run: python research/order10_second_clique_o3_retracts_v1/verify.py --self-test
-      - name: Prove exact index advancement and unchanged conditional cases
-        run: python research/order10_current_indeterminates_v9/verify.py
+      - name: Replay frozen v9 proof against the immutable v9 root
+        run: |
+          cp indeterminate_order_10.txt /tmp/authoritative-v10-root
+          trap 'cp /tmp/authoritative-v10-root indeterminate_order_10.txt' EXIT
+          cp indeterminate_order_10_v9.txt indeterminate_order_10.txt
+          python research/order10_current_indeterminates_v9/verify.py
+          cp /tmp/authoritative-v10-root indeterminate_order_10.txt
+          trap - EXIT
       - name: Test authoritative current-root invariants
         run: python -m unittest discover -s tests -p test_current_root_index.py -v
       - name: Protect immutable historical and prior versioned census evidence
@@ -32,7 +38,7 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           git diff --exit-code "$BASE_SHA" HEAD -- \
-            'indeterminate_order_9*' 'indeterminate_order_10_v[1-8].txt' \
+            'indeterminate_order_9*' 'indeterminate_order_10_v[1-9].txt' \
             homotopy_order_10.tsv historical/ history/ runs/ reports/ \
             config/ scripts/ postpasses/
           git diff --exit-code "$BASE_SHA" HEAD -- \
