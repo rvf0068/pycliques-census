@@ -40,9 +40,19 @@ and an independent verifier reconstructs the sequence and checks every
 host edge after transporting the map by exact graph isomorphism.
 
 The canonical order-ten root is now
-[`indeterminate_order_10_v14.txt`](indeterminate_order_10_v14.txt):
-**2,568 remaining**, of which **120** depend on the separate unresolved
-reference `HCZTf\\}` and **2,448** are unconditional.
+[`indeterminate_order_10_v15.txt`](indeterminate_order_10_v15.txt):
+**2,541 remaining**, of which **120** depend on the separate unresolved
+reference `HCZTf\\}` and **2,421** are unconditional. The new
+[27-member exact P2-isomorphism certificate](research/order10_reference_lifts_pilot/certificate.json)
+and its [independent verifier](research/order10_reference_lifts_pilot/verify.py)
+prove **26 previously unresolved stiff ten-vertex graphs** K-divergent
+through their common P2 with the snub disphenoid and **one further graph**
+(McKay 11612099) through its P2-isomorphism with the previously certified
+divergent suspension `HUzrv~}`. All 27 original graph6 strings and explicit
+P2 bijections are saved; the full 2,568-source exact-isomorphism scan
+uses only public `pycliques` and NetworkX and has no P2 bound exclusions.
+The prior [frozen v14 index](indeterminate_order_10_v14.txt)
+contains 2,568 cases and remains immutable.
 The [exact P2-isomorphism certificate and proof](research/order9_p2_iso_lift_v1/REPORT.md)
 proves **219 additional order-ten originals K-divergent**, all with pared
 order nine, from **122 distinct pared graph6 encodings**. Every P2
