@@ -8,12 +8,30 @@ from collections import defaultdict
 import argparse
 import hashlib
 import json
+import signal
+from contextlib import contextmanager
 from pathlib import Path
 import networkx as nx
 
 ROOT=Path(__file__).resolve().parents[2]
 SOURCE=ROOT/"indeterminate_order_10_v10.txt"
 SOURCE_BLOB="35acbd4efbe6fd6816ff0b5c749b8b20b4455d1e"
+SOURCE_SECONDS=8.0
+
+class SourceTimeout(Exception):
+    """A positive computation could not finish within its time budget."""
+
+@contextmanager
+def source_deadline(seconds=SOURCE_SECONDS):
+    """POSIX wall-clock limit; CI runs on Ubuntu, without nested alarms."""
+    previous=signal.signal(signal.SIGALRM,
+                           lambda _signum,_frame: (_ for _ in ()).throw(SourceTimeout()))
+    signal.setitimer(signal.ITIMER_REAL,seconds)
+    try:
+        yield
+    finally:
+        signal.setitimer(signal.ITIMER_REAL,0)
+        signal.signal(signal.SIGALRM,previous)
 
 def cases():
     raw=SOURCE.read_bytes()
@@ -88,27 +106,37 @@ def build(shard: int = 0, shards: int = 1):
     groups=defaultdict(list);skips=[]
     count=0
     for idx,g6 in selected:
-        G,stages=reconstruct(g6)
-        if G is None:
+        stages=[]
+        try:
+            with source_deadline():
+                G,stages=reconstruct(g6)
+                if G is None:
+                    skips.append({"index":idx,"graph6":g6,"stages":stages,
+                                  "reason":"clique graph exceeds 250 vertices"})
+                    continue
+                bucket=groups[key(G)]
+                winner=None
+                for entry in bucket:
+                    mapping=complete_map(G,entry["graph"])
+                    if mapping is not None:
+                        winner=(entry,mapping)
+                        break
+                if winner is None:
+                    entry={"representative":idx,"graph":G,"members":[]}
+                    bucket.append(entry)
+                    winner=(entry,list(range(len(G))))
+                entry,mapping=winner
+                entry["members"].append({
+                    "index":idx,"graph6":g6,"stages":stages,
+                    "pared_graph6":nx.to_graph6_bytes(G,header=False).decode("ascii").strip(),
+                    "to_representative":mapping,
+                })
+                count+=1
+        except SourceTimeout:
             skips.append({"index":idx,"graph6":g6,"stages":stages,
-                          "reason":"clique graph exceeds 250 vertices"})
-            continue
-        bucket=groups[key(G)]
-        winner=None
-        for entry in bucket:
-            mapping=complete_map(G,entry["graph"])
-            if mapping is not None:
-                winner=(entry,mapping);break
-        if winner is None:
-            entry={"representative":idx,"graph":G,"members":[]}
-            bucket.append(entry)
-            winner=(entry,list(range(len(G))))
-        entry,mapping=winner
-        entry["members"].append({"index":idx,"graph6":g6,"stages":stages,
-                                 "pared_graph6":nx.to_graph6_bytes(G,header=False).decode("ascii").strip(),
-                                 "to_representative":mapping})
-        count+=1
-        if count%100==0:print("PROGRESS",count,flush=True)
+                          "reason":"per-source deadline 8s exceeded"})
+        if (count+len(skips))%20==0:
+            print("PROGRESS",shard,count,len(skips),flush=True)
     classes=[]
     for group in groups.values():
         for entry in group:
@@ -127,24 +155,66 @@ def build(shard: int = 0, shards: int = 1):
     return {"schema":1,"source":"indeterminate_order_10_v10.txt",
             "summary":summary,"classes":classes,"skipped":skips}
 
+def verify_recorded_folds(g6,stages):
+    """Independently check each saved fold rather than invoking fold().
+
+    Verify the actual closed-neighborhood inclusion *at the moment of deletion*,
+    the exact retained vertex labels and the final absence of folds. Rebuild
+    intervening clique graphs to authenticate every stage's edge set.
+    """
+    G=nx.from_graph6_bytes(g6.encode("ascii"))
+    if len(G)!=10 or not nx.is_connected(G):
+        raise ValueError("Invalid original graph6")
+    if len(stages)!=4:
+        raise ValueError("Missing K0 through K3 provenance")
+    for level,record in enumerate(stages):
+        if record["level"]!=level or record["raw"]!=[len(G),G.number_of_edges()]:
+            raise ValueError("Incorrect raw stage provenance")
+        H=G.copy()
+        for u,v in record["folds"]:
+            if u==v or u not in H or v not in H:
+                raise ValueError("Invalid fold vertices")
+            if not (set(H[u])|{u}) <= (set(H[v])|{v}):
+                raise ValueError("Invalid closed-neighborhood fold certificate")
+            H.remove_node(u)
+        retained=sorted(H)
+        if retained!=record["retained"]:
+            raise ValueError("Incorrect retained vertex labels")
+        if any(u!=v and (set(H[u])|{u}) <= (set(H[v])|{v})
+               for u in H for v in H):
+            raise ValueError("Saved stage is not completely pared")
+        G=nx.convert_node_labels_to_integers(H,ordering="sorted")
+        if record["pared"]!=[len(G),G.number_of_edges()]:
+            raise ValueError("Incorrect pared stage order or size")
+        if level==0 and record["folds"]:
+            raise ValueError("Source was not stiff")
+        if level<3:
+            G=clique_graph(G)
+            if G is None:
+                raise ValueError("A certified stage unexpectedly exceeds clique cap")
+    return G
+
 def verify(data, shard: int = 0, shards: int = 1):
-    # Independently reconstruct all positive maps against full graphs,
-    # rather than trusting just a WL hash or the search result.
+    # Check all explicit fold and edge-map certificates before any equality check.
     for c in data["classes"]:
-        if len(c["members"])<2:continue
-        G,_=reconstruct(c["members"][0]["graph6"])
-        for member in c["members"]:
-            H,stages=reconstruct(member["graph6"])
+        members=c["members"]
+        rep=next((m for m in members if m["index"]==c["representative"]),None)
+        if rep is None:
+            raise ValueError("Missing class representative")
+        target=nx.from_graph6_bytes(rep["pared_graph6"].encode("ascii"))
+        for member in members:
+            with source_deadline():
+                H=verify_recorded_folds(member["graph6"],member["stages"])
+            if nx.to_graph6_bytes(H,header=False).decode("ascii").strip()!=member["pared_graph6"]:
+                raise ValueError("Pared graph6 disagrees with independent fold replay")
             pi=member["to_representative"]
-            if (G is None or H is None or len(pi)!=len(H)
-                or sorted(pi)!=list(range(len(G)))
-                or any(H.has_edge(u,v)!=G.has_edge(pi[u],pi[v])
+            if (len(pi)!=len(H) or sorted(pi)!=list(range(len(target)))
+                or any(H.has_edge(u,v)!=target.has_edge(pi[u],pi[v])
                        for u in H for v in H if u<v)):
-                raise ValueError("Tampered explicit isomorphism")
-            if stages!=member["stages"]:
-                raise ValueError("Fold provenance mismatch")
+                raise ValueError("Tampered explicit graph-isomorphism map")
     expected=build(shard,shards)
-    if data!=expected:raise ValueError("Saved isomorphism classes differ from complete replay")
+    if data!=expected:
+        raise ValueError("Saved classes or skips differ from complete deterministic replay")
     return data["summary"]
 
 def main():
