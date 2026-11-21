@@ -7,6 +7,7 @@ on:
       - "tests/test_order10_four_o4_lift_v1.py"
       - "indeterminate_order_10_v7.txt"
       - "indeterminate_order_10_v8.txt"
+      - "indeterminate_order_10_v9.txt"
       - "indeterminate_order_10.txt"
       - "research/order10_four_o4_lift_v1/**"
       - ".github/workflows/order10-four-o4-lift-v1.yml"
@@ -30,11 +31,18 @@ jobs:
         run: python -m pip install "networkx==3.6.1"
       - name: Replay exact two-core O4 morphisms and certify 147 strings and 192 indices
         run: |
+          # The 192-case frozen proof was designed for root v8.
+          # Temporarily substitute precisely that snapshot, and then restore v9.
+          cp indeterminate_order_10.txt /tmp/current-v9-root
+          trap 'cp /tmp/current-v9-root indeterminate_order_10.txt' EXIT
+          cp indeterminate_order_10_v8.txt indeterminate_order_10.txt
           python scripts/order10_four_o4_lift_v1.py verify
           python scripts/order10_four_o4_lift_v1.py certificates --output /tmp/four-o4-certificates.json
           python -m unittest discover -s tests -p test_order10_four_o4_lift_v1.py -v
-          python -m unittest discover -s tests -p test_current_root_index.py -v
           python scripts/heher_divergence_class_lift_v1.py verify
+          cp /tmp/current-v9-root indeterminate_order_10.txt
+          trap - EXIT
+          python -m unittest discover -s tests -p test_current_root_index.py -v
       - name: Protect immutable census stages and versioned v7
         if: github.event_name == 'pull_request'
         env:
