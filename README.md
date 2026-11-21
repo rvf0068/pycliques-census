@@ -6,15 +6,20 @@ order 10. All classifications use a pinned revision of the Python monorepo
 The earlier pre-clockwork-fix experiment is retained in Git history; the
 current stage framework uses clean, stable directories.
 
-## Current certified census: fourth-iterate octahedral retractions (November 21, 2026)
+## Current certified census: exact P2-isomorphism lifts and octahedral retractions (November 21, 2026)
 
 The snub disphenoid remains **proved K-divergent** by an independently
 verified graph retraction `K^4(S) -> O_24` in
 [pycliques-project](https://github.com/rvf0068/pycliques-project/blob/main/docs/snub_o24_retraction.md).
 Its earlier proof removed 36 order-nine and 4,389 order-ten
-indeterminate references. The 9-vertex current working index remains
-[`indeterminate_order_9_v3.txt`](indeterminate_order_9_v3.txt)
-(**13** indeterminate).
+indeterminate references. The current order-nine working index is
+[`indeterminate_order_9_v4.txt`](indeterminate_order_9_v4.txt)
+(**12** indeterminate). Original McKay **248936** (`HEhev^{`)
+is now proved K-divergent: its second completely pared clique iterate
+is **exactly isomorphic** to that of previously O12-certified
+ten-vertex McKay 10223405. Both P2 graphs have 19 vertices and 117
+edges. The archived complete fourth-iterate O12 retraction transports
+along this isomorphism through the dismantling-preservation theorem.
 
 The **new fourth-iterate retraction certificates** prove another 42
 previously unclassified original ten-vertex graphs K-divergent:
@@ -35,15 +40,22 @@ and an independent verifier reconstructs the sequence and checks every
 host edge after transporting the map by exact graph isomorphism.
 
 The canonical order-ten root is now
-[`indeterminate_order_10_v13.txt`](indeterminate_order_10_v13.txt):
-**2,787 remaining**, of which **120** depend on the separate unresolved
-reference `HCZTf\\}` and **2,667** are unconditional.
-The exact historical v11 (**2,830**) and v12 (**2,788**) snapshots
-and all earlier source/stage files remain untouched. The original
+[`indeterminate_order_10_v14.txt`](indeterminate_order_10_v14.txt):
+**2,568 remaining**, of which **120** depend on the separate unresolved
+reference `HCZTf\\}` and **2,448** are unconditional.
+The [exact P2-isomorphism certificate and proof](research/order9_p2_iso_lift_v1/REPORT.md)
+proves **219 additional order-ten originals K-divergent**, all with pared
+order nine, from **122 distinct pared graph6 encodings**. Every P2
+isomorphism is reconstructed and checked against all adjacencies and
+nonadjacencies using public `pycliques` and NetworkX. The historical
+order-nine v3 (**13**), order-ten v11 (**2,830**), v12 (**2,788**),
+and v13 (**2,787**) snapshots remain immutable. The original
 [`verify_v12.py`](research/order10_fourth_oct_v1/verify_v12.py)
 proof is preserved with a version-aware read-only replay wrapper.
-The new [v13 verifier](research/order10_o12_dim_v13/verify.py)
-checks the single additional deletion.
+The [v13 verifier](research/order10_o12_dim_v13/verify.py)
+checks the earlier single deletion; the
+[new v4/v14 verifier](research/order9_p2_iso_lift_v1/verify.py)
+checks exactly 1+219 further deletions.
 
 The [bounded fourth-iterate sweep](research/order10_fourth_oct_v1/sweep.py)
 uses the existing `pycliques` package. Inconclusive search outcomes do
