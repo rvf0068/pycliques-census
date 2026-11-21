@@ -1,0 +1,72 @@
+name: Fourth-iterate octahedral retract search on unresolved ten-cores
+on:
+  pull_request:
+    paths:
+      - "research/order10_fourth_oct_v1/**"
+      - ".github/workflows/order10-fourth-oct-v1.yml"
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Cases per shard, zero for all"
+        required: true
+        default: "0"
+        type: string
+permissions:
+  contents: read
+jobs:
+  fourth-iterate-positives-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned packages
+        run: |
+          python -m pip install networkx==3.6.1
+          git clone --quiet https://github.com/rvf0068/pycliques-project.git /tmp/pycliques-project
+          git -C /tmp/pycliques-project checkout --quiet 7ae36ffe67fb2e9bbafc68e97347aabcf757c2dc
+          python -m pip install /tmp/pycliques-project/packages/pycliques
+      - name: Verify script and run small fixtures
+        run: |
+          python -m compileall -q research/order10_fourth_oct_v1/
+          python -m unittest discover -s research/order10_fourth_oct_v1 -p test_sweep.py -v
+          python research/order10_fourth_oct_v1/sweep.py plan \
+            --shard ${{ matrix.shard }} --shards 8 --limit "${{ inputs.limit || '0' }}"
+      - name: Run bounded searches on fourth pared iterates
+        run: |
+          python research/order10_fourth_oct_v1/sweep.py run \
+            --shard ${{ matrix.shard }} --shards 8 --limit "${{ inputs.limit || '0' }}" \
+            --max-k3-order 40 --bound 1500 \
+            --dimensions 3,4,5,6,8,10,12,16,24,32 \
+            --restarts 200 --states 2500 --timeout-sec 16 \
+            --output "$RUNNER_TEMP/fourth-${{ matrix.shard }}.json"
+      - name: Independently replay positive retractions and summarize
+        run: |
+          python research/order10_fourth_oct_v1/sweep.py verify \
+            --input-results "$RUNNER_TEMP/fourth-${{ matrix.shard }}.json"
+          python - <<'PY'
+          import os,json,collections
+          from pathlib import Path
+          data=json.loads((Path(os.environ["RUNNER_TEMP"])/"fourth-${{ matrix.shard }}.json").read_text())
+          records=data["records"]
+          summary={"status":dict(collections.Counter(r["status"] for r in records)),
+                   "reason":dict(collections.Counter(r.get("reason") for r in records if r["status"]=="INCONCLUSIVE")),
+                   "builtK4":sum("k4_order" in r for r in records),
+                   "foundTargets":sum(sum("retraction_status" in t for t in r.get("trials",[])) for r in records),
+                   "retractionStatuses":dict(collections.Counter(t["retraction_status"] for r in records for t in r.get("trials",[]) if "retraction_status" in t)),
+                   "positives":[r["index"] for r in records if r["status"]=="CERTIFIED_DIVERGENT"]}
+          print("FOURTH_SUMMARY",json.dumps(summary,sort_keys=True))
+          assert "ERROR" not in summary["status"], "Unexpected error; inspect artifact"
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fourth-octahedral-retraction-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/fourth-${{ matrix.shard }}.json
+          if-no-files-found: warn
