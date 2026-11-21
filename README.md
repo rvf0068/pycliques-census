@@ -27,15 +27,23 @@ iterates onto that same O12-positive core. All complete retraction
 maps are replayable. The [proof report](research/order10_fourth_oct_v1/REPORT.md)
 explains the independent replays and the necessary prior isomorphism theorem.
 
+A further independent fourth-iterate retraction for McKay **10510367**
+(`ICZVByz~_`) proves it K-divergent: its 64-vertex fourth pared iterate
+retracts onto `O_12`. The full fixed-target projection is archived in
+[`research/order10_o12_dim_v13/`](research/order10_o12_dim_v13/),
+and an independent verifier reconstructs the sequence and checks every
+host edge after transporting the map by exact graph isomorphism.
+
 The canonical order-ten root is now
-[`indeterminate_order_10_v12.txt`](indeterminate_order_10_v12.txt):
-**2,788 remaining**, of which **120** depend on the separate unresolved
-reference `HCZTf\\}` and **2,668** are unconditional.
-The exact historical v11 snapshot (**2,830**) and earlier source/stage
-files are left untouched. The positive-only
+[`indeterminate_order_10_v13.txt`](indeterminate_order_10_v13.txt):
+**2,787 remaining**, of which **120** depend on the separate unresolved
+reference `HCZTf\\}` and **2,667** are unconditional.
+The exact historical v11 (**2,830**) and v12 (**2,788**) snapshots
+and all earlier source/stage files remain untouched. The original
 [`verify_v12.py`](research/order10_fourth_oct_v1/verify_v12.py)
-checks every approved deletion. All prior historical replay verifiers
-are preserved, with version-aware read-only wrappers.
+proof is preserved with a version-aware read-only replay wrapper.
+The new [v13 verifier](research/order10_o12_dim_v13/verify.py)
+checks the single additional deletion.
 
 The [bounded fourth-iterate sweep](research/order10_fourth_oct_v1/sweep.py)
 uses the existing `pycliques` package. Inconclusive search outcomes do
