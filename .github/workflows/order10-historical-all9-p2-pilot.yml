@@ -1,0 +1,37 @@
+name: Explore historical proved-divergent P2 references (10104 sources)
+
+on:
+  push:
+    branches:
+      - research/all-historical-order9-p2-lifts
+    paths:
+      - "research/order10_historical_all9_p2_pilot/**"
+      - ".github/workflows/order10-historical-all9-p2-pilot.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  historical-positive-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v4
+      - name: Bootstrap archived, source-authenticated historical census environment
+        run: bash scripts/bootstrap_core9_three_target_v1.sh
+      - name: Search only historically *proved* divergent reference graphs
+        env:
+          PYTHONHASHSEED: "0"
+          OPENBLAS_NUM_THREADS: "1"
+        run: |
+          .venv-core9-three-v1/bin/python \
+            research/order10_historical_all9_p2_pilot/screen.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: historical-all9-p2-lift-pilot
+          path: research/order10_historical_all9_p2_pilot/last_run.json
+          if-no-files-found: error
