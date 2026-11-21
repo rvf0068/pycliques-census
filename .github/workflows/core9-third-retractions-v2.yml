@@ -100,9 +100,10 @@ jobs:
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
+          test "$(git hash-object indeterminate_order_9_v1.txt)" = "4f210949dad5e7350fc0185c34738e2bf46f9012"
           git diff --exit-code "$BASE_SHA" HEAD -- \
             runs/ reports/ postpasses/ \
-            indeterminate_order_9.txt \
+            indeterminate_order_10_v3.txt \
             indeterminate_order_10_v3.txt \
             research/order10_core9_three_target_v1/ \
             scripts/core9_three_target_v1.py \

@@ -43,6 +43,7 @@ jobs:
       - name: Reject mutation of earlier mathematical proofs or census populations
         if: github.event_name == 'pull_request'
         run: |
+          test "$(git hash-object indeterminate_order_9_v1.txt)" = "4f210949dad5e7350fc0185c34738e2bf46f9012"
           git diff --exit-code origin/main HEAD -- \
             runs/ reports/ postpasses/ \
             research/order10_current_indeterminates_v4/ \
@@ -50,5 +51,5 @@ jobs:
             research/order9_snub_retractions_v2/ \
             scripts/current_indeterminate_v4.py \
             scripts/historical_ninecore_lift_v1.py \
-            indeterminate_order_9.txt \
+            indeterminate_order_10_v3.txt \
             indeterminate_order_10_v3.txt indeterminate_order_10_v4.txt
