@@ -112,7 +112,17 @@ def check_reference_sources() -> None:
     )
 
 
-def verify(\n    *,\n    full: bool = False,\n    public: bool = False,\n    shard: int | None = None,\n    shards: int = 8,\n) -> None:\n    if shards < 1 or (shard is not None and not 0 <= shard < shards):\n        raise ValueError("Require shards >= 1 and a shard in range(shards)")\n    if shard is not None and not full:\n        raise ValueError("--shard requires --full")
+def verify(
+    *,
+    full: bool = False,
+    public: bool = False,
+    shard: int | None = None,
+    shards: int = 8,
+) -> None:
+    if shards < 1 or (shard is not None and not 0 <= shard < shards):
+        raise ValueError("Require shards >= 1 and a shard in range(shards)")
+    if shard is not None and not full:
+        raise ValueError("--shard requires --full")
     raw_old = OLD.read_bytes()
     check(git_blob(raw_old) == V14_BLOB, "Frozen v14 input changed")
     raw_new = NEW.read_bytes()
