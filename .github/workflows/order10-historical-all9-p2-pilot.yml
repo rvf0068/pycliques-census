@@ -20,6 +20,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Restore frozen historical working roots for archived source validation
+        run: |
+          cp indeterminate_order_9_v1.txt indeterminate_order_9.txt
+          cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt
       - uses: astral-sh/setup-uv@v4
       - name: Bootstrap archived, source-authenticated historical census environment
         run: bash scripts/bootstrap_core9_three_target_v1.sh
