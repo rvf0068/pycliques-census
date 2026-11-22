@@ -27,6 +27,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 CERT = Path(__file__).with_name("lift_v14_certificate.json")
 V14 = ROOT / "indeterminate_order_10_v14.txt"
+V15 = ROOT / "indeterminate_order_10_v15.txt"
 SOURCE_BLOB = "3ee92e02891b3046059241d4a2304794b0e34380"
 PR63_MATCHES = {
     9696790, 9784367, 10030716, 10374306, 10375764, 10494971,
@@ -90,6 +91,21 @@ def verify(*, full: bool = False) -> None:
     require(len(rows) == 2568 and list(rows) == sorted(rows),
             "Incorrect v14 source cohort")
 
+    # The merged v15 snapshot is immutable. Check that every new proof
+    # remains an unconditional unresolved original after PR #63, rather
+    # than only relying on the hardcoded 27-member disjointness set.
+    v15_rows = {}
+    for line in V15.read_text(encoding="utf-8").splitlines():
+        if not line or line.startswith("#"):
+            continue
+        fields = line.split()
+        require(len(fields) == 6, "Malformed v15 row")
+        index = int(fields[0])
+        require(index not in v15_rows, "Duplicate v15 index")
+        v15_rows[index] = fields
+    require(len(v15_rows) == 2541 and list(v15_rows) == sorted(v15_rows),
+            "Incorrect merged v15 source cohort")
+
     proof = json.loads(CERT.read_text())
     require(proof["schema"] == 1 and proof["reference_original_index"] == 260910,
             "Invalid certificate metadata")
@@ -116,6 +132,8 @@ def verify(*, full: bool = False) -> None:
         row = rows[index]
         require(row[3:] == ["-", "-", "-"],
                 f"Claim for {index} improperly conditional")
+        require(v15_rows.get(index) == row,
+                f"McKay {index} was already removed or altered in merged v15")
         require(item["source_g6"] == row[2] and item["source_order"] == int(row[1]),
                 f"Wrong original source identity for {index}")
         graph = nx.from_graph6_bytes(item["source_g6"].encode("ascii"))
