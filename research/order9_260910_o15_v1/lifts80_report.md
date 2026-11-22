@@ -33,8 +33,10 @@ The original snapshot is authenticated by Git blob
 `3ee92e02891b3046059241d4a2304794b0e34380`. Every one of the
 80 frozen entries has status `- - -`, not an earlier conjectural
 dependency. This positive cohort is disjoint from the 27 certified
-v14-to-v15 positives of census PR #63 and the 120 previously
-conditional F45 reference dependencies.
+v14-to-v15 positives of merged census PR #63 and the 120 previously
+conditional F45 reference dependencies proved in merged PR #64.
+Every one of the 80 is also independently checked against the frozen
+merged v15 source index.
 
 ## Replay without trusting the search
 
@@ -58,21 +60,26 @@ Eight independent exploratory CI shards were successful. The
 subsequent verification workflow is
 `.github/workflows/order9-260910-lifts-v14-certify.yml`.
 
-## Status of the census
+## Status after merged PRs #63 and #64
 
-The working root has **not** been modified. Subject to the separate
-proof and index-promotion reviews:
+Both prerequisite proof PRs are now merged into `main`. The authoritative
+order-ten root still equals frozen **v15 (2,541 entries)**. The independent
+verifier cross-checks all 80 new entries directly against that file and
+requires them to remain unconditional, unchanged, and unresolved there.
 
-- Merged v14: **2,568** unresolved order-ten originals.
-- Proposed census PR #63 removes 27: **2,541**.
-- F45/O9 proof PR #64 upgrades 120 historical conditional dependencies:
-  **2,421**.
-- These 80 new, disjoint McKay260910/O15 positives would bring the
-  unresolved order-ten total to **2,341**.
-- The two independently proved nine-vertex positives McKay 208409
-  and 260910 reduce unresolved order nine from 12 to **10** when
-  separately promoted.
+- PR #63 removed **27** ten-vertex entries, leaving **2,541**.
+- PR #64 proved divergence of both McKay 208409 and 260910 and certified
+  the **120 previously conditional** ten-vertex entries, without promoting
+  any census indexes.
+- The **80** additional McKay 260910 lifts are disjoint from both groups.
+- A future independently reviewed promotion of the 120 and 80 certificates
+  would leave **2,341** genuinely unresolved ten-vertex originals
+  (`2541 - 120 - 80`).
+- Promoting the two nine-vertex proofs would reduce that authoritative
+  unresolved count from **12** to **10**.
 
-These reductions are not represented as merged or authoritative while
-the parent PRs remain open. No negative search, timeout or approximate
-graph invariant is used to classify any graph.
+**This PR is proof-only:** it retains the immutable v14 proof source,
+records the 80 exhaustive positive certificates, and leaves all historical
+and working census indexes unchanged. Neither earlier promotions nor the
+new v16 index are asserted to have happened. No negative search, timeout,
+or approximate invariant supplies a divergence verdict.
