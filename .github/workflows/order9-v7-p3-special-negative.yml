@@ -1,4 +1,4 @@
-name: Exhaustive nine-v7 P3 special-octahedron exclusion
+name: Exhaustive nine-v7 P3 special-octahedron and snub-retraction exclusions
 
 on:
   pull_request:
@@ -27,8 +27,9 @@ jobs:
         env:
           PYTHONHASHSEED: "0"
         run: |
-          python -m py_compile research/order9_v7_p3_special_negative_v1/verify.py
+          python -m py_compile research/order9_v7_p3_special_negative_v1/verify.py research/order9_v7_p3_special_negative_v1/snub.py
           python research/order9_v7_p3_special_negative_v1/verify.py
+          python -m research.order9_v7_p3_special_negative_v1.snub --networkx-crosscheck
       - name: Fail on unexpected optimized Python bypass outcome
         run: |
           stdout_file=$(mktemp)
