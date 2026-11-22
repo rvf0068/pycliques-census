@@ -1,0 +1,39 @@
+{
+  "schema": 2,
+  "mckay_index": 10472553,
+  "original_graph6": "ICZTeYj^_",
+  "pared_depth": 4,
+  "host_order": 365,
+  "host_edges": 42351,
+  "host_edge_sha256": "8cff877406cde4b00bcadee4dca5986972ec9fe6d13cf892347a96bedcf1cff9",
+  "antipodal_pairs": [
+    [
+      0,
+      203
+    ],
+    [
+      2,
+      242
+    ],
+    [
+      52,
+      163
+    ],
+    [
+      174,
+      295
+    ]
+  ],
+  "target_order": [
+    0,
+    2,
+    52,
+    163,
+    174,
+    203,
+    242,
+    295
+  ],
+  "image_encoding": "uint8_target_ordinal_in_sorted_host_order",
+  "images_b64": "AAEBAQcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHAQEBAQEBBwcBAQEBAQEBAQEBAQEBAQIHBwcHBwcHBwcBBwcHBwcHBwUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQMDAwMDAwMDAwMDBAQEAQEFBQUFBQUFBQUFBQUFBQUFBQUFBQEBAQEFBQUFBQUFBQUFBQUFBQUDAQEBAQEBAQEBAQEBAwEDAwMDAwMDBwMGBgYGBgYGBgYGBgUFBQUFAwMDAwMDAwMDAwMDAwMDAQEBAwMDAwMDAwMDAwMDAwMDAwMDAwcDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMHBwcHBwcHBwcHBwcHBwcDAwMDAwMDAwMDAwMDAwMDAwMDAwM="
+}

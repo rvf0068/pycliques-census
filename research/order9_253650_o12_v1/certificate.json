@@ -1,0 +1,87 @@
+{
+  "schema": 2,
+  "mckay_index": 253650,
+  "original_graph6": "HEjer~{",
+  "pared_depth": 4,
+  "host_order": 259,
+  "host_edges": 28890,
+  "host_edge_sha256": "3263d52ae8dee3dcf17f81f028722e5a5fed818811f52f7312bfe8950b303df5",
+  "antipodal_pairs": [
+    [
+      1,
+      205
+    ],
+    [
+      2,
+      90
+    ],
+    [
+      20,
+      226
+    ],
+    [
+      26,
+      212
+    ],
+    [
+      29,
+      213
+    ],
+    [
+      43,
+      165
+    ],
+    [
+      50,
+      171
+    ],
+    [
+      59,
+      217
+    ],
+    [
+      66,
+      106
+    ],
+    [
+      69,
+      287
+    ],
+    [
+      78,
+      123
+    ],
+    [
+      107,
+      146
+    ]
+  ],
+  "target_order": [
+    1,
+    2,
+    20,
+    26,
+    29,
+    43,
+    50,
+    59,
+    66,
+    69,
+    78,
+    90,
+    106,
+    107,
+    123,
+    146,
+    165,
+    171,
+    205,
+    212,
+    213,
+    217,
+    226,
+    287
+  ],
+  "image_encoding": "uint8_target_ordinal_in_sorted_host_order",
+  "images_b64": "AAEAAAAAAAAAAAAIDgcGAgMDAwMDBAQGCQkJDQkJCQQEBAQGBQUEAwMDBgYGBgQDBwYGBg4OCAgICQ4ICAkOCAcHCgcSEgsLCwsLCwsLCwsLCwsLAwQSCwsLCwwNDAwHDQwJBwcJBwQDBA4OFg4WDhYWFggIFg4OExYTFhYWDxYPFhMQExAQExYTFhYQEhAQCwsQCwsLEBARFhYQEBAQDxYWFhAQEgsLEBYTExMQEBYWFg4ODhYODhILCw4WExMTFBQWFhUIFQsVCwgWFhYWFhYPDw8PCBYWCBYWFgsSCwsWFhYWDg4QEgsLEAsLCxULCwsLEAQLEBASCwsVCxcLFhYPBA=="
+}

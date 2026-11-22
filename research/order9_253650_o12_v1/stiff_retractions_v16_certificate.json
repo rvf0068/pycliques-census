@@ -1,0 +1,1219 @@
+{
+  "schema": 1,
+  "stage": "order9_253650_o12_v16_stiff_retractions",
+  "reference_index": 253650,
+  "reference_graph6": "HEjer~{",
+  "source_v16_git_blob_sha": "0dd845dad16904c30ad7bf2057f2f6c5c3aeeb89",
+  "expected_stiff": 955,
+  "expected_retractions": 71,
+  "expected_induced_only": 29,
+  "certificates": [
+    {
+      "original_index": 6961938,
+      "pared_graph6": "I?qbVrf~_",
+      "deleted_vertex": 3,
+      "image_of_deleted": 0,
+      "source_to_pared": [
+        7,
+        6,
+        5,
+        1,
+        0,
+        2,
+        4,
+        9,
+        8
+      ]
+    },
+    {
+      "original_index": 6962586,
+      "pared_graph6": "I?qbVr}|o",
+      "deleted_vertex": 3,
+      "image_of_deleted": 0,
+      "source_to_pared": [
+        7,
+        6,
+        5,
+        1,
+        0,
+        2,
+        4,
+        8,
+        9
+      ]
+    },
+    {
+      "original_index": 7071006,
+      "pared_graph6": "I?qbvrf~_",
+      "deleted_vertex": 3,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        7,
+        6,
+        5,
+        1,
+        0,
+        2,
+        4,
+        9,
+        8
+      ]
+    },
+    {
+      "original_index": 7071342,
+      "pared_graph6": "I?qbvrv~_",
+      "deleted_vertex": 3,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        7,
+        6,
+        5,
+        1,
+        0,
+        2,
+        4,
+        9,
+        8
+      ]
+    },
+    {
+      "original_index": 7269479,
+      "pared_graph6": "I?qfEX~~_",
+      "deleted_vertex": 3,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "original_index": 7271858,
+      "pared_graph6": "I?qfExn~_",
+      "deleted_vertex": 3,
+      "image_of_deleted": 0,
+      "source_to_pared": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "original_index": 7272850,
+      "pared_graph6": "I?qfEz}^o",
+      "deleted_vertex": 3,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        9,
+        8
+      ]
+    },
+    {
+      "original_index": 7294011,
+      "pared_graph6": "I?qfVZu\\o",
+      "deleted_vertex": 3,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        8,
+        9,
+        4,
+        2,
+        0,
+        1,
+        5,
+        7,
+        6
+      ]
+    },
+    {
+      "original_index": 7301692,
+      "pared_graph6": "I?qfbv}~O",
+      "deleted_vertex": 3,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        6,
+        4,
+        5,
+        1,
+        2,
+        0,
+        7,
+        9,
+        8
+      ]
+    },
+    {
+      "original_index": 7304883,
+      "pared_graph6": "I?qfexn~_",
+      "deleted_vertex": 3,
+      "image_of_deleted": 0,
+      "source_to_pared": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "original_index": 7305556,
+      "pared_graph6": "I?qfezmZo",
+      "deleted_vertex": 3,
+      "image_of_deleted": 0,
+      "source_to_pared": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        9,
+        8
+      ]
+    },
+    {
+      "original_index": 7305996,
+      "pared_graph6": "I?qfez}^o",
+      "deleted_vertex": 3,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        9,
+        8
+      ]
+    },
+    {
+      "original_index": 7353192,
+      "pared_graph6": "I?qjfrf~_",
+      "deleted_vertex": 3,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        7,
+        5,
+        6,
+        0,
+        1,
+        2,
+        4,
+        9,
+        8
+      ]
+    },
+    {
+      "original_index": 7353348,
+      "pared_graph6": "I?qjfrmxo",
+      "deleted_vertex": 3,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        7,
+        5,
+        6,
+        0,
+        1,
+        2,
+        4,
+        8,
+        9
+      ]
+    },
+    {
+      "original_index": 7353681,
+      "pared_graph6": "I?qjfr}|o",
+      "deleted_vertex": 3,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        7,
+        5,
+        6,
+        0,
+        1,
+        2,
+        4,
+        8,
+        9
+      ]
+    },
+    {
+      "original_index": 7447426,
+      "pared_graph6": "I?qmvbfZo",
+      "deleted_vertex": 3,
+      "image_of_deleted": 0,
+      "source_to_pared": [
+        0,
+        1,
+        2,
+        6,
+        5,
+        7,
+        4,
+        9,
+        8
+      ]
+    },
+    {
+      "original_index": 7464701,
+      "pared_graph6": "I?qnFT}n_",
+      "deleted_vertex": 3,
+      "image_of_deleted": 2,
+      "source_to_pared": [
+        2,
+        0,
+        1,
+        9,
+        8,
+        7,
+        5,
+        4,
+        6
+      ]
+    },
+    {
+      "original_index": 7471132,
+      "pared_graph6": "I?qnRzu\\o",
+      "deleted_vertex": 3,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        1,
+        2,
+        0,
+        9,
+        4,
+        8,
+        7,
+        5,
+        6
+      ]
+    },
+    {
+      "original_index": 7472576,
+      "pared_graph6": "I?qnUzu\\o",
+      "deleted_vertex": 3,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        1,
+        0,
+        2,
+        4,
+        9,
+        8,
+        7,
+        5,
+        6
+      ]
+    },
+    {
+      "original_index": 7596689,
+      "pared_graph6": "I?qu^`nzO",
+      "deleted_vertex": 3,
+      "image_of_deleted": 0,
+      "source_to_pared": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        7,
+        6,
+        8,
+        9
+      ]
+    },
+    {
+      "original_index": 7632485,
+      "pared_graph6": "I?qvBv}~O",
+      "deleted_vertex": 3,
+      "image_of_deleted": 2,
+      "source_to_pared": [
+        6,
+        4,
+        5,
+        1,
+        2,
+        0,
+        7,
+        9,
+        8
+      ]
+    },
+    {
+      "original_index": 7676907,
+      "pared_graph6": "I?qvFXz~_",
+      "deleted_vertex": 3,
+      "image_of_deleted": 2,
+      "source_to_pared": [
+        6,
+        4,
+        5,
+        1,
+        2,
+        0,
+        8,
+        7,
+        9
+      ]
+    },
+    {
+      "original_index": 7677241,
+      "pared_graph6": "I?qvFZm]o",
+      "deleted_vertex": 3,
+      "image_of_deleted": 2,
+      "source_to_pared": [
+        6,
+        4,
+        5,
+        1,
+        2,
+        0,
+        9,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7687618,
+      "pared_graph6": "I?qvJvy~O",
+      "deleted_vertex": 3,
+      "image_of_deleted": 2,
+      "source_to_pared": [
+        8,
+        7,
+        5,
+        1,
+        0,
+        2,
+        4,
+        9,
+        6
+      ]
+    },
+    {
+      "original_index": 7700054,
+      "pared_graph6": "I?qvNZi]o",
+      "deleted_vertex": 3,
+      "image_of_deleted": 2,
+      "source_to_pared": [
+        8,
+        9,
+        5,
+        1,
+        0,
+        2,
+        4,
+        7,
+        6
+      ]
+    },
+    {
+      "original_index": 7700364,
+      "pared_graph6": "I?qvNZy]o",
+      "deleted_vertex": 3,
+      "image_of_deleted": 2,
+      "source_to_pared": [
+        8,
+        9,
+        5,
+        1,
+        0,
+        2,
+        4,
+        7,
+        6
+      ]
+    },
+    {
+      "original_index": 7721082,
+      "pared_graph6": "I?qvb]|~_",
+      "deleted_vertex": 3,
+      "image_of_deleted": 0,
+      "source_to_pared": [
+        0,
+        2,
+        1,
+        5,
+        4,
+        6,
+        8,
+        7,
+        9
+      ]
+    },
+    {
+      "original_index": 7721168,
+      "pared_graph6": "I?qvb^\\~_",
+      "deleted_vertex": 3,
+      "image_of_deleted": 0,
+      "source_to_pared": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        8,
+        7,
+        9
+      ]
+    },
+    {
+      "original_index": 7725148,
+      "pared_graph6": "I?qvbvl~_",
+      "deleted_vertex": 3,
+      "image_of_deleted": 2,
+      "source_to_pared": [
+        6,
+        4,
+        5,
+        1,
+        2,
+        0,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "original_index": 7725170,
+      "pared_graph6": "I?qvbvm~O",
+      "deleted_vertex": 3,
+      "image_of_deleted": 2,
+      "source_to_pared": [
+        6,
+        4,
+        5,
+        1,
+        2,
+        0,
+        7,
+        9,
+        8
+      ]
+    },
+    {
+      "original_index": 7735608,
+      "pared_graph6": "I?qvfZm]o",
+      "deleted_vertex": 3,
+      "image_of_deleted": 2,
+      "source_to_pared": [
+        6,
+        4,
+        5,
+        1,
+        2,
+        0,
+        9,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7939868,
+      "pared_graph6": "I?rlv`^to",
+      "deleted_vertex": 2,
+      "image_of_deleted": 0,
+      "source_to_pared": [
+        0,
+        1,
+        3,
+        5,
+        6,
+        7,
+        4,
+        8,
+        9
+      ]
+    },
+    {
+      "original_index": 7961563,
+      "pared_graph6": "I?zTtyu\\o",
+      "deleted_vertex": 1,
+      "image_of_deleted": 7,
+      "source_to_pared": [
+        8,
+        9,
+        4,
+        3,
+        0,
+        2,
+        5,
+        7,
+        6
+      ]
+    },
+    {
+      "original_index": 7976412,
+      "pared_graph6": "I?zVfY}No",
+      "deleted_vertex": 1,
+      "image_of_deleted": 0,
+      "source_to_pared": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        8
+      ]
+    },
+    {
+      "original_index": 9717243,
+      "pared_graph6": "ICRU]o~zO",
+      "deleted_vertex": 2,
+      "image_of_deleted": 4,
+      "source_to_pared": [
+        6,
+        9,
+        3,
+        1,
+        8,
+        0,
+        4,
+        7,
+        5
+      ]
+    },
+    {
+      "original_index": 9969606,
+      "pared_graph6": "ICRczt}~O",
+      "deleted_vertex": 2,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        8,
+        7,
+        0,
+        4,
+        5,
+        3,
+        1,
+        9,
+        6
+      ]
+    },
+    {
+      "original_index": 10014219,
+      "pared_graph6": "ICRdtz]Vo",
+      "deleted_vertex": 2,
+      "image_of_deleted": 0,
+      "source_to_pared": [
+        7,
+        6,
+        1,
+        3,
+        5,
+        4,
+        0,
+        8,
+        9
+      ]
+    },
+    {
+      "original_index": 10376255,
+      "pared_graph6": "ICZJvanxo",
+      "deleted_vertex": 3,
+      "image_of_deleted": 8,
+      "source_to_pared": [
+        1,
+        2,
+        0,
+        6,
+        5,
+        7,
+        4,
+        8,
+        9
+      ]
+    },
+    {
+      "original_index": 10419100,
+      "pared_graph6": "ICZLn_~nO",
+      "deleted_vertex": 1,
+      "image_of_deleted": 8,
+      "source_to_pared": [
+        6,
+        7,
+        4,
+        3,
+        5,
+        2,
+        0,
+        9,
+        8
+      ]
+    },
+    {
+      "original_index": 10461843,
+      "pared_graph6": "ICZNfi}No",
+      "deleted_vertex": 1,
+      "image_of_deleted": 9,
+      "source_to_pared": [
+        7,
+        6,
+        4,
+        3,
+        5,
+        2,
+        0,
+        8,
+        9
+      ]
+    },
+    {
+      "original_index": 10570990,
+      "pared_graph6": "ICZbrz]fo",
+      "deleted_vertex": 2,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        7,
+        6,
+        0,
+        4,
+        5,
+        3,
+        1,
+        8,
+        9
+      ]
+    },
+    {
+      "original_index": 10572017,
+      "pared_graph6": "ICZbuqnxo",
+      "deleted_vertex": 3,
+      "image_of_deleted": 8,
+      "source_to_pared": [
+        1,
+        2,
+        0,
+        6,
+        7,
+        5,
+        4,
+        8,
+        9
+      ]
+    },
+    {
+      "original_index": 10600444,
+      "pared_graph6": "ICZeuy}No",
+      "deleted_vertex": 1,
+      "image_of_deleted": 9,
+      "source_to_pared": [
+        7,
+        6,
+        2,
+        3,
+        5,
+        4,
+        0,
+        8,
+        9
+      ]
+    },
+    {
+      "original_index": 10624987,
+      "pared_graph6": "ICZmv_~\\o",
+      "deleted_vertex": 0,
+      "image_of_deleted": 8,
+      "source_to_pared": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        4,
+        8,
+        9
+      ]
+    },
+    {
+      "original_index": 10768226,
+      "pared_graph6": "ICpUvj{]o",
+      "deleted_vertex": 2,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        0,
+        9,
+        5,
+        6,
+        8,
+        7,
+        4,
+        1,
+        3
+      ]
+    },
+    {
+      "original_index": 11212537,
+      "pared_graph6": "ICpfbzmjo",
+      "deleted_vertex": 3,
+      "image_of_deleted": 9,
+      "source_to_pared": [
+        1,
+        2,
+        0,
+        5,
+        4,
+        6,
+        7,
+        9,
+        8
+      ]
+    },
+    {
+      "original_index": 11253045,
+      "pared_graph6": "ICpujv[iw",
+      "deleted_vertex": 2,
+      "image_of_deleted": 6,
+      "source_to_pared": [
+        7,
+        0,
+        5,
+        9,
+        1,
+        3,
+        4,
+        8,
+        6
+      ]
+    },
+    {
+      "original_index": 11262080,
+      "pared_graph6": "ICpuvj{]o",
+      "deleted_vertex": 2,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        0,
+        9,
+        5,
+        6,
+        8,
+        7,
+        4,
+        1,
+        3
+      ]
+    },
+    {
+      "original_index": 11282292,
+      "pared_graph6": "ICpvezmjo",
+      "deleted_vertex": 3,
+      "image_of_deleted": 9,
+      "source_to_pared": [
+        1,
+        0,
+        2,
+        4,
+        5,
+        6,
+        7,
+        9,
+        8
+      ]
+    },
+    {
+      "original_index": 11286924,
+      "pared_graph6": "ICpvmzw]g",
+      "deleted_vertex": 2,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        0,
+        9,
+        5,
+        8,
+        7,
+        6,
+        4,
+        1,
+        3
+      ]
+    },
+    {
+      "original_index": 11287654,
+      "pared_graph6": "ICpvnr{]o",
+      "deleted_vertex": 2,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        0,
+        9,
+        5,
+        7,
+        8,
+        6,
+        4,
+        1,
+        3
+      ]
+    },
+    {
+      "original_index": 11287665,
+      "pared_graph6": "ICpvnr{xo",
+      "deleted_vertex": 2,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        3,
+        9,
+        4,
+        6,
+        8,
+        7,
+        5,
+        1,
+        0
+      ]
+    },
+    {
+      "original_index": 11367571,
+      "pared_graph6": "ICrVJzy}O",
+      "deleted_vertex": 2,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        3,
+        4,
+        6,
+        9,
+        5,
+        8,
+        7,
+        1,
+        0
+      ]
+    },
+    {
+      "original_index": 11368649,
+      "pared_graph6": "ICrVMt{}G",
+      "deleted_vertex": 2,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        3,
+        4,
+        6,
+        9,
+        5,
+        7,
+        8,
+        1,
+        0
+      ]
+    },
+    {
+      "original_index": 11370709,
+      "pared_graph6": "ICrV^p{{W",
+      "deleted_vertex": 2,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        8,
+        7,
+        6,
+        9,
+        5,
+        4,
+        3,
+        0,
+        1
+      ]
+    },
+    {
+      "original_index": 11382618,
+      "pared_graph6": "ICrbT^k^_",
+      "deleted_vertex": 3,
+      "image_of_deleted": 4,
+      "source_to_pared": [
+        2,
+        1,
+        0,
+        9,
+        7,
+        8,
+        6,
+        4,
+        5
+      ]
+    },
+    {
+      "original_index": 11424699,
+      "pared_graph6": "ICrbuv{|_",
+      "deleted_vertex": 2,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        3,
+        4,
+        5,
+        7,
+        9,
+        8,
+        6,
+        1,
+        0
+      ]
+    },
+    {
+      "original_index": 11427619,
+      "pared_graph6": "ICrdq~[|O",
+      "deleted_vertex": 2,
+      "image_of_deleted": 0,
+      "source_to_pared": [
+        8,
+        9,
+        6,
+        5,
+        4,
+        3,
+        1,
+        7,
+        0
+      ]
+    },
+    {
+      "original_index": 11443299,
+      "pared_graph6": "ICrerrfjo",
+      "deleted_vertex": 3,
+      "image_of_deleted": 4,
+      "source_to_pared": [
+        1,
+        0,
+        2,
+        6,
+        7,
+        5,
+        4,
+        9,
+        8
+      ]
+    },
+    {
+      "original_index": 11516124,
+      "pared_graph6": "ICvfVXukw",
+      "deleted_vertex": 3,
+      "image_of_deleted": 6,
+      "source_to_pared": [
+        5,
+        9,
+        4,
+        2,
+        1,
+        0,
+        8,
+        6,
+        7
+      ]
+    },
+    {
+      "original_index": 11516133,
+      "pared_graph6": "ICvfVXun_",
+      "deleted_vertex": 3,
+      "image_of_deleted": 6,
+      "source_to_pared": [
+        7,
+        9,
+        8,
+        0,
+        1,
+        2,
+        4,
+        6,
+        5
+      ]
+    },
+    {
+      "original_index": 11527531,
+      "pared_graph6": "ICxve^{|_",
+      "deleted_vertex": 2,
+      "image_of_deleted": 1,
+      "source_to_pared": [
+        5,
+        6,
+        4,
+        9,
+        8,
+        7,
+        3,
+        0,
+        1
+      ]
+    },
+    {
+      "original_index": 11573108,
+      "pared_graph6": "IEhrvJ{}O",
+      "deleted_vertex": 6,
+      "image_of_deleted": 8,
+      "source_to_pared": [
+        7,
+        3,
+        4,
+        1,
+        2,
+        0,
+        5,
+        8,
+        9
+      ]
+    },
+    {
+      "original_index": 11585213,
+      "pared_graph6": "IEhuVf{zO",
+      "deleted_vertex": 6,
+      "image_of_deleted": 9,
+      "source_to_pared": [
+        7,
+        5,
+        4,
+        1,
+        0,
+        2,
+        3,
+        8,
+        9
+      ]
+    },
+    {
+      "original_index": 11587007,
+      "pared_graph6": "IEhuVrmxo",
+      "deleted_vertex": 3,
+      "image_of_deleted": 9,
+      "source_to_pared": [
+        7,
+        6,
+        5,
+        0,
+        2,
+        1,
+        4,
+        8,
+        9
+      ]
+    },
+    {
+      "original_index": 11590312,
+      "pared_graph6": "IEhuuZxNo",
+      "deleted_vertex": 2,
+      "image_of_deleted": 7,
+      "source_to_pared": [
+        6,
+        8,
+        5,
+        0,
+        9,
+        1,
+        4,
+        7,
+        3
+      ]
+    },
+    {
+      "original_index": 11603748,
+      "pared_graph6": "IEhvFryZo",
+      "deleted_vertex": 5,
+      "image_of_deleted": 7,
+      "source_to_pared": [
+        6,
+        4,
+        3,
+        2,
+        1,
+        0,
+        9,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11614798,
+      "pared_graph6": "IEh~fVwZg",
+      "deleted_vertex": 5,
+      "image_of_deleted": 8,
+      "source_to_pared": [
+        7,
+        9,
+        3,
+        2,
+        0,
+        1,
+        4,
+        8,
+        6
+      ]
+    },
+    {
+      "original_index": 11624566,
+      "pared_graph6": "IEjbuv{^O",
+      "deleted_vertex": 6,
+      "image_of_deleted": 9,
+      "source_to_pared": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        9,
+        8
+      ]
+    },
+    {
+      "original_index": 11631966,
+      "pared_graph6": "IEjep~{^_",
+      "deleted_vertex": 7,
+      "image_of_deleted": 9,
+      "source_to_pared": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        9,
+        8
+      ]
+    },
+    {
+      "original_index": 11632026,
+      "pared_graph6": "IEjeqx}~?",
+      "deleted_vertex": 7,
+      "image_of_deleted": 8,
+      "source_to_pared": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ]
+    }
+  ]
+}
