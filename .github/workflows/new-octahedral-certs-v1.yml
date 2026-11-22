@@ -6,6 +6,10 @@ on:
       - "research/order9_253650_o12_v1/**"
       - "research/order10_surface_10472553_o4_v1/**"
       - ".github/workflows/new-octahedral-certs-v1.yml"
+      - "indeterminate_order_9.txt"
+      - "indeterminate_order_9_v5.txt"
+      - "indeterminate_order_10.txt"
+      - "indeterminate_order_10_v16.txt"
   workflow_dispatch:
 
 permissions:
@@ -42,10 +46,21 @@ jobs:
             echo "Invalid optimized lift verification" >&2
             exit 1
           fi
-      - name: Protect authoritative and frozen census files
+      - name: Pin immutable frozen v5/v16 census and enforce proof-only roots
+        env:
+          PR_HEAD: ${{ github.head_ref }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
-          cmp indeterminate_order_10.txt indeterminate_order_10_v16.txt
-          cmp indeterminate_order_9.txt indeterminate_order_9_v5.txt
+          test "$(git hash-object indeterminate_order_9_v5.txt)" = "d803ee83273b44f60e5078b7beb3d11a3f4eb2ee"
+          test "$(git hash-object indeterminate_order_10_v16.txt)" = "0dd845dad16904c30ad7bf2057f2f6c5c3aeeb89"
+          # Only this particular proof-only PR promises to leave the
+          # authoritative roots unchanged. Future versioned promotions
+          # legitimately advance the roots while v5/v16 remain frozen.
+          if test "$PR_HEAD" = "research/new-sphere-o4-and-core9-o12-lifts"; then
+            cmp indeterminate_order_10.txt indeterminate_order_10_v16.txt
+            cmp indeterminate_order_9.txt indeterminate_order_9_v5.txt
+            git diff --exit-code "$BASE_SHA" HEAD -- indeterminate_order_9.txt indeterminate_order_10.txt
+          fi
 
   public-pycliques-certificates:
     name: Independent public-pycliques iterative construction and 242 lift replay
