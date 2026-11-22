@@ -1,0 +1,143 @@
+{
+  "schema": 1,
+  "mckay_index": 251902,
+  "source_graph6": "HEhvvzm",
+  "pared_depth": 4,
+  "iterate_orders": [
+    9,
+    12,
+    18,
+    41,
+    461
+  ],
+  "iterate_edges": [
+    24,
+    45,
+    114,
+    641,
+    94642
+  ],
+  "host_edge_sha256": "e09bfabf7e7a2ab4af810f09c16942b6e64a9dfba9e5027f9cd62a5bee66efb1",
+  "host_order": 461,
+  "host_edges": 94642,
+  "target_dimension": 17,
+  "antipodal_pairs": [
+    [
+      231,
+      48
+    ],
+    [
+      18,
+      181
+    ],
+    [
+      63,
+      214
+    ],
+    [
+      14,
+      386
+    ],
+    [
+      242,
+      71
+    ],
+    [
+      407,
+      296
+    ],
+    [
+      15,
+      180
+    ],
+    [
+      300,
+      409
+    ],
+    [
+      156,
+      406
+    ],
+    [
+      280,
+      155
+    ],
+    [
+      130,
+      253
+    ],
+    [
+      150,
+      305
+    ],
+    [
+      241,
+      26
+    ],
+    [
+      356,
+      101
+    ],
+    [
+      293,
+      140
+    ],
+    [
+      369,
+      84
+    ],
+    [
+      25,
+      400
+    ]
+  ],
+  "target_order": [
+    14,
+    15,
+    18,
+    25,
+    26,
+    48,
+    63,
+    71,
+    84,
+    101,
+    130,
+    140,
+    150,
+    155,
+    156,
+    180,
+    181,
+    214,
+    231,
+    241,
+    242,
+    253,
+    280,
+    293,
+    296,
+    300,
+    305,
+    356,
+    369,
+    386,
+    400,
+    406,
+    407,
+    409
+  ],
+  "image_encoding": "uint8_target_ordinal_per_sorted_normalized_p4_host_label",
+  "images_b64": "GRgYGAkJCQkJCQIJAggAAQoKAgIZCgoEAwMEBgMEBwcHBwYGBwcHBgYFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBgYGGAcHBwcHBwcHBwcHBwcHBwcHCAcEBwkJCAQACgQECgQJCQkJCQkKCgoKCgoKCg0AAA0NDQwNDQ0NDQwMDAwKCgoYChgKCgoKCgoLGBgYChgKDQ0NDA0NDQ0NDhgNDQ0NDRgYCgwMDAwKCgoKCgoYDBAPDxAeHh4eHR0dHR4QEA8UFB4UHhQUHh4UHhMeFB8fHx8THhERER8XERcRHh4eFBQUHx8XEh8fHxERERERHxMUHh4UFB4eFB4eFBUPDx0dHRkZGRgYGBkZGRkZGRkZGBgYHx8fHxYXFxcfHx8fHx8fHxcXFx8YGRkZGRkZGRkaGBgYDw0QEBAQDw8PDQ0PDw8PDw8PDw8PDw8PEBAMEBAPDxAPEA8PDw0bHR0dHR0dHR0bGw8QEA8PDw8PDw8PHB0dHR0dHRwPDw8PDx0dHR0dHR0PDw8PDw0QEBAQDB4eHh8fHx8gDCEfFx8KChcZGRcKCh8fBAQfAAQABB8XFx8fHwoKBA0fDQ0NAAwfFxcfHx8KDRcXCgoKDAo=",
+  "discovery": {
+    "method": "native_coaffine_degree_tiebreak_and_edge_cover_dual_weights",
+    "order_rule": "ascending integer dual weight, descending host degree, ascending vertex label",
+    "weights_scale": 10000,
+    "weights_encoding": "uint16_little_endian_per_normalized_p4_label",
+    "weights_b64": "AAAXAw0AAAAbAwAAEQIhAF8BAAAAAAAARQDdAgAAAAAAAAAAAAAAAAAAAAAAAIUAAAAyAGcBAAAAAO8AAAAAAAAAAAB8AqUECwAAAAAAAAAmAAAAAAAAADADAAAmAAAAJANFAG8AIQAGAgAAEQIAAAAAAAAhAPsHAAAAAAAAAAAAABcDGQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhBwsAAAAAAAAApQAAAAAAIwAAAIUAAAArA8YCAAAhAAYCAAAAAO8AAAAAANoA4QEAAAAAAAB1AQAAAAB4AQAAAAAAAAAAAAAAAAAAAAAJAQAACwAAAAAAAAAAAAAAAAAAAAAAxwEAAAAAAAAAAAAAAAAAAAAAXALKAwAAAAAAAAAAAAAAABUADQDaAB4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADDAQAAwAEJAAAAAAAAAPIAAAACAAAAIQAUAQAAAAAAAAAAAAAAAAAAAACBAgAAAAAAAK8AAAAcAgAAAAAAAAAAAAAAANMCAAAAAAAAAACFAW8ArQBkAAAAAAB1AOQBAAAAAK0BAAABAgAAAAAAAAAAAAAAAAAAeAHWAhsAaQEAACwCAABXAbsB5ACUAQAAvgBxABwBLAIAAAAAAABrAgAAfwEAACEAAAAAAAAAAAAAAAAAawEAAAAAAABvArADAAAAAAAAAAAAAAAAAADSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACEAywESARwAAAAAAAAAAAAAAA8A2gAAAAAAxgAAAAAAAAAAAPAAAAARAOMAFQAAAAAAAAAAAAAAAACPAG0BAAAAAJMBCwEQAAIAAABSAQAAAAAAALIBAABVAQAAAAAAAAAAAAAAAKYB/gH5AQAAFgBTAgAAAABxAAAAAAAAAAAAaAEwAtUBwwEAAI8AAACTAQAAAAAAAAAAegEAAGgAAADAAQAAAAAAAAAAAAAAAAAAAACLAQAAAAAAACEAAAB7ABMBAAAAAJgAAACzAQAAgwEAAAAAFgB2AgAAAAAAAAAAAACyAQAANQCNAQAAAABgAiEAAAAAAJYAVgGjAQAAMAIAAAAACQEAAG0BAAAAAAAAAAAAAAAAfQELAAAAAAAAAAAAAAAAAAAA2gAAAAAAAAAAAAAAAAAAAAAA7AEAAHQAXQAAAAAAMgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+    "observed_states": 300,
+    "observed_arc_revisions": 22311,
+    "observed_assignments": 315,
+    "note": "The weights are ordering metadata; positive proof uses the full saved projection independently."
+  }
+}
