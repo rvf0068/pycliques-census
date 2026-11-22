@@ -55,7 +55,7 @@ In particular, merely finding induced \(O_6\) subgraphs in this graph is not eno
 
 Merged [pycliques-project PR #36](https://github.com/rvf0068/pycliques-project/pull/36)
 provides the optional compiled C++17 backend for
-\`find_octahedral_retraction_coaffine(G, backend="native")\`.
+`find_octahedral_retraction_coaffine(G, backend="native")`.
 This is **a second, independent complete search formulation**, not an
 implementation of our dominating-induced-matching enumeration. For any
 ordinary retraction \(r:X\to O_d\), let \(\tau\) interchange antipodal
@@ -71,26 +71,26 @@ explicitly enumerating possible targets.
 | Primary search objects | Induced matchings in \(\overline X\), with complement-domination pruning | Coaffine weak endomorphisms \(f:X\to X\) |
 | Positive result | Fixed-target projection \(r:X\to O_d\) | Verified projection \(r=f^2\), antipodal pairs, \(f\) |
 | Exhaustive negative | Enumerate every eligible target, exhaust every retraction CSP | Exhaust all possible coaffine \(f\), testing their squares |
-| Incomplete status | \`IncompleteSearch\` exception (must not be counted as negative) | \`LIMIT_REACHED\` (must not be counted as negative) |
+| Incomplete status | `IncompleteSearch` exception (must not be counted as negative) | `LIMIT_REACHED` (must not be counted as negative) |
 | Extra information | Exact counts of octahedra and complement-dominating targets | Search states/arc revisions; no enumeration counts |
 | Principal limitation | Enumeration can explode combinatorially | Large endomorphism CSPs can explode; native cap 512 vertices |
 
 **Independent experimental corroboration.** Compiling the C++17 source
 from merged PR #36 and using a saved reconstruction of the six \(P_3\)
-graphs yielded \`EXHAUSTED\` in 1–25 native search states per graph.
+graphs yielded `EXHAUSTED` in 1–25 native search states per graph.
 For the 60-vertex \(P_4\) of McKay 10803453, one vertex ordering
 exhausted after 13,075 states (roughly 0.12 seconds on the test machine).
-A limit of 10,000 states gave only \`LIMIT_REACHED\`—not a mathematical
+A limit of 10,000 states gave only `LIMIT_REACHED`—not a mathematical
 negative—but a budget above 13,075 finished. On the same graph, the
 target-based enumeration examined 77,609 eligible octahedra and took
 approximately 15 seconds locally. Timings and state counts are
 hardware-, compiler-, and vertex-order-dependent, not API guarantees.
 
-The dedicated \`native_crosscheck.py\` and its CI job pin merged PR #36
-at commit \`d140bd3a666ca6abf77e5823740ecef85e75a842\`, explicitly
-build its optional native backend, and require \`EXHAUSTED\` for all
-seven cases (six \(P_3\), one \(P_4\)). They reject \`FOUND\` and
-\`LIMIT_REACHED\`, and do not depend on the target-enumeration code.
+The dedicated `native_crosscheck.py` and its CI job pin merged PR #36
+at commit `d140bd3a666ca6abf77e5823740ecef85e75a842`, explicitly
+build its optional native backend, and require `EXHAUSTED` for all
+seven cases (six \(P_3\), one \(P_4\)). They reject `FOUND` and
+`LIMIT_REACHED`, and do not depend on the target-enumeration code.
 This complements rather than replaces the independently auditable
 exact combinatorial counts and the fixed-target retraction proof.
 
