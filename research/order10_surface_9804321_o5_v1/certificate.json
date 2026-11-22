@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "mckay_index": 9804321,
+  "original_graph6": "ICR`tlmv_",
+  "pared_depth": 4,
+  "host_order": 202,
+  "host_edges": 13606,
+  "host_edge_sha256": "80b26e50d4a4ee642f8a16c92bf290cfea1aab8d8a4053938de6dc22fe2b96c5",
+  "antipodal_pairs": [
+    [
+      96,
+      37
+    ],
+    [
+      5,
+      76
+    ],
+    [
+      171,
+      84
+    ],
+    [
+      142,
+      52
+    ],
+    [
+      87,
+      127
+    ]
+  ],
+  "image_encoding": "uint16_little_endian_in_sorted_vertex_order",
+  "images_b64": "qwCrAKsAqwAFAKsAqwCrAKsAqwCrAKsAqwCrAKsAqwCrAKsAqwCrADQAqwCrAKsAqwCrAKsAqwCrAKsAqwAlAKsAqwBXAKsAqwBXAFcAVwBXAFcAVwBXAFcAVwA0AFcAqwCrAKsAqwCrAKsAqwBMAEwATABMAEwATABMAEwAYABgAGAAYABMAEwATABMAEwATABMAFcAVwBXAFQAVwBXAFcAVwBXAFcAVwBXAGAAYABgAGAAYABgAGAAYABgAGAAYABgAGAAYABgAEwATABMAEwATABMAGAAYABgAGAAYABgAGAAYABgAH8AfwBgAGAAYABgAGAAYABgAGAAYABgAGAAYABMAI4AYABgAGAAYABgAGAAYABgAGAAYABgAGAAqwCrAH8AqwB/AH8AjgBgAGAAYABgAGAAYACrAI4AqwCrAH8AjgBMAEwATABMAEwATACOAKsAqwCOAEwATABMAEwATABMAEwATABMAFcATABMAEwATABMAEwATABXAEwATABMAFcATABMAEwATAA="
+}
