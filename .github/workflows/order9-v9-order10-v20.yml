@@ -1,0 +1,110 @@
+name: Certify nine-v9 and ten-v20 residual census (3 and 1311)
+
+on:
+  pull_request:
+    paths:
+      - "indeterminate_order_9.txt"
+      - "indeterminate_order_9_v8.txt"
+      - "indeterminate_order_9_v9.txt"
+      - "indeterminate_order_10.txt"
+      - "indeterminate_order_10_v19.txt"
+      - "indeterminate_order_10_v20.txt"
+      - "research/order9_v9_order10_v20/**"
+      - "research/order9_two_p4_retractions_v1/**"
+      - "research/order9_251759_p4_o15_v1/**"
+      - "research/order9_254369_p4_o13_v1/**"
+      - "tests/test_current_root_index.py"
+      - ".github/workflows/order9-v9-order10-v20.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independent-exact-promotion:
+    name: Independently recompute 220 exact nine-core lifts and v8/v19-to-v9/v20 delta
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Exact 220-isomorphism audit and current-root historical regression
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python -m py_compile research/order9_v9_order10_v20/verify.py research/order9_v9_order10_v20/replay_v19.py
+          python -m research.order9_v9_order10_v20.verify
+          python -m unittest discover -s tests -p test_current_root_index.py -v
+      - name: Reject bypass of proof-critical assertions
+        run: |
+          stdout_file=$(mktemp)
+          stderr_file=$(mktemp)
+          trap 'rm -f "$stdout_file" "$stderr_file"' EXIT
+          if python -O -m research.order9_v9_order10_v20.verify >"$stdout_file" 2>"$stderr_file"; then
+            echo "ERROR: optimized proof verification unexpectedly succeeded"
+            exit 1
+          else
+            status=$?
+          fi
+          if [ "$status" -ne 1 ] || ! grep -Fxq 'RuntimeError: Optimized Python bypasses proof-critical assertions' "$stderr_file"; then
+            echo "ERROR: unexpected optimized verifier failure ($status)"
+            cat "$stdout_file"
+            cat "$stderr_file" >&2
+            exit 1
+          fi
+
+  certified-source-proof-replay:
+    name: Replay complete 403->O15 and 394->O13 positive projections and all 220 ten-originals
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Independently verify both source graph retractions and the exact census delta
+        env:
+          PYTHONHASHSEED: "0"
+        run: python -m research.order9_v9_order10_v20.verify --proofs
+
+  historical-v19-audit:
+    name: Historical nine-v8 / ten-v19 exact promotion with original immutable root inputs
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Replay preceding 150-original promotion against frozen v8/v19
+        env:
+          PYTHONHASHSEED: "0"
+        run: python -m research.order9_v9_order10_v20.replay_v19
+
+  public-positive-proof-replay:
+    name: Public pycliques independently verify both full O15/O13 projections and the new census
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/checkout@v4
+        with:
+          repository: rvf0068/pycliques-project
+          ref: d140bd3a666ca6abf77e5823740ecef85e75a842
+          path: pycliques-dependency
+          persist-credentials: false
+      - run: |
+          python -m pip install networkx==3.6.1
+          python -m pip install ./pycliques-dependency/packages/pycliques
+      - name: Independently check all stages and both positive maps with pinned public pycliques
+        env:
+          PYTHONHASHSEED: "0"
+        run: python -m research.order9_v9_order10_v20.verify --proofs --public
