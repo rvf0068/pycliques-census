@@ -2,7 +2,7 @@
 
 ## Original nine-vertex theorem
 
-Let G be connected-nine McKay graph **253650**, graph6 \`HEjer~{\`.
+Let G be connected-nine McKay graph **253650**, graph6 `HEjer~{`.
 Write P0(G) for the completely pared graph and
 P(j+1)(G) for the completely pared clique graph K(Pj(G)).
 The independently reconstructed sequence has orders
@@ -16,15 +16,15 @@ independent clique-index numbering) are:
     (29,213) (43,165) (50,171) (59,217)
     (66,106) (69,287) (78,123) (107,146)
 
-The entire 259-image projection is preserved in \`certificate.json\`.
+The entire 259-image projection is preserved in `certificate.json`.
 Encoding: a 259-byte array in ascending **host-label** order;
 each byte is the ordinal of the corresponding projection image in
-\`target_order\` (the 24 sorted target labels); base64 serialized.
+`target_order` (the 24 sorted target labels); base64 serialized.
 The host labels may be sparse after paring, so never use them directly
 as array offsets. The independent verifier reconstructs every iterate,
 checks the exact 28,890-edge SHA-256 digest, induced O12 shape,
 pointwise fixation and all 28,890 edge images. An optional
-\`--public\` mode repeats the construction using public pycliques
+`--public` mode repeats the construction using public pycliques
 functions and two separate witness verifiers.
 
 Since octahedral graphs O_d, d>=3, are K-divergent, the retraction theorem
@@ -35,12 +35,12 @@ that **McKay 253650 is K-divergent**.
 
 The frozen v16 ten-vertex unresolved census has **242 original graphs**
 whose certified completely pared graph on nine vertices is
-isomorphic to \`HEjer~{\`. Each such original ten-vertex graph is
+isomorphic to `HEjer~{`. Each such original ten-vertex graph is
 therefore also K-divergent.
 
-\`lift_v16_certificate.json\` preserves **242 full bijections** from the
+`lift_v16_certificate.json` preserves **242 full bijections** from the
 original nine-vertex source to the stored nine-vertex pared core.
-The verifier \`verify_lifts_v16.py\` does not trust the saved hit list:
+The verifier `verify_lifts_v16.py` does not trust the saved hit list:
 it checks the exact frozen v16 Git blob hash, independently enumerates
 **all 2,341** v16 records, uses NetworkX isomorphism to derive precisely
 the 242 hits, checks every saved original index/graph6 row and every
@@ -51,6 +51,15 @@ These 242 represent distinct *original ten-vertex indices*, not
 saved graph6 encodings of the same nine-vertex core. These are
 unconditional consequences of the known behavior-preservation
 theorem, not an inference from a conjectural reference.
+
+
+The 242 dependent ten-vertex records have `pared_order=9` in
+the immutable v16 index. They are therefore disjoint from the three
+newly proved flag spheres, all of which have `pared_order=10`:
+10185592 (merged PR #67), 9804321 (open PR #68), and 10472553 (this PR).
+If the distinct 242 + 3 positives are all promoted, the ten-vertex
+unresolved count will change from 2,341 to **2,096**. This
+proof-only PR does not itself perform that promotion.
 
 ## Commands
 
