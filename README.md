@@ -2,79 +2,86 @@
 
 This repository classifies **connected, unlabeled, simple graphs** through
 order 10. All classifications use a pinned revision of the Python monorepo
-[`pycliques-project`](https://github.com/rvf0068/pycliques-project).
-The earlier pre-clockwork-fix experiment is retained in Git history; the
-current stage framework uses clean, stable directories.
+[pycliques-project](https://github.com/rvf0068/pycliques-project).
+The pre-clockwork-fix experiments and all historical stages remain in history.
 
-## Current certified census: nine-vertex v7 and ten-vertex v18 (November 2026)
+## Current certified census: nine-vertex v8 and ten-vertex v19 (November 2026)
 
-The newly audited authoritative **indeterminate** lists are:
-
-| Connected order | Certified snapshot | Remaining original McKay graphs | Previous | Newly proved divergent |
+| Connected order | Certified snapshot | Indeterminate original McKay graphs | Previous count | Newly proved divergent |
 |---|---|---:|---:|---:|
-| 9 | [v7](indeterminate_order_9_v7.txt) | **6** | 9 | 3 |
-| 10 | [v18](indeterminate_order_10_v18.txt) | **1,681** | 2,025 | 344 |
+| 9 | [v8](indeterminate_order_9_v8.txt) | **5** | 6 | 1 |
+| 10 | [v19](indeterminate_order_10_v19.txt) | **1,531** | 1,681 | 150 |
 
-The authoritative working root files
-[`indeterminate_order_9.txt`](indeterminate_order_9.txt) and
-[`indeterminate_order_10.txt`](indeterminate_order_10.txt) are
-byte-identical to v7 and v18. Earlier versioned lists, including
-[nine-v6](indeterminate_order_9_v6.txt) and
-[ten-v17](indeterminate_order_10_v17.txt), remain **frozen and unchanged**.
+The authoritative root files
+[indeterminate_order_9.txt](indeterminate_order_9.txt) and
+[indeterminate_order_10.txt](indeterminate_order_10.txt)
+are byte-identical to their corresponding v8/v19 snapshots.
+All preceding versioned indices, including
+[nine-v7](indeterminate_order_9_v7.txt) and
+[ten-v18](indeterminate_order_10_v18.txt), are **frozen and unchanged**.
 
-### Three new divergence theorems and 344 ten-vertex consequences
+### McKay 251902: certified fourth-iterate retraction to O17
 
-Merged [PR #73](https://github.com/rvf0068/pycliques-census/pull/73)
-contains three independently verified *complete* fourth-iterate ordinary
-octahedral retractions:
+Merged [PR #78](https://github.com/rvf0068/pycliques-census/pull/78)
+proved K-divergence of connected-nine McKay **251902**
+(graph6 `HEhvvzm`) by an ordinary graph retraction
+`P4(G_251902) -> O17`, where `O_d` is the complement of
+`d` disjoint edges. The completely pared clique-iterate orders
+are `9, 12, 18, 41, 461`, and the host P4 graph has **94,642**
+edges. The complete 461-image ordinary retraction, 17 antipodal
+pairs and exact labeled-edge digest are archived in
+[its positive certificate](research/order9_251902_p4_o17_v1/certificate.json).
+Independent NetworkX proof replay, public pycliques verification,
+and unseeded C++17 rediscovery all passed CI.
 
-| Original nine-vertex McKay | Exact source proof | Distinct ten-vertex originals |
+Exactly **150** previously indeterminate connected-ten originals have
+completely pared nine-vertex cores isomorphic to that proved-divergent
+graph. The [v8/v19 promotion audit](research/order9_v8_order10_v19/verify.py)
+recomputes and verifies every one of these 150 identities, checks
+each saved vertex bijection, and ensures all remaining rows are unchanged.
+No conjecture-dependent or bounded-negative result has been promoted.
+
+The earlier merged [PR #77](https://github.com/rvf0068/pycliques-census/pull/77)
+independently excluded ordinary `P4 -> O5` retractions for this graph,
+using exact integer complement-edge covering bounds. This exclusion
+is compatible with the positive `P4 -> O17` retraction.
+
+### Remaining nine-vertex cores and ten-vertex families
+
+| Unresolved nine-vertex McKay | graph6 | Unresolved ten-vertex pared-nine original dependents |
 |---:|---|---:|
-| 249436 | `P4 -> O10` | 141 |
-| 249574 | `P4 -> O12` | 82 |
-| 250814 | `P4 -> O14` | 121 |
-| **Total** | **3 K-divergence proofs** | **344** |
+| 249576 | HEhfvzu | 141 |
+| 251628 | HEhvVn{ | 147 |
+| 251759 | HEhvtzm | 129 |
+| 254369 | HEjfvx} | 91 |
+| 260040 | HQyvex} | 142 |
+| **Total** | | **650** |
 
-The full projection on every fourth-iterate vertex is preserved in
-[`certificate.json`](research/order9_three_p4_retractions_v1/certificate.json).
-The independent
-[proof verifier](research/order9_three_p4_retractions_v1/verify.py)
-reconstructs all iterates, checks every edge image, and uses graph
-isomorphism to check the 344 distinct ten-vertex original consequences.
-[The v7/v18 promotion audit](research/order9_v7_order10_v18/verify.py)
-recomputes those families from the immutable v17 census and verifies
-**every retained original row** and exact deletion.
+Another **881** unresolved ten-vertex originals have ten-vertex
+pared cores, including six previously identified flag triangulations
+of the sphere. All five nine-vertex sources remain genuinely
+indeterminate; exhaustive negative results at P3 and bounded
+positive searches at P4 must not be interpreted as convergence.
 
-The **six** unresolved nine-vertex original McKay indices are
-`249576, 251628, 251759, 251902, 254369, 260040`.
-Their ten-vertex pared-nine dependents have family sizes
-`141, 147, 129, 150, 91, 142` respectively, for **800**.
-There are also **881** indeterminate ten-vertex originals with
-a ten-vertex pared core. Of those, six are flag triangulations of
-the sphere. None of these remaining cases has been classified
-by the octahedral negatives from merged PRs #71 and #72.
+### Audit and historical reproducibility
 
-### Historical results and reproduction
-
-The preceding census promotion [v6/v17](research/order10_current_indeterminates_v17/REPORT.md)
-corrected nine-core McKay 253650 (`P4 -> O12`),
-and certified 316 additional ten-vertex results, including
-242 exact isomorphism lifts, 71 stiff-ten retractions and
-three flag-sphere results. All preceding snapshots and their
-positive certificates remain independently replayable.
-
-The current authoritative audit runs:
+Run the new exact audit with NetworkX 3.6.1:
 
 ```sh
-python -m research.order9_v7_order10_v18.verify
-python -m research.order9_v7_order10_v18.verify --proofs
-python -m research.order9_v7_order10_v18.replay_v17 --families --surfaces
+python -m research.order9_v8_order10_v19.verify
+python -m research.order9_v8_order10_v19.verify --proofs
+python -m research.order9_v8_order10_v19.replay_v18
 ```
 
-With pinned public pycliques installed, append `--proofs --public`
-to the first verifier. The promotion manifest and complete
-research note are under
-[`research/order9_v7_order10_v18/`](research/order9_v7_order10_v18/REPORT.md).
+With pinned public pycliques, `--proofs --public` also
+replays the positive ordinary retraction via the public verifier.
+See [the complete promotion report](research/order9_v8_order10_v19/REPORT.md)
+and [its 150-entry explicit certificate manifest](research/order9_v8_order10_v19/promotion_manifest.json).
+
+The earlier v7/v18 promotion proved 344 further ten-vertex original
+divergences from three nine-vertex sources. See
+[the frozen preceding audit](research/order9_v7_order10_v18/REPORT.md).
+All earlier proofs are retained and replayable via historical wrappers.
 
 ## Codespaces commands
 

@@ -1,4 +1,4 @@
-name: Certify order-nine v7 and order-ten v18 promotion (6 and 1681)
+name: Replay historical order-nine v7 and order-ten v18 promotion (6 and 1681)
 
 on:
   pull_request:
@@ -33,15 +33,15 @@ jobs:
         env:
           PYTHONHASHSEED: "0"
         run: |
-          python -m py_compile research/order9_v7_order10_v18/verify.py research/order9_v7_order10_v18/replay_v17.py
-          python -m research.order9_v7_order10_v18.verify
+          python -m py_compile research/order9_v7_order10_v18/verify.py research/order9_v8_order10_v19/replay_v18.py research/order9_v7_order10_v18/replay_v17.py
+          python -m research.order9_v8_order10_v19.replay_v18
           python -m unittest discover -s tests -p test_current_root_index.py -v
       - name: Reject bypass of proof-critical assertions
         run: |
           stdout_file=$(mktemp)
           stderr_file=$(mktemp)
           trap 'rm -f "$stdout_file" "$stderr_file"' EXIT
-          if python -O -m research.order9_v7_order10_v18.verify >"$stdout_file" 2>"$stderr_file"; then
+          if python -O -m research.order9_v8_order10_v19.replay_v18 >"$stdout_file" 2>"$stderr_file"; then
             echo "ERROR: optimized proof verification unexpectedly succeeded"
             exit 1
           else
@@ -67,7 +67,7 @@ jobs:
       - name: Recheck all three full projection certificates and the promotion audit
         env:
           PYTHONHASHSEED: "0"
-        run: python -m research.order9_v7_order10_v18.verify --proofs
+        run: python -m research.order9_v8_order10_v19.replay_v18 --proofs
 
   archived-v17-replay:
     name: Historical nine-v6 / ten-v17 original proof and residual-class replay
