@@ -4,6 +4,10 @@ on:
   pull_request:
     paths:
       - "research/order9_260910_o15_v1/**"
+      - "research/order9_f45_o9_v1/**"
+      - "indeterminate_order_10_v14.txt"
+      - "indeterminate_order_10_v15.txt"
+      - "indeterminate_order_9_v4.txt"
       - ".github/workflows/order9-260910-lifts-v14-certify.yml"
   workflow_dispatch:
 
