@@ -1,0 +1,54 @@
+name: Exhaustive nine-v6 P3 octahedral-retraction audit
+
+on:
+  pull_request:
+    paths:
+      - "indeterminate_order_9_v6.txt"
+      - "research/order9_p3_octahedral_exhaustive_v1/**"
+      - ".github/workflows/order9-p3-octahedral-exhaustive.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independent-networkx:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Independent reconstruction and exhaustive negative searches
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python -m py_compile research/order9_p3_octahedral_exhaustive_v1/verify.py
+          python research/order9_p3_octahedral_exhaustive_v1/verify.py --self-test
+      - name: Reject optimized proof bypass
+        run: |
+          if python -O research/order9_p3_octahedral_exhaustive_v1/verify.py; then
+            echo 'ERROR: optimized execution unexpectedly passed'
+            exit 1
+          fi
+
+  public-pycliques-crosscheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install frozen, public pycliques revision
+        run: |
+          python -m pip install networkx==3.6.1
+          git clone --quiet https://github.com/rvf0068/pycliques-project.git /tmp/pycliques-project
+          git -C /tmp/pycliques-project checkout --quiet 782deb653b8748e1b5759389cdd2134beac69351
+          python -m pip install /tmp/pycliques-project/packages/pycliques
+      - name: Independently compare all nine P3 iterates with public API
+        env:
+          PYTHONHASHSEED: "0"
+        run: python research/order9_p3_octahedral_exhaustive_v1/verify.py --public
