@@ -1,4 +1,4 @@
-name: Certify nine-v6 and ten-v17 residual census (9 and 2025)
+name: Recheck immutable historical nine-v6 and ten-v17 census (9 and 2025)
 
 on:
   pull_request:
@@ -35,12 +35,13 @@ jobs:
         run: |
           python -m py_compile \
             research/order10_current_indeterminates_v17/verify.py \
+            research/order9_v7_order10_v18/replay_v17.py \
             research/order10_current_indeterminates_v17/replay_v16.py
-          python -m research.order10_current_indeterminates_v17.verify --families --surfaces
+          python -m research.order9_v7_order10_v18.replay_v17 --families --surfaces
           python -m unittest discover -s tests -p test_current_root_index.py -v
       - name: Confirm optimized Python cannot bypass proof assertions
         run: |
-          if python -O -m research.order10_current_indeterminates_v17.verify; then
+          if python -O -m research.order9_v7_order10_v18.replay_v17; then
             echo "ERROR: optimized execution was incorrectly accepted"
             exit 1
           fi
@@ -59,7 +60,7 @@ jobs:
       - name: Reconstruct four divergent source graphs and 313 positive lifts
         env:
           PYTHONHASHSEED: "0"
-        run: python -m research.order10_current_indeterminates_v17.verify --proofs
+        run: python -m research.order9_v7_order10_v18.replay_v17 --proofs
 
   replay-public-pycliques:
     name: Public-pycliques full proof replay and historical v16 compatibility
@@ -86,7 +87,7 @@ jobs:
       - name: Replay independent and public proofs for all 316 promotions
         env:
           PYTHONHASHSEED: "0"
-        run: python -m research.order10_current_indeterminates_v17.verify --proofs --public
+        run: python -m research.order9_v7_order10_v18.replay_v17 --proofs --public
       - name: Replay protected historical nine-v5 and ten-v16 certification
         env:
           PYTHONHASHSEED: "0"

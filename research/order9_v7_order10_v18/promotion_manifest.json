@@ -1,0 +1,2792 @@
+{
+  "schema": 1,
+  "previous_order9": "indeterminate_order_9_v6.txt",
+  "previous_order9_git_blob": "48ed753696a2ff3e509c11fc550c64ddb500d675",
+  "previous_order10": "indeterminate_order_10_v17.txt",
+  "previous_order10_git_blob": "57b97f4b0d4e0b66c2cfc9748826911a55a19e60",
+  "remaining_order9": 6,
+  "remaining_order10": 1681,
+  "remaining_pared_order10": {
+    "9": 800,
+    "10": 881
+  },
+  "promoted_order9": [
+    {
+      "index": 249436,
+      "source_row": "249436 9 HEhff^{ - - -",
+      "retraction": "P4 -> O10",
+      "certificate": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "index": 249574,
+      "source_row": "249574 9 HEhfvx} - - -",
+      "retraction": "P4 -> O12",
+      "certificate": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "index": 250814,
+      "source_row": "250814 9 HEhuvzm - - -",
+      "retraction": "P4 -> O14",
+      "certificate": "research/order9_three_p4_retractions_v1/certificate.json"
+    }
+  ],
+  "ten_proof_classes": {
+    "nine_core_249436": 141,
+    "nine_core_249574": 82,
+    "nine_core_250814": 121
+  },
+  "removed_order10": [
+    {
+      "original_index": 5519188,
+      "core_index": 249436,
+      "core_graph6": "HCuvB~m",
+      "source_row": "5519188 9 HCuvB~m - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 5519778,
+      "core_index": 249436,
+      "core_graph6": "HCuvB~m",
+      "source_row": "5519778 9 HCuvB~m - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 5520295,
+      "core_index": 249436,
+      "core_graph6": "HCuvF\\}",
+      "source_row": "5520295 9 HCuvF\\} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 5683492,
+      "core_index": 249436,
+      "core_graph6": "HCvdb~m",
+      "source_row": "5683492 9 HCvdb~m - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 5684726,
+      "core_index": 249436,
+      "core_graph6": "HCvdb~m",
+      "source_row": "5684726 9 HCvdb~m - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 5685951,
+      "core_index": 249436,
+      "core_graph6": "HCvdf\\}",
+      "source_row": "5685951 9 HCvdf\\} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 5733313,
+      "core_index": 249436,
+      "core_graph6": "HCvdb~m",
+      "source_row": "5733313 9 HCvdb~m - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 5734544,
+      "core_index": 249436,
+      "core_graph6": "HCvdf\\}",
+      "source_row": "5734544 9 HCvdf\\} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 5807966,
+      "core_index": 249436,
+      "core_graph6": "HCxu|zk",
+      "source_row": "5807966 9 HCxu|zk - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 5816481,
+      "core_index": 249436,
+      "core_graph6": "HCxv]y{",
+      "source_row": "5816481 9 HCxv]y{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 5973226,
+      "core_index": 249436,
+      "core_graph6": "HCzTb~m",
+      "source_row": "5973226 9 HCzTb~m - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 5974389,
+      "core_index": 249436,
+      "core_graph6": "HCzTf\\}",
+      "source_row": "5974389 9 HCzTf\\} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 6062272,
+      "core_index": 249436,
+      "core_graph6": "HCuvB~m",
+      "source_row": "6062272 9 HCuvB~m - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 6062673,
+      "core_index": 249436,
+      "core_graph6": "HCuvF\\}",
+      "source_row": "6062673 9 HCuvF\\} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 6540256,
+      "core_index": 249436,
+      "core_graph6": "HENd}x{",
+      "source_row": "6540256 9 HENd}x{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 6572529,
+      "core_index": 249436,
+      "core_graph6": "HENflx{",
+      "source_row": "6572529 9 HENflx{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 6922775,
+      "core_index": 249436,
+      "core_graph6": "HEhff^{",
+      "source_row": "6922775 9 HEhff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 6922946,
+      "core_index": 249436,
+      "core_graph6": "HEhffzm",
+      "source_row": "6922946 9 HEhffzm - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 6923397,
+      "core_index": 249574,
+      "core_graph6": "HEhfr~{",
+      "source_row": "6923397 9 HEhfr~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 6923651,
+      "core_index": 249574,
+      "core_graph6": "HEhfvx}",
+      "source_row": "6923651 9 HEhfvx} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 6926922,
+      "core_index": 249436,
+      "core_graph6": "HEhffzm",
+      "source_row": "6926922 9 HEhffzm - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 6926932,
+      "core_index": 249436,
+      "core_graph6": "HEhffzm",
+      "source_row": "6926932 9 HEhffzm - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 6927287,
+      "core_index": 249574,
+      "core_graph6": "HEhfvx}",
+      "source_row": "6927287 9 HEhfvx} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 6946361,
+      "core_index": 250814,
+      "core_graph6": "HEhuvzm",
+      "source_row": "6946361 9 HEhuvzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 6955242,
+      "core_index": 250814,
+      "core_graph6": "HEhuvzm",
+      "source_row": "6955242 9 HEhuvzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 6955251,
+      "core_index": 250814,
+      "core_graph6": "HEhuvzm",
+      "source_row": "6955251 9 HEhuvzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 6981996,
+      "core_index": 249436,
+      "core_graph6": "HEha|~{",
+      "source_row": "6981996 9 HEha|~{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 6982203,
+      "core_index": 249436,
+      "core_graph6": "HEha|~{",
+      "source_row": "6982203 9 HEha|~{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 6982742,
+      "core_index": 249436,
+      "core_graph6": "HEha~y}",
+      "source_row": "6982742 9 HEha~y} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 6991500,
+      "core_index": 249574,
+      "core_graph6": "HEhb~v{",
+      "source_row": "6991500 9 HEhb~v{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 6991515,
+      "core_index": 249574,
+      "core_graph6": "HEhb~zy",
+      "source_row": "6991515 9 HEhb~zy - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7003106,
+      "core_index": 249574,
+      "core_graph6": "HEhb~zy",
+      "source_row": "7003106 9 HEhb~zy - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7006326,
+      "core_index": 249436,
+      "core_graph6": "HEhcz~{",
+      "source_row": "7006326 9 HEhcz~{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7006568,
+      "core_index": 249436,
+      "core_graph6": "HEhcz~{",
+      "source_row": "7006568 9 HEhcz~{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7007274,
+      "core_index": 249436,
+      "core_graph6": "HEhc~x}",
+      "source_row": "7007274 9 HEhc~x} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7021708,
+      "core_index": 249574,
+      "core_graph6": "HEhe~zm",
+      "source_row": "7021708 9 HEhe~zm - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7021979,
+      "core_index": 249574,
+      "core_graph6": "HEhe~zm",
+      "source_row": "7021979 9 HEhe~zm - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7035267,
+      "core_index": 249436,
+      "core_graph6": "HEhff^{",
+      "source_row": "7035267 9 HEhff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7035285,
+      "core_index": 249436,
+      "core_graph6": "HEhff^{",
+      "source_row": "7035285 9 HEhff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7035637,
+      "core_index": 249436,
+      "core_graph6": "HEhffzm",
+      "source_row": "7035637 9 HEhffzm - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7036009,
+      "core_index": 249436,
+      "core_graph6": "HEhff^{",
+      "source_row": "7036009 9 HEhff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7036722,
+      "core_index": 249574,
+      "core_graph6": "HEhfl~{",
+      "source_row": "7036722 9 HEhfl~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7037400,
+      "core_index": 249574,
+      "core_graph6": "HEhfny}",
+      "source_row": "7037400 9 HEhfny} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7037823,
+      "core_index": 249574,
+      "core_graph6": "HEhfny}",
+      "source_row": "7037823 9 HEhfny} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7037864,
+      "core_index": 249574,
+      "core_graph6": "HEhfr~{",
+      "source_row": "7037864 9 HEhfr~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7037972,
+      "core_index": 249574,
+      "core_graph6": "HEhfvx}",
+      "source_row": "7037972 9 HEhfvx} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7042523,
+      "core_index": 249436,
+      "core_graph6": "HEhfNv{",
+      "source_row": "7042523 9 HEhfNv{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7042533,
+      "core_index": 249436,
+      "core_graph6": "HEhfNzy",
+      "source_row": "7042533 9 HEhfNzy - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7042543,
+      "core_index": 249436,
+      "core_graph6": "HEhfNzy",
+      "source_row": "7042543 9 HEhfNzy - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7043972,
+      "core_index": 249436,
+      "core_graph6": "HEhffzm",
+      "source_row": "7043972 9 HEhffzm - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7044518,
+      "core_index": 249574,
+      "core_graph6": "HEhfny}",
+      "source_row": "7044518 9 HEhfny} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7044674,
+      "core_index": 249574,
+      "core_graph6": "HEhfny}",
+      "source_row": "7044674 9 HEhfny} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7047608,
+      "core_index": 250814,
+      "core_graph6": "HEhr^zy",
+      "source_row": "7047608 9 HEhr^zy - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7065107,
+      "core_index": 250814,
+      "core_graph6": "HEhuvzm",
+      "source_row": "7065107 9 HEhuvzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7069711,
+      "core_index": 250814,
+      "core_graph6": "HEhvvxm",
+      "source_row": "7069711 9 HEhvvxm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7076205,
+      "core_index": 249436,
+      "core_graph6": "HEiZ~pf",
+      "source_row": "7076205 9 HEiZ~pf - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7091146,
+      "core_index": 249436,
+      "core_graph6": "HEi^Ft}",
+      "source_row": "7091146 9 HEi^Ft} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7190351,
+      "core_index": 249436,
+      "core_graph6": "HEjX~pf",
+      "source_row": "7190351 9 HEjX~pf - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7195143,
+      "core_index": 250814,
+      "core_graph6": "HEjZf^y",
+      "source_row": "7195143 9 HEjZf^y - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7195294,
+      "core_index": 250814,
+      "core_graph6": "HEjZfvm",
+      "source_row": "7195294 9 HEjZfvm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7195833,
+      "core_index": 250814,
+      "core_graph6": "HEjZf^y",
+      "source_row": "7195833 9 HEjZf^y - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7202431,
+      "core_index": 249574,
+      "core_graph6": "HEj^^pf",
+      "source_row": "7202431 9 HEj^^pf - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7202434,
+      "core_index": 250814,
+      "core_graph6": "HEj^^pr",
+      "source_row": "7202434 9 HEj^^pr - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7262133,
+      "core_index": 249436,
+      "core_graph6": "HEjcvx}",
+      "source_row": "7262133 9 HEjcvx} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7262139,
+      "core_index": 249436,
+      "core_graph6": "HEjcvx}",
+      "source_row": "7262139 9 HEjcvx} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7341615,
+      "core_index": 250814,
+      "core_graph6": "HElen^{",
+      "source_row": "7341615 9 HElen^{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7341883,
+      "core_index": 250814,
+      "core_graph6": "HElenzm",
+      "source_row": "7341883 9 HElenzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7342398,
+      "core_index": 250814,
+      "core_graph6": "HElenzm",
+      "source_row": "7342398 9 HElenzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7390639,
+      "core_index": 249436,
+      "core_graph6": "HEfb~ij",
+      "source_row": "7390639 9 HEfb~ij - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7445352,
+      "core_index": 250814,
+      "core_graph6": "HEnV^pf",
+      "source_row": "7445352 9 HEnV^pf - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7446717,
+      "core_index": 249436,
+      "core_graph6": "HCuvF\\}",
+      "source_row": "7446717 9 HCuvF\\} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7488172,
+      "core_index": 249436,
+      "core_graph6": "HEh`~z]",
+      "source_row": "7488172 9 HEh`~z] - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7488176,
+      "core_index": 249436,
+      "core_graph6": "HEh`~z]",
+      "source_row": "7488176 9 HEh`~z] - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7501046,
+      "core_index": 249436,
+      "core_graph6": "HEhc~x}",
+      "source_row": "7501046 9 HEhc~x} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7510821,
+      "core_index": 249574,
+      "core_graph6": "HEhd~zu",
+      "source_row": "7510821 9 HEhd~zu - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7513106,
+      "core_index": 249574,
+      "core_graph6": "HEhe~^{",
+      "source_row": "7513106 9 HEhe~^{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7513223,
+      "core_index": 249574,
+      "core_graph6": "HEhe~zm",
+      "source_row": "7513223 9 HEhe~zm - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7516433,
+      "core_index": 249436,
+      "core_graph6": "HEhfVn{",
+      "source_row": "7516433 9 HEhfVn{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7517651,
+      "core_index": 249574,
+      "core_graph6": "HEhf^z]",
+      "source_row": "7517651 9 HEhf^z] - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7520905,
+      "core_index": 249436,
+      "core_graph6": "HEhff^{",
+      "source_row": "7520905 9 HEhff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7521114,
+      "core_index": 249436,
+      "core_graph6": "HEhffzm",
+      "source_row": "7521114 9 HEhffzm - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7521855,
+      "core_index": 249574,
+      "core_graph6": "HEhfr~{",
+      "source_row": "7521855 9 HEhfr~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7522617,
+      "core_index": 249574,
+      "core_graph6": "HEhfvx}",
+      "source_row": "7522617 9 HEhfvx} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7522976,
+      "core_index": 249574,
+      "core_graph6": "HEhe~zm",
+      "source_row": "7522976 9 HEhe~zm - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7527561,
+      "core_index": 249436,
+      "core_graph6": "HEhffzm",
+      "source_row": "7527561 9 HEhffzm - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7530635,
+      "core_index": 250814,
+      "core_graph6": "HEhlvn{",
+      "source_row": "7530635 9 HEhlvn{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7544032,
+      "core_index": 250814,
+      "core_graph6": "HEhuvzm",
+      "source_row": "7544032 9 HEhuvzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7592249,
+      "core_index": 250814,
+      "core_graph6": "HEjZfvm",
+      "source_row": "7592249 9 HEjZfvm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7713016,
+      "core_index": 249436,
+      "core_graph6": "HCzTf\\}",
+      "source_row": "7713016 9 HCzTf\\} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7716627,
+      "core_index": 250814,
+      "core_graph6": "HEjvtxm",
+      "source_row": "7716627 9 HEjvtxm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7943537,
+      "core_index": 249436,
+      "core_graph6": "HCuvF\\}",
+      "source_row": "7943537 9 HCuvF\\} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7954413,
+      "core_index": 249436,
+      "core_graph6": "HFqbfzm",
+      "source_row": "7954413 9 HFqbfzm - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7954657,
+      "core_index": 249574,
+      "core_graph6": "HEhfr~{",
+      "source_row": "7954657 9 HEhfr~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7954856,
+      "core_index": 249574,
+      "core_graph6": "HEhfvx}",
+      "source_row": "7954856 9 HEhfvx} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7956592,
+      "core_index": 249436,
+      "core_graph6": "HEhc~x}",
+      "source_row": "7956592 9 HEhc~x} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7956610,
+      "core_index": 249436,
+      "core_graph6": "HEhc~x}",
+      "source_row": "7956610 9 HEhc~x} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 7960056,
+      "core_index": 249574,
+      "core_graph6": "HEhfvx}",
+      "source_row": "7960056 9 HEhfvx} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9584561,
+      "core_index": 249436,
+      "core_graph6": "HCnb~ZR",
+      "source_row": "9584561 9 HCnb~ZR - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9653827,
+      "core_index": 249436,
+      "core_graph6": "HCneb~m",
+      "source_row": "9653827 9 HCneb~m - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9654776,
+      "core_index": 249436,
+      "core_graph6": "HCnef\\}",
+      "source_row": "9654776 9 HCnef\\} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9655083,
+      "core_index": 249436,
+      "core_graph6": "HOzTe|}",
+      "source_row": "9655083 9 HOzTe|} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9678318,
+      "core_index": 250814,
+      "core_graph6": "HQyu~ov",
+      "source_row": "9678318 9 HQyu~ov - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9713931,
+      "core_index": 250814,
+      "core_graph6": "HQzZvgz",
+      "source_row": "9713931 9 HQzZvgz - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9768363,
+      "core_index": 249436,
+      "core_graph6": "HCvdb~m",
+      "source_row": "9768363 9 HCvdb~m - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9770084,
+      "core_index": 249436,
+      "core_graph6": "HCvdf\\}",
+      "source_row": "9770084 9 HCvdf\\} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9797657,
+      "core_index": 249436,
+      "core_graph6": "HQotr~{",
+      "source_row": "9797657 9 HQotr~{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9799429,
+      "core_index": 249436,
+      "core_graph6": "HQotvx}",
+      "source_row": "9799429 9 HQotvx} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9806125,
+      "core_index": 249436,
+      "core_graph6": "HQotvx}",
+      "source_row": "9806125 9 HQotvx} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9810205,
+      "core_index": 249574,
+      "core_graph6": "HQovZ~{",
+      "source_row": "9810205 9 HQovZ~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9810953,
+      "core_index": 249574,
+      "core_graph6": "HQov^x}",
+      "source_row": "9810953 9 HQov^x} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9813638,
+      "core_index": 249574,
+      "core_graph6": "HQovvn{",
+      "source_row": "9813638 9 HQovvn{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9816611,
+      "core_index": 249436,
+      "core_graph6": "HQou^zu",
+      "source_row": "9816611 9 HQou^zu - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9825816,
+      "core_index": 249574,
+      "core_graph6": "HQov^x}",
+      "source_row": "9825816 9 HQov^x} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9855375,
+      "core_index": 249436,
+      "core_graph6": "HCxt}zk",
+      "source_row": "9855375 9 HCxt}zk - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9855634,
+      "core_index": 249436,
+      "core_graph6": "HCxt~Z[",
+      "source_row": "9855634 9 HCxt~Z[ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9897536,
+      "core_index": 250814,
+      "core_graph6": "HQqrnzy",
+      "source_row": "9897536 9 HQqrnzy - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9897547,
+      "core_index": 250814,
+      "core_graph6": "HQqrnzy",
+      "source_row": "9897547 9 HQqrnzy - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9897957,
+      "core_index": 250814,
+      "core_graph6": "HQqrnzy",
+      "source_row": "9897957 9 HQqrnzy - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9916996,
+      "core_index": 250814,
+      "core_graph6": "HQqrnzy",
+      "source_row": "9916996 9 HQqrnzy - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9941936,
+      "core_index": 250814,
+      "core_graph6": "HQqvR~{",
+      "source_row": "9941936 9 HQqvR~{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9943123,
+      "core_index": 250814,
+      "core_graph6": "HQqvR~{",
+      "source_row": "9943123 9 HQqvR~{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9944089,
+      "core_index": 250814,
+      "core_graph6": "HQqvVx}",
+      "source_row": "9944089 9 HQqvVx} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9963609,
+      "core_index": 250814,
+      "core_graph6": "HQqvR~{",
+      "source_row": "9963609 9 HQqvR~{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9964289,
+      "core_index": 250814,
+      "core_graph6": "HQqvVx}",
+      "source_row": "9964289 9 HQqvVx} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 9964907,
+      "core_index": 250814,
+      "core_graph6": "HQqvVx}",
+      "source_row": "9964907 9 HQqvVx} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10023951,
+      "core_index": 250814,
+      "core_graph6": "HQqvVx}",
+      "source_row": "10023951 9 HQqvVx} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10029628,
+      "core_index": 250814,
+      "core_graph6": "HQrlb~y",
+      "source_row": "10029628 9 HQrlb~y - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10030524,
+      "core_index": 250814,
+      "core_graph6": "HQrlft}",
+      "source_row": "10030524 9 HQrlft} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10039775,
+      "core_index": 249436,
+      "core_graph6": "HCzTb~m",
+      "source_row": "10039775 9 HCzTb~m - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10041422,
+      "core_index": 249436,
+      "core_graph6": "HCzTf\\}",
+      "source_row": "10041422 9 HCzTf\\} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10050506,
+      "core_index": 249436,
+      "core_graph6": "HQrNvgz",
+      "source_row": "10050506 9 HQrNvgz - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10074708,
+      "core_index": 249436,
+      "core_graph6": "HCzTb~m",
+      "source_row": "10074708 9 HCzTb~m - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10074736,
+      "core_index": 249436,
+      "core_graph6": "HCzTf\\}",
+      "source_row": "10074736 9 HCzTf\\} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10205508,
+      "core_index": 250814,
+      "core_graph6": "HB^TVnm",
+      "source_row": "10205508 9 HB^TVnm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10205515,
+      "core_index": 250814,
+      "core_graph6": "HB^TVnm",
+      "source_row": "10205515 9 HB^TVnm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10205822,
+      "core_index": 250814,
+      "core_graph6": "HEurVnm",
+      "source_row": "10205822 9 HEurVnm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10226831,
+      "core_index": 249574,
+      "core_graph6": "HB^vUmu",
+      "source_row": "10226831 9 HB^vUmu - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10251463,
+      "core_index": 250814,
+      "core_graph6": "HQnBvzu",
+      "source_row": "10251463 9 HQnBvzu - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10252373,
+      "core_index": 249436,
+      "core_graph6": "HBfe|zs",
+      "source_row": "10252373 9 HBfe|zs - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10256941,
+      "core_index": 249436,
+      "core_graph6": "HBffmy{",
+      "source_row": "10256941 9 HBffmy{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10290964,
+      "core_index": 249574,
+      "core_graph6": "HQdb|~{",
+      "source_row": "10290964 9 HQdb|~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10291199,
+      "core_index": 249574,
+      "core_graph6": "HQdb~y}",
+      "source_row": "10291199 9 HQdb~y} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10298896,
+      "core_index": 250814,
+      "core_graph6": "HQtbny}",
+      "source_row": "10298896 9 HQtbny} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10301483,
+      "core_index": 249574,
+      "core_graph6": "HQdd~x}",
+      "source_row": "10301483 9 HQdd~x} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10301868,
+      "core_index": 250814,
+      "core_graph6": "HQtd~xu",
+      "source_row": "10301868 9 HQtd~xu - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10309363,
+      "core_index": 249436,
+      "core_graph6": "HQdfR~{",
+      "source_row": "10309363 9 HQdfR~{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10311716,
+      "core_index": 249436,
+      "core_graph6": "HQdfVx}",
+      "source_row": "10311716 9 HQdfVx} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10314699,
+      "core_index": 249574,
+      "core_graph6": "HQdf]~{",
+      "source_row": "10314699 9 HQdf]~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10314904,
+      "core_index": 249574,
+      "core_graph6": "HQdf^z]",
+      "source_row": "10314904 9 HQdf^z] - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10321597,
+      "core_index": 249574,
+      "core_graph6": "HQdfvn{",
+      "source_row": "10321597 9 HQdfvn{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10321989,
+      "core_index": 250814,
+      "core_graph6": "HQtdvzu",
+      "source_row": "10321989 9 HQtdvzu - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10322753,
+      "core_index": 249574,
+      "core_graph6": "HQdfzy|",
+      "source_row": "10322753 9 HQdfzy| - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10322926,
+      "core_index": 249574,
+      "core_graph6": "HQdf~Z\\",
+      "source_row": "10322926 9 HQdf~Z\\ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10323253,
+      "core_index": 249436,
+      "core_graph6": "HQdc~zu",
+      "source_row": "10323253 9 HQdc~zu - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10323895,
+      "core_index": 249436,
+      "core_graph6": "HEfdR~u",
+      "source_row": "10323895 9 HEfdR~u - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10324490,
+      "core_index": 249436,
+      "core_graph6": "HEfdVl}",
+      "source_row": "10324490 9 HEfdVl} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10326147,
+      "core_index": 249436,
+      "core_graph6": "HEfdVl}",
+      "source_row": "10326147 9 HEfdVl} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10329908,
+      "core_index": 249436,
+      "core_graph6": "HQddnz]",
+      "source_row": "10329908 9 HQddnz] - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10338045,
+      "core_index": 249436,
+      "core_graph6": "HQdeny}",
+      "source_row": "10338045 9 HQdeny} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10345363,
+      "core_index": 249436,
+      "core_graph6": "HQdfVx}",
+      "source_row": "10345363 9 HQdfVx} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10368836,
+      "core_index": 250814,
+      "core_graph6": "HQdv]v{",
+      "source_row": "10368836 9 HQdv]v{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10372515,
+      "core_index": 250814,
+      "core_graph6": "HQtvvWv",
+      "source_row": "10372515 9 HQtvvWv - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10373434,
+      "core_index": 250814,
+      "core_graph6": "HQtuT~u",
+      "source_row": "10373434 9 HQtuT~u - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10373803,
+      "core_index": 250814,
+      "core_graph6": "HQtuVm}",
+      "source_row": "10373803 9 HQtuVm} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10375547,
+      "core_index": 250814,
+      "core_graph6": "HBtvvYf",
+      "source_row": "10375547 9 HBtvvYf - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10386206,
+      "core_index": 250814,
+      "core_graph6": "HQe~B~y",
+      "source_row": "10386206 9 HQe~B~y - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10386754,
+      "core_index": 250814,
+      "core_graph6": "HQe~Ft}",
+      "source_row": "10386754 9 HQe~Ft} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10396391,
+      "core_index": 250814,
+      "core_graph6": "HQfbnv{",
+      "source_row": "10396391 9 HQfbnv{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10396858,
+      "core_index": 250814,
+      "core_graph6": "HBubnzm",
+      "source_row": "10396858 9 HBubnzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10397210,
+      "core_index": 250814,
+      "core_graph6": "HQfbnv{",
+      "source_row": "10397210 9 HQfbnv{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10403538,
+      "core_index": 250814,
+      "core_graph6": "HQfdvx}",
+      "source_row": "10403538 9 HQfdvx} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10404026,
+      "core_index": 250814,
+      "core_graph6": "HQfdvx}",
+      "source_row": "10404026 9 HQfdvx} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10404947,
+      "core_index": 250814,
+      "core_graph6": "HBufm^{",
+      "source_row": "10404947 9 HBufm^{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10438123,
+      "core_index": 249436,
+      "core_graph6": "HEenFl}",
+      "source_row": "10438123 9 HEenFl} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10458938,
+      "core_index": 250814,
+      "core_graph6": "HQfdvx}",
+      "source_row": "10458938 9 HQfdvx} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10464770,
+      "core_index": 249436,
+      "core_graph6": "HEhex~{",
+      "source_row": "10464770 9 HEhex~{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10465173,
+      "core_index": 249574,
+      "core_graph6": "HBqb~^{",
+      "source_row": "10465173 9 HBqb~^{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10465313,
+      "core_index": 249574,
+      "core_graph6": "HBqb~zm",
+      "source_row": "10465313 9 HBqb~zm - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10465445,
+      "core_index": 249574,
+      "core_graph6": "HEhe~^{",
+      "source_row": "10465445 9 HEhe~^{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10467449,
+      "core_index": 249436,
+      "core_graph6": "HBqc~x}",
+      "source_row": "10467449 9 HBqc~x} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10473752,
+      "core_index": 249436,
+      "core_graph6": "HEhc~x}",
+      "source_row": "10473752 9 HEhc~x} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10474372,
+      "core_index": 249574,
+      "core_graph6": "HBqe~zu",
+      "source_row": "10474372 9 HBqe~zu - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10474659,
+      "core_index": 249574,
+      "core_graph6": "HBqe~zu",
+      "source_row": "10474659 9 HBqe~zu - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10481045,
+      "core_index": 249436,
+      "core_graph6": "HBqff^{",
+      "source_row": "10481045 9 HBqff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10481221,
+      "core_index": 249436,
+      "core_graph6": "HBqffzm",
+      "source_row": "10481221 9 HBqffzm - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10481574,
+      "core_index": 249436,
+      "core_graph6": "HBqffzm",
+      "source_row": "10481574 9 HBqffzm - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10482131,
+      "core_index": 249574,
+      "core_graph6": "HBqft~{",
+      "source_row": "10482131 9 HBqft~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10482400,
+      "core_index": 249574,
+      "core_graph6": "HBqft~{",
+      "source_row": "10482400 9 HBqft~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10482877,
+      "core_index": 249574,
+      "core_graph6": "HBqfvy}",
+      "source_row": "10482877 9 HBqfvy} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10482918,
+      "core_index": 249436,
+      "core_graph6": "HBqfvN{",
+      "source_row": "10482918 9 HBqfvN{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10483143,
+      "core_index": 249574,
+      "core_graph6": "HEhe~zm",
+      "source_row": "10483143 9 HEhe~zm - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10483276,
+      "core_index": 249574,
+      "core_graph6": "HBqf~q|",
+      "source_row": "10483276 9 HBqf~q| - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10485056,
+      "core_index": 249436,
+      "core_graph6": "HBqfVzu",
+      "source_row": "10485056 9 HBqfVzu - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10485347,
+      "core_index": 249436,
+      "core_graph6": "HEhfVzu",
+      "source_row": "10485347 9 HEhfVzu - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10485549,
+      "core_index": 249436,
+      "core_graph6": "HBqff^{",
+      "source_row": "10485549 9 HBqff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10485660,
+      "core_index": 249436,
+      "core_graph6": "HBqffzm",
+      "source_row": "10485660 9 HBqffzm - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10485717,
+      "core_index": 249436,
+      "core_graph6": "HEhff^{",
+      "source_row": "10485717 9 HEhff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10485979,
+      "core_index": 249574,
+      "core_graph6": "HEhfvx}",
+      "source_row": "10485979 9 HEhfvx} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10488041,
+      "core_index": 250814,
+      "core_graph6": "HEhlvzu",
+      "source_row": "10488041 9 HEhlvzu - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10489255,
+      "core_index": 250814,
+      "core_graph6": "HBqntn{",
+      "source_row": "10489255 9 HBqntn{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10493288,
+      "core_index": 250814,
+      "core_graph6": "HEhuvzm",
+      "source_row": "10493288 9 HEhuvzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10493373,
+      "core_index": 250814,
+      "core_graph6": "HBqvt^{",
+      "source_row": "10493373 9 HBqvt^{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10505119,
+      "core_index": 250814,
+      "core_graph6": "HQzury]",
+      "source_row": "10505119 9 HQzury] - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10556363,
+      "core_index": 249436,
+      "core_graph6": "HCxu|zk",
+      "source_row": "10556363 9 HCxu|zk - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10575479,
+      "core_index": 250814,
+      "core_graph6": "HQpuvy}",
+      "source_row": "10575479 9 HQpuvy} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10584030,
+      "core_index": 250814,
+      "core_graph6": "HQrlb~y",
+      "source_row": "10584030 9 HQrlb~y - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10585094,
+      "core_index": 250814,
+      "core_graph6": "HQrlft}",
+      "source_row": "10585094 9 HQrlft} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10604371,
+      "core_index": 250814,
+      "core_graph6": "HQqvVx}",
+      "source_row": "10604371 9 HQqvVx} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10764360,
+      "core_index": 250814,
+      "core_graph6": "HUZv]rh",
+      "source_row": "10764360 9 HUZv]rh - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10770026,
+      "core_index": 250814,
+      "core_graph6": "HUZT~pN",
+      "source_row": "10770026 9 HUZT~pN - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10773126,
+      "core_index": 250814,
+      "core_graph6": "HUZTf\\}",
+      "source_row": "10773126 9 HUZTf\\} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10970507,
+      "core_index": 250814,
+      "core_graph6": "HEYuv^{",
+      "source_row": "10970507 9 HEYuv^{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10970739,
+      "core_index": 250814,
+      "core_graph6": "HEYuvzm",
+      "source_row": "10970739 9 HEYuvzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 10971203,
+      "core_index": 250814,
+      "core_graph6": "HEYuvzm",
+      "source_row": "10971203 9 HEYuvzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11039009,
+      "core_index": 249436,
+      "core_graph6": "HEYfNv{",
+      "source_row": "11039009 9 HEYfNv{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11039041,
+      "core_index": 249436,
+      "core_graph6": "HEYfNzy",
+      "source_row": "11039041 9 HEYfNzy - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11039310,
+      "core_index": 249436,
+      "core_graph6": "HEYfNzy",
+      "source_row": "11039310 9 HEYfNzy - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11041759,
+      "core_index": 249436,
+      "core_graph6": "HEYfVn{",
+      "source_row": "11041759 9 HEYfVn{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11041894,
+      "core_index": 249436,
+      "core_graph6": "HEYfVzu",
+      "source_row": "11041894 9 HEYfVzu - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11042422,
+      "core_index": 249436,
+      "core_graph6": "HEYfVn{",
+      "source_row": "11042422 9 HEYfVn{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11043075,
+      "core_index": 249574,
+      "core_graph6": "HEYf]~{",
+      "source_row": "11043075 9 HEYf]~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11043117,
+      "core_index": 249574,
+      "core_graph6": "HEYf]~{",
+      "source_row": "11043117 9 HEYf]~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11043334,
+      "core_index": 249574,
+      "core_graph6": "HEYf^z]",
+      "source_row": "11043334 9 HEYf^z] - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11046990,
+      "core_index": 249436,
+      "core_graph6": "HEYff^{",
+      "source_row": "11046990 9 HEYff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11047300,
+      "core_index": 249436,
+      "core_graph6": "HEYffzm",
+      "source_row": "11047300 9 HEYffzm - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11047456,
+      "core_index": 249436,
+      "core_graph6": "HEYff^{",
+      "source_row": "11047456 9 HEYff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11047963,
+      "core_index": 249574,
+      "core_graph6": "HEYfnx}",
+      "source_row": "11047963 9 HEYfnx} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11048208,
+      "core_index": 249574,
+      "core_graph6": "HEYfnx}",
+      "source_row": "11048208 9 HEYfnx} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11048471,
+      "core_index": 249574,
+      "core_graph6": "HEYft~{",
+      "source_row": "11048471 9 HEYft~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11048686,
+      "core_index": 249574,
+      "core_graph6": "HEYft~{",
+      "source_row": "11048686 9 HEYft~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11049080,
+      "core_index": 249574,
+      "core_graph6": "HEYfvy}",
+      "source_row": "11049080 9 HEYfvy} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11049127,
+      "core_index": 249436,
+      "core_graph6": "HEYfvN{",
+      "source_row": "11049127 9 HEYfvN{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11056043,
+      "core_index": 249436,
+      "core_graph6": "HEYfNzy",
+      "source_row": "11056043 9 HEYfNzy - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11056352,
+      "core_index": 249436,
+      "core_graph6": "HEYfNzy",
+      "source_row": "11056352 9 HEYfNzy - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11057716,
+      "core_index": 249436,
+      "core_graph6": "HEYfVn{",
+      "source_row": "11057716 9 HEYfVn{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11057885,
+      "core_index": 249436,
+      "core_graph6": "HEYfVzu",
+      "source_row": "11057885 9 HEYfVzu - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11058162,
+      "core_index": 249436,
+      "core_graph6": "HEYfVn{",
+      "source_row": "11058162 9 HEYfVn{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11058321,
+      "core_index": 249574,
+      "core_graph6": "HEYf^z]",
+      "source_row": "11058321 9 HEYf^z] - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11058439,
+      "core_index": 249574,
+      "core_graph6": "HEYf^z]",
+      "source_row": "11058439 9 HEYf^z] - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11060203,
+      "core_index": 249436,
+      "core_graph6": "HEYff^{",
+      "source_row": "11060203 9 HEYff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11060486,
+      "core_index": 249436,
+      "core_graph6": "HEYffzm",
+      "source_row": "11060486 9 HEYffzm - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11060788,
+      "core_index": 249436,
+      "core_graph6": "HEYff^{",
+      "source_row": "11060788 9 HEYff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11061003,
+      "core_index": 249574,
+      "core_graph6": "HEYfnx}",
+      "source_row": "11061003 9 HEYfnx} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11061385,
+      "core_index": 249574,
+      "core_graph6": "HEYfvy}",
+      "source_row": "11061385 9 HEYfvy} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11069560,
+      "core_index": 250814,
+      "core_graph6": "HEYlnv{",
+      "source_row": "11069560 9 HEYlnv{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11069585,
+      "core_index": 250814,
+      "core_graph6": "HEYlnzy",
+      "source_row": "11069585 9 HEYlnzy - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11069969,
+      "core_index": 250814,
+      "core_graph6": "HEYlnv{",
+      "source_row": "11069969 9 HEYlnv{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11075016,
+      "core_index": 250814,
+      "core_graph6": "HUQnb~{",
+      "source_row": "11075016 9 HUQnb~{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11075432,
+      "core_index": 250814,
+      "core_graph6": "HUQnb~{",
+      "source_row": "11075432 9 HUQnb~{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11076440,
+      "core_index": 250814,
+      "core_graph6": "HUQnfx}",
+      "source_row": "11076440 9 HUQnfx} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11087996,
+      "core_index": 250814,
+      "core_graph6": "HUQnfx}",
+      "source_row": "11087996 9 HUQnfx} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11106697,
+      "core_index": 250814,
+      "core_graph6": "HEYuvzm",
+      "source_row": "11106697 9 HEYuvzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11106845,
+      "core_index": 250814,
+      "core_graph6": "HEYuvzm",
+      "source_row": "11106845 9 HEYuvzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11107550,
+      "core_index": 250814,
+      "core_graph6": "HEYv]v{",
+      "source_row": "11107550 9 HEYv]v{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11114663,
+      "core_index": 250814,
+      "core_graph6": "HEZ\\f^y",
+      "source_row": "11114663 9 HEZ\\f^y - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11114736,
+      "core_index": 250814,
+      "core_graph6": "HEZ\\fvm",
+      "source_row": "11114736 9 HEZ\\fvm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11115031,
+      "core_index": 250814,
+      "core_graph6": "HEZ\\fvm",
+      "source_row": "11115031 9 HEZ\\fvm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11134682,
+      "core_index": 249436,
+      "core_graph6": "HURmnon",
+      "source_row": "11134682 9 HURmnon - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11170687,
+      "core_index": 249574,
+      "core_graph6": "HEZm~qf",
+      "source_row": "11170687 9 HEZm~qf - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11172367,
+      "core_index": 249436,
+      "core_graph6": "HURNnon",
+      "source_row": "11172367 9 HURNnon - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11181375,
+      "core_index": 249574,
+      "core_graph6": "HEZr~qf",
+      "source_row": "11181375 9 HEZr~qf - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11181377,
+      "core_index": 250814,
+      "core_graph6": "HEZr~ql",
+      "source_row": "11181377 9 HEZr~ql - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11199384,
+      "core_index": 249436,
+      "core_graph6": "HEZavy}",
+      "source_row": "11199384 9 HEZavy} - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11228658,
+      "core_index": 249436,
+      "core_graph6": "HURe~on",
+      "source_row": "11228658 9 HURe~on - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11252089,
+      "core_index": 249436,
+      "core_graph6": "HSYjfv]",
+      "source_row": "11252089 9 HSYjfv] - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11257501,
+      "core_index": 250814,
+      "core_graph6": "HUZnn`x",
+      "source_row": "11257501 9 HUZnn`x - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11257555,
+      "core_index": 249574,
+      "core_graph6": "HUZnnbh",
+      "source_row": "11257555 9 HUZnnbh - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11258897,
+      "core_index": 250814,
+      "core_graph6": "HUZmvji",
+      "source_row": "11258897 9 HUZmvji - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11261380,
+      "core_index": 250814,
+      "core_graph6": "HUZuvZi",
+      "source_row": "11261380 9 HUZuvZi - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11266428,
+      "core_index": 250814,
+      "core_graph6": "HUZTf\\}",
+      "source_row": "11266428 9 HUZTf\\} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11269449,
+      "core_index": 250814,
+      "core_graph6": "HSZTvx}",
+      "source_row": "11269449 9 HSZTvx} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11291417,
+      "core_index": 250814,
+      "core_graph6": "HElenzm",
+      "source_row": "11291417 9 HElenzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11291426,
+      "core_index": 250814,
+      "core_graph6": "HElenzm",
+      "source_row": "11291426 9 HElenzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11317701,
+      "core_index": 250814,
+      "core_graph6": "HUtdb~m",
+      "source_row": "11317701 9 HUtdb~m - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11318719,
+      "core_index": 250814,
+      "core_graph6": "HUtdf\\}",
+      "source_row": "11318719 9 HUtdf\\} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11331962,
+      "core_index": 250814,
+      "core_graph6": "HUtvnRd",
+      "source_row": "11331962 9 HUtvnRd - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11405945,
+      "core_index": 249436,
+      "core_graph6": "HExdVzu",
+      "source_row": "11405945 9 HExdVzu - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11412550,
+      "core_index": 249436,
+      "core_graph6": "HUpfnrk",
+      "source_row": "11412550 9 HUpfnrk - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11546449,
+      "core_index": 249574,
+      "core_graph6": "HEhfl~{",
+      "source_row": "11546449 9 HEhfl~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11547029,
+      "core_index": 249574,
+      "core_graph6": "HEhfr~{",
+      "source_row": "11547029 9 HEhfr~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11547201,
+      "core_index": 249574,
+      "core_graph6": "HEhfvx}",
+      "source_row": "11547201 9 HEhfvx} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11547340,
+      "core_index": 249574,
+      "core_graph6": "HEhfvx}",
+      "source_row": "11547340 9 HEhfvx} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11548449,
+      "core_index": 250814,
+      "core_graph6": "HQqvVx}",
+      "source_row": "11548449 9 HQqvVx} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11548910,
+      "core_index": 250814,
+      "core_graph6": "HEjZf^y",
+      "source_row": "11548910 9 HEjZf^y - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11549039,
+      "core_index": 250814,
+      "core_graph6": "HEjZf^y",
+      "source_row": "11549039 9 HEjZf^y - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11553096,
+      "core_index": 249436,
+      "core_graph6": "H[Ru^o^",
+      "source_row": "11553096 9 H[Ru^o^ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11553780,
+      "core_index": 249436,
+      "core_graph6": "HEhfNzy",
+      "source_row": "11553780 9 HEhfNzy - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11554955,
+      "core_index": 250814,
+      "core_graph6": "HDZVu^{",
+      "source_row": "11554955 9 HDZVu^{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11555004,
+      "core_index": 249574,
+      "core_graph6": "HEhf]~{",
+      "source_row": "11555004 9 HEhf]~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11555257,
+      "core_index": 249574,
+      "core_graph6": "HEhf^z]",
+      "source_row": "11555257 9 HEhf^z] - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11555411,
+      "core_index": 249574,
+      "core_graph6": "HEhf^z]",
+      "source_row": "11555411 9 HEhf^z] - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11555453,
+      "core_index": 250814,
+      "core_graph6": "HQqvVx}",
+      "source_row": "11555453 9 HQqvVx} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11555550,
+      "core_index": 249574,
+      "core_graph6": "HEhfl~{",
+      "source_row": "11555550 9 HEhfl~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11557060,
+      "core_index": 249436,
+      "core_graph6": "HEhff^{",
+      "source_row": "11557060 9 HEhff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11558275,
+      "core_index": 249436,
+      "core_graph6": "HEhff^{",
+      "source_row": "11558275 9 HEhff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11560720,
+      "core_index": 249436,
+      "core_graph6": "HEhff^{",
+      "source_row": "11560720 9 HEhff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11560919,
+      "core_index": 249436,
+      "core_graph6": "HEhffzm",
+      "source_row": "11560919 9 HEhffzm - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11561396,
+      "core_index": 249436,
+      "core_graph6": "HEhff^{",
+      "source_row": "11561396 9 HEhff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11561456,
+      "core_index": 249574,
+      "core_graph6": "HEhd~n{",
+      "source_row": "11561456 9 HEhd~n{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11561550,
+      "core_index": 249574,
+      "core_graph6": "HEhd~zu",
+      "source_row": "11561550 9 HEhd~zu - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11561780,
+      "core_index": 249574,
+      "core_graph6": "HEhd~zu",
+      "source_row": "11561780 9 HEhd~zu - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11562767,
+      "core_index": 249436,
+      "core_graph6": "HEhff^{",
+      "source_row": "11562767 9 HEhff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11562901,
+      "core_index": 249436,
+      "core_graph6": "HEhffzm",
+      "source_row": "11562901 9 HEhffzm - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11563285,
+      "core_index": 249436,
+      "core_graph6": "H[Re~o^",
+      "source_row": "11563285 9 H[Re~o^ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11563710,
+      "core_index": 249436,
+      "core_graph6": "HEhffzm",
+      "source_row": "11563710 9 HEhffzm - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11564560,
+      "core_index": 249436,
+      "core_graph6": "HEhff^{",
+      "source_row": "11564560 9 HEhff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11565881,
+      "core_index": 249574,
+      "core_graph6": "HEhe~^{",
+      "source_row": "11565881 9 HEhe~^{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11565909,
+      "core_index": 249436,
+      "core_graph6": "HEhff^{",
+      "source_row": "11565909 9 HEhff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11566421,
+      "core_index": 249436,
+      "core_graph6": "HEhfVzu",
+      "source_row": "11566421 9 HEhfVzu - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11566623,
+      "core_index": 249436,
+      "core_graph6": "HEhff^{",
+      "source_row": "11566623 9 HEhff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11566727,
+      "core_index": 249436,
+      "core_graph6": "HEhffzm",
+      "source_row": "11566727 9 HEhffzm - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11566729,
+      "core_index": 249436,
+      "core_graph6": "HEhf^zq",
+      "source_row": "11566729 9 HEhf^zq - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11566836,
+      "core_index": 249436,
+      "core_graph6": "HEhffzm",
+      "source_row": "11566836 9 HEhffzm - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11566842,
+      "core_index": 249436,
+      "core_graph6": "HEhff^{",
+      "source_row": "11566842 9 HEhff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11566964,
+      "core_index": 249436,
+      "core_graph6": "HEhffzm",
+      "source_row": "11566964 9 HEhffzm - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11567236,
+      "core_index": 249436,
+      "core_graph6": "HEhff^{",
+      "source_row": "11567236 9 HEhff^{ - - -",
+      "proof_target": "O10",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11567688,
+      "core_index": 249574,
+      "core_graph6": "HEhfr~{",
+      "source_row": "11567688 9 HEhfr~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11567764,
+      "core_index": 249574,
+      "core_graph6": "HEhb~zy",
+      "source_row": "11567764 9 HEhb~zy - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11567793,
+      "core_index": 249574,
+      "core_graph6": "HEhfr~{",
+      "source_row": "11567793 9 HEhfr~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11568075,
+      "core_index": 249574,
+      "core_graph6": "HEhfr~{",
+      "source_row": "11568075 9 HEhfr~{ - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11568656,
+      "core_index": 249574,
+      "core_graph6": "HEhfvx}",
+      "source_row": "11568656 9 HEhfvx} - - -",
+      "proof_target": "O12",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11569647,
+      "core_index": 250814,
+      "core_graph6": "HEhr^zy",
+      "source_row": "11569647 9 HEhr^zy - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11579096,
+      "core_index": 250814,
+      "core_graph6": "HUZuvZi",
+      "source_row": "11579096 9 HUZuvZi - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11579689,
+      "core_index": 250814,
+      "core_graph6": "HUZv]rh",
+      "source_row": "11579689 9 HUZv]rh - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11582977,
+      "core_index": 250814,
+      "core_graph6": "HDZTvzm",
+      "source_row": "11582977 9 HDZTvzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11583600,
+      "core_index": 250814,
+      "core_graph6": "HEhuvzm",
+      "source_row": "11583600 9 HEhuvzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11588736,
+      "core_index": 250814,
+      "core_graph6": "HEhuv^{",
+      "source_row": "11588736 9 HEhuv^{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11589628,
+      "core_index": 250814,
+      "core_graph6": "HEhuv^{",
+      "source_row": "11589628 9 HEhuv^{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11590411,
+      "core_index": 250814,
+      "core_graph6": "HEhuvzm",
+      "source_row": "11590411 9 HEhuvzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11590661,
+      "core_index": 250814,
+      "core_graph6": "HEhv^zY",
+      "source_row": "11590661 9 HEhv^zY - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11590670,
+      "core_index": 250814,
+      "core_graph6": "HEhuvzm",
+      "source_row": "11590670 9 HEhuvzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11591279,
+      "core_index": 250814,
+      "core_graph6": "HEhuv^{",
+      "source_row": "11591279 9 HEhuv^{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11591738,
+      "core_index": 250814,
+      "core_graph6": "HEhuv^{",
+      "source_row": "11591738 9 HEhuv^{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11599631,
+      "core_index": 250814,
+      "core_graph6": "HEhuvzm",
+      "source_row": "11599631 9 HEhuvzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11608200,
+      "core_index": 250814,
+      "core_graph6": "HEhuvzm",
+      "source_row": "11608200 9 HEhuvzm - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11634239,
+      "core_index": 250814,
+      "core_graph6": "HQqvVx}",
+      "source_row": "11634239 9 HQqvVx} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11634563,
+      "core_index": 250814,
+      "core_graph6": "HEjZf^y",
+      "source_row": "11634563 9 HEjZf^y - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11677214,
+      "core_index": 250814,
+      "core_graph6": "HTpezn{",
+      "source_row": "11677214 9 HTpezn{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11678673,
+      "core_index": 250814,
+      "core_graph6": "Hehdr~{",
+      "source_row": "11678673 9 Hehdr~{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11678915,
+      "core_index": 250814,
+      "core_graph6": "HTpevx}",
+      "source_row": "11678915 9 HTpevx} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11685603,
+      "core_index": 250814,
+      "core_graph6": "HKzJd~u",
+      "source_row": "11685603 9 HKzJd~u - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11685806,
+      "core_index": 250814,
+      "core_graph6": "HKzJfm}",
+      "source_row": "11685806 9 HKzJfm} - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11687314,
+      "core_index": 250814,
+      "core_graph6": "HQvnrgv",
+      "source_row": "11687314 9 HQvnrgv - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    },
+    {
+      "original_index": 11697495,
+      "core_index": 250814,
+      "core_graph6": "HQpt}v{",
+      "source_row": "11697495 9 HQpt}v{ - - -",
+      "proof_target": "O14",
+      "proof": "research/order9_three_p4_retractions_v1/certificate.json"
+    }
+  ]
+}

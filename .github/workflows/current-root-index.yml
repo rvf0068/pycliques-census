@@ -23,5 +23,5 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - name: Verify current v17 root and immutable pre-v3 source
+      - name: Verify current v18 root and immutable pre-v3 source
         run: python -m unittest discover -s tests -p test_current_root_index.py -v
