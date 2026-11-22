@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "original_mckay": 254369,
+  "original_graph6": "HEjfvx}",
+  "pared_depth": 4,
+  "iterate_orders": [
+    9,
+    13,
+    17,
+    40,
+    394
+  ],
+  "iterate_edges": [
+    24,
+    54,
+    99,
+    626,
+    67229
+  ],
+  "p4_normalized_edge_sha256": "552af5cc777ee202f0938844f735f487de06245e9dda9dc51801ced67438b5f7",
+  "p4_order": 394,
+  "p4_edges": 67229,
+  "target_dimension": 13,
+  "antipodal_pairs": [
+    [
+      43,
+      329
+    ],
+    [
+      74,
+      115
+    ],
+    [
+      242,
+      173
+    ],
+    [
+      268,
+      95
+    ],
+    [
+      17,
+      199
+    ],
+    [
+      308,
+      46
+    ],
+    [
+      70,
+      345
+    ],
+    [
+      105,
+      220
+    ],
+    [
+      265,
+      255
+    ],
+    [
+      78,
+      314
+    ],
+    [
+      16,
+      325
+    ],
+    [
+      352,
+      64
+    ],
+    [
+      258,
+      376
+    ]
+  ],
+  "target_order": [
+    16,
+    17,
+    43,
+    46,
+    64,
+    70,
+    74,
+    78,
+    95,
+    105,
+    115,
+    173,
+    199,
+    220,
+    242,
+    255,
+    258,
+    265,
+    268,
+    308,
+    314,
+    325,
+    329,
+    345,
+    352,
+    376
+  ],
+  "projection_encoding": "uint8_target_ordinal_per_sorted_normalized_p4_host_label",
+  "projection_images_b64": "AwMDAwMDAwEDAwMDAwMAAAABAwMDAwMDAwARAwMDAAMDAwMDAwMDAwMDAAIDAwMDAwMDAwMDAwgIDg4ODg4ODgQOCAgICAUOCAQGBgQHBwQICAgICAgIBQgIEAAAEBAICAgICAgICAEBCQYGFhYNFgMNAwoBAwMDFg0WFhYWFhYWDRYWFhYWFg0OFhYNFgQBDQ0RDQ0BAQ4OEBANDQ0NDRAEEBABAQ4OEBANFBQLCBAIEA0WFhYREA0WFhYNEBANFg0NFhYNFgwQEBARBA0NDQ0NDREREBAEBAQEDQ0NDQQQEBAODg4ODg4ODg4ODggODg4OBAYEBgQGBgYGDw0PDxAQEAEBARENERERERINEg4ODg4ODg4ODg4NBAQEDRIBEREOBA4RDg0ICAgNEQ0UDQ0UFBQTBgYGDRQUDQ0XFxgXFxcXFxUGFQYWBhUGFhYWFhYWFhcWFhYXFxcXFhYWFhgWFhYWFhYWFhYWFAYGBhQWFhYRCAgIERkRDhcXFxcXFxcXFxcOBhcXDg==",
+  "discovery": {
+    "algorithm": "public_pylique_coaffine_native_cpp17",
+    "ordering": "Python random.Random(19) uniform random keys, ascending; seed-19 on normalized P4 vertices 0..393",
+    "seed": 19,
+    "min_dimension": 5,
+    "max_states": 8000,
+    "time_limit_seconds": 30,
+    "observed_states": 2074,
+    "observed_arc_revisions_local_edge_order": 2213218,
+    "observed_assignments": 5244,
+    "note": "Search controls are not part of the proof; complete 394-image projection is verified independently."
+  }
+}
