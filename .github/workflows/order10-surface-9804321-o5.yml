@@ -1,0 +1,61 @@
+name: Verify McKay 9804321 fourth-pared-iterate O5 retraction
+
+on:
+  pull_request:
+    paths:
+      - "research/order10_surface_9804321_o5_v1/**"
+      - ".github/workflows/order10-surface-9804321-o5.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  networkx-certificate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Replay complete 202-image O5 certificate independently
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python -m py_compile research/order10_surface_9804321_o5_v1/verify.py
+          python research/order10_surface_9804321_o5_v1/verify.py
+      - name: Prohibit optimized Python bypass of proof assertions
+        run: |
+          if python -O research/order10_surface_9804321_o5_v1/verify.py; then
+            echo "ERROR: verifier accepted -O with checks disabled" >&2
+            exit 1
+          fi
+          echo "Verifier correctly rejects optimized execution"
+
+  public-pycliques:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned public graph library
+        run: |
+          python -m pip install networkx==3.6.1
+          for attempt in 1 2 3; do
+            if git clone --quiet https://github.com/rvf0068/pycliques-project.git /tmp/pycliques-project; then
+              break
+            fi
+            test "$attempt" -lt 3
+            rm -rf /tmp/pycliques-project
+            sleep "$((5 * attempt))"
+          done
+          git -C /tmp/pycliques-project checkout --quiet 782deb653b8748e1b5759389cdd2134beac69351
+          python -m pip install /tmp/pycliques-project/packages/pycliques
+      - name: Independently reconstruct every iterate via public pycliques
+        env:
+          PYTHONHASHSEED: "0"
+        run: python research/order10_surface_9804321_o5_v1/verify.py --public
