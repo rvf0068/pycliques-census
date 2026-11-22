@@ -24,7 +24,7 @@ and historical experiment records remain frozen.
 certified 27 exact second-pared-iterate lifts of known divergent graphs.
 Merged [PR #64](https://github.com/rvf0068/pycliques-census/pull/64)
 proved two formerly unresolved nine-vertex graphs divergent:
-McKay **208409**, `F_{4,5}` (graph6 `HCZTf\\}`), by
+McKay **208409**, `F_{4,5}` (graph6 `HCZTf\}`), by
 `P4 -> O9`, and McKay **260910** (`HUZvvzu`), by `P3 -> O15`.
 The first proof independently verifies **120** formerly conditional
 ten-vertex certificates (72 exact references, 35 retractions,
