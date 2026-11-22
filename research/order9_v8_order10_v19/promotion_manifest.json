@@ -1,0 +1,2870 @@
+{
+  "schema": 1,
+  "previous_nine_snapshot": "indeterminate_order_9_v7.txt",
+  "previous_nine_git_blob": "6f1e05d6b6bb0f1b4f2638ad73a7163f26ab0345",
+  "previous_ten_snapshot": "indeterminate_order_10_v18.txt",
+  "previous_ten_git_blob": "9dba1f3359d6e90fbda1026d672173fa2461b460",
+  "removed_nine_source_row": "251902 9 HEhvvzm - - -",
+  "source_certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+  "source_proof": "P4->O17",
+  "previous_nine_count": 6,
+  "new_nine_count": 5,
+  "previous_ten_count": 1681,
+  "new_ten_count": 1531,
+  "source_family_size": 150,
+  "ten_pared_nine_old": 800,
+  "ten_pared_nine_new": 650,
+  "ten_pared_ten_unchanged": 881,
+  "removed_ten_originals": [
+    {
+      "original_index": 6958650,
+      "pared_core_graph6": "HEhvv^{",
+      "source_row": "6958650 9 HEhvv^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 6958784,
+      "pared_core_graph6": "HEhvvzm",
+      "source_row": "6958784 9 HEhvvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 6962743,
+      "pared_core_graph6": "HEhvvzm",
+      "source_row": "6962743 9 HEhvvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 7069614,
+      "pared_core_graph6": "HEhvv^{",
+      "source_row": "7069614 9 HEhvv^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 7069722,
+      "pared_core_graph6": "HEhvvzm",
+      "source_row": "7069722 9 HEhvvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 7069876,
+      "pared_core_graph6": "HEhvv^{",
+      "source_row": "7069876 9 HEhvv^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 7070026,
+      "pared_core_graph6": "HEhv~rl",
+      "source_row": "7070026 9 HEhv~rl - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        6,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 7293965,
+      "pared_core_graph6": "HEjvvxm",
+      "source_row": "7293965 9 HEjvvxm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        2,
+        0,
+        8,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 7348475,
+      "pared_core_graph6": "HElfn^{",
+      "source_row": "7348475 9 HElfn^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        3,
+        5,
+        4,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 7348681,
+      "pared_core_graph6": "HElfnzm",
+      "source_row": "7348681 9 HElfnzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        3,
+        5,
+        4,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 7348877,
+      "pared_core_graph6": "HElfnzm",
+      "source_row": "7348877 9 HElfnzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        3,
+        5,
+        4,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 7353716,
+      "pared_core_graph6": "HElfnzm",
+      "source_row": "7353716 9 HElfnzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        3,
+        5,
+        4,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 7353841,
+      "pared_core_graph6": "HElfnzm",
+      "source_row": "7353841 9 HElfnzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        3,
+        5,
+        4,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 7473761,
+      "pared_core_graph6": "HEnv^pf",
+      "source_row": "7473761 9 HEnv^pf - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        3,
+        8,
+        4,
+        5,
+        7,
+        6
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 7533141,
+      "pared_core_graph6": "HEhnvn{",
+      "source_row": "7533141 9 HEhnvn{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        2,
+        1,
+        4,
+        3,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 7533472,
+      "pared_core_graph6": "HEhnvzu",
+      "source_row": "7533472 9 HEhnvzu - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        2,
+        1,
+        4,
+        3,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 7544093,
+      "pared_core_graph6": "HEhvvzm",
+      "source_row": "7544093 9 HEhvvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 7545384,
+      "pared_core_graph6": "HEhv^zy",
+      "source_row": "7545384 9 HEhv^zy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        1,
+        0,
+        5,
+        4,
+        3,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 7687323,
+      "pared_core_graph6": "HEjjnzy",
+      "source_row": "7687323 9 HEjjnzy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        5
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 7716557,
+      "pared_core_graph6": "HEjvr^{",
+      "source_row": "7716557 9 HEjvr^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        2,
+        0,
+        7,
+        3,
+        4,
+        5,
+        6,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 7716807,
+      "pared_core_graph6": "HEjvvxm",
+      "source_row": "7716807 9 HEjvvxm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        2,
+        0,
+        8,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 7961101,
+      "pared_core_graph6": "HFqrvzm",
+      "source_row": "7961101 9 HFqrvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        3
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 9718063,
+      "pared_core_graph6": "HQz^vgz",
+      "source_row": "9718063 9 HQz^vgz - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        8,
+        5,
+        2,
+        3,
+        4,
+        7,
+        6
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 9898682,
+      "pared_core_graph6": "HQqr~zy",
+      "source_row": "9898682 9 HQqr~zy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        3,
+        2,
+        4,
+        5,
+        1,
+        0,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 9899212,
+      "pared_core_graph6": "HQqr~zy",
+      "source_row": "9899212 9 HQqr~zy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        3,
+        2,
+        4,
+        5,
+        1,
+        0,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 9949779,
+      "pared_core_graph6": "HQqvr~{",
+      "source_row": "9949779 9 HQqvr~{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        2,
+        3,
+        0,
+        1,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 9950267,
+      "pared_core_graph6": "HQqvvx}",
+      "source_row": "9950267 9 HQqvvx} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        2,
+        3,
+        0,
+        1,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 9950483,
+      "pared_core_graph6": "HQqvvx}",
+      "source_row": "9950483 9 HQqvvx} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        2,
+        3,
+        0,
+        1,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 9950618,
+      "pared_core_graph6": "HQqv~p|",
+      "source_row": "9950618 9 HQqv~p| - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        2,
+        3,
+        0,
+        1,
+        5,
+        7,
+        6,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 9967061,
+      "pared_core_graph6": "HQqvvx}",
+      "source_row": "9967061 9 HQqvvx} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        2,
+        3,
+        0,
+        1,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 9969874,
+      "pared_core_graph6": "HQqznzy",
+      "source_row": "9969874 9 HQqznzy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        3,
+        2,
+        1,
+        0,
+        6,
+        7,
+        8,
+        5
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10017234,
+      "pared_core_graph6": "HQqvvx}",
+      "source_row": "10017234 9 HQqvvx} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        2,
+        3,
+        0,
+        1,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10017669,
+      "pared_core_graph6": "HQqv~p|",
+      "source_row": "10017669 9 HQqv~p| - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        2,
+        3,
+        0,
+        1,
+        5,
+        7,
+        6,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10252826,
+      "pared_core_graph6": "HQnFj~{",
+      "source_row": "10252826 9 HQnFj~{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        5,
+        2,
+        3,
+        0,
+        1,
+        4,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10253472,
+      "pared_core_graph6": "HQnFnx}",
+      "source_row": "10253472 9 HQnFnx} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        5,
+        2,
+        3,
+        0,
+        1,
+        4,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10263091,
+      "pared_core_graph6": "HQnFnx}",
+      "source_row": "10263091 9 HQnFnx} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        5,
+        2,
+        3,
+        0,
+        1,
+        4,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10263927,
+      "pared_core_graph6": "HQnJvzu",
+      "source_row": "10263927 9 HQnJvzu - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        5,
+        3,
+        2,
+        1,
+        0,
+        6,
+        7,
+        8,
+        4
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10286060,
+      "pared_core_graph6": "HQs~Vzu",
+      "source_row": "10286060 9 HQs~Vzu - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        5,
+        0,
+        1,
+        2,
+        3,
+        6,
+        7,
+        8,
+        4
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10301785,
+      "pared_core_graph6": "HQtd~n{",
+      "source_row": "10301785 9 HQtd~n{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        3,
+        5,
+        4,
+        2,
+        1,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10301894,
+      "pared_core_graph6": "HQtd~zu",
+      "source_row": "10301894 9 HQtd~zu - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        3,
+        5,
+        4,
+        2,
+        1,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10322849,
+      "pared_core_graph6": "HQtd~zu",
+      "source_row": "10322849 9 HQtd~zu - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        3,
+        5,
+        4,
+        2,
+        1,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10329993,
+      "pared_core_graph6": "HQtfny}",
+      "source_row": "10329993 9 HQtfny} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        5,
+        3,
+        0,
+        1,
+        2,
+        4,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10353522,
+      "pared_core_graph6": "HQtlvzu",
+      "source_row": "10353522 9 HQtlvzu - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        5,
+        0,
+        3,
+        2,
+        1,
+        6,
+        7,
+        8,
+        4
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10368617,
+      "pared_core_graph6": "HQdv^v{",
+      "source_row": "10368617 9 HQdv^v{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        1,
+        4,
+        5,
+        0,
+        3,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10368632,
+      "pared_core_graph6": "HQdv^zy",
+      "source_row": "10368632 9 HQdv^zy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        1,
+        4,
+        5,
+        0,
+        3,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10369271,
+      "pared_core_graph6": "HQdv^zy",
+      "source_row": "10369271 9 HQdv^zy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        1,
+        4,
+        5,
+        0,
+        3,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10401092,
+      "pared_core_graph6": "HQffvx}",
+      "source_row": "10401092 9 HQffvx} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        2,
+        1,
+        0,
+        3,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10401580,
+      "pared_core_graph6": "HQffvx}",
+      "source_row": "10401580 9 HQffvx} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        2,
+        1,
+        0,
+        3,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10405212,
+      "pared_core_graph6": "HBufn^{",
+      "source_row": "10405212 9 HBufn^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        1,
+        0,
+        3,
+        5,
+        4,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10405291,
+      "pared_core_graph6": "HBufnzm",
+      "source_row": "10405291 9 HBufnzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        1,
+        0,
+        3,
+        5,
+        4,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10405602,
+      "pared_core_graph6": "HBufnzm",
+      "source_row": "10405602 9 HBufnzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        1,
+        0,
+        3,
+        5,
+        4,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10414022,
+      "pared_core_graph6": "HBufnzm",
+      "source_row": "10414022 9 HBufnzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        1,
+        0,
+        3,
+        5,
+        4,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10414186,
+      "pared_core_graph6": "HBufnzm",
+      "source_row": "10414186 9 HBufnzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        1,
+        0,
+        3,
+        5,
+        4,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10444583,
+      "pared_core_graph6": "HQvvvWv",
+      "source_row": "10444583 9 HQvvvWv - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        8,
+        1,
+        0,
+        3,
+        2,
+        4,
+        5,
+        6,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10444586,
+      "pared_core_graph6": "HQvvvW}",
+      "source_row": "10444586 9 HQvvvW} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        8,
+        7,
+        3,
+        2,
+        4,
+        5,
+        6
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10457422,
+      "pared_core_graph6": "HQfb~zy",
+      "source_row": "10457422 9 HQfb~zy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        2,
+        4,
+        5,
+        3,
+        0,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10457868,
+      "pared_core_graph6": "HQffvx}",
+      "source_row": "10457868 9 HQffvx} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        2,
+        1,
+        0,
+        3,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10489450,
+      "pared_core_graph6": "HBqnvn{",
+      "source_row": "10489450 9 HBqnvn{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        4,
+        3,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10489489,
+      "pared_core_graph6": "HBqnvzu",
+      "source_row": "10489489 9 HBqnvzu - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        4,
+        3,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10489832,
+      "pared_core_graph6": "HBqnvn{",
+      "source_row": "10489832 9 HBqnvn{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        4,
+        3,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10490018,
+      "pared_core_graph6": "HBqn~rt",
+      "source_row": "10490018 9 HBqn~rt - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        4,
+        3,
+        5,
+        7,
+        6,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10491350,
+      "pared_core_graph6": "HEhnvzu",
+      "source_row": "10491350 9 HEhnvzu - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        2,
+        1,
+        4,
+        3,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10493625,
+      "pared_core_graph6": "HBqvvzm",
+      "source_row": "10493625 9 HBqvvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        2,
+        0,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10493707,
+      "pared_core_graph6": "HBqvv^{",
+      "source_row": "10493707 9 HBqvv^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        2,
+        0,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10493991,
+      "pared_core_graph6": "HBqv~Zx",
+      "source_row": "10493991 9 HBqv~Zx - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        2,
+        1,
+        5,
+        4,
+        3,
+        7,
+        6,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10496642,
+      "pared_core_graph6": "HEhv^zy",
+      "source_row": "10496642 9 HEhv^zy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        1,
+        0,
+        5,
+        4,
+        3,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10504870,
+      "pared_core_graph6": "HQzvuw}",
+      "source_row": "10504870 9 HQzvuw} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        8,
+        7,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10573692,
+      "pared_core_graph6": "HQpvvy}",
+      "source_row": "10573692 9 HQpvvy} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        3,
+        2,
+        1,
+        0,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10574089,
+      "pared_core_graph6": "HQpt~zy",
+      "source_row": "10574089 9 HQpt~zy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10587024,
+      "pared_core_graph6": "HBzLvn{",
+      "source_row": "10587024 9 HBzLvn{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        2,
+        0,
+        3,
+        5,
+        6,
+        8,
+        7,
+        4
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10587049,
+      "pared_core_graph6": "HBzLvzu",
+      "source_row": "10587049 9 HBzLvzu - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        2,
+        0,
+        3,
+        5,
+        6,
+        7,
+        8,
+        4
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10587393,
+      "pared_core_graph6": "HBzLvn{",
+      "source_row": "10587393 9 HBzLvn{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        2,
+        0,
+        3,
+        5,
+        6,
+        8,
+        7,
+        4
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10599131,
+      "pared_core_graph6": "HQqvvx}",
+      "source_row": "10599131 9 HQqvvx} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        2,
+        3,
+        0,
+        1,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10599583,
+      "pared_core_graph6": "HQqvzzx",
+      "source_row": "10599583 9 HQqvzzx - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        3,
+        2,
+        4,
+        5,
+        1,
+        0,
+        7,
+        6,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10763885,
+      "pared_core_graph6": "HUZu~on",
+      "source_row": "10763885 9 HUZu~on - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        8,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        6
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10973901,
+      "pared_core_graph6": "HEYvv^{",
+      "source_row": "10973901 9 HEYvv^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10974087,
+      "pared_core_graph6": "HEYvvzm",
+      "source_row": "10974087 9 HEYvvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10974228,
+      "pared_core_graph6": "HEYvvzm",
+      "source_row": "10974228 9 HEYvvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10977145,
+      "pared_core_graph6": "HEYvvzm",
+      "source_row": "10977145 9 HEYvvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 10977232,
+      "pared_core_graph6": "HEYvvzm",
+      "source_row": "10977232 9 HEYvvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11083937,
+      "pared_core_graph6": "HEYnnv{",
+      "source_row": "11083937 9 HEYnnv{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        2,
+        1,
+        5,
+        3,
+        4,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11083955,
+      "pared_core_graph6": "HEYnnzy",
+      "source_row": "11083955 9 HEYnnzy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        2,
+        1,
+        5,
+        3,
+        4,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11084267,
+      "pared_core_graph6": "HEYnnzy",
+      "source_row": "11084267 9 HEYnnzy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        2,
+        1,
+        5,
+        3,
+        4,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11084715,
+      "pared_core_graph6": "HEYnvzu",
+      "source_row": "11084715 9 HEYnvzu - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        2,
+        0,
+        4,
+        3,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11084959,
+      "pared_core_graph6": "HEYnvzu",
+      "source_row": "11084959 9 HEYnvzu - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        2,
+        0,
+        4,
+        3,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11085062,
+      "pared_core_graph6": "HEYn~rt",
+      "source_row": "11085062 9 HEYn~rt - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        2,
+        0,
+        4,
+        3,
+        5,
+        7,
+        6,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11088686,
+      "pared_core_graph6": "HEYnnzy",
+      "source_row": "11088686 9 HEYnnzy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        2,
+        1,
+        5,
+        3,
+        4,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11107729,
+      "pared_core_graph6": "HEYv^v{",
+      "source_row": "11107729 9 HEYv^v{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        0,
+        1,
+        5,
+        4,
+        3,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11107747,
+      "pared_core_graph6": "HEYv^zy",
+      "source_row": "11107747 9 HEYv^zy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        0,
+        1,
+        5,
+        4,
+        3,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11108079,
+      "pared_core_graph6": "HEYv^zy",
+      "source_row": "11108079 9 HEYv^zy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        0,
+        1,
+        5,
+        4,
+        3,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11111172,
+      "pared_core_graph6": "HEYvvzm",
+      "source_row": "11111172 9 HEYvvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11111222,
+      "pared_core_graph6": "HEYvv^{",
+      "source_row": "11111222 9 HEYvv^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11111399,
+      "pared_core_graph6": "HEYv~rl",
+      "source_row": "11111399 9 HEYv~rl - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        3,
+        4,
+        5,
+        7,
+        6,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11112634,
+      "pared_core_graph6": "HEYv^zy",
+      "source_row": "11112634 9 HEYv^zy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        0,
+        1,
+        5,
+        4,
+        3,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11265873,
+      "pared_core_graph6": "HSZR~zy",
+      "source_row": "11265873 9 HSZR~zy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        3,
+        2,
+        5,
+        4,
+        0,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11267825,
+      "pared_core_graph6": "HSZVvx}",
+      "source_row": "11267825 9 HSZVvx} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        3,
+        1,
+        0,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11292430,
+      "pared_core_graph6": "HElfn^{",
+      "source_row": "11292430 9 HElfn^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        3,
+        5,
+        4,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11292581,
+      "pared_core_graph6": "HElfnzm",
+      "source_row": "11292581 9 HElfnzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        3,
+        5,
+        4,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11295365,
+      "pared_core_graph6": "HElfnzm",
+      "source_row": "11295365 9 HElfnzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        3,
+        5,
+        4,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11307559,
+      "pared_core_graph6": "HUt~nRd",
+      "source_row": "11307559 9 HUt~nRd - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        8,
+        6,
+        7,
+        3,
+        2,
+        1,
+        0,
+        5
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11359314,
+      "pared_core_graph6": "HUxvvjk",
+      "source_row": "11359314 9 HUxvvjk - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        6,
+        7,
+        8,
+        3,
+        4,
+        5,
+        0,
+        1,
+        2
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11437366,
+      "pared_core_graph6": "HUqvVx}",
+      "source_row": "11437366 9 HUqvVx} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        3,
+        4,
+        2,
+        1,
+        5,
+        6,
+        7,
+        8,
+        0
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11498612,
+      "pared_core_graph6": "HEyjvzu",
+      "source_row": "11498612 9 HEyjvzu - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        8,
+        4
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11501352,
+      "pared_core_graph6": "HDpvv^{",
+      "source_row": "11501352 9 HDpvv^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11516735,
+      "pared_core_graph6": "HTrVVx}",
+      "source_row": "11516735 9 HTrVVx} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        5,
+        4,
+        2,
+        1,
+        3,
+        6,
+        7,
+        8,
+        0
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11553416,
+      "pared_core_graph6": "HDZV^v{",
+      "source_row": "11553416 9 HDZV^v{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        5,
+        4,
+        3,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11555074,
+      "pared_core_graph6": "HDZVvzm",
+      "source_row": "11555074 9 HDZVvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11555184,
+      "pared_core_graph6": "HDZVv^{",
+      "source_row": "11555184 9 HDZVv^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11556130,
+      "pared_core_graph6": "HDZV^zy",
+      "source_row": "11556130 9 HDZV^zy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        1,
+        0,
+        2,
+        5,
+        4,
+        3,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11569287,
+      "pared_core_graph6": "HQzu~o|",
+      "source_row": "11569287 9 HQzu~o| - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        8,
+        6,
+        2,
+        3,
+        4,
+        5,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11574085,
+      "pared_core_graph6": "HEhv^zy",
+      "source_row": "11574085 9 HEhv^zy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        1,
+        0,
+        5,
+        4,
+        3,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11575017,
+      "pared_core_graph6": "HEhvvzm",
+      "source_row": "11575017 9 HEhvvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11576982,
+      "pared_core_graph6": "HEhvv^{",
+      "source_row": "11576982 9 HEhvv^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11579272,
+      "pared_core_graph6": "HUZu~on",
+      "source_row": "11579272 9 HUZu~on - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        8,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        6
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11580987,
+      "pared_core_graph6": "HEhv^zy",
+      "source_row": "11580987 9 HEhv^zy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        1,
+        0,
+        5,
+        4,
+        3,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11581481,
+      "pared_core_graph6": "HEhvvzm",
+      "source_row": "11581481 9 HEhvvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11584628,
+      "pared_core_graph6": "HEhv^v{",
+      "source_row": "11584628 9 HEhv^v{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        1,
+        0,
+        5,
+        4,
+        3,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11584690,
+      "pared_core_graph6": "HEhv^zy",
+      "source_row": "11584690 9 HEhv^zy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        1,
+        0,
+        5,
+        4,
+        3,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11587175,
+      "pared_core_graph6": "HEhvvzm",
+      "source_row": "11587175 9 HEhvvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11587415,
+      "pared_core_graph6": "HDZVvzm",
+      "source_row": "11587415 9 HDZVvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11590677,
+      "pared_core_graph6": "HEhv^zy",
+      "source_row": "11590677 9 HEhv^zy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        1,
+        0,
+        5,
+        4,
+        3,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11591253,
+      "pared_core_graph6": "HEhvv^{",
+      "source_row": "11591253 9 HEhvv^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11591796,
+      "pared_core_graph6": "HEhv~rl",
+      "source_row": "11591796 9 HEhv~rl - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        6,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11603592,
+      "pared_core_graph6": "HEhvv^{",
+      "source_row": "11603592 9 HEhvv^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11603801,
+      "pared_core_graph6": "HEhvvzm",
+      "source_row": "11603801 9 HEhvvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11604117,
+      "pared_core_graph6": "HEhvvzm",
+      "source_row": "11604117 9 HEhvvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11610385,
+      "pared_core_graph6": "HEhvv^{",
+      "source_row": "11610385 9 HEhvv^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11610520,
+      "pared_core_graph6": "HEjnvxu",
+      "source_row": "11610520 9 HEjnvxu - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        1,
+        0,
+        8,
+        4,
+        3,
+        5,
+        6,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11610562,
+      "pared_core_graph6": "HEhvvzm",
+      "source_row": "11610562 9 HEhvvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11610856,
+      "pared_core_graph6": "HEhvvzm",
+      "source_row": "11610856 9 HEhvvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11611194,
+      "pared_core_graph6": "HEhvv^{",
+      "source_row": "11611194 9 HEhvv^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11611425,
+      "pared_core_graph6": "HEhvv^{",
+      "source_row": "11611425 9 HEhvv^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11612080,
+      "pared_core_graph6": "HEhv^zy",
+      "source_row": "11612080 9 HEhv^zy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        1,
+        0,
+        5,
+        4,
+        3,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11612135,
+      "pared_core_graph6": "HEhvv^{",
+      "source_row": "11612135 9 HEhvv^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11612275,
+      "pared_core_graph6": "HEhvv^{",
+      "source_row": "11612275 9 HEhvv^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11612502,
+      "pared_core_graph6": "HEhvv^{",
+      "source_row": "11612502 9 HEhvv^{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11612609,
+      "pared_core_graph6": "HEhvvzm",
+      "source_row": "11612609 9 HEhvvzm - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11631162,
+      "pared_core_graph6": "HUqnfx}",
+      "source_row": "11631162 9 HUqnfx} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        3,
+        2,
+        1,
+        5,
+        6,
+        7,
+        8,
+        0
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11631594,
+      "pared_core_graph6": "HQqr~v{",
+      "source_row": "11631594 9 HQqr~v{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        3,
+        2,
+        4,
+        5,
+        1,
+        0,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11635305,
+      "pared_core_graph6": "HQqvvx}",
+      "source_row": "11635305 9 HQqvvx} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        2,
+        3,
+        0,
+        1,
+        5,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11635636,
+      "pared_core_graph6": "HQqvzzx",
+      "source_row": "11635636 9 HQqvzzx - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        3,
+        2,
+        4,
+        5,
+        1,
+        0,
+        7,
+        6,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11638194,
+      "pared_core_graph6": "H[rvryZ",
+      "source_row": "11638194 9 H[rvryZ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        3,
+        2,
+        4,
+        5,
+        8,
+        1,
+        0,
+        7,
+        6
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11677070,
+      "pared_core_graph6": "HTpez~{",
+      "source_row": "11677070 9 HTpez~{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        3,
+        5,
+        0,
+        1,
+        2,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11677295,
+      "pared_core_graph6": "HTpez~{",
+      "source_row": "11677295 9 HTpez~{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        3,
+        5,
+        0,
+        1,
+        2,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11677613,
+      "pared_core_graph6": "HTpe~x}",
+      "source_row": "11677613 9 HTpe~x} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        3,
+        5,
+        0,
+        1,
+        2,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11679188,
+      "pared_core_graph6": "Hehd~x}",
+      "source_row": "11679188 9 Hehd~x} - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        3,
+        5,
+        0,
+        2,
+        1,
+        6,
+        7,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11680657,
+      "pared_core_graph6": "HTpf}x|",
+      "source_row": "11680657 9 HTpf}x| - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        4,
+        3,
+        5,
+        0,
+        1,
+        2,
+        7,
+        6,
+        8
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11691971,
+      "pared_core_graph6": "HQvr\\zy",
+      "source_row": "11691971 9 HQvr\\zy - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        6,
+        0,
+        3,
+        2,
+        1,
+        7,
+        8,
+        5,
+        4
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11697444,
+      "pared_core_graph6": "HKqr~v{",
+      "source_row": "11697444 9 HKqr~v{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        3,
+        4,
+        5,
+        1,
+        0,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    },
+    {
+      "original_index": 11697588,
+      "pared_core_graph6": "HQpt~v{",
+      "source_row": "11697588 9 HQpt~v{ - - -",
+      "source_mckay": 251902,
+      "core_isomorphism": [
+        2,
+        3,
+        4,
+        5,
+        0,
+        1,
+        6,
+        8,
+        7
+      ],
+      "certificate": "research/order9_251902_p4_o17_v1/certificate.json",
+      "retraction": "P4->O17"
+    }
+  ]
+}
