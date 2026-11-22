@@ -90,6 +90,13 @@ complete maps for each of the following positive mechanisms:
 | Isomorphism of second completely pared clique iterates | 4 |
 | **Total** | **80** |
 
+**Historical documentation note.** The linked `lifts80_report.md` is the
+original **proof-only PR #65 report**. Its statements that indexes have not
+yet been promoted refer to that separate historical PR, *not* to this
+current v16 promotion PR #66. The report is preserved unchanged so the
+complete archived proof remains reproducible; the actual 80 removals occur
+in the new v16 file and are independently audited here.
+
 The 80 have been cross-checked against the *merged v15 snapshot*: each
 original index is still present there with exactly the same graph6 and
 an unconditional `- - -` record. The sets of 120 and 80 are disjoint;
