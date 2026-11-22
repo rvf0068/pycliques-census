@@ -1,0 +1,96 @@
+name: Certify nine-v6 and ten-v17 residual census (9 and 2025)
+
+on:
+  pull_request:
+    paths:
+      - "indeterminate_order_9.txt"
+      - "indeterminate_order_9_v6.txt"
+      - "indeterminate_order_10.txt"
+      - "indeterminate_order_10_v17.txt"
+      - "research/order10_current_indeterminates_v17/**"
+      - "research/order9_253650_o12_v1/**"
+      - "research/order10_surface_10185592_o6_v1/**"
+      - "research/order10_surface_9804321_o5_v1/**"
+      - "research/order10_surface_10472553_o4_v1/**"
+      - "tests/test_current_root_index.py"
+      - ".github/workflows/order10-current-v17.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit-exact-delta:
+    name: Immutable snapshot delta + all 316 positive graph maps
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install independent NetworkX
+        run: python -m pip install networkx==3.6.1
+      - name: Exact v5/v16 to v6/v17 audit and all residual family and surface checks
+        run: |
+          python -m py_compile \
+            research/order10_current_indeterminates_v17/verify.py \
+            research/order10_current_indeterminates_v17/replay_v16.py
+          python -m research.order10_current_indeterminates_v17.verify --families --surfaces
+          python -m unittest discover -s tests -p test_current_root_index.py -v
+      - name: Confirm optimized Python cannot bypass proof assertions
+        run: |
+          if python -O -m research.order10_current_indeterminates_v17.verify; then
+            echo "ERROR: optimized execution was incorrectly accepted"
+            exit 1
+          fi
+
+  replay-source-proofs:
+    name: Independent NetworkX O12/O4/O5/O6 witnesses and 313 lifts
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install NetworkX
+        run: python -m pip install networkx==3.6.1
+      - name: Reconstruct four divergent source graphs and 313 positive lifts
+        env:
+          PYTHONHASHSEED: "0"
+        run: python -m research.order10_current_indeterminates_v17.verify --proofs
+
+  replay-public-pycliques:
+    name: Public-pycliques full proof replay and historical v16 compatibility
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned public pycliques and NetworkX
+        run: |
+          python -m pip install networkx==3.6.1
+          for attempt in 1 2 3; do
+            if git clone --quiet https://github.com/rvf0068/pycliques-project.git /tmp/pycliques-project; then
+              break
+            fi
+            test "$attempt" -lt 3
+            rm -rf /tmp/pycliques-project
+            sleep "$((5 * attempt))"
+          done
+          git -C /tmp/pycliques-project checkout --quiet 782deb653b8748e1b5759389cdd2134beac69351
+          python -m pip install /tmp/pycliques-project/packages/pycliques
+      - name: Replay independent and public proofs for all 316 promotions
+        env:
+          PYTHONHASHSEED: "0"
+        run: python -m research.order10_current_indeterminates_v17.verify --proofs --public
+      - name: Replay protected historical nine-v5 and ten-v16 certification
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python -m research.order10_current_indeterminates_v17.replay_v16
+          python -m research.order10_current_indeterminates_v16.replay_v15
+          python -m research.order10_current_indeterminates_v16.replay_v14

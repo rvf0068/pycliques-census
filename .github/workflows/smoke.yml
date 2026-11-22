@@ -30,7 +30,7 @@ jobs:
         run: |
           bash scripts/bootstrap.sh
           .venv/bin/python -m compileall -q scripts tests postpasses
-          # The current working root is v16 (2,341 graphs). Run its
+          # The current working root is v17 (2,025 graphs). Run its
           # consistency tests before the legacy snapshot replays.
           # Older stage tests still use the immutable 8,648-case pre-v3 index.
           .venv/bin/python -m unittest discover -s tests \
@@ -38,11 +38,11 @@ jobs:
           # Also replay the frozen 49-case order-nine v2 transition.
           .venv/bin/python research/snub_promotion_v1/replay_historical.py --order 9
           # The archived four-O4 verifier requires the frozen v8 root.
-          cp indeterminate_order_10.txt /tmp/current-v16-pre-smoke
+          cp indeterminate_order_10.txt /tmp/current-v17-pre-smoke
           cp indeterminate_order_10_v8.txt indeterminate_order_10.txt
           .venv/bin/python -m unittest discover -s tests \
             -p test_order10_four_o4_lift_v1.py -v
-          cp /tmp/current-v16-pre-smoke indeterminate_order_10.txt
+          cp /tmp/current-v17-pre-smoke indeterminate_order_10.txt
           current_root="$(mktemp)"
           current_order9="$(mktemp)"
           cp indeterminate_order_10.txt "$current_root"

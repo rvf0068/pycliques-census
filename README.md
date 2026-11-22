@@ -6,57 +6,61 @@ order 10. All classifications use a pinned revision of the Python monorepo
 The earlier pre-clockwork-fix experiment is retained in Git history; the
 current stage framework uses clean, stable directories.
 
-## Current certified census: nine-vertex v5 and ten-vertex v16 (November 2026)
+## Current certified census: nine-vertex v6 and ten-vertex v17 (November 2026)
 
-The authoritative **indeterminate** lists are now:
+The authoritative **indeterminate** lists, newly audited after the
+merged proof-only PRs **#67, #68 and #69**, are:
 
-| Connected order | Latest frozen version | Unresolved original graphs | Previous count | Newly proved divergent |
+| Connected order | Latest frozen snapshot | Remaining original McKay graphs | Previous | Newly proved divergent |
 |---|---|---:|---:|---:|
-| 9 | [v5](indeterminate_order_9_v5.txt) | **10** | 12 | 2 |
-| 10 | [v16](indeterminate_order_10_v16.txt) | **2,341** | 2,541 | 200 |
+| 9 | [v6](indeterminate_order_9_v6.txt) | **9** | 10 | 1 |
+| 10 | [v17](indeterminate_order_10_v17.txt) | **2,025** | 2,341 | 316 |
 
 The root files [`indeterminate_order_9.txt`](indeterminate_order_9.txt)
 and [`indeterminate_order_10.txt`](indeterminate_order_10.txt)
-are byte-identical to these snapshots. All prior versioned indices
-and historical experiment records remain frozen.
+are byte-identical to v6 and v17. Every earlier versioned list and
+historical research proof remains **frozen and unmodified**.
 
-**Latest proven results.** Merged [PR #63](https://github.com/rvf0068/pycliques-census/pull/63)
-certified 27 exact second-pared-iterate lifts of known divergent graphs.
-Merged [PR #64](https://github.com/rvf0068/pycliques-census/pull/64)
-proved two formerly unresolved nine-vertex graphs divergent:
-McKay **208409**, `F_{4,5}` (graph6 `HCZTf\}`), by
-`P4 -> O9`, and McKay **260910** (`HUZvvzu`), by `P3 -> O15`.
-The first proof independently verifies **120** formerly conditional
-ten-vertex certificates (72 exact references, 35 retractions,
-10 non-triangle-edge chains, three inverse-cutpoint extensions).
-An additional **80** unconditional ten-vertex proofs from McKay 260910
-(62 exact references, 14 retractions, four P2-isomorphism lifts)
-were independently certified in
-[PR #65](https://github.com/rvf0068/pycliques-census/pull/65).
-The 120 and 80 cohorts are disjoint and were still present in frozen
-v15; both are removed in v16 by complete positive certificates.
+**Why nine, not ten?** McKay **253650**, graph6 `HEjer~{`,
+was still present in the v5 nine-vertex list, although merged
+[PR #69](https://github.com/rvf0068/pycliques-census/pull/69)
+has already proved an ordinary retraction
+`P4(G_253650) -> O12`. Its complete 259-vertex
+positive witness and independent public-`pycliques` replay are
+in [the source proof](research/order9_253650_o12_v1/REPORT.md).
 
-**Every remaining ten-vertex record is unconditionally indeterminate.**
-Of the **2,341** originals, **1,386** completely pare to nine vertices
-and **955** are stiff ten-vertex graphs. The remaining ten-vertex
-flag triangulations of closed surfaces are exactly **nine**, all
-triangulations of `S^2`; no unresolved nine-vertex graph is a flag
-triangulation of a closed surface.
+**The 316 previously unpromoted ten-vertex results** consist of
+**242** originals with completely pared nine-core isomorphic to
+253650, **71** stiff ten-core graphs with complete ordinary
+retractions to it, and **three** flag spheres with independently
+certified retractions: McKay **9804321** (`P4 -> O5`),
+**10185592** (`P4 -> O6`), and **10472553** (`P4 -> O4`).
+All 316 original McKay indices have explicit positive certificates.
+The three proof classes are disjoint. No speculative classification
+is promoted.
 
-See the [full v5/v16 proof review and classification table](research/order10_current_indeterminates_v16/REPORT.md)
-and its [exact reproducibility checker](research/order10_current_indeterminates_v16/verify.py).
-The [promotion manifest](research/order10_current_indeterminates_v16/promotion_manifest.json)
-records every excluded original McKay index and frozen source row.
-The new verifier independently replays the O9 and O15 retractions,
-all 120 F45 dependencies and all 80 O15 lifts; the optional full replay
-repeats the original 2,568-entry public-`pycliques` screen.
-The former [v15](indeterminate_order_10_v15.txt),
-[v14](indeterminate_order_10_v14.txt) and
-[nine-vertex v4](indeterminate_order_9_v4.txt) snapshots are immutable
-and their historical proof replays are preserved.
+Every one of the **1,144** surviving ten-vertex originals with a
+nine-vertex pared core is **isomorphic to exactly one** of the nine
+surviving nine-vertex original graphs. Their family sizes, in
+ascending order of McKay nine-core index, are
+`141, 82, 141, 121, 147, 129, 150, 91, 142`.
+The other **881** residual ten-vertex originals are stiff.
+There are **six** unresolved ten-vertex flag triangulations of
+closed surfaces (all flag triangulations of `S^2`), and no
+unresolved nine-vertex flag surface.
 
-The earlier certified census stages, historical search limitations,
-and reproducible commands remain documented below.
+See the [complete v6/v17 review, nine-core table and six surviving flag spheres](research/order10_current_indeterminates_v17/REPORT.md),
+the [independent verifier](research/order10_current_indeterminates_v17/verify.py),
+and the [316-record promotion manifest](research/order10_current_indeterminates_v17/promotion_manifest.json).
+The verifier replays exact maps, original-row identities and all
+nine-core families; its optional proof mode runs the full source
+retractions through the public `pycliques` library.
+
+The former [nine-v5](indeterminate_order_9_v5.txt),
+[ten-v16](indeterminate_order_10_v16.txt),
+[ten-v15](indeterminate_order_10_v15.txt) and all preceding
+snapshots remain immutable and can be replayed against their
+historical inputs.
 
 ## Codespaces commands
 
