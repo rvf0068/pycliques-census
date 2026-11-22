@@ -1,13 +1,10 @@
-# Certified current indeterminate connected graphs of order nine, v8
-# Remaining=5 previous_v7=6 newly_proved_divergent=1
-# Removed McKay 251902 (HEhvvzm), proved P4 -> O17 in merged PR #78.
-# Complete 461-image positive graph retraction and independent replay:
-# research/order9_251902_p4_o17_v1/
-# Every retained frozen v7 row is unchanged; v7 and predecessors are immutable.
-# Exact promotion audit: research/order9_v8_order10_v19/verify.py
+# Certified current indeterminate connected graphs of order nine, v9
+# Remaining=3 previous_v8=5 newly_proved_divergent=2
+# Removed McKay 251759 (HEhvtzm, P4 -> O15) and 254369 (HEjfvx}, P4 -> O13).
+# Full independently verified positive retractions: research/order9_two_p4_retractions_v1/
+# Every retained v8 row is unchanged; v8 and prior snapshots are immutable.
+# Independent exact promotion audit: research/order9_v9_order10_v20/verify.py
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
 249576 9 HEhfvzu - - -
 251628 9 HEhvVn{ - - -
-251759 9 HEhvtzm - - -
-254369 9 HEjfvx} - - -
 260040 9 HQyvex} - - -
