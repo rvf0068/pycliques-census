@@ -1,7 +1,7 @@
 """Read-only replay of the archived order-nine v4 / order-ten v14 proof.
 
 The old verifier checks that the working order-ten root is exactly v14.
-Under v15, redirect only that historical read to its frozen v14 snapshot.
+Under v16, redirect its two historical root reads to frozen v14/v4 snapshots.
 Never edit the old checker, its source inputs, saved certificates, or root.
 """
 from __future__ import annotations
