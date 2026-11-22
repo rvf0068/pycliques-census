@@ -1,6 +1,6 @@
 # Ten-vertex flag sphere McKay 10472553 retracts from P4 to O4
 
-The ten-vertex McKay graph **10472553**, graph6 \`ICZTeYj^_\`,
+The ten-vertex McKay graph **10472553**, graph6 `ICZTeYj^_`,
 is a flag triangulation of the two-sphere in the frozen v16
 unresolved census.
 
@@ -14,9 +14,9 @@ ordinary graph retraction P4(G) -> O4 with antipodal pairs
     (0,203) (2,242) (52,163) (174,295)
 
 Its 365-image mapping is archived, without relying on the search
-solver, in \`certificate.json\`. The 365 bytes are target ordinals
+solver, in `certificate.json`. The 365 bytes are target ordinals
 in ascending host-vertex order, where the target order is
-\`[0,2,52,163,174,203,242,295]\`. The independent verifier rebuilds
+`[0,2,52,163,174,203,242,295]`. The independent verifier rebuilds
 the host from the nine-character source graph6, checks each iterate's
 size, the P4 edge-list SHA-256, total projection, target pointwise
 fixation, induced O4 nonedges and all **42,351** weak-morphism
