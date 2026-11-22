@@ -1,12 +1,11 @@
-# Certified current indeterminate connected graphs of order ten, v18
-# Remaining=1681 previous_v17=2025 newly_proved_divergent=344
-# Removed exactly 344 original McKay indices whose nine-vertex pared cores
-# are isomorphic to one of the proved-divergent McKay 249436 (141 originals),
-# 249574 (82 originals), or 250814 (121 originals).
-# Positive retraction proofs and independent lift verification:
-# research/order9_three_p4_retractions_v1/ (merged PR #73).
-# Every retained frozen v17 row is unchanged; v17 and predecessors are immutable.
-# Promotion audit: research/order9_v7_order10_v18/verify.py
+# Certified current indeterminate connected graphs of order ten, v19
+# Remaining=1531 previous_v18=1681 newly_proved_divergent=150
+# Removed exactly 150 original McKay indices with nine-vertex pared cores
+# isomorphic to proved-divergent McKay 251902 (HEhvvzm, P4 -> O17).
+# Full positive proof and independently checked core isomorphism lifts:
+# research/order9_251902_p4_o17_v1/ (merged PR #78).
+# Every retained frozen v18 row is unchanged; v18 and earlier frozen versions are immutable.
+# Exact promotion audit: research/order9_v8_order10_v19/verify.py
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
 5808448 10 I?bbU^un_ - - -
 5974382 10 I?betrfZo - - -
@@ -39,12 +38,9 @@
 6958193 10 I?qbVVt~_ - - -
 6958315 9 HEhvtzm - - -
 6958322 10 I?qbVY}|o - - -
-6958650 9 HEhvv^{ - - -
-6958784 9 HEhvvzm - - -
 6958916 10 I?qbVZ}|o - - -
 6961242 9 HEhvVzu - - -
 6961361 10 I?qbVjz~_ - - -
-6962743 9 HEhvvzm - - -
 6962827 10 I?qbVz}|o - - -
 6988239 10 I?qbbVm~O - - -
 6989008 10 I?qbbV|~_ - - -
@@ -91,10 +87,6 @@
 7064932 10 I?qbuzf~_ - - -
 7065407 10 I?qbuz}|o - - -
 7069532 9 HEhvtzm - - -
-7069614 9 HEhvv^{ - - -
-7069722 9 HEhvvzm - - -
-7069876 9 HEhvv^{ - - -
-7070026 9 HEhv~rl - - -
 7070177 9 HEhvVzu - - -
 7070392 10 I?qbvjz~_ - - -
 7071729 10 I?qbvz}|o - - -
@@ -127,7 +119,6 @@
 7291664 9 HEjv^pt - - -
 7293745 10 I?qfVXv~_ - - -
 7293799 10 I?qfVY}\o - - -
-7293965 9 HEjvvxm - - -
 7294013 10 I?qfVZu]o - - -
 7298410 10 I?qfb^m~O - - -
 7298588 10 I?qfb^}~O - - -
@@ -145,15 +136,10 @@
 7323472 9 HElb~jl - - -
 7333319 9 HElb~jl - - -
 7348122 9 HElfjzm - - -
-7348475 9 HElfn^{ - - -
-7348681 9 HElfnzm - - -
-7348877 9 HElfnzm - - -
 7351675 9 HElfNv{ - - -
 7351683 9 HElfNzy - - -
 7351693 9 HElfNzy - - -
 7351976 10 I?qjff}~O - - -
-7353716 9 HElfnzm - - -
-7353841 9 HElfnzm - - -
 7444947 10 I?qmvL{]W - - -
 7444999 10 I?qmvL{ww - - -
 7445015 9 HEnVZrf - - -
@@ -186,7 +172,6 @@
 7471002 10 I?qnRzqxW - - -
 7471020 9 HEnrvJj - - -
 7473584 9 HEnvZpf - - -
-7473761 9 HEnv^pf - - -
 7473762 9 HEnv^pl - - -
 7474555 10 I?qnVZu\o - - -
 7479249 9 HEnbvze - - -
@@ -234,8 +219,6 @@
 7532493 9 HEhnf^{ - - -
 7532584 9 HEhnfzm - - -
 7532725 9 HEhnf^{ - - -
-7533141 9 HEhnvn{ - - -
-7533472 9 HEhnvzu - - -
 7535440 10 I?qrnrf~_ - - -
 7535489 10 I?qrnrmxo - - -
 7535496 9 HEhnfzm - - -
@@ -245,10 +228,8 @@
 7543949 9 HEhvtzm - - -
 7544015 10 I?qrvZ]to - - -
 7544086 10 I?qrvZmxo - - -
-7544093 9 HEhvvzm - - -
 7544933 10 I?qrvjmyo - - -
 7544942 10 I?qrvjm}o - - -
-7545384 9 HEhv^zy - - -
 7592242 10 I?quZrlxo - - -
 7620759 9 HEjb~zy - - -
 7621065 9 HEjb~zy - - -
@@ -261,7 +242,6 @@
 7686457 10 I?qvJrl}o - - -
 7686785 10 I?qvJr|}o - - -
 7687171 10 I?qvJv]~O - - -
-7687323 9 HEjjnzy - - -
 7687663 10 I?qvJv|~_ - - -
 7692323 10 I?qvLxz~_ - - -
 7699813 10 I?qvNXz~_ - - -
@@ -274,8 +254,6 @@
 7706717 10 I?qvRrV~O - - -
 7714186 9 HEjur^{ - - -
 7714568 9 HEjuvxm - - -
-7716557 9 HEjvr^{ - - -
-7716807 9 HEjvvxm - - -
 7721219 9 HEjb~v{ - - -
 7721566 10 I?qvb^|~_ - - -
 7735612 9 HEjfvx} - - -
@@ -334,7 +312,6 @@
 7960757 10 I?zTrx}\o - - -
 7960763 10 I?zTrx}lo - - -
 7960775 10 I?zTrx}|o - - -
-7961101 9 HFqrvzm - - -
 7961331 10 I?zTrz{|o - - -
 7961562 10 I?zTtyu[w - - -
 7961564 10 I?zTtyu]o - - -
@@ -375,7 +352,6 @@
 9714370 10 ICRUZzymo - - -
 9717301 10 ICRU]p|jo - - -
 9717675 10 ICRU]rtNo - - -
-9718063 9 HQz^vgz - - -
 9726246 10 ICRUt\}~O - - -
 9727682 9 HQztet} - - -
 9729278 9 HQzv]o| - - -
@@ -419,9 +395,7 @@
 9829870 9 HQo~vzu - - -
 9868374 10 ICRbfM}v_ - - -
 9868524 10 ICRbfNUn_ - - -
-9898682 9 HQqr~zy - - -
 9898908 9 HQqr}zy - - -
-9899212 9 HQqr~zy - - -
 9917416 10 ICRcrv}~O - - -
 9918344 9 HQqrt~{ - - -
 9918541 9 HQqrvy} - - -
@@ -429,18 +403,12 @@
 9940539 10 ICRcu^[Mw - - -
 9940555 9 HQqu~p| - - -
 9941024 9 HQqu~p| - - -
-9949779 9 HQqvr~{ - - -
 9949983 10 ICRcuxz~_ - - -
 9950264 10 ICRcuz]]o - - -
-9950267 9 HQqvvx} - - -
 9950300 9 HQqvux} - - -
-9950483 9 HQqvvx} - - -
-9950618 9 HQqv~p| - - -
 9961404 9 HQqu~p| - - -
-9967061 9 HQqvvx} - - -
 9967530 9 HQqzb~y - - -
 9968748 9 HQqzft} - - -
-9969874 9 HQqznzy - - -
 9969942 10 ICRczvm~O - - -
 9970196 10 ICRczv}~O - - -
 9981749 10 ICRc~hz~_ - - -
@@ -455,9 +423,7 @@
 10015332 9 HQqu~p| - - -
 10017228 10 ICRduz]Vo - - -
 10017230 10 ICRduz]]o - - -
-10017234 9 HQqvvx} - - -
 10017315 9 HQqvux} - - -
-10017669 9 HQqv~p| - - -
 10023942 10 ICRdvj]Vo - - -
 10032743 10 ICRemv[Mw - - -
 10043517 9 HQrvvw} - - -
@@ -477,13 +443,9 @@
 10250693 9 HQnBny} - - -
 10251420 10 ICY^BzZ~_ - - -
 10252571 9 HQnE~h| - - -
-10252826 9 HQnFj~{ - - -
 10253467 10 ICY^Ev]Vo - - -
-10253472 9 HQnFnx} - - -
 10253712 9 HQnFmx} - - -
-10263091 9 HQnFnx} - - -
 10263900 10 ICY^JzZ~_ - - -
-10263927 9 HQnJvzu - - -
 10275303 10 ICY^V`^ro - - -
 10275314 9 HQnVB~] - - -
 10275710 9 HQnVE|} - - -
@@ -493,7 +455,6 @@
 10285750 10 ICZH~bx|o - - -
 10285994 10 ICZH~i}}o - - -
 10286037 10 ICZH~jZ~_ - - -
-10286060 9 HQs~Vzu - - -
 10286280 10 ICZH~ju}o - - -
 10291187 10 ICZJ`}}fo - - -
 10291188 10 ICZJ`}}lo - - -
@@ -506,9 +467,7 @@
 10301502 9 HQdd~z] - - -
 10301512 10 ICZJc}}}o - - -
 10301639 9 HQtd~Zu - - -
-10301785 9 HQtd~n{ - - -
 10301877 10 ICZJc~]uo - - -
-10301894 9 HQtd~zu - - -
 10302257 10 ICZJc~u}o - - -
 10302711 9 HQde|~{ - - -
 10302846 10 ICZJd]}fo - - -
@@ -547,7 +506,6 @@
 10322376 10 ICZJdzr~_ - - -
 10322659 10 ICZJdzyxo - - -
 10322668 10 ICZJdzy|o - - -
-10322849 9 HQtd~zu - - -
 10322879 9 HQdf}y| - - -
 10322905 9 HQdf~X| - - -
 10322970 9 HQdf~i| - - -
@@ -560,7 +518,6 @@
 10326764 10 ICZJenin_ - - -
 10327096 9 HQtf^i| - - -
 10327097 10 ICZJenyno - - -
-10329993 9 HQtfny} - - -
 10330178 10 ICZJevuno - - -
 10330697 10 ICZJey}}o - - -
 10333446 10 ICZJfI}}o - - -
@@ -587,7 +544,6 @@
 10352458 9 HQdnnzy - - -
 10353040 9 HQdnnzy - - -
 10353469 10 ICZJlzZ~_ - - -
-10353522 9 HQtlvzu - - -
 10353791 10 ICZJlzu}o - - -
 10353951 10 ICZJlzylo - - -
 10360698 10 ICZJne|~_ - - -
@@ -595,10 +551,7 @@
 10366492 9 HQdvR~{ - - -
 10367094 9 HQdvVx} - - -
 10368427 9 HQdvVx} - - -
-10368617 9 HQdv^v{ - - -
-10368632 9 HQdv^zy - - -
 10368756 9 HQdv\zy - - -
-10369271 9 HQdv^zy - - -
 10369876 10 ICZJtzs[w - - -
 10372517 9 HQtvvW} - - -
 10372554 9 HQtvvY{ - - -
@@ -639,17 +592,10 @@
 10398865 10 ICZLd]{[w - - -
 10398871 9 HQfe~p| - - -
 10399102 9 HQfe~p| - - -
-10401092 9 HQffvx} - - -
 10401343 9 HQffux} - - -
-10401580 9 HQffvx} - - -
 10404092 10 ICZLfS}tW - - -
 10404805 9 HBuflzm - - -
-10405212 9 HBufn^{ - - -
-10405291 9 HBufnzm - - -
-10405602 9 HBufnzm - - -
 10411338 10 ICZLfim]o - - -
-10414022 9 HBufnzm - - -
-10414186 9 HBufnzm - - -
 10414278 9 HQffux} - - -
 10421515 10 ICZLnh}}o - - -
 10421672 9 HBunVn{ - - -
@@ -668,8 +614,6 @@
 10439160 9 HBvNLvu - - -
 10442332 10 ICZMtg~|_ - - -
 10442437 10 ICZMthvn_ - - -
-10444583 9 HQvvvWv - - -
-10444586 9 HQvvvW} - - -
 10444988 10 ICZMuzuNo - - -
 10447129 10 ICZMvi}\o - - -
 10447325 10 ICZMvjmNo - - -
@@ -677,10 +621,8 @@
 10450528 9 HQvLvhv - - -
 10453648 10 ICZNNjYNW - - -
 10456673 10 ICZNby}lo - - -
-10457422 9 HQfb~zy - - -
 10457866 10 ICZNdy}\o - - -
 10457867 10 ICZNdy}]o - - -
-10457868 9 HQffvx} - - -
 10458071 9 HQffux} - - -
 10458212 9 HBvdvZu - - -
 10458288 9 HBvdvjm - - -
@@ -730,25 +672,15 @@
 10488822 9 HBqnfzm - - -
 10489078 9 HBqnfzm - - -
 10489218 9 HBqnrzu - - -
-10489450 9 HBqnvn{ - - -
-10489489 9 HBqnvzu - - -
-10489832 9 HBqnvn{ - - -
-10490018 9 HBqn~rt - - -
 10491130 9 HBqnfzm - - -
 10491181 9 HEhnf^{ - - -
-10491350 9 HEhnvzu - - -
 10492875 9 HQyvuw} - - -
 10493564 9 HBqvuzm - - -
-10493625 9 HBqvvzm - - -
-10493707 9 HBqvv^{ - - -
-10493991 9 HBqv~Zx - - -
 10496302 9 HBqvVzu - - -
 10496473 9 HEhvVn{ - - -
 10496534 9 HEhv\zy - - -
-10496642 9 HEhv^zy - - -
 10496844 9 HQyvex} - - -
 10500549 9 HQznugv - - -
-10504870 9 HQzvuw} - - -
 10519632 9 HBrft~{ - - -
 10519977 9 HBrfvy} - - -
 10520134 9 HBrfvy} - - -
@@ -775,8 +707,6 @@
 10573607 10 ICZbuy}No - - -
 10573613 9 HQptvx} - - -
 10573688 10 ICZbuz]fo - - -
-10573692 9 HQpvvy} - - -
-10574089 9 HQpt~zy - - -
 10575474 10 ICZbvZ]fo - - -
 10581586 10 ICZejv[Mw - - -
 10581611 10 ICZejv[fW - - -
@@ -794,9 +724,6 @@
 10586728 10 ICZelxz~_ - - -
 10586759 10 ICZelx}}o - - -
 10586864 9 HBzLun{ - - -
-10587024 9 HBzLvn{ - - -
-10587049 9 HBzLvzu - - -
-10587393 9 HBzLvn{ - - -
 10588095 10 ICZemo~~O - - -
 10589891 10 ICZemzYMw - - -
 10590043 10 ICZemziMw - - -
@@ -813,10 +740,8 @@
 10598784 9 HBzTnZy - - -
 10598915 9 HBzTnrm - - -
 10599128 10 ICZety}No - - -
-10599131 9 HQqvvx} - - -
 10599331 9 HQqvux} - - -
 10599334 10 ICZetzm\o - - -
-10599583 9 HQqvzzx - - -
 10600502 9 HQrvvw} - - -
 10601010 10 ICZevN[Ng - - -
 10604369 10 ICZevi}]o - - -
@@ -831,7 +756,6 @@
 10625014 9 HQuvB~] - - -
 10625350 9 HQuvE|} - - -
 10759834 9 HTzRe\} - - -
-10763885 9 HUZu~on - - -
 10764292 9 HUZv]o| - - -
 10764316 9 HUZv]ql - - -
 10767771 10 ICpUvh}}O - - -
@@ -891,14 +815,9 @@
 10973317 9 HEYvrzm - - -
 10973488 10 ICpdVX}xo - - -
 10973491 10 ICpdVX}|o - - -
-10973901 9 HEYvv^{ - - -
-10974087 9 HEYvvzm - - -
-10974228 9 HEYvvzm - - -
 10974861 9 HEYvVzu - - -
 10974980 9 HEYvVn{ - - -
 10977103 10 ICpdVx}|o - - -
-10977145 9 HEYvvzm - - -
-10977232 9 HEYvvzm - - -
 10987633 10 ICpdbjz~_ - - -
 10994478 10 ICpdbyz~_ - - -
 10995234 10 ICpdbzj~_ - - -
@@ -940,20 +859,13 @@
 11082754 9 HEYnfzm - - -
 11083044 9 HEYnf^{ - - -
 11083466 10 ICpdnT|~_ - - -
-11083937 9 HEYnnv{ - - -
-11083955 9 HEYnnzy - - -
-11084267 9 HEYnnzy - - -
 11084577 9 HEYnuzu - - -
-11084715 9 HEYnvzu - - -
-11084959 9 HEYnvzu - - -
 11085037 9 HUQm~p| - - -
-11085062 9 HEYn~rt - - -
 11087789 10 ICpdnp~~_ - - -
 11087991 10 ICpdnr]Vo - - -
 11088050 9 HEYnf^{ - - -
 11088085 9 HEYnfzm - - -
 11088254 9 HEYnf^{ - - -
-11088686 9 HEYnnzy - - -
 11089163 10 ICpdq~[lW - - -
 11090175 10 ICpdr^[\g - - -
 11090374 9 HEYr~rl - - -
@@ -963,20 +875,13 @@
 11096613 10 ICpdr~{|g - - -
 11104296 10 ICpdupv~_ - - -
 11107186 10 ICpdvL}~O - - -
-11107729 9 HEYv^v{ - - -
-11107747 9 HEYv^zy - - -
-11108079 9 HEYv^zy - - -
 11110770 9 HEYvrzm - - -
 11110774 9 HEYvrzm - - -
-11111172 9 HEYvvzm - - -
-11111222 9 HEYvv^{ - - -
-11111399 9 HEYv~rl - - -
 11111446 10 ICpdvhz~_ - - -
 11111848 9 HEYvVn{ - - -
 11111985 10 ICpdvjm]o - - -
 11112009 9 HEYvVzu - - -
 11112265 9 HEYvVn{ - - -
-11112634 9 HEYv^zy - - -
 11112640 10 ICpdvp}\o - - -
 11132982 9 HURnnon - - -
 11133521 9 HURnp~{ - - -
@@ -1027,9 +932,7 @@
 11260361 10 ICpunr{{o - - -
 11261733 10 ICpuvh}}O - - -
 11265303 10 ICpvRy}}o - - -
-11265873 9 HSZR~zy - - -
 11267821 10 ICpvTy}No - - -
-11267825 9 HSZVvx} - - -
 11269444 10 ICpvUy}No - - -
 11270551 10 ICpvVZufo - - -
 11275066 10 ICpv\z{}o - - -
@@ -1057,13 +960,10 @@
 11291407 10 ICqjevmn_ - - -
 11291548 9 HUdfnX| - - -
 11291900 10 ICqjfT}|o - - -
-11292430 9 HElfn^{ - - -
 11292573 10 ICqjfVmxo - - -
-11292581 9 HElfnzm - - -
 11293815 10 ICqjfd|~_ - - -
 11294345 9 HElfNzy - - -
 11294969 10 ICqjfrf~_ - - -
-11295365 9 HElfnzm - - -
 11295387 10 ICqjfvu^o - - -
 11298461 9 HEnbvze - - -
 11298498 10 ICqnbzyxo - - -
@@ -1078,7 +978,6 @@
 11303780 9 HUs~nPf - - -
 11303782 9 HUs~nPl - - -
 11306211 10 ICrH~ru]o - - -
-11307559 9 HUt~nRd - - -
 11310073 9 HUt`~jm - - -
 11310101 9 HUt`~jm - - -
 11310539 9 HUt`~jm - - -
@@ -1102,7 +1001,6 @@
 11344201 9 HUxRL~y - - -
 11344403 9 HUxRNu} - - -
 11350308 9 HUxV^ov - - -
-11359314 9 HUxvvjk - - -
 11361615 9 HUzZfS} - - -
 11364594 10 ICrUrjxz_ - - -
 11367777 10 ICrVL^y^W - - -
@@ -1161,7 +1059,6 @@
 11437264 10 ICrdvh}]o - - -
 11437283 10 ICrdvh}yo - - -
 11437290 10 ICrdvh}}o - - -
-11437366 9 HUqvVx} - - -
 11437542 10 ICrdvj{^o - - -
 11438180 10 ICrdvp}\o - - -
 11438191 10 ICrdvp}|o - - -
@@ -1191,7 +1088,6 @@
 11497778 9 HEyjfvu - - -
 11497811 10 ICvdjrm|o - - -
 11498579 10 ICvdjz]}o - - -
-11498612 9 HEyjvzu - - -
 11498706 10 ICvdjz}}o - - -
 11500463 10 ICvdr^s]g - - -
 11500499 9 HEyr~Rt - - -
@@ -1199,7 +1095,6 @@
 11500689 10 ICvdrh}}o - - -
 11500938 9 HEyrVzu - - -
 11501056 10 ICvdrj}}o - - -
-11501352 9 HDpvv^{ - - -
 11501730 10 ICvdr~{|g - - -
 11503742 10 ICvejzy|O - - -
 11504640 10 ICvenpy|O - - -
@@ -1212,7 +1107,6 @@
 11513500 9 HTrRV\} - - -
 11516126 10 ICvfVXulg - - -
 11516129 10 ICvfVXumo - - -
-11516735 9 HTrVVx} - - -
 11520780 10 ICxvBz[n_ - - -
 11521767 10 ICxvEzu}_ - - -
 11524501 10 ICxvRzUlg - - -
@@ -1270,14 +1164,11 @@
 11552254 10 IEhetv{^o - - -
 11552258 10 IEhetv{|o - - -
 11552964 10 IEhevM|~_ - - -
-11553416 9 HDZV^v{ - - -
 11553764 10 IEhevN{^o - - -
 11553766 10 IEhevN{no - - -
 11554639 10 IEhevV{|o - - -
 11554700 9 HDZVrzm - - -
-11555074 9 HDZVvzm - - -
 11555138 9 HEhf^n{ - - -
-11555184 9 HDZVv^{ - - -
 11555207 9 HEhf^v{ - - -
 11555246 10 IEhevZ{^o - - -
 11555255 10 IEhevZ{vO - - -
@@ -1296,7 +1187,6 @@
 11555987 10 IEhevj{zO - - -
 11555997 9 HEhfnzy - - -
 11556056 10 IEhevl}~O - - -
-11556130 9 HDZV^zy - - -
 11556204 9 HEhfnzy - - -
 11556256 10 IEhevp}|o - - -
 11556387 10 IEhevrm~? - - -
@@ -1368,7 +1258,6 @@
 11568668 9 HEhfvzu - - -
 11568827 10 IEhrp~krg - - -
 11568835 9 HQzr}qr - - -
-11569287 9 HQzu~o| - - -
 11569646 10 IEhrr^{}O - - -
 11569833 9 HQzv]o| - - -
 11569966 9 HUXr^q} - - -
@@ -1394,8 +1283,6 @@
 11573908 10 IEhrvZ]lo - - -
 11574081 10 IEhrvZ{{o - - -
 11574084 10 IEhrvZ{}O - - -
-11574085 9 HEhv^zy - - -
-11575017 9 HEhvvzm - - -
 11575344 9 HUZnugn - - -
 11575346 9 HUZnugz - - -
 11575380 9 HUZnuix - - -
@@ -1407,10 +1294,8 @@
 11576315 9 HEhvVzu - - -
 11576596 9 HE]~vJb - - -
 11576968 9 HEhvv]{ - - -
-11576982 9 HEhvv^{ - - -
 11577001 10 IEhtnrm|O - - -
 11578321 10 IEhtrnksw - - -
-11579272 9 HUZu~on - - -
 11579607 9 HUZv]o| - - -
 11579617 10 IEhttnk]g - - -
 11579661 9 HUZv]ql - - -
@@ -1418,8 +1303,6 @@
 11580754 10 IEhtvY}]o - - -
 11580772 9 HEhv\zy - - -
 11580986 10 IEhtvZ{}O - - -
-11580987 9 HEhv^zy - - -
-11581481 9 HEhvvzm - - -
 11582603 10 IEhuTxm}_ - - -
 11582971 10 IEhuTzmxo - - -
 11582980 9 HEht~Zx - - -
@@ -1429,19 +1312,15 @@
 11583400 10 IEhuUvmno - - -
 11584176 10 IEhuVW}sw - - -
 11584433 10 IEhuVY}}o - - -
-11584628 9 HEhv^v{ - - -
 11584689 10 IEhuVZ{}O - - -
-11584690 9 HEhv^zy - - -
 11585200 10 IEhuVf{^o - - -
 11585453 10 IEhuVhz~_ - - -
 11585901 9 HDZVVzu - - -
 11585913 9 HDZVVzu - - -
 11586483 10 IEhuVp}|o - - -
 11586734 10 IEhuVq}zo - - -
-11587175 9 HEhvvzm - - -
 11587308 10 IEhuVx}|o - - -
 11587408 10 IEhuVzmv_ - - -
-11587415 9 HDZVvzm - - -
 11588012 10 IEhurvklW - - -
 11588154 10 IEhurv{zo - - -
 11588158 9 HUYrnrm - - -
@@ -1454,14 +1333,11 @@
 11590409 10 IEhuuZ{z_ - - -
 11590668 10 IEhuvZ{z_ - - -
 11590675 10 IEhuvZ{}O - - -
-11590677 9 HEhv^zy - - -
 11590801 10 IEhuvpmn_ - - -
 11590803 9 HQyvex} - - -
 11590835 10 IEhuvpm{W - - -
 11590839 9 HEj^rZr - - -
-11591253 9 HEhvv^{ - - -
 11591261 10 IEhuvrmno - - -
-11591796 9 HEhv~rl - - -
 11594611 9 HEjb~zy - - -
 11595632 10 IEhvDn|~_ - - -
 11597204 10 IEhvDzYz_ - - -
@@ -1477,14 +1353,11 @@
 11601552 9 HEhvVzu - - -
 11602919 9 HEjfr~{ - - -
 11603258 10 IEhvFq}zO - - -
-11603592 9 HEhvv^{ - - -
 11603750 10 IEhvFry]o - - -
 11603752 9 HEjfvx} - - -
 11603785 10 IEhvFr{Zo - - -
 11603800 10 IEhvFr{zO - - -
-11603801 9 HEhvvzm - - -
 11604098 9 HEjf~p| - - -
-11604117 9 HEhvvzm - - -
 11604581 10 IEhvQ~{lo - - -
 11604588 10 IEhvQ~{|o - - -
 11605441 10 IEhvRv{|_ - - -
@@ -1518,25 +1391,14 @@
 11610043 9 HEhvVzu - - -
 11610147 9 HEhvVzu - - -
 11610151 9 HEhvVn{ - - -
-11610385 9 HEhvv^{ - - -
 11610453 10 IEhvVruNo - - -
 11610485 9 HEhvVn{ - - -
-11610520 9 HEjnvxu - - -
 11610561 10 IEhvVr{zO - - -
-11610562 9 HEhvvzm - - -
-11610856 9 HEhvvzm - - -
-11611194 9 HEhvv^{ - - -
-11611425 9 HEhvv^{ - - -
 11611429 10 IEhvtznno - - -
 11612062 10 IEhvvZ{to - - -
 11612064 10 IEhvvZ{uo - - -
 11612071 10 IEhvvZ{z_ - - -
-11612080 9 HEhv^zy - - -
-11612135 9 HEhvv^{ - - -
 11612274 10 IEhvvjm~? - - -
-11612275 9 HEhvv^{ - - -
-11612502 9 HEhvv^{ - - -
-11612609 9 HEhvvzm - - -
 11614797 10 IEh~fVwXw - - -
 11614800 10 IEh~fVw\g - - -
 11614922 10 IEh~fV{xo - - -
@@ -1566,9 +1428,7 @@
 11630253 10 IEjenT|~_ - - -
 11631072 9 HEjfr~{ - - -
 11631108 10 IEjenp~~_ - - -
-11631162 9 HUqnfx} - - -
 11631213 10 IEjenrm^o - - -
-11631594 9 HQqr~v{ - - -
 11631843 10 IEjep~wXw - - -
 11633128 10 IEjeq~szO - - -
 11633906 9 HQquzzx - - -
@@ -1577,17 +1437,14 @@
 11634606 9 HDzRVzu - - -
 11634769 10 IEjerj}}o - - -
 11635298 10 IEjerx}No - - -
-11635305 9 HQqvvx} - - -
 11635551 10 IEjerz{}O - - -
 11635553 9 HEjb~zy - - -
-11635636 9 HQqvzzx - - -
 11635967 10 IEjet\}~O - - -
 11636334 10 IEjetl}~O - - -
 11636685 10 IEjett}~O - - -
 11636831 10 IEjetv{^o - - -
 11637078 9 H[ruzqx - - -
 11637519 10 IEjeul}~O - - -
-11638194 9 H[rvryZ - - -
 11638227 9 H[rvrzX - - -
 11638260 9 H[rvqyZ - - -
 11639124 10 IEjevV{^o - - -
@@ -1619,15 +1476,10 @@
 11675400 9 HTpa~y} - - -
 11675404 9 HTpa~y} - - -
 11676356 9 Hehex~{ - - -
-11677070 9 HTpez~{ - - -
-11677295 9 HTpez~{ - - -
 11677456 9 HQtu\zu - - -
-11677613 9 HTpe~x} - - -
 11677775 9 HTpe~X} - - -
 11679158 9 Hehd~X} - - -
-11679188 9 Hehd~x} - - -
 11679269 9 HTpf]x| - - -
-11680657 9 HTpf}x| - - -
 11681002 9 HQtvvW} - - -
 11681470 9 HQtvfY} - - -
 11682456 9 HTpv^r[ - - -
@@ -1637,12 +1489,9 @@
 11687315 9 HQvnrgz - - -
 11687344 10 IQjVNhyfW - - -
 11687359 9 HQvnrix - - -
-11691971 9 HQvr\zy - - -
 11696423 9 HKqrt~{ - - -
 11696733 9 HKqrvy} - - -
 11697190 9 HQptvx} - - -
-11697444 9 HKqr~v{ - - -
-11697588 9 HQpt~v{ - - -
 11699151 10 IQjdvr]^o - - -
 11705120 9 Heyrtyu - - -
 11707526 10 IQyurzUuo - - -
