@@ -1,0 +1,72 @@
+name: Exhaustive nine-v7 P3 special-octahedron exclusion
+
+on:
+  pull_request:
+    paths:
+      - "indeterminate_order_9_v7.txt"
+      - "research/order9_v7_p3_special_negative_v1/**"
+      - ".github/workflows/order9-v7-p3-special-negative.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independent-networkx:
+    name: Enumerate every maximal clique and antipode assignment for all six P3 cores
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install independent NetworkX
+        run: python -m pip install networkx==3.6.1
+      - name: Rebuild six graphs and replay complete finite exclusion
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python -m py_compile research/order9_v7_p3_special_negative_v1/verify.py
+          python research/order9_v7_p3_special_negative_v1/verify.py
+      - name: Fail on unexpected optimized Python bypass outcome
+        run: |
+          stdout_file=$(mktemp)
+          stderr_file=$(mktemp)
+          trap 'rm -f "$stdout_file" "$stderr_file"' EXIT
+          if python -O research/order9_v7_p3_special_negative_v1/verify.py >"$stdout_file" 2>"$stderr_file"; then
+            echo "ERROR: optimized verification unexpectedly passed"
+            exit 1
+          else
+            status=$?
+          fi
+          if [ "$status" -ne 1 ] || ! grep -Fxq 'RuntimeError: Optimized Python bypasses proof-critical assertions' "$stderr_file"; then
+            echo "ERROR: unexpected optimized verifier failure ($status)"
+            cat "$stdout_file"
+            cat "$stderr_file" >&2
+            exit 1
+          fi
+
+  public-pycliques:
+    name: Cross-check all six P3 exclusions with pinned public special-octahedron search
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/checkout@v4
+        with:
+          repository: rvf0068/pycliques-project
+          ref: d140bd3a666ca6abf77e5823740ecef85e75a842
+          path: pycliques-dependency
+          persist-credentials: false
+      - name: Install frozen public pycliques
+        run: |
+          python -m pip install networkx==3.6.1
+          python -m pip install ./pycliques-dependency/packages/pycliques
+      - name: Replay all six negative results with separate public algorithm
+        env:
+          PYTHONHASHSEED: "0"
+        run: python research/order9_v7_p3_special_negative_v1/verify.py --public
