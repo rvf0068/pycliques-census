@@ -173,7 +173,7 @@ def verify_ordering_metadata() -> None:
     meta = saved["discovery"]
     assert meta["method"] == "native_coaffine_degree_tiebreak_and_edge_cover_dual_weights"
     assert meta["weights_scale"] == 10000
-    assert meta["weights_encoding"] == "uint16_little_endian_per_normalized_p4_host_vertex"
+    assert meta["weights_encoding"] == "uint16_little_endian_per_normalized_p4_label"
     raw = base64.b64decode(meta["weights_b64"], validate=True)
     assert len(raw) == 2 * ORDERS[-1]
     weights = struct.unpack(f"<{ORDERS[-1]}H", raw)
