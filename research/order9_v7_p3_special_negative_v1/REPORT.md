@@ -110,8 +110,10 @@ A target that passed this necessary condition would not have been
 misreported as negative: the script counts such targets separately
 and requires exactly zero.
 
-The same counts were computed independently with a separate C++17
-bitset enumerator. For the three smallest \(P_3\) hosts (McKay
+The same counts are computed independently by the archived
+`snub_native.cpp` C++17 bitset enumerator, which is compiled and
+replayed against all six reconstructed P3 graphs in the dedicated CI
+job. That job also checks the snub-identity positive example. For the three smallest \(P_3\) hosts (McKay
 251759, 251902 and 254369), NetworkX VF2's complete induced
 subgraph-isomorphism enumeration separately reproduces precisely
 1,864, 300 and 172 distinct target vertex sets. This independent
