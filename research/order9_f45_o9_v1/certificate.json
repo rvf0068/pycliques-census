@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "source_graph6": "HCZTf\\}",
+  "pared_depth": 4,
+  "host_order": 202,
+  "host_edges": 16289,
+  "target_dimension": 9,
+  "opposite_pairs": [
+    [
+      1,
+      78
+    ],
+    [
+      29,
+      92
+    ],
+    [
+      40,
+      88
+    ],
+    [
+      50,
+      122
+    ],
+    [
+      61,
+      64
+    ],
+    [
+      67,
+      121
+    ],
+    [
+      79,
+      188
+    ],
+    [
+      138,
+      169
+    ],
+    [
+      143,
+      196
+    ]
+  ],
+  "pared_graph6_sha256": "5e2e554cd984c9db2e403745c7c1fa189360fd0efd41daa8b1c95fdcedd484b7",
+  "images_b64": "igEBxIqKisTExLy8vLy8vLy8vLwdvLy8vLy8vLwdvLy8vLy8vLy8HSiKiopDQ0NDQ8QyxEOKQ4qKikNDQz1DQ0CPj0NDQ49OTk5Oik5OTk9OTk5OTk5cTlhOTk5cTk5OTk5OTk5OTk5OTk5OXE5YTk5YWFh6elhYenl6WFhcXFxcWFhYWE5DQIqKikNDQ0OPij1DQ0NDQ0NDQ4pDQ0NAQ0BcMkMyXENcQ6k9Q0NDQ0NDXFxcWFhcxMTExMS8vLy8vLy8QMRAvLxAQA=="
+}

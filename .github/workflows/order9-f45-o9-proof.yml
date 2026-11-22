@@ -1,0 +1,48 @@
+name: Independently certify F45 K-divergence by P4 O9 retraction
+
+on:
+  pull_request:
+    paths:
+      - "research/order9_f45_o9_v1/**"
+      - "research/order9_260910_o15_v1/**"
+      - ".github/workflows/order9-f45-o9-proof.yml"
+      - "indeterminate_order_9_v4.txt"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify-f45-o9:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install NetworkX and pinned public pycliques
+        run: |
+          python -m pip install networkx==3.6.1
+          git clone --quiet https://github.com/rvf0068/pycliques-project.git /tmp/pycliques-project
+          git -C /tmp/pycliques-project checkout --quiet 782deb653b8748e1b5759389cdd2134beac69351
+          python -m pip install /tmp/pycliques-project/packages/pycliques
+      - name: Independently construct P4 and replay all 16289 retraction edge constraints
+        env:
+          PYTHONHASHSEED: "0"
+        run: python research/order9_f45_o9_v1/verify.py
+      - name: Independently certify McKay 260910 third-pared O15 retraction
+        env:
+          PYTHONHASHSEED: "0"
+        run: python research/order9_260910_o15_v1/verify.py
+      - name: Independently replay the 120 ten-vertex conditional dependencies
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python research/order9_f45_o9_v1/lift120.py \
+            --output "${{ runner.temp }}/f45-dependent-120-proof.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: f45-dependent-120-explicit-proofs
+          path: ${{ runner.temp }}/f45-dependent-120-proof.json
+          if-no-files-found: error
