@@ -7,7 +7,7 @@ This promotion reviews the certified results through merged PRs **#63** and
 **PR #65**. The 80-member certificate is included directly on this branch so
 the resulting index is independently reviewable even while PR #65 is open.
 No historical snapshot, completed census run or general-purpose
-\`pycliques\` implementation is edited by this promotion.
+`pycliques` implementation is edited by this promotion.
 
 The new authoritative unresolved files are:
 
@@ -16,8 +16,8 @@ The new authoritative unresolved files are:
 | 9 | [v4](../../indeterminate_order_9_v4.txt) | 12 | 2 | [v5](../../indeterminate_order_9_v5.txt) | **10** |
 | 10 | [v15](../../indeterminate_order_10_v15.txt) | 2,541 | 200 | [v16](../../indeterminate_order_10_v16.txt) | **2,341** |
 
-The root \`indeterminate_order_9.txt\` and
-\`indeterminate_order_10.txt\` are **byte-identical** to v5 and v16
+The root `indeterminate_order_9.txt` and
+`indeterminate_order_10.txt` are **byte-identical** to v5 and v16
 respectively. The immutable predecessor lists are authenticated using
 their exact Git blob hashes; the independent verifier enforces that
 **every retained original row is unchanged** and that no excluded source
@@ -27,15 +27,15 @@ is missing a complete positive proof.
 
 | Original connected-nine McKay index | graph6 | Complete proof |
 |---:|---|---|
-| 208409 | \`HCZTf\\}\` | \`P4(F_{4,5})\` (202 vertices, 16,289 edges) retracts to \`O9\` |
-| 260910 | \`HUZvvzu\` | \`P3(G)\` (132 vertices, 7,880 edges) retracts to \`O15\` |
+| 208409 | `HCZTf\}` | `P4(F_{4,5})` (202 vertices, 16,289 edges) retracts to `O9` |
+| 260910 | `HUZvvzu` | `P3(G)` (132 vertices, 7,880 edges) retracts to `O15` |
 
 The full maps, exact graph-construction checks, and independent
-public-\`pycliques\` replays are in
+public-`pycliques` replays are in
 [the F45 proof](../order9_f45_o9_v1/REPORT.md)
 and [the McKay 260910 proof](../order9_260910_o15_v1/REPORT.md).
 Both results are proved in merged PR #64. By the retraction theorem,
-the divergence of octahedra \`O_d\` for \`d>=3\`, and preservation of
+the divergence of octahedra `O_d` for `d>=3`, and preservation of
 clique behavior under dominated-vertex dismantling,
 both original graphs are **K-divergent**.
 
@@ -43,16 +43,16 @@ The ten genuinely unresolved connected-nine graphs are:
 
 | McKay | graph6 |
 |---:|---|
-| 249436 | \`HEhff^{\` |
-| 249574 | \`HEhfvx}\` |
-| 249576 | \`HEhfvzu\` |
-| 250814 | \`HEhuvzm\` |
-| 251628 | \`HEhvVn{\` |
-| 251759 | \`HEhvtzm\` |
-| 251902 | \`HEhvvzm\` |
-| 253650 | \`HEjer~{\` |
-| 254369 | \`HEjfvx}\` |
-| 260040 | \`HQyvex}\` |
+| 249436 | `HEhff^{` |
+| 249574 | `HEhfvx}` |
+| 249576 | `HEhfvzu` |
+| 250814 | `HEhuvzm` |
+| 251628 | `HEhvVn{` |
+| 251759 | `HEhvtzm` |
+| 251902 | `HEhvvzm` |
+| 253650 | `HEjer~{` |
+| 254369 | `HEjfvx}` |
+| 260040 | `HQyvex}` |
 
 No one of these ten is a flag triangulation of a closed surface.
 
@@ -61,9 +61,9 @@ No one of these ten is a flag triangulation of a closed surface.
 ### 120 formerly conditional F45 dependencies
 
 All 120 records in v15 with reference
-\`HCZTf\\}\` have now been unconditionally proved divergent. This does
+`HCZTf\}` have now been unconditionally proved divergent. This does
 **not** simply promote a former conjectural status: the independent
-[\`lift120.py\`](../order9_f45_o9_v1/lift120.py) replays a positive
+[`lift120.py`](../order9_f45_o9_v1/lift120.py) replays a positive
 witness for every original McKay index, comprising:
 
 | Complete certificate | Records |
@@ -74,7 +74,7 @@ witness for every original McKay index, comprising:
 | Admissible inverse-cutpoint extension | 3 |
 | **Total** | **120** |
 
-The target's divergence was separately proved by the \`P4 -> O9\`
+The target's divergence was separately proved by the `P4 -> O9`
 certificate from PR #64.
 
 ### 80 additional McKay 260910 / O15 lifts
@@ -92,7 +92,7 @@ complete maps for each of the following positive mechanisms:
 
 The 80 have been cross-checked against the *merged v15 snapshot*: each
 original index is still present there with exactly the same graph6 and
-an unconditional \`- - -\` record. The sets of 120 and 80 are disjoint;
+an unconditional `- - -` record. The sets of 120 and 80 are disjoint;
 the 80 also have no overlap with the 27 previously deleted in PR #63.
 The [complete 80-member certificate](../order9_260910_o15_v1/lift_v14_certificate.json)
 and independent [replayer](../order9_260910_o15_v1/verify_lifts_v14.py)
@@ -100,12 +100,12 @@ are committed on this promotion branch and reviewed separately in PR #65.
 
 Therefore the new exact unresolved population is
 
-\`\`\`
+```
 2,541 - 120 - 80 = 2,341
-\`\`\`
+```
 
 All remaining 2,341 original ten-vertex records have target-status
-\`-\` (none depends on an unresolved conjectural reference).
+`-` (none depends on an unresolved conjectural reference).
 Of these, **1,386** pare to nine vertices and **955** are stiff ten-vertex
 graphs. These are *unresolved* by the certified methods to date:
 the promotion does not assert convergence or divergence for them.
@@ -119,19 +119,19 @@ unresolved original ten-vertex graphs, exactly **nine** are such surfaces:
 
 | McKay index | graph6 |
 |---:|---|
-| 6499365 | \`I?ovUqv\\o\` |
-| 8559181 | \`ICQbQrvno\` |
-| 9804321 | \`ICR&#96;tlmv_\` |
-| 10185592 | \`ICXmdbj\\o\` |
-| 10472553 | \`ICZTeYj^_\` |
-| 10803453 | \`ICp&#96;epv~_\` |
-| 11031156 | \`ICpderm\\o\` |
-| 11138607 | \`ICperXumW\` |
-| 11548392 | \`IEherhmmO\` |
+| 6499365 | `I?ovUqv\o` |
+| 8559181 | `ICQbQrvno` |
+| 9804321 | ``ICR`tlmv_`` |
+| 10185592 | `ICXmdbj\o` |
+| 10472553 | `ICZTeYj^_` |
+| 10803453 | ``ICp`epv~_`` |
+| 11031156 | `ICpderm\o` |
+| 11138607 | `ICperXumW` |
+| 11548392 | `IEherhmmO` |
 
 Each has 10 vertices, 24 edges, 16 triangular faces, and each
 vertex link is a cycle, so its clique complex is a triangulated
-2-sphere. This is checked directly by the new \`--surfaces\` mode.
+2-sphere. This is checked directly by the new `--surfaces` mode.
 The remaining 2,332 unresolved ten-vertex entries do not have
 clique complexes that are closed 2-manifolds.
 
@@ -179,18 +179,18 @@ and the exact nine-vertex source identities.
 
 Run these commands from the census repository root:
 
-\`\`\`sh
+```sh
 python -m research.order10_current_indeterminates_v16.verify
 python -m research.order10_current_indeterminates_v16.verify --surfaces
 PYTHONHASHSEED=0 python -m research.order10_current_indeterminates_v16.verify --f45
 PYTHONHASHSEED=0 python -m research.order10_current_indeterminates_v16.verify --o15
 PYTHONHASHSEED=0 python -m research.order10_current_indeterminates_v16.replay_v15 --public
 PYTHONHASHSEED=0 python -m research.order10_reference_lifts_pilot.replay_v14
-\`\`\`
+```
 
-The \`--f45\` and \`--o15\` modes require the pinned public
-\`pycliques-project\` dependency and NetworkX. The optional
-\`--o15-full\` mode repeats the exhaustive frozen v14 screening;
+The `--f45` and `--o15` modes require the pinned public
+`pycliques-project` dependency and NetworkX. The optional
+`--o15-full` mode repeats the exhaustive frozen v14 screening;
 the archived PR #65 CI separately completed that screen.
 
 The dedicated new CI workflow checks the promoted indices, sphere
