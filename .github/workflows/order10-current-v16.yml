@@ -11,6 +11,9 @@ on:
       - "indeterminate_order_10_v15.txt"
       - "indeterminate_order_10_v16.txt"
       - "research/order10_current_indeterminates_v16/**"
+      - "research/order10_current_indeterminates_v17/replay_v16.py"
+      - "indeterminate_order_9_v6.txt"
+      - "indeterminate_order_10_v17.txt"
       - "research/order9_f45_o9_v1/**"
       - "research/order9_260910_o15_v1/**"
       - "tests/test_current_root_index.py"
@@ -38,7 +41,7 @@ jobs:
             research/order10_current_indeterminates_v16/verify.py \
             research/order10_current_indeterminates_v16/replay_v15.py \
             research/order10_current_indeterminates_v16/replay_v14.py
-          python -m research.order10_current_indeterminates_v16.verify --surfaces
+          python -m research.order10_current_indeterminates_v17.replay_v16 --surfaces
           python -m unittest discover -s tests -p test_current_root_index.py -v
 
   f45-120:
@@ -66,7 +69,7 @@ jobs:
       - name: Replay O9 retraction and every F45 dependency witness
         env:
           PYTHONHASHSEED: "0"
-        run: python -m research.order10_current_indeterminates_v16.verify --f45
+        run: python -m research.order10_current_indeterminates_v17.replay_v16 --f45
 
   o15-80:
     name: Independently replay all 80 O15 proofs and full v14 screen
@@ -93,7 +96,7 @@ jobs:
       - name: Replay O15 retraction, all 80 positive witnesses, and exhaustive original v14 screen
         env:
           PYTHONHASHSEED: "0"
-        run: python -m research.order10_current_indeterminates_v16.verify --o15-full
+        run: python -m research.order10_current_indeterminates_v17.replay_v16 --o15-full
 
   historical-replays:
     name: Replay frozen v4/v14 and v15 proofs under new roots
@@ -117,10 +120,10 @@ jobs:
           done
           git -C /tmp/pycliques-project checkout --quiet 782deb653b8748e1b5759389cdd2134beac69351
           python -m pip install /tmp/pycliques-project/packages/pycliques
-      - name: Verify immutable v15 and v14 proofs read historical snapshots only
+      - name: Replay immutable v15/v14 and v16 proofs against frozen input snapshots
         env:
           PYTHONHASHSEED: "0"
         run: |
           python -m research.order10_current_indeterminates_v16.replay_v15 --public
           python -m research.order10_current_indeterminates_v16.replay_v14
-          python -m research.order10_current_indeterminates_v16.verify
+          python -m research.order10_current_indeterminates_v17.replay_v16
