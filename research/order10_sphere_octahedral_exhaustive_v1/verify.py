@@ -467,7 +467,7 @@ def main() -> None:
         brute_force_selftest()
     for index in ([args.case] if args.case else SOURCES):
         print(audit_one(index, public=args.public), flush=True)
-    print("PASS: all six sphere P3 octahedral-retraction searches EXHAUSTED")
+    print("PASS: all requested sphere P3 octahedral-retraction searches EXHAUSTED")
     if args.fourth:
         print(audit_fourth_10803453(public=args.public), flush=True)
         print("PASS: McKay 10803453 P4 octahedral-retraction search EXHAUSTED")
