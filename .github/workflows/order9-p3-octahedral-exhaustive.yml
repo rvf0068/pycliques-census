@@ -3,6 +3,7 @@ name: Exhaustive nine-v6 P3 octahedral-retraction audit
 on:
   pull_request:
     paths:
+      - "indeterminate_order_9_v6.txt"
       - "research/order9_p3_octahedral_exhaustive_v1/**"
       - ".github/workflows/order9-p3-octahedral-exhaustive.yml"
   workflow_dispatch:
