@@ -164,11 +164,54 @@ def audit_one(index: int, *, public: bool = False) -> dict[str, int]:
     g = source_p3(SOURCES[index]); n = len(g)
     if public:
         import pycliques
-        h = pycliques.completely_pared_graph(nx.from_graph6_bytes(SOURCES[index].encode()))
-        for _ in range(3):
-            h = pycliques.completely_pared_graph(pycliques.clique_graph(h))
-        if not nx.is_isomorphic(g, h):
-            raise AssertionError(f"Independent/public P3 mismatch: {index}")
+
+        # Compare the two implementations on exactly the SAME labeled input
+        # at each level. A final generic graph-isomorphism test can take an
+        # impractical amount of time on dense, highly symmetric P3 cores.
+        # Cliques have an explicit correspondence as sets of input vertices,
+        # so there is no need to search for an isomorphism.
+        def same_graph(a: nx.Graph, b: nx.Graph) -> bool:
+            return set(a) == set(b) and {
+                frozenset(edge) for edge in a.edges
+            } == {frozenset(edge) for edge in b.edges}
+
+        original = nx.from_graph6_bytes(SOURCES[index].encode("ascii"))
+        independent = completely_pared(original)
+        public_pared = pycliques.completely_pared_graph(original)
+        if not same_graph(independent, public_pared):
+            raise AssertionError(f"Independent/public P0 mismatch: {index}")
+
+        for level in range(1, 4):
+            # Independent maximal-clique indices agree with the ordering
+            # used by our independently built clique_graph().
+            cliques = list(nx.find_cliques(independent))
+            index_of_clique = {
+                frozenset(clique): i for i, clique in enumerate(cliques)
+            }
+            independent_raw = clique_graph(independent)
+            public_raw = pycliques.clique_graph(independent)
+            if public_raw is None or len(public_raw) != len(index_of_clique):
+                raise AssertionError(f"Public K{level} vertex mismatch: {index}")
+            if any(frozenset(clique) not in index_of_clique for clique in public_raw):
+                raise AssertionError(f"Public K{level} clique mismatch: {index}")
+            normalized_public_raw = nx.relabel_nodes(
+                public_raw,
+                {clique: index_of_clique[frozenset(clique)] for clique in public_raw},
+            )
+            if not same_graph(independent_raw, normalized_public_raw):
+                raise AssertionError(f"Independent/public K{level} mismatch: {index}")
+
+            independent_pared = completely_pared(independent_raw)
+            public_pared = pycliques.completely_pared_graph(normalized_public_raw)
+            if not same_graph(independent_pared, public_pared):
+                raise AssertionError(f"Independent/public P{level} mismatch: {index}")
+            independent = independent_pared
+
+        normalized_p3 = nx.convert_node_labels_to_integers(
+            independent, ordering="sorted"
+        )
+        if not same_graph(g, normalized_p3):
+            raise AssertionError(f"Public replay changed certified P3: {index}")
 
     nonedges = [(u, v) for u in g for v in g if u < v and not g.has_edge(u, v)]
     compatibility = nx.empty_graph(len(nonedges))
