@@ -1,4 +1,4 @@
-"""Replay the exact P4 -> O12 retraction for ten-vertex McKay 253650.
+"""Replay the exact P4 -> O12 retraction for nine-vertex McKay 253650.
 
 Independent of the coaffine discovery routine; NetworkX-only default replay.
 Optional --public cross-check uses the public pycliques functions at all levels
