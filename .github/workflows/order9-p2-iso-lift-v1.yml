@@ -54,7 +54,7 @@ jobs:
         env:
           PYTHONHASHSEED: "0"
         run: |
-          python -m research.order10_reference_lifts_pilot.replay_v14
+          python -m research.order10_current_indeterminates_v16.replay_v14
           python -m unittest discover -s tests -p test_current_root_index.py -v
       - uses: actions/upload-artifact@v4
         with:
