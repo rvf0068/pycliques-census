@@ -1,0 +1,46 @@
+name: Pilot ten-vertex lifts from new O15-divergent nine-core
+
+on:
+  push:
+    branches:
+      - research/260910-ten-lifts-pilot
+    paths:
+      - "research/order9_260910_o15_v1/lift_v14_screen.py"
+      - ".github/workflows/order9-260910-lifts-v14-pilot.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  positive-260910:
+    name: Original ten-vertex exact reference/retraction/P2 lifts (shard ${{ matrix.shard }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned public pycliques and NetworkX
+        run: |
+          python -m pip install networkx==3.6.1
+          git clone --quiet https://github.com/rvf0068/pycliques-project.git /tmp/pycliques-project
+          git -C /tmp/pycliques-project checkout --quiet 782deb653b8748e1b5759389cdd2134beac69351
+          python -m pip install /tmp/pycliques-project/packages/pycliques
+      - name: Verify O15 source and scan the original McKay index
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python research/order9_260910_o15_v1/lift_v14_screen.py \
+            --shards 8 --shard ${{ matrix.shard }} \
+            --output "${{ runner.temp }}/260910-lifts-${{ matrix.shard }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: 260910-lifts-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/260910-lifts-${{ matrix.shard }}.json
+          if-no-files-found: error

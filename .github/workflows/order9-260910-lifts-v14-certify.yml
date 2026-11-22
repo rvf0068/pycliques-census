@@ -1,0 +1,52 @@
+name: Independently certify 80 additional ten-vertex O15-reference lifts
+
+on:
+  pull_request:
+    paths:
+      - "research/order9_260910_o15_v1/**"
+      - ".github/workflows/order9-260910-lifts-v14-certify.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  complete-mappings:
+    name: Replay 80 saved reference/retraction/P2 maps independently
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned public pycliques
+        run: |
+          python -m pip install networkx==3.6.1
+          git clone --quiet https://github.com/rvf0068/pycliques-project.git /tmp/pycliques-project
+          git -C /tmp/pycliques-project checkout --quiet 782deb653b8748e1b5759389cdd2134beac69351
+          python -m pip install /tmp/pycliques-project/packages/pycliques
+      - name: Independently check all complete maps and O15 source
+        env:
+          PYTHONHASHSEED: "0"
+        run: python research/order9_260910_o15_v1/verify_lifts_v14.py
+
+  complete-census:
+    name: Repeat all original 2568 v14 cases with public pycliques
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned public pycliques
+        run: |
+          python -m pip install networkx==3.6.1
+          git clone --quiet https://github.com/rvf0068/pycliques-project.git /tmp/pycliques-project
+          git -C /tmp/pycliques-project checkout --quiet 782deb653b8748e1b5759389cdd2134beac69351
+          python -m pip install /tmp/pycliques-project/packages/pycliques
+      - name: Independently reconstruct positives and reproduce exact full census
+        env:
+          PYTHONHASHSEED: "0"
+        run: python research/order9_260910_o15_v1/verify_lifts_v14.py --full
