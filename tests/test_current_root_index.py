@@ -71,7 +71,6 @@ class CurrentOrder10IndexTests(unittest.TestCase):
             0,
         )
 
-
     def test_order_nine_v5_keeps_only_ten_unresolved_sources(self):
         self.assertEqual(CURRENT9.read_bytes(), V5_9.read_bytes())
         old = rows(V4_9)
@@ -80,7 +79,7 @@ class CurrentOrder10IndexTests(unittest.TestCase):
         old_ids = {int(row.split()[0]) for row in old}
         new_ids = {int(row.split()[0]) for row in new}
         self.assertEqual(old_ids - new_ids, {208409, 260910})
-        self.assertEqual(set(new).issubset(set(old)), True)
+        self.assertTrue(set(new).issubset(set(old)))
 
 
 if __name__ == "__main__":
