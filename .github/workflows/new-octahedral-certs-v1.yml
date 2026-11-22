@@ -1,4 +1,4 @@
-name: Certify new order-nine O12 and order-ten O4 retractions and 242 lifts
+name: Certify new order-nine O12 and order-ten O4 retractions and 313 consequences
 
 on:
   pull_request:
@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   networkx-certificates:
-    name: Independent NetworkX full-map replays and 242 exact v16 lifts
+    name: Independent NetworkX full-map replays and 313 exact v16 consequences
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -70,7 +70,7 @@ jobs:
           fi
 
   public-pycliques-certificates:
-    name: Independent public-pycliques iterative construction and 242 lift replay
+    name: Independent public-pycliques iterative construction and 313 consequence replay
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
