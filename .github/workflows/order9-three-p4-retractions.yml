@@ -31,10 +31,22 @@ jobs:
           python research/order9_three_p4_retractions_v1/verify.py
       - name: Reject optimized-Python proof bypass
         run: |
-          if python -O research/order9_three_p4_retractions_v1/verify.py; then
+          stdout_file=$(mktemp)
+          stderr_file=$(mktemp)
+          trap 'rm -f "$stdout_file" "$stderr_file"' EXIT
+          if python -O research/order9_three_p4_retractions_v1/verify.py >"$stdout_file" 2>"$stderr_file"; then
             echo 'ERROR: optimized verification unexpectedly passed'
             exit 1
+          else
+            status=$?
           fi
+          if [ "$status" -ne 1 ] || ! grep -Fxq 'RuntimeError: Optimized Python bypasses proof-critical assertions' "$stderr_file"; then
+            echo "ERROR: unexpected optimized verifier failure (exit status: $status)"
+            cat "$stdout_file"
+            cat "$stderr_file" >&2
+            exit 1
+          fi
+          echo 'PASS: optimized execution rejected for the expected reason'
 
   pinned-public-pycliques:
     name: Verify all three saved full projections with pinned public pycliques
