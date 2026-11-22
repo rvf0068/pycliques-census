@@ -1,4 +1,4 @@
-# Nine-vertex McKay 253650: P4 retracts onto O12; 242 exact v16 lifts
+# Nine-vertex McKay 253650: P4 retracts onto O12; 313 exact v16 lifts
 
 ## Original nine-vertex theorem
 
@@ -53,23 +53,53 @@ unconditional consequences of the known behavior-preservation
 theorem, not an inference from a conjectural reference.
 
 
-The 242 dependent ten-vertex records have `pared_order=9` in
-the immutable v16 index. They are therefore disjoint from the three
+## 71 further stiff-ten retractions
+
+The same immutable v16 census contains **955** originals with a
+completely pared ten-vertex core. For **71** of these, deleting one
+vertex leaves an induced copy of the nine-vertex McKay 253650 graph,
+and the removed vertex admits an image in that induced copy such that
+every source edge is preserved as an edge or collapsed to equality.
+Each is an **ordinary graph retraction**, not merely an induced
+subgraph. Their complete certificates are in
+`stiff_retractions_v16_certificate.json`.
+
+The verifier `verify_stiff_retractions_v16.py` independently screens
+**all 955** stiff v16 graphs; it checks all possible deleted
+vertices, uses exact NetworkX graph isomorphism on the nine-vertex
+induced targets, and tests all possible images of the deleted vertex.
+It finds exactly **71** retractions and **29** graphs which contain
+an induced source copy without admitting such a retraction. It
+independently verifies all 71 saved projection and induced-isomorphism
+maps against frozen original indices.
+
+The **242 nine-core isomorphism** proofs and the **71 stiff-ten
+retractions** concern disjoint original records and provide **313**
+new unconditional ten-vertex divergence proofs. Both proof families
+use the same certified P4(G) -> O12 source and behavior-preservation
+theorem.
+
+The 242 nine-core isomorphism records have `pared_order=9` in
+the immutable v16 index. The additional 71 retractions have `pared_order=10` and are
+independently checked to be disjoint from the three
+
 newly proved flag spheres, all of which have `pared_order=10`:
 10185592 (merged PR #67), 9804321 (open PR #68), and 10472553 (this PR).
-If the distinct 242 + 3 positives are all promoted, the ten-vertex
-unresolved count will change from 2,341 to **2,096**. This
+If the distinct 242 + 71 + 3 positives are all promoted, the ten-vertex
+unresolved count will change from 2,341 to **2,025**. This
 proof-only PR does not itself perform that promotion.
 
 ## Commands
 
     python research/order9_253650_o12_v1/verify.py
     python -m research.order9_253650_o12_v1.verify_lifts_v16
+    python -m research.order9_253650_o12_v1.verify_stiff_retractions_v16
 
 With public pycliques installed:
 
     python research/order9_253650_o12_v1/verify.py --public
     python -m research.order9_253650_o12_v1.verify_lifts_v16 --public
+    python -m research.order9_253650_o12_v1.verify_stiff_retractions_v16 --public
 
 All checks reject optimized Python, which would otherwise remove
 proof-critical assertions. The dedicated GitHub workflow checks
