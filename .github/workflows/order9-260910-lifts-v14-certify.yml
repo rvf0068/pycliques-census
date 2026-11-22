@@ -1,12 +1,9 @@
 name: Independently certify 80 additional ten-vertex O15-reference lifts
 
 on:
-  push:
-    branches:
-      - research/260910-ten-lifts-pilot
+  pull_request:
     paths:
-      - "research/order9_260910_o15_v1/lift_v14_certificate.json"
-      - "research/order9_260910_o15_v1/verify_lifts_v14.py"
+      - "research/order9_260910_o15_v1/**"
       - ".github/workflows/order9-260910-lifts-v14-certify.yml"
   workflow_dispatch:
 
