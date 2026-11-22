@@ -32,10 +32,11 @@ jobs:
         env:
           PYTHONHASHSEED: "0"
         run: |
-          python -m py_compile research/order9_253650_o12_v1/verify.py research/order9_253650_o12_v1/verify_lifts_v16.py research/order10_surface_10472553_o4_v1/verify.py
+          python -m py_compile research/order9_253650_o12_v1/verify.py research/order9_253650_o12_v1/verify_lifts_v16.py research/order9_253650_o12_v1/verify_stiff_retractions_v16.py research/order10_surface_10472553_o4_v1/verify.py
           python research/order9_253650_o12_v1/verify.py
           python research/order10_surface_10472553_o4_v1/verify.py
           python -m research.order9_253650_o12_v1.verify_lifts_v16
+          python -m research.order9_253650_o12_v1.verify_stiff_retractions_v16
       - name: Reject optimized execution of all proof verifiers
         run: |
           for script in research/order9_253650_o12_v1/verify.py research/order10_surface_10472553_o4_v1/verify.py; do
@@ -46,6 +47,10 @@ jobs:
           done
           if python -O -m research.order9_253650_o12_v1.verify_lifts_v16; then
             echo "Invalid optimized lift verification" >&2
+            exit 1
+          fi
+          if python -O -m research.order9_253650_o12_v1.verify_stiff_retractions_v16; then
+            echo "Invalid optimized stiff retraction verification" >&2
             exit 1
           fi
       - name: Pin immutable frozen v5/v16 census and enforce proof-only roots
@@ -93,3 +98,4 @@ jobs:
           python research/order9_253650_o12_v1/verify.py --public
           python research/order10_surface_10472553_o4_v1/verify.py --public
           python -m research.order9_253650_o12_v1.verify_lifts_v16 --public
+          python -m research.order9_253650_o12_v1.verify_stiff_retractions_v16 --public
