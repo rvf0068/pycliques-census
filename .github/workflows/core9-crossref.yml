@@ -39,8 +39,8 @@ jobs:
           .venv-v3/bin/python scripts/core9_crossref.py build --output reports/ci-core9-crossref
           .venv-v3/bin/python scripts/core9_crossref.py verify --output reports/ci-core9-crossref
           cat reports/ci-core9-crossref/summary.md
-      - name: Restore authoritative nine-vertex v4 working index
-        run: cp indeterminate_order_9_v4.txt indeterminate_order_9.txt
+      - name: Restore authoritative nine-vertex v5 working index
+        run: cp indeterminate_order_9_v5.txt indeterminate_order_9.txt
       - name: Restore authoritative v14 order-ten working root
         run: cp indeterminate_order_10_v14.txt indeterminate_order_10.txt
       - name: Assert historical files remain unchanged
