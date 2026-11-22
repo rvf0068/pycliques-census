@@ -79,9 +79,12 @@ source graph6 from immutable nine-v6, complement domination, and all
 fixed-target CSPs. Its standalone self-test compares 250 randomized
 `O3`-plus-at-most-three-vertex examples against a brute-force retraction
 oracle (including both positive and negative cases). Optional `--public`
-independently reconstructs each `P3` through pinned public `pycliques` and
-checks graph isomorphism. All records are derived, not hardcoded projection
-maps. `python -O` is rejected.
+cross-checks each independently constructed clique graph and each paring
+step against pinned public `pycliques`, after explicitly matching the
+maximal-clique vertex sets. Exact labeled vertex and edge equality at every
+stage replaces the generic final NetworkX isomorphism search, which can be
+extremely slow for the dense symmetric P3 of McKay 260040. All records are
+derived, not hardcoded projection maps. `python -O` is rejected.
 
 ```sh
 python -m pip install networkx==3.6.1
