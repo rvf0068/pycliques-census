@@ -200,8 +200,28 @@ def verify(
                 graph = pycliques.clique_graph(graph)
                 check(graph is not None, f"Public pycliques K undefined: {i}")
                 graph = pycliques.completely_pared_graph(graph)
-            check(nx.is_isomorphic(graph, candidate),
+            # Both graphs can be extremely dense and highly symmetric.
+            # Ordinary GraphMatcher on the dense graphs can take many
+            # minutes even when they are isomorphic. The complements
+            # are sparse; compare those and verify the entire original
+            # adjacency matrix independently of the matcher.
+            matcher = nx.algorithms.isomorphism.GraphMatcher(
+                nx.complement(graph), nx.complement(candidate)
+            )
+            check(matcher.is_isomorphic(),
                   f"Public pycliques and independent P2 disagree: {i}")
+            bijection = matcher.mapping
+            check(
+                set(bijection) == set(graph)
+                and set(bijection.values()) == set(candidate)
+                and all(
+                    graph.has_edge(u, v)
+                    == candidate.has_edge(bijection[u], bijection[v])
+                    for u in graph for v in graph
+                ),
+                f"Public P2 mapping does not preserve all edges/nonedges: {i}",
+            )
+            print(f"PUBLIC_P2_POSITIVE_CHECKED {i}", flush=True)
 
     if full:
         from research.order10_reference_lifts_pilot import screen
