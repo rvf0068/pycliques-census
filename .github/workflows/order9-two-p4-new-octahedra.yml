@@ -1,0 +1,97 @@
+name: Certify two new nine-v8 P4 octahedral retractions and 220 ten-v19 lifts
+
+on:
+  pull_request:
+    paths:
+      - "indeterminate_order_9_v8.txt"
+      - "indeterminate_order_10_v19.txt"
+      - "research/order9_two_p4_retractions_v1/**"
+      - "research/order9_251759_p4_o15_v1/**"
+      - "research/order9_254369_p4_o13_v1/**"
+      - ".github/workflows/order9-two-p4-new-octahedra.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independent-complete-positive:
+    name: Reconstruct both full P4 hosts, all 797 projection images and 220 exact ten-lifts
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Replay two exact ordinary retractions and all original-index lifts
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python -m py_compile research/order9_two_p4_retractions_v1/verify.py research/order9_two_p4_retractions_v1/discover.py
+          python -m research.order9_two_p4_retractions_v1.verify
+      - name: Reject unrelated optimized proof-verifier failure
+        run: |
+          stdout_file=$(mktemp)
+          stderr_file=$(mktemp)
+          trap 'rm -f "$stdout_file" "$stderr_file"' EXIT
+          if python -O -m research.order9_two_p4_retractions_v1.verify >"$stdout_file" 2>"$stderr_file"; then
+            echo "ERROR: optimized verifier unexpectedly returned success"
+            exit 1
+          else
+            status=$?
+          fi
+          if [ "$status" -ne 1 ] || ! grep -Fxq 'RuntimeError: Optimized Python bypasses proof-critical assertions' "$stderr_file"; then
+            echo "ERROR: unexpected optimized verifier failure ($status)"
+            cat "$stdout_file"
+            cat "$stderr_file" >&2
+            exit 1
+          fi
+
+  public-pycliques-positive:
+    name: Pinned public pycliques replay for both 797-image O15 and O13 projections
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/checkout@v4
+        with:
+          repository: rvf0068/pycliques-project
+          ref: d140bd3a666ca6abf77e5823740ecef85e75a842
+          path: pycliques-dependency
+          persist-credentials: false
+      - run: |
+          python -m pip install networkx==3.6.1
+          python -m pip install ./pycliques-dependency/packages/pycliques
+      - name: Compare each K/parings stage and replay both complete ordinary projections
+        env:
+          PYTHONHASHSEED: "0"
+        run: python -m research.order9_two_p4_retractions_v1.verify --public
+
+  unseeded-native-rediscovery:
+    name: Independently rediscover O15 and O13 from original graph6 with random seeds 73 and 19
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/checkout@v4
+        with:
+          repository: rvf0068/pycliques-project
+          ref: d140bd3a666ca6abf77e5823740ecef85e75a842
+          path: pycliques-dependency
+          persist-credentials: false
+      - run: |
+          python -m pip install networkx==3.6.1
+          python -m pip install ./pycliques-dependency/packages/pycliques
+          c++ --version
+      - name: No saved target, full positive native solver rediscovery and verification
+        env:
+          PYTHONHASHSEED: "0"
+        run: python -m research.order9_two_p4_retractions_v1.discover
