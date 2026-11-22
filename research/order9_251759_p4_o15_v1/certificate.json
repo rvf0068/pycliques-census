@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "original_mckay": 251759,
+  "original_graph6": "HEhvtzm",
+  "pared_depth": 4,
+  "iterate_orders": [
+    9,
+    13,
+    21,
+    43,
+    403
+  ],
+  "iterate_edges": [
+    24,
+    54,
+    0,
+    701,
+    70679
+  ],
+  "p4_normalized_edge_sha256": "577c3026d1dbb08eab41ec971d03418b3e3201032ca312b7686ea02a2ba4b6f5",
+  "p4_order": 403,
+  "p4_edges": 70679,
+  "target_dimension": 15,
+  "antipodal_pairs": [
+    [
+      125,
+      325
+    ],
+    [
+      277,
+      181
+    ],
+    [
+      301,
+      232
+    ],
+    [
+      207,
+      389
+    ],
+    [
+      36,
+      246
+    ],
+    [
+      8,
+      323
+    ],
+    [
+      227,
+      49
+    ],
+    [
+      165,
+      136
+    ],
+    [
+      27,
+      320
+    ],
+    [
+      26,
+      236
+    ],
+    [
+      255,
+      109
+    ],
+    [
+      239,
+      94
+    ],
+    [
+      171,
+      61
+    ],
+    [
+      108,
+      276
+    ],
+    [
+      216,
+      23
+    ]
+  ],
+  "target_order": [
+    8,
+    23,
+    26,
+    27,
+    36,
+    49,
+    61,
+    94,
+    108,
+    109,
+    125,
+    136,
+    165,
+    171,
+    181,
+    207,
+    216,
+    227,
+    232,
+    236,
+    239,
+    246,
+    255,
+    276,
+    277,
+    301,
+    320,
+    323,
+    325,
+    389
+  ],
+  "projection_encoding": "uint8_target_ordinal_per_sorted_normalized_p4_host_label",
+  "projection_images_b64": "CQkdGAkJCR0AHR0dHR0dGAMCHR0dHR0BHR0CAxgKAwMKAwkdBAQdHR0dBAQJBB0dHQULCwsdHQsdHR0dCwYLBAsGBgsLCx0dBAsLBgkdBAsLCwsLCwsLBAsLBAkJCQcHBwsAEgsLCwsLCwsSCAkKCQkCCB0dHR0dHR0dCQoKCgkJCQkJCQkJCwsLCwsLCwsLCwsDCQkDAwMDEQ0DDQ0NCQ0JDQ0NDBENDQ0NDQ0NFxERBAQEBA4EBAQEBAQEBAQEBAQSChIRCgobGxEKGw0RDxsNDQ0QEQ0QEBMTExMTExMTDRERDQ0bERIKEhMTExMUFBQDAwMDFQMDAwMKAxsNFhgNGA0YGA0YGBcbEQ0NDQ0NGxsbFxgYGBcXAxEDFxcXFwMDAwMDAwMbGxkbGxkbBBsbGxgYGwQEBBgYGBgYGBgaGBgbBBwZBBEZGA0YGBgYGA0YGBgXFxsbERsbEREYExgTGBgYGBgYFRgYGAMXAwMXAwMbAwMKGxsbAxkbGBgbBAQEBB0dBAQEBBsdGxsdHR0aGw==",
+  "discovery": {
+    "algorithm": "public_pylique_coaffine_native_cpp17",
+    "ordering": "Python random.Random(73) uniform random keys, ascending; seed-73 on normalized P4 vertices 0..402",
+    "seed": 73,
+    "min_dimension": 5,
+    "max_states": 8000,
+    "time_limit_seconds": 30,
+    "observed_states": 431,
+    "observed_arc_revisions_local_edge_order": 122619,
+    "observed_assignments": 582,
+    "note": "Search controls are not part of proof; independently verify full 403-image map."
+  }
+}
