@@ -185,7 +185,7 @@ python -m research.order10_current_indeterminates_v16.verify --surfaces
 PYTHONHASHSEED=0 python -m research.order10_current_indeterminates_v16.verify --f45
 PYTHONHASHSEED=0 python -m research.order10_current_indeterminates_v16.verify --o15
 PYTHONHASHSEED=0 python -m research.order10_current_indeterminates_v16.replay_v15 --public
-PYTHONHASHSEED=0 python -m research.order10_reference_lifts_pilot.replay_v14
+PYTHONHASHSEED=0 python -m research.order10_current_indeterminates_v16.replay_v14
 ```
 
 The `--f45` and `--o15` modes require the pinned public
