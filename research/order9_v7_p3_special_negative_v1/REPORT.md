@@ -24,7 +24,7 @@ host**. This is exactly the definition checked by public
 | 251902 | HEhvvzm | 41 | 641 | 492 | 5 | 0 |
 | 254369 | HEjfvx} | 40 | 626 | 402 | 23 | 0 |
 | 260040 | HQyvex} | 58 | 1,289 | 1,245 | 2 | 0 |
-| **Total** | | | | **4,372** | **36** | **0** |
+| **Total** | | | | **4,372** | **38** | **0** |
 
 The standalone, pure-NetworkX verifier independently reconstructs all
 three pared clique iterates from each original graph6 string. It
