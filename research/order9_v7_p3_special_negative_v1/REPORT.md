@@ -61,6 +61,68 @@ The optional `--public` mode independently runs the existing
 `pycliques.find_special_octahedron_witness` exact procedure on all six
 constructed third iterates and requires no witness.
 
+## Second theorem: no P3 retraction onto the snub disphenoid
+
+Let \(S\) be the snub disphenoid graph with graph6 `GQyuzw`.
+Its K-divergence was established previously by the independently
+certified \(P_4(S)\to O_{24}\) retraction. A different exact
+obstruction now applies to all six current nine-vertex cores.
+
+**Theorem (finite exhaustive certificate).** None of their
+\(P_3(G)\) graphs admits an ordinary graph retraction onto an induced
+copy of \(S\).
+
+| Original McKay | Distinct induced snub targets | Complete injective induced embeddings | Locally obstructed targets |
+|---:|---:|---:|---:|
+| 249576 | 13,902 | 111,216 | 13,902 |
+| 251628 | 26,406 | 211,248 | 26,406 |
+| 251759 | 1,864 | 14,912 | 1,864 |
+| 251902 | 300 | 2,400 | 300 |
+| 254369 | 172 | 1,376 | 172 |
+| 260040 | 42,503 | 340,024 | 42,503 |
+| **Total** | **85,147** | **681,176** | **85,147** |
+
+The complete enumerator in `snub.py` uses exact bitset adjacency
+constraints to enumerate **every injective induced embedding** of
+\(S\) into each 40–58-vertex \(P_3(G)\). Each of the eight snub
+pattern vertices is assigned to a distinct host vertex, and every
+edge **and nonedge** with previously assigned pattern vertices must
+be preserved. Complete embeddings are deduplicated by their exact
+8-vertex target set; all eight isomorphisms of \(S\) onto a given
+induced target are enumerated. No randomness or search limits appear.
+
+### Elementary retraction obstruction
+
+Suppose \(r:X\to T\) is an ordinary retraction fixing an induced
+target \(T\cong S\). For every vertex \(v\notin T\), and every
+\(w\in N_X(v)\cap T\), edge preservation (allowing equal images)
+requires \(r(v)\in N_T[w]\). Therefore
+
+\[
+r(v)\in \bigcap_{w\in N_X(v)\cap T}N_T[w].
+\]
+
+For **every** one of the 85,147 induced snub targets, the independent
+verifier identifies at least one outside vertex \(v\) for which this
+intersection is empty. That is already enough to rule out a retraction;
+no global CSP solver or additional heuristic assumption is needed.
+A target that passed this necessary condition would not have been
+misreported as negative: the script counts such targets separately
+and requires exactly zero.
+
+The same counts were computed independently with a separate C++17
+bitset enumerator. For the three smallest \(P_3\) hosts (McKay
+251759, 251902 and 254369), NetworkX VF2's complete induced
+subgraph-isomorphism enumeration separately reproduces precisely
+1,864, 300 and 172 distinct target vertex sets. This independent
+NetworkX cross-check is included as an optional proof replay and is
+exercised in CI.
+
+Positive sanity checks use the snub graph itself, where its identity
+is a retraction and the obstruction **must not** fire, and the cone
+over the snub, where the original snub remains an induced target but
+the outside universal apex has no possible image in \(S\).
+
 ## Mathematical scope
 
 PR #71 already excluded ordinary graph retractions from \(P_3(G)\)
