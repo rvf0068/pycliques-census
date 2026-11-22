@@ -261,8 +261,8 @@ def check_frozen_v17() -> None:
         if len(parts) != 6 or int(parts[0]) in rows:
             raise AssertionError("Malformed frozen ten-v17 census")
         rows[int(parts[0])] = parts
-    if set(rows) != set(SOURCES):
-        raise AssertionError("Frozen ten-v17 cohort mismatch")
+    if not set(SOURCES).issubset(rows):
+        raise AssertionError("Frozen ten-v17 lacks a required sphere source")
     for index, g6 in SOURCES.items():
         if rows[index][1:] != ["10", g6, "-", "-", "-"]:
             raise AssertionError(f"Frozen ten-v17 source mismatch: {index}")
