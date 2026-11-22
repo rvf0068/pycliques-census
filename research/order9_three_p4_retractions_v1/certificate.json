@@ -1,0 +1,228 @@
+{
+  "schema": 1,
+  "target_image_encoding": "uint8_sorted_target_ordinal_per_sorted_host_label",
+  "cases": [
+    {
+      "mckay_index": 249436,
+      "source_graph6": "HEhff^{",
+      "pared_depth": 4,
+      "orders": [
+        9,
+        15,
+        23,
+        52,
+        353
+      ],
+      "edges": [
+        22,
+        69,
+        165,
+        963,
+        49491
+      ],
+      "p4_edge_sha256": "ccf5a1b093148e598bbb66f6e3d94fbcb7e8738fce2bb928a48121076d9ab1c8",
+      "antipodal_pairs": [
+        [
+          166,
+          95
+        ],
+        [
+          35,
+          355
+        ],
+        [
+          399,
+          36
+        ],
+        [
+          80,
+          188
+        ],
+        [
+          141,
+          106
+        ],
+        [
+          394,
+          199
+        ],
+        [
+          354,
+          243
+        ],
+        [
+          412,
+          17
+        ],
+        [
+          384,
+          58
+        ],
+        [
+          223,
+          303
+        ]
+      ],
+      "images_b64": "BQAFBQUFBQUFBQUFBQAABQUFBQUFBQUFBQUFBQUFBQECAgIMAgICAgICAgICAgICAgIMDAICAwICAgICAgICDAUFBQUFBQUFBQUFBAQFCwUREQUFBQUCBQUFBQUFBgYGBgYFBgUFBQUFBQUFBQICCwICAgsCAgcHEREREQICCwsHBwcHEREREQIHEQkJCQkJCQkJCQkJEwgJCQkPAgICAgICAgICCQkJCQkJAgICCgICAgoCAgoCAgICAgICAgICAhMLExMPEw8TEwcHDQICAgICAgwLBwcHBwcHCw0HDQ0HBwcNBwcHBwcJCQkJCQkJCQkJCQkJBQUFBQUFDQ0FDQUFCQkJBQUFBQUFCQ8JCQkJCQkJCQkJCQkJEw8ODwkJCQkJCQkJDg8JEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEREREQ8SDw8PDg8PExMTBQkJCQkFCQkJCQkJCQU=",
+      "native_ordering": "degree_ascending",
+      "native_states": 215,
+      "ten_core_dependents": 141
+    },
+    {
+      "mckay_index": 249574,
+      "source_graph6": "HEhfvx}",
+      "pared_depth": 4,
+      "orders": [
+        9,
+        12,
+        17,
+        36,
+        306
+      ],
+      "edges": [
+        23,
+        44,
+        97,
+        496,
+        40622
+      ],
+      "p4_edge_sha256": "0b3e0851835e60414321d42c46986e6373f65508a25fd380254e74c4dc21a758",
+      "antipodal_pairs": [
+        [
+          75,
+          220
+        ],
+        [
+          138,
+          205
+        ],
+        [
+          2,
+          190
+        ],
+        [
+          175,
+          152
+        ],
+        [
+          236,
+          37
+        ],
+        [
+          141,
+          216
+        ],
+        [
+          261,
+          109
+        ],
+        [
+          277,
+          14
+        ],
+        [
+          315,
+          84
+        ],
+        [
+          283,
+          25
+        ],
+        [
+          61,
+          319
+        ],
+        [
+          51,
+          309
+        ]
+      ],
+      "images_b64": "AwMAAQEBAwMDAxYJFhYBDwMDAwMDAwMPDwICAgIEAgIDAwMSCQMDAwMDAwMDAwMDAwMDBAkPAgIPAg8CBAUGAQ8PDwEBDwELCwYGDw0PDQ8PDQcPDw0NDQYNDQ0PDQ8NCA8NBwgPDw8IDwYIBgENCwMXCwMDFxcNDQ0NEhITExISEhISCQsLCgsLDQsNDQsLCwsLCwMXCwsDAxcLCwYLCwYGBgEGBgwGBgYGDQ4NDQ4NDg4NDQ4NDRMTEg4LCwsLDg4ODg4LCwsLCwsPDwsLEAsLEBcXFxcXFxcXFhYNDREODg4ODQ4OCw4LDg0NEQ4ODg4NDgsODRITDRcWFxYWCxcXFxcWFhcTFxcXFxcUFhYNFxcXFxYUFBYUDRQWDQ0NFBQWFRUVFQsXFxcXFhYLFxAX",
+      "native_ordering": "degree_ascending",
+      "native_states": 176,
+      "ten_core_dependents": 82
+    },
+    {
+      "mckay_index": 250814,
+      "source_graph6": "HEhuvzm",
+      "pared_depth": 4,
+      "orders": [
+        9,
+        12,
+        18,
+        38,
+        222
+      ],
+      "edges": [
+        23,
+        43,
+        110,
+        533,
+        21487
+      ],
+      "p4_edge_sha256": "7afd4f6ded3f26a778e01c506aa35648aa94b91372d1ea0f483313c2137836be",
+      "antipodal_pairs": [
+        [
+          179,
+          222
+        ],
+        [
+          83,
+          226
+        ],
+        [
+          160,
+          227
+        ],
+        [
+          81,
+          245
+        ],
+        [
+          74,
+          147
+        ],
+        [
+          239,
+          96
+        ],
+        [
+          263,
+          86
+        ],
+        [
+          75,
+          100
+        ],
+        [
+          140,
+          52
+        ],
+        [
+          148,
+          218
+        ],
+        [
+          60,
+          77
+        ],
+        [
+          176,
+          234
+        ],
+        [
+          85,
+          256
+        ],
+        [
+          43,
+          190
+        ]
+      ],
+      "images_b64": "FRUJCRUJFAYDCQkJCRQUFRUVFQQEGBoaBAQaGgICAgICAgICAAICBAIBFBQUAQEAAAICAhcBARQBAQEEBBQDBAoFCgoGBgcGCAkJCQkJCQkJCQoKDQ8NCwsKChISEhISEg0SEg0NEg0SEhISEhIMEhIODg0NEg0MDQ0NDQ4ODQ4PDQ8PDQoPBg8KCgoPDw8PCgoKEBAJCREJCQkPDw8PEg0PDwoKCgoKCgYGBgsTDxoCAgICAhQbFBMUFRQVFgQVFRQEBBcCGgICGAQXGhoCGRoaAhoCGhcaGhUaGxUE",
+      "native_ordering": "degree_descending",
+      "native_states": 266,
+      "ten_core_dependents": 121
+    }
+  ]
+}

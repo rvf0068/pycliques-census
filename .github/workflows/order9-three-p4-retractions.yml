@@ -1,0 +1,96 @@
+name: Three nine-core P4 octahedral retractions and 344 ten-core lifts
+
+on:
+  pull_request:
+    paths:
+      - "indeterminate_order_9_v6.txt"
+      - "indeterminate_order_10_v17.txt"
+      - "research/order9_three_p4_retractions_v1/**"
+      - ".github/workflows/order9-three-p4-retractions.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independent-projections-and-lifts:
+    name: Reconstruct three P4 graphs, verify full projections, and all 344 lifts
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Independent NetworkX proof and frozen census identity
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python -m py_compile research/order9_three_p4_retractions_v1/verify.py
+          python research/order9_three_p4_retractions_v1/verify.py
+      - name: Reject optimized-Python proof bypass
+        run: |
+          stdout_file=$(mktemp)
+          stderr_file=$(mktemp)
+          trap 'rm -f "$stdout_file" "$stderr_file"' EXIT
+          if python -O research/order9_three_p4_retractions_v1/verify.py >"$stdout_file" 2>"$stderr_file"; then
+            echo 'ERROR: optimized verification unexpectedly passed'
+            exit 1
+          else
+            status=$?
+          fi
+          if [ "$status" -ne 1 ] || ! grep -Fxq 'RuntimeError: Optimized Python bypasses proof-critical assertions' "$stderr_file"; then
+            echo "ERROR: unexpected optimized verifier failure (exit status: $status)"
+            cat "$stdout_file"
+            cat "$stderr_file" >&2
+            exit 1
+          fi
+          echo 'PASS: optimized execution rejected for the expected reason'
+
+  pinned-public-pycliques:
+    name: Verify all three saved full projections with pinned public pycliques
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/checkout@v4
+        with:
+          repository: rvf0068/pycliques-project
+          ref: d140bd3a666ca6abf77e5823740ecef85e75a842
+          path: pycliques-dependency
+          persist-credentials: false
+      - run: |
+          python -m pip install networkx==3.6.1
+          python -m pip install ./pycliques-dependency/packages/pycliques
+      - name: Revalidate saved projections and all 344 ten-core lifts
+        env:
+          PYTHONHASHSEED: "0"
+        run: python research/order9_three_p4_retractions_v1/verify.py --public
+
+  pinned-unseeded-native-discovery:
+    name: Rediscover all three O10/O12/O14 retractions from scratch with PR36 native engine
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/checkout@v4
+        with:
+          repository: rvf0068/pycliques-project
+          ref: d140bd3a666ca6abf77e5823740ecef85e75a842
+          path: pycliques-dependency
+          persist-credentials: false
+      - run: |
+          python -m pip install networkx==3.6.1
+          python -m pip install ./pycliques-dependency/packages/pycliques
+          c++ --version
+      - name: Independently discover three positive octahedral projections
+        env:
+          PYTHONHASHSEED: "0"
+        run: python research/order9_three_p4_retractions_v1/discover.py
