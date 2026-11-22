@@ -130,21 +130,41 @@ def verify_ten_lifts() -> None:
     """Independently find all remaining ten-v18 pared-nine source copies."""
     source = nx.from_graph6_bytes(SOURCE.encode("ascii"))
     frozen = ROOT / "indeterminate_order_10_v18.txt"
+    raw = frozen.read_bytes()
+    blob_sha = hashlib.sha1(
+        b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw
+    ).hexdigest()
+    assert blob_sha == (
+        "9dba1f3359d6e90fbda1026d672173fa2461b460"
+    ), "Immutable ten-v18 original census has been modified"
     lines = [
-        line for line in frozen.read_text(encoding="ascii").splitlines()
+        line for line in raw.decode("ascii").splitlines()
         if line and not line.startswith("#")
     ]
     assert len(lines) == 1681
     hits = []
+    seen: set[int] = set()
+    previous_index = -1
     nine_core_count = 0
+    stiff_count = 0
     for line in lines:
-        index, pared_order, g6, *cert = line.split()
+        fields = line.split()
+        assert len(fields) == 6, f"Malformed ten-v18 source row: {line}"
+        source_index, pared_order, g6, *cert = fields
+        index = int(source_index)
+        assert index not in seen and index > previous_index, (
+            "Ten-v18 has duplicate or unordered original McKay indices"
+        )
+        seen.add(index)
+        previous_index = index
         assert cert == ["-", "-", "-"], "Conditional ten-v18 record"
-        if pared_order != "9":
-            assert pared_order == "10"
+        assert pared_order in {"9", "10"}
+        if pared_order == "10":
+            stiff_count += 1
             continue
         nine_core_count += 1
         core = nx.from_graph6_bytes(g6.encode("ascii"))
+        assert len(core) == 9, f"Wrong pared-nine graph6 for {index}"
         matcher = nx.algorithms.isomorphism.GraphMatcher(source, core)
         if not matcher.is_isomorphic():
             continue
@@ -155,9 +175,10 @@ def verify_ten_lifts() -> None:
             source.has_edge(a, b) == core.has_edge(mapping[a], mapping[b])
             for a in source for b in source
         ), f"Wrong ten-vertex core isomorphism at {index}"
-        hits.append(int(index))
+        hits.append(index)
 
-    assert nine_core_count == 800
+    assert nine_core_count == 800 and stiff_count == 881
+    assert len(seen) == 1681
     assert len(hits) == len(set(hits)) == 150
     print(
         "PROVED_150_TEN_ORIGINAL_DEPENDENTS "
