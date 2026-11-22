@@ -21,6 +21,12 @@ jobs:
           python-version: "3.13"
       - name: Install pinned NetworkX
         run: python -m pip install networkx==3.6.1
+      - name: Restore frozen nine-v4 input for historical 260910 proof replay
+        run: |
+          # The current v5 list legitimately excludes proved-divergent 260910.
+          # Historical topology verifier must read the unchanged v4 source.
+          test "$(git hash-object indeterminate_order_9_v4.txt)" = "9055247c5778091c07717fde17c68ee207764621"
+          cp indeterminate_order_9_v4.txt indeterminate_order_9.txt
       - name: Independently replay finite topology certificates and adversarial checks
         run: python research/order9_260910_connectivity_v1/verify.py --self-test
       - name: Protect existing census, proofs, and prior research archives
