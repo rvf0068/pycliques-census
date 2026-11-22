@@ -13,13 +13,17 @@ from research.order9_p2_iso_lift_v1 import verify as historical
 
 ROOT = Path(__file__).resolve().parents[2]
 CURRENT10 = (ROOT / "indeterminate_order_10.txt").resolve()
+CURRENT9 = (ROOT / "indeterminate_order_9.txt").resolve()
 FROZEN14 = ROOT / "indeterminate_order_10_v14.txt"
+FROZEN9V4 = ROOT / "indeterminate_order_9_v4.txt"
 ORIGINAL = Path.read_bytes
 
 
 def read_historical(path: Path) -> bytes:
     if path.resolve() == CURRENT10:
         return ORIGINAL(FROZEN14)
+    if path.resolve() == CURRENT9:
+        return ORIGINAL(FROZEN9V4)
     return ORIGINAL(path)
 
 
