@@ -41,14 +41,14 @@ jobs:
           .venv-v3/bin/python scripts/core9_crossref.py build --output reports/ci-core9-crossref
           .venv-v3/bin/python scripts/core9_crossref.py verify --output reports/ci-core9-crossref
           cat reports/ci-core9-crossref/summary.md
-      - name: Restore current nine-vertex v7 working index
-        run: cp indeterminate_order_9_v7.txt indeterminate_order_9.txt
-      - name: Restore current ten-vertex v18 working root
-        run: cp indeterminate_order_10_v18.txt indeterminate_order_10.txt
+      - name: Restore current nine-vertex v8 working index
+        run: cp indeterminate_order_9_v8.txt indeterminate_order_9.txt
+      - name: Restore current ten-vertex v19 working root
+        run: cp indeterminate_order_10_v19.txt indeterminate_order_10.txt
       - name: Assert historical files remain unchanged
         run: |
-          cmp indeterminate_order_9.txt indeterminate_order_9_v7.txt
-          cmp indeterminate_order_10.txt indeterminate_order_10_v18.txt
+          cmp indeterminate_order_9.txt indeterminate_order_9_v8.txt
+          cmp indeterminate_order_10.txt indeterminate_order_10_v19.txt
           git diff --exit-code -- runs/order9/ runs/order10/ indeterminate_order_9.txt indeterminate_order_10.txt indeterminate_order_10_v3.txt reports/order10_core_index_v1/
       - uses: actions/upload-artifact@v4
         with:
