@@ -26,6 +26,13 @@ jobs:
         run: |
           python -m py_compile research/order10_surface_10185592_o6_v1/verify.py
           python research/order10_surface_10185592_o6_v1/verify.py
+      - name: Prohibit optimized Python bypass of proof assertions
+        run: |
+          if python -O research/order10_surface_10185592_o6_v1/verify.py; then
+            echo "ERROR: verifier accepted -O with checks disabled" >&2
+            exit 1
+          fi
+          echo "Verifier correctly rejects optimized execution"
 
   public-pycliques:
     runs-on: ubuntu-latest
