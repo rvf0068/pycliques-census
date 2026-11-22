@@ -56,7 +56,7 @@ class CurrentOrder10IndexTests(unittest.TestCase):
         self.assertEqual(len(rows(V18)) - len(new), 150)
         self.assertTrue(set(new).issubset(set(rows(V18))))
         self.assertEqual(len(rows(V17)), 2025)
-        self.assertEqual(len(rows(V17)) - len(new), 344)
+        self.assertEqual(len(rows(V17)) - len(rows(V18)), 344)
         self.assertTrue(set(new).issubset(set(rows(V17))))
         self.assertEqual(len(old), len(set(old)))
         self.assertEqual(len(new), len(set(new)))
