@@ -1,0 +1,1229 @@
+{
+  "schema": 1,
+  "source_order9": "indeterminate_order_9_v4.txt",
+  "source_order9_blob": "9055247c5778091c07717fde17c68ee207764621",
+  "source_order10": "indeterminate_order_10_v15.txt",
+  "source_order10_blob": "4d174e1ffa8d39492ae90c44d67afdf67ec2022e",
+  "reference_graph6": {
+    "F45": "HCZTf\\}",
+    "MCKAY_260910": "HUZvvzu"
+  },
+  "removed_order9": [
+    {
+      "index": 208409,
+      "graph6": "HCZTf\\}",
+      "method": "P4_to_O9"
+    },
+    {
+      "index": 260910,
+      "graph6": "HUZvvzu",
+      "method": "P3_to_O15"
+    }
+  ],
+  "removed_order10_f45": [
+    {
+      "index": 3663513,
+      "original_record": "3663513 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 3663865,
+      "original_record": "3663865 10 I?`eTRv^o retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 3683133,
+      "original_record": "3683133 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 3683777,
+      "original_record": "3683777 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 3714471,
+      "original_record": "3714471 9 HCZVZyr reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 4055082,
+      "original_record": "4055082 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 4152762,
+      "original_record": "4152762 10 I?`fJZZmo retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 4246556,
+      "original_record": "4246556 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 4360069,
+      "original_record": "4360069 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 5509177,
+      "original_record": "5509177 9 HCurF\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 5509181,
+      "original_record": "5509181 9 HCurF\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 5509664,
+      "original_record": "5509664 9 HCurF\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 5805040,
+      "original_record": "5805040 10 I?bbRnMn_ retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 5805274,
+      "original_record": "5805274 10 I?bbRn]n_ retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 6208376,
+      "original_record": "6208376 9 HCZVZyr reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 6239927,
+      "original_record": "6239927 9 HCZTb~m reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 6241410,
+      "original_record": "6241410 9 HCZTb~m reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 6242627,
+      "original_record": "6242627 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 6499362,
+      "original_record": "6499362 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 6499368,
+      "original_record": "6499368 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 6564247,
+      "original_record": "6564247 10 I?o~Eu}^_ retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 6918604,
+      "original_record": "6918604 10 I?qbErf~_ retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 6918839,
+      "original_record": "6918839 9 HEhefzm reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 6918847,
+      "original_record": "6918847 9 HEhefzm reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 6919307,
+      "original_record": "6919307 10 I?qbEr}|o retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 6994051,
+      "original_record": "6994051 9 HEhbNzy reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 6994058,
+      "original_record": "6994058 9 HEhbNzy reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 6994400,
+      "original_record": "6994400 10 I?qbbf}~O retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 7003784,
+      "original_record": "7003784 10 I?qbcxnz_ retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 7003792,
+      "original_record": "7003792 10 I?qbcxn~_ non_triangle_edge conjectured_divergent HCZTf\\}",
+      "method": "non_triangle_edge",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 7005607,
+      "original_record": "7005607 9 HEhcvx} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 7027054,
+      "original_record": "7027054 10 I?qberfz_ retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 7027071,
+      "original_record": "7027071 10 I?qberf~_ retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 7027489,
+      "original_record": "7027489 9 HEhefzm reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 7028086,
+      "original_record": "7028086 10 I?qberv~_ retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 7320476,
+      "original_record": "7320476 10 I?qja~YlW retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 7498599,
+      "original_record": "7498599 9 HEhcvx} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 7503406,
+      "original_record": "7503406 10 I?qrdjmyo retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 7503421,
+      "original_record": "7503421 10 I?qrdjm}o retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 7520421,
+      "original_record": "7520421 10 I?qrfRVv_ retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 7520439,
+      "original_record": "7520439 10 I?qrfRV~_ non_triangle_edge conjectured_divergent HCZTf\\}",
+      "method": "non_triangle_edge",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 7520706,
+      "original_record": "7520706 9 HEhefzm reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 7712890,
+      "original_record": "7712890 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 7828580,
+      "original_record": "7828580 10 I?rLbbjxo retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 7828588,
+      "original_record": "7828588 9 HEubFnm reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 8388258,
+      "original_record": "8388258 9 HQj_u|} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 8388264,
+      "original_record": "8388264 9 HQj_u|} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 8390115,
+      "original_record": "8390115 9 HQj_u|} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 8656043,
+      "original_record": "8656043 9 HAhuf]} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 8656771,
+      "original_record": "8656771 9 HAhuf]} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 8669086,
+      "original_record": "8669086 9 HAhv\\zR reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 8803640,
+      "original_record": "8803640 10 ICQburfjo retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 8803646,
+      "original_record": "8803646 9 HAhuf]} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 9003417,
+      "original_record": "9003417 9 HAjRf]} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 9028790,
+      "original_record": "9028790 10 ICQeVMm]W retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 9416512,
+      "original_record": "9416512 9 HAhuf]} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 9416817,
+      "original_record": "9416817 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 9473823,
+      "original_record": "9473823 9 HAjRf]} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 9519693,
+      "original_record": "9519693 9 HCnRF\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 9519695,
+      "original_record": "9519695 9 HCnRF\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 9520263,
+      "original_record": "9520263 9 HCnRF\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 9624302,
+      "original_record": "9624302 10 ICQvE^YNW retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 9653815,
+      "original_record": "9653815 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 9803184,
+      "original_record": "9803184 9 HQotVx} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 9815514,
+      "original_record": "9815514 10 ICR`vJ]uo non_triangle_edge conjectured_divergent HCZTf\\}",
+      "method": "non_triangle_edge",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 9836679,
+      "original_record": "9836679 9 HCxr\\z[ reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 9836865,
+      "original_record": "9836865 10 ICRbb]}v_ retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 9837025,
+      "original_record": "9837025 10 ICRbb^Un_ retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10109545,
+      "original_record": "10109545 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10124798,
+      "original_record": "10124798 10 ICXefTylW retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10134615,
+      "original_record": "10134615 10 ICXetrf\\o retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10134617,
+      "original_record": "10134617 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10185594,
+      "original_record": "10185594 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10185604,
+      "original_record": "10185604 9 HB^DFnm reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10185939,
+      "original_record": "10185939 9 HEubFnm reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10189588,
+      "original_record": "10189588 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10218442,
+      "original_record": "10218442 10 ICXnEvUNW non_triangle_edge conjectured_divergent HCZTf\\}",
+      "method": "non_triangle_edge",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10250370,
+      "original_record": "10250370 10 ICY^BvMn_ non_triangle_edge conjectured_divergent HCZTf\\}",
+      "method": "non_triangle_edge",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10250691,
+      "original_record": "10250691 10 ICY^Bv]n_ non_triangle_edge conjectured_divergent HCZTf\\}",
+      "method": "non_triangle_edge",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10325184,
+      "original_record": "10325184 9 HQddVx} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10404362,
+      "original_record": "10404362 10 ICZLfTytW retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10465301,
+      "original_record": "10465301 10 ICZTb^m^_ retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10465303,
+      "original_record": "10465303 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10468661,
+      "original_record": "10468661 9 HCZTb~m reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10472502,
+      "original_record": "10472502 9 HCZTb~m reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10473760,
+      "original_record": "10473760 10 ICZTe\\}z_ retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10473761,
+      "original_record": "10473761 9 HCZTb~m reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10475048,
+      "original_record": "10475048 9 HBqeVzu reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10475243,
+      "original_record": "10475243 9 HEhdVzu reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10477615,
+      "original_record": "10477615 10 ICZTerm^_ inverse_cutpoint_extension conjectured_divergent HCZTf\\}",
+      "method": "inverse_cutpoint_extension",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10479531,
+      "original_record": "10479531 10 ICZTfL}z_ retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10479532,
+      "original_record": "10479532 9 HCZTb~m reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10480252,
+      "original_record": "10480252 10 ICZTfP}z_ retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10480258,
+      "original_record": "10480258 9 HEhefzm reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10481204,
+      "original_record": "10481204 10 ICZTfRm^o non_triangle_edge conjectured_divergent HCZTf\\}",
+      "method": "non_triangle_edge",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10481793,
+      "original_record": "10481793 9 HCZVZyr reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10481901,
+      "original_record": "10481901 9 HCZTb~m reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10483140,
+      "original_record": "10483140 9 HCZTb~m reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10484200,
+      "original_record": "10484200 10 ICZTfbm^_ non_triangle_edge conjectured_divergent HCZTf\\}",
+      "method": "non_triangle_edge",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10485644,
+      "original_record": "10485644 10 ICZTfrm^_ inverse_cutpoint_extension conjectured_divergent HCZTf\\}",
+      "method": "inverse_cutpoint_extension",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10510895,
+      "original_record": "10510895 10 ICZVBzkkw retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10539512,
+      "original_record": "10539512 10 ICZVfX{kw non_triangle_edge conjectured_divergent HCZTf\\}",
+      "method": "non_triangle_edge",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10550396,
+      "original_record": "10550396 10 ICZbb^Un_ retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10688842,
+      "original_record": "10688842 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10688989,
+      "original_record": "10688989 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10698379,
+      "original_record": "10698379 9 HCZVZyr reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10724059,
+      "original_record": "10724059 9 HCZTf\\} reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10731922,
+      "original_record": "10731922 9 HCZjumu reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10986854,
+      "original_record": "10986854 10 ICpdbjjz_ retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10986873,
+      "original_record": "10986873 10 ICpdbjj~_ non_triangle_edge conjectured_divergent HCZTf\\}",
+      "method": "non_triangle_edge",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 10987052,
+      "original_record": "10987052 9 HEYbVzu reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 11030927,
+      "original_record": "11030927 9 HEYef^{ reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 11031183,
+      "original_record": "11031183 9 HEYefzm reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 11031615,
+      "original_record": "11031615 9 HEYef^{ reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 11034645,
+      "original_record": "11034645 9 HUQfuwn reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 11104283,
+      "original_record": "11104283 9 HCYub~m reference conjectured_divergent HCZTf\\}",
+      "method": "reference",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 11161072,
+      "original_record": "11161072 10 ICpfJizuo retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 11411457,
+      "original_record": "11411457 10 ICrbenk}_ retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 11521617,
+      "original_record": "11521617 10 ICxvEzi|_ retracts conjectured_divergent HCZTf\\}",
+      "method": "retracts",
+      "reference_graph6": "HCZTf\\}"
+    },
+    {
+      "index": 11600960,
+      "original_record": "11600960 10 IEhvFUu~? inverse_cutpoint_extension conjectured_divergent HCZTf\\}",
+      "method": "inverse_cutpoint_extension",
+      "reference_graph6": "HCZTf\\}"
+    }
+  ],
+  "removed_order10_o15": [
+    {
+      "index": 10760192,
+      "original_record": "10760192 9 HTzR~y} - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 10764728,
+      "original_record": "10764728 10 ICpUuv}~O - - -",
+      "method": "retraction",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 10764742,
+      "original_record": "10764742 9 HUZvvn{ - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 10764766,
+      "original_record": "10764766 9 HUZvvzu - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 10764987,
+      "original_record": "10764987 10 ICpUuz}}o - - -",
+      "method": "retraction",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 10765032,
+      "original_record": "10765032 9 HUZv~rt - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 10768795,
+      "original_record": "10768795 10 ICpUvz}}o - - -",
+      "method": "retraction",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 10798457,
+      "original_record": "10798457 9 HUZvvzu - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 10798658,
+      "original_record": "10798658 9 HUZv~rt - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 10799673,
+      "original_record": "10799673 10 ICpVvz}}o - - -",
+      "method": "retraction",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11257804,
+      "original_record": "11257804 9 HUZnvzm - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11259772,
+      "original_record": "11259772 9 HUZn^zy - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11260621,
+      "original_record": "11260621 9 HUZvnzy - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11260878,
+      "original_record": "11260878 9 HUZvnzy - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11260896,
+      "original_record": "11260896 9 HUZvvzu - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11260908,
+      "original_record": "11260908 10 ICpuuz]}o - - -",
+      "method": "retraction",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11261030,
+      "original_record": "11261030 10 ICpuuzz~_ - - -",
+      "method": "retraction",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11261095,
+      "original_record": "11261095 9 HUZv~jx - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11262628,
+      "original_record": "11262628 10 ICpuvv}~O - - -",
+      "method": "retraction",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11262714,
+      "original_record": "11262714 10 ICpu}zy}W - - -",
+      "method": "retraction",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11262939,
+      "original_record": "11262939 10 ICpu~v{}W - - -",
+      "method": "retraction",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11286857,
+      "original_record": "11286857 9 HUZnvzm - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11287122,
+      "original_record": "11287122 9 HUZn~rl - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11307633,
+      "original_record": "11307633 9 HUt~nZZ - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11309374,
+      "original_record": "11309374 9 HUt~nZZ - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11334289,
+      "original_record": "11334289 9 HUtv^z] - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11338019,
+      "original_record": "11338019 9 HUv^vhn - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11339417,
+      "original_record": "11339417 9 HUvu~pn - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11362480,
+      "original_record": "11362480 9 HUz]~hz - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11362939,
+      "original_record": "11362939 9 HUz^e|} - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11365147,
+      "original_record": "11365147 9 HUzv^pn - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11372134,
+      "original_record": "11372134 9 HUznnpn - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11471848,
+      "original_record": "11471848 9 HUvu~pn - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11473587,
+      "original_record": "11473587 9 HUv^vhn - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11476117,
+      "original_record": "11476117 9 HUyt~x} - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11485763,
+      "original_record": "11485763 9 HUznvhn - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11486257,
+      "original_record": "11486257 9 HTzuzyz - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11494939,
+      "original_record": "11494939 9 HVpv~jl - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11498771,
+      "original_record": "11498771 9 HVqj~y} - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11502501,
+      "original_record": "11502501 9 HVqz~qn - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11503851,
+      "original_record": "11503851 9 HVrj}zZ - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11504237,
+      "original_record": "11504237 10 ICvemzy]w - - -",
+      "method": "retraction",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11505075,
+      "original_record": "11505075 10 ICvenzy]w - - -",
+      "method": "retraction",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11506192,
+      "original_record": "11506192 9 HVrrnvm - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11519636,
+      "original_record": "11519636 9 HUY~~q| - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11519753,
+      "original_record": "11519753 9 HUZ}~rZ - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11533028,
+      "original_record": "11533028 10 ICz^fny\\w - - -",
+      "method": "retraction",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11541278,
+      "original_record": "11541278 10 ICznvjn^o - - -",
+      "method": "retraction",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11575201,
+      "original_record": "11575201 9 HUZn^zy - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11575552,
+      "original_record": "11575552 9 HUZn~Zx - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11579950,
+      "original_record": "11579950 9 HUZvnzy - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11581368,
+      "original_record": "11581368 9 HUZvnzy - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11581730,
+      "original_record": "11581730 9 HUZ~Vvm - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11592082,
+      "original_record": "11592082 9 HUY~~q| - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11610937,
+      "original_record": "11610937 9 HUZn~rl - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11619772,
+      "original_record": "11619772 9 HUz]~hz - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11621704,
+      "original_record": "11621704 9 HUznnpn - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11622807,
+      "original_record": "11622807 9 HUm~vhn - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11647525,
+      "original_record": "11647525 9 H[zr~ZZ - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11648007,
+      "original_record": "11648007 9 H[zvvX^ - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11650543,
+      "original_record": "11650543 9 H[znvh^ - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11650544,
+      "original_record": "11650544 9 HUznvhn - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11650871,
+      "original_record": "11650871 9 HRrvvn{ - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11650901,
+      "original_record": "11650901 10 IEnbrx}}o - - -",
+      "method": "retraction",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11651617,
+      "original_record": "11651617 9 HRrvvzu - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11651744,
+      "original_record": "11651744 9 HRr|~qz - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11654619,
+      "original_record": "11654619 10 IEnfj~{|g - - -",
+      "method": "P2_iso",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11655065,
+      "original_record": "11655065 10 IEnfr~{}g - - -",
+      "method": "P2_iso",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11656963,
+      "original_record": "11656963 10 IErtvx}zW - - -",
+      "method": "P2_iso",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11673031,
+      "original_record": "11673031 9 HTnv]xz - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11673537,
+      "original_record": "11673537 9 HevvT|} - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11699784,
+      "original_record": "11699784 9 HTy}~pv - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11705426,
+      "original_record": "11705426 9 HTzR~y} - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11708767,
+      "original_record": "11708767 9 HMjvvzu - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11709102,
+      "original_record": "11709102 9 HMj}~rZ - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11714301,
+      "original_record": "11714301 9 HVrv^pv - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11715561,
+      "original_record": "11715561 9 HUZv~jx - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11715689,
+      "original_record": "11715689 10 IUZu~zyvo - - -",
+      "method": "P2_iso",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11716100,
+      "original_record": "11716100 9 HUZvvzu - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    },
+    {
+      "index": 11716104,
+      "original_record": "11716104 9 HUZvvn{ - - -",
+      "method": "reference",
+      "reference_graph6": "HUZvvzu"
+    }
+  ],
+  "remaining_order9": 10,
+  "remaining_order10": 2341
+}

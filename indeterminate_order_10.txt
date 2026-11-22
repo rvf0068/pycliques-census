@@ -1,25 +1,13 @@
-# Connected order-ten unresolved index after certified snub/suspension P2 lifts (v15)
-# Remaining=2541 previous_v14=2568 newly_proved_divergent=27
-# Proof: 26 stiff ten-vertex graphs have P2 isomorphic to P2(snub-disphenoid)
-# (snub graph6 GQyuzw), and one has P2 isomorphic to P2(HUzrv~}).
-# Reference nine-vertex K-divergence is proved by the snub O24 retraction
-# and archived cyclic coaffination suspension theorem, respectively.
-# Exact bijections and full independent replay: research/order10_reference_lifts_pilot/
-# All 120 previous conjecture-dependent references remain unchanged.
-# Frozen v14 and all earlier snapshots are immutable.
+# Certified current indeterminate connected graphs of order ten, v16
+# Remaining=2341 previous_v15=2541 newly_proved_divergent=200
+# Removed 120 complete F45 dependency proofs from merged PR64:
+#   72 reference, 35 retractions, 10 nontriangle-edge chains, 3 inverse-cutpoint.
+# Removed 80 unconditional McKay 260910/O15 reference lifts:
+#   62 exact references, 14 retractions, 4 second-pared-iterate isomorphisms.
+# Both proven cohorts are disjoint from each other and from frozen v15 removals.
+# All retained v15 rows are byte-for-byte unchanged; prior versions are immutable.
+# Proof replay: research/order10_current_indeterminates_v16/verify.py
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
-3663513 9 HCZTf\} reference conjectured_divergent HCZTf\}
-3663865 10 I?`eTRv^o retracts conjectured_divergent HCZTf\}
-3683133 9 HCZTf\} reference conjectured_divergent HCZTf\}
-3683777 9 HCZTf\} reference conjectured_divergent HCZTf\}
-3714471 9 HCZVZyr reference conjectured_divergent HCZTf\}
-4055082 9 HCZTf\} reference conjectured_divergent HCZTf\}
-4152762 10 I?`fJZZmo retracts conjectured_divergent HCZTf\}
-4246556 9 HCZTf\} reference conjectured_divergent HCZTf\}
-4360069 9 HCZTf\} reference conjectured_divergent HCZTf\}
-5509177 9 HCurF\} reference conjectured_divergent HCZTf\}
-5509181 9 HCurF\} reference conjectured_divergent HCZTf\}
-5509664 9 HCurF\} reference conjectured_divergent HCZTf\}
 5519188 9 HCuvB~m - - -
 5519778 9 HCuvB~m - - -
 5520295 9 HCuvF\} - - -
@@ -28,8 +16,6 @@
 5685951 9 HCvdf\} - - -
 5733313 9 HCvdb~m - - -
 5734544 9 HCvdf\} - - -
-5805040 10 I?bbRnMn_ retracts conjectured_divergent HCZTf\}
-5805274 10 I?bbRn]n_ retracts conjectured_divergent HCZTf\}
 5807966 9 HCxu|zk - - -
 5808448 10 I?bbU^un_ - - -
 5816481 9 HCxv]y{ - - -
@@ -39,22 +25,11 @@
 6062256 10 I?bmv_~lo - - -
 6062272 9 HCuvB~m - - -
 6062673 9 HCuvF\} - - -
-6208376 9 HCZVZyr reference conjectured_divergent HCZTf\}
-6239927 9 HCZTb~m reference conjectured_divergent HCZTf\}
-6241410 9 HCZTb~m reference conjectured_divergent HCZTf\}
-6242627 9 HCZTf\} reference conjectured_divergent HCZTf\}
-6499362 9 HCZTf\} reference conjectured_divergent HCZTf\}
 6499365 10 I?ovUqv\o - - -
-6499368 9 HCZTf\} reference conjectured_divergent HCZTf\}
 6539717 10 I?o~D\}}_ - - -
 6540256 9 HENd}x{ - - -
-6564247 10 I?o~Eu}^_ retracts conjectured_divergent HCZTf\}
 6572529 9 HENflx{ - - -
 6914645 10 I?qbEZv~_ - - -
-6918604 10 I?qbErf~_ retracts conjectured_divergent HCZTf\}
-6918839 9 HEhefzm reference conjectured_divergent HCZTf\}
-6918847 9 HEhefzm reference conjectured_divergent HCZTf\}
-6919307 10 I?qbEr}|o retracts conjectured_divergent HCZTf\}
 6919727 10 I?qbEzf~_ - - -
 6920373 10 I?qbEzv~_ - - -
 6922775 9 HEhff^{ - - -
@@ -115,17 +90,11 @@
 6991515 9 HEhb~zy - - -
 6991524 10 I?qbb^m~O - - -
 6991625 10 I?qbb^}~O - - -
-6994051 9 HEhbNzy reference conjectured_divergent HCZTf\}
-6994058 9 HEhbNzy reference conjectured_divergent HCZTf\}
-6994400 10 I?qbbf}~O retracts conjectured_divergent HCZTf\}
 7003094 9 HEhb~z] - - -
 7003106 9 HEhb~zy - - -
 7003151 9 HEhb~z] - - -
 7003153 10 I?qbb~}~O - - -
-7003784 10 I?qbcxnz_ retracts conjectured_divergent HCZTf\}
-7003792 10 I?qbcxn~_ non_triangle_edge conjectured_divergent HCZTf\}
 7004329 10 I?qbcx~~_ - - -
-7005607 9 HEhcvx} reference conjectured_divergent HCZTf\}
 7006326 9 HEhcz~{ - - -
 7006568 9 HEhcz~{ - - -
 7007274 9 HEhc~x} - - -
@@ -136,10 +105,6 @@
 7021973 9 HEhe~x} - - -
 7021975 9 HEhe~y} - - -
 7021979 9 HEhe~zm - - -
-7027054 10 I?qberfz_ retracts conjectured_divergent HCZTf\}
-7027071 10 I?qberf~_ retracts conjectured_divergent HCZTf\}
-7027489 9 HEhefzm reference conjectured_divergent HCZTf\}
-7028086 10 I?qberv~_ retracts conjectured_divergent HCZTf\}
 7031439 9 HEhe~y} - - -
 7031514 9 HEhe~y} - - -
 7035267 9 HEhff^{ - - -
@@ -270,7 +235,6 @@
 7313574 10 I?qffz}^o - - -
 7316198 9 HEl~vJb - - -
 7316654 9 HEl~Ffm - - -
-7320476 10 I?qja~YlW retracts conjectured_divergent HCZTf\}
 7323223 10 I?qjb^ilW - - -
 7323249 9 HElb~jl - - -
 7323266 9 HElb~jl - - -
@@ -349,7 +313,6 @@
 7488174 10 I?qr`~mv_ - - -
 7488176 9 HEh`~z] - - -
 7495877 10 I?qrdX^~_ - - -
-7498599 9 HEhcvx} reference conjectured_divergent HCZTf\}
 7499124 10 I?qrdZmyo - - -
 7499133 10 I?qrdZm}o - - -
 7499960 9 HEhdz~{ - - -
@@ -360,8 +323,6 @@
 7501339 9 HEhd~z] - - -
 7501351 10 I?qrd^m}o - - -
 7501478 10 I?qrd^}}o - - -
-7503406 10 I?qrdjmyo retracts conjectured_divergent HCZTf\}
-7503421 10 I?qrdjm}o retracts conjectured_divergent HCZTf\}
 7504557 10 I?qrdnmv_ - - -
 7510445 10 I?qrdzmyo - - -
 7510792 9 HEhd~x} - - -
@@ -378,9 +339,6 @@
 7517651 9 HEhf^z] - - -
 7517663 10 I?qrfNm~O - - -
 7517827 10 I?qrfN|~_ - - -
-7520421 10 I?qrfRVv_ retracts conjectured_divergent HCZTf\}
-7520439 10 I?qrfRV~_ non_triangle_edge conjectured_divergent HCZTf\}
-7520706 9 HEhefzm reference conjectured_divergent HCZTf\}
 7520893 10 I?qrfRfz_ - - -
 7520905 9 HEhff^{ - - -
 7521114 9 HEhffzm - - -
@@ -481,7 +439,6 @@
 7706717 10 I?qvRrV~O - - -
 7706938 9 HEjrf^y - - -
 7707117 9 HEjrfvm - - -
-7712890 9 HCZTf\} reference conjectured_divergent HCZTf\}
 7713016 9 HCzTf\} - - -
 7714186 9 HEjur^{ - - -
 7714568 9 HEjuvxm - - -
@@ -506,8 +463,6 @@
 7745544 10 I?q~bzyxo - - -
 7745551 10 I?q~bzy|o - - -
 7822640 10 I?rFtzu^O - - -
-7828580 10 I?rLbbjxo retracts conjectured_divergent HCZTf\}
-7828588 9 HEubFnm reference conjectured_divergent HCZTf\}
 7836801 10 I?rLfVe]W - - -
 7851741 9 HEvtR^u - - -
 7851754 9 HEvtR^u - - -
@@ -591,27 +546,9 @@
 7976412 10 I?zVfY}No - - -
 7976421 9 HEjevx} - - -
 7978788 10 I?z^dzy\o - - -
-8388258 9 HQj_u|} reference conjectured_divergent HCZTf\}
-8388264 9 HQj_u|} reference conjectured_divergent HCZTf\}
-8390115 9 HQj_u|} reference conjectured_divergent HCZTf\}
 8484284 10 ICQVdZZVo - - -
 8559181 10 ICQbQrvno - - -
-8656043 9 HAhuf]} reference conjectured_divergent HCZTf\}
-8656771 9 HAhuf]} reference conjectured_divergent HCZTf\}
-8669086 9 HAhv\zR reference conjectured_divergent HCZTf\}
-8803640 10 ICQburfjo retracts conjectured_divergent HCZTf\}
-8803646 9 HAhuf]} reference conjectured_divergent HCZTf\}
-9003417 9 HAjRf]} reference conjectured_divergent HCZTf\}
-9028790 10 ICQeVMm]W retracts conjectured_divergent HCZTf\}
-9416512 9 HAhuf]} reference conjectured_divergent HCZTf\}
-9416817 9 HCZTf\} reference conjectured_divergent HCZTf\}
-9473823 9 HAjRf]} reference conjectured_divergent HCZTf\}
-9519693 9 HCnRF\} reference conjectured_divergent HCZTf\}
-9519695 9 HCnRF\} reference conjectured_divergent HCZTf\}
-9520263 9 HCnRF\} reference conjectured_divergent HCZTf\}
 9584561 9 HCnb~ZR - - -
-9624302 10 ICQvE^YNW retracts conjectured_divergent HCZTf\}
-9653815 9 HCZTf\} reference conjectured_divergent HCZTf\}
 9653827 9 HCneb~m - - -
 9654776 9 HCnef\} - - -
 9655083 9 HOzTe|} - - -
@@ -661,7 +598,6 @@
 9797657 9 HQotr~{ - - -
 9799429 9 HQotvx} - - -
 9800841 10 ICR`th^~_ - - -
-9803184 9 HQotVx} reference conjectured_divergent HCZTf\}
 9804321 10 ICR`tlmv_ - - -
 9805139 10 ICR`tnmv_ - - -
 9805389 10 ICR`tx^~_ - - -
@@ -684,7 +620,6 @@
 9813715 10 ICR`uz]uo - - -
 9813724 10 ICR`uz]}o - - -
 9813863 10 ICR`uz}}o - - -
-9815514 10 ICR`vJ]uo non_triangle_edge conjectured_divergent HCZTf\}
 9815528 10 ICR`vJ]}o - - -
 9816611 9 HQou^zu - - -
 9824036 10 ICR`vh^~_ - - -
@@ -697,9 +632,6 @@
 9829703 9 HQo~vzu - - -
 9829870 9 HQo~vzu - - -
 9833023 9 HQo~Vn{ - - -
-9836679 9 HCxr\z[ reference conjectured_divergent HCZTf\}
-9836865 10 ICRbb]}v_ retracts conjectured_divergent HCZTf\}
-9837025 10 ICRbb^Un_ retracts conjectured_divergent HCZTf\}
 9855375 9 HCxt}zk - - -
 9855634 9 HCxt~Z[ - - -
 9868374 10 ICRbfM}v_ - - -
@@ -784,15 +716,7 @@
 10074705 10 ICRvUo~xo - - -
 10074708 9 HCzTb~m - - -
 10074736 9 HCzTf\} - - -
-10109545 9 HCZTf\} reference conjectured_divergent HCZTf\}
-10124798 10 ICXefTylW retracts conjectured_divergent HCZTf\}
-10134615 10 ICXetrf\o retracts conjectured_divergent HCZTf\}
-10134617 9 HCZTf\} reference conjectured_divergent HCZTf\}
 10185592 10 ICXmdbj\o - - -
-10185594 9 HCZTf\} reference conjectured_divergent HCZTf\}
-10185604 9 HB^DFnm reference conjectured_divergent HCZTf\}
-10185939 9 HEubFnm reference conjectured_divergent HCZTf\}
-10189588 9 HCZTf\} reference conjectured_divergent HCZTf\}
 10198830 10 ICXmfTumW - - -
 10205493 10 ICXmtjj\o - - -
 10205508 9 HB^TVnm - - -
@@ -803,15 +727,12 @@
 10210620 9 HB^VD~m - - -
 10211310 9 HB^VF]} - - -
 10211708 9 HEuvF\} - - -
-10218442 10 ICXnEvUNW non_triangle_edge conjectured_divergent HCZTf\}
 10225161 9 HB^uT^u - - -
 10225167 9 HB^uT^u - - -
 10226831 9 HB^vUmu - - -
 10242228 9 HQmuR~u - - -
 10242673 9 HQmuVl} - - -
-10250370 10 ICY^BvMn_ non_triangle_edge conjectured_divergent HCZTf\}
 10250688 9 HQnBny} - - -
-10250691 10 ICY^Bv]n_ non_triangle_edge conjectured_divergent HCZTf\}
 10250693 9 HQnBny} - - -
 10251420 10 ICY^BzZ~_ - - -
 10251463 9 HQnBvzu - - -
@@ -915,7 +836,6 @@
 10323900 10 ICZJeg~~_ - - -
 10324488 10 ICZJehzn_ - - -
 10324490 9 HEfdVl} - - -
-10325184 9 HQddVx} reference conjectured_divergent HCZTf\}
 10325195 10 ICZJei}}o - - -
 10326147 9 HEfdVl} - - -
 10326649 10 ICZJenYjW - - -
@@ -1028,7 +948,6 @@
 10403538 9 HQfdvx} - - -
 10404026 9 HQfdvx} - - -
 10404092 10 ICZLfS}tW - - -
-10404362 10 ICZLfTytW retracts conjectured_divergent HCZTf\}
 10404805 9 HBuflzm - - -
 10404947 9 HBufm^{ - - -
 10405212 9 HBufn^{ - - -
@@ -1095,23 +1014,17 @@
 10464910 9 HBqb}~{ - - -
 10465153 9 HEhe|~{ - - -
 10465173 9 HBqb~^{ - - -
-10465301 10 ICZTb^m^_ retracts conjectured_divergent HCZTf\}
-10465303 9 HCZTf\} reference conjectured_divergent HCZTf\}
 10465306 9 HBqb~z] - - -
 10465313 9 HBqb~zm - - -
 10465445 9 HEhe~^{ - - -
 10466683 10 ICZTczm^o - - -
 10467449 9 HBqc~x} - - -
-10468661 9 HCZTb~m reference conjectured_divergent HCZTf\}
 10469588 10 ICZTdZm^o - - -
 10471016 10 ICZTdjm^o - - -
 10471947 10 ICZTdzm^o - - -
-10472502 9 HCZTb~m reference conjectured_divergent HCZTf\}
 10472553 10 ICZTeYj^_ - - -
 10473167 10 ICZTeZm^o - - -
 10473752 9 HEhc~x} - - -
-10473760 10 ICZTe\}z_ retracts conjectured_divergent HCZTf\}
-10473761 9 HCZTb~m reference conjectured_divergent HCZTf\}
 10473768 10 ICZTe\}}o - - -
 10473832 9 HBqe|~{ - - -
 10474040 9 HBqe|~{ - - -
@@ -1119,28 +1032,18 @@
 10474372 9 HBqe~zu - - -
 10474659 9 HBqe~zu - - -
 10475037 10 ICZTejm]o - - -
-10475048 9 HBqeVzu reference conjectured_divergent HCZTf\}
-10475243 9 HEhdVzu reference conjectured_divergent HCZTf\}
 10475768 10 ICZTenm^_ - - -
-10477615 10 ICZTerm^_ inverse_cutpoint_extension conjectured_divergent HCZTf\}
 10477617 10 ICZTerm^o - - -
 10478923 10 ICZTezm^o - - -
 10479413 9 HEhd~x} - - -
-10479531 10 ICZTfL}z_ retracts conjectured_divergent HCZTf\}
-10479532 9 HCZTb~m reference conjectured_divergent HCZTf\}
 10479792 9 HBqf^zy - - -
 10479952 9 HBqf^v{ - - -
 10480248 10 ICZTfP}xo - - -
-10480252 10 ICZTfP}z_ retracts conjectured_divergent HCZTf\}
-10480258 9 HEhefzm reference conjectured_divergent HCZTf\}
 10481045 9 HBqff^{ - - -
 10481202 10 ICZTfRm\o - - -
-10481204 10 ICZTfRm^o non_triangle_edge conjectured_divergent HCZTf\}
 10481221 9 HBqffzm - - -
 10481574 9 HBqffzm - - -
 10481613 10 ICZTfW~~_ - - -
-10481793 9 HCZVZyr reference conjectured_divergent HCZTf\}
-10481901 9 HCZTb~m reference conjectured_divergent HCZTf\}
 10481909 10 ICZTfX}}o - - -
 10482131 9 HBqft~{ - - -
 10482400 9 HBqft~{ - - -
@@ -1154,21 +1057,18 @@
 10482977 9 HBqfv^{ - - -
 10483075 9 HBqfvn{ - - -
 10483136 9 HEhe~y} - - -
-10483140 9 HCZTb~m reference conjectured_divergent HCZTf\}
 10483143 9 HEhe~zm - - -
 10483168 9 HBqf}y| - - -
 10483268 10 ICZTf^{^g - - -
 10483276 9 HBqf~q| - - -
 10483294 9 HBqf~rl - - -
 10483298 9 HBqf~rt - - -
-10484200 10 ICZTfbm^_ non_triangle_edge conjectured_divergent HCZTf\}
 10484202 10 ICZTfbm^o - - -
 10485041 10 ICZTfjm^o - - -
 10485056 9 HBqfVzu - - -
 10485347 9 HEhfVzu - - -
 10485549 9 HBqff^{ - - -
 10485643 10 ICZTfrm\o - - -
-10485644 10 ICZTfrm^_ inverse_cutpoint_extension conjectured_divergent HCZTf\}
 10485646 10 ICZTfrm^o - - -
 10485660 9 HBqffzm - - -
 10485717 9 HEhff^{ - - -
@@ -1216,7 +1116,6 @@
 10508960 9 HBrbvy} - - -
 10510233 9 HBrbt~{ - - -
 10510415 9 HBrbt~{ - - -
-10510895 10 ICZVBzkkw retracts conjectured_divergent HCZTf\}
 10510973 9 HBrbvy} - - -
 10517291 9 HBret~{ - - -
 10517757 9 HBrevy} - - -
@@ -1235,7 +1134,6 @@
 10537647 9 HEjb~zy - - -
 10538481 9 HBrevy} - - -
 10538640 9 HEjdvx} - - -
-10539512 10 ICZVfX{kw non_triangle_edge conjectured_divergent HCZTf\}
 10539586 9 HEjevx} - - -
 10539675 9 HBrft^{ - - -
 10539748 9 HBrft~{ - - -
@@ -1247,7 +1145,6 @@
 10545792 9 HEnbvjm - - -
 10546315 9 HEnfJzy - - -
 10547130 10 ICZ^frmNo - - -
-10550396 10 ICZbb^Un_ retracts conjectured_divergent HCZTf\}
 10556363 9 HCxu|zk - - -
 10556628 10 ICZbenmn_ - - -
 10561406 10 ICZbfNUn_ - - -
@@ -1330,25 +1227,13 @@
 10625019 9 HEuvB~m - - -
 10625104 9 HEuvF\} - - -
 10625350 9 HQuvE|} - - -
-10688842 9 HCZTf\} reference conjectured_divergent HCZTf\}
-10688989 9 HCZTf\} reference conjectured_divergent HCZTf\}
-10698379 9 HCZVZyr reference conjectured_divergent HCZTf\}
-10724059 9 HCZTf\} reference conjectured_divergent HCZTf\}
-10731922 9 HCZjumu reference conjectured_divergent HCZTf\}
 10759834 9 HTzRe\} - - -
-10760192 9 HTzR~y} - - -
 10763885 9 HUZu~on - - -
 10764292 9 HUZv]o| - - -
 10764316 9 HUZv]ql - - -
 10764360 9 HUZv]rh - - -
-10764728 10 ICpUuv}~O - - -
-10764742 9 HUZvvn{ - - -
-10764766 9 HUZvvzu - - -
-10764987 10 ICpUuz}}o - - -
-10765032 9 HUZv~rt - - -
 10767771 10 ICpUvh}}O - - -
 10768226 10 ICpUvj{]o - - -
-10768795 10 ICpUvz}}o - - -
 10769285 9 HUZP~rm - - -
 10769309 9 HUZP~rm - - -
 10769481 10 ICpVP~u~O - - -
@@ -1383,13 +1268,10 @@
 10795134 9 HUZenp} - - -
 10795781 10 ICpVfV{^o - - -
 10795802 10 ICpVfV{|_ - - -
-10798457 9 HUZvvzu - - -
-10798658 9 HUZv~rt - - -
 10799100 9 HUZvVpu - - -
 10799129 9 HUZvVrU - - -
 10799137 9 HUZvVre - - -
 10799287 10 ICpVvj{{o - - -
-10799673 10 ICpVvz}}o - - -
 10803453 10 ICp`epv~_ - - -
 10815163 10 ICp`fRv~_ - - -
 10820678 10 ICp`fjz~_ - - -
@@ -1426,9 +1308,6 @@
 10977103 10 ICpdVx}|o - - -
 10977145 9 HEYvvzm - - -
 10977232 9 HEYvvzm - - -
-10986854 10 ICpdbjjz_ retracts conjectured_divergent HCZTf\}
-10986873 10 ICpdbjj~_ non_triangle_edge conjectured_divergent HCZTf\}
-10987052 9 HEYbVzu reference conjectured_divergent HCZTf\}
 10987633 10 ICpdbjz~_ - - -
 10994478 10 ICpdbyz~_ - - -
 10995234 10 ICpdbzj~_ - - -
@@ -1437,11 +1316,7 @@
 11000374 10 ICpdczm^o - - -
 11013170 10 ICpddrm^o - - -
 11015625 10 ICpddzm^o - - -
-11030927 9 HEYef^{ reference conjectured_divergent HCZTf\}
 11031156 10 ICpderm\o - - -
-11031183 9 HEYefzm reference conjectured_divergent HCZTf\}
-11031615 9 HEYef^{ reference conjectured_divergent HCZTf\}
-11034645 9 HUQfuwn reference conjectured_divergent HCZTf\}
 11035491 10 ICpdezmNo - - -
 11039009 9 HEYfNv{ - - -
 11039041 9 HEYfNzy - - -
@@ -1541,7 +1416,6 @@
 11090592 10 ICpdr^w\g - - -
 11090721 9 HEYr~rl - - -
 11096613 10 ICpdr~{|g - - -
-11104283 9 HCYub~m reference conjectured_divergent HCZTf\}
 11104296 10 ICpdupv~_ - - -
 11106697 9 HEYuvzm - - -
 11106845 9 HEYuvzm - - -
@@ -1579,7 +1453,6 @@
 11138607 10 ICperXumW - - -
 11145554 9 HURu~on - - -
 11158750 9 HEZjtn{ - - -
-11161072 10 ICpfJizuo retracts conjectured_divergent HCZTf\}
 11168801 9 HEZlfny - - -
 11168910 9 HEZlfvu - - -
 11169340 9 HEZlfny - - -
@@ -1631,7 +1504,6 @@
 11255656 9 HUZlnpy - - -
 11257501 9 HUZnn`x - - -
 11257555 9 HUZnnbh - - -
-11257804 9 HUZnvzm - - -
 11257822 10 ICpumziNo - - -
 11257835 9 HUZnuix - - -
 11257858 9 HUZnujX - - -
@@ -1645,20 +1517,10 @@
 11258967 10 ICpunZifW - - -
 11258985 9 HUZmuiz - - -
 11259285 10 ICpunZy|O - - -
-11259772 9 HUZn^zy - - -
 11260361 10 ICpunr{{o - - -
-11260621 9 HUZvnzy - - -
-11260878 9 HUZvnzy - - -
-11260896 9 HUZvvzu - - -
-11260908 10 ICpuuz]}o - - -
-11261030 10 ICpuuzz~_ - - -
-11261095 9 HUZv~jx - - -
 11261380 9 HUZuvZi - - -
 11261733 10 ICpuvh}}O - - -
 11262080 10 ICpuvj{]o - - -
-11262628 10 ICpuvv}~O - - -
-11262714 10 ICpu}zy}W - - -
-11262939 10 ICpu~v{}W - - -
 11265303 10 ICpvRy}}o - - -
 11265873 9 HSZR~zy - - -
 11266323 9 HSZVfx} - - -
@@ -1688,13 +1550,11 @@
 11283578 10 ICpvfV{^o - - -
 11284141 10 ICpvfZmjo - - -
 11284143 9 HEZfvy} - - -
-11286857 9 HUZnvzm - - -
 11286920 9 HUZnv`l - - -
 11286924 10 ICpvmzw]g - - -
 11286974 9 HUZnvbL - - -
 11286978 10 ICpvmzwyg - - -
 11286988 10 ICpvmzw{g - - -
-11287122 9 HUZn~rl - - -
 11287654 10 ICpvnr{]o - - -
 11287665 10 ICpvnr{xo - - -
 11287666 10 ICpvnr{yo - - -
@@ -1730,8 +1590,6 @@
 11303782 9 HUs~nPl - - -
 11306211 10 ICrH~ru]o - - -
 11307559 9 HUt~nRd - - -
-11307633 9 HUt~nZZ - - -
-11309374 9 HUt~nZZ - - -
 11310073 9 HUt`~jm - - -
 11310101 9 HUt`~jm - - -
 11310539 9 HUt`~jm - - -
@@ -1752,9 +1610,6 @@
 11331889 9 HUtvnO| - - -
 11331900 9 HUtvnPt - - -
 11331962 9 HUtvnRd - - -
-11334289 9 HUtv^z] - - -
-11338019 9 HUv^vhn - - -
-11339417 9 HUvu~pn - - -
 11340430 10 ICrQvZy|_ - - -
 11341307 9 HUxvexm - - -
 11343461 9 HUxRL~y - - -
@@ -1763,18 +1618,14 @@
 11350308 9 HUxV^ov - - -
 11359314 9 HUxvvjk - - -
 11361615 9 HUzZfS} - - -
-11362480 9 HUz]~hz - - -
 11362737 9 HUz^brb - - -
-11362939 9 HUz^e|} - - -
 11364594 10 ICrUrjxz_ - - -
-11365147 9 HUzv^pn - - -
 11367571 10 ICrVJzy}O - - -
 11367777 10 ICrVL^y^W - - -
 11368606 10 ICrVMt{mW - - -
 11368649 10 ICrVMt{}G - - -
 11368838 9 HUzNrit - - -
 11370709 10 ICrV^p{{W - - -
-11372134 9 HUznnpn - - -
 11372298 10 ICrVrz{{o - - -
 11376221 9 HExr|z[ - - -
 11376553 9 HExr~q{ - - -
@@ -1806,7 +1657,6 @@
 11409269 10 ICrbdt|~_ - - -
 11411007 10 ICrbdzj~_ - - -
 11411047 9 HExdvzu - - -
-11411457 10 ICrbenk}_ retracts conjectured_divergent HCZTf\}
 11411637 10 ICrbeny~? - - -
 11412550 9 HUpfnrk - - -
 11412725 9 HExeny} - - -
@@ -1860,21 +1710,15 @@
 11467481 10 ICrfnr{^o - - -
 11469714 10 ICrlvhyNW - - -
 11469726 9 HSvvRhz - - -
-11471848 9 HUvu~pn - - -
-11473587 9 HUv^vhn - - -
 11475405 10 ICrtrv{^O - - -
 11475419 10 ICrtrv{xo - - -
-11476117 9 HUyt~x} - - -
 11478296 9 HUzurgz - - -
 11478376 10 ICruvXy|G - - -
 11482569 9 HSzVfx} - - -
-11485763 9 HUznvhn - - -
-11486257 9 HTzuzyz - - -
 11492730 10 ICvbrnln_ - - -
 11493043 10 ICvbrn{nO - - -
 11493044 10 ICvbrn{n_ - - -
 11494192 10 ICvbtzu^O - - -
-11494939 9 HVpv~jl - - -
 11495069 10 ICvbvX}lo - - -
 11495320 10 ICvbvZsTw - - -
 11495328 9 HVpuvPn - - -
@@ -1886,7 +1730,6 @@
 11498579 10 ICvdjz]}o - - -
 11498612 9 HEyjvzu - - -
 11498706 10 ICvdjz}}o - - -
-11498771 9 HVqj~y} - - -
 11500463 10 ICvdr^s]g - - -
 11500499 9 HEyr~Rt - - -
 11500513 9 HEyr~Rt - - -
@@ -1895,16 +1738,11 @@
 11501056 10 ICvdrj}}o - - -
 11501352 9 HDpvv^{ - - -
 11501730 10 ICvdr~{|g - - -
-11502501 9 HVqz~qn - - -
 11503742 10 ICvejzy|O - - -
-11503851 9 HVrj}zZ - - -
-11504237 10 ICvemzy]w - - -
 11504623 9 HVrnbjJ - - -
 11504640 10 ICvenpy|O - - -
 11504696 10 ICvenp}|O - - -
 11505012 10 ICveny}]w - - -
-11505075 10 ICvenzy]w - - -
-11506192 9 HVrrnvm - - -
 11509450 9 HEzjdvu - - -
 11510220 10 ICvfJzy|O - - -
 11512182 10 ICvfP~t~_ - - -
@@ -1915,21 +1753,16 @@
 11516129 10 ICvfVXumo - - -
 11516133 10 ICvfVXun_ - - -
 11516735 9 HTrVVx} - - -
-11519636 9 HUY~~q| - - -
-11519753 9 HUZ}~rZ - - -
 11520780 10 ICxvBz[n_ - - -
-11521617 10 ICxvEzi|_ retracts conjectured_divergent HCZTf\}
 11521767 10 ICxvEzu}_ - - -
 11524501 10 ICxvRzUlg - - -
 11527531 10 ICxve^{|_ - - -
 11528408 9 HUZdvx] - - -
 11529344 10 ICxvfZ]n_ - - -
-11533028 10 ICz^fny\w - - -
 11533856 10 ICzbrn[fo - - -
 11533866 10 ICzbrn[n_ - - -
 11533868 9 HUpr^q} - - -
 11534302 10 ICzbrzUn_ - - -
-11541278 10 ICznvjn^o - - -
 11543836 10 IEhbtn{ro - - -
 11543837 10 IEhbtn{zo - - -
 11544170 10 IEhbunl~_ - - -
@@ -2159,12 +1992,10 @@
 11574084 10 IEhrvZ{}O - - -
 11574085 9 HEhv^zy - - -
 11575017 9 HEhvvzm - - -
-11575201 9 HUZn^zy - - -
 11575344 9 HUZnugn - - -
 11575346 9 HUZnugz - - -
 11575380 9 HUZnuix - - -
 11575399 10 IEhtlzi}G - - -
-11575552 9 HUZn~Zx - - -
 11576111 9 HE]~FNy - - -
 11576170 10 IEhtnRt~? - - -
 11576173 9 HEhvVn{ - - -
@@ -2182,14 +2013,11 @@
 11579661 9 HUZv]ql - - -
 11579689 9 HUZv]rh - - -
 11579696 10 IEhttnk}G - - -
-11579950 9 HUZvnzy - - -
 11580754 10 IEhtvY}]o - - -
 11580772 9 HEhv\zy - - -
 11580986 10 IEhtvZ{}O - - -
 11580987 9 HEhv^zy - - -
-11581368 9 HUZvnzy - - -
 11581481 9 HEhvvzm - - -
-11581730 9 HUZ~Vvm - - -
 11582603 10 IEhuTxm}_ - - -
 11582971 10 IEhuTzmxo - - -
 11582977 9 HDZTvzm - - -
@@ -2247,7 +2075,6 @@
 11591279 9 HEhuv^{ - - -
 11591738 9 HEhuv^{ - - -
 11591796 9 HEhv~rl - - -
-11592082 9 HUY~~q| - - -
 11594611 9 HEjb~zy - - -
 11595632 10 IEhvDn|~_ - - -
 11597204 10 IEhvDzYz_ - - -
@@ -2260,7 +2087,6 @@
 11599631 9 HEhuvzm - - -
 11600578 9 HEjevx} - - -
 11600950 9 HE^fLzy - - -
-11600960 10 IEhvFUu~? inverse_cutpoint_extension conjectured_divergent HCZTf\}
 11600962 9 HE^fLzy - - -
 11601156 10 IEhvFU{|_ - - -
 11601437 9 HE^fNyy - - -
@@ -2323,7 +2149,6 @@
 11610561 10 IEhvVr{zO - - -
 11610562 9 HEhvvzm - - -
 11610856 9 HEhvvzm - - -
-11610937 9 HUZn~rl - - -
 11611194 9 HEhvv^{ - - -
 11611425 9 HEhvv^{ - - -
 11611429 10 IEhvtznno - - -
@@ -2341,13 +2166,10 @@
 11614800 10 IEh~fVw\g - - -
 11614922 10 IEh~fV{xo - - -
 11617748 10 IEirvZy|_ - - -
-11619772 9 HUz]~hz - - -
 11619832 9 HUz^Jpr - - -
 11619874 9 HUz^Jqr - - -
 11619882 10 IEit^d{ww - - -
 11619888 9 HEmnjrf - - -
-11621704 9 HUznnpn - - -
-11622807 9 HUm~vhn - - -
 11623375 10 IEjbtnN~_ - - -
 11624361 9 HDxunrm - - -
 11624380 9 HDxunrm - - -
@@ -2433,31 +2255,18 @@
 11645645 9 HEjfr~{ - - -
 11645880 9 HEjfr~{ - - -
 11645970 9 HEjfvx} - - -
-11647525 9 H[zr~ZZ - - -
-11648007 9 H[zvvX^ - - -
 11649039 10 IEjvVZy^o - - -
-11650543 9 H[znvh^ - - -
-11650544 9 HUznvhn - - -
-11650871 9 HRrvvn{ - - -
-11650901 10 IEnbrx}}o - - -
 11651308 9 HDxvUzu - - -
 11651344 9 HEl~Ffm - - -
-11651617 9 HRrvvzu - - -
-11651744 9 HRr|~qz - - -
 11651749 10 IEnb}~{|W - - -
 11651780 10 IEnb~jl|o - - -
 11652569 10 IEnfbzktg - - -
 11652575 10 IEnfbzkv_ - - -
 11653613 10 IEnffX}to - - -
 11653973 10 IEnffZuNo - - -
-11654619 10 IEnfj~{|g - - -
-11655065 10 IEnfr~{}g - - -
 11656793 10 IErtv\}~O - - -
-11656963 10 IErtvx}zW - - -
 11657332 10 IErv^q}^g - - -
 11658674 10 IEzTmvm^o - - -
-11673031 9 HTnv]xz - - -
-11673537 9 HevvT|} - - -
 11675400 9 HTpa~y} - - -
 11675404 9 HTpa~y} - - -
 11676356 9 Hehex~{ - - -
@@ -2495,9 +2304,7 @@
 11697495 9 HQpt}v{ - - -
 11697588 9 HQpt~v{ - - -
 11699151 10 IQjdvr]^o - - -
-11699784 9 HTy}~pv - - -
 11705120 9 Heyrtyu - - -
-11705426 9 HTzR~y} - - -
 11707526 10 IQyurzUuo - - -
 11708144 10 IQyuvh{dw - - -
 11708148 10 IQyuvh{fo - - -
@@ -2516,10 +2323,8 @@
 11708307 10 IQyuvj]Zo - - -
 11708411 10 IQyuvjuZo - - -
 11708546 10 IQyuvj}^o - - -
-11708767 9 HMjvvzu - - -
 11708820 10 IQyuvzu^o - - -
 11708967 10 IQyuzz~~o - - -
-11709102 9 HMj}~rZ - - -
 11709142 10 IQyu~v{^W - - -
 11709353 9 HUZVfX} - - -
 11710123 10 IQyvex]^_ - - -
@@ -2541,11 +2346,6 @@
 11710382 9 HQyvb~[ - - -
 11713770 10 IQzTvzu]w - - -
 11713984 10 IQzVr~{lw - - -
-11714301 9 HVrv^pv - - -
-11715561 9 HUZv~jx - - -
 11715667 10 IUZu~r|zo - - -
 11715684 10 IUZu~zy^o - - -
-11715689 10 IUZu~zyvo - - -
-11716100 9 HUZvvzu - - -
-11716104 9 HUZvvn{ - - -
 11716441 10 IUzvrz}zo - - -
