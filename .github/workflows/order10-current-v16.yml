@@ -36,7 +36,8 @@ jobs:
         run: |
           python -m py_compile \
             research/order10_current_indeterminates_v16/verify.py \
-            research/order10_current_indeterminates_v16/replay_v15.py
+            research/order10_current_indeterminates_v16/replay_v15.py \
+            research/order10_current_indeterminates_v16/replay_v14.py
           python -m research.order10_current_indeterminates_v16.verify --surfaces
           python -m unittest discover -s tests -p test_current_root_index.py -v
 
@@ -121,5 +122,5 @@ jobs:
           PYTHONHASHSEED: "0"
         run: |
           python -m research.order10_current_indeterminates_v16.replay_v15 --public
-          python -m research.order10_reference_lifts_pilot.replay_v14
+          python -m research.order10_current_indeterminates_v16.replay_v14
           python -m research.order10_current_indeterminates_v16.verify
