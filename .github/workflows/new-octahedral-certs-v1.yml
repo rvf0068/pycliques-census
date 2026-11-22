@@ -1,0 +1,78 @@
+name: Certify new order-nine O12 and order-ten O4 retractions and 242 lifts
+
+on:
+  pull_request:
+    paths:
+      - "research/order9_253650_o12_v1/**"
+      - "research/order10_surface_10472553_o4_v1/**"
+      - ".github/workflows/new-octahedral-certs-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  networkx-certificates:
+    name: Independent NetworkX full-map replays and 242 exact v16 lifts
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Compile and independently replay all full graph certificates
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python -m py_compile research/order9_253650_o12_v1/verify.py research/order9_253650_o12_v1/verify_lifts_v16.py research/order10_surface_10472553_o4_v1/verify.py
+          python research/order9_253650_o12_v1/verify.py
+          python research/order10_surface_10472553_o4_v1/verify.py
+          python -m research.order9_253650_o12_v1.verify_lifts_v16
+      - name: Reject optimized execution of all proof verifiers
+        run: |
+          for script in research/order9_253650_o12_v1/verify.py research/order10_surface_10472553_o4_v1/verify.py; do
+            if python -O "$script"; then
+              echo "Invalid -O verifier success: $script" >&2
+              exit 1
+            fi
+          done
+          if python -O -m research.order9_253650_o12_v1.verify_lifts_v16; then
+            echo "Invalid optimized lift verification" >&2
+            exit 1
+          fi
+      - name: Protect authoritative and frozen census files
+        run: |
+          cmp indeterminate_order_10.txt indeterminate_order_10_v16.txt
+          cmp indeterminate_order_9.txt indeterminate_order_9_v5.txt
+
+  public-pycliques-certificates:
+    name: Independent public-pycliques iterative construction and 242 lift replay
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned public pycliques
+        run: |
+          python -m pip install networkx==3.6.1
+          for attempt in 1 2 3; do
+            if git clone --quiet https://github.com/rvf0068/pycliques-project.git /tmp/pycliques-project; then
+              break
+            fi
+            test "$attempt" -lt 3
+            rm -rf /tmp/pycliques-project
+            sleep "$((5 * attempt))"
+          done
+          git -C /tmp/pycliques-project checkout --quiet 782deb653b8748e1b5759389cdd2134beac69351
+          python -m pip install /tmp/pycliques-project/packages/pycliques
+      - name: Reproduce O12 and O4 projections through public pycliques
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python research/order9_253650_o12_v1/verify.py --public
+          python research/order10_surface_10472553_o4_v1/verify.py --public
+          python -m research.order9_253650_o12_v1.verify_lifts_v16 --public
