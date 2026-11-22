@@ -11,9 +11,14 @@ import base64
 import hashlib
 import json
 import struct
+import sys
 from pathlib import Path
 
 import networkx as nx
+
+# All invariants below use assert. Fail closed under -O / PYTHONOPTIMIZE.
+if sys.flags.optimize:
+    raise RuntimeError("Certificate verification must run without Python optimization")
 
 HERE = Path(__file__).resolve().parent
 CERT = HERE / "certificate.json"
@@ -91,13 +96,29 @@ def verify(*, public: bool = False) -> None:
     assert (saved["host_order"], saved["host_edges"]) == (262, 21822)
     assert saved["host_edge_sha256"] == P4_SHA256
     assert saved["image_encoding"] == "uint16_little_endian_in_sorted_vertex_order"
+    # Independently match the claimed original graph to the frozen v16 census.
+    frozen = HERE.parents[1] / "indeterminate_order_10_v16.txt"
+    entries = [line for line in frozen.read_text(encoding="utf-8").splitlines()
+               if line and not line.startswith("#")]
+    matching = [line for line in entries if line.split()[0] == "10185592"]
+    assert matching == [f"10185592 10 {SOURCE_G6} - - -"], (
+        "Wrong McKay index, graph6, or frozen v16 census status"
+    )
+
     h = reconstruct(public=public)
     assert signature(h) == P4_SHA256, "Unexpected P4 labeling or edges"
 
     images = base64.b64decode(saved["images_b64"], validate=True)
     assert len(images) == 2 * len(h)
     values = struct.unpack("<" + "H" * len(h), images)
-    projection = dict(zip(sorted(h), values, strict=True))
+    # P4 retains some nonconsecutive original clique-label integers after
+    # dismantling. Array positions are ranks in sorted(h), *not* vertex IDs.
+    host_nodes = sorted(h)
+    assert len(host_nodes) == len(set(host_nodes))
+    projection = dict(zip(host_nodes, values, strict=True))
+    assert projection[144] == 144 and projection[176] == 176 and projection[239] == 239, (
+        "Target vertex labels must not be confused with sorted-array ranks"
+    )
     pairs = [tuple(map(int, pair)) for pair in saved["antipodal_pairs"]]
     assert len(pairs) == 6
     target_vertices = {v for a, b in pairs for v in (a, b)}
