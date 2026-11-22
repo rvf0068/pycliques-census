@@ -1,4 +1,4 @@
-name: Certify nine-v8 and ten-v19 residual census (5 and 1531)
+name: Replay historical nine-v8 and ten-v19 residual census (5 and 1531)
 
 on:
   pull_request:
@@ -33,15 +33,15 @@ jobs:
         env:
           PYTHONHASHSEED: "0"
         run: |
-          python -m py_compile research/order9_v8_order10_v19/verify.py research/order9_v8_order10_v19/replay_v18.py
-          python -m research.order9_v8_order10_v19.verify
+          python -m py_compile research/order9_v8_order10_v19/verify.py research/order9_v9_order10_v20/replay_v19.py research/order9_v8_order10_v19/replay_v18.py
+          python -m research.order9_v9_order10_v20.replay_v19
           python -m unittest discover -s tests -p test_current_root_index.py -v
       - name: Reject optimized verifier and unrelated failures
         run: |
           stdout_file=$(mktemp)
           stderr_file=$(mktemp)
           trap 'rm -f "$stdout_file" "$stderr_file"' EXIT
-          if python -O -m research.order9_v8_order10_v19.verify >"$stdout_file" 2>"$stderr_file"; then
+          if python -O -m research.order9_v9_order10_v20.replay_v19 >"$stdout_file" 2>"$stderr_file"; then
             echo "ERROR: optimized verification unexpectedly succeeded"
             exit 1
           else
@@ -67,7 +67,7 @@ jobs:
       - name: Reconstruct original from graph6, reverify all maps, and audit delta
         env:
           PYTHONHASHSEED: "0"
-        run: python -m research.order9_v8_order10_v19.verify --proofs
+        run: python -m research.order9_v9_order10_v20.replay_v19 --proofs
 
   historical-v18:
     name: Replay original nine-v7 / ten-v18 exhaustive promotion with immutable source inputs
@@ -105,4 +105,4 @@ jobs:
       - name: Independently verify O17 projection with public pycliques
         env:
           PYTHONHASHSEED: "0"
-        run: python -m research.order9_v8_order10_v19.verify --proofs --public
+        run: python -m research.order9_v9_order10_v20.replay_v19 --proofs --public
