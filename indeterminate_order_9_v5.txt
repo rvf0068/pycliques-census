@@ -1,0 +1,17 @@
+# Certified current indeterminate connected graphs of order nine, v5
+# Remaining=10 previous_v4=12 newly_proved_divergent=2
+# Removed original McKay 208409 (HCZTf\}) via full P4 -> O9 retraction.
+# Removed original McKay 260910 (HUZvvzu) via full P3 -> O15 retraction.
+# Sources: research/order9_f45_o9_v1/ and research/order9_260910_o15_v1/
+# Every retained v4 row is byte-for-byte unchanged; frozen v4 is immutable.
+# Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
+249436 9 HEhff^{ - - -
+249574 9 HEhfvx} - - -
+249576 9 HEhfvzu - - -
+250814 9 HEhuvzm - - -
+251628 9 HEhvVn{ - - -
+251759 9 HEhvtzm - - -
+251902 9 HEhvvzm - - -
+253650 9 HEjer~{ - - -
+254369 9 HEjfvx} - - -
+260040 9 HQyvex} - - -

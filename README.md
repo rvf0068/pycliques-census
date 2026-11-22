@@ -6,70 +6,57 @@ order 10. All classifications use a pinned revision of the Python monorepo
 The earlier pre-clockwork-fix experiment is retained in Git history; the
 current stage framework uses clean, stable directories.
 
-## Current certified census: exact P2-isomorphism lifts and octahedral retractions (November 21, 2026)
+## Current certified census: nine-vertex v5 and ten-vertex v16 (November 2026)
 
-The snub disphenoid remains **proved K-divergent** by an independently
-verified graph retraction `K^4(S) -> O_24` in
-[pycliques-project](https://github.com/rvf0068/pycliques-project/blob/main/docs/snub_o24_retraction.md).
-Its earlier proof removed 36 order-nine and 4,389 order-ten
-indeterminate references. The current order-nine working index is
-[`indeterminate_order_9_v4.txt`](indeterminate_order_9_v4.txt)
-(**12** indeterminate). Original McKay **248936** (`HEhev^{`)
-is now proved K-divergent: its second completely pared clique iterate
-is **exactly isomorphic** to that of previously O12-certified
-ten-vertex McKay 10223405. Both P2 graphs have 19 vertices and 117
-edges. The archived complete fourth-iterate O12 retraction transports
-along this isomorphism through the dismantling-preservation theorem.
+The authoritative **indeterminate** lists are now:
 
-The **new fourth-iterate retraction certificates** prove another 42
-previously unclassified original ten-vertex graphs K-divergent:
-three independent `O_6` retractions from fourth completely pared
-iterates, two `O_12` retractions, and an independently proved
-33-member class of isomorphic completely pared third iterates
-(including one of the `O_12` positive cores), plus five additional
-cores with explicitly verified isomorphisms of their fourth pared
-iterates onto that same O12-positive core. All complete retraction
-maps are replayable. The [proof report](research/order10_fourth_oct_v1/REPORT.md)
-explains the independent replays and the necessary prior isomorphism theorem.
+| Connected order | Latest frozen version | Unresolved original graphs | Previous count | Newly proved divergent |
+|---|---|---:|---:|---:|
+| 9 | [v5](indeterminate_order_9_v5.txt) | **10** | 12 | 2 |
+| 10 | [v16](indeterminate_order_10_v16.txt) | **2,341** | 2,541 | 200 |
 
-A further independent fourth-iterate retraction for McKay **10510367**
-(`ICZVByz~_`) proves it K-divergent: its 64-vertex fourth pared iterate
-retracts onto `O_12`. The full fixed-target projection is archived in
-[`research/order10_o12_dim_v13/`](research/order10_o12_dim_v13/),
-and an independent verifier reconstructs the sequence and checks every
-host edge after transporting the map by exact graph isomorphism.
+The root files [`indeterminate_order_9.txt`](indeterminate_order_9.txt)
+and [`indeterminate_order_10.txt`](indeterminate_order_10.txt)
+are byte-identical to these snapshots. All prior versioned indices
+and historical experiment records remain frozen.
 
-The canonical order-ten root is now
-[`indeterminate_order_10_v15.txt`](indeterminate_order_10_v15.txt):
-**2,541 remaining**, of which **120** depend on the separate unresolved
-reference `HCZTf\\}` and **2,421** are unconditional. The new
-[27-member exact P2-isomorphism certificate](research/order10_reference_lifts_pilot/certificate.json)
-and its [independent verifier](research/order10_reference_lifts_pilot/verify.py)
-prove **26 previously unresolved stiff ten-vertex graphs** K-divergent
-through their common P2 with the snub disphenoid and **one further graph**
-(McKay 11612099) through its P2-isomorphism with the previously certified
-divergent suspension `HUzrv~}`. All 27 original graph6 strings and explicit
-P2 bijections are saved; the full 2,568-source exact-isomorphism scan
-uses only public `pycliques` and NetworkX and has no P2 bound exclusions.
-The prior [frozen v14 index](indeterminate_order_10_v14.txt)
-contains 2,568 cases and remains immutable.
-The [exact P2-isomorphism certificate and proof](research/order9_p2_iso_lift_v1/REPORT.md)
-proves **219 additional order-ten originals K-divergent**, all with pared
-order nine, from **122 distinct pared graph6 encodings**. Every P2
-isomorphism is reconstructed and checked against all adjacencies and
-nonadjacencies using public `pycliques` and NetworkX. The historical
-order-nine v3 (**13**), order-ten v11 (**2,830**), v12 (**2,788**),
-and v13 (**2,787**) snapshots remain immutable. The original
-[`verify_v12.py`](research/order10_fourth_oct_v1/verify_v12.py)
-proof is preserved with a version-aware read-only replay wrapper.
-The [v13 verifier](research/order10_o12_dim_v13/verify.py)
-checks the earlier single deletion; the
-[new v4/v14 verifier](research/order9_p2_iso_lift_v1/verify.py)
-checks exactly 1+219 further deletions.
+**Latest proven results.** Merged [PR #63](https://github.com/rvf0068/pycliques-census/pull/63)
+certified 27 exact second-pared-iterate lifts of known divergent graphs.
+Merged [PR #64](https://github.com/rvf0068/pycliques-census/pull/64)
+proved two formerly unresolved nine-vertex graphs divergent:
+McKay **208409**, `F_{4,5}` (graph6 `HCZTf\}`), by
+`P4 -> O9`, and McKay **260910** (`HUZvvzu`), by `P3 -> O15`.
+The first proof independently verifies **120** formerly conditional
+ten-vertex certificates (72 exact references, 35 retractions,
+10 non-triangle-edge chains, three inverse-cutpoint extensions).
+An additional **80** unconditional ten-vertex proofs from McKay 260910
+(62 exact references, 14 retractions, four P2-isomorphism lifts)
+were independently certified in
+[PR #65](https://github.com/rvf0068/pycliques-census/pull/65).
+The 120 and 80 cohorts are disjoint and were still present in frozen
+v15; both are removed in v16 by complete positive certificates.
 
-The [bounded fourth-iterate sweep](research/order10_fourth_oct_v1/sweep.py)
-uses the existing `pycliques` package. Inconclusive search outcomes do
-**not** imply convergence or absence of retractions.
+**Every remaining ten-vertex record is unconditionally indeterminate.**
+Of the **2,341** originals, **1,386** completely pare to nine vertices
+and **955** are stiff ten-vertex graphs. The remaining ten-vertex
+flag triangulations of closed surfaces are exactly **nine**, all
+triangulations of `S^2`; no unresolved nine-vertex graph is a flag
+triangulation of a closed surface.
+
+See the [full v5/v16 proof review and classification table](research/order10_current_indeterminates_v16/REPORT.md)
+and its [exact reproducibility checker](research/order10_current_indeterminates_v16/verify.py).
+The [promotion manifest](research/order10_current_indeterminates_v16/promotion_manifest.json)
+records every excluded original McKay index and frozen source row.
+The new verifier independently replays the O9 and O15 retractions,
+all 120 F45 dependencies and all 80 O15 lifts; the optional full replay
+repeats the original 2,568-entry public-`pycliques` screen.
+The former [v15](indeterminate_order_10_v15.txt),
+[v14](indeterminate_order_10_v14.txt) and
+[nine-vertex v4](indeterminate_order_9_v4.txt) snapshots are immutable
+and their historical proof replays are preserved.
+
+The earlier certified census stages, historical search limitations,
+and reproducible commands remain documented below.
 
 ## Codespaces commands
 

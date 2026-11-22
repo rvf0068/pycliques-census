@@ -7,6 +7,10 @@ on:
       - "indeterminate_order_10_v14.txt"
       - "indeterminate_order_10_v15.txt"
       - "indeterminate_order_10.txt"
+      - "indeterminate_order_10_v16.txt"
+      - "indeterminate_order_9.txt"
+      - "indeterminate_order_9_v5.txt"
+      - "research/order10_current_indeterminates_v16/**"
       - "tests/test_current_root_index.py"
       - ".github/workflows/order10-reference-lifts-v15.yml"
   workflow_dispatch:
@@ -29,7 +33,7 @@ jobs:
       - name: Fail fast on verifier syntax errors
         run: python -m py_compile research/order10_reference_lifts_pilot/verify.py
       - name: Check all saved P2 maps and immutable v14 to v15 transition
-        run: python -m research.order10_reference_lifts_pilot.verify
+        run: python -m research.order10_current_indeterminates_v16.replay_v15
 
   public-pycliques-positive-replay:
     name: Verify 27 positives with public pycliques and replay historical v14
@@ -50,12 +54,12 @@ jobs:
         env:
           PYTHONHASHSEED: "0"
         run: |
-          python -m research.order10_reference_lifts_pilot.verify --public
+          python -m research.order10_current_indeterminates_v16.replay_v15 --public
           python -m unittest discover -s tests -p test_current_root_index.py -v
-      - name: Replay immutable historical v4/v14 proof under v15
+      - name: Replay immutable historical v4/v14 proof under v16
         env:
           PYTHONHASHSEED: "0"
-        run: python -m research.order10_reference_lifts_pilot.replay_v14
+        run: python -m research.order10_current_indeterminates_v16.replay_v14
 
   public-pycliques-exhaustive-screen:
     name: Full unbounded P2 screen (shard ${{ matrix.shard }}/8)
@@ -80,5 +84,5 @@ jobs:
         env:
           PYTHONHASHSEED: "0"
         run: |
-          python -m research.order10_reference_lifts_pilot.verify \
+          python -m research.order10_current_indeterminates_v16.replay_v15 \
             --full --shard ${{ matrix.shard }} --shards 8

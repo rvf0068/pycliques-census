@@ -26,7 +26,10 @@ jobs:
         run: |
           test "$(git hash-object indeterminate_order_9_v1.txt)" = "4f210949dad5e7350fc0185c34738e2bf46f9012"
           test "$(git hash-object indeterminate_order_9_v3.txt)" = "446cbb0be5f40b6014cdb530b1a314de95ff72b2"
-          cmp indeterminate_order_9.txt indeterminate_order_9_v4.txt
+          # Current nine-vertex root is now certified v5. Verify frozen
+          # v4 remains byte-identical and that root tracks the promoted v5.
+          test "$(git hash-object indeterminate_order_9_v4.txt)" = "9055247c5778091c07717fde17c68ee207764621"
+          cmp indeterminate_order_9.txt indeterminate_order_9_v5.txt
           git diff --exit-code "$BASE_SHA" HEAD -- \
             runs/ reports/ historical/ history/ config/ postpasses/ \
             scripts/core9_o4_divergence_v1.py \
