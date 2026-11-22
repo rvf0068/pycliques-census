@@ -56,7 +56,7 @@ jobs:
           python-version: "3.12"
       - name: Install NetworkX
         run: python -m pip install networkx==3.6.1
-      - name: Reconstruct all five divergent source graphs and 313 positive lifts
+      - name: Reconstruct four divergent source graphs and 313 positive lifts
         env:
           PYTHONHASHSEED: "0"
         run: python -m research.order10_current_indeterminates_v17.verify --proofs
