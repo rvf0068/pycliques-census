@@ -6,61 +6,75 @@ order 10. All classifications use a pinned revision of the Python monorepo
 The earlier pre-clockwork-fix experiment is retained in Git history; the
 current stage framework uses clean, stable directories.
 
-## Current certified census: nine-vertex v6 and ten-vertex v17 (November 2026)
+## Current certified census: nine-vertex v7 and ten-vertex v18 (November 2026)
 
-The authoritative **indeterminate** lists, newly audited after the
-merged proof-only PRs **#67, #68 and #69**, are:
+The newly audited authoritative **indeterminate** lists are:
 
-| Connected order | Latest frozen snapshot | Remaining original McKay graphs | Previous | Newly proved divergent |
+| Connected order | Certified snapshot | Remaining original McKay graphs | Previous | Newly proved divergent |
 |---|---|---:|---:|---:|
-| 9 | [v6](indeterminate_order_9_v6.txt) | **9** | 10 | 1 |
-| 10 | [v17](indeterminate_order_10_v17.txt) | **2,025** | 2,341 | 316 |
+| 9 | [v7](indeterminate_order_9_v7.txt) | **6** | 9 | 3 |
+| 10 | [v18](indeterminate_order_10_v18.txt) | **1,681** | 2,025 | 344 |
 
-The root files [`indeterminate_order_9.txt`](indeterminate_order_9.txt)
-and [`indeterminate_order_10.txt`](indeterminate_order_10.txt)
-are byte-identical to v6 and v17. Every earlier versioned list and
-historical research proof remains **frozen and unmodified**.
+The authoritative working root files
+[`indeterminate_order_9.txt`](indeterminate_order_9.txt) and
+[`indeterminate_order_10.txt`](indeterminate_order_10.txt) are
+byte-identical to v7 and v18. Earlier versioned lists, including
+[nine-v6](indeterminate_order_9_v6.txt) and
+[ten-v17](indeterminate_order_10_v17.txt), remain **frozen and unchanged**.
 
-**Why nine, not ten?** McKay **253650**, graph6 `HEjer~{`,
-was still present in the v5 nine-vertex list, although merged
-[PR #69](https://github.com/rvf0068/pycliques-census/pull/69)
-has already proved an ordinary retraction
-`P4(G_253650) -> O12`. Its complete 259-vertex
-positive witness and independent public-`pycliques` replay are
-in [the source proof](research/order9_253650_o12_v1/REPORT.md).
+### Three new divergence theorems and 344 ten-vertex consequences
 
-**The 316 previously unpromoted ten-vertex results** consist of
-**242** originals with completely pared nine-core isomorphic to
-253650, **71** stiff ten-core graphs with complete ordinary
-retractions to it, and **three** flag spheres with independently
-certified retractions: McKay **9804321** (`P4 -> O5`),
-**10185592** (`P4 -> O6`), and **10472553** (`P4 -> O4`).
-All 316 original McKay indices have explicit positive certificates.
-The three proof classes are disjoint. No speculative classification
-is promoted.
+Merged [PR #73](https://github.com/rvf0068/pycliques-census/pull/73)
+contains three independently verified *complete* fourth-iterate ordinary
+octahedral retractions:
 
-Every one of the **1,144** surviving ten-vertex originals with a
-nine-vertex pared core is **isomorphic to exactly one** of the nine
-surviving nine-vertex original graphs. Their family sizes, in
-ascending order of McKay nine-core index, are
-`141, 82, 141, 121, 147, 129, 150, 91, 142`.
-The other **881** residual ten-vertex originals are stiff.
-There are **six** unresolved ten-vertex flag triangulations of
-closed surfaces (all flag triangulations of `S^2`), and no
-unresolved nine-vertex flag surface.
+| Original nine-vertex McKay | Exact source proof | Distinct ten-vertex originals |
+|---:|---|---:|
+| 249436 | `P4 -> O10` | 141 |
+| 249574 | `P4 -> O12` | 82 |
+| 250814 | `P4 -> O14` | 121 |
+| **Total** | **3 K-divergence proofs** | **344** |
 
-See the [complete v6/v17 review, nine-core table and six surviving flag spheres](research/order10_current_indeterminates_v17/REPORT.md),
-the [independent verifier](research/order10_current_indeterminates_v17/verify.py),
-and the [316-record promotion manifest](research/order10_current_indeterminates_v17/promotion_manifest.json).
-The verifier replays exact maps, original-row identities and all
-nine-core families; its optional proof mode runs the full source
-retractions through the public `pycliques` library.
+The full projection on every fourth-iterate vertex is preserved in
+[`certificate.json`](research/order9_three_p4_retractions_v1/certificate.json).
+The independent
+[proof verifier](research/order9_three_p4_retractions_v1/verify.py)
+reconstructs all iterates, checks every edge image, and uses graph
+isomorphism to check the 344 distinct ten-vertex original consequences.
+[The v7/v18 promotion audit](research/order9_v7_order10_v18/verify.py)
+recomputes those families from the immutable v17 census and verifies
+**every retained original row** and exact deletion.
 
-The former [nine-v5](indeterminate_order_9_v5.txt),
-[ten-v16](indeterminate_order_10_v16.txt),
-[ten-v15](indeterminate_order_10_v15.txt) and all preceding
-snapshots remain immutable and can be replayed against their
-historical inputs.
+The **six** unresolved nine-vertex original McKay indices are
+`249576, 251628, 251759, 251902, 254369, 260040`.
+Their ten-vertex pared-nine dependents have family sizes
+`141, 147, 129, 150, 91, 142` respectively, for **800**.
+There are also **881** indeterminate ten-vertex originals with
+a ten-vertex pared core. Of those, six are flag triangulations of
+the sphere. None of these remaining cases has been classified
+by the octahedral negatives from merged PRs #71 and #72.
+
+### Historical results and reproduction
+
+The preceding census promotion [v6/v17](research/order10_current_indeterminates_v17/REPORT.md)
+corrected nine-core McKay 253650 (`P4 -> O12`),
+and certified 316 additional ten-vertex results, including
+242 exact isomorphism lifts, 71 stiff-ten retractions and
+three flag-sphere results. All preceding snapshots and their
+positive certificates remain independently replayable.
+
+The current authoritative audit runs:
+
+```sh
+python -m research.order9_v7_order10_v18.verify
+python -m research.order9_v7_order10_v18.verify --proofs
+python -m research.order9_v7_order10_v18.replay_v17 --families --surfaces
+```
+
+With pinned public pycliques installed, append `--proofs --public`
+to the first verifier. The promotion manifest and complete
+research note are under
+[`research/order9_v7_order10_v18/`](research/order9_v7_order10_v18/REPORT.md).
 
 ## Codespaces commands
 
