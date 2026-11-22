@@ -19,7 +19,25 @@ paired antipodally as follows:
 
 The complete 262-image projection is stored in certificate.json as a
 lossless base64 array of little-endian unsigned 16-bit vertex labels,
-indexed by sorted host vertices. The independent verifier reconstructs
+indexed by sorted host vertices.
+
+**Important labeling detail.** Although the pared graph has 262 vertices,
+the retained integer vertex labels are **not** the consecutive integers
+0,...,261: the fourth paring removes some numbered clique vertices and
+the maximum remaining label is 277. The 262 decoded integers therefore
+correspond to `sorted(P4.nodes())`, **not** to a lookup by vertex label.
+For example, vertex 144 has rank 141 and projection 144; vertex 176
+has rank 168 and projection 176; vertex 239 has rank 223 and projection
+239. Reading the array at positions 144, 176 or 239 instead conflates
+the array rank with the host label and gives incorrect answers.
+The verifier reconstructs the sorted host labels and checks all 262
+pairs as an explicit dictionary, including pointwise fixation of all
+twelve target vertices.
+
+The verifier also checks the exact original McKay row against immutable
+`indeterminate_order_10_v16.txt`. Because its checks use Python
+assertions, optimized execution (`python -O` or `PYTHONOPTIMIZE=1`)
+is rejected explicitly rather than being permitted to skip verification. The independent verifier reconstructs
 all pared iterates from the original graph6, checks the exact edge
 signature, checks the induced O6 nonedges, checks pointwise fixation of
 the twelve target vertices and checks the weak graph morphism condition
