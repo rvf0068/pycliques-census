@@ -8,6 +8,8 @@ on:
       - "indeterminate_order_9.txt"
       - "indeterminate_order_10_v13.txt"
       - "indeterminate_order_10_v14.txt"
+      - "indeterminate_order_10_v15.txt"
+      - "research/order10_reference_lifts_pilot/replay_v14.py"
       - "indeterminate_order_10.txt"
       - "tests/test_current_root_index.py"
       - "research/order10_fourth_oct_v1/**"
@@ -48,11 +50,11 @@ jobs:
             --output "$RUNNER_TEMP/order9-p2-lift.json"
           python research/order9_p2_iso_lift_v1/screen.py verify \
             --output "$RUNNER_TEMP/order9-p2-lift.json"
-      - name: Verify exact cohort, archived retraction, and v4/v14 index transitions
+      - name: Replay archived v4/v14 proof against immutable v14 snapshot
         env:
           PYTHONHASHSEED: "0"
         run: |
-          python -m research.order9_p2_iso_lift_v1.verify
+          python -m research.order10_reference_lifts_pilot.replay_v14
           python -m unittest discover -s tests -p test_current_root_index.py -v
       - uses: actions/upload-artifact@v4
         with:
