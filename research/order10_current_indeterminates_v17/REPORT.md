@@ -66,7 +66,7 @@ which are flag triangulations of closed surfaces:
 |---:|---|
 | 6499365 | `I?ovUqv\o` |
 | 8559181 | `ICQbQrvno` |
-| 10803453 | `ICp`epv~_` |
+| 10803453 | ``ICp`epv~_`` |
 | 11031156 | `ICpderm\o` |
 | 11138607 | `ICperXumW` |
 | 11548392 | `IEherhmmO` |
