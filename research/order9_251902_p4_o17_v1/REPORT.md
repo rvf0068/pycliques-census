@@ -88,9 +88,8 @@ ascending integer label on further ties.
 This ordering supplies **no target, antipodal pair, or projection**.
 The native coaffine algorithm from merged
 [pycliques-project PR #36](https://github.com/rvf0068/pycliques-project/pull/36)
-found P4 -> O17 in **300 search states** (23,311 arc revisions
-would be incorrect; the observed count is **22,311** revisions
-and 315 assignments). This discovery is therefore not hardcoding
+found P4 -> O17 in **300 search states**, with **22,311 arc revisions**
+and 315 assignments. This discovery is therefore not hardcoding
 the result of a previous octahedral search.
 
 Both the **complete positive certificate** and a copy of the
