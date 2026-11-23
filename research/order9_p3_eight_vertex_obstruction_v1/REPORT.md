@@ -16,8 +16,10 @@ pared clique iterate.
 | **260040** | `HQyvex}` | 58 | 1,289 |
 
 **Theorem.** None of these three graphs admits an ordinary graph
-retraction onto an induced **eight-vertex graph of maximum degree at
-most five**. In particular, none retracts onto an induced snub
+retraction onto an induced graph (T) in either of the two classes
+\(|V(T)|=8,\ \Delta(T)\le5\) or
+\(|V(T)|=9,\ \Delta(T)\le6\).
+In particular, none retracts onto an induced snub
 disphenoid, whose graph6 is `GQyuzw` and whose degree sequence
 is \(4,4,4,4,5,5,5,5\).
 
@@ -220,12 +222,92 @@ Optimized Python is explicitly rejected because the verifier
 uses proof-critical assertions. The optional C++ implementation
 returns a nonzero code for any timeout or malformed input.
 
+## Extension: exclude all nine-vertex low-degree retracts
+
+The general lemma applies just as well to a target of order
+\(t=9\) with maximum degree \(\Delta(T)\le6\). Its target
+vertex set must again be an external **2-cover** in the
+complement of the host.
+
+The separately implemented
+[exact-size-nine proof](verify_nine.py)
+enumerates **every** nine-element external 2-cover, even when
+smaller external covers also exist. This is important:
+McKay 251628 and 260040 have eight-element covers, so it
+would be unsound to rely on a size-nine-only *minimum*
+cover enumerator.
+
+| McKay | All size-nine external 2-covers | Candidates inducing \(\Delta(T)\le6\) | Candidates passing target-neighborhood necessity |
+|---:|---:|---:|---:|
+| **249576** | **30** | **0** | **0** |
+| **251628** | **297** | **109** | **0** |
+| **260040** | **343** | **122** | **0** |
+
+**Second exact obstruction.** If \(r:X\to T\) is a retraction
+fixing every target vertex and \(x\notin T\), then its image
+\(v=r(x)\in T\) must satisfy
+
+\[
+  N_X(x)\cap V(T)\subseteq N_T[v].
+\]
+
+This is necessary because every edge \(xu\) with \(u\in T\)
+must map to the edge \(vu\), or collapse to \(v=u\).
+The [nine-target verifier](verify_nine.py) checks *every*
+possible \(v\in T\) for *every* outside vertex \(x\)
+against this exact condition.
+
+For McKay 249576, not one of the thirty qualifying
+nine-element external covers induces a graph with
+maximum degree at most six. For McKay 251628 and
+260040, **all 109 and all 122** degree-eligible
+nine-element covers fail the displayed necessary
+target-neighborhood containment at some outside vertex.
+Thus none can be the image of a retraction.
+
+The nine-target enumeration uses only integral bitmasks.
+Its forced-selection steps and rigorous deficit-gain
+pruning bound are the same sound mathematical principles
+as in the eight-target proof. Unlike the eight-target
+enumerator, if all external covering constraints are
+already satisfied with fewer than nine selected vertices,
+it explicitly enumerates **every possible completion**
+to exactly nine vertices among the remaining undecided
+vertices. Consequently, smaller covers never cause
+nine-element targets to be missed.
+
+As a separate independent verification of this additional
+enumeration code, its exact-k results were checked
+against direct brute-force enumeration on **276 random
+small graph/budget instances**, including cases with
+smaller existing covers. No sampling is used in the
+actual McKay proof.
+
+The 109 and 122 degree-eligible candidates have only
+three induced isomorphism types in each host; the
+exclusion uses the stronger universal vertex-domain
+criterion for every actual embedding, not just these
+three representatives. This result does not depend on
+their homology, on convergence conjectures, or on any
+retraction timeout.
+
+To reproduce the extra theorem:
+
+```sh
+python -m research.order9_p3_eight_vertex_obstruction_v1.verify_nine
+```
+
+Together, both independently checkable finite theorems
+exclude **every induced target of order 8 or 9 with
+maximum degree at most \(|V(T)|-3\)** from the third
+pared iterates of all three remaining nine-v9 sources.
+
 ## Classification implications and limitations
 
 This is **not** a proof of K-convergence or K-divergence for any
 of the three unresolved originals. It eliminates the full
-class of third-iterate ordinary retractions onto eight-vertex
-graphs with maximum degree at most five, including the
+class of third-iterate ordinary retractions onto eight- or nine-vertex
+graphs whose maximum degree is at most their order minus three, including the
 already-proved K-divergent snub disphenoid.
 
 The remaining research should focus on either larger induced
