@@ -120,9 +120,14 @@ optimizations:
   from the most restrictive currently deficient row. It performs
   forced selections when the available neighbor count equals the
   remaining deficit.
-- The [C++17 verifier](enumerate.cpp) branches on a highest-global-gain
-  vertex, independent of the Python branch rule. Its orchestration
-  is in [replay_cpp.py](replay_cpp.py).
+- The [C++17 verifier](enumerate.cpp) uses [native_p3.hpp](native_p3.hpp)
+  to decode the original graph6 and independently construct P0, P1, P2,
+  and P3 using native maximal-clique enumeration and dominated-vertex
+  deletion. It verifies the expected stage orders, edge counts, and P3
+  triangle counts before branching on a highest-global-gain vertex,
+  independently of the Python search rule. The [replay](replay_cpp.py)
+  supplies only the frozen original McKay index and graph6, never a
+  Python-produced P3 edge list.
 - Both use a rigorously safe optimistic bound. If the remaining
   deficient rows have total deficit \(D\), and an undecided
   vertex \(v\) can cover at most
