@@ -1,0 +1,87 @@
+name: Certify P3 ten-vertex low-degree retraction obstruction for three nine-v9 cores
+
+on:
+  pull_request:
+    paths:
+      - "indeterminate_order_9_v9.txt"
+      - "research/order9_p3_eight_vertex_obstruction_v1/**"
+      - "research/order9_p3_ten_vertex_obstruction_v1/**"
+      - ".github/workflows/order9-p3-ten-vertex-obstruction.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python-exhaustive-open-domination:
+    name: Python independent exact 2161/12822/17620 ten-covers, zero unary survivors
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Check small-graph brute-force oracle and exact all-graph enumeration
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python -m py_compile research/order9_p3_ten_vertex_obstruction_v1/verify.py
+          python -m research.order9_p3_ten_vertex_obstruction_v1.verify
+      - name: Reject bypassed proof-critical assertions
+        run: |
+          out=$(mktemp)
+          err=$(mktemp)
+          trap 'rm -f "$out" "$err"' EXIT
+          if python -O -m research.order9_p3_ten_vertex_obstruction_v1.verify >"$out" 2>"$err"; then
+            echo "ERROR: optimized proof unexpectedly succeeded"
+            exit 1
+          else
+            status=$?
+          fi
+          if [ "$status" -ne 1 ] || ! grep -Fxq 'RuntimeError: Optimized Python bypasses proof-critical assertions' "$err"; then
+            echo "ERROR: unexpected optimized proof failure ($status)"
+            cat "$out"
+            cat "$err" >&2
+            exit 1
+          fi
+
+  independent-cpp17-exhaustion:
+    name: C++17 reconstruct original graph6 P3 and exhaust ten-target candidates
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - run: c++ --version
+      - name: Compile independent solver and require exhaustive integer proof
+        env:
+          PYTHONHASHSEED: "0"
+        run: python -m research.order9_p3_ten_vertex_obstruction_v1.replay_cpp
+
+  pinned-public-pycliques-independent-input:
+    name: Check P0-P3 from pinned public pycliques and replay complete ten-target proof
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/checkout@v4
+        with:
+          repository: rvf0068/pycliques-project
+          ref: 4110b59cc89bc303628f705250d025a308a8c69d
+          path: pycliques-dependency
+          persist-credentials: false
+      - run: |
+          python -m pip install networkx==3.6.1
+          python -m pip install ./pycliques-dependency/packages/pycliques
+      - name: Verify public graph construction and independent exact ten-target exclusion
+        env:
+          PYTHONHASHSEED: "0"
+        run: python -m research.order9_p3_ten_vertex_obstruction_v1.verify --public
