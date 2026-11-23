@@ -68,8 +68,10 @@ were inconclusive, not proofs of non-divergence.
 The [certified low-degree target obstruction](research/order9_p3_eight_vertex_obstruction_v1/REPORT.md)
 shows that **none** of the three remaining nine-v9 sources has an
 ordinary retraction from its third completely pared clique iterate
-onto an induced target of **eight vertices and maximum degree at most five**,
-or **nine vertices and maximum degree at most six**.
+onto **any induced target of at most nine vertices whose maximum
+degree is at most its order minus three**. This follows by
+excluding all external double covers up to size seven,
+and separately exhausting the eight- and nine-vertex cases.
 
 The exhaustive integer enumeration gives **0, 1, 1** eight-element
 external double covers. Homology rules out the unique targets in the
