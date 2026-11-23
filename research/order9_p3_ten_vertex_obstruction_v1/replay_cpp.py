@@ -1,6 +1,8 @@
 """Compile an independent C++17 certificate for the ten-target obstruction.
 
-The C++ solver uses a maximum-global-gain branching heuristic; the
+The C++ program rebuilds P0-P3 from the original graph6 without Python
+edge lists, checks stage sizes and triangle counts, and then uses a
+maximum-global-gain branching heuristic; the
 pure Python verifier uses a most-constrained-row branching heuristic.
 Both independently enumerate all valid target sets and test the
 necessary fixed-target image domains. Any timeout or failed process
@@ -16,8 +18,8 @@ import tempfile
 
 from research.order9_p3_eight_vertex_obstruction_v1.verify import (
     SOURCES,
+    FROZEN,
     check,
-    reconstruct_p3,
     verify_frozen_sources,
 )
 from research.order9_p3_ten_vertex_obstruction_v1.verify import EXPECTED
@@ -28,7 +30,7 @@ if sys.flags.optimize:
 HERE = Path(__file__).resolve().parent
 CPP_SOURCE = HERE / "enumerate.cpp"
 RESULT = re.compile(
-    r"^EXHAUSTIVE size=10 open_double_covers=(\d+) "
+    r"^EXHAUSTIVE native_P3=(\d+)/(\d+) size=10 open_double_covers=(\d+) "
     r"unary_survivors=(\d+) search_nodes=(\d+) "
     r"forced=(\d+) bound_prunes=(\d+)$"
 )
@@ -46,15 +48,20 @@ def verify() -> None:
         )
         check(compile_run.returncode == 0,
               f"C++17 compilation failed: {compile_run.stderr}")
+        # Read the immutable ORIGINAL graph6 rows, not Python's P3
+        # adjacency. Native C++ decodes graph6, computes K and dominated
+        # vertex paring three times, and verifies P0-P3 sizes and triangles.
+        originals = {}
+        for line in FROZEN.read_text(encoding="ascii").splitlines():
+            if line and not line.startswith("#"):
+                fields = line.split()
+                check(len(fields) == 7, "Unexpected frozen source row")
+                check(int(fields[1]) == 9, "Incorrect original order")
+                originals[int(fields[0])] = fields[2]
+        check(set(originals) == set(SOURCES), "Incorrect original source set")
         for idx in SOURCES:
-            graph = reconstruct_p3(idx)
-            source = location / f"McKay_{idx}_P3.edgelist"
-            with source.open("w", encoding="ascii") as output:
-                output.write(f"{len(graph)} {graph.number_of_edges()}\n")
-                for u, v in graph.edges():
-                    output.write(f"{u} {v}\n")
             result = subprocess.run(
-                [str(binary), str(source), "10", "40"],
+                [str(binary), str(idx), originals[idx], "10", "40"],
                 capture_output=True, text=True, check=False, timeout=50,
             )
             check(
@@ -65,16 +72,18 @@ def verify() -> None:
             match = RESULT.fullmatch(result.stdout.strip())
             check(match is not None,
                   f"C++ output malformed or not exhaustive for McKay {idx}")
-            cover_count, survivors, states, forced, bounds = (
+            order, edges, cover_count, survivors, states, forced, bounds = (
                 int(v) for v in match.groups()
             )
             check(
-                cover_count == EXPECTED[idx]
+                (order, edges) == SOURCES[idx]["stages"][3]
+                and cover_count == EXPECTED[idx]
                 and survivors == 0 and states > 0 and bounds > 0,
                 f"Independent C++17 result disagrees at McKay {idx}",
             )
             print(
-                f"PASS_CXX McKay={idx} ten_open_double_covers={cover_count} "
+                f"PASS_CXX McKay={idx} native_P3={order}/{edges} "
+                f"ten_open_double_covers={cover_count} "
                 f"unary_survivors={survivors} "
                 f"integer_states={states} forced={forced} "
                 f"safe_pruning_bound_uses={bounds}",
