@@ -16,7 +16,7 @@ pared clique iterate.
 | **260040** | `HQyvex}` | 58 | 1,289 |
 
 **Theorem.** None of these three graphs admits an ordinary graph
-retraction onto an induced graph (T) in either of the two classes
+retraction onto an induced graph \(T\) in either of the two classes
 \(|V(T)|=8,\ \Delta(T)\le5\) or
 \(|V(T)|=9,\ \Delta(T)\le6\).
 In particular, none retracts onto an induced snub
@@ -24,7 +24,7 @@ disphenoid, whose graph6 is `GQyuzw` and whose degree sequence
 is \(4,4,4,4,5,5,5,5\).
 
 This is stronger than screening only finitely many *selected*
-snub embeddings. It excludes **all** targets in that class.
+snub embeddings. It excludes **all** targets in both stated classes.
 
 ## General local-degree obstruction
 
