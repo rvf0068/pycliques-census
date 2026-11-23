@@ -15,10 +15,17 @@ pared clique iterate.
 | **251628** | `HEhvVn{` | 55 | 1,156 |
 | **260040** | `HQyvex}` | 58 | 1,289 |
 
-**Theorem.** None of these three graphs admits an ordinary graph
-retraction onto an induced graph \(T\) in either of the two classes
-\(|V(T)|=8,\ \Delta(T)\le5\) or
-\(|V(T)|=9,\ \Delta(T)\le6\).
+**Theorem.** For each of the three graphs \(X=P_3(G)\), there is
+**no ordinary retraction** onto any induced \(T\subseteq X\) with
+
+\[
+  |V(T)|\le9,\qquad \Delta(T)\le |V(T)|-3.
+\]
+
+The cases of order eight and nine are established by the two
+complete enumerations below. The cases \(|V(T)|\le7\) are already
+excluded by their independently certified fact that there are
+**no external double covers of size at most seven**.
 In particular, none retracts onto an induced snub
 disphenoid, whose graph6 is `GQyuzw` and whose degree sequence
 is \(4,4,4,4,5,5,5,5\).
@@ -297,10 +304,12 @@ To reproduce the extra theorem:
 python -m research.order9_p3_eight_vertex_obstruction_v1.verify_nine
 ```
 
-Together, both independently checkable finite theorems
-exclude **every induced target of order 8 or 9 with
-maximum degree at most \(|V(T)|-3\)** from the third
-pared iterates of all three remaining nine-v9 sources.
+Together, both independently checkable finite theorems,
+and the exact exclusion of all external double covers with
+fewer than eight vertices, prove the advertised uniform
+**small-retract obstruction for all orders \(t\le9\)
+with \(\Delta(T)\le t-3\)**. For \(t\le2\), that degree
+condition is vacuous for nonempty simple graphs.
 
 ## Classification implications and limitations
 
