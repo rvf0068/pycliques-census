@@ -26,6 +26,8 @@
 #include <unordered_set>
 #include <vector>
 
+#include "native_p3.hpp"
+
 using Bits = std::uint64_t;
 static int n = 0, target_size = 0;
 static Bits complement_open[64]{}, full = 0;
@@ -171,44 +173,32 @@ static void search(Bits selected, Bits excluded) {
 
 int main(int argc, char** argv) {
     try {
-        if (argc != 4)
+        if (argc != 5)
             throw std::runtime_error(
-                "Usage: enumerate.cpp host.edgelist size time_limit_seconds"
+                "Usage: enumerate.cpp McKay_index original_graph6 size time_limit_seconds"
             );
-        target_size = std::stoi(argv[2]);
-        time_limit = std::stod(argv[3]);
+        const int index = std::stoi(argv[1]);
+        target_size = std::stoi(argv[3]);
+        time_limit = std::stod(argv[4]);
         if (time_limit <= 0.0)
             throw std::runtime_error("invalid time limit");
 
-        std::FILE* file = std::fopen(argv[1], "r");
-        if (!file) throw std::runtime_error("missing graph file");
-        int edge_count = 0;
-        if (std::fscanf(file, "%d %d", &n, &edge_count) != 2
-                || n < 1 || n > 63 || edge_count < 0
-                || target_size < 1 || target_size > n)
-            throw std::runtime_error("invalid graph header");
-
-        const Bits all = (Bits(1) << n) - 1;
-        full = all;
-        Bits graph_open[64]{};
-        for (int i = 0; i < edge_count; ++i) {
-            int u, v;
-            if (std::fscanf(file, "%d %d", &u, &v) != 2
-                    || u < 0 || v < 0 || u >= n || v >= n || u == v)
-                throw std::runtime_error("invalid source edge");
-            graph_open[u] |= Bits(1) << v;
-            graph_open[v] |= Bits(1) << u;
-        }
-        std::fclose(file);
-
+        // Independently reconstruct every P0-P3 stage in native C++.
+        // No graph/edgelist is created by Python for this verification.
+        const auto graph = native_p3::build(index, argv[2]);
+        const auto graph_open = native_p3::bitmasks(graph);
+        n = graph.size();
+        if (n < 1 || n > 63 || target_size < 1 || target_size > n)
+            throw std::runtime_error("invalid reconstructed P3 dimension");
+        full = (Bits(1) << n) - 1;
         for (int x = 0; x < n; ++x)
-            complement_open[x] =
-                all & ~(graph_open[x] | (Bits(1) << x));
+            complement_open[x] = full & ~(graph_open[x] | (Bits(1) << x));
 
         begin = std::chrono::steady_clock::now();
         search(0, 0);
         std::cout
-            << "EXHAUSTIVE size=" << target_size
+            << "EXHAUSTIVE native_P3=" << n << "/" << graph.edge_count()
+            << " size=" << target_size
             << " open_double_covers=" << solutions
             << " unary_survivors=" << unary_survivors
             << " search_nodes=" << nodes
