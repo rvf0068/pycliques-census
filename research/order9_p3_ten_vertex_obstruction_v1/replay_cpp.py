@@ -55,7 +55,7 @@ def verify() -> None:
         for line in FROZEN.read_text(encoding="ascii").splitlines():
             if line and not line.startswith("#"):
                 fields = line.split()
-                check(len(fields) == 7, "Unexpected frozen source row")
+                check(len(fields) == 6, "Unexpected frozen source row")
                 check(int(fields[1]) == 9, "Incorrect original order")
                 originals[int(fields[0])] = fields[2]
         check(set(originals) == set(SOURCES), "Incorrect original source set")
