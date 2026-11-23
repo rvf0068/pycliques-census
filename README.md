@@ -82,6 +82,22 @@ fixed-target neighborhood condition. This includes every induced snub
 disphenoid target at P3. Neither theorem proves K-convergence or
 K-divergence; the authoritative nine-v9/ten-v20 indices are unchanged.
 
+### Extension: exact low-degree retraction obstruction through order ten
+
+The new [complete ten-target proof](research/order9_p3_ten_vertex_obstruction_v1/REPORT.md)
+extends the preceding third-iterate obstruction from target order
+nine to **all target orders at most ten** satisfying
+`maximum degree <= target order - 3`. The necessary open
+double-domination condition yields exactly **2,161**, **12,822**
+and **17,620** ten-vertex candidates for McKay 249576,
+251628 and 260040. None passes the necessary fixed-target
+neighborhood image condition. Two separately implemented
+integer searches (Python and C++17) exhaustively agree on
+all **32,603** candidates, with no use of bounded negative
+search conclusions. The three original nine-vertex graphs
+remain **indeterminate**, and the authoritative census
+counts are unchanged.
+
 ### Historical and current audit reproduction
 
 The preceding [v8/v19 certified promotion](research/order9_v8_order10_v19/REPORT.md)
