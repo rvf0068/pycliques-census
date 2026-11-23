@@ -46,6 +46,25 @@ jobs:
             exit 1
           fi
 
+
+  nine-vertex-exact-obstruction:
+    name: Exhaust 30,297,343 size-nine double covers and verify all 231 low-degree unary contradictions
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Exact-size-nine DPLL, independent small-graph brute-force tests, and fixed-target unary proof
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python -m py_compile research/order9_p3_eight_vertex_obstruction_v1/verify_nine.py
+          python -m research.order9_p3_eight_vertex_obstruction_v1.verify_nine
+
+
   independently-compiled-integer-proof:
     name: C++17 exact eight-cover counts 0,1,1 independently replayed
     runs-on: ubuntu-latest
