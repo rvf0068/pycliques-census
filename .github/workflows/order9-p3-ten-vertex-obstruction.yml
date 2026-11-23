@@ -48,7 +48,7 @@ jobs:
           fi
 
   independent-cpp17-exhaustion:
-    name: C++17 independently exhaust exact size-ten candidates and unary images
+    name: C++17 reconstruct original graph6 P3 and exhaust ten-target candidates
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
