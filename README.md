@@ -63,6 +63,25 @@ flag-sphere triangulations. All three nine-v9 sources remain
 **indeterminate**: the earlier bounded octahedral searches
 were inconclusive, not proofs of non-divergence.
 
+### New exact P3 obstruction to eight- and nine-vertex retracts (proof-only)
+
+The [certified low-degree target obstruction](research/order9_p3_eight_vertex_obstruction_v1/REPORT.md)
+shows that **none** of the three remaining nine-v9 sources has an
+ordinary retraction from its third completely pared clique iterate
+onto **any induced target of at most nine vertices whose maximum
+degree is at most its order minus three**. This follows by
+excluding all external double covers up to size seven,
+and separately exhausting the eight- and nine-vertex cases.
+
+The exhaustive integer enumeration gives **0, 1, 1** eight-element
+external double covers. Homology rules out the unique targets in the
+last two hosts. For size nine, the exhaustive enumeration gives
+**30, 297, 343** external double covers, of which **0, 109, 122**
+are degree-eligible. All 231 eligible targets fail an exact necessary
+fixed-target neighborhood condition. This includes every induced snub
+disphenoid target at P3. Neither theorem proves K-convergence or
+K-divergence; the authoritative nine-v9/ten-v20 indices are unchanged.
+
 ### Historical and current audit reproduction
 
 The preceding [v8/v19 certified promotion](research/order9_v8_order10_v19/REPORT.md)
