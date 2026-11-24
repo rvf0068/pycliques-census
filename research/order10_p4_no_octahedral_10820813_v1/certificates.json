@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "kind": "complete_nonexistence_of_ordinary_octahedral_retractions_from_pared_fourth_iterate",
+  "kind": "complete_nonexistence_of_ordinary_octahedral_retractions_through_fourth_pared_iterate",
   "source": {
     "index": 10820813,
     "graph6": "ICp`fpv~_",
@@ -89,5 +89,55 @@
     }
   },
   "induced_O1": 585,
-  "induced_O2": 41878
+  "induced_O2": 41878,
+  "earlier_stages": {
+    "P0": {
+      "complement_edges": 20,
+      "induced_O1": 20,
+      "induced_O2": 15,
+      "induced_O3": 0,
+      "dominating_O3": 0,
+      "initial_empty_O3": 0,
+      "direct_contradiction_O3": 0,
+      "propagated_contradiction_O3": 0,
+      "unrefuted_O3": 0,
+      "induced_O4_or_higher": 0
+    },
+    "P1": {
+      "complement_edges": 53,
+      "induced_O1": 53,
+      "induced_O2": 115,
+      "induced_O3": 0,
+      "dominating_O3": 0,
+      "initial_empty_O3": 0,
+      "direct_contradiction_O3": 0,
+      "propagated_contradiction_O3": 0,
+      "unrefuted_O3": 0,
+      "induced_O4_or_higher": 0
+    },
+    "P2": {
+      "complement_edges": 136,
+      "induced_O1": 136,
+      "induced_O2": 360,
+      "induced_O3": 3,
+      "dominating_O3": 0,
+      "initial_empty_O3": 0,
+      "direct_contradiction_O3": 0,
+      "propagated_contradiction_O3": 0,
+      "unrefuted_O3": 0,
+      "induced_O4_or_higher": 0
+    },
+    "P3": {
+      "complement_edges": 278,
+      "induced_O1": 278,
+      "induced_O2": 5907,
+      "induced_O3": 4392,
+      "dominating_O3": 4224,
+      "initial_empty_O3": 0,
+      "direct_contradiction_O3": 0,
+      "propagated_contradiction_O3": 4224,
+      "unrefuted_O3": 0,
+      "induced_O4_or_higher": 0
+    }
+  }
 }
