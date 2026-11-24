@@ -26,6 +26,44 @@ Any new positive exact P4 isomorphism to one of these references
 proves K-divergence by transporting the already certified
 ordinary graph retraction.
 
+## Complete pilot results (GitHub Actions run 45460379020)
+
+The twelve original search shards completed successfully and produced a
+complete [206-case results archive](results.json). Every selected graph
+belongs to a *different certified P3 isomorphism class* in the merged
+global ten-v23 index.
+
+| Explicit outcome | Original P3 class representatives |
+|---|---:|
+| Reconstructed completely through the fourth pared clique iterate | **180** |
+| Explicit fourth-iterate maximal-clique cap (751st facet) | **26** |
+| P4 with the same vertex/edge counts as any of the five divergent sources | **0** |
+| Collisions of (P4 vertex count, P4 edge count) among completed cases | **0** |
+| **Total selected, P3 orders 41–55** | **206** |
+
+Thus all **180** completed fourth iterates have pairwise different
+((|V(P_4)|,|E(P_4)|)) signatures, immediately proving they are
+**pairwise nonisomorphic**. Their signatures also differ from each of
+the five certified divergent fourth-iterate references: no reference
+isomorphism proof arises in this finite range.
+
+The **26** over-cap graphs are explicitly inconclusive; none has been
+declared K-convergent or non-divergent. No census rows were removed.
+
+The unusually small McKay **10820813**, graph6 `ICp`fpv~_`,
+has (P_3) with 43 vertices/625 edges but (P_4) with only
+**70 vertices/1,830 edges**, making it a particularly promising
+subject for a *new* retraction search rather than reference-isomorphism
+comparison. The full 206-case table also provides a rational ordering
+for later targeted octahedral-retraction investigations.
+
+The [archive audit](verify_results.py) validates all 206 source
+identities, counts, resource flags, and uniqueness of signatures.
+The CI workflow also **reconstructs every selected source again in
+its original shard**, then compares the entire new result record to
+its saved archive entry. A positive classification would still
+require a complete separately verified isomorphism or retraction.
+
 ## Resource bounds and epistemic status
 
 - Cap at **750 maximal cliques** at each iteration. Any over-bound
