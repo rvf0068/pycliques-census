@@ -1,0 +1,119 @@
+{
+  "schema": 1,
+  "claim": "exact_fifth_pared_clique_iterate_and_dominating_induced_O20_without_retraction_to_that_target",
+  "source_index": 10820813,
+  "source_graph6": "ICp`fpv~_",
+  "previous_proof_archive": "research/order10_p4_no_octahedral_10820813_v1/certificates.json",
+  "previous_proof_git_blob": "7710be701ee61f88a4168e9c57c5a0e5aae91333",
+  "frozen_P4_graph6_sha256": "c26ee7c369318b01c0598b0ef7270b406c538bfd0ec34f5152c1ff649a3f3873",
+  "raw_K5": {
+    "order": 1977,
+    "edges": 1742560,
+    "little_endian_adjacency_sha256": "ed05c0dd4b6f29789913b06448ac1657975b33368240ca2b393a44e0bb40c24f",
+    "maximal_cliques_of_P4": 1977
+  },
+  "one_round_pared": {
+    "deleted_vertices": 81,
+    "stiff_survivor_order": 1896,
+    "stiff_survivor_edges": 1601683,
+    "complement_edges": 194777,
+    "little_endian_adjacency_sha256": "5c1f72ed509e8e4fdc8710278aac9c944f4507b8c0fee8862e956c88f6678220"
+  },
+  "witness": {
+    "target": "induced_O20_in_P5",
+    "antipodal_pairs": [
+      [
+        784,
+        1374
+      ],
+      [
+        817,
+        1401
+      ],
+      [
+        1406,
+        451
+      ],
+      [
+        449,
+        1014
+      ],
+      [
+        1400,
+        471
+      ],
+      [
+        1016,
+        1042
+      ],
+      [
+        763,
+        1463
+      ],
+      [
+        1586,
+        401
+      ],
+      [
+        759,
+        1465
+      ],
+      [
+        1464,
+        355
+      ],
+      [
+        1871,
+        354
+      ],
+      [
+        1763,
+        251
+      ],
+      [
+        0,
+        1878
+      ],
+      [
+        1498,
+        129
+      ],
+      [
+        604,
+        1744
+      ],
+      [
+        1397,
+        857
+      ],
+      [
+        425,
+        1232
+      ],
+      [
+        1009,
+        415
+      ],
+      [
+        518,
+        1071
+      ],
+      [
+        564,
+        1544
+      ]
+    ],
+    "complement_dominates_all_1896": true,
+    "forced_outside_vertices": 210,
+    "forced_conflict": {
+      "host_edge": [
+        87,
+        458
+      ],
+      "forced_target_images": [
+        857,
+        1397
+      ]
+    }
+  }
+}
