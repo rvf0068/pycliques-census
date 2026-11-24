@@ -51,7 +51,7 @@ def run(stage: str) -> None:
             old_v24.verify_archive()
             check_tests(old_v24_tests)
             print("PASS: frozen v24 complete O12 positive proofs", flush=True)
-        if stage == "v24_transport":
+        if stage in ("v24_transport", "all"):
             old_transport.main()
             print("PASS: frozen v24 transported O12 full projections", flush=True)
         if stage in ("p4_obstruction", "all"):
@@ -69,8 +69,10 @@ def run(stage: str) -> None:
             old_p5.verify()
             print("PASS: frozen 10820813 P5 growth / O20 witness", flush=True)
         if stage in ("p4_cap", "all"):
+            # test_replay_all_26_exact_fourth_iterates invokes old_cap.verify()
+            # itself. Running old_cap.verify() here a second time would
+            # reconstruct all 26 expensive graphs redundantly.
             check_tests(old_cap_tests)
-            old_cap.verify()
             print("PASS: frozen 26 recovered P4 graph certificates", flush=True)
 
 
