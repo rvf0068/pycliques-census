@@ -70,8 +70,8 @@ def shape(g: nx.Graph) -> tuple[int, int]:
     return len(g), g.number_of_edges()
 
 
-def reconstruct(cert: dict) -> nx.Graph:
-    """Reconstruct each completely pared stage and check immutable sources."""
+def reconstruct_all(cert: dict) -> list[nx.Graph]:
+    """Reconstruct all five completely pared stages and check source blobs."""
     src = cert["source"]
     require(src["index"] == 10820813 and
             src["census_snapshot"] == SNAPSHOT.name and
@@ -98,6 +98,7 @@ def reconstruct(cert: dict) -> nx.Graph:
 
     g = independent_pare(nx.from_graph6_bytes(src["graph6"].encode("ascii")))
     stages = [list(shape(g))]
+    graphs = [g]
     raw_p4 = None
     for stage in range(1, 5):
         # Two independent maximal-clique enumerators are cross-checked
@@ -108,6 +109,7 @@ def reconstruct(cert: dict) -> nx.Graph:
         if stage == 4:
             raw_p4 = list(shape(raw))
         g = independent_pare(raw)
+        graphs.append(g)
         stages.append(list(shape(g)))
     require(stages == cert["completely_pared_orders_edges"] and
             raw_p4 == cert["raw_P4"] and
@@ -118,7 +120,12 @@ def reconstruct(cert: dict) -> nx.Graph:
     ).hexdigest()
     require(digest == cert["P4_graph6_sha256"],
             "Exact canonical labeled fourth iterate SHA-256 changed")
-    return g
+    return graphs
+
+
+def reconstruct(cert: dict) -> nx.Graph:
+    """Compatibility wrapper for the pinned fourth-iterate graph."""
+    return reconstruct_all(cert)[-1]
 
 
 def neighborhood_masks(g: nx.Graph) -> tuple[list[int], list[int]]:
@@ -208,7 +215,10 @@ def enumerate_targets(g: nx.Graph) -> dict:
         for v in range(u + 1, n)
         if complement[u] & (1 << v)
     ]
-    require(len(pairs) == 585, "Unexpected complement size")
+    require(
+        len(pairs) == n * (n - 1) // 2 - g.number_of_edges(),
+        "Unexpected complement graph edge count",
+    )
     closed = [complement[u] | (1 << u) for u in range(n)]
     covered_by = [closed[u] | closed[v] for u, v in pairs]
     compatible_future = [0] * len(pairs)
@@ -272,7 +282,7 @@ def enumerate_targets(g: nx.Graph) -> dict:
 def verify_result(cert: dict, result: dict) -> None:
     require(cert["schema"] == 1 and
             cert["kind"] ==
-            "complete_nonexistence_of_ordinary_octahedral_retractions_from_pared_fourth_iterate",
+            "complete_nonexistence_of_ordinary_octahedral_retractions_through_fourth_pared_iterate",
             "Wrong complete-retraction-obstruction certificate kind")
     require(cert["complement_edges"] == 585,
             "Expected complement order/size changed")
@@ -301,6 +311,64 @@ def verify_result(cert: dict, result: dict) -> None:
     )
 
 
+def verify_earlier_stages(
+    cert: dict, stage_graphs: list[nx.Graph],
+) -> None:
+    """Certify all P0--P3 no-octahedral-retraction cases independently."""
+    require(len(stage_graphs) == 4, "Must check precisely four earlier stages")
+    expected = {
+        "P0": (20, 15, 0, 0, 0),
+        "P1": (53, 115, 0, 0, 0),
+        "P2": (136, 360, 3, 0, 0),
+        "P3": (278, 5907, 4392, 4224, 4224),
+    }
+    require(set(cert["earlier_stages"]) == set(expected),
+            "Missing or unexpected earlier-iterate proof")
+    for stage, graph in enumerate(stage_graphs):
+        label = f"P{stage}"
+        tally = enumerate_targets(graph)
+        c3 = tally["counts"]["O3"]
+        observed = (
+            tally["induced_O1"], tally["induced_O2"],
+            c3["induced"], c3["dominating"],
+            c3["propagated_contradiction"],
+        )
+        require(observed == expected[label], f"Wrong {label} target totals")
+        require(all(
+            tally["counts"][f"O{d}"] == {
+                "induced": 0, "dominating": 0,
+                "initial_empty": 0, "direct_contradiction": 0,
+                "propagated_contradiction": 0, "survives": 0,
+            } for d in range(4, 9)
+        ), f"Unexpected higher octahedral target in {label}")
+        archived = cert["earlier_stages"][label]
+        require(archived == {
+            "complement_edges": graph.number_of_nodes() *
+                (graph.number_of_nodes()-1) // 2 - graph.number_of_edges(),
+            "induced_O1": tally["induced_O1"],
+            "induced_O2": tally["induced_O2"],
+            "induced_O3": c3["induced"],
+            "dominating_O3": c3["dominating"],
+            "initial_empty_O3": c3["initial_empty"],
+            "direct_contradiction_O3": c3["direct_contradiction"],
+            "propagated_contradiction_O3": c3["propagated_contradiction"],
+            "unrefuted_O3": c3["survives"],
+            "induced_O4_or_higher": 0,
+        }, f"Frozen {label} proof metadata contradicts full enumeration")
+        require(c3["survives"] == 0 and
+                c3["initial_empty"] + c3["direct_contradiction"] +
+                c3["propagated_contradiction"] == c3["dominating"],
+                f"An induced O3 from {label} was not refuted")
+    print(
+        "CERTIFIED: P0--P3 of McKay 10820813 also have NO retractions"
+        " onto any O_d, d>=3: first two stages contain no O3;"
+        " P2 has three nondominating O3; P3 has 4392 O3,"
+        " 4224 dominating, all refuted by singleton propagation;"
+        " no earlier stage contains any O4.",
+        flush=True,
+    )
+
+
 def write_complement(g: nx.Graph, path: Path) -> None:
     # Plain sorted edge list to feed a completely separate compiled verifier.
     _source, comp = neighborhood_masks(g)
@@ -318,7 +386,9 @@ def main() -> None:
     parser.add_argument("--export-complement", type=Path)
     args = parser.parse_args()
     cert = json.loads(ARCHIVE.read_text(encoding="utf-8"))
-    g = reconstruct(cert)
+    graphs = reconstruct_all(cert)
+    verify_earlier_stages(cert, graphs[:4])
+    g = graphs[-1]
     if args.export_complement is not None:
         write_complement(g, args.export_complement)
     result = enumerate_targets(g)
