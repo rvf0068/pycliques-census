@@ -38,7 +38,7 @@ is NetworkX-only and checks all 202 host images, while the three P4 and
 
 | Original ten-vertex McKay | graph6 | P2 reference | P2 order, edges | Reference's ordinary retraction |
 |---:|---|---:|---:|---|
-| **9813482** | `ICR`uxv~_` | **9312634** | 21, 144 | ten-vertex reference onto the 8-vertex snub disphenoid |
+| **9813482** | ``ICR`uxv~_`` | **9312634** | 21, 144 | ten-vertex reference onto the 8-vertex snub disphenoid |
 | **11657332** | `IErv^q}^g` | **11262714** | 22, 181 | ten-vertex reference onto McKay 260910 |
 
 Both **original-graph** retractions are short and complete, not merely
