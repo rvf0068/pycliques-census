@@ -92,7 +92,7 @@ class ExactP3IndexTests(unittest.TestCase):
         graph = nx.cycle_graph(6)
         independent.verify_pair(graph, graph, list(range(6)))
         with self.assertRaisesRegex(
-            AssertionError, "saved P3 map"
+            AssertionError, "Saved P3 map fails an edge or nonedge"
         ):
             independent.verify_pair(graph, graph, [0, 1, 2, 3, 5, 4])
 
