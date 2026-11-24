@@ -7,6 +7,7 @@ on:
       - "research/order10_p4_no_octahedral_10820813_v1/**"
       - "research/order10_p3_global_v23_index/independent_verify.py"
       - "indeterminate_order_10_v24.txt"
+      - "indeterminate_order_10.txt"
       - "research/order10_p4_reference_pilot_v24/results.json"
       - ".github/workflows/order10-p5-10820813-growth-v1.yml"
   workflow_dispatch:
