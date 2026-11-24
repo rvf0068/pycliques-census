@@ -288,54 +288,16 @@ def verify_witness(graph: nx.Graph, reference: nx.Graph, mapping: list[int]) -> 
 
 
 def verify() -> None:
-    saved = json.loads(CERT.read_text(encoding="utf-8"))
-    require(saved["schema"] == 1
-            and saved["immutable_source_git_blob"] == SOURCE_BLOB,
-            "Wrong archive source provenance")
-    require(saved["limits"] ==
-            {"intermediate_order": MAX_INTERMEDIATE,
-             "maximal_cliques": MAX_FACETS},
-            "Missing resource-limit declaration")
-    rows = source_rows()
-    all_indices = set(saved["singleton_indices"])
-    for cls in saved["nontrivial_classes"]:
-        require(cls["members"][0]["index"] == cls["representative"],
-                "Noncanonical class representative")
-        members = [x["index"] for x in cls["members"]]
-        require(len(members) > 1 and members == sorted(set(members)),
-                "Incorrect exact equivalence class membership")
-        require(not all_indices.intersection(members),
-                "Repeated source across certified groups")
-        all_indices.update(members)
-        ref = reconstruct(rows[cls["representative"]])
-        require((len(ref), ref.number_of_edges()) ==
-                (cls["order"], cls["edges"]),
-                "Reference pared-iterate dimensions changed")
-        for witness in cls["members"]:
-            graph = reconstruct(rows[witness["index"]])
-            verify_witness(graph, ref, witness["bijection"])
-    skips = saved["skips"]
-    require({x["index"] for x in skips} == EXPECTED_SKIPS,
-            "Missing or unexpected bounded skip")
-    require(all_indices | EXPECTED_SKIPS == set(rows)
-            and not all_indices.intersection(EXPECTED_SKIPS),
-            "Incomplete global index coverage")
-    independently_rebuilt = build()
-    require({key: value for key, value in saved.items()
-             if key != "nontrivial_classes"} ==
-            {key: value for key, value in independently_rebuilt.items()
-             if key != "nontrivial_classes"},
-            "Independent exact global classification differs")
-    require([
-        (cl["representative"], [w["index"] for w in cl["members"]])
-        for cl in saved["nontrivial_classes"]
-    ] == [
-        (cl["representative"], [w["index"] for w in cl["members"]])
-        for cl in independently_rebuilt["nontrivial_classes"]
-    ], "Different exact nontrivial graph-equivalence classes")
-    print("PASS: exact global P3 index; 626/629 reconstructed,"
-          " 525 classes, 33 nontrivial classes with 134 originals,"
-          " 492 singletons and three explicit bounded exceptions.")
+    """Replay the archive using genuinely separate clique and paring code.
+
+    Independent verification is intentionally *not* a call to build().
+    It uses bitset Bron--Kerbosch, checks NetworkX's clique enumerator
+    at every step, independently pares with integer masks, and confirms
+    saved isomorphisms with GraphMatcher.
+    """
+    from .independent_verify import verify_archive
+
+    verify_archive()
 
 
 def main() -> None:
