@@ -236,9 +236,30 @@ def verify_pair(
         graph.has_edge(i, j) == reference.has_edge(permutation[i], permutation[j])
         for i in range(n) for j in range(n)
     ), "Saved P3 map fails an edge or nonedge")
-    check(nx.algorithms.isomorphism.GraphMatcher(
-        graph, reference
-    ).is_isomorphic(), "Independent GraphMatcher rejects a saved class")
+    # Constrain the independent GraphMatcher to the saved proof mapping.
+    # This certifies the *specific* saved isomorphism in polynomial
+    # time instead of asking VF2 to search a highly symmetric dense graph.
+    # A false saved mapping still fails, rather than finding some other
+    # accidental isomorphism between the two graphs.
+    colored_graph = graph.copy()
+    colored_reference = reference.copy()
+    nx.set_node_attributes(
+        colored_graph, {u: u for u in range(n)}, "certificate_vertex"
+    )
+    nx.set_node_attributes(
+        colored_reference,
+        {permutation[u]: u for u in range(n)},
+        "certificate_vertex",
+    )
+    matcher = nx.algorithms.isomorphism.GraphMatcher(
+        colored_graph, colored_reference,
+        node_match=lambda a, b: (
+            a["certificate_vertex"] == b["certificate_vertex"]
+        ),
+    )
+    check(matcher.is_isomorphic() and
+          matcher.mapping == {u: permutation[u] for u in range(n)},
+          "Independent label-constrained GraphMatcher rejects saved mapping")
 
 
 def verify_archive() -> None:
