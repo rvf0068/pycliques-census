@@ -1,7 +1,8 @@
-# Complete octahedral-retraction obstruction in the fourth pared iterate of McKay 10820813
+# No octahedral retraction in the first five pared iterates of McKay 10820813
 
-**Certified scope.** This is an exact finite proof that the fourth completely
-pared clique iterate of the ten-vertex graph McKay **10820813**, graph6
+**Certified scope.** This is an exact finite proof that **each** of the
+first five completely pared clique iterates, (P_0,P_1,P_2,P_3,P_4), of
+the ten-vertex graph McKay **10820813**, graph6
 ``ICp`fpv~_``, admits **no ordinary graph retraction onto any induced
 octahedron \(O_d=\overline{dK_2}\) with \(d\geq3\)**. This statement
 does **not** determine whether the original graph is \(K\)-divergent,
@@ -34,11 +35,32 @@ The reconstructed canonical labeled P4 graph6 has SHA-256
 `c26ee7c369318b01c0598b0ef7270b406c538bfd0ec34f5152c1ff649a3f3873`.
 Its complement \(H=\overline{P_4}\) has 70 vertices and 585 edges.
 
-## 2. The exhaustive reduction and obstruction
+## 2. The earlier pared iterates
 
-**Lemma 1 (complement-induced matching).** An induced \(O_d\)
-on \(2d\) vertices of \(P_4\) is exactly an induced matching of
-\(d\) edges of \(H\). In particular, complete enumeration of
+The same **complete** induced-matching enumeration and sound
+singleton-domain obstruction were also run on each earlier iterate.
+The result is considerably stronger than the initial fourth-stage
+claim:
+
+| Stage | Edges in complement | Induced \(O_2\) | Induced \(O_3\) | Complement-dominating \(O_3\) | Refuted by propagation |
+|---|---:|---:|---:|---:|---:|
+| \(P_0\) | 20 | 15 | 0 | 0 | 0 |
+| \(P_1\) | 53 | 115 | 0 | 0 | 0 |
+| \(P_2\) | 136 | 360 | 3 | 0 | 0 |
+| \(P_3\) | 278 | 5,907 | 4,392 | 4,224 | **4,224** |
+
+None of \(P_0,P_1,P_2,P_3\) contains even an induced \(O_4\),
+so this exhausts all dimensions \(d\geq3\) at those stages.
+The 168 remaining induced \(O_3\) subgraphs of \(P_3\) fail
+the necessary complement-domination condition. The proof verifier
+reconstructs and screens **every** candidate, rather than trusting
+these summary counts alone.
+
+## 3. The exhaustive reduction and obstruction
+
+**Lemma 1 (complement-induced matching).** For any finite simple graph \(X\), an induced \(O_d\)
+on \(2d\) vertices of \(X\) is exactly an induced matching of
+\(d\) edges of \(\overline{X}\). In particular, complete enumeration of
 induced matchings of \(H\) in dimensions 3--8 enumerates every
 potential ordinary octahedral-retraction target of those dimensions.
 
@@ -107,11 +129,19 @@ its component edges. At every stage the enumeration intersects
 the set of remaining compatible higher-indexed edges. No sampling,
 time boxing, or probabilistic isomorphism test is involved.
 
-**Theorem.** There is no ordinary graph retraction
-\(P_4(G)\to O_d\) onto any induced \(O_d\), \(d\geq3\),
-when \(G\) is McKay 10820813.
+**Theorem.** For \(G\) equal to McKay 10820813, none of
+\(P_i(G)\), \(0\leq i\leq4\), admits an ordinary graph
+retraction onto an induced \(O_d\), \(d\geq3\).
 
-*Proof.* Lemma 1 exhausts all possible induced octahedral targets,
+*Proof.* Lemmas 1--3 apply verbatim to the complement of **each**
+pared iterate. The earlier-stage table exhausts \(P_0\)--\(P_3\):
+there is no induced \(O_3\) in the first two stages; the three
+induced \(O_3\) in \(P_2\) fail complement domination; and
+all 4,224 dominating \(O_3\) subgraphs of \(P_3\) are rejected
+by sound singleton propagation. None of these earlier stages has
+an induced \(O_4\), excluding all larger dimensions there.
+
+For \(P_4\), Lemma 1 exhausts all possible induced octahedral targets,
 and Lemma 2 eliminates all targets that fail to dominate \(H\).
 For every remaining target of dimensions 3, 4, or 5, the full
 singleton propagation of Lemma 3 encounters an empty domain; the
@@ -121,11 +151,11 @@ There is no induced \(O_8\), hence there can be no induced
 \(O_d\) for \(d\geq8\), since any eight antipodal pairs of
 such a target would induce an \(O_8\). \(\square\)
 
-## 3. Independent certification and reproduction
+## 4. Independent certification and reproduction
 
 The [proof certificate](certificates.json) records immutable census and
-P4 pilot Git blobs, exact stage sizes, labeled P4 SHA-256, and all
-finite counts. The [Python verifier](verify.py) reconstructs the host
+P4 pilot Git blobs, exact sizes and matching counts for **all five**
+pared stages, labeled P4 SHA-256, and all finite target screens. The [Python verifier](verify.py) reconstructs the host
 from the original graph6 using independently checked maximal-clique
 lists, enumerates induced matchings of its complement using integer
 bitsets, and performs complete singleton propagation. The
@@ -153,8 +183,8 @@ return a nonzero exit code if any unrefuted target survives. Positive
 and mutation regression tests ensure the propagation rule does not
 incorrectly claim that \(O_3\) cannot retract onto itself.
 
-**Limit.** This proof rules out *this method of proving divergence
-at the fourth pared iterate*. In particular, it cannot justify
+**Limit.** This proof rules out *the ordinary octahedral-retraction method*
+in all five pared stages through the fourth. In particular, it cannot justify
 removing McKay 10820813 from the indeterminate census. Future work
 should consider retractions at \(P_5\) or beyond, different divergent
 targets, and more general coaffine morphisms.
