@@ -2,9 +2,12 @@
 from __future__ import annotations
 
 import base64
+import copy
+from unittest.mock import patch
 import json
 import unittest
 
+from . import verify as proof
 from .verify import (
     ARCHIVE, check_bijection, fully_pare,
     p4_from_graph6, verify,
@@ -15,6 +18,39 @@ class RecoveredP4ClassesTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.cert=json.loads(ARCHIVE.read_text(encoding="utf-8"))
+
+    def test_immutable_upstream_p3_and_p4_blobs(self):
+        self.assertEqual(
+            proof.EXPECTED_PRIOR_GIT_BLOB,
+            "171908472fe4037e0653a08056877fb956bd8d54",
+        )
+        self.assertEqual(
+            proof.EXPECTED_P3_GIT_BLOB,
+            "ab5a9f1c075dfad63b111929368147884519f2a3",
+        )
+        prior, p3 = proof.verify_upstream_archives(self.cert)
+        self.assertEqual(prior["counts"]["selected"], 206)
+        self.assertEqual(p3["counts"]["exact_isomorphism_classes"], 525)
+
+    def test_co_mutated_certificate_and_historical_archive_hashes_fail(self):
+        # Model a malicious rewrite in which the attacker also updates
+        # BOTH checksum fields in the new certificate. The hashes are
+        # self-consistent but mismatch the immutable expected values.
+        fake = copy.deepcopy(self.cert)
+        fake["from_git_blob"] = "f" * 40
+        fake["global_p3_git_blob"] = "f" * 40
+        with patch.object(proof, "blob", return_value="f" * 40):
+            with self.assertRaisesRegex(
+                AssertionError, "Immutable historical P3/P4 pilot"
+            ):
+                proof.verify_upstream_archives(fake)
+
+    def test_mutated_original_p4_archive_without_certificate_edit_fails(self):
+        with patch.object(proof, "blob", return_value="0" * 40):
+            with self.assertRaisesRegex(
+                AssertionError, "Immutable historical P3/P4 pilot"
+            ):
+                proof.verify_upstream_archives(self.cert)
 
     def test_replay_all_26_exact_fourth_iterates(self):
         verify()
