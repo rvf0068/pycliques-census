@@ -6,6 +6,8 @@ on:
       - "indeterminate_order_10.txt"
       - "indeterminate_order_10_v21.txt"
       - "indeterminate_order_10_v22.txt"
+      - "indeterminate_order_10_v23.txt"
+      - "research/order10_direct_retractions_v23/**"
       - "research/order10_p3_reference_lifts_v22/**"
       - "tests/test_current_root_index.py"
       - ".github/workflows/order10-p3-v22.yml"
@@ -30,13 +32,13 @@ jobs:
         env:
           PYTHONHASHSEED: "0"
         run: |
-          python -m py_compile research/order10_p3_reference_lifts_v22/verify.py
-          python -m research.order10_p3_reference_lifts_v22.verify
+          python -m py_compile research/order10_p3_reference_lifts_v22/verify.py research/order10_direct_retractions_v23/replay_v22.py
+          python -m research.order10_direct_retractions_v23.replay_v22
           python -m unittest research.order10_p3_reference_lifts_v22.test_verify -v
           python -m unittest discover -s tests -p test_current_root_index.py -v
       - name: Reject bypass of proof-critical assertions
         run: |
-          if python -O -m research.order10_p3_reference_lifts_v22.verify > /tmp/optimized-v22-proof.log 2>&1; then
+          if python -O -m research.order10_direct_retractions_v23.replay_v22 > /tmp/optimized-v22-proof.log 2>&1; then
             echo "ERROR: optimized positive proof unexpectedly succeeded"
             exit 1
           fi
