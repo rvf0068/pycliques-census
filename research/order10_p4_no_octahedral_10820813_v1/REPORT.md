@@ -60,9 +60,9 @@ these summary counts alone.
 
 **Lemma 1 (complement-induced matching).** For any finite simple graph \(X\), an induced \(O_d\)
 on \(2d\) vertices of \(X\) is exactly an induced matching of
-\(d\) edges of \(\overline{X}\). In particular, complete enumeration of
-induced matchings in the complement of a stage enumerate every
-possible octahedral-retraction target in that stage.
+\(d\) edges of \(\overline{X}\). In particular, enumerating all induced matchings in the
+complement of a stage finds every possible octahedral-retraction
+target at that stage.
 
 *Proof.* Each of the \(d\) antipodal pairs is a nonedge in
 \(X\), hence an edge in \(\overline{X}\). All pairs of vertices from
