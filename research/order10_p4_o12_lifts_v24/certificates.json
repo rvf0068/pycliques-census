@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "from_snapshot": "indeterminate_order_10_v23.txt",
+  "from_git_blob": "f32ceb913b44583f472402e14c596598fef71aaa",
+  "to_snapshot": "indeterminate_order_10_v24.txt",
+  "reference": {
+    "mckay": 10223405,
+    "graph6": "ICXnRi^uo",
+    "pared_fourth": [
+      182,
+      14298
+    ],
+    "canonical_host_sha256": "da0b402b388157e9982f200079b870423bd7eda3725511f097a6fe76b23dacfe",
+    "published_o12_archive": "research/order10_fourth_oct_v1/o12_certificates.json",
+    "target_dimension": 12
+  },
+  "witnesses": [
+    {
+      "index": 11495390,
+      "graph6": "ICvbvZs{g",
+      "stages": [
+        [
+          10,
+          27
+        ],
+        [
+          17,
+          81
+        ],
+        [
+          21,
+          139
+        ],
+        [
+          42,
+          629
+        ],
+        [
+          182,
+          14298
+        ]
+      ],
+      "host_sha256": "c4ae1a99f43ba6a74c91369c1e464d183938239694d27b3bd09f3388f5e4028d",
+      "canonical_map_sha256": "9295bc13f053b2d28298df7d540fc82bbf5e614b63a4e315c6a00e8277b83715"
+    },
+    {
+      "index": 11533866,
+      "graph6": "ICzbrn[n_",
+      "stages": [
+        [
+          10,
+          27
+        ],
+        [
+          17,
+          82
+        ],
+        [
+          25,
+          195
+        ],
+        [
+          43,
+          657
+        ],
+        [
+          182,
+          14298
+        ]
+      ],
+      "host_sha256": "6f138a043cc459532fc77534c7bc214a3a332450b7bf625410d813f6ef712884",
+      "canonical_map_sha256": "47bd6539ee73bdccc3adbc17733ad3e3bd51b2e1c74e090b92aebf0cb5cb9eb6"
+    },
+    {
+      "index": 11556387,
+      "graph6": "IEhevrm~?",
+      "stages": [
+        [
+          10,
+          27
+        ],
+        [
+          17,
+          82
+        ],
+        [
+          21,
+          139
+        ],
+        [
+          42,
+          629
+        ],
+        [
+          182,
+          14298
+        ]
+      ],
+      "host_sha256": "41f9d66a6fd85ab340c65046d207a9ee19a723cdf3bc29fcb2065b017483324a",
+      "canonical_map_sha256": "1850fa372801ce54e35bf94d5f4d4e596c562bbc172220ba19b5d2e4e5491358"
+    }
+  ]
+}
