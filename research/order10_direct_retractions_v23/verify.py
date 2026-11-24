@@ -44,7 +44,7 @@ def check(condition: bool, message: str) -> None:
 
 def git_blob(raw: bytes) -> str:
     return hashlib.sha1(
-        b"blob " + str(len(raw)).encode("ascii") + b"\\0" + raw
+        b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw
     ).hexdigest()
 
 
