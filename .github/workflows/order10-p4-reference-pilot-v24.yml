@@ -27,6 +27,7 @@ jobs:
           python -m py_compile research/order10_p4_reference_pilot_v24/search.py
           python -m unittest research.order10_p4_reference_pilot_v24.test_search -v
           python -m research.order10_p4_reference_pilot_v24.search plan
+          python -m research.order10_p4_reference_pilot_v24.verify_results
 
   shard:
     name: P4 comparison shard ${{ matrix.shard }}
@@ -50,6 +51,9 @@ jobs:
             --shards 12 --shard ${{ matrix.shard }} \
             --timeout-sec 24 \
             --output /tmp/p4_reference_shard_${{ matrix.shard }}.json
+          python -m research.order10_p4_reference_pilot_v24.verify_results \
+            --shard ${{ matrix.shard }} \
+            --input-results /tmp/p4_reference_shard_${{ matrix.shard }}.json
       - uses: actions/upload-artifact@v4
         with:
           name: p4-v24-reference-shard-${{ matrix.shard }}
