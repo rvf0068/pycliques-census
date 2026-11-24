@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import random
 import unittest
+from unittest.mock import patch
 
 import networkx as nx
 
@@ -43,6 +44,14 @@ class PositiveV22CertificateTests(unittest.TestCase):
         label[first] = label[second]
         with self.assertRaisesRegex(AssertionError, "isomorphism"):
             proof.verify_small_retraction(item["index"], item["value"])
+
+    def test_f45_source_identity_cannot_be_substituted(self) -> None:
+        # The archived independent O9 witness reconstructs an explicitly
+        # specified F45. Its proved divergence cannot be silently
+        # transferred to an unrelated original nine-vertex graph6.
+        with patch.dict(proof.REFERENCES, {208409: "HEhfvx}"}):
+            with self.assertRaisesRegex(AssertionError, "not F45"):
+                proof.verify_reference_divergence()
 
     def test_bron_kerbosch_independent_on_small_random_graphs(self) -> None:
         rng = random.Random(20261124)
