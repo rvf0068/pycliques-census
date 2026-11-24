@@ -1,0 +1,156 @@
+{
+  "schema": 1,
+  "kind": "cross_depth_fourth_to_proven_divergent_nine_P3_O15_full_transport",
+  "from_snapshot": "indeterminate_order_10_v24.txt",
+  "from_git_blob": "cf0ba2b44519b51565808fbe0b24d3c76c061666",
+  "to_snapshot": "indeterminate_order_10_v25.txt",
+  "global_P3_archive": "research/order10_p3_global_v23_index/certificates.json",
+  "global_P3_git_blob": "ab5a9f1c075dfad63b111929368147884519f2a3",
+  "historical_O15_archive": "research/order9_260910_o15_v1/certificate.json",
+  "historical_O15_git_blob": "8d97a9e8278cf67aa2c431fb2551b47547bf19f5",
+  "reference": {
+    "index": 260910,
+    "graph6": "HUZvvzu",
+    "depth": 3,
+    "pared_graph": [
+      132,
+      7880
+    ],
+    "labeled_host_sha256": "248ab6dc4e6bb9317ba2b271bb3e551bbdecae1e8111cf07beb8858a227513a6",
+    "retract_target": "O15"
+  },
+  "positives": [
+    {
+      "index": 11551790,
+      "graph6": "IEhetr}|o",
+      "stages": [
+        [
+          10,
+          28
+        ],
+        [
+          9,
+          26
+        ],
+        [
+          12,
+          52
+        ],
+        [
+          21,
+          176
+        ],
+        [
+          132,
+          7880
+        ]
+      ],
+      "pared_fourth_sha256": "8c9edae2793599c8b15c204297e4ba9ea7c5dbf80c1723fa5120c871005e32b4",
+      "bijection_b64": "XGAAX2GAEl0BE2KDXgIUKCopLS8yAwdNaGlkZkRGNTkFPn1OIiNMendFNCEgQz1Yfg9aEFmBWxFnY2V7Ght4dRkYbm9zT1cECFFLOwZBJidUJSRIQGsJbQoLKzAzan8VbBaCFywuMXF0UAwOUjg8DUJwclZKNzp8VR4fU3l2STYdHEc/",
+      "bijection_sha256": "ff05c9b1862ee025a715c8efe9b20a3040521ee6d306f205bcb40d485843888d",
+      "reference_p3_sha256": "248ab6dc4e6bb9317ba2b271bb3e551bbdecae1e8111cf07beb8858a227513a6",
+      "target_dimension": 15
+    },
+    {
+      "index": 11552072,
+      "graph6": "IEhetvm~O",
+      "stages": [
+        [
+          10,
+          28
+        ],
+        [
+          9,
+          26
+        ],
+        [
+          12,
+          52
+        ],
+        [
+          21,
+          176
+        ],
+        [
+          132,
+          7880
+        ]
+      ],
+      "pared_fourth_sha256": "8c9edae2793599c8b15c204297e4ba9ea7c5dbf80c1723fa5120c871005e32b4",
+      "bijection_b64": "XGAAX2GAEl0BE2KDXgIUKCopLS8yAwdNaGlkZkRGNTkFPn1OIiNMendFNCEgQz1Yfg9aEFmBWxFnY2V7Ght4dRkYbm9zT1cECFFLOwZBJidUJSRIQGsJbQoLKzAzan8VbBaCFywuMXF0UAwOUjg8DUJwclZKNzp8VR4fU3l2STYdHEc/",
+      "bijection_sha256": "ff05c9b1862ee025a715c8efe9b20a3040521ee6d306f205bcb40d485843888d",
+      "reference_p3_sha256": "248ab6dc4e6bb9317ba2b271bb3e551bbdecae1e8111cf07beb8858a227513a6",
+      "target_dimension": 15
+    },
+    {
+      "index": 11555600,
+      "graph6": "IEhevi~~_",
+      "stages": [
+        [
+          10,
+          29
+        ],
+        [
+          9,
+          26
+        ],
+        [
+          12,
+          52
+        ],
+        [
+          21,
+          176
+        ],
+        [
+          132,
+          7880
+        ]
+      ],
+      "pared_fourth_sha256": "43f8f1a4d888847109d3f0bb132e350aeba7e78a16b1e5099cb37932ca704888",
+      "bijection_b64": "XGAAX2GAEigqKS1dARNigy9eAhQyaGlERmQ1ZjkDTQcFPmsJK20KMAszWH4PWhBZgVsRZ2Nlan8VLGwWgi4XMW5vT1dzSzsEUQgGQXFQdDg8DFIODUJwVnJKNzp9TnpFdzQiTCMhQyA9e3h1GhsZGCZUJyVIJEB8VXlJdjYeUx8dRxw/",
+      "bijection_sha256": "97ea46218fcdeb26b9d7e39eeb646306d450f77329fbf6475cfb9d84ad62f6f5",
+      "reference_p3_sha256": "248ab6dc4e6bb9317ba2b271bb3e551bbdecae1e8111cf07beb8858a227513a6",
+      "target_dimension": 15
+    },
+    {
+      "index": 11707526,
+      "graph6": "IQyurzUuo",
+      "stages": [
+        [
+          10,
+          28
+        ],
+        [
+          9,
+          26
+        ],
+        [
+          12,
+          52
+        ],
+        [
+          21,
+          176
+        ],
+        [
+          132,
+          7880
+        ]
+      ],
+      "pared_fourth_sha256": "6750271979ddf540583a7348f227a54e3dd2d520da7972728e8fe6d38e935c1a",
+      "bijection_b64": "EhMiIw8QGhsAAQMHX1pcXYB9fnthWGAUEQJbXoOBWWIhGWh6eGlnIBgFZWZ3dWNkJicECG9ucyUkBkxNKShOLSoyL0NERUY9Pjk0NVRRV09IS0BBOxUWCQpsbX9qaxcLgh4fDA5ydHxwcR15HA12LCsxMy4wU1JVVlBHSUo/Qjo8Njc4",
+      "bijection_sha256": "b45efe4a511a8cb6cf71dc08c0312984e4801fdd556974d4159c51ec6ffce0e6",
+      "reference_p3_sha256": "248ab6dc4e6bb9317ba2b271bb3e551bbdecae1e8111cf07beb8858a227513a6",
+      "target_dimension": 15
+    }
+  ],
+  "population": {
+    "before": 1056,
+    "after": 1052,
+    "removed": 4,
+    "unresolved_nine_pared": 430,
+    "stiff_ten_before": 626,
+    "stiff_ten_after": 622
+  }
+}
