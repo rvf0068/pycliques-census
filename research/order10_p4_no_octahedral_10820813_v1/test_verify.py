@@ -9,7 +9,7 @@ import networkx as nx
 
 from .verify import (
     ARCHIVE, EXPECTED_COUNTS, neighborhood_masks, reconstruct,
-    screen_target, verify_result,
+    reconstruct_all, screen_target, verify_earlier_stages, verify_result,
 )
 
 
@@ -19,6 +19,21 @@ class CompleteOctahedralObstructionTests(unittest.TestCase):
         cls.cert = json.loads(ARCHIVE.read_text(encoding="utf-8"))
         cls.host = reconstruct(cls.cert)
         cls.edges, cls.nonedges = neighborhood_masks(cls.host)
+
+    def test_prior_pared_iterates_have_no_octahedral_retractions(self):
+        stages = reconstruct_all(self.cert)
+        self.assertEqual(
+            [(len(g), g.number_of_edges()) for g in stages],
+            [tuple(item) for item in self.cert["completely_pared_orders_edges"]],
+        )
+        verify_earlier_stages(self.cert, stages[:4])
+
+    def test_reject_earlier_stage_certificate_mutation(self):
+        mutated = copy.deepcopy(self.cert)
+        mutated["earlier_stages"]["P3"]["propagated_contradiction_O3"] -= 1
+        stages = reconstruct_all(self.cert)
+        with self.assertRaisesRegex(AssertionError, "P3 proof metadata"):
+            verify_earlier_stages(mutated, stages[:4])
 
     def test_positive_control_o3_can_retract_onto_itself(self):
         # Its complement is exactly three independent edges.
