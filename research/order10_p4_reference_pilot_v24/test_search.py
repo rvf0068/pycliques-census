@@ -8,6 +8,7 @@ import unittest
 
 import networkx as nx
 
+from .reference_provenance import check_reference_provenance
 from .verify_results import audit, check_shard
 from .search import (
     REFERENCE_DIMENSIONS, REFERENCE_G6,
@@ -47,6 +48,54 @@ class ReferencePilotTests(unittest.TestCase):
             altered["records"][0]["p3"] = [99, 99]
             name.write_text(json.dumps(altered), encoding="utf-8")
             with self.assertRaisesRegex(AssertionError, "disagree"):
+                check_shard(data, name, 0)
+
+    def test_reference_sources_and_host_digests_pinned_to_historical_proofs(self):
+        check_reference_provenance()
+
+    def test_reject_self_consistent_but_uncertified_reference_substitution(self):
+        original = REFERENCE_G6[10223405]
+        try:
+            REFERENCE_G6[10223405] = "ICpVUjx|_"
+            with self.assertRaisesRegex(AssertionError, "Uncertified reference"):
+                check_reference_provenance()
+        finally:
+            REFERENCE_G6[10223405] = original
+
+    def test_timeout_remains_inconclusive_and_is_preserved(self):
+        # Replay artifacts must be uploaded even if a worker times out.
+        data = audit()
+        cohort = [dict(row) for row in data["records"][0::12]]
+        first = cohort[0]
+        cohort[0] = {
+            "index": first["index"],
+            "graph6": first["graph6"],
+            "p3": [first["p3"][0]],
+            "status": "TIMEOUT",
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            name = Path(directory) / "timed-out.json"
+            statuses = {}
+            for row in cohort:
+                statuses[row["status"]] = statuses.get(row["status"], 0) + 1
+            payload = {
+                "schema": 1, "source": "indeterminate_order_10_v24.txt",
+                "selected_total": 206, "representatives": 522,
+                "settings": {
+                    "shards": 12, "shard": 0,
+                    "min_p3": 41, "max_p3": 55, "timeout_sec": 24,
+                },
+                "records": cohort,
+                "status_counts": statuses,
+            }
+            name.write_text(json.dumps(payload), encoding="utf-8")
+            self.assertEqual(
+                check_shard(data, name, 0),
+                [first["index"]],
+            )
+            payload["records"][0]["graph6"] = "I?????????"
+            name.write_text(json.dumps(payload), encoding="utf-8")
+            with self.assertRaisesRegex(AssertionError, "TIMEOUT source"):
                 check_shard(data, name, 0)
 
     def test_all_five_reference_shapes(self):
