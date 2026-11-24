@@ -1,9 +1,9 @@
-# Certified current indeterminate connected graphs of order ten, v23
-# Remaining=1059 previous_v22=1208 newly_proved_divergent=149
-# Exactly 149 stiff ten-vertex original graphs retract onto six certified
-# K-divergent nine-vertex sources via complete vertex-level projections.
-# Proofs: research/order10_direct_retractions_v23/
-# Retained six-column v22 records are unchanged.
+# Certified current indeterminate connected graphs of order ten, v24
+# Remaining=1056 previous_v23=1059 newly_proved_divergent=3
+# Exactly 3 stiff ten-vertex original graphs (McKay 11495390, 11533866,
+# 11556387) have P4 isomorphic to P4(10223405), which retracts onto O12.
+# Proofs: research/order10_p4_o12_lifts_v24/
+# Retained six-column v23 records are unchanged.
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
 6499365 10 I?ovUqv\o - - -
 6914645 10 I?qbEZv~_ - - -
