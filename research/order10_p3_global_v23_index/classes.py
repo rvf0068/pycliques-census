@@ -132,6 +132,80 @@ def fingerprint(graph: nx.Graph) -> tuple:
     )
 
 
+def find_explicit_isomorphism(source: nx.Graph, reference: nx.Graph) -> list[int] | None:
+    """Color-refined exhaustive bijection search; full adjacency is checked.
+
+    Colors are refined jointly across both graphs, so equal labels have
+    the same meaning. This substantially reduces search on the large,
+    highly symmetric pared third iterates, without trusting a hash as proof.
+    """
+    if len(source) != len(reference):
+        return None
+    n = len(source)
+    order1 = list(range(n))
+    order2 = list(range(n))
+    colors = [source.degree[v] for v in order1] + [
+        reference.degree[v] for v in order2
+    ]
+    palette = {value: i for i, value in enumerate(sorted(set(colors)))}
+    colors = [palette[x] for x in colors]
+    adjacency = [
+        set(source[v]) for v in order1
+    ] + [
+        {u + n for u in reference[v]} for v in order2
+    ]
+    for _ in range(8):
+        labels = [
+            (colors[v], tuple(sorted(colors[u] for u in adjacency[v])))
+            for v in range(2 * n)
+        ]
+        palette2 = {value: i for i, value in enumerate(sorted(set(labels)))}
+        refined = [palette2[label] for label in labels]
+        if refined == colors:
+            break
+        colors = refined
+    first, second = colors[:n], colors[n:]
+    if sorted(first) != sorted(second):
+        return None
+    options = [
+        [v for v in range(n) if second[v] == first[u]]
+        for u in range(n)
+    ]
+    order = sorted(range(n), key=lambda u: (len(options[u]), -source.degree[u]))
+    mapping = [-1] * n
+    used = [False] * n
+    states = 0
+
+    def backtrack(depth: int) -> bool:
+        nonlocal states
+        states += 1
+        if states > 1_000_000:
+            raise RuntimeError("Exact isomorphism search exceeded explicit state limit")
+        if depth == n:
+            return True
+        u = order[depth]
+        for v in options[u]:
+            if used[v]:
+                continue
+            if any(
+                source.has_edge(u, w) != reference.has_edge(v, mapping[w])
+                for w in order[:depth]
+            ):
+                continue
+            mapping[u] = v
+            used[v] = True
+            if backtrack(depth + 1):
+                return True
+            used[v] = False
+            mapping[u] = -1
+        return False
+
+    if not backtrack(0):
+        return None
+    verify_witness(source, reference, mapping)
+    return mapping
+
+
 def build() -> dict:
     rows = source_rows()
     bucket: dict[tuple, list[dict]] = defaultdict(list)
@@ -149,10 +223,10 @@ def build() -> dict:
         candidate = None
         mapping = None
         for cls in bucket[key]:
-            matcher = nx.algorithms.isomorphism.GraphMatcher(graph, cls["graph"])
-            if matcher.is_isomorphic():
+            direct_bijection = find_explicit_isomorphism(graph, cls["graph"])
+            if direct_bijection is not None:
                 candidate = cls
-                mapping = [matcher.mapping[v] for v in range(len(graph))]
+                mapping = direct_bijection
                 break
         if candidate is None:
             candidate = {
