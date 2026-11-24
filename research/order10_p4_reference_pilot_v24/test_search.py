@@ -1,10 +1,14 @@
 """Regressions for bounded v24 reference transfers and complete positive maps."""
 from __future__ import annotations
 
+import json
+from pathlib import Path
+import tempfile
 import unittest
 
 import networkx as nx
 
+from .verify_results import audit, check_shard
 from .search import (
     REFERENCE_DIMENSIONS, REFERENCE_G6,
     exact_isomorphism, fourth, inspect, plan, representatives, verify_map,
@@ -19,6 +23,31 @@ class ReferencePilotTests(unittest.TestCase):
             [i for i, _ in cases],
             sorted(i for i, _ in cases),
         )
+
+    def test_exact_206_case_archive_with_zero_dimension_collisions(self):
+        result = audit()
+        self.assertEqual(result["counts"]["complete_p4"], 180)
+        self.assertEqual(result["counts"]["p4_facet_cap"], 26)
+
+    def test_reject_mutated_shard_replay(self):
+        data = audit()
+        cohort = data["records"][0::12]
+        with tempfile.TemporaryDirectory() as temp:
+            name = Path(temp) / "corrupt.json"
+            altered = {
+                "schema": 1, "source": "indeterminate_order_10_v24.txt",
+                "selected_total": 206, "representatives": 522,
+                "settings": {
+                    "shards": 12, "shard": 0,
+                    "min_p3": 41, "max_p3": 55, "timeout_sec": 24,
+                },
+                "records": [dict(row) for row in cohort],
+                "status_counts": data["shard_summaries"][0]["counts"],
+            }
+            altered["records"][0]["p3"] = [99, 99]
+            name.write_text(json.dumps(altered), encoding="utf-8")
+            with self.assertRaisesRegex(AssertionError, "disagree"):
+                check_shard(data, name, 0)
 
     def test_all_five_reference_shapes(self):
         for index, g6 in REFERENCE_G6.items():
