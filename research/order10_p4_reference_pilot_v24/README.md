@@ -20,11 +20,22 @@ P4 isomorphism to five previously certified divergent graphs:
 | 11104269 | ICpdupvZo | 160 / 9,258 | O6 |
 | 11563706 | IEhfe^{zO | 159 / 9,276 | O6 |
 
-The original retraction witnesses and independent checks appear in
-[order10_fourth_oct_v1](../order10_fourth_oct_v1/REPORT.md).
-Any new positive exact P4 isomorphism to one of these references
-proves K-divergence by transporting the already certified
-ordinary graph retraction.
+The five references are authenticated by the
+[historical proof provenance verifier](reference_provenance.py):
+the original McKay graph6 records must appear in the immutable
+ten-v11 Git blob, and each reference must match an archived O6/O12
+certificate including its *historical labeled P4 host SHA-256 digest*
+and complete target-fixed projection. The two original certificate
+archives are also authenticated by their immutable Git blob hashes.
+The CI separately replays all five complete O6/O12 proofs using the
+original pinned pycliques revision. The pilot's independently
+reconstructed P4 graphs may carry *different vertex labels*, so
+historical host digests are not incorrectly compared with independently
+relabelled hosts.
+
+Any new positive exact P4 isomorphism to one of these proved references
+certifies K-divergence by transporting the already certified ordinary
+graph retraction.
 
 ## Complete pilot results (GitHub Actions run 45460379020)
 
@@ -59,17 +70,25 @@ for later targeted octahedral-retraction investigations.
 
 The [archive audit](verify_results.py) validates all 206 source
 identities, counts, resource flags, and uniqueness of signatures.
-The CI workflow also **reconstructs every selected source again in
-its original shard**, then compares the entire new result record to
-its saved archive entry. A positive classification would still
+When all shard records complete (as in the archived successful CI
+replay), the CI workflow **reconstructs every selected source again
+in its original shard** and compares the complete records with the
+archive. A transient TIMEOUT instead triggers the explicitly
+inconclusive handling described below. A positive classification would still
 require a complete separately verified isomorphism or retraction.
 
 ## Resource bounds and epistemic status
 
 - Cap at **750 maximal cliques** at each iteration. Any over-bound
   fourth iterate is recorded as P4_FACET_CAP and remains inconclusive.
-- **24 seconds per graph** for the fourth-iterate and possible
-  graph-isomorphism calculation. Timeout is inconclusive.
+- **24 seconds per graph** for fourth-iterate and possible
+  graph-isomorphism calculation. A replay timeout is recorded in the
+  uploaded shard artifact as an explicit TIMEOUT status and announced
+  with a CI warning; it is **not** a false negative or a reproduced
+  certificate. The verifier checks all other records exactly.
+  The original 206-case archived proof is unchanged; a run with a
+  timeout is a *partially inconclusive replay*, not full independent
+  reconstruction of all 206 sources.
 - First compare necessary invariants (order, size, degree sequence
   and Weisfeiler--Lehman hash). A collision is never a positive proof.
 - Any actual match is decided by an exact NetworkX GraphMatcher
