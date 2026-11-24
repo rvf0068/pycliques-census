@@ -140,11 +140,8 @@ def check_reference_provenance() -> None:
                 all(images[v] == v for v in endpoints),
                 f"Historical reference {index} lacks a full target-fixed retraction")
 
-    print("PASS: all five reference McKay graph6 strings, O6/O12"
-          " target dimensions, complete image lists and original host SHA-256"
-          " digests are pinned to three immutable historical Git blobs.",
-          flush=True)
-
-
 if __name__ == "__main__":
     check_reference_provenance()
+    print("PASS: all five reference graph6 identities, complete O6/O12"
+          " retraction image lists, and labeled host SHA-256 digests"
+          " pinned to their immutable historical proof archives.")
