@@ -42,7 +42,7 @@ jobs:
           cp indeterminate_order_10_v8.txt indeterminate_order_10.txt
           .venv/bin/python -m unittest discover -s tests \
             -p test_order10_four_o4_lift_v1.py -v
-          cp /tmp/current-v17-pre-smoke indeterminate_order_10.txt
+          cp /tmp/current-v21-pre-smoke indeterminate_order_10.txt
           current_root="$(mktemp)"
           current_order9="$(mktemp)"
           cp indeterminate_order_10.txt "$current_root"
