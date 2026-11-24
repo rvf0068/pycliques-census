@@ -33,20 +33,9 @@ SOURCE = ROOT / "indeterminate_order_10_v24.txt"
 CURRENT = ROOT / "indeterminate_order_10.txt"
 ARCHIVE = ROOT / "research/order10_p3_global_v23_index/certificates.json"
 EXCLUDED = frozenset((11495390, 11533866, 11556387))
-REFERENCE_G6 = {
-    10223405: "ICXnRi^uo",    # historical complete P4 -> O12
-    10775850: "ICpVUjx|_",    # historical complete P4 -> O12
-    10223467: "ICXnRjZmo",   # historical complete P4 -> O6
-    11104269: "ICpdupvZo",   # historical complete P4 -> O6
-    11563706: "IEhfe^{zO",   # historical complete P4 -> O6
-}
-REFERENCE_DIMENSIONS = {
-    10223405: (182, 14298),
-    10775850: (188, 15083),
-    10223467: (151, 8413),
-    11104269: (160, 9258),
-    11563706: (159, 9276),
-}
+from .reference_provenance import (
+    REFERENCE_G6, REFERENCE_DIMENSIONS, check_reference_provenance,
+)
 
 
 def check(value: bool, why: str) -> None:
@@ -55,6 +44,7 @@ def check(value: bool, why: str) -> None:
 
 
 def source_rows() -> dict[int, str]:
+    check_reference_provenance()
     check(SOURCE.read_bytes() == CURRENT.read_bytes(),
           "Current root differs from certified ten-v24")
     lines = SOURCE.read_text(encoding="ascii").splitlines()
@@ -140,6 +130,7 @@ def exact_isomorphism(a: nx.Graph, b: nx.Graph) -> list[int] | None:
 
 
 def inspect(index: int, g6: str, p3_low: int, p3_high: int) -> dict:
+    check_reference_provenance()
     p3 = independent_p3(g6)
     base = {
         "index": index, "graph6": g6,
