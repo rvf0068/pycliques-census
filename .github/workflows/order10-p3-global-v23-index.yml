@@ -40,12 +40,12 @@ jobs:
               print("P3_INDEX_CHUNK:" + encoded[pos:pos + 180])
           print("CERTIFICATE_END")
           PY
-      - name: Verify immutable positive class witnesses
+      - name: Independently reconstruct and verify required positive certificates
         run: |
-          if test -f research/order10_p3_global_v23_index/certificates.json; then
-            python -m research.order10_p3_global_v23_index.classes verify
-            python -m unittest research.order10_p3_global_v23_index.test_classes -v
-          fi
+          test -s research/order10_p3_global_v23_index/certificates.json
+          python -m py_compile research/order10_p3_global_v23_index/independent_verify.py
+          python -m research.order10_p3_global_v23_index.classes verify
+          python -m unittest research.order10_p3_global_v23_index.test_classes -v
       - name: Reject optimized execution bypassing proof assertions
         run: |
           if python -O -m research.order10_p3_global_v23_index.classes build > /tmp/p3-opt.txt 2>&1; then
