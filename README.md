@@ -5,12 +5,12 @@ order 10, with a pinned revision of the
 [pycliques-project](https://github.com/rvf0068/pycliques-project)
 monorepo. All historical stages, source indices and proofs are preserved.
 
-## Current certified census: nine-vertex v9 and ten-vertex v20 (November 2026)
+## Current certified census: nine-vertex v9 and ten-vertex v21 (November 2026)
 
 | Connected order | Certified snapshot | Indeterminate original McKay graphs | Previous | Newly proved divergent |
 |---|---|---:|---:|---:|
 | 9 | [v9](indeterminate_order_9_v9.txt) | **3** | 5 | 2 |
-| 10 | [v20](indeterminate_order_10_v20.txt) | **1,311** | 1,531 | 220 |
+| 10 | [v21](indeterminate_order_10_v21.txt) | **1,228** | 1,311 | 83 |
 
 The authoritative mutable working root files
 [indeterminate_order_9.txt](indeterminate_order_9.txt) and
@@ -18,9 +18,38 @@ The authoritative mutable working root files
 are byte-identical to these certified snapshots. All previous
 versioned indices, including
 [nine-v8](indeterminate_order_9_v8.txt) and
-[ten-v19](indeterminate_order_10_v19.txt), remain frozen and unchanged.
+[ten-v20](indeterminate_order_10_v20.txt), remain frozen and unchanged.
 
-### Two more new K-divergence theorems and 220 original ten-vertex consequences
+### New: 83 stiff ten-vertex divergences from exact second-iterate isomorphism
+
+The [ten-v21 positive proof archive](research/order10_p2_reference_lifts_v21/REPORT.md)
+establishes **83 new unconditional K-divergences**, by independently
+verifying explicit graph isomorphisms `P_2(G) ≅ P_2(H)` to seven
+**previously proved divergent nine-vertex graphs**. For every original
+McKay graph, the archive gives a full P2 vertex bijection and reconstructs
+both sides independently from graph6. The source counts are:
+
+| Nine-vertex proved source McKay | Newly proved ten-originals |
+|---:|---:|
+| 249436 | 11 |
+| 249574 | 9 |
+| 250814 | 18 |
+| 251759 | 20 |
+| 251902 | 14 |
+| 253650 | 4 |
+| 254369 | 7 |
+| **Total** | **83** |
+
+The certified ten-v20-to-v21 promotion changes only those original
+records; **1,228** remain unresolved (430 with a nine-vertex pared
+core and 798 with a stiff ten-vertex core). The [independent v21
+verifier](research/order10_p2_reference_lifts_v21/verify.py)
+checks all 83 complete bijections, seven archived positive source
+proofs, the frozen v20 blob, and every unchanged census record.
+The historical v20 audit is replayed against its immutable snapshot,
+not silently rewritten.
+
+### Previously certified two K-divergence theorems and 220 ten-vertex consequences
 
 Merged [PR #80](https://github.com/rvf0068/pycliques-census/pull/80)
 contains independently verified **complete ordinary octahedral
@@ -57,7 +86,7 @@ No incomplete search result is promoted. See also the
 | 260040 | `HQyvex}` | 142 |
 | **Total** | | **430** |
 
-The remaining ten-v20 list also contains **881** originals with
+The remaining ten-v21 list also contains **798** originals with
 a ten-vertex pared core, including six previously identified
 flag-sphere triangulations. All three nine-v9 sources remain
 **indeterminate**: the earlier bounded octahedral searches
