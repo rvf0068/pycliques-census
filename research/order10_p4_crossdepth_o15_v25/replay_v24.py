@@ -43,7 +43,6 @@ def run(stage: str) -> None:
     # Fix only aliases, not historical files or their provenance checks.
     with (
         patch.object(old_v24, "CURRENT", old_v24.NEW),
-        patch.object(old_v24_tests, "CURRENT", old_v24.NEW),
         patch.object(old_p4, "CURRENT", old_p4.SNAPSHOT),
         patch.object(old_pilot, "CURRENT", old_pilot.SOURCE),
         patch.object(old_pilot_audit, "CURRENT", old_pilot.SOURCE),
