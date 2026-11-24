@@ -20,6 +20,7 @@ on:
       - "indeterminate_order_9_v6.txt"
       - "indeterminate_order_10_v17.txt"
       - "indeterminate_order_10_v23.txt"
+      - "indeterminate_order_10_v24.txt"
   workflow_dispatch:
 
 jobs:
@@ -44,12 +45,12 @@ jobs:
           cat reports/ci-core9-crossref/summary.md
       - name: Restore current nine-vertex v9 working index
         run: cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
-      - name: Restore current ten-vertex v23 working root
-        run: cp indeterminate_order_10_v23.txt indeterminate_order_10.txt
+      - name: Restore current ten-vertex v24 working root
+        run: cp indeterminate_order_10_v24.txt indeterminate_order_10.txt
       - name: Assert historical files remain unchanged
         run: |
           cmp indeterminate_order_9.txt indeterminate_order_9_v9.txt
-          cmp indeterminate_order_10.txt indeterminate_order_10_v23.txt
+          cmp indeterminate_order_10.txt indeterminate_order_10_v24.txt
           git diff --exit-code -- runs/order9/ runs/order10/ indeterminate_order_9.txt indeterminate_order_10.txt indeterminate_order_10_v3.txt reports/order10_core_index_v1/
       - uses: actions/upload-artifact@v4
         with:
