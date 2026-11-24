@@ -1,0 +1,433 @@
+{
+  "schema": 1,
+  "kind": "complete_fourth_iterate_reconstruction_after_750_facet_cap_and_exact_P4_isomorphism",
+  "from": "research/order10_p4_reference_pilot_v24/results.json",
+  "from_git_blob": "171908472fe4037e0653a08056877fb956bd8d54",
+  "global_p3": "research/order10_p3_global_v23_index/certificates.json",
+  "global_p3_git_blob": "ab5a9f1c075dfad63b111929368147884519f2a3",
+  "previous_complete": 180,
+  "previous_limited": 26,
+  "recovered_records": [
+    {
+      "index": 6923721,
+      "raw_P4": [
+        784,
+        261179
+      ],
+      "P4": [
+        686,
+        199285
+      ],
+      "fold_rounds": [
+        76,
+        22
+      ]
+    },
+    {
+      "index": 6927388,
+      "raw_P4": [
+        784,
+        261199
+      ],
+      "P4": [
+        686,
+        199305
+      ],
+      "fold_rounds": [
+        76,
+        22
+      ]
+    },
+    {
+      "index": 7044680,
+      "raw_P4": [
+        783,
+        261177
+      ],
+      "P4": [
+        685,
+        199283
+      ],
+      "fold_rounds": [
+        76,
+        22
+      ]
+    },
+    {
+      "index": 7070392,
+      "raw_P4": [
+        1034,
+        467517
+      ],
+      "P4": [
+        1034,
+        467517
+      ],
+      "fold_rounds": []
+    },
+    {
+      "index": 7454064,
+      "raw_P4": [
+        784,
+        261179
+      ],
+      "P4": [
+        688,
+        200369
+      ],
+      "fold_rounds": [
+        74,
+        22
+      ]
+    },
+    {
+      "index": 7501337,
+      "raw_P4": [
+        784,
+        261179
+      ],
+      "P4": [
+        687,
+        199827
+      ],
+      "fold_rounds": [
+        75,
+        22
+      ]
+    },
+    {
+      "index": 7960571,
+      "raw_P4": [
+        994,
+        433551
+      ],
+      "P4": [
+        994,
+        433551
+      ],
+      "fold_rounds": []
+    },
+    {
+      "index": 9810958,
+      "raw_P4": [
+        785,
+        261781
+      ],
+      "P4": [
+        687,
+        199800
+      ],
+      "fold_rounds": [
+        76,
+        22
+      ]
+    },
+    {
+      "index": 10291188,
+      "raw_P4": [
+        785,
+        261835
+      ],
+      "P4": [
+        687,
+        199851
+      ],
+      "fold_rounds": [
+        76,
+        22
+      ]
+    },
+    {
+      "index": 10302846,
+      "raw_P4": [
+        784,
+        261203
+      ],
+      "P4": [
+        686,
+        199305
+      ],
+      "fold_rounds": [
+        76,
+        22
+      ]
+    },
+    {
+      "index": 10314910,
+      "raw_P4": [
+        800,
+        272041
+      ],
+      "P4": [
+        689,
+        201050
+      ],
+      "fold_rounds": [
+        89,
+        22
+      ]
+    },
+    {
+      "index": 10348237,
+      "raw_P4": [
+        816,
+        284437
+      ],
+      "P4": [
+        731,
+        227300
+      ],
+      "fold_rounds": [
+        75,
+        10
+      ]
+    },
+    {
+      "index": 11260361,
+      "raw_P4": [
+        784,
+        261257
+      ],
+      "P4": [
+        686,
+        199356
+      ],
+      "fold_rounds": [
+        76,
+        22
+      ]
+    },
+    {
+      "index": 11382559,
+      "raw_P4": [
+        784,
+        261196
+      ],
+      "P4": [
+        692,
+        202613
+      ],
+      "fold_rounds": [
+        74,
+        18
+      ]
+    },
+    {
+      "index": 11386744,
+      "raw_P4": [
+        784,
+        261233
+      ],
+      "P4": [
+        687,
+        199878
+      ],
+      "fold_rounds": [
+        75,
+        22
+      ]
+    },
+    {
+      "index": 11498706,
+      "raw_P4": [
+        958,
+        399527
+      ],
+      "P4": [
+        838,
+        309201
+      ],
+      "fold_rounds": [
+        120
+      ]
+    },
+    {
+      "index": 11546808,
+      "raw_P4": [
+        784,
+        261213
+      ],
+      "P4": [
+        696,
+        204857
+      ],
+      "fold_rounds": [
+        74,
+        14
+      ]
+    },
+    {
+      "index": 11546811,
+      "raw_P4": [
+        799,
+        272351
+      ],
+      "P4": [
+        699,
+        207628
+      ],
+      "fold_rounds": [
+        81,
+        19
+      ]
+    },
+    {
+      "index": 11546997,
+      "raw_P4": [
+        917,
+        361571
+      ],
+      "P4": [
+        836,
+        299606
+      ],
+      "fold_rounds": [
+        77,
+        4
+      ]
+    },
+    {
+      "index": 11561544,
+      "raw_P4": [
+        800,
+        272113
+      ],
+      "P4": [
+        690,
+        201706
+      ],
+      "fold_rounds": [
+        87,
+        23
+      ]
+    },
+    {
+      "index": 11567997,
+      "raw_P4": [
+        798,
+        271700
+      ],
+      "P4": [
+        725,
+        223200
+      ],
+      "fold_rounds": [
+        69,
+        4
+      ]
+    },
+    {
+      "index": 11606646,
+      "raw_P4": [
+        990,
+        429697
+      ],
+      "P4": [
+        990,
+        429697
+      ],
+      "fold_rounds": []
+    },
+    {
+      "index": 11608334,
+      "raw_P4": [
+        1068,
+        501543
+      ],
+      "P4": [
+        1064,
+        497876
+      ],
+      "fold_rounds": [
+        4
+      ]
+    },
+    {
+      "index": 11614797,
+      "raw_P4": [
+        787,
+        263670
+      ],
+      "P4": [
+        685,
+        199283
+      ],
+      "fold_rounds": [
+        80,
+        22
+      ]
+    },
+    {
+      "index": 11649039,
+      "raw_P4": [
+        792,
+        275344
+      ],
+      "P4": [
+        750,
+        247674
+      ],
+      "fold_rounds": [
+        42
+      ]
+    },
+    {
+      "index": 11708820,
+      "raw_P4": [
+        4282,
+        9033001
+      ],
+      "P4": [
+        3928,
+        7595356
+      ],
+      "fold_rounds": [
+        354
+      ]
+    }
+  ],
+  "known_equal_signatures": [
+    {
+      "signature": [
+        685,
+        199283
+      ],
+      "indices": [
+        7044680,
+        11614797
+      ],
+      "status": "EXACT_ISOMORPHIC"
+    },
+    {
+      "signature": [
+        686,
+        199305
+      ],
+      "indices": [
+        6927388,
+        10302846
+      ],
+      "status": "DEGREE_SEQUENCE_DISTINCT"
+    }
+  ],
+  "positive_isomorphism": {
+    "from_index": 7044680,
+    "to_index": 11614797,
+    "vertices": 685,
+    "edges": 199283,
+    "map_format": "uint16_little_endian_base64",
+    "map_b64": "WQKyAVYCyQGzAfEB7gHIAbEBZAJjAl4CzQG4AfgB9AHMAbcBlgCAAIEAeQCCAHoApQCVAJMAfQB/AHgAlACSAHwAfgBAAD8APgDPAEYAPQA8AFUCxwGwAdAARwBCAEEAYgJdAssBtgENAUgABQFFAEQAQwAPAqQAkQCQAHsAOwA4ADYAOgA3AFcCYAIjAhACpgCYAJcAOAI5ADUCIQINAp8AhQCoAKIAhAKBAoAChQKCAicCFQI+AjwCJQITAo8AjQB3AHQAcgCMAHYAcwD9AKMAjgCLAHUAVAJcAlgCYQIkAhEC/gCnAJoAmQCGAn8CgwIoAhYCqQCPAZwAmwCdAIIBCAATAfoAngCEAIMAFAH8AKEAiQCHAAcABgBWAFQAZQBjAMwAMwAtACwAzgA1ADEAMACEAYUBIAAfAAUABAAWABUAHgAUABMAAwBaAFEAUgBhAPAB7QHGAa8B8wHKAbUB7AH2AfIB7wH3AdkB9AAQAfYA9QARARIB9wD5AM0ANAAvAC4ADAEEATIAHAAbAAMBKwApACgAEAAPACUAJAAaABkAAgEqACcAJgAOAA0AIwAiAAwAIQABAAYBBwFYAFsATABNAF4ANALEATcCOgIzAjYCIgIOAjsCOQI9AiYCFAL7AKAAhgCIAI4BigCBAVMAYgBVAGQAaQBuAGoAbwBxAIAByADLAMkAgwHRANIAhgGHAR0AfQESABEAAgBZAE4ATwBfAFAAYABrAGYAZwBsAGgAbQBwAH4BfwHeAdwBwwHfAdsB3QHYAfMA+ADKAMcAGAAXAAsACgAJAAAAVwBJAEoAXABLAF0AWwK0AeoA5ACIAukA6ADjAOIAiQKHAioCGALvAJEB7ADrAO0AiwHVAPEA1gCMAdQAQAI/AikCFwLuAJAB5QDmAOcAigHaAN4A2wDfAOEAiQHwAPIAjQHTANcA2ADcANkA3QDgAIgBbwIwAR0BLwEuAS0BLAEqASsBiwKMAooCLAJCAkECKwJwAjYBjgI1AY8CjQIaApYBlAFEAkMCGQKVAZMBMQEzATIBNAGSAWcCbAJrAmkC0QH8AfoB0AEeARwBGwEaARgBGQEXAXECegJ5AnUC0wG+AQIC/gHSAb0BOwE4ATcBPQE6ATkBPgE8AUABPwGSAqICoQKaApMCowKQAp8CLgIcAkcCRQItAhsCcwJ9AncCBAIAAtYBwQFYAVQBUwFSAZcCqgKpAp0CVwFRAU8BUAGYAqsClQKnAjECHwJcAZ4BWgFZAZgBUgJLAlACSQIwAh4CqgFbAZ0BVQFWAZcBWgJmAsYAvwC+AGUCXwLPAboBDwHDAAsBwgDBAMAAEgLFAL0AvACsABYBAQHEAKsA+QH1Ac4BuQEVAQAB/wAOAbsACgG6ALkAuAAJAbcAtQC0ALEAsAAIAbYAswCyAK8ArgCtAKoAaAJuAiQBIwFtAmoCvAEpAScB/QH7AbsBKAEmASUBIgEhASABHwFyAnwCTQFHAXsCdgLVAcABdQFKAXMBSQFIAUQBRQFLAUYBTAFOAZQCpQKkApsCpgKRAqACSAJGAi8CHQIDAv8B1AG/AQkCBgJ0AUMBcgFCAUEBogF0An4CeAKZAqwCngKcApYCqAJeAQUCAQLXAcIBDAIIAgoCBwILAnoBZwGnAXcBZQFiAU4CTwJTAkwCTQJRAkoCMgIgAq4BcQGhAWsBbwGbAeEB4AHFAekB5QHqAeYB6wHjAecB5AHoAeIB2gF8AasBrAGtAZ8BoAF5AaYBewGoAakBnAF2AWYBZAFjAaMBYQFgAV8BXQF4AaQBpQFsAWgBaQFtAWoBbgFwAZkBmgE=",
+    "map_sha256": "bd2a5bb6713fa5dc02d55b906f58b4567fe425b57add9efd2dfb0f95a0a3e363",
+    "merged_originals": 18,
+    "former_p3_source_class_members": 17
+  },
+  "aggregate": {
+    "selected_p3_classes": 206,
+    "raw_P4_reconstructed": 206,
+    "individual_P4_signatures": 204,
+    "exact_P4_isomorphism_classes": 205,
+    "positive_nontrivial_P4_groups": 1,
+    "positive_P4_group_members": 2,
+    "census_originals_reclassified": 0
+  }
+}
