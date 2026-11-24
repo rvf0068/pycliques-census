@@ -1,0 +1,60 @@
+name: Certify complete octahedral obstruction on P4 of McKay 10820813
+
+on:
+  pull_request:
+    paths:
+      - "research/order10_p4_no_octahedral_10820813_v1/**"
+      - "research/order10_p3_global_v23_index/independent_verify.py"
+      - "research/order10_p4_reference_pilot_v24/results.json"
+      - "indeterminate_order_10_v24.txt"
+      - "indeterminate_order_10.txt"
+      - ".github/workflows/ten-v24-10820813-octahedral-obstruction.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independent-python-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install minimal explicit graph dependency
+        run: python -m pip install networkx==3.6.1
+      - name: Validate complete enumeration and adversarial positive controls
+        run: |
+          python -m py_compile research/order10_p4_no_octahedral_10820813_v1/verify.py
+          python -m unittest research.order10_p4_no_octahedral_10820813_v1.test_verify -v
+          python -m research.order10_p4_no_octahedral_10820813_v1.verify
+      - name: Reject optimized execution of complete proof
+        run: |
+          if python -O -m research.order10_p4_no_octahedral_10820813_v1.verify >/tmp/optimized-oct.log 2>&1; then
+            echo "Optimized Python incorrectly accepted a proof"; exit 1
+          fi
+          grep -q "Optimized Python bypasses" /tmp/optimized-oct.log
+
+  independent-cpp-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install minimal explicit graph dependency
+        run: python -m pip install networkx==3.6.1
+      - name: Rebuild SHA-pinned fourth iterate and export its exact complement
+        run: |
+          python -m research.order10_p4_no_octahedral_10820813_v1.verify \
+            --export-complement /tmp/ten_v24_10820813_H.txt
+      - name: Compile independent C++20 exhaustive enumerator
+        run: |
+          g++ -O2 -std=c++20 -Wall -Wextra -Werror \
+            research/order10_p4_no_octahedral_10820813_v1/verify_independent.cpp \
+            -o /tmp/ten_v24_octahedral_cpp
+      - name: Independently check all induced octahedral targets and domain contradictions
+        run: /tmp/ten_v24_octahedral_cpp < /tmp/ten_v24_10820813_H.txt
