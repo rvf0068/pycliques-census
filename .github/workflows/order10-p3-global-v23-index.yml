@@ -44,6 +44,7 @@ jobs:
         run: |
           if test -f research/order10_p3_global_v23_index/certificates.json; then
             python -m research.order10_p3_global_v23_index.classes verify
+            python -m unittest research.order10_p3_global_v23_index.test_classes -v
           fi
       - name: Reject optimized execution bypassing proof assertions
         run: |
