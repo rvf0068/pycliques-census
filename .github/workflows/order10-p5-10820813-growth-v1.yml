@@ -1,0 +1,64 @@
+name: Certify fifth-iterate growth and induced O20 in McKay 10820813
+
+on:
+  pull_request:
+    paths:
+      - "research/order10_p5_growth_10820813_v1/**"
+      - "research/order10_p4_no_octahedral_10820813_v1/**"
+      - "research/order10_p3_global_v23_index/independent_verify.py"
+      - "indeterminate_order_10_v24.txt"
+      - "research/order10_p4_reference_pilot_v24/results.json"
+      - ".github/workflows/order10-p5-10820813-growth-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independent-python-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Independent 1977-facet reconstruction, complete paring, and O20 forced-image proof
+        run: |
+          python -m py_compile research/order10_p5_growth_10820813_v1/verify.py
+          python -m unittest research.order10_p5_growth_10820813_v1.test_verify -v
+          python -m research.order10_p5_growth_10820813_v1.verify
+      - name: Require assertion-enabled execution for proof replay
+        run: |
+          if python -O -m research.order10_p5_growth_10820813_v1.verify > /tmp/p5-optimized.log 2>&1; then
+            echo "Optimized Python incorrectly accepted a fifth-stage proof"; exit 1
+          fi
+          grep -q "Optimized execution bypasses" /tmp/p5-optimized.log
+
+  independent-cpp-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Independently pin P4 and export its complement edge list
+        run: |
+          python -m research.order10_p4_no_octahedral_10820813_v1.verify \
+            --export-complement /tmp/10820813_p4_H.txt
+      - name: Compile independent C++20 BK/fold/retraction-target verifier
+        run: |
+          g++ -std=c++20 -O2 -Wall -Wextra -Werror \
+            research/order10_p5_growth_10820813_v1/verify_independent.cpp \
+            -o /tmp/p5_proof_cpp
+      - name: Independently construct K5, its 81 folds, P5 and the O20 conflict
+        run: |
+          /tmp/p5_proof_cpp /tmp/10820813_p4_H.txt \
+            /tmp/p5_raw_matrix.bin /tmp/p5_pared_matrix.bin
+      - name: Match every adjacency bit to independently pinned SHA-256 digests
+        run: |
+          echo "ed05c0dd4b6f29789913b06448ac1657975b33368240ca2b393a44e0bb40c24f  /tmp/p5_raw_matrix.bin" | sha256sum --check --status
+          echo "5c1f72ed509e8e4fdc8710278aac9c944f4507b8c0fee8862e956c88f6678220  /tmp/p5_pared_matrix.bin" | sha256sum --check --status
