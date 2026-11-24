@@ -6,6 +6,8 @@ on:
       - "indeterminate_order_10.txt"
       - "indeterminate_order_10_v20.txt"
       - "indeterminate_order_10_v21.txt"
+      - "indeterminate_order_10_v22.txt"
+      - "research/order10_p3_reference_lifts_v22/**"
       - "research/order10_p2_reference_lifts_v21/**"
       - "tests/test_current_root_index.py"
       - ".github/workflows/order10-p2-v21.yml"
@@ -26,16 +28,16 @@ jobs:
         with:
           python-version: "3.12"
       - run: python -m pip install networkx==3.6.1
-      - name: Verify all 83 vertex-level certificates and historical source proofs
+      - name: Replay all 83 ten-v21 proofs against immutable v21 working root
         env:
           PYTHONHASHSEED: "0"
         run: |
-          python -m py_compile research/order10_p2_reference_lifts_v21/verify.py
-          python -m research.order10_p2_reference_lifts_v21.verify
+          python -m py_compile research/order10_p2_reference_lifts_v21/verify.py research/order10_p3_reference_lifts_v22/replay_v21.py
+          python -m research.order10_p3_reference_lifts_v22.replay_v21
           python -m unittest discover -s tests -p test_current_root_index.py -v
       - name: Reject bypass of proof-critical assertions
         run: |
-          if python -O -m research.order10_p2_reference_lifts_v21.verify > /tmp/optimized-proof-out.log 2>&1; then
+          if python -O -m research.order10_p3_reference_lifts_v22.replay_v21 > /tmp/optimized-proof-out.log 2>&1; then
             echo "ERROR: optimized verification should be rejected."
             exit 1
           fi

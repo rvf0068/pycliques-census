@@ -1,0 +1,59 @@
+name: Certify twenty P2/P3-equivalent ten-vertex divergences (ten-v22)
+
+on:
+  pull_request:
+    paths:
+      - "indeterminate_order_10.txt"
+      - "indeterminate_order_10_v21.txt"
+      - "indeterminate_order_10_v22.txt"
+      - "research/order10_p3_reference_lifts_v22/**"
+      - "tests/test_current_root_index.py"
+      - ".github/workflows/order10-p3-v22.yml"
+      - "README.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independently-certify-20:
+    name: Reconstruct all 20 P2/P3 isomorphisms and their divergent sources
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Verify 20 P2/P3 bijections and complete source retractions
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python -m py_compile research/order10_p3_reference_lifts_v22/verify.py
+          python -m research.order10_p3_reference_lifts_v22.verify
+          python -m unittest research.order10_p3_reference_lifts_v22.test_verify -v
+          python -m unittest discover -s tests -p test_current_root_index.py -v
+      - name: Reject bypass of proof-critical assertions
+        run: |
+          if python -O -m research.order10_p3_reference_lifts_v22.verify > /tmp/optimized-v22-proof.log 2>&1; then
+            echo "ERROR: optimized positive proof unexpectedly succeeded"
+            exit 1
+          fi
+          grep -Fq "RuntimeError: Optimized Python bypasses proof-critical assertions" /tmp/optimized-v22-proof.log
+
+  replay-historical-ten-v21:
+    name: Replay all 83 archived P2 proofs against immutable ten-v21
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Run untouched v21 positive verifier with only root reads redirected
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python -m research.order10_p3_reference_lifts_v22.replay_v21

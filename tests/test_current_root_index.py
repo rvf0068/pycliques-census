@@ -27,6 +27,7 @@ V18 = ROOT / "indeterminate_order_10_v18.txt"
 V19 = ROOT / "indeterminate_order_10_v19.txt"
 V20 = ROOT / "indeterminate_order_10_v20.txt"
 V21 = ROOT / "indeterminate_order_10_v21.txt"
+V22 = ROOT / "indeterminate_order_10_v22.txt"
 CURRENT9 = ROOT / "indeterminate_order_9.txt"
 V4_9 = ROOT / "indeterminate_order_9_v4.txt"
 V5_9 = ROOT / "indeterminate_order_9_v5.txt"
@@ -44,7 +45,7 @@ def rows(path: Path) -> list[str]:
 
 class CurrentOrder10IndexTests(unittest.TestCase):
     def test_current_root_matches_latest_certified_version(self):
-        self.assertEqual(CURRENT.read_bytes(), V21.read_bytes())
+        self.assertEqual(CURRENT.read_bytes(), V22.read_bytes())
 
     def test_historical_baseline_preserved_and_only_proofs_excluded(self):
         historical_bytes = HISTORICAL.read_bytes()
@@ -54,11 +55,14 @@ class CurrentOrder10IndexTests(unittest.TestCase):
         ).hexdigest()
         self.assertEqual(blob_hash, "05f52c6db0b5642d2b6a856cef53c8fe07309c52")
         old, new = rows(HISTORICAL), rows(CURRENT)
-        self.assertEqual((len(old), len(new)), (8648, 1228))
+        self.assertEqual((len(old), len(new)), (8648, 1208))
         self.assertEqual(len(rows(V19)), 1531)
-        self.assertEqual(len(rows(V19)) - len(new), 303)
+        self.assertEqual(len(rows(V19)) - len(new), 323)
         self.assertEqual(len(rows(V20)), 1311)
-        self.assertEqual(len(rows(V20)) - len(new), 83)
+        self.assertEqual(len(rows(V20)) - len(new), 103)
+        self.assertEqual(len(rows(V21)), 1228)
+        self.assertEqual(len(rows(V21)) - len(new), 20)
+        self.assertTrue(set(new).issubset(set(rows(V21))))
         self.assertTrue(set(new).issubset(set(rows(V20))))
         self.assertTrue(set(new).issubset(set(rows(V19))))
         self.assertEqual(len(rows(V18)), 1681)
@@ -69,18 +73,18 @@ class CurrentOrder10IndexTests(unittest.TestCase):
         self.assertTrue(set(new).issubset(set(rows(V17))))
         self.assertEqual(len(old), len(set(old)))
         self.assertEqual(len(new), len(set(new)))
-        self.assertEqual(len(set(old) - set(new)), 7420)
+        self.assertEqual(len(set(old) - set(new)), 7440)
         self.assertEqual(len(rows(V6)) - len(rows(V7)), 99)
         self.assertEqual(len(rows(V7)) - len(rows(V8)), 192)
         self.assertEqual(len(rows(V8)) - len(rows(V9)), 12)
         self.assertEqual(len(rows(V9)) - len(rows(V10)), 701)
         self.assertEqual(len(rows(V10)) - len(rows(V11)), 4389)
-        self.assertEqual(len(rows(V11)) - len(new), 1602)
-        self.assertEqual(len(rows(V12)) - len(new), 1560)
-        self.assertEqual(len(rows(V13)) - len(new), 1559)
-        self.assertEqual(len(rows(V14)) - len(new), 1340)
-        self.assertEqual(len(rows(V15)) - len(new), 1313)
-        self.assertEqual(len(rows(V16)) - len(new), 1113)
+        self.assertEqual(len(rows(V11)) - len(new), 1622)
+        self.assertEqual(len(rows(V12)) - len(new), 1580)
+        self.assertEqual(len(rows(V13)) - len(new), 1579)
+        self.assertEqual(len(rows(V14)) - len(new), 1360)
+        self.assertEqual(len(rows(V15)) - len(new), 1333)
+        self.assertEqual(len(rows(V16)) - len(new), 1133)
         self.assertTrue(set(new).issubset(set(rows(V11))))
         self.assertTrue(set(new).issubset(set(rows(V10))))
         self.assertEqual(set(new) - set(old), set())

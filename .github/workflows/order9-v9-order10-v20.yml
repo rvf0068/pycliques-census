@@ -10,6 +10,7 @@ on:
       - "indeterminate_order_10_v19.txt"
       - "indeterminate_order_10_v20.txt"
       - "indeterminate_order_10_v21.txt"
+      - "indeterminate_order_10_v22.txt"
       - "research/order10_p2_reference_lifts_v21/**"
       - "research/order9_v9_order10_v20/**"
       - "research/order9_two_p4_retractions_v1/**"

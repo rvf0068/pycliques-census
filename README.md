@@ -5,12 +5,12 @@ order 10, with a pinned revision of the
 [pycliques-project](https://github.com/rvf0068/pycliques-project)
 monorepo. All historical stages, source indices and proofs are preserved.
 
-## Current certified census: nine-vertex v9 and ten-vertex v21 (November 2026)
+## Current certified census: nine-vertex v9 and ten-vertex v22 (November 2026)
 
 | Connected order | Certified snapshot | Indeterminate original McKay graphs | Previous | Newly proved divergent |
 |---|---|---:|---:|---:|
 | 9 | [v9](indeterminate_order_9_v9.txt) | **3** | 5 | 2 |
-| 10 | [v21](indeterminate_order_10_v21.txt) | **1,228** | 1,311 | 83 |
+| 10 | [v22](indeterminate_order_10_v22.txt) | **1,208** | 1,228 | 20 |
 
 The authoritative mutable working root files
 [indeterminate_order_9.txt](indeterminate_order_9.txt) and
@@ -18,9 +18,31 @@ The authoritative mutable working root files
 are byte-identical to these certified snapshots. All previous
 versioned indices, including
 [nine-v8](indeterminate_order_9_v8.txt) and
-[ten-v20](indeterminate_order_10_v20.txt), remain frozen and unchanged.
+[ten-v21](indeterminate_order_10_v21.txt), remain frozen and unchanged.
 
-### New: 83 stiff ten-vertex divergences from exact second-iterate isomorphism
+### New: twenty stiff ten-vertex divergences through exact P2/P3 equivalences
+
+The [ten-v22 proof archive](research/order10_p3_reference_lifts_v22/REPORT.md)
+certifies **20 further unconditional K-divergences** among stiff ten-vertex
+cores. Eighteen original graphs have their third completely pared clique
+iterate isomorphic to that of a previously proved divergent nine-vertex
+source (McKay 249436, 249574, 250814, 251902, or 208409).
+Two more have a second pared iterate isomorphic to that of ten-vertex
+reference McKay 9312634 or 11262714, whose **complete ordinary
+retractions** onto the snub disphenoid and nine-vertex McKay 260910
+are explicitly certified.
+
+Every positive includes its full P2/P3 vertex bijection, complete
+reconstruction from original graph6, and an independent full
+edge/nonedge check. The two small source retractions are also
+verified on all edges. The [ten-v22 verifier](research/order10_p3_reference_lifts_v22/verify.py)
+checks all archived source proofs, immutable v21, and the exact
+20-index deletion without altering any retained record. The
+authoritative root and frozen ten-v22 now have **1,208** indeterminate
+original ten-vertex graphs: **430** depending on three unresolved
+nine-vertex cores, and **778** stiff ten-vertex cores.
+
+### Previous promotion: 83 stiff ten-vertex divergences from exact second-iterate isomorphism
 
 The [ten-v21 positive proof archive](research/order10_p2_reference_lifts_v21/REPORT.md)
 establishes **83 new unconditional K-divergences**, by independently
@@ -86,7 +108,7 @@ No incomplete search result is promoted. See also the
 | 260040 | `HQyvex}` | 142 |
 | **Total** | | **430** |
 
-The remaining ten-v21 list also contains **798** originals with
+The remaining ten-v22 list contains **778** originals with
 a ten-vertex pared core, including six previously identified
 flag-sphere triangulations. All three nine-v9 sources remain
 **indeterminate**: the earlier bounded octahedral searches
