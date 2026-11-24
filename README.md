@@ -5,12 +5,12 @@ order 10, with a pinned revision of the
 [pycliques-project](https://github.com/rvf0068/pycliques-project)
 monorepo. All historical stages, source indices and proofs are preserved.
 
-## Current certified census: nine-vertex v9 and ten-vertex v23 (November 2026)
+## Current certified census: nine-vertex v9 and ten-vertex v24 (November 2026)
 
 | Connected order | Certified snapshot | Indeterminate original McKay graphs | Previous | Newly proved divergent |
 |---|---|---:|---:|---:|
 | 9 | [v9](indeterminate_order_9_v9.txt) | **3** | 5 | 2 |
-| 10 | [v23](indeterminate_order_10_v23.txt) | **1,059** | 1,208 | 149 |
+| 10 | [v24](indeterminate_order_10_v24.txt) | **1,056** | 1,059 | 3 |
 
 The authoritative mutable working root files
 [indeterminate_order_9.txt](indeterminate_order_9.txt) and
@@ -18,9 +18,32 @@ The authoritative mutable working root files
 are byte-identical to these certified snapshots. All previous
 versioned indices, including
 [nine-v8](indeterminate_order_9_v8.txt) and
-[ten-v22](indeterminate_order_10_v22.txt), remain frozen and unchanged.
+[ten-v23](indeterminate_order_10_v23.txt), remain frozen and unchanged.
 
-### New: 149 stiff ten-vertex divergences by direct nine-core retractions
+### New: three proved P4 equivalences to the divergent O12 reference
+
+The [ten-v24 positive proof archive](research/order10_p4_o12_lifts_v24/REPORT.md)
+certifies **three additional K-divergent stiff ten-vertex originals**:
+McKay **11495390**, **11533866**, and **11556387**.
+Each fourth completely pared clique iterate is **exactly isomorphic**
+to that of McKay **10223405**, whose complete fourth-iterate
+ordinary retraction onto \\(O_{12}\\) was already certified.
+For every positive, the independently reconstructed 182-coordinate
+color-matched permutation is fully verified on all 182 squared
+vertex pairs, independently checked by GraphMatcher, and pinned
+by its SHA-256. The original graph6 and each intermediate graph
+are reconstructed using two independent maximal-clique enumerators.
+
+The ten-v23-to-v24 index transition removes **only these three exact
+original McKay records**. The current working index contains
+**1,056** unresolved ten-vertex originals: **430** with unresolved
+nine-vertex pared cores and **626** with stiff ten-vertex cores.
+The previous [ten-v23 global P3 equivalence index](research/order10_p3_global_v23_index/README.md)
+still provides 522 equivalence-class representatives for the 623
+reconstructible surviving stiff originals, with three explicit
+resource-limited exceptions.
+
+### Previous: 149 stiff ten-vertex divergences by direct nine-core retractions
 
 The [ten-v23 proof archive](research/order10_direct_retractions_v23/REPORT.md)
 certifies **149 new K-divergent stiff ten-vertex originals**.

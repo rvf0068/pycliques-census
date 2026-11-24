@@ -6,10 +6,12 @@ on:
       - "indeterminate_order_10.txt"
       - "indeterminate_order_10_v22.txt"
       - "indeterminate_order_10_v23.txt"
+      - "indeterminate_order_10_v24.txt"
       - "research/order10_direct_retractions_v23/**"
       - "tests/test_current_root_index.py"
       - ".github/workflows/order10-direct-retractions-v23.yml"
       - "README.md"
+      - "research/order10_p4_o12_lifts_v24/replay_v23.py"
   workflow_dispatch:
 
 permissions:
@@ -31,9 +33,7 @@ jobs:
           PYTHONHASHSEED: "0"
         run: |
           python -m py_compile research/order10_direct_retractions_v23/verify.py
-          python -m research.order10_direct_retractions_v23.verify
-          python -m research.order10_direct_retractions_v23.scan
-          python -m unittest research.order10_direct_retractions_v23.test_verify -v
+          python -m research.order10_p4_o12_lifts_v24.replay_v23 direct
           python -m unittest discover -s tests -p test_current_root_index.py -v
       - name: Reject optimized execution bypassing proof-critical assertions
         run: |
