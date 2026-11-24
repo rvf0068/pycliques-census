@@ -5,12 +5,12 @@ order 10, with a pinned revision of the
 [pycliques-project](https://github.com/rvf0068/pycliques-project)
 monorepo. All historical stages, source indices and proofs are preserved.
 
-## Current certified census: nine-vertex v9 and ten-vertex v22 (November 2026)
+## Current certified census: nine-vertex v9 and ten-vertex v23 (November 2026)
 
 | Connected order | Certified snapshot | Indeterminate original McKay graphs | Previous | Newly proved divergent |
 |---|---|---:|---:|---:|
 | 9 | [v9](indeterminate_order_9_v9.txt) | **3** | 5 | 2 |
-| 10 | [v22](indeterminate_order_10_v22.txt) | **1,208** | 1,228 | 20 |
+| 10 | [v23](indeterminate_order_10_v23.txt) | **1,059** | 1,208 | 149 |
 
 The authoritative mutable working root files
 [indeterminate_order_9.txt](indeterminate_order_9.txt) and
@@ -18,9 +18,30 @@ The authoritative mutable working root files
 are byte-identical to these certified snapshots. All previous
 versioned indices, including
 [nine-v8](indeterminate_order_9_v8.txt) and
-[ten-v21](indeterminate_order_10_v21.txt), remain frozen and unchanged.
+[ten-v22](indeterminate_order_10_v22.txt), remain frozen and unchanged.
 
-### New: twenty stiff ten-vertex divergences through exact P2/P3 equivalences
+### New: 149 stiff ten-vertex divergences by direct nine-core retractions
+
+The [ten-v23 proof archive](research/order10_direct_retractions_v23/REPORT.md)
+certifies **149 new K-divergent stiff ten-vertex originals**.
+Each admits a **complete graph retraction** onto an induced nine-vertex
+subgraph isomorphic to one of six previously proved divergent McKay
+graphs (249436, 249574, 250814, 251759, 251902 or 254369).
+For every original, the archive contains the graph6 identity,
+the deleted vertex and its projection image, and a full target isomorphism.
+The independent [verifier](research/order10_direct_retractions_v23/verify.py)
+checks every source edge, all target edges and nonedges, and replays the
+archived nine-vertex positive proofs; it also authenticates frozen ten-v22
+and all 149 exact original-record deletions.
+
+The [current indeterminate order-ten root](indeterminate_order_10.txt)
+and immutable ten-v23 agree byte-for-byte: **1,059** unresolved originals,
+comprising **430** with nine-vertex pared cores and **629** stiff ten-vertex
+cores. Nine-v9 remains **3**. Stiffness does not prevent an ordinary
+retraction: the deleted vertex need not be adjacent to its projection
+image.
+
+### Previous: twenty stiff ten-vertex divergences through exact P2/P3 equivalences
 
 The [ten-v22 proof archive](research/order10_p3_reference_lifts_v22/REPORT.md)
 certifies **20 further unconditional K-divergences** among stiff ten-vertex
@@ -37,8 +58,8 @@ reconstruction from original graph6, and an independent full
 edge/nonedge check. The two small source retractions are also
 verified on all edges. The [ten-v22 verifier](research/order10_p3_reference_lifts_v22/verify.py)
 checks all archived source proofs, immutable v21, and the exact
-20-index deletion without altering any retained record. The
-authoritative root and frozen ten-v22 now have **1,208** indeterminate
+20-index deletion without altering any retained record. At ten-v22, the
+authoritative root and frozen ten-v22 had **1,208** indeterminate
 original ten-vertex graphs: **430** depending on three unresolved
 nine-vertex cores, and **778** stiff ten-vertex cores.
 
@@ -108,7 +129,7 @@ No incomplete search result is promoted. See also the
 | 260040 | `HQyvex}` | 142 |
 | **Total** | | **430** |
 
-The remaining ten-v22 list contains **778** originals with
+The remaining ten-v23 list contains **629** originals with
 a ten-vertex pared core, including six previously identified
 flag-sphere triangulations. All three nine-v9 sources remain
 **indeterminate**: the earlier bounded octahedral searches

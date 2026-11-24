@@ -1,0 +1,4499 @@
+{
+  "schema": 1,
+  "source_v22_git_blob": "b066bf5b32d0c77448a0a23e10d33715aca19fc0",
+  "previous_count": 1208,
+  "current_count": 1059,
+  "removed_count": 149,
+  "remaining_pared_order": {
+    "9": 430,
+    "10": 629
+  },
+  "reference_proofs": {
+    "249436": "HEhff^{",
+    "249574": "HEhfvx}",
+    "250814": "HEhuvzm",
+    "251759": "HEhvtzm",
+    "251902": "HEhvvzm",
+    "254369": "HEjfvx}"
+  },
+  "counts_by_reference": {
+    "249436": 39,
+    "249574": 20,
+    "250814": 26,
+    "251759": 26,
+    "251902": 23,
+    "254369": 15
+  },
+  "witnesses": [
+    {
+      "original_index": 5808448,
+      "original_graph6": "I?bbU^un_",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 3,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        6,
+        4,
+        5,
+        3,
+        7,
+        8,
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "original_index": 5974382,
+      "original_graph6": "I?betrfZo",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 3,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        6,
+        4,
+        5,
+        3,
+        2,
+        0,
+        1,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 6062256,
+      "original_graph6": "I?bmv_~lo",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 1,
+      "image": 0,
+      "target_vertices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        6,
+        4,
+        5,
+        3,
+        0,
+        1,
+        2,
+        8,
+        7
+      ]
+    },
+    {
+      "original_index": 6539717,
+      "original_graph6": "I?o~D\\}}_",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 3,
+      "image": 2,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        4,
+        5,
+        6,
+        8,
+        3,
+        7,
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "original_index": 6923359,
+      "original_graph6": "I?qbFR}|o",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 3,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ]
+    },
+    {
+      "original_index": 6923746,
+      "original_graph6": "I?qbFZ}^o",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 3,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 6926770,
+      "original_graph6": "I?qbFrf~_",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 3,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 6927223,
+      "original_graph6": "I?qbFr}|o",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 3,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ]
+    },
+    {
+      "original_index": 6927384,
+      "original_graph6": "I?qbFz}^o",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 3,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 6945043,
+      "original_graph6": "I?qbT~{|g",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 3,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        6,
+        8
+      ]
+    },
+    {
+      "original_index": 6946869,
+      "original_graph6": "I?qbUZ}|o",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 3,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 6955169,
+      "original_graph6": "I?qbUzf~_",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 3,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        1,
+        0,
+        2,
+        6,
+        5,
+        4,
+        3,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 6955745,
+      "original_graph6": "I?qbUz}|o",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 3,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 6958322,
+      "original_graph6": "I?qbVY}|o",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 3,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 6958916,
+      "original_graph6": "I?qbVZ}|o",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 3,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 6962827,
+      "original_graph6": "I?qbVz}|o",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 3,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 6991524,
+      "original_graph6": "I?qbb^m~O",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 3,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        5,
+        3,
+        4,
+        1,
+        2,
+        0,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 6991625,
+      "original_graph6": "I?qbb^}~O",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 3,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        5,
+        3,
+        4,
+        1,
+        2,
+        0,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7037414,
+      "original_graph6": "I?qbfVm|O",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 3,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        2,
+        1,
+        4,
+        3,
+        5,
+        7,
+        8,
+        6
+      ]
+    },
+    {
+      "original_index": 7037577,
+      "original_graph6": "I?qbfVt~_",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 3,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        2,
+        1,
+        4,
+        3,
+        5,
+        7,
+        6,
+        8
+      ]
+    },
+    {
+      "original_index": 7064932,
+      "original_graph6": "I?qbuzf~_",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 3,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        1,
+        0,
+        2,
+        6,
+        5,
+        4,
+        3,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7076243,
+      "original_graph6": "I?qcz^k{W",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 3,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        6,
+        4,
+        5,
+        0,
+        1,
+        3,
+        8,
+        7,
+        2
+      ]
+    },
+    {
+      "original_index": 7090016,
+      "original_graph6": "I?qc~`n~O",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 3,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        6,
+        4,
+        5,
+        0,
+        1,
+        3,
+        2,
+        8,
+        7
+      ]
+    },
+    {
+      "original_index": 7260497,
+      "original_graph6": "I?qfCxn~_",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 3,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        6,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        8,
+        7
+      ]
+    },
+    {
+      "original_index": 7262437,
+      "original_graph6": "I?qfCz}^o",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 3,
+      "image": 4,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        6,
+        4,
+        5,
+        0,
+        1,
+        2,
+        3,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7275383,
+      "original_graph6": "I?qfFZ}^o",
+      "reference_index": 254369,
+      "reference_graph6": "HEjfvx}",
+      "deleted_vertex": 3,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7278755,
+      "original_graph6": "I?qfFz}^o",
+      "reference_index": 254369,
+      "reference_graph6": "HEjfvx}",
+      "deleted_vertex": 3,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7282125,
+      "original_graph6": "I?qfRn|~_",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 3,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        2,
+        0,
+        1,
+        4,
+        5,
+        6,
+        3,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7287594,
+      "original_graph6": "I?qfUXv~_",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 3,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        2,
+        0,
+        1,
+        4,
+        5,
+        6,
+        7,
+        3,
+        8
+      ]
+    },
+    {
+      "original_index": 7289027,
+      "original_graph6": "I?qfUxv~_",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 3,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        2,
+        0,
+        1,
+        4,
+        5,
+        6,
+        7,
+        3,
+        8
+      ]
+    },
+    {
+      "original_index": 7293745,
+      "original_graph6": "I?qfVXv~_",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 3,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        2,
+        0,
+        1,
+        4,
+        5,
+        6,
+        7,
+        3,
+        8
+      ]
+    },
+    {
+      "original_index": 7293799,
+      "original_graph6": "I?qfVY}\\o",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 3,
+      "image": 2,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        1,
+        2,
+        0,
+        5,
+        6,
+        7,
+        8,
+        3,
+        4
+      ]
+    },
+    {
+      "original_index": 7298410,
+      "original_graph6": "I?qfb^m~O",
+      "reference_index": 254369,
+      "reference_graph6": "HEjfvx}",
+      "deleted_vertex": 3,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        5,
+        3,
+        4,
+        1,
+        2,
+        0,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7298588,
+      "original_graph6": "I?qfb^}~O",
+      "reference_index": 254369,
+      "reference_graph6": "HEjfvx}",
+      "deleted_vertex": 3,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        5,
+        3,
+        4,
+        1,
+        2,
+        0,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7444999,
+      "original_graph6": "I?qmvL{ww",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 3,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        2,
+        1,
+        7,
+        3,
+        4,
+        6,
+        5,
+        8
+      ]
+    },
+    {
+      "original_index": 7445355,
+      "original_graph6": "I?qmvNk]W",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 3,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        4,
+        5,
+        6,
+        1,
+        0,
+        7,
+        8,
+        2
+      ]
+    },
+    {
+      "original_index": 7461050,
+      "original_graph6": "I?qnEt}|o",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 3,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        2,
+        0,
+        1,
+        7,
+        5,
+        6,
+        4,
+        3,
+        8
+      ]
+    },
+    {
+      "original_index": 7470476,
+      "original_graph6": "I?qnRnu~O",
+      "reference_index": 254369,
+      "reference_graph6": "HEjfvx}",
+      "deleted_vertex": 3,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        5,
+        4,
+        1,
+        6,
+        7,
+        2,
+        0,
+        8
+      ]
+    },
+    {
+      "original_index": 7474555,
+      "original_graph6": "I?qnVZu\\o",
+      "reference_index": 254369,
+      "reference_graph6": "HEjfvx}",
+      "deleted_vertex": 3,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        5,
+        4,
+        1,
+        6,
+        7,
+        8,
+        0,
+        2
+      ]
+    },
+    {
+      "original_index": 7501351,
+      "original_graph6": "I?qrd^m}o",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 3,
+      "image": 2,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        5,
+        4,
+        1,
+        0,
+        2,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7513218,
+      "original_graph6": "I?qre^mxo",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 3,
+      "image": 2,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7516562,
+      "original_graph6": "I?qrfJmyo",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 3,
+      "image": 2,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        2,
+        1,
+        4,
+        3,
+        5,
+        6,
+        8,
+        7
+      ]
+    },
+    {
+      "original_index": 7516574,
+      "original_graph6": "I?qrfJm}o",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 3,
+      "image": 2,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        2,
+        1,
+        4,
+        3,
+        5,
+        6,
+        8,
+        7
+      ]
+    },
+    {
+      "original_index": 7520893,
+      "original_graph6": "I?qrfRfz_",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 3,
+      "image": 2,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7522628,
+      "original_graph6": "I?qrfZm{o",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 3,
+      "image": 2,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        2,
+        0,
+        1,
+        4,
+        5,
+        3,
+        7,
+        8,
+        6
+      ]
+    },
+    {
+      "original_index": 7527379,
+      "original_graph6": "I?qrfrf~_",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 3,
+      "image": 2,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7527552,
+      "original_graph6": "I?qrfrmxo",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 3,
+      "image": 2,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ]
+    },
+    {
+      "original_index": 7544015,
+      "original_graph6": "I?qrvZ]to",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 2,
+      "image": 9,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7544086,
+      "original_graph6": "I?qrvZmxo",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 3,
+      "image": 2,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7592242,
+      "original_graph6": "I?quZrlxo",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 3,
+      "image": 2,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        5,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7699813,
+      "original_graph6": "I?qvNXz~_",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 3,
+      "image": 2,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        2,
+        1,
+        0,
+        5,
+        4,
+        6,
+        7,
+        3,
+        8
+      ]
+    },
+    {
+      "original_index": 7742038,
+      "original_graph6": "I?qzvrf~_",
+      "reference_index": 254369,
+      "reference_graph6": "HEjfvx}",
+      "deleted_vertex": 3,
+      "image": 2,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        4,
+        5,
+        6,
+        1,
+        2,
+        0,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7870263,
+      "original_graph6": "I?rdux}xo",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 3,
+      "image": 4,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        2,
+        0,
+        1,
+        7,
+        6,
+        5,
+        4,
+        3,
+        8
+      ]
+    },
+    {
+      "original_index": 7943482,
+      "original_graph6": "I?rmv_~lo",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 1,
+      "image": 0,
+      "target_vertices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        6,
+        4,
+        5,
+        3,
+        0,
+        1,
+        2,
+        8,
+        7
+      ]
+    },
+    {
+      "original_index": 7951827,
+      "original_graph6": "I?zTb\\}\\o",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 0,
+      "image": 7,
+      "target_vertices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7951849,
+      "original_graph6": "I?zTb\\}|o",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 0,
+      "image": 7,
+      "target_vertices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        4,
+        5,
+        0,
+        1,
+        2,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7952477,
+      "original_graph6": "I?zTb^mxo",
+      "reference_index": 254369,
+      "reference_graph6": "HEjfvx}",
+      "deleted_vertex": 3,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        5,
+        3,
+        4,
+        0,
+        1,
+        2,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7953264,
+      "original_graph6": "I?zTbp}\\o",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 0,
+      "image": 8,
+      "target_vertices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ]
+    },
+    {
+      "original_index": 7960757,
+      "original_graph6": "I?zTrx}\\o",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 0,
+      "image": 8,
+      "target_vertices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 7974846,
+      "original_graph6": "I?zVdy}No",
+      "reference_index": 254369,
+      "reference_graph6": "HEjfvx}",
+      "deleted_vertex": 1,
+      "image": 0,
+      "target_vertices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 9680351,
+      "original_graph6": "ICRSvL}}o",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        4,
+        5,
+        0,
+        1,
+        7,
+        6,
+        2,
+        3,
+        8
+      ]
+    },
+    {
+      "original_index": 9717301,
+      "original_graph6": "ICRU]p|jo",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 2,
+      "image": 4,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        5,
+        0,
+        2,
+        6,
+        7,
+        3,
+        8,
+        4,
+        1
+      ]
+    },
+    {
+      "original_index": 9726246,
+      "original_graph6": "ICRUt\\}~O",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 2,
+      "image": 4,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        4,
+        1,
+        0,
+        5,
+        6,
+        7,
+        2,
+        3,
+        8
+      ]
+    },
+    {
+      "original_index": 9730779,
+      "original_graph6": "ICRUvNkNg",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 2,
+      "image": 5,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        2,
+        1,
+        4,
+        3,
+        7,
+        8,
+        5,
+        6,
+        0
+      ]
+    },
+    {
+      "original_index": 9768361,
+      "original_graph6": "ICRVTpvxo",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 4,
+      "image": 8,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        6,
+        4,
+        5,
+        3,
+        0,
+        2,
+        1,
+        8,
+        7
+      ]
+    },
+    {
+      "original_index": 9810952,
+      "original_graph6": "ICR`un]Vo",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 2,
+      "image": 7,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        4,
+        5,
+        3,
+        2,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 9813715,
+      "original_graph6": "ICR`uz]uo",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 2,
+      "image": 8,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        4,
+        1,
+        2,
+        0,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 9868374,
+      "original_graph6": "ICRbfM}v_",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 4,
+      "image": 5,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        6,
+        4,
+        5,
+        3,
+        7,
+        8,
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "original_index": 9868524,
+      "original_graph6": "ICRbfNUn_",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 4,
+      "image": 5,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        6,
+        4,
+        5,
+        3,
+        7,
+        8,
+        2,
+        0,
+        1
+      ]
+    },
+    {
+      "original_index": 9949983,
+      "original_graph6": "ICRcuxz~_",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        4,
+        5,
+        0,
+        1,
+        2,
+        6,
+        7,
+        3,
+        8
+      ]
+    },
+    {
+      "original_index": 9950264,
+      "original_graph6": "ICRcuz]]o",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        4,
+        5,
+        0,
+        1,
+        2,
+        6,
+        7,
+        8,
+        3
+      ]
+    },
+    {
+      "original_index": 10014899,
+      "original_graph6": "ICRdu^[Vg",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 2,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        4,
+        1,
+        2,
+        0,
+        5,
+        7,
+        6,
+        8
+      ]
+    },
+    {
+      "original_index": 10017228,
+      "original_graph6": "ICRduz]Vo",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 2,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        4,
+        1,
+        2,
+        0,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 10023942,
+      "original_graph6": "ICRdvj]Vo",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 2,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        4,
+        1,
+        2,
+        0,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 10074690,
+      "original_graph6": "ICRvUo~\\o",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 0,
+      "image": 8,
+      "target_vertices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        6,
+        4,
+        5,
+        3,
+        2,
+        0,
+        1,
+        8,
+        7
+      ]
+    },
+    {
+      "original_index": 10253467,
+      "original_graph6": "ICY^Ev]Vo",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        4,
+        1,
+        2,
+        5,
+        0,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 10286037,
+      "original_graph6": "ICZH~jZ~_",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 2,
+      "image": 5,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        1,
+        0,
+        5,
+        4,
+        6,
+        2,
+        3,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 10291187,
+      "original_graph6": "ICZJ`}}fo",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 1,
+      "image": 7,
+      "target_vertices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        5,
+        0,
+        1,
+        4,
+        2,
+        3,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 10301877,
+      "original_graph6": "ICZJc~]uo",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        5,
+        4,
+        1,
+        3,
+        2,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 10302847,
+      "original_graph6": "ICZJd]}lo",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 1,
+      "image": 7,
+      "target_vertices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        1,
+        4,
+        5,
+        0,
+        3,
+        2,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 10373417,
+      "original_graph6": "ICZJvI^uo",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        5,
+        6,
+        2,
+        0,
+        3,
+        4,
+        1,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 10374673,
+      "original_graph6": "ICZJvM{ww",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 3,
+      "image": 9,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        1,
+        0,
+        2,
+        7,
+        3,
+        4,
+        6,
+        5,
+        8
+      ]
+    },
+    {
+      "original_index": 10375551,
+      "original_graph6": "ICZJvZemW",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 3,
+      "image": 8,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        5,
+        3,
+        4,
+        6,
+        1,
+        0,
+        8,
+        7,
+        2
+      ]
+    },
+    {
+      "original_index": 10384752,
+      "original_graph6": "ICZK}vs[w",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        5,
+        4,
+        1,
+        3,
+        6,
+        8,
+        7,
+        2
+      ]
+    },
+    {
+      "original_index": 10384753,
+      "original_graph6": "ICZK}vs\\W",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        5,
+        6,
+        2,
+        7,
+        4,
+        8,
+        3,
+        1
+      ]
+    },
+    {
+      "original_index": 10390041,
+      "original_graph6": "ICZL\\zqNW",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 1,
+      "image": 6,
+      "target_vertices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        2,
+        1,
+        4,
+        0,
+        7,
+        6,
+        5,
+        8
+      ]
+    },
+    {
+      "original_index": 10444988,
+      "original_graph6": "ICZMuzuNo",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 2,
+      "image": 5,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        1,
+        0,
+        5,
+        4,
+        6,
+        7,
+        8,
+        3,
+        2
+      ]
+    },
+    {
+      "original_index": 10447129,
+      "original_graph6": "ICZMvi}\\o",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 2,
+      "image": 5,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        5,
+        6,
+        2,
+        7,
+        8,
+        3,
+        4,
+        1
+      ]
+    },
+    {
+      "original_index": 10453648,
+      "original_graph6": "ICZNNjYNW",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 2,
+      "image": 5,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        1,
+        2,
+        3,
+        4,
+        7,
+        5,
+        6,
+        8,
+        0
+      ]
+    },
+    {
+      "original_index": 10561406,
+      "original_graph6": "ICZbfNUn_",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 4,
+      "image": 5,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        6,
+        4,
+        5,
+        3,
+        7,
+        8,
+        2,
+        0,
+        1
+      ]
+    },
+    {
+      "original_index": 10573688,
+      "original_graph6": "ICZbuz]fo",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        4,
+        3,
+        2,
+        1,
+        0,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 10581611,
+      "original_graph6": "ICZejv[fW",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        4,
+        3,
+        2,
+        1,
+        0,
+        7,
+        5,
+        6,
+        8
+      ]
+    },
+    {
+      "original_index": 10584010,
+      "original_graph6": "ICZelp^vO",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 2,
+      "image": 8,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        6,
+        5,
+        0,
+        2,
+        1,
+        3,
+        4,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 10599128,
+      "original_graph6": "ICZety}No",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 1,
+      "image": 8,
+      "target_vertices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        4,
+        1,
+        2,
+        0,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 10767771,
+      "original_graph6": "ICpUvh}}O",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        6,
+        7,
+        8,
+        3,
+        2,
+        1,
+        4,
+        5,
+        0
+      ]
+    },
+    {
+      "original_index": 10773123,
+      "original_graph6": "ICpVTrVVo",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 2,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        4,
+        5,
+        6,
+        2,
+        0,
+        1,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 10776271,
+      "original_graph6": "ICpVUnwVg",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 2,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        7,
+        6,
+        5,
+        4,
+        1,
+        0,
+        3,
+        2,
+        8
+      ]
+    },
+    {
+      "original_index": 10795781,
+      "original_graph6": "ICpVfV{^o",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        7,
+        6,
+        5,
+        0,
+        1,
+        2,
+        4,
+        3,
+        8
+      ]
+    },
+    {
+      "original_index": 10973488,
+      "original_graph6": "ICpdVX}xo",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 3,
+      "image": 4,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        1,
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 10973491,
+      "original_graph6": "ICpdVX}|o",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 3,
+      "image": 6,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        1,
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11087991,
+      "original_graph6": "ICpdnr]Vo",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 2,
+      "image": 9,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        4,
+        1,
+        0,
+        2,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11134685,
+      "original_graph6": "ICpenV[Ng",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 2,
+      "image": 6,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        4,
+        6,
+        5,
+        8,
+        3,
+        7,
+        2
+      ]
+    },
+    {
+      "original_index": 11255646,
+      "original_graph6": "ICpulv[Yw",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 2,
+      "image": 6,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        1,
+        4,
+        5,
+        6,
+        2,
+        7,
+        3,
+        8,
+        0
+      ]
+    },
+    {
+      "original_index": 11255654,
+      "original_graph6": "ICpulv[]o",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 2,
+      "image": 3,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        5,
+        6,
+        7,
+        1,
+        8,
+        4,
+        3,
+        2
+      ]
+    },
+    {
+      "original_index": 11258434,
+      "original_graph6": "ICpunVwVW",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        7,
+        6,
+        5,
+        4,
+        1,
+        3,
+        0,
+        2,
+        8
+      ]
+    },
+    {
+      "original_index": 11258967,
+      "original_graph6": "ICpunZifW",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        6,
+        7,
+        1,
+        4,
+        5,
+        3,
+        2,
+        0,
+        8
+      ]
+    },
+    {
+      "original_index": 11259285,
+      "original_graph6": "ICpunZy|O",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        7,
+        8,
+        3,
+        2,
+        6,
+        1,
+        4,
+        5,
+        0
+      ]
+    },
+    {
+      "original_index": 11267821,
+      "original_graph6": "ICpvTy}No",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 1,
+      "image": 8,
+      "target_vertices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        2,
+        0,
+        1,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11284141,
+      "original_graph6": "ICpvfZmjo",
+      "reference_index": 254369,
+      "reference_graph6": "HEjfvx}",
+      "deleted_vertex": 3,
+      "image": 8,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        1,
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11292573,
+      "original_graph6": "ICqjfVmxo",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 3,
+      "image": 7,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        1,
+        0,
+        2,
+        3,
+        5,
+        4,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11322386,
+      "original_graph6": "ICrJet]lW",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 2,
+      "image": 3,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        4,
+        5,
+        0,
+        6,
+        2,
+        7,
+        8,
+        1
+      ]
+    },
+    {
+      "original_index": 11322415,
+      "original_graph6": "ICrJet]|G",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        7,
+        6,
+        5,
+        0,
+        4,
+        1,
+        3,
+        8,
+        2
+      ]
+    },
+    {
+      "original_index": 11340430,
+      "original_graph6": "ICrQvZy|_",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 2,
+      "image": 0,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        7,
+        8,
+        3,
+        4,
+        5,
+        6,
+        2,
+        0,
+        1
+      ]
+    },
+    {
+      "original_index": 11372298,
+      "original_graph6": "ICrVrz{{o",
+      "reference_index": 254369,
+      "reference_graph6": "HEjfvx}",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        6,
+        7,
+        8,
+        0,
+        1,
+        4,
+        5,
+        3,
+        2
+      ]
+    },
+    {
+      "original_index": 11382615,
+      "original_graph6": "ICrbT^k\\g",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 3,
+      "image": 5,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        1,
+        2,
+        0,
+        5,
+        6,
+        7,
+        3,
+        8,
+        4
+      ]
+    },
+    {
+      "original_index": 11387392,
+      "original_graph6": "ICrbUn[Mw",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 2,
+      "image": 7,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        2,
+        1,
+        4,
+        6,
+        5,
+        3,
+        8,
+        7,
+        0
+      ]
+    },
+    {
+      "original_index": 11411637,
+      "original_graph6": "ICrbeny~?",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        7,
+        8,
+        6,
+        4,
+        5,
+        3,
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "original_index": 11415839,
+      "original_graph6": "ICrbfVmjo",
+      "reference_index": 254369,
+      "reference_graph6": "HEjfvx}",
+      "deleted_vertex": 3,
+      "image": 7,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        1,
+        0,
+        2,
+        3,
+        5,
+        4,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11495320,
+      "original_graph6": "ICvbvZsTw",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        7,
+        6,
+        5,
+        3,
+        4,
+        1,
+        0,
+        2,
+        8
+      ]
+    },
+    {
+      "original_index": 11496495,
+      "original_graph6": "ICvbvj{{o",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        6,
+        7,
+        8,
+        1,
+        0,
+        5,
+        4,
+        3,
+        2
+      ]
+    },
+    {
+      "original_index": 11503742,
+      "original_graph6": "ICvejzy|O",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        6,
+        7,
+        8,
+        2,
+        3,
+        0,
+        5,
+        4,
+        1
+      ]
+    },
+    {
+      "original_index": 11520780,
+      "original_graph6": "ICxvBz[n_",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 6,
+      "image": 4,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        4,
+        5,
+        6,
+        8,
+        7,
+        2,
+        0,
+        1
+      ]
+    },
+    {
+      "original_index": 11521767,
+      "original_graph6": "ICxvEzu}_",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 2,
+      "image": 1,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        7,
+        8,
+        6,
+        4,
+        3,
+        5,
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "original_index": 11547198,
+      "original_graph6": "IEhbvr{^O",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 6,
+      "image": 7,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11562899,
+      "original_graph6": "IEhfeZ{z_",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 7,
+      "image": 8,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ]
+    },
+    {
+      "original_index": 11563287,
+      "original_graph6": "IEhfe^[NW",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 2,
+      "image": 7,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        6,
+        4,
+        5,
+        3,
+        8,
+        7,
+        2
+      ]
+    },
+    {
+      "original_index": 11563708,
+      "original_graph6": "IEhfe^{z_",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 7,
+      "image": 9,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ]
+    },
+    {
+      "original_index": 11565908,
+      "original_graph6": "IEhfezm~?",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 7,
+      "image": 9,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11566716,
+      "original_graph6": "IEhffZ{vO",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 6,
+      "image": 8,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        1,
+        2,
+        0,
+        5,
+        3,
+        4,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11566725,
+      "original_graph6": "IEhffZ{z_",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 7,
+      "image": 8,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ]
+    },
+    {
+      "original_index": 11567355,
+      "original_graph6": "IEhffr{^O",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 6,
+      "image": 7,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11567375,
+      "original_graph6": "IEhffr{z_",
+      "reference_index": 249436,
+      "reference_graph6": "HEhff^{",
+      "deleted_vertex": 7,
+      "image": 8,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        7
+      ]
+    },
+    {
+      "original_index": 11567757,
+      "original_graph6": "IEhfrz{^_",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 7,
+      "image": 8,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11571406,
+      "original_graph6": "IEhrtnkUw",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 0,
+      "image": 9,
+      "target_vertices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        2,
+        3,
+        4,
+        1,
+        7,
+        6,
+        0,
+        5,
+        8
+      ]
+    },
+    {
+      "original_index": 11573350,
+      "original_graph6": "IEhrvM{Uw",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 0,
+      "image": 9,
+      "target_vertices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        4,
+        3,
+        2,
+        1,
+        7,
+        6,
+        0,
+        5,
+        8
+      ]
+    },
+    {
+      "original_index": 11574084,
+      "original_graph6": "IEhrvZ{}O",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 6,
+      "image": 8,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        2,
+        1,
+        0,
+        5,
+        4,
+        3,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11584689,
+      "original_graph6": "IEhuVZ{}O",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 6,
+      "image": 7,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        2,
+        1,
+        0,
+        5,
+        4,
+        3,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11589913,
+      "original_graph6": "IEhuuXzlo",
+      "reference_index": 249574,
+      "reference_graph6": "HEhfvx}",
+      "deleted_vertex": 2,
+      "image": 7,
+      "target_vertices": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        1,
+        4,
+        6,
+        5,
+        0,
+        8,
+        7,
+        2,
+        3
+      ]
+    },
+    {
+      "original_index": 11590409,
+      "original_graph6": "IEhuuZ{z_",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 7,
+      "image": 8,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11590668,
+      "original_graph6": "IEhuvZ{z_",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 7,
+      "image": 8,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11603750,
+      "original_graph6": "IEhvFry]o",
+      "reference_index": 254369,
+      "reference_graph6": "HEjfvx}",
+      "deleted_vertex": 5,
+      "image": 7,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11603785,
+      "original_graph6": "IEhvFr{Zo",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 6,
+      "image": 7,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        2,
+        0,
+        1,
+        4,
+        5,
+        6,
+        7,
+        8,
+        3
+      ]
+    },
+    {
+      "original_index": 11603800,
+      "original_graph6": "IEhvFr{zO",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 6,
+      "image": 7,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11610561,
+      "original_graph6": "IEhvVr{zO",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 6,
+      "image": 7,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11626449,
+      "original_graph6": "IEjbvr{^O",
+      "reference_index": 254369,
+      "reference_graph6": "HEjfvx}",
+      "deleted_vertex": 6,
+      "image": 7,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11634225,
+      "original_graph6": "IEjerh}No",
+      "reference_index": 250814,
+      "reference_graph6": "HEhuvzm",
+      "deleted_vertex": 0,
+      "image": 8,
+      "target_vertices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        4,
+        1,
+        2,
+        0,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11635298,
+      "original_graph6": "IEjerx}No",
+      "reference_index": 251902,
+      "reference_graph6": "HEhvvzm",
+      "deleted_vertex": 0,
+      "image": 8,
+      "target_vertices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        3,
+        4,
+        1,
+        2,
+        0,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11645500,
+      "original_graph6": "IEjfrz{^_",
+      "reference_index": 254369,
+      "reference_graph6": "HEjfvx}",
+      "deleted_vertex": 7,
+      "image": 8,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "original_index": 11710235,
+      "original_graph6": "IQyvexm|G",
+      "reference_index": 251759,
+      "reference_graph6": "HEhvtzm",
+      "deleted_vertex": 6,
+      "image": 9,
+      "target_vertices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9
+      ],
+      "target_bijection": [
+        0,
+        5,
+        4,
+        1,
+        7,
+        6,
+        3,
+        2,
+        8
+      ]
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+name: Certify 149 direct nine-core retractions (ten-v23)
+
+on:
+  pull_request:
+    paths:
+      - "indeterminate_order_10.txt"
+      - "indeterminate_order_10_v22.txt"
+      - "indeterminate_order_10_v23.txt"
+      - "research/order10_direct_retractions_v23/**"
+      - "tests/test_current_root_index.py"
+      - ".github/workflows/order10-direct-retractions-v23.yml"
+      - "README.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independently-certify-149:
+    name: Independently verify 149 complete ten-to-nine retractions and six source proofs
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Recompute all projections from graph6 and replay original divergence proofs
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python -m py_compile research/order10_direct_retractions_v23/verify.py
+          python -m research.order10_direct_retractions_v23.verify
+          python -m research.order10_direct_retractions_v23.scan
+          python -m unittest research.order10_direct_retractions_v23.test_verify -v
+          python -m unittest discover -s tests -p test_current_root_index.py -v
+      - name: Reject optimized execution bypassing proof-critical assertions
+        run: |
+          if python -O -m research.order10_direct_retractions_v23.verify > /tmp/optimized-v23-proof.log 2>&1; then
+            echo "ERROR: optimized proof unexpectedly succeeded"
+            exit 1
+          fi
+          grep -Fq "RuntimeError: Optimized Python bypasses proof-critical assertions" /tmp/optimized-v23-proof.log
+
+  replay-historical-ten-v22:
+    name: Preserve and replay 20 immutable P2/P3 equivalence proofs at ten-v22
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Replay original frozen ten-v22 proof without changing historical files
+        env:
+          PYTHONHASHSEED: "0"
+        run: python -m research.order10_direct_retractions_v23.replay_v22
