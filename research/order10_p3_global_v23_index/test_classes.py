@@ -6,6 +6,9 @@ import unittest
 
 import networkx as nx
 
+from unittest.mock import patch
+
+from . import classes, independent_verify as independent
 from .classes import (
     BoundedSkip, MAX_FACETS, SOURCE_BLOB, clique_graph,
     fingerprint, git_blob, pare, source_rows, verify_witness,
@@ -45,6 +48,53 @@ class ExactP3IndexTests(unittest.TestCase):
         second = nx.star_graph(4)
         with self.assertRaisesRegex(AssertionError, "edges and nonedges"):
             verify_witness(first, second, list(range(5)))
+
+    def test_independent_bron_kerbosch_matches_networkx(self):
+        for graph in (
+            nx.cycle_graph(7),
+            nx.complete_multipartite_graph(2, 2, 2),
+            nx.icosahedral_graph(),
+        ):
+            self.assertEqual(
+                independent.maximal_cliques_bk(graph),
+                independent.maximal_cliques_nx(graph),
+            )
+            self.assertEqual(
+                independent.independent_pare(graph).number_of_nodes(),
+                pare(graph).number_of_nodes(),
+            )
+
+    def test_second_clique_enumerator_disagreement_is_detected(self):
+        graph = nx.cycle_graph(6)
+        with patch.object(
+            independent, "maximal_cliques_nx", return_value=[1]
+        ):
+            with self.assertRaisesRegex(
+                AssertionError, "enumerators disagree"
+            ):
+                independent.independent_clique_graph(
+                    graph, stage=2, orders=[6]
+                )
+
+    def test_independent_replayer_is_not_builder_alias(self):
+        with patch.object(
+            independent, "verify_archive", return_value=None
+        ) as genuine:
+            with patch.object(
+                classes, "build", side_effect=AssertionError(
+                    "Builder must not verify its own archive"
+                )
+            ):
+                classes.verify()
+                genuine.assert_called_once_with()
+
+    def test_corrupted_positive_mapping_fails_independent_check(self):
+        graph = nx.cycle_graph(6)
+        independent.verify_pair(graph, graph, list(range(6)))
+        with self.assertRaisesRegex(
+            AssertionError, "saved P3 map"
+        ):
+            independent.verify_pair(graph, graph, [0, 1, 2, 3, 5, 4])
 
     def test_reject_resource_limit_as_verdict(self):
         graph = nx.complete_multipartite_graph(*([2] * 10))
