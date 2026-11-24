@@ -57,7 +57,13 @@ def run(stage: str) -> None:
             print("PASS: frozen v24 transported O12 full projections", flush=True)
         if stage in ("p4_obstruction", "all"):
             check_tests(old_p4_tests)
-            old_p4.main()
+            import json
+            cert = json.loads(old_p4.ARCHIVE.read_text(encoding="utf-8"))
+            graph_stages = old_p4.reconstruct_all(cert)
+            old_p4.verify_earlier_stages(cert, graph_stages[:4])
+            old_p4.verify_result(
+                cert, old_p4.enumerate_targets(graph_stages[-1])
+            )
             print("PASS: frozen 10820813 P0--P4 obstruction", flush=True)
         if stage in ("p5_growth", "all"):
             check_tests(old_p5_tests)
