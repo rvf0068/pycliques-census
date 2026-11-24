@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "kind": "complete_nonexistence_of_ordinary_octahedral_retractions_from_pared_fourth_iterate",
+  "source": {
+    "index": 10820813,
+    "graph6": "ICp`fpv~_",
+    "census_snapshot": "indeterminate_order_10_v24.txt",
+    "census_git_blob": "cf0ba2b44519b51565808fbe0b24d3c76c061666",
+    "pilot_archive": "research/order10_p4_reference_pilot_v24/results.json",
+    "pilot_git_blob": "171908472fe4037e0653a08056877fb956bd8d54"
+  },
+  "completely_pared_orders_edges": [
+    [
+      10,
+      25
+    ],
+    [
+      17,
+      83
+    ],
+    [
+      26,
+      189
+    ],
+    [
+      43,
+      625
+    ],
+    [
+      70,
+      1830
+    ]
+  ],
+  "raw_P4": [
+    223,
+    18159
+  ],
+  "P4_graph6_sha256": "c26ee7c369318b01c0598b0ef7270b406c538bfd0ec34f5152c1ff649a3f3873",
+  "complement_edges": 585,
+  "comparison_model": "ordinary weak graph morphisms: every host edge may map to a target edge or an equal vertex; induced antipodal nonedges in target",
+  "counts": {
+    "O3": {
+      "induced": 387428,
+      "dominating": 22,
+      "initial_empty": 0,
+      "direct_contradiction": 22,
+      "propagated_contradiction": 0,
+      "survives": 0
+    },
+    "O4": {
+      "induced": 472762,
+      "dominating": 205024,
+      "initial_empty": 0,
+      "direct_contradiction": 166199,
+      "propagated_contradiction": 38825,
+      "survives": 0
+    },
+    "O5": {
+      "induced": 14304,
+      "dominating": 144,
+      "initial_empty": 0,
+      "direct_contradiction": 140,
+      "propagated_contradiction": 4,
+      "survives": 0
+    },
+    "O6": {
+      "induced": 491,
+      "dominating": 0,
+      "initial_empty": 0,
+      "direct_contradiction": 0,
+      "propagated_contradiction": 0,
+      "survives": 0
+    },
+    "O7": {
+      "induced": 2,
+      "dominating": 0,
+      "initial_empty": 0,
+      "direct_contradiction": 0,
+      "propagated_contradiction": 0,
+      "survives": 0
+    },
+    "O8": {
+      "induced": 0,
+      "dominating": 0,
+      "initial_empty": 0,
+      "direct_contradiction": 0,
+      "propagated_contradiction": 0,
+      "survives": 0
+    }
+  },
+  "induced_O1": 585,
+  "induced_O2": 41878
+}
