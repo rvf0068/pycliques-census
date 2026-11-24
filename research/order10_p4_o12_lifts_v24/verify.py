@@ -38,6 +38,16 @@ BASE_ID = 10223405
 BASE_G6 = "ICXnRi^uo"
 BASE_HASH = "da0b402b388157e9982f200079b870423bd7eda3725511f097a6fe76b23dacfe"
 
+EXPECTED_V24_HEADER = [
+    "# Certified current indeterminate connected graphs of order ten, v24",
+    "# Remaining=1056 previous_v23=1059 newly_proved_divergent=3",
+    "# Exactly 3 stiff ten-vertex original graphs (McKay 11495390, 11533866,",
+    "# 11556387) have P4 isomorphic to P4(10223405), which retracts onto O12.",
+    "# Proofs: research/order10_p4_o12_lifts_v24/",
+    "# Retained six-column v23 records are unchanged.",
+    "# Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label",
+]
+
 
 def require(condition: bool, message: str) -> None:
     if not condition:
@@ -75,6 +85,12 @@ def verify_index_change(cert: dict) -> None:
             "Frozen ten-v23 source changed")
     require(CURRENT.read_bytes() == NEW.read_bytes(),
             "Current ten-vertex root is not ten-v24")
+    metadata = [
+        line for line in NEW.read_text(encoding="ascii").splitlines()
+        if line.startswith("#")
+    ]
+    require(metadata == EXPECTED_V24_HEADER,
+            "Frozen ten-v24 header does not describe the certified v23-to-v24 transition")
     require((ROOT / "indeterminate_order_9.txt").read_bytes() ==
             (ROOT / "indeterminate_order_9_v9.txt").read_bytes(),
             "Nine-v9 historical root unexpectedly changed")
