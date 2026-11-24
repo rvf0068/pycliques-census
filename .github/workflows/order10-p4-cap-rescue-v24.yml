@@ -7,7 +7,13 @@ on:
       - "research/order10_p4_reference_pilot_v24/**"
       - "research/order10_p3_global_v23_index/**"
       - "indeterminate_order_10_v24.txt"
+      - "indeterminate_order_10_v23.txt"
+      - "indeterminate_order_10_v11.txt"
       - "indeterminate_order_10.txt"
+      - "indeterminate_order_9.txt"
+      - "indeterminate_order_9_v9.txt"
+      - "research/order10_fourth_oct_v1/**"
+      - "research/order10_p4_o12_lifts_v24/replay_v23.py"
       - ".github/workflows/order10-p4-cap-rescue-v24.yml"
   workflow_dispatch:
 
@@ -37,3 +43,29 @@ jobs:
             echo "Optimized Python unexpectedly accepted the P4 proof"; exit 1
           fi
           grep -q "Optimized proof replay bypasses assertions" /tmp/optimized-proof.log
+
+  frozen-pr87-p3-provenance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned independent graph verifier
+        run: python -m pip install networkx==3.6.1
+      - name: Replay complete independent PR87 P3 proof under immutable v23 snapshot
+        run: |
+          python - <<'PY'
+          from unittest.mock import patch
+          from research.order10_p3_global_v23_index import independent_verify as upstream
+          # The historical verifier's CURRENT path is only a mutable
+          # root-snapshot *alias*. Restore the immutable v23 alias in
+          # memory, as in the existing read-only replay_v23.py wrapper.
+          # No files are modified; the verifier still checks the frozen
+          # ten-v23 source Git blob and all positive P3 bijections.
+          with patch.object(upstream, "CURRENT", upstream.SOURCE):
+              upstream.verify_archive()
+          PY
+      - name: Independently audit complete 206-record PR89 pilot archive
+        run: python -m research.order10_p4_reference_pilot_v24.verify_results
