@@ -1,7 +1,7 @@
 # No octahedral retraction in the first five pared iterates of McKay 10820813
 
 **Certified scope.** This is an exact finite proof that **each** of the
-first five completely pared clique iterates, (P_0,P_1,P_2,P_3,P_4), of
+first five completely pared clique iterates, \(P_0,P_1,P_2,P_3,P_4\), of
 the ten-vertex graph McKay **10820813**, graph6
 ``ICp`fpv~_``, admits **no ordinary graph retraction onto any induced
 octahedron \(O_d=\overline{dK_2}\) with \(d\geq3\)**. This statement
@@ -61,29 +61,30 @@ these summary counts alone.
 **Lemma 1 (complement-induced matching).** For any finite simple graph \(X\), an induced \(O_d\)
 on \(2d\) vertices of \(X\) is exactly an induced matching of
 \(d\) edges of \(\overline{X}\). In particular, complete enumeration of
-induced matchings of \(H\) in dimensions 3--8 enumerates every
-potential ordinary octahedral-retraction target of those dimensions.
+induced matchings in the complement of a stage enumerate every
+possible octahedral-retraction target in that stage.
 
 *Proof.* Each of the \(d\) antipodal pairs is a nonedge in
-\(P_4\), hence an edge in \(H\). All pairs of vertices from
-different antipodal pairs are adjacent in \(P_4\), hence nonadjacent
-in \(H\). These are precisely the induced-matching conditions,
+\(X\), hence an edge in \(\overline{X}\). All pairs of vertices from
+different antipodal pairs are adjacent in \(X\), hence nonadjacent
+in \(\overline{X}\). These are precisely the induced-matching conditions,
 and conversely they imply the octahedral adjacency pattern. \(\square\)
 
-**Lemma 2 (necessary domination).** If \(r:P_4\to O_d\)
+**Lemma 2 (necessary domination).** If \(r:X\to O_d\)
 is an ordinary graph retraction onto such an induced target \(T\),
-then \(T\) dominates \(H\).
+then \(T\) dominates \(\overline{X}\).
 
 *Proof.* Every target vertex is in its own closed neighborhood in
-\(H\). For any \(x\notin T\), suppose \(r(x)=a_i\) and denote
+\(\overline{X}\). For any \(x\notin T\), suppose \(r(x)=a_i\) and denote
 its antipode by \(b_i\). Because \(r(b_i)=b_i\), the source edge
 \(xb_i\) would map to the nonedge \(a_ib_i\), violating even
 the weak graph-morphism convention allowing an edge to collapse.
-Thus \(xb_i\) is **not** an edge of \(P_4\), meaning
-\(xb_i\) is an edge of \(H\). \(\square\)
+Thus \(xb_i\) is **not** an edge of \(X\), meaning
+\(xb_i\) is an edge of \(\overline{X}\). \(\square\)
 
-**Lemma 3 (sound singleton-domain obstruction).** Fix an induced
-octahedron \(T\) with ordered antipodal pairs
+**Lemma 3 (sound singleton-domain obstruction).** For any finite simple
+host graph \(X\), write \(H=\overline{X}\) and fix an induced
+octahedron \(T\) in \(X\) with ordered antipodal pairs
 \((a_i,b_i)\). Every retraction fixing \(T\) must map each
 outside vertex \(x\) into
 
@@ -93,7 +94,7 @@ D_x=\{a_i:xb_i\in E(H)\}\cup
 \]
 
 while \(D_t=\{t\}\) for target vertices. Whenever \(xy\)
-is an edge of \(P_4\), if \(D_x=\{a_i\}\), deleting
+is an edge of \(X\), if \(D_x=\{a_i\}\), deleting
 \(b_i\) from \(D_y\) preserves every possible retraction.
 The analogous rule applies to every antipodal endpoint. If repeated
 deletions empty any domain, no such retraction exists.
