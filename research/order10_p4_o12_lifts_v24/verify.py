@@ -16,12 +16,12 @@ import sys
 
 import networkx as nx
 
+if sys.flags.optimize:
+    raise RuntimeError("Optimized Python bypasses positive-certificate checks")
+
 from research.order10_p3_global_v23_index.independent_verify import (
     independent_clique_graph, independent_pare,
 )
-
-if sys.flags.optimize:
-    raise RuntimeError("Optimized Python bypasses positive-certificate checks")
 
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
