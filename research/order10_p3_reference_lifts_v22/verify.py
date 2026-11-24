@@ -244,11 +244,36 @@ def verify_reference_divergence() -> None:
     """
     from research.order9_three_p4_retractions_v1.verify import check_certificates
     from research.order9_251902_p4_o17_v1.verify import verify_positive
-    from research.order9_f45_o9_v1.verify import independent_p4
+    from research.order9_f45_o9_v1.verify import (
+        explicit_f45,
+        independent_p4,
+    )
     from research.order9_260910_o15_v1.verify import independently_reconstruct
 
     check_certificates(public=False)  # 249436, 249574, 250814
     verify_positive(public=False)  # 251902
+
+    # The old archived O9 positive source uses an independently specified
+    # F45, not a graph built from the graph6 string in this new manifest.
+    # Explicitly identify the original McKay 208409 graph6 with that F45
+    # construction before transporting its K-divergence theorem.
+    raw_f45 = nx.from_graph6_bytes(REFERENCES[208409].encode("ascii"))
+    explicit = explicit_f45()
+    matcher = nx.algorithms.isomorphism.GraphMatcher(raw_f45, explicit)
+    check(matcher.is_isomorphic(), "McKay 208409 graph6 is not F45")
+    sigma = matcher.mapping
+    check(all(
+        raw_f45.has_edge(u, v) ==
+        explicit.has_edge(sigma[u], sigma[v])
+        for u in raw_f45 for v in raw_f45
+    ), "McKay 208409 to explicit F45 bijection fails a vertex pair")
+    old_nine = (ROOT / "indeterminate_order_9_v4.txt").read_text(
+        encoding="ascii"
+    )
+    check(
+        f"208409 9 {REFERENCES[208409]} - - -" in old_nine.splitlines(),
+        "Original McKay 208409 identity not found in frozen nine-v4",
+    )
     verify_archived_positive_octahedron(
         208409, REFERENCES[208409], 4, 9, independent_p4(),
         ROOT / "research/order9_f45_o9_v1/certificate.json",
