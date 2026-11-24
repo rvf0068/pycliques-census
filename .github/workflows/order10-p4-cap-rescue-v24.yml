@@ -1,0 +1,39 @@
+name: Certify 26 recovered P4 caps and global ten-v24 P4 classes
+
+on:
+  pull_request:
+    paths:
+      - "research/order10_p4_cap_rescue_v24/**"
+      - "research/order10_p4_reference_pilot_v24/**"
+      - "research/order10_p3_global_v23_index/**"
+      - "indeterminate_order_10_v24.txt"
+      - "indeterminate_order_10.txt"
+      - ".github/workflows/order10-p4-cap-rescue-v24.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-26-and-p4-positive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned independent graph enumeration
+        run: python -m pip install networkx==3.6.1
+      - name: Compile and replay adversarial tests for rounds and complete 685-vertex map
+        run: |
+          python -m py_compile research/order10_p4_cap_rescue_v24/verify.py
+          python -m unittest research.order10_p4_cap_rescue_v24.test_verify -v
+      - name: Independently reconstruct every former capped graph and verify exact P4 isomorphism
+        run: python -m research.order10_p4_cap_rescue_v24.verify
+      - name: Reject optimized proof execution
+        run: |
+          if python -O -m research.order10_p4_cap_rescue_v24.verify >/tmp/optimized-proof.log 2>&1; then
+            echo "Optimized Python unexpectedly accepted the P4 proof"; exit 1
+          fi
+          grep -q "Optimized proof replay bypasses assertions" /tmp/optimized-proof.log
