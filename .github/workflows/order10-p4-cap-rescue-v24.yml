@@ -69,4 +69,15 @@ jobs:
               upstream.verify_archive()
           PY
       - name: Independently audit complete 206-record PR89 pilot archive
-        run: python -m research.order10_p4_reference_pilot_v24.verify_results
+        run: |
+          python - <<'PY'
+          from unittest.mock import patch
+          from research.order10_p4_reference_pilot_v24 import search, verify_results
+          # Only the old mutable-root alias is redirected to the
+          # immutable v24 input; all saved PR89 files and proofs remain.
+          with (
+              patch.object(search, "CURRENT", search.SOURCE),
+              patch.object(verify_results, "CURRENT", search.SOURCE),
+          ):
+              verify_results.audit()
+          PY
