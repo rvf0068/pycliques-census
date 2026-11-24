@@ -77,8 +77,14 @@ NetworkX 3.6.1 verifier, not the discovery program. It:
    no additional indices are removed and no conjectural case is
    accidentally reclassified.
 4. Authenticates each of the seven original nine-source graph6 strings
-   against frozen historical order-nine census rows, and the existence
-   and identity of its archived positive divergence proof.
+   and its **exact** archived proof path against an independent, fixed list
+   and frozen historical order-nine census rows. It then directly invokes
+   the four previously merged independent proof verifiers for all seven
+   positive P4-to-octahedron retractions (three + two + one + one). Each
+   verifier reconstructs the original P4 graph, checks the exact octahedral
+   target and the **complete edge-preserving projection**, including
+   pointwise fixation. Merely finding graph6 text in a report is not
+   accepted as a divergence certificate.
 5. Reconstructs \(P_2(G)\) independently for all seven references and
    all 83 ten-originals, applying verified sequential
    closed-neighborhood-dominated-vertex deletions.
@@ -102,6 +108,7 @@ From the census checkout root:
 ```sh
 python -m pip install networkx==3.6.1
 python -m research.order10_p2_reference_lifts_v21.verify
+# The first command also replays all seven P4 octahedral source proofs.
 python -m research.order10_p2_reference_lifts_v21.replay_v20
 python -m unittest discover -s tests -p test_current_root_index.py -v
 ```
