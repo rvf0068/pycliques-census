@@ -50,7 +50,7 @@ isomorphism proof arises in this finite range.
 The **26** over-cap graphs are explicitly inconclusive; none has been
 declared K-convergent or non-divergent. No census rows were removed.
 
-The unusually small McKay **10820813**, graph6 `ICp`fpv~_`,
+The unusually small McKay **10820813**, graph6 ``ICp`fpv~_``,
 has (P_3) with 43 vertices/625 edges but (P_4) with only
 **70 vertices/1,830 edges**, making it a particularly promising
 subject for a *new* retraction search rather than reference-isomorphism
