@@ -5,12 +5,12 @@ order 10, with a pinned revision of the
 [pycliques-project](https://github.com/rvf0068/pycliques-project)
 monorepo. All historical stages, source indices and proofs are preserved.
 
-## Current certified census: nine-vertex v9 and ten-vertex v24 (November 2026)
+## Current certified census: nine-vertex v9 and ten-vertex v25 (November 2026)
 
 | Connected order | Certified snapshot | Indeterminate original McKay graphs | Previous | Newly proved divergent |
 |---|---|---:|---:|---:|
 | 9 | [v9](indeterminate_order_9_v9.txt) | **3** | 5 | 2 |
-| 10 | [v24](indeterminate_order_10_v24.txt) | **1,056** | 1,059 | 3 |
+| 10 | [v25](indeterminate_order_10_v25.txt) | **1,052** | 1,056 | 4 |
 
 The authoritative mutable working root files
 [indeterminate_order_9.txt](indeterminate_order_9.txt) and
@@ -18,9 +18,38 @@ The authoritative mutable working root files
 are byte-identical to these certified snapshots. All previous
 versioned indices, including
 [nine-v8](indeterminate_order_9_v8.txt) and
-[ten-v23](indeterminate_order_10_v23.txt), remain frozen and unchanged.
+[ten-v23](indeterminate_order_10_v23.txt) and
+[ten-v24](indeterminate_order_10_v24.txt), remain frozen and unchanged.
 
-### New: three proved P4 equivalences to the divergent O12 reference
+### New ten-v25: four complete cross-depth O15 divergence proofs
+
+The [independent ten-v25 positive proof archive](research/order10_p4_crossdepth_o15_v25/REPORT.md)
+establishes that stiff ten-vertex McKay originals **11551790, 11552072,
+11555600, and 11707526** are K-divergent. Each has a **complete
+132-coordinate isomorphism**
+
+```text
+P4(G) ≅ P3(H),   H = connected-nine McKay 260910
+```
+
+and the historical P3(H) graph has an independently certified **ordinary
+retraction onto O15**. The v25 verifier independently reconstructs all
+four sources with cross-checked maximal-clique enumerators, checks every
+edge and nonedge under all four permutations, replays the historical full
+O15 projection, and explicitly verifies all four transported complete
+retractions. This is a positive theorem, not an inference from growth,
+octahedral embeddings, a bounded search, or equal dimensions.
+
+The v24-to-v25 promotion removes exactly those **four original McKay
+indices**, preserving every other six-column record, and leaves
+**1,052** unresolved ten-vertex originals: **430** having one of the
+three unresolved nine-vertex pared cores and **622** with stiff
+ten-vertex cores. The previously certified v23 global P3 index then
+has **521** surviving reconstructed equivalence classes covering
+**619** stiff originals, plus three explicit resource-limited cases.
+The nine-v9 count stays at three.
+
+### Previous: three proved P4 equivalences to the divergent O12 reference
 
 The [ten-v24 positive proof archive](research/order10_p4_o12_lifts_v24/REPORT.md)
 certifies **three additional K-divergent stiff ten-vertex originals**:
@@ -35,7 +64,7 @@ by its SHA-256. The original graph6 and each intermediate graph
 are reconstructed using two independent maximal-clique enumerators.
 
 The ten-v23-to-v24 index transition removes **only these three exact
-original McKay records**. The current working index contains
+original McKay records**. At the **historical ten-v24 stage**, the working index contained
 **1,056** unresolved ten-vertex originals: **430** with unresolved
 nine-vertex pared cores and **626** with stiff ten-vertex cores.
 The previous [ten-v23 global P3 equivalence index](research/order10_p3_global_v23_index/README.md)
