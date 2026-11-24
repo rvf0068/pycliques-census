@@ -56,5 +56,7 @@ jobs:
           git clone --quiet https://github.com/rvf0068/pycliques-project.git /tmp/pycliques-project
           git -C /tmp/pycliques-project checkout --quiet 7ae36ffe67fb2e9bbafc68e97347aabcf757c2dc
           python -m pip install /tmp/pycliques-project/packages/pycliques
-      - name: Independently check the complete previously published O12 projection
-        run: python research/order10_fourth_oct_v1/verify_o12.py
+      - name: Independently check the published O12 projection and three transported total maps
+        run: |
+          python research/order10_fourth_oct_v1/verify_o12.py
+          python -m research.order10_p4_o12_lifts_v24.verify_transport
