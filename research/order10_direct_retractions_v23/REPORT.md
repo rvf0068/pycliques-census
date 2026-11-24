@@ -85,12 +85,13 @@ From the repository root with Python 3.12 and NetworkX 3.6.1:
 
 ```sh
 python -m research.order10_direct_retractions_v23.verify
+python -m research.order10_direct_retractions_v23.scan
 python -m unittest research.order10_direct_retractions_v23.test_verify -v
 python -m unittest discover -s tests -p test_current_root_index.py -v
 python -m research.order10_direct_retractions_v23.replay_v22
 ```
 
-The new verifier checks all 149 direct retractions, independently
+The independent scanner reconstructs the finite search over all 778 stiff sources and nine certified nine-vertex targets and checks that it recovers exactly the 149 archived positives.\nThe new verifier checks all 149 direct retractions, independently
 replays each of the six source nine-vertex divergence proofs,
 authenticates frozen v22 and verifies the exact 149-index deletion.
 Historical ten-v22 proofs can be replayed against the frozen v22
