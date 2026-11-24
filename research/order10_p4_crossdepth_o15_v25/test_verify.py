@@ -4,6 +4,10 @@ from __future__ import annotations
 import base64
 import copy
 import json
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -65,12 +69,19 @@ class CrossDepthO15TenV25Tests(unittest.TestCase):
             )
 
     def test_reject_duplicate_source_index_in_proof(self):
+        # Exercise the real archive-loading and validation path, rather
+        # than merely comparing the forged list with the expected list.
         forged = copy.deepcopy(self.certificate)
         forged["positives"][1]["index"] = forged["positives"][0]["index"]
-        self.assertNotEqual(
-            [row["index"] for row in forged["positives"]],
-            list(proof.REMOVED),
-        )
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "forged_certificates.json"
+            path.write_text(json.dumps(forged), encoding="utf-8")
+            with patch.object(proof, "CERT", path):
+                with self.assertRaisesRegex(
+                    AssertionError,
+                    "Saved positive set does not equal the v25 deletion set",
+                ):
+                    proof.verify_archive()
 
     def test_exact_v24_to_v25_four_record_deletion(self):
         old = proof.source_rows(proof.PREVIOUS)
@@ -82,10 +93,36 @@ class CrossDepthO15TenV25Tests(unittest.TestCase):
         proof.verify_index(self.certificate)
 
     def test_optimized_execution_guard_is_not_optional(self):
-        self.assertEqual(
-            self.certificate["reference"]["retract_target"],
-            "O15",
+        # A real optimized Python subprocess must fail before any proof
+        # calculation; checking metadata does not test sys.flags.optimize.
+        proc = subprocess.run(
+            [
+                sys.executable, "-O", "-m",
+                "research.order10_p4_crossdepth_o15_v25.verify",
+            ],
+            cwd=proof.ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
         )
+        self.assertNotEqual(proc.returncode, 0)
+        self.assertIn(
+            "Optimized Python bypasses positive proof assertions",
+            proc.stderr,
+        )
+
+    def test_historical_p4_has_real_current_alias(self):
+        # Copilot noted a possibly missing CURRENT attribute. It is
+        # present in the immutable P4 verifier; do not create a new,
+        # unused attribute by passing create=True to patch.object.
+        from research.order10_p4_no_octahedral_10820813_v1 import (
+            verify as historical,
+        )
+        self.assertTrue(hasattr(historical, "CURRENT"))
+        self.assertTrue(hasattr(historical, "SNAPSHOT"))
+        with patch.object(historical, "CURRENT", historical.SNAPSHOT):
+            self.assertEqual(historical.CURRENT, historical.SNAPSHOT)
 
 
 if __name__ == "__main__":
