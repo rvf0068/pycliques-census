@@ -29,13 +29,13 @@ inference.
 
 | Nine-original McKay | Graph6 | Source's archived unconditional K-divergence proof | New ten-originals |
 |---:|---|---|---:|
-| 249436 | \`HEhff^{\` | [Three P4 retractions](../order9_three_p4_retractions_v1/REPORT.md), \(P_4\to O_{10}\) | 11 |
-| 249574 | \`HEhfvx}\` | [Three P4 retractions](../order9_three_p4_retractions_v1/REPORT.md), \(P_4\to O_{12}\) | 9 |
-| 250814 | \`HEhuvzm\` | [Three P4 retractions](../order9_three_p4_retractions_v1/REPORT.md), \(P_4\to O_{14}\) | 18 |
-| 251759 | \`HEhvtzm\` | [Full O15 projection](../order9_251759_p4_o15_v1/certificate.json) | 20 |
-| 251902 | \`HEhvvzm\` | [Full O17 projection](../order9_251902_p4_o17_v1/certificate.json) | 14 |
-| 253650 | \`HEjer~{\` | [Full O12 projection](../order9_253650_o12_v1/certificate.json) | 4 |
-| 254369 | \`HEjfvx}\` | [Full O13 projection](../order9_254369_p4_o13_v1/certificate.json) | 7 |
+| 249436 | `HEhff^{` | [Three P4 retractions](../order9_three_p4_retractions_v1/REPORT.md), \(P_4\to O_{10}\) | 11 |
+| 249574 | `HEhfvx}` | [Three P4 retractions](../order9_three_p4_retractions_v1/REPORT.md), \(P_4\to O_{12}\) | 9 |
+| 250814 | `HEhuvzm` | [Three P4 retractions](../order9_three_p4_retractions_v1/REPORT.md), \(P_4\to O_{14}\) | 18 |
+| 251759 | `HEhvtzm` | [Full O15 projection](../order9_251759_p4_o15_v1/certificate.json) | 20 |
+| 251902 | `HEhvvzm` | [Full O17 projection](../order9_251902_p4_o17_v1/certificate.json) | 14 |
+| 253650 | `HEjer~{` | [Full O12 projection](../order9_253650_o12_v1/certificate.json) | 4 |
+| 254369 | `HEjfvx}` | [Full O13 projection](../order9_254369_p4_o13_v1/certificate.json) | 7 |
 | **Total** | | | **83** |
 
 Each \(O_d=\overline{dK_2}\). The source proofs were independently
@@ -49,8 +49,8 @@ The immutable **ten-v20** snapshot contains 1,311 original McKay
 entries. The **ten-v21** snapshot removes **exactly** the 83 original
 indices listed in the explicit certificate. It leaves every other
 six-field record **verbatim unchanged**, and the working root
-\`indeterminate_order_10.txt\` is now byte-identical to
-\`indeterminate_order_10_v21.txt\`.
+`indeterminate_order_10.txt` is now byte-identical to
+`indeterminate_order_10_v21.txt`.
 
 | Class of unresolved originals | ten-v20 | ten-v21 |
 |---|---:|---:|
@@ -69,7 +69,7 @@ unchanged.
 NetworkX 3.6.1 verifier, not the discovery program. It:
 
 1. Authenticates the frozen v20 Git blob with SHA
-   \`89f8f18bd236e6d7fa1e7ca928aa5418af061de4\`.
+   `89f8f18bd236e6d7fa1e7ca928aa5418af061de4`.
 2. Checks the current mutable root and certified v21 are byte-identical,
    every old/new original row is well formed and sorted, and every
    surviving record is exactly the historical old row.
@@ -89,7 +89,7 @@ NetworkX 3.6.1 verifier, not the discovery program. It:
    counts, or a Weisfeiler–Lehman hash. A separate NetworkX
    GraphMatcher independently confirms each isomorphism.
 8. Recomputes the exact seven family counts, checks immutable v20/v21
-   partition 430+881 → 430+798, and rejects \`python -O\` so
+   partition 430+881 → 430+798, and rejects `python -O` so
    proof-critical assertions cannot be bypassed.
 
 A separate [replay_v20.py](replay_v20.py) runs the untouched historical
@@ -99,12 +99,12 @@ without changing their proof code.
 
 From the census checkout root:
 
-\`\`\`sh
+```sh
 python -m pip install networkx==3.6.1
 python -m research.order10_p2_reference_lifts_v21.verify
 python -m research.order10_p2_reference_lifts_v21.replay_v20
 python -m unittest discover -s tests -p test_current_root_index.py -v
-\`\`\`
+```
 
 The [new CI workflow](../../.github/workflows/order10-p2-v21.yml)
 runs the independent 83-certificate replay, historical replay and
