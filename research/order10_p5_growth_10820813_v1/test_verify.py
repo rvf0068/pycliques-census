@@ -49,10 +49,10 @@ class FifthStageGrowthProofTests(unittest.TestCase):
         a, b = witness["forced_conflict"]["forced_target_images"]
         self.assertEqual((forced[x], forced[y]), (a, b))
         self.assertTrue(self.pared[x] & (1 << y))
-        self.assertIn([b, a], [
-            [pair[1], pair[0]]
-            for pair in witness["antipodal_pairs"]
-        ])
+        self.assertTrue(
+            any({a, b} == set(pair)
+                for pair in witness["antipodal_pairs"])
+        )
 
     def test_reject_substituted_historical_certificate_blob(self):
         forged = copy.deepcopy(self.cert)
