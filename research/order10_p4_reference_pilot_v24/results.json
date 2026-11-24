@@ -1,0 +1,3501 @@
+{
+  "schema": 1,
+  "source": "cf0ba2b44519b51565808fbe0b24d3c76c061666",
+  "source_name": "indeterminate_order_10_v24.txt",
+  "historical_global_p3_git_blob": "f32ceb913b44583f472402e14c596598fef71aaa",
+  "ci_run": 45460379020,
+  "setting": {
+    "min_p3": 41,
+    "max_p3": 55,
+    "intermediate_maximal_cliques": 750,
+    "timeout_sec_per_graph": 24,
+    "shards": 12
+  },
+  "counts": {
+    "certified_p3_representatives": 522,
+    "selected": 206,
+    "complete_p4": 180,
+    "p4_facet_cap": 26,
+    "positive_reference_matches": 0,
+    "duplicate_p4_order_edge_signatures": 0
+  },
+  "reference_shapes": {
+    "10223405": [
+      182,
+      14298
+    ],
+    "10223467": [
+      151,
+      8413
+    ],
+    "10775850": [
+      188,
+      15083
+    ],
+    "11104269": [
+      160,
+      9258
+    ],
+    "11563706": [
+      159,
+      9276
+    ]
+  },
+  "shard_summaries": [
+    {
+      "counts": {
+        "NO_REFERENCE_DIMENSION_MATCH": 15,
+        "P4_FACET_CAP": 3
+      },
+      "selected": 18,
+      "shard": 0,
+      "total_window": 206
+    },
+    {
+      "counts": {
+        "NO_REFERENCE_DIMENSION_MATCH": 15,
+        "P4_FACET_CAP": 3
+      },
+      "selected": 18,
+      "shard": 1,
+      "total_window": 206
+    },
+    {
+      "counts": {
+        "NO_REFERENCE_DIMENSION_MATCH": 12,
+        "P4_FACET_CAP": 5
+      },
+      "selected": 17,
+      "shard": 2,
+      "total_window": 206
+    },
+    {
+      "counts": {
+        "NO_REFERENCE_DIMENSION_MATCH": 16,
+        "P4_FACET_CAP": 1
+      },
+      "selected": 17,
+      "shard": 3,
+      "total_window": 206
+    },
+    {
+      "counts": {
+        "NO_REFERENCE_DIMENSION_MATCH": 14,
+        "P4_FACET_CAP": 3
+      },
+      "selected": 17,
+      "shard": 4,
+      "total_window": 206
+    },
+    {
+      "counts": {
+        "NO_REFERENCE_DIMENSION_MATCH": 15,
+        "P4_FACET_CAP": 2
+      },
+      "selected": 17,
+      "shard": 5,
+      "total_window": 206
+    },
+    {
+      "counts": {
+        "NO_REFERENCE_DIMENSION_MATCH": 15,
+        "P4_FACET_CAP": 2
+      },
+      "selected": 17,
+      "shard": 6,
+      "total_window": 206
+    },
+    {
+      "counts": {
+        "NO_REFERENCE_DIMENSION_MATCH": 14,
+        "P4_FACET_CAP": 3
+      },
+      "selected": 17,
+      "shard": 7,
+      "total_window": 206
+    },
+    {
+      "counts": {
+        "NO_REFERENCE_DIMENSION_MATCH": 16,
+        "P4_FACET_CAP": 1
+      },
+      "selected": 17,
+      "shard": 8,
+      "total_window": 206
+    },
+    {
+      "counts": {
+        "NO_REFERENCE_DIMENSION_MATCH": 15,
+        "P4_FACET_CAP": 2
+      },
+      "selected": 17,
+      "shard": 9,
+      "total_window": 206
+    },
+    {
+      "counts": {
+        "NO_REFERENCE_DIMENSION_MATCH": 16,
+        "P4_FACET_CAP": 1
+      },
+      "selected": 17,
+      "shard": 10,
+      "total_window": 206
+    },
+    {
+      "counts": {
+        "NO_REFERENCE_DIMENSION_MATCH": 17
+      },
+      "selected": 17,
+      "shard": 11,
+      "total_window": 206
+    }
+  ],
+  "records": [
+    {
+      "index": 6499365,
+      "p3": [
+        48,
+        720
+      ],
+      "p4": [
+        240,
+        19442
+      ],
+      "raw_p4": [
+        310,
+        30600
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?ovUqv\\o"
+    },
+    {
+      "index": 6923721,
+      "p3": [
+        55,
+        1085
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "I?qbFZz~_"
+    },
+    {
+      "index": 6927388,
+      "p3": [
+        55,
+        1098
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "I?qbFz}}o"
+    },
+    {
+      "index": 6988239,
+      "p3": [
+        42,
+        609
+      ],
+      "p4": [
+        215,
+        19639
+      ],
+      "raw_p4": [
+        307,
+        39511
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?qbbVm~O"
+    },
+    {
+      "index": 7004329,
+      "p3": [
+        50,
+        872
+      ],
+      "p4": [
+        284,
+        31667
+      ],
+      "raw_p4": [
+        411,
+        64024
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?qbcx~~_"
+    },
+    {
+      "index": 7044680,
+      "p3": [
+        53,
+        1044
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "I?qbfv}~O"
+    },
+    {
+      "index": 7063712,
+      "p3": [
+        42,
+        616
+      ],
+      "p4": [
+        221,
+        20738
+      ],
+      "raw_p4": [
+        311,
+        40545
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?qburf~_"
+    },
+    {
+      "index": 7070392,
+      "p3": [
+        55,
+        1156
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "I?qbvjz~_"
+    },
+    {
+      "index": 7237328,
+      "p3": [
+        42,
+        604
+      ],
+      "p4": [
+        219,
+        20345
+      ],
+      "raw_p4": [
+        307,
+        39511
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?qevNk]W"
+    },
+    {
+      "index": 7454064,
+      "p3": [
+        55,
+        1079
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "I?qnB^]n_"
+    },
+    {
+      "index": 7488174,
+      "p3": [
+        49,
+        744
+      ],
+      "p4": [
+        242,
+        19683
+      ],
+      "raw_p4": [
+        310,
+        30601
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?qr`~mv_"
+    },
+    {
+      "index": 7495877,
+      "p3": [
+        49,
+        833
+      ],
+      "p4": [
+        232,
+        21236
+      ],
+      "raw_p4": [
+        384,
+        56802
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?qrdX^~_"
+    },
+    {
+      "index": 7499124,
+      "p3": [
+        42,
+        605
+      ],
+      "p4": [
+        216,
+        19807
+      ],
+      "raw_p4": [
+        308,
+        39749
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?qrdZmyo"
+    },
+    {
+      "index": 7499133,
+      "p3": [
+        42,
+        617
+      ],
+      "p4": [
+        215,
+        19658
+      ],
+      "raw_p4": [
+        307,
+        39546
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?qrdZm}o"
+    },
+    {
+      "index": 7501337,
+      "p3": [
+        55,
+        1079
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "I?qrd^mro"
+    },
+    {
+      "index": 7504557,
+      "p3": [
+        52,
+        870
+      ],
+      "p4": [
+        287,
+        28369
+      ],
+      "raw_p4": [
+        345,
+        39619
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?qrdnmv_"
+    },
+    {
+      "index": 7510445,
+      "p3": [
+        41,
+        589
+      ],
+      "p4": [
+        201,
+        17255
+      ],
+      "raw_p4": [
+        282,
+        33819
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?qrdzmyo"
+    },
+    {
+      "index": 7521728,
+      "p3": [
+        41,
+        612
+      ],
+      "p4": [
+        216,
+        19923
+      ],
+      "raw_p4": [
+        313,
+        41332
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?qrfX^~_"
+    },
+    {
+      "index": 7522195,
+      "p3": [
+        42,
+        642
+      ],
+      "p4": [
+        209,
+        18767
+      ],
+      "raw_p4": [
+        323,
+        44207
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?qrfZV~_"
+    },
+    {
+      "index": 7687171,
+      "p3": [
+        41,
+        619
+      ],
+      "p4": [
+        257,
+        28936
+      ],
+      "raw_p4": [
+        322,
+        45456
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?qvJv]~O"
+    },
+    {
+      "index": 7699906,
+      "p3": [
+        47,
+        771
+      ],
+      "p4": [
+        256,
+        27592
+      ],
+      "raw_p4": [
+        376,
+        58929
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?qvNZY[w"
+    },
+    {
+      "index": 7699912,
+      "p3": [
+        43,
+        617
+      ],
+      "p4": [
+        220,
+        20517
+      ],
+      "raw_p4": [
+        308,
+        39750
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?qvNZY]o"
+    },
+    {
+      "index": 7706683,
+      "p3": [
+        41,
+        565
+      ],
+      "p4": [
+        184,
+        14412
+      ],
+      "raw_p4": [
+        256,
+        27692
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?qvRrVfo"
+    },
+    {
+      "index": 7706717,
+      "p3": [
+        43,
+        646
+      ],
+      "p4": [
+        221,
+        20765
+      ],
+      "raw_p4": [
+        311,
+        40609
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?qvRrV~O"
+    },
+    {
+      "index": 7870269,
+      "p3": [
+        48,
+        860
+      ],
+      "p4": [
+        448,
+        87039
+      ],
+      "raw_p4": [
+        498,
+        107761
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?rdux}|o"
+    },
+    {
+      "index": 7943534,
+      "p3": [
+        52,
+        904
+      ],
+      "p4": [
+        289,
+        29825
+      ],
+      "raw_p4": [
+        368,
+        47207
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?rmvav\\o"
+    },
+    {
+      "index": 7951835,
+      "p3": [
+        41,
+        589
+      ],
+      "p4": [
+        185,
+        14615
+      ],
+      "raw_p4": [
+        261,
+        28822
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?zTb\\}to"
+    },
+    {
+      "index": 7955288,
+      "p3": [
+        47,
+        817
+      ],
+      "p4": [
+        312,
+        41624
+      ],
+      "raw_p4": [
+        408,
+        70642
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?zTbzZ~_"
+    },
+    {
+      "index": 7960571,
+      "p3": [
+        54,
+        1116
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "I?zTrj}}o"
+    },
+    {
+      "index": 7960763,
+      "p3": [
+        44,
+        706
+      ],
+      "p4": [
+        234,
+        23751
+      ],
+      "raw_p4": [
+        356,
+        54852
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?zTrx}lo"
+    },
+    {
+      "index": 7960775,
+      "p3": [
+        46,
+        798
+      ],
+      "p4": [
+        530,
+        124518
+      ],
+      "raw_p4": [
+        602,
+        160074
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?zTrx}|o"
+    },
+    {
+      "index": 7962062,
+      "p3": [
+        55,
+        1075
+      ],
+      "p4": [
+        371,
+        58203
+      ],
+      "raw_p4": [
+        590,
+        144333
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?zTtzu\\o"
+    },
+    {
+      "index": 7969340,
+      "p3": [
+        44,
+        675
+      ],
+      "p4": [
+        229,
+        22139
+      ],
+      "raw_p4": [
+        327,
+        44968
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "I?zUvYu^_"
+    },
+    {
+      "index": 9800841,
+      "p3": [
+        50,
+        870
+      ],
+      "p4": [
+        244,
+        23403
+      ],
+      "raw_p4": [
+        397,
+        60583
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICR`th^~_"
+    },
+    {
+      "index": 9805139,
+      "p3": [
+        53,
+        908
+      ],
+      "p4": [
+        271,
+        25115
+      ],
+      "raw_p4": [
+        309,
+        32216
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICR`tnmv_"
+    },
+    {
+      "index": 9809125,
+      "p3": [
+        44,
+        663
+      ],
+      "p4": [
+        220,
+        20503
+      ],
+      "raw_p4": [
+        328,
+        44990
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICR`uj]uo"
+    },
+    {
+      "index": 9809139,
+      "p3": [
+        42,
+        616
+      ],
+      "p4": [
+        222,
+        20947
+      ],
+      "raw_p4": [
+        307,
+        39536
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICR`uj]}o"
+    },
+    {
+      "index": 9810958,
+      "p3": [
+        55,
+        1074
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "ICR`un]ro"
+    },
+    {
+      "index": 9825058,
+      "p3": [
+        41,
+        586
+      ],
+      "p4": [
+        194,
+        16030
+      ],
+      "raw_p4": [
+        271,
+        31034
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICR`vj]uo"
+    },
+    {
+      "index": 10198830,
+      "p3": [
+        46,
+        671
+      ],
+      "p4": [
+        211,
+        15353
+      ],
+      "raw_p4": [
+        230,
+        18142
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICXmfTumW"
+    },
+    {
+      "index": 10205493,
+      "p3": [
+        42,
+        573
+      ],
+      "p4": [
+        180,
+        11613
+      ],
+      "raw_p4": [
+        204,
+        14781
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICXmtjj\\o"
+    },
+    {
+      "index": 10285994,
+      "p3": [
+        42,
+        654
+      ],
+      "p4": [
+        303,
+        40261
+      ],
+      "raw_p4": [
+        360,
+        56837
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZH~i}}o"
+    },
+    {
+      "index": 10291188,
+      "p3": [
+        55,
+        1086
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "ICZJ`}}lo"
+    },
+    {
+      "index": 10291616,
+      "p3": [
+        44,
+        710
+      ],
+      "p4": [
+        289,
+        36082
+      ],
+      "raw_p4": [
+        377,
+        60977
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJ`~\\~_"
+    },
+    {
+      "index": 10302846,
+      "p3": [
+        55,
+        1086
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "ICZJd]}fo"
+    },
+    {
+      "index": 10306523,
+      "p3": [
+        42,
+        610
+      ],
+      "p4": [
+        224,
+        21209
+      ],
+      "raw_p4": [
+        309,
+        39988
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJde|n_"
+    },
+    {
+      "index": 10306599,
+      "p3": [
+        41,
+        594
+      ],
+      "p4": [
+        215,
+        19687
+      ],
+      "raw_p4": [
+        307,
+        39596
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJde}~O"
+    },
+    {
+      "index": 10314604,
+      "p3": [
+        55,
+        1087
+      ],
+      "p4": [
+        467,
+        85305
+      ],
+      "raw_p4": [
+        543,
+        114759
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJdl|~_"
+    },
+    {
+      "index": 10314910,
+      "p3": [
+        55,
+        1099
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "ICZJdm}~O"
+    },
+    {
+      "index": 10321699,
+      "p3": [
+        41,
+        594
+      ],
+      "p4": [
+        220,
+        20521
+      ],
+      "raw_p4": [
+        287,
+        34862
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJdy}{o"
+    },
+    {
+      "index": 10325195,
+      "p3": [
+        53,
+        929
+      ],
+      "p4": [
+        293,
+        30996
+      ],
+      "raw_p4": [
+        362,
+        46899
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJei}}o"
+    },
+    {
+      "index": 10326649,
+      "p3": [
+        42,
+        614
+      ],
+      "p4": [
+        236,
+        23560
+      ],
+      "raw_p4": [
+        313,
+        40890
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJenYjW"
+    },
+    {
+      "index": 10330178,
+      "p3": [
+        51,
+        962
+      ],
+      "p4": [
+        468,
+        94342
+      ],
+      "raw_p4": [
+        545,
+        126713
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJevuno"
+    },
+    {
+      "index": 10333446,
+      "p3": [
+        49,
+        799
+      ],
+      "p4": [
+        245,
+        21341
+      ],
+      "raw_p4": [
+        314,
+        35133
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJfI}}o"
+    },
+    {
+      "index": 10335204,
+      "p3": [
+        53,
+        949
+      ],
+      "p4": [
+        292,
+        30976
+      ],
+      "raw_p4": [
+        358,
+        46605
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJfM}}o"
+    },
+    {
+      "index": 10338044,
+      "p3": [
+        44,
+        613
+      ],
+      "p4": [
+        172,
+        10612
+      ],
+      "raw_p4": [
+        204,
+        14760
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJfU}v_"
+    },
+    {
+      "index": 10338051,
+      "p3": [
+        54,
+        991
+      ],
+      "p4": [
+        294,
+        32664
+      ],
+      "raw_p4": [
+        404,
+        60708
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJfU}|o"
+    },
+    {
+      "index": 10339147,
+      "p3": [
+        45,
+        736
+      ],
+      "p4": [
+        293,
+        36275
+      ],
+      "raw_p4": [
+        367,
+        56354
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJfY}|o"
+    },
+    {
+      "index": 10339150,
+      "p3": [
+        47,
+        800
+      ],
+      "p4": [
+        320,
+        42865
+      ],
+      "raw_p4": [
+        411,
+        69882
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJfY}}o"
+    },
+    {
+      "index": 10343833,
+      "p3": [
+        41,
+        618
+      ],
+      "p4": [
+        246,
+        25698
+      ],
+      "raw_p4": [
+        318,
+        42966
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJfen~_"
+    },
+    {
+      "index": 10345392,
+      "p3": [
+        51,
+        868
+      ],
+      "p4": [
+        256,
+        24330
+      ],
+      "raw_p4": [
+        352,
+        45199
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJfi}}o"
+    },
+    {
+      "index": 10346946,
+      "p3": [
+        54,
+        984
+      ],
+      "p4": [
+        297,
+        32227
+      ],
+      "raw_p4": [
+        384,
+        54470
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJfq}|o"
+    },
+    {
+      "index": 10348237,
+      "p3": [
+        54,
+        1084
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "ICZJfy}|o"
+    },
+    {
+      "index": 10348241,
+      "p3": [
+        41,
+        630
+      ],
+      "p4": [
+        384,
+        63558
+      ],
+      "raw_p4": [
+        405,
+        70867
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJfy}}o"
+    },
+    {
+      "index": 10360698,
+      "p3": [
+        44,
+        729
+      ],
+      "p4": [
+        314,
+        42137
+      ],
+      "raw_p4": [
+        393,
+        66022
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJne|~_"
+    },
+    {
+      "index": 10374645,
+      "p3": [
+        41,
+        590
+      ],
+      "p4": [
+        201,
+        17193
+      ],
+      "raw_p4": [
+        278,
+        32578
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZJvM{mW"
+    },
+    {
+      "index": 10398738,
+      "p3": [
+        47,
+        707
+      ],
+      "p4": [
+        235,
+        19009
+      ],
+      "raw_p4": [
+        237,
+        19326
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZLd\\ytW"
+    },
+    {
+      "index": 10421515,
+      "p3": [
+        42,
+        666
+      ],
+      "p4": [
+        316,
+        42319
+      ],
+      "raw_p4": [
+        354,
+        52925
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZLnh}}o"
+    },
+    {
+      "index": 10437929,
+      "p3": [
+        47,
+        801
+      ],
+      "p4": [
+        320,
+        41645
+      ],
+      "raw_p4": [
+        359,
+        51784
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZMn_~}o"
+    },
+    {
+      "index": 10457866,
+      "p3": [
+        42,
+        657
+      ],
+      "p4": [
+        271,
+        31491
+      ],
+      "raw_p4": [
+        326,
+        45230
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZNdy}\\o"
+    },
+    {
+      "index": 10466683,
+      "p3": [
+        49,
+        851
+      ],
+      "p4": [
+        288,
+        32935
+      ],
+      "raw_p4": [
+        396,
+        61001
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZTczm^o"
+    },
+    {
+      "index": 10469588,
+      "p3": [
+        49,
+        841
+      ],
+      "p4": [
+        252,
+        24898
+      ],
+      "raw_p4": [
+        400,
+        61859
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZTdZm^o"
+    },
+    {
+      "index": 10471016,
+      "p3": [
+        48,
+        815
+      ],
+      "p4": [
+        270,
+        29113
+      ],
+      "raw_p4": [
+        388,
+        58546
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZTdjm^o"
+    },
+    {
+      "index": 10471947,
+      "p3": [
+        48,
+        826
+      ],
+      "p4": [
+        292,
+        34502
+      ],
+      "raw_p4": [
+        425,
+        71206
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZTdzm^o"
+    },
+    {
+      "index": 10473167,
+      "p3": [
+        43,
+        656
+      ],
+      "p4": [
+        244,
+        23776
+      ],
+      "raw_p4": [
+        288,
+        32716
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZTeZm^o"
+    },
+    {
+      "index": 10473768,
+      "p3": [
+        41,
+        586
+      ],
+      "p4": [
+        196,
+        15079
+      ],
+      "raw_p4": [
+        242,
+        22987
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZTe\\}}o"
+    },
+    {
+      "index": 10482875,
+      "p3": [
+        48,
+        821
+      ],
+      "p4": [
+        309,
+        37670
+      ],
+      "raw_p4": [
+        358,
+        50240
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZTfZm^o"
+    },
+    {
+      "index": 10483268,
+      "p3": [
+        43,
+        686
+      ],
+      "p4": [
+        301,
+        38166
+      ],
+      "raw_p4": [
+        390,
+        64098
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZTf^{^g"
+    },
+    {
+      "index": 10535032,
+      "p3": [
+        52,
+        937
+      ],
+      "p4": [
+        263,
+        27039
+      ],
+      "raw_p4": [
+        457,
+        80791
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZVZzwkw"
+    },
+    {
+      "index": 10581586,
+      "p3": [
+        41,
+        593
+      ],
+      "p4": [
+        208,
+        18457
+      ],
+      "raw_p4": [
+        289,
+        35420
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZejv[Mw"
+    },
+    {
+      "index": 10582239,
+      "p3": [
+        52,
+        872
+      ],
+      "p4": [
+        249,
+        21930
+      ],
+      "raw_p4": [
+        305,
+        31797
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZejxylW"
+    },
+    {
+      "index": 10582245,
+      "p3": [
+        51,
+        804
+      ],
+      "p4": [
+        229,
+        18021
+      ],
+      "raw_p4": [
+        256,
+        22528
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZejxynG"
+    },
+    {
+      "index": 10582810,
+      "p3": [
+        43,
+        642
+      ],
+      "p4": [
+        225,
+        21453
+      ],
+      "raw_p4": [
+        315,
+        41554
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZejzinG"
+    },
+    {
+      "index": 10586728,
+      "p3": [
+        41,
+        605
+      ],
+      "p4": [
+        196,
+        16077
+      ],
+      "raw_p4": [
+        272,
+        30415
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZelxz~_"
+    },
+    {
+      "index": 10590043,
+      "p3": [
+        55,
+        1050
+      ],
+      "p4": [
+        367,
+        53259
+      ],
+      "raw_p4": [
+        455,
+        80646
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZemziMw"
+    },
+    {
+      "index": 10597531,
+      "p3": [
+        49,
+        873
+      ],
+      "p4": [
+        425,
+        78281
+      ],
+      "raw_p4": [
+        454,
+        89215
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZery}xo"
+    },
+    {
+      "index": 10621299,
+      "p3": [
+        46,
+        747
+      ],
+      "p4": [
+        201,
+        16297
+      ],
+      "raw_p4": [
+        360,
+        49961
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICZjvbVlo"
+    },
+    {
+      "index": 10795802,
+      "p3": [
+        41,
+        589
+      ],
+      "p4": [
+        187,
+        14919
+      ],
+      "raw_p4": [
+        258,
+        28195
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpVfV{|_"
+    },
+    {
+      "index": 10815163,
+      "p3": [
+        42,
+        596
+      ],
+      "p4": [
+        182,
+        11671
+      ],
+      "raw_p4": [
+        229,
+        18313
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICp`fRv~_"
+    },
+    {
+      "index": 10820678,
+      "p3": [
+        41,
+        585
+      ],
+      "p4": [
+        195,
+        13604
+      ],
+      "raw_p4": [
+        225,
+        17878
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICp`fjz~_"
+    },
+    {
+      "index": 10820813,
+      "p3": [
+        43,
+        625
+      ],
+      "p4": [
+        70,
+        1830
+      ],
+      "raw_p4": [
+        223,
+        18159
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICp`fpv~_"
+    },
+    {
+      "index": 10931172,
+      "p3": [
+        48,
+        854
+      ],
+      "p4": [
+        421,
+        68253
+      ],
+      "raw_p4": [
+        447,
+        76903
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpbfz}no"
+    },
+    {
+      "index": 10935334,
+      "p3": [
+        48,
+        772
+      ],
+      "p4": [
+        228,
+        18926
+      ],
+      "raw_p4": [
+        276,
+        27572
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpbuYv~_"
+    },
+    {
+      "index": 10977103,
+      "p3": [
+        47,
+        814
+      ],
+      "p4": [
+        467,
+        93677
+      ],
+      "raw_p4": [
+        476,
+        97362
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpdVx}|o"
+    },
+    {
+      "index": 10987633,
+      "p3": [
+        49,
+        848
+      ],
+      "p4": [
+        284,
+        32270
+      ],
+      "raw_p4": [
+        402,
+        62848
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpdbjz~_"
+    },
+    {
+      "index": 10994478,
+      "p3": [
+        53,
+        972
+      ],
+      "p4": [
+        446,
+        75628
+      ],
+      "raw_p4": [
+        486,
+        89502
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpdbyz~_"
+    },
+    {
+      "index": 11000374,
+      "p3": [
+        44,
+        641
+      ],
+      "p4": [
+        188,
+        12515
+      ],
+      "raw_p4": [
+        221,
+        17228
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpdczm^o"
+    },
+    {
+      "index": 11013170,
+      "p3": [
+        47,
+        730
+      ],
+      "p4": [
+        191,
+        13011
+      ],
+      "raw_p4": [
+        260,
+        23746
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpddrm^o"
+    },
+    {
+      "index": 11015625,
+      "p3": [
+        48,
+        773
+      ],
+      "p4": [
+        222,
+        17703
+      ],
+      "raw_p4": [
+        283,
+        28614
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpddzm^o"
+    },
+    {
+      "index": 11065517,
+      "p3": [
+        42,
+        619
+      ],
+      "p4": [
+        239,
+        24051
+      ],
+      "raw_p4": [
+        320,
+        42775
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpdlp^~_"
+    },
+    {
+      "index": 11089163,
+      "p3": [
+        44,
+        673
+      ],
+      "p4": [
+        235,
+        23185
+      ],
+      "raw_p4": [
+        344,
+        49156
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpdq~[lW"
+    },
+    {
+      "index": 11090175,
+      "p3": [
+        48,
+        737
+      ],
+      "p4": [
+        218,
+        16537
+      ],
+      "raw_p4": [
+        254,
+        22405
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpdr^[\\g"
+    },
+    {
+      "index": 11096613,
+      "p3": [
+        43,
+        706
+      ],
+      "p4": [
+        409,
+        73097
+      ],
+      "raw_p4": [
+        445,
+        86465
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpdr~{|g"
+    },
+    {
+      "index": 11104296,
+      "p3": [
+        51,
+        875
+      ],
+      "p4": [
+        289,
+        31111
+      ],
+      "raw_p4": [
+        362,
+        47875
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpdupv~_"
+    },
+    {
+      "index": 11198092,
+      "p3": [
+        55,
+        1049
+      ],
+      "p4": [
+        369,
+        53661
+      ],
+      "raw_p4": [
+        447,
+        77927
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpfayn~_"
+    },
+    {
+      "index": 11199825,
+      "p3": [
+        55,
+        1087
+      ],
+      "p4": [
+        453,
+        80459
+      ],
+      "raw_p4": [
+        528,
+        108597
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpfaz}no"
+    },
+    {
+      "index": 11212329,
+      "p3": [
+        41,
+        631
+      ],
+      "p4": [
+        310,
+        40980
+      ],
+      "raw_p4": [
+        315,
+        42307
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpfby~~_"
+    },
+    {
+      "index": 11219796,
+      "p3": [
+        42,
+        642
+      ],
+      "p4": [
+        278,
+        32989
+      ],
+      "raw_p4": [
+        320,
+        43432
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpfd\\|~_"
+    },
+    {
+      "index": 11248466,
+      "p3": [
+        45,
+        728
+      ],
+      "p4": [
+        277,
+        31610
+      ],
+      "raw_p4": [
+        352,
+        50661
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICprnYz~_"
+    },
+    {
+      "index": 11251921,
+      "p3": [
+        54,
+        1037
+      ],
+      "p4": [
+        371,
+        54416
+      ],
+      "raw_p4": [
+        460,
+        82729
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpujqn~O"
+    },
+    {
+      "index": 11260361,
+      "p3": [
+        55,
+        1098
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "ICpunr{{o"
+    },
+    {
+      "index": 11275066,
+      "p3": [
+        43,
+        687
+      ],
+      "p4": [
+        312,
+        39399
+      ],
+      "raw_p4": [
+        338,
+        46391
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpv\\z{}o"
+    },
+    {
+      "index": 11279657,
+      "p3": [
+        42,
+        663
+      ],
+      "p4": [
+        316,
+        42854
+      ],
+      "raw_p4": [
+        332,
+        47327
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICpvdvm~O"
+    },
+    {
+      "index": 11290383,
+      "p3": [
+        41,
+        609
+      ],
+      "p4": [
+        233,
+        23144
+      ],
+      "raw_p4": [
+        314,
+        41431
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICqjerf^o"
+    },
+    {
+      "index": 11290412,
+      "p3": [
+        41,
+        611
+      ],
+      "p4": [
+        225,
+        21568
+      ],
+      "raw_p4": [
+        310,
+        40410
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICqjerf~_"
+    },
+    {
+      "index": 11291407,
+      "p3": [
+        51,
+        857
+      ],
+      "p4": [
+        201,
+        14762
+      ],
+      "raw_p4": [
+        273,
+        27162
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICqjevmn_"
+    },
+    {
+      "index": 11291900,
+      "p3": [
+        51,
+        968
+      ],
+      "p4": [
+        567,
+        136974
+      ],
+      "raw_p4": [
+        589,
+        147784
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICqjfT}|o"
+    },
+    {
+      "index": 11295387,
+      "p3": [
+        54,
+        1085
+      ],
+      "p4": [
+        617,
+        160930
+      ],
+      "raw_p4": [
+        652,
+        179517
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICqjfvu^o"
+    },
+    {
+      "index": 11301111,
+      "p3": [
+        42,
+        660
+      ],
+      "p4": [
+        295,
+        37089
+      ],
+      "raw_p4": [
+        345,
+        50848
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICqnfru^o"
+    },
+    {
+      "index": 11368606,
+      "p3": [
+        51,
+        934
+      ],
+      "p4": [
+        454,
+        88861
+      ],
+      "raw_p4": [
+        538,
+        123854
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICrVMt{mW"
+    },
+    {
+      "index": 11377465,
+      "p3": [
+        41,
+        590
+      ],
+      "p4": [
+        187,
+        14941
+      ],
+      "raw_p4": [
+        256,
+        27757
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICrbRm}v_"
+    },
+    {
+      "index": 11382118,
+      "p3": [
+        44,
+        672
+      ],
+      "p4": [
+        240,
+        24310
+      ],
+      "raw_p4": [
+        333,
+        46193
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICrbT\\uv_"
+    },
+    {
+      "index": 11382559,
+      "p3": [
+        55,
+        1086
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "ICrbT^]^_"
+    },
+    {
+      "index": 11386744,
+      "p3": [
+        55,
+        1091
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "ICrbU]}^_"
+    },
+    {
+      "index": 11428203,
+      "p3": [
+        55,
+        970
+      ],
+      "p4": [
+        227,
+        18481
+      ],
+      "raw_p4": [
+        356,
+        43910
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICrdr^[\\g"
+    },
+    {
+      "index": 11435396,
+      "p3": [
+        47,
+        835
+      ],
+      "p4": [
+        479,
+        99397
+      ],
+      "raw_p4": [
+        511,
+        113379
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICrdux}|o"
+    },
+    {
+      "index": 11454607,
+      "p3": [
+        41,
+        592
+      ],
+      "p4": [
+        205,
+        17854
+      ],
+      "raw_p4": [
+        275,
+        32119
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICrfUxulo"
+    },
+    {
+      "index": 11454614,
+      "p3": [
+        43,
+        642
+      ],
+      "p4": [
+        254,
+        27195
+      ],
+      "raw_p4": [
+        314,
+        41216
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICrfUxun_"
+    },
+    {
+      "index": 11492730,
+      "p3": [
+        45,
+        766
+      ],
+      "p4": [
+        423,
+        77608
+      ],
+      "raw_p4": [
+        436,
+        82395
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICvbrnln_"
+    },
+    {
+      "index": 11494192,
+      "p3": [
+        44,
+        735
+      ],
+      "p4": [
+        422,
+        77528
+      ],
+      "raw_p4": [
+        444,
+        85788
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICvbtzu^O"
+    },
+    {
+      "index": 11495069,
+      "p3": [
+        48,
+        793
+      ],
+      "p4": [
+        350,
+        48458
+      ],
+      "raw_p4": [
+        376,
+        55877
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICvbvX}lo"
+    },
+    {
+      "index": 11498579,
+      "p3": [
+        52,
+        1028
+      ],
+      "p4": [
+        578,
+        146173
+      ],
+      "raw_p4": [
+        657,
+        189263
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICvdjz]}o"
+    },
+    {
+      "index": 11498706,
+      "p3": [
+        48,
+        891
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "ICvdjz}}o"
+    },
+    {
+      "index": 11529344,
+      "p3": [
+        52,
+        968
+      ],
+      "p4": [
+        318,
+        41021
+      ],
+      "raw_p4": [
+        421,
+        69877
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "ICxvfZ]n_"
+    },
+    {
+      "index": 11544170,
+      "p3": [
+        42,
+        661
+      ],
+      "p4": [
+        303,
+        39118
+      ],
+      "raw_p4": [
+        364,
+        56927
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhbunl~_"
+    },
+    {
+      "index": 11544536,
+      "p3": [
+        48,
+        847
+      ],
+      "p4": [
+        373,
+        59269
+      ],
+      "raw_p4": [
+        468,
+        92687
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhbun{zo"
+    },
+    {
+      "index": 11546335,
+      "p3": [
+        53,
+        1013
+      ],
+      "p4": [
+        403,
+        65346
+      ],
+      "raw_p4": [
+        491,
+        95581
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhbvf{zo"
+    },
+    {
+      "index": 11546807,
+      "p3": [
+        54,
+        1032
+      ],
+      "p4": [
+        357,
+        50511
+      ],
+      "raw_p4": [
+        460,
+        82694
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhbvj{yo"
+    },
+    {
+      "index": 11546808,
+      "p3": [
+        55,
+        1093
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "IEhbvj{zO"
+    },
+    {
+      "index": 11546811,
+      "p3": [
+        53,
+        1046
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "IEhbvj{zo"
+    },
+    {
+      "index": 11546986,
+      "p3": [
+        42,
+        664
+      ],
+      "p4": [
+        466,
+        95046
+      ],
+      "raw_p4": [
+        496,
+        107708
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhbvn{no"
+    },
+    {
+      "index": 11546992,
+      "p3": [
+        55,
+        1083
+      ],
+      "p4": [
+        487,
+        94019
+      ],
+      "raw_p4": [
+        534,
+        112727
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhbvn{vo"
+    },
+    {
+      "index": 11546997,
+      "p3": [
+        55,
+        1137
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "IEhbvn{zo"
+    },
+    {
+      "index": 11548232,
+      "p3": [
+        51,
+        860
+      ],
+      "p4": [
+        229,
+        18954
+      ],
+      "raw_p4": [
+        274,
+        26614
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEher^w\\g"
+    },
+    {
+      "index": 11548237,
+      "p3": [
+        42,
+        581
+      ],
+      "p4": [
+        184,
+        12080
+      ],
+      "raw_p4": [
+        186,
+        12350
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEher^w^G"
+    },
+    {
+      "index": 11548361,
+      "p3": [
+        54,
+        1054
+      ],
+      "p4": [
+        581,
+        138804
+      ],
+      "raw_p4": [
+        700,
+        201025
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEher^{|o"
+    },
+    {
+      "index": 11548413,
+      "p3": [
+        51,
+        826
+      ],
+      "p4": [
+        262,
+        23154
+      ],
+      "raw_p4": [
+        262,
+        23154
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEherhm}O"
+    },
+    {
+      "index": 11550088,
+      "p3": [
+        55,
+        1052
+      ],
+      "p4": [
+        499,
+        96007
+      ],
+      "raw_p4": [
+        530,
+        107761
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhethn~O"
+    },
+    {
+      "index": 11551311,
+      "p3": [
+        42,
+        644
+      ],
+      "p4": [
+        247,
+        25926
+      ],
+      "raw_p4": [
+        326,
+        44685
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhetj{zo"
+    },
+    {
+      "index": 11551455,
+      "p3": [
+        47,
+        796
+      ],
+      "p4": [
+        329,
+        43157
+      ],
+      "raw_p4": [
+        360,
+        51353
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhetp}|o"
+    },
+    {
+      "index": 11551776,
+      "p3": [
+        42,
+        644
+      ],
+      "p4": [
+        286,
+        34637
+      ],
+      "raw_p4": [
+        338,
+        48082
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhetr{|o"
+    },
+    {
+      "index": 11552258,
+      "p3": [
+        54,
+        1058
+      ],
+      "p4": [
+        566,
+        133712
+      ],
+      "raw_p4": [
+        675,
+        188980
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhetv{|o"
+    },
+    {
+      "index": 11553766,
+      "p3": [
+        50,
+        873
+      ],
+      "p4": [
+        367,
+        54350
+      ],
+      "raw_p4": [
+        457,
+        84443
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhevN{no"
+    },
+    {
+      "index": 11554639,
+      "p3": [
+        44,
+        718
+      ],
+      "p4": [
+        347,
+        50701
+      ],
+      "raw_p4": [
+        393,
+        65305
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhevV{|o"
+    },
+    {
+      "index": 11555270,
+      "p3": [
+        50,
+        927
+      ],
+      "p4": [
+        532,
+        121861
+      ],
+      "raw_p4": [
+        601,
+        155161
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhevZ{|o"
+    },
+    {
+      "index": 11555405,
+      "p3": [
+        55,
+        1111
+      ],
+      "p4": [
+        643,
+        172776
+      ],
+      "raw_p4": [
+        746,
+        231379
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhev^{no"
+    },
+    {
+      "index": 11555750,
+      "p3": [
+        42,
+        651
+      ],
+      "p4": [
+        300,
+        38240
+      ],
+      "raw_p4": [
+        317,
+        42963
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhevjmno"
+    },
+    {
+      "index": 11555971,
+      "p3": [
+        44,
+        708
+      ],
+      "p4": [
+        305,
+        39224
+      ],
+      "raw_p4": [
+        385,
+        62114
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhevj{^o"
+    },
+    {
+      "index": 11556056,
+      "p3": [
+        44,
+        749
+      ],
+      "p4": [
+        576,
+        146554
+      ],
+      "raw_p4": [
+        593,
+        155268
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhevl}~O"
+    },
+    {
+      "index": 11556256,
+      "p3": [
+        53,
+        1008
+      ],
+      "p4": [
+        440,
+        77400
+      ],
+      "raw_p4": [
+        472,
+        88667
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhevp}|o"
+    },
+    {
+      "index": 11560913,
+      "p3": [
+        42,
+        623
+      ],
+      "p4": [
+        224,
+        21317
+      ],
+      "raw_p4": [
+        313,
+        41133
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhfdZ{vo"
+    },
+    {
+      "index": 11561544,
+      "p3": [
+        55,
+        1100
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "IEhfdz{vo"
+    },
+    {
+      "index": 11561546,
+      "p3": [
+        49,
+        872
+      ],
+      "p4": [
+        372,
+        55531
+      ],
+      "raw_p4": [
+        405,
+        65710
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhfdz{zo"
+    },
+    {
+      "index": 11561775,
+      "p3": [
+        47,
+        822
+      ],
+      "p4": [
+        435,
+        79064
+      ],
+      "raw_p4": [
+        479,
+        96146
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhfd~{zo"
+    },
+    {
+      "index": 11566410,
+      "p3": [
+        43,
+        654
+      ],
+      "p4": [
+        213,
+        18356
+      ],
+      "raw_p4": [
+        287,
+        33393
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhffV{^o"
+    },
+    {
+      "index": 11567997,
+      "p3": [
+        53,
+        1050
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "IEhfuz{|o"
+    },
+    {
+      "index": 11570614,
+      "p3": [
+        44,
+        741
+      ],
+      "p4": [
+        561,
+        139273
+      ],
+      "raw_p4": [
+        614,
+        166128
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhrs~m~O"
+    },
+    {
+      "index": 11571452,
+      "p3": [
+        41,
+        598
+      ],
+      "p4": [
+        231,
+        22586
+      ],
+      "raw_p4": [
+        294,
+        36463
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhrtnkrg"
+    },
+    {
+      "index": 11573374,
+      "p3": [
+        51,
+        899
+      ],
+      "p4": [
+        282,
+        33414
+      ],
+      "raw_p4": [
+        434,
+        77200
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhrvM{fg"
+    },
+    {
+      "index": 11573406,
+      "p3": [
+        55,
+        981
+      ],
+      "p4": [
+        259,
+        24417
+      ],
+      "raw_p4": [
+        304,
+        33092
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhrvM{v_"
+    },
+    {
+      "index": 11573429,
+      "p3": [
+        45,
+        653
+      ],
+      "p4": [
+        200,
+        14315
+      ],
+      "raw_p4": [
+        208,
+        15557
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhrvM{}_"
+    },
+    {
+      "index": 11574081,
+      "p3": [
+        42,
+        659
+      ],
+      "p4": [
+        280,
+        33502
+      ],
+      "raw_p4": [
+        339,
+        48816
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhrvZ{{o"
+    },
+    {
+      "index": 11578321,
+      "p3": [
+        50,
+        884
+      ],
+      "p4": [
+        348,
+        49045
+      ],
+      "raw_p4": [
+        453,
+        82323
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhtrnksw"
+    },
+    {
+      "index": 11582981,
+      "p3": [
+        42,
+        648
+      ],
+      "p4": [
+        290,
+        35236
+      ],
+      "raw_p4": [
+        319,
+        42948
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhuTzm}o"
+    },
+    {
+      "index": 11584433,
+      "p3": [
+        53,
+        1043
+      ],
+      "p4": [
+        635,
+        171628
+      ],
+      "raw_p4": [
+        659,
+        184993
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhuVY}}o"
+    },
+    {
+      "index": 11586734,
+      "p3": [
+        52,
+        1006
+      ],
+      "p4": [
+        585,
+        145800
+      ],
+      "raw_p4": [
+        607,
+        156954
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhuVq}zo"
+    },
+    {
+      "index": 11587408,
+      "p3": [
+        44,
+        711
+      ],
+      "p4": [
+        289,
+        33528
+      ],
+      "raw_p4": [
+        303,
+        36709
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhuVzmv_"
+    },
+    {
+      "index": 11598940,
+      "p3": [
+        42,
+        619
+      ],
+      "p4": [
+        242,
+        24641
+      ],
+      "raw_p4": [
+        314,
+        41129
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhvEuu^_"
+    },
+    {
+      "index": 11601156,
+      "p3": [
+        46,
+        744
+      ],
+      "p4": [
+        221,
+        19465
+      ],
+      "raw_p4": [
+        353,
+        48767
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhvFU{|_"
+    },
+    {
+      "index": 11603258,
+      "p3": [
+        53,
+        1013
+      ],
+      "p4": [
+        480,
+        99607
+      ],
+      "raw_p4": [
+        568,
+        138644
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhvFq}zO"
+    },
+    {
+      "index": 11605847,
+      "p3": [
+        45,
+        762
+      ],
+      "p4": [
+        435,
+        82064
+      ],
+      "raw_p4": [
+        449,
+        87377
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhvS~{xo"
+    },
+    {
+      "index": 11606646,
+      "p3": [
+        54,
+        1117
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "IEhvTv{|_"
+    },
+    {
+      "index": 11607218,
+      "p3": [
+        41,
+        610
+      ],
+      "p4": [
+        191,
+        15682
+      ],
+      "raw_p4": [
+        298,
+        37608
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhvUnw\\g"
+    },
+    {
+      "index": 11607345,
+      "p3": [
+        44,
+        716
+      ],
+      "p4": [
+        345,
+        49843
+      ],
+      "raw_p4": [
+        385,
+        62215
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhvUn{xo"
+    },
+    {
+      "index": 11608334,
+      "p3": [
+        54,
+        1127
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "IEhvUy}xo"
+    },
+    {
+      "index": 11609809,
+      "p3": [
+        44,
+        741
+      ],
+      "p4": [
+        467,
+        95891
+      ],
+      "raw_p4": [
+        488,
+        104661
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhvVf{^o"
+    },
+    {
+      "index": 11609815,
+      "p3": [
+        46,
+        777
+      ],
+      "p4": [
+        260,
+        27533
+      ],
+      "raw_p4": [
+        325,
+        42948
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEhvVf{xo"
+    },
+    {
+      "index": 11614797,
+      "p3": [
+        55,
+        1107
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "IEh~fVwXw"
+    },
+    {
+      "index": 11625997,
+      "p3": [
+        41,
+        613
+      ],
+      "p4": [
+        184,
+        14597
+      ],
+      "raw_p4": [
+        286,
+        34764
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEjbvjyz_"
+    },
+    {
+      "index": 11628331,
+      "p3": [
+        51,
+        939
+      ],
+      "p4": [
+        460,
+        91288
+      ],
+      "raw_p4": [
+        544,
+        126761
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEjdnhyZW"
+    },
+    {
+      "index": 11628340,
+      "p3": [
+        43,
+        669
+      ],
+      "p4": [
+        292,
+        36239
+      ],
+      "raw_p4": [
+        335,
+        47487
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEjdnhy^G"
+    },
+    {
+      "index": 11631108,
+      "p3": [
+        43,
+        712
+      ],
+      "p4": [
+        628,
+        176029
+      ],
+      "raw_p4": [
+        648,
+        187552
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEjenp~~_"
+    },
+    {
+      "index": 11631843,
+      "p3": [
+        55,
+        1053
+      ],
+      "p4": [
+        367,
+        53317
+      ],
+      "raw_p4": [
+        455,
+        80726
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEjep~wXw"
+    },
+    {
+      "index": 11636334,
+      "p3": [
+        44,
+        731
+      ],
+      "p4": [
+        354,
+        53476
+      ],
+      "raw_p4": [
+        402,
+        69314
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEjetl}~O"
+    },
+    {
+      "index": 11637519,
+      "p3": [
+        42,
+        678
+      ],
+      "p4": [
+        443,
+        86925
+      ],
+      "raw_p4": [
+        472,
+        98583
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEjeul}~O"
+    },
+    {
+      "index": 11645506,
+      "p3": [
+        41,
+        638
+      ],
+      "p4": [
+        314,
+        41803
+      ],
+      "raw_p4": [
+        348,
+        51251
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEjfrz{uo"
+    },
+    {
+      "index": 11649039,
+      "p3": [
+        49,
+        920
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "IEjvVZy^o"
+    },
+    {
+      "index": 11652569,
+      "p3": [
+        55,
+        1088
+      ],
+      "p4": [
+        480,
+        99613
+      ],
+      "raw_p4": [
+        582,
+        145343
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEnfbzktg"
+    },
+    {
+      "index": 11652575,
+      "p3": [
+        55,
+        1073
+      ],
+      "p4": [
+        360,
+        55162
+      ],
+      "raw_p4": [
+        575,
+        137586
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEnfbzkv_"
+    },
+    {
+      "index": 11653613,
+      "p3": [
+        46,
+        800
+      ],
+      "p4": [
+        454,
+        89596
+      ],
+      "raw_p4": [
+        492,
+        105121
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IEnffX}to"
+    },
+    {
+      "index": 11708144,
+      "p3": [
+        46,
+        761
+      ],
+      "p4": [
+        325,
+        43448
+      ],
+      "raw_p4": [
+        352,
+        51128
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IQyuvh{dw"
+    },
+    {
+      "index": 11708176,
+      "p3": [
+        50,
+        893
+      ],
+      "p4": [
+        283,
+        32204
+      ],
+      "raw_p4": [
+        395,
+        61576
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IQyuvh{sw"
+    },
+    {
+      "index": 11708209,
+      "p3": [
+        54,
+        1036
+      ],
+      "p4": [
+        420,
+        68048
+      ],
+      "raw_p4": [
+        472,
+        86550
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IQyuvh{{o"
+    },
+    {
+      "index": 11708251,
+      "p3": [
+        41,
+        644
+      ],
+      "p4": [
+        420,
+        77657
+      ],
+      "raw_p4": [
+        450,
+        88956
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IQyuvh}{o"
+    },
+    {
+      "index": 11708820,
+      "p3": [
+        42,
+        766
+      ],
+      "reason": "maximal_clique_cap",
+      "stage": 4,
+      "status": "P4_FACET_CAP",
+      "graph6": "IQyuvzu^o"
+    },
+    {
+      "index": 11710192,
+      "p3": [
+        54,
+        1026
+      ],
+      "p4": [
+        366,
+        55655
+      ],
+      "raw_p4": [
+        536,
+        117434
+      ],
+      "status": "NO_REFERENCE_DIMENSION_MATCH",
+      "graph6": "IQyvexmfo"
+    }
+  ]
+}
