@@ -37,6 +37,11 @@ ARCHIVE = HERE / "certificates.json"
 PRIOR = ROOT / "research/order10_p4_reference_pilot_v24/results.json"
 P3_INDEX = ROOT / "research/order10_p3_global_v23_index/certificates.json"
 
+# Independent immutable Git blob anchors from merged PRs #87 and #89.
+# These MUST NOT be derived from this PR's mutable certificates.json.
+EXPECTED_PRIOR_GIT_BLOB = "171908472fe4037e0653a08056877fb956bd8d54"
+EXPECTED_P3_GIT_BLOB = "ab5a9f1c075dfad63b111929368147884519f2a3"
+
 
 def need(ok: bool, reason: str) -> None:
     if not ok:
@@ -200,18 +205,48 @@ def constrained_matcher(first: list[int],second:list[int],mapping:list[int]) -> 
          "Independent label-constrained matcher rejects exact P4 certificate")
 
 
+def verify_upstream_archives(data: dict) -> tuple[dict, dict]:
+    """Pin historical proof bytes independently and invoke the PR #89 audit.
+
+    The global P3 PR #87 independent *full* archive replayer is
+    additionally run in a separate CI job with the historical v23
+    mutable-root alias. See the workflow and the original
+    order10_p4_o12_lifts_v24/replay_v23.py wrapper.
+    """
+    need(
+        data["schema"] == 1 and
+        data["kind"] ==
+        "complete_fourth_iterate_reconstruction_after_750_facet_cap_and_exact_P4_isomorphism"
+        and data["from"] == PRIOR.relative_to(ROOT).as_posix()
+        and data["global_p3"] == P3_INDEX.relative_to(ROOT).as_posix()
+        and blob(PRIOR.read_bytes()) == EXPECTED_PRIOR_GIT_BLOB
+        and blob(P3_INDEX.read_bytes()) == EXPECTED_P3_GIT_BLOB
+        and data["from_git_blob"] == EXPECTED_PRIOR_GIT_BLOB
+        and data["global_p3_git_blob"] == EXPECTED_P3_GIT_BLOB,
+        "Immutable historical P3/P4 pilot proof anchors disagree",
+    )
+
+    # The existing PR #89 audit checks its own archived 206-case
+    # records, frozen v24 source, independent P3 representatives,
+    # historical O6/O12 reference proofs, and all 12 shard counts.
+    from research.order10_p4_reference_pilot_v24.verify_results import (
+        audit as audit_prior_p4,
+    )
+
+    prior = audit_prior_p4()
+    global_index = json.loads(P3_INDEX.read_text(encoding="utf-8"))
+    need(
+        global_index["immutable_source_git_blob"] ==
+        "f32ceb913b44583f472402e14c596598fef71aaa"
+        and global_index["counts"]["exact_isomorphism_classes"] == 525,
+        "Frozen ten-v23 P3 archive header or global counts changed",
+    )
+    return prior, global_index
+
+
 def verify() -> None:
     data=json.loads(ARCHIVE.read_text(encoding="utf-8"))
-    prior=json.loads(PRIOR.read_text(encoding="utf-8"))
-    global_index=json.loads(P3_INDEX.read_text(encoding="utf-8"))
-    need(data["schema"]==1 and
-         data["kind"] ==
-         "complete_fourth_iterate_reconstruction_after_750_facet_cap_and_exact_P4_isomorphism"
-         and data["from"]==PRIOR.relative_to(ROOT).as_posix()
-         and data["global_p3"]==P3_INDEX.relative_to(ROOT).as_posix()
-         and data["from_git_blob"]==blob(PRIOR.read_bytes())
-         and data["global_p3_git_blob"]==blob(P3_INDEX.read_bytes()),
-         "Changed historical P3 or P4 pilot provenance")
+    prior, global_index=verify_upstream_archives(data)
 
     source={
         row["index"]:row
