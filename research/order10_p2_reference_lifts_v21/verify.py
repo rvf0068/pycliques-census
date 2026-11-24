@@ -32,6 +32,49 @@ FROZEN_V20 = "89f8f18bd236e6d7fa1e7ca928aa5418af061de4"
 PROVED_COUNTS = {249436: 11, 249574: 9, 250814: 18,
                  251759: 20, 251902: 14, 253650: 4, 254369: 7}
 
+# Immutable identities, independent of the new certificate manifest.
+# The historically merged positive verifiers additionally authenticate
+# the P4 host, antipodal target, and every vertex of its full projection.
+PROVED_SOURCES = {
+    249436: ("HEhff^{", "research/order9_three_p4_retractions_v1/REPORT.md"),
+    249574: ("HEhfvx}", "research/order9_three_p4_retractions_v1/REPORT.md"),
+    250814: ("HEhuvzm", "research/order9_three_p4_retractions_v1/REPORT.md"),
+    251759: ("HEhvtzm", "research/order9_251759_p4_o15_v1/certificate.json"),
+    251902: ("HEhvvzm", "research/order9_251902_p4_o17_v1/certificate.json"),
+    253650: ("HEjer~{", "research/order9_253650_o12_v1/certificate.json"),
+    254369: ("HEjfvx}", "research/order9_254369_p4_o13_v1/certificate.json"),
+}
+
+
+def verify_archived_source_retractions() -> None:
+    """Independently replay seven historically certified P4 -> O_d proofs.
+
+    The preexisting verifiers reconstruct P4 from the original graph6,
+    authenticate the host, and check every edge under a total retraction
+    fixing an induced octahedral target. They do NOT merely grep reports.
+    Unrelated historical ten-vertex lifts are omitted from this replay.
+    """
+    from research.order9_three_p4_retractions_v1.verify import (
+        check_certificates as check_three,
+    )
+    from research.order9_two_p4_retractions_v1.verify import (
+        verify_positive as check_two,
+    )
+    from research.order9_251902_p4_o17_v1.verify import (
+        verify_positive as check_251902,
+    )
+    from research.order9_253650_o12_v1.verify import (
+        verify as check_253650,
+    )
+
+    check_three(public=False)  # 249436, 249574, 250814
+    check_two(251759, public=False)
+    check_two(254369, public=False)
+    check_251902(public=False)
+    check_253650(public=False)
+
+
+
 
 def check(value: bool, message: str) -> None:
     if not value:
@@ -168,6 +211,8 @@ def verify_archive() -> None:
     reference_graphs: dict[int, nx.Graph] = {}
     for source in sources:
         ix, graph6, rel = source["index"], source["g6"], source["proof"]
+        check((graph6, rel) == PROVED_SOURCES[ix],
+              f"Wrong identity or certificate path for proved source: {ix}")
         check((ROOT / rel).is_file(),
               f"Archived source divergence proof missing: {rel}")
         check(graph6 in (ROOT / rel).read_text(encoding="utf8"),
@@ -183,6 +228,10 @@ def verify_archive() -> None:
             for path in historic
         ), f"Proved nine-vertex source identity absent from history: {ix}")
         reference_graphs[ix] = independently_reconstruct_p2(graph6, 9)
+
+    # The seven divergence premises must pass their saved *positive*
+    # projection verifiers before any new ten-vertex record is promoted.
+    verify_archived_source_retractions()
 
     records = manifest["matches"]
     check(len(records) == 83 and
