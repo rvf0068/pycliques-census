@@ -1,0 +1,57 @@
+name: Certify 83 P2-equivalent ten-vertex divergences (ten-v21)
+
+on:
+  pull_request:
+    paths:
+      - "indeterminate_order_10.txt"
+      - "indeterminate_order_10_v20.txt"
+      - "indeterminate_order_10_v21.txt"
+      - "research/order10_p2_reference_lifts_v21/**"
+      - "tests/test_current_root_index.py"
+      - ".github/workflows/order10-p2-v21.yml"
+      - "README.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-83:
+    name: Independently reconstruct 83 P2 isomorphisms and audit ten-v21
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Verify all 83 vertex-level certificates and historical source proofs
+        env:
+          PYTHONHASHSEED: "0"
+        run: |
+          python -m py_compile research/order10_p2_reference_lifts_v21/verify.py
+          python -m research.order10_p2_reference_lifts_v21.verify
+          python -m unittest discover -s tests -p test_current_root_index.py -v
+      - name: Reject bypass of proof-critical assertions
+        run: |
+          if python -O -m research.order10_p2_reference_lifts_v21.verify > /tmp/optimized-proof-out.log 2>&1; then
+            echo "ERROR: optimized verification should be rejected."
+            exit 1
+          fi
+          grep -Fq 'RuntimeError: Optimized Python bypasses proof-critical assertions' /tmp/optimized-proof-out.log
+
+  historical-v20:
+    name: Replay immutable v20 proof against frozen ten-v20 root
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Run the unchanged historical v20 verifier via read-only snapshot redirect
+        env:
+          PYTHONHASHSEED: "0"
+        run: python -m research.order10_p2_reference_lifts_v21.replay_v20
