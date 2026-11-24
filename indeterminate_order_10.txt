@@ -1,12 +1,11 @@
-# Certified current indeterminate connected graphs of order ten, v21
-# Remaining=1228 previous_v20=1311 newly_proved_divergent=83
-# Removed only the 83 stiff ten-vertex originals whose second completely
-# pared clique iterates are explicitly isomorphic to those of seven proved
-# K-divergent nine-vertex graphs (McKay 249436, 249574, 250814, 251759,
-# 251902, 253650, 254369), via exact pointwise graph bijections.
-# Source proofs, 83 isomorphisms and immutable v20-to-v21 audit:
-# research/order10_p2_reference_lifts_v21/
-# Historical ten-v20 and all earlier snapshots are unchanged.
+# Certified current indeterminate connected graphs of order ten, v22
+# Remaining=1208 previous_v21=1228 newly_proved_divergent=20
+# Exactly 18 stiff ten-vertex originals are P3-isomorphic to certified
+# K-divergent nine-vertex sources; two more are P2-isomorphic to
+# ten-vertex graphs with explicit retractions onto known divergent sources.
+# Proofs: research/order10_p3_reference_lifts_v22/ (full P2/P3 bijections,
+# two full small retractions, independent archived source proof replay).
+# Unchanged six-column records preserved byte-for-byte from immutable ten-v21.
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
 5808448 10 I?bbU^un_ - - -
 5974382 10 I?betrfZo - - -
@@ -243,7 +242,6 @@
 7956608 10 I?zTe\}n_ - - -
 7959141 10 I?zTfpv~_ - - -
 7959188 10 I?zTfp}\o - - -
-7959206 10 I?zTfp}|o - - -
 7960067 10 I?zTfx}}o - - -
 7960256 10 I?zTrh}}o - - -
 7960375 9 HEyrVzu - - -
@@ -311,13 +309,10 @@
 9810966 9 HQov^z] - - -
 9810976 10 ICR`un]}o - - -
 9811545 10 ICR`un}}o - - -
-9813482 10 ICR`uxv~_ - - -
 9813504 9 HQovt~{ - - -
 9813713 9 HQovvy} - - -
 9813715 10 ICR`uz]uo - - -
 9813724 10 ICR`uz]}o - - -
-9813863 10 ICR`uz}}o - - -
-9815528 10 ICR`vJ]}o - - -
 9824036 10 ICR`vh^~_ - - -
 9824896 10 ICR`vjZ~_ - - -
 9825058 10 ICR`vj]uo - - -
@@ -368,9 +363,7 @@
 10291208 10 ICZJ`}}|o - - -
 10291215 10 ICZJ`}}~O - - -
 10291616 10 ICZJ`~\~_ - - -
-10297283 10 ICZJbm}~O - - -
 10298660 10 ICZJbvUn_ - - -
-10300042 10 ICZJby}|o - - -
 10301502 9 HQdd~z] - - -
 10301512 10 ICZJc}}}o - - -
 10301877 10 ICZJc~]uo - - -
@@ -518,8 +511,6 @@
 10474040 9 HBqe|~{ - - -
 10474357 9 HBqe~y} - - -
 10475037 10 ICZTejm]o - - -
-10475768 10 ICZTenm^_ - - -
-10477617 10 ICZTerm^o - - -
 10478923 10 ICZTezm^o - - -
 10479413 9 HEhd~x} - - -
 10479792 9 HBqf^zy - - -
@@ -540,10 +531,8 @@
 10483268 10 ICZTf^{^g - - -
 10483294 9 HBqf~rl - - -
 10483298 9 HBqf~rt - - -
-10484202 10 ICZTfbm^o - - -
 10485041 10 ICZTfjm^o - - -
 10485643 10 ICZTfrm\o - - -
-10485646 10 ICZTfrm^o - - -
 10485983 9 HEhfvzm - - -
 10485984 9 HEhfvzu - - -
 10488778 9 HBqnf^{ - - -
@@ -597,7 +586,6 @@
 10598915 9 HBzTnrm - - -
 10599128 10 ICZety}No - - -
 10599334 10 ICZetzm\o - - -
-10601010 10 ICZevN[Ng - - -
 10604369 10 ICZevi}]o - - -
 10604391 9 HBzVTzu - - -
 10608834 9 HBzmdvu - - -
@@ -828,7 +816,6 @@
 11393641 9 HExvTn{ - - -
 11393689 9 HExvTzu - - -
 11405136 10 ICrbdhz~_ - - -
-11405876 10 ICrbdjj~_ - - -
 11409269 10 ICrbdt|~_ - - -
 11411007 10 ICrbdzj~_ - - -
 11411637 10 ICrbeny~? - - -
@@ -858,7 +845,6 @@
 11461286 10 ICrfdt|~_ - - -
 11469714 10 ICrlvhyNW - - -
 11469726 9 HSvvRhz - - -
-11475405 10 ICrtrv{^O - - -
 11475419 10 ICrtrv{xo - - -
 11478296 9 HUzurgz - - -
 11492730 10 ICvbrnln_ - - -
@@ -947,7 +933,6 @@
 11555138 9 HEhf^n{ - - -
 11555207 9 HEhf^v{ - - -
 11555246 10 IEhevZ{^o - - -
-11555266 10 IEhevZ{{o - - -
 11555270 10 IEhevZ{|o - - -
 11555274 9 HEhf^zy - - -
 11555405 10 IEhev^{no - - -
@@ -968,11 +953,8 @@
 11557138 10 IEhf`z{ro - - -
 11557144 10 IEhf`z{zo - - -
 11557160 10 IEhf`z}vo - - -
-11557504 10 IEhf`~{zo - - -
 11558241 10 IEhfczm^O - - -
-11558565 10 IEhfcz{zo - - -
 11558932 10 IEhfc~m~O - - -
-11559200 10 IEhfc~{zo - - -
 11560619 9 HEZtV^y - - -
 11560769 9 HEZtVvm - - -
 11560913 10 IEhfdZ{vo - - -
@@ -1138,7 +1120,6 @@
 11611429 10 IEhvtznno - - -
 11612062 10 IEhvvZ{to - - -
 11612064 10 IEhvvZ{uo - - -
-11612071 10 IEhvvZ{z_ - - -
 11614797 10 IEh~fVwXw - - -
 11614800 10 IEh~fVw\g - - -
 11614922 10 IEh~fV{xo - - -
@@ -1148,7 +1129,6 @@
 11623375 10 IEjbtnN~_ - - -
 11624361 9 HDxunrm - - -
 11624380 9 HDxunrm - - -
-11624622 10 IEjbvL{fg - - -
 11625722 10 IEjbvh}n_ - - -
 11625891 9 HDxvVzU - - -
 11625997 10 IEjbvjyz_ - - -
@@ -1183,7 +1163,6 @@
 11652575 10 IEnfbzkv_ - - -
 11653613 10 IEnffX}to - - -
 11656793 10 IErtv\}~O - - -
-11657332 10 IErv^q}^g - - -
 11658674 10 IEzTmvm^o - - -
 11675400 9 HTpa~y} - - -
 11675404 9 HTpa~y} - - -
