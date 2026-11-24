@@ -1,9 +1,10 @@
-# Certified current indeterminate connected graphs of order ten, v24
-# Remaining=1056 previous_v23=1059 newly_proved_divergent=3
-# Exactly 3 stiff ten-vertex original graphs (McKay 11495390, 11533866,
-# 11556387) have P4 isomorphic to P4(10223405), which retracts onto O12.
-# Proofs: research/order10_p4_o12_lifts_v24/
-# Retained six-column v23 records are unchanged.
+# Certified current indeterminate connected graphs of order ten, v25
+# Remaining=1052 previous_v24=1056 newly_proved_divergent=4
+# Four stiff ten-vertex originals (McKay 11551790, 11552072,
+# 11555600, 11707526) have P4 isomorphic to P3(McKay 260910),
+# whose complete P3 -> O15 ordinary retraction was previously proved.
+# Proofs: research/order10_p4_crossdepth_o15_v25/
+# Retained six-column v24 records are unchanged.
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
 6499365 10 I?ovUqv\o - - -
 6914645 10 I?qbEZv~_ - - -
@@ -793,8 +794,6 @@
 11551311 10 IEhetj{zo - - -
 11551455 10 IEhetp}|o - - -
 11551776 10 IEhetr{|o - - -
-11551790 10 IEhetr}|o - - -
-11552072 10 IEhetvm~O - - -
 11552181 9 HEj\~pf - - -
 11552252 10 IEhetv{^_ - - -
 11552258 10 IEhetv{|o - - -
@@ -809,7 +808,6 @@
 11555274 9 HEhf^zy - - -
 11555405 10 IEhev^{no - - -
 11555425 9 HEhf^zy - - -
-11555600 10 IEhevi~~_ - - -
 11555750 10 IEhevjmno - - -
 11555770 10 IEhevjm}O - - -
 11555773 9 HDZVVzu - - -
@@ -1023,7 +1021,6 @@
 11696733 9 HKqrvy} - - -
 11697190 9 HQptvx} - - -
 11699151 10 IQjdvr]^o - - -
-11707526 10 IQyurzUuo - - -
 11708144 10 IQyuvh{dw - - -
 11708148 10 IQyuvh{fo - - -
 11708157 10 IQyuvh{lg - - -
