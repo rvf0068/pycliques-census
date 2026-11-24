@@ -36,8 +36,6 @@ jobs:
         run: |
           python -m py_compile research/order10_p4_cap_rescue_v24/verify.py
           python -m research.order10_p4_crossdepth_o15_v25.replay_v24 p4_cap
-      - name: Independently reconstruct every former capped graph and verify exact P4 isomorphism
-        run: python -m research.order10_p4_crossdepth_o15_v25.replay_v24 p4_cap
       - name: Reject optimized proof execution
         run: |
           if python -O -m research.order10_p4_cap_rescue_v24.verify >/tmp/optimized-proof.log 2>&1; then
