@@ -19,6 +19,7 @@ import networkx as nx
 
 from research.order10_five_p3_native_v1.search import (
     MONOREPO_SHA, MAX_STATES, SECONDS, REMAINING, VALUE_ORDERS, require,
+    RUNTIME_VERSIONS, PYCLIQUES_SOURCE_GIT_BLOBS,
 )
 from research.order10_overcap_p3_coaffine_v1.pilot import (
     independent_octahedral_retraction_check, source_catalog,
@@ -44,6 +45,13 @@ def replay(files: list[Path]) -> dict:
                 and type(rec["time_limit_seconds"]) in (int, float)
                 and rec["time_limit_seconds"] == SECONDS,
                 "Native monorepo revision, state or time budget altered")
+        require(
+            rec.get("installed_solver_source_blobs_verified") is True
+            and rec.get("dependency_versions") == RUNTIME_VERSIONS
+            and len(PYCLIQUES_SOURCE_GIT_BLOBS) == 7,
+            "The native pilot lacked exact runtime distribution and source "
+            "blob verification",
+        )
         src = originals[i]
         graph = nx.from_graph6_bytes(src["p3_graph6"].encode("ascii"))
         H = nx.complement(graph)
@@ -116,6 +124,8 @@ def replay(files: list[Path]) -> dict:
         "schema": 1,
         "kind": "dual_order_native_public_mono56_octahedral_p3_probe",
         "monorepo_commit": MONOREPO_SHA,
+        "pinned_dependency_versions": RUNTIME_VERSIONS,
+        "installed_solver_source_blobs_verified": True,
         "search_budget": {
             "max_states": MAX_STATES,
             "time_limit_seconds": SECONDS,
