@@ -5,12 +5,12 @@ order 10, with a pinned revision of the
 [pycliques-project](https://github.com/rvf0068/pycliques-project)
 monorepo. All historical stages, source indices and proofs are preserved.
 
-## Current certified census: nine-vertex v9 and ten-vertex v26 (November 2026)
+## Current certified census: nine-vertex v9 and ten-vertex v27 (November 2026)
 
 | Connected order | Certified snapshot | Indeterminate original McKay graphs | Previous | Newly proved divergent |
 |---|---|---:|---:|---:|
 | 9 | [v9](indeterminate_order_9_v9.txt) | **3** | 5 | 2 |
-| 10 | [v26](indeterminate_order_10_v26.txt) | **1,046** | 1,052 | 6 |
+| 10 | [v27](indeterminate_order_10_v27.txt) | **1,044** | 1,046 | 2 |
 
 The authoritative mutable working root files
 [indeterminate_order_9.txt](indeterminate_order_9.txt) and
@@ -20,9 +20,32 @@ versioned indices, including
 [nine-v8](indeterminate_order_9_v8.txt) and
 [ten-v23](indeterminate_order_10_v23.txt) and
 [ten-v24](indeterminate_order_10_v24.txt), and
-[ten-v25](indeterminate_order_10_v25.txt), remain frozen and unchanged.
+[ten-v25](indeterminate_order_10_v25.txt), and
+[ten-v26](indeterminate_order_10_v26.txt), remain frozen and unchanged.
 
-### New ten-v26: six complete third-iterate octahedral divergence certificates
+### New ten-v27: two more complete O11 third-iterate divergence certificates
+
+The [independent v27 verifier](research/order10_v27_two_p3_o11/verify.py)
+replays the permanent O11 retraction proof for original McKay **11656793**
+and the complete **216-vertex** P3-isomorphism for original McKay
+**11658674**. Both are proved K-divergent. The frozen
+[ten-v26](indeterminate_order_10_v26.txt) list of 1,046 is unmodified,
+while [ten-v27](indeterminate_order_10_v27.txt) and the active
+[indeterminate root](indeterminate_order_10.txt) contain **1,044** original
+ten-vertex graphs (**430** with nine-vertex pared cores and **614**
+stiff ten-vertex cores). All other records are byte-for-byte unchanged.
+The three unresolved nine-vertex originals are unchanged.
+
+This one proof resolves a whole historical P3 class, leaving **515**
+unresolved exact third-iterate classes; fourth pared iterates have been
+reconstructed for **511** of these. The remaining four oversized classes,
+represented by McKay **11505012, 11595632, 11709142, 11713984**, are
+indeterminate. No negative classification is inferred from their
+bounded-search limits or from candidate-specific obstructions.
+See the [v27 Emacs Org reproduction note](research/order10_v27_two_p3_o11/RESEARCH.org)
+and the [independently replayed O11 certificate](research/order10_five_p3_native_v1/verify_positive.py).
+
+### Historical ten-v26: six complete third-iterate octahedral divergence certificates
 
 The [v26 independent proof verifier](research/order10_v26_six_p3_octahedral/verify.py) replays the five immutable complete ordinary retractions from the third pared clique iterates of ten-vertex McKay **11367777, 11611429, 11623375, 11708546, 11713770** onto **O12, O15, O12, O14, O14**, respectively. The sixth original, **11651749**, has an archived complete third-iterate isomorphism to 11611429 and therefore also retracts onto O15 at depth three. Every graph6, full retraction projection, target antipodal pair, and complete third-iterate bijection is independently verified from immutable source archives.
 
