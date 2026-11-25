@@ -5,7 +5,8 @@ import unittest
 
 from research.order10_p4_crossdepth_o15_v25.verify import source_rows
 from research.order10_v27_two_p3_o11.verify import (
-    BEFORE, LATEST, EXPECTED_REMOVALS, audit_rows, verify,
+    BEFORE, LATEST, EXPECTED_REMOVALS, NINE, NINE_FROZEN,
+    audit_nine_v9, audit_rows, verify,
 )
 
 
@@ -23,6 +24,20 @@ class TenV27PromotionTests(unittest.TestCase):
             summary["proved_divergent_original_indices"],
             list(EXPECTED_REMOVALS),
         )
+
+    def test_nine_v9_snapshot_and_active_root_are_authenticated(self):
+        audit_nine_v9(NINE.read_bytes(), NINE_FROZEN.read_bytes())
+
+    def test_identical_mutation_of_both_nine_v9_files_is_rejected(self):
+        original = NINE_FROZEN.read_bytes()
+        corrupted = b"X" + original[1:]
+        self.assertNotEqual(corrupted, original)
+        with self.assertRaisesRegex(AssertionError, "Git blob"):
+            audit_nine_v9(corrupted, corrupted)
+
+    def test_active_nine_v9_divergence_is_rejected(self):
+        with self.assertRaisesRegex(AssertionError, "canonical"):
+            audit_nine_v9(NINE.read_bytes() + b"x", NINE_FROZEN.read_bytes())
 
     def test_exactly_two_deletions(self):
         audit_rows(self.before, self.after, self.certified)
