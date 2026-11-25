@@ -84,9 +84,10 @@ def as_graph(rows: list[int]) -> nx.Graph:
         require((mask >> n) == 0 and not (mask & (1 << i)),
                 "Malformed adjacency mask")
         for j in range(i + 1, n):
-            if mask & (1 << j):
-                require(bool(rows[j] & (1 << i)),
-                        "P4 adjacency masks are not symmetric")
+            adjacent = bool(mask & (1 << j))
+            require(adjacent == bool(rows[j] & (1 << i)),
+                    "P4 adjacency masks are not symmetric")
+            if adjacent:
                 graph.add_edge(i, j)
     return graph
 
@@ -97,8 +98,6 @@ def host_catalog() -> dict:
     rescue = frozen("research/order10_p4_cap_rescue_v24/certificates.json")
     links = frozen("research/order10_p4_nine_links_v1/certificates.json")
     gindex = frozen("research/order10_p3_global_v23_index/certificates.json")
-    rows = old.index_rows if hasattr(old, "index_rows") else None
-    require(rows is None, "Unexpected legacy source-index override")
     ten_rows = {}
     for line in frozen("indeterminate_order_10_v25.txt").decode("ascii").splitlines():
         if not line or line.startswith("#"):
