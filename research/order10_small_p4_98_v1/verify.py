@@ -147,10 +147,10 @@ def source_catalog() -> tuple[list[dict], dict[int, str]]:
         idx = record["index"]
         host = hosts_by_id[idx]
         require(record["graph6"] == ten[idx] == host["graph6"]
-                and record["p3"] == host["p3"]
+                and tuple(record["p3"]) == tuple(host["p3"])
                 and record.get("crosschecked_enumerators") == "exact_bk_vs_nx"
                 and record.get("facets") == record["raw_p4"][0],
-                "Wrong original McKay graph6, P3 shape or exploratory provenance")
+                f"Wrong original McKay graph6, P3 shape or exploratory provenance: {idx}")
     return records, ten
 
 
