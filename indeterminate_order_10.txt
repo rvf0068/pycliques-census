@@ -1,11 +1,9 @@
-# Certified current indeterminate connected graphs of order ten, v26
-# Remaining=1046 previous_v25=1052 newly_proved_divergent=6
-# Six original ten-vertex McKay graphs with P3 ordinary retractions to octahedra:
-# 11367777 -> O12, 11611429 -> O15, 11623375 -> O12,
-# 11708546 -> O14, 11713770 -> O14; the sixth, 11651749,
-# has a proved complete P3-isomorphism to 11611429.
-# Proofs: research/order10_overcap_p3_coaffine_v1/verify_positives.py
-# Retained six-column v25 records are unchanged.
+# Certified current indeterminate connected graphs of order ten, v27
+# Remaining=1044 previous_v26=1046 newly_proved_divergent=2
+# One complete P3-to-O11 retraction certifies original ten-vertex McKay 11656793.
+# Exact P3-isomorphism to 11656793 also certifies original McKay 11658674.
+# Proof: research/order10_five_p3_native_v1/verify_positive.py
+# Retained six-column v26 records are unchanged.
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
 6499365 10 I?ovUqv\o - - -
 6914645 10 I?qbEZv~_ - - -
@@ -1004,8 +1002,6 @@
 11652569 10 IEnfbzktg - - -
 11652575 10 IEnfbzkv_ - - -
 11653613 10 IEnffX}to - - -
-11656793 10 IErtv\}~O - - -
-11658674 10 IEzTmvm^o - - -
 11675400 9 HTpa~y} - - -
 11675404 9 HTpa~y} - - -
 11676356 9 Hehex~{ - - -
