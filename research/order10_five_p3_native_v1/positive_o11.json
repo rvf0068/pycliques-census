@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "kind": "one_new_verified_P3_octahedral_retraction_from_current_monorepo",
+  "source_run": 45681814467,
+  "monorepo_commit": "e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae",
+  "original_mckay": 11656793,
+  "original_graph6": "IErtv\\}~O",
+  "p3": [
+    216,
+    19663
+  ],
+  "p3_graph6_sha256": "3a51219a867fc46cd25e67b1c3532dc01e91ce97974b1f9274e39b30153220f7",
+  "search_order": "label",
+  "search_states": 10643,
+  "octahedron_dimension": 11,
+  "antipodal_pairs": [
+    [
+      4,
+      207
+    ],
+    [
+      6,
+      114
+    ],
+    [
+      31,
+      203
+    ],
+    [
+      37,
+      190
+    ],
+    [
+      44,
+      77
+    ],
+    [
+      48,
+      129
+    ],
+    [
+      54,
+      147
+    ],
+    [
+      80,
+      134
+    ],
+    [
+      81,
+      101
+    ],
+    [
+      92,
+      103
+    ],
+    [
+      132,
+      155
+    ]
+  ],
+  "retraction_map_encoding": "zlib_uint16_le_base64",
+  "retraction_raw_sha256": "9b2171daa84f6d514ac19a088f0fd8d8c00f07e4426bebd30af9fafcbf29caf1",
+  "retraction_map_zlib_base64": "eNpljzEOwyAMRT1EXCNTNoZOvUWksGetsvcGSFYukLF34QIZeqX+bxPaJnqy/YFvDJ2odJVgaK0Hk0UEwbIr6h54h8oAJsCszRflBrgekO+SzavmdAL2jjm5zWMeqyNh30ky2zrhbLb6ywOOBUTzKhQnUT3bi0L7hedsDiqVTVbEgnBc8a7tjyAvwNfsJ/x2duyX01WKdZdav7qcdjM0O5jfFz7fYFZF"
+}
