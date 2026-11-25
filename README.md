@@ -21,6 +21,33 @@ versioned indices, including
 [ten-v23](indeterminate_order_10_v23.txt) and
 [ten-v24](indeterminate_order_10_v24.txt), remain frozen and unchanged.
 
+### Proof-only new links: 496 ten-vertex originals depend on three unresolved nine-vertex sources
+
+The [exact pending-nine-core equivalence theorem](research/order10_nine_core_dependency_v1/REPORT.md)
+independently certifies three complete third-iterate graph isomorphisms:
+
+- Nine McKay **249576** to stiff ten McKay **7044680**, covering **17**
+  original ten-vertex members of a certified P3 class.
+- Nine McKay **251628** to stiff ten McKay **7070392**, covering **23**
+  original ten-vertex members.
+- Nine McKay **260040** to stiff ten McKay **7479384**, covering **25**
+  original ten-vertex members.
+
+A previously proved fourth-iterate equivalence adds stiff ten McKay
+**11614797** to the first family. Thus **66** ten-originals with
+stiff ten-vertex cores are now known to share eventual K-behavior
+with one of the three remaining unresolved nine-vertex originals.
+Together with the **430** already known pared-nine dependents, this
+gives **496 conditional dependents** (respectively **159, 170, 167**
+per nine-original) and **556** stiff ten-originals not yet linked
+by these proofs.
+
+**Neither nine-v9 nor ten-v25 changes:** the indeterminate counts
+remain **3** and **1,052**, respectively. A conditional dependency
+is not a proof of either convergence or divergence. The new proof
+archive, full vertex maps and independent CI verifier leave all census
+indices untouched.
+
 ### New ten-v25: four complete cross-depth O15 divergence proofs
 
 The [independent ten-v25 positive proof archive](research/order10_p4_crossdepth_o15_v25/REPORT.md)
