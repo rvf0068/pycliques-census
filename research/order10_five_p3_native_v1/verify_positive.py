@@ -20,6 +20,9 @@ if sys.flags.optimize:
 import networkx as nx
 
 from research.order10_full_nine_reference_v1 import index as refs
+from research.order10_p3_global_v23_index.independent_verify import (
+    independent_p3, verify_pair,
+)
 from research.order10_overcap_p3_coaffine_v1.pilot import (
     independent_octahedral_retraction_check, source_catalog,
 )
@@ -28,6 +31,10 @@ from research.order10_five_p3_native_v1.search import MONOREPO_SHA
 ARCHIVE = Path(__file__).with_name("positive_o11.json")
 ARCHIVE_BLOB = "9fb18c43ac09967dd61feadf24d845e4f54c4841"
 ORIGINAL = 11656793
+OTHER_ORIGINAL = 11658674
+GLOBAL_P3_INDEX_BLOB = "ab5a9f1c075dfad63b111929368147884519f2a3"
+V25_BLOB = "d31d52d28427adcef6055cc1d277565fe88f32d5"
+ROOT = Path(__file__).resolve().parents[2]
 
 
 def check(ok: bool, reason: str) -> None:
@@ -81,6 +88,48 @@ def verify_positive() -> dict:
     independent_octahedral_retraction_check(
         graph, pairs, dict(enumerate(values))
     )
+
+    # A *second* original belongs to this exact historical P3 class.
+    # Reconstruct its original third iterate independently and verify
+    # the archived 216-coordinate bijection against every edge/nonedge.
+    original_raw = (ROOT / "indeterminate_order_10_v25.txt").read_bytes()
+    check(refs.blob(original_raw) == V25_BLOB,
+          "Historical ten-v25 original graph6 snapshot was modified")
+    original_rows = {}
+    for line in original_raw.decode("ascii").splitlines():
+        if line and not line.startswith("#"):
+            fields = line.split()
+            check(len(fields) == 6 and len(set(fields[3:])) == 1
+                  and fields[3:] == ["-", "-", "-"],
+                  "Malformed historical ten-v25 original census row")
+            original_rows[int(fields[0])] = fields[2]
+    check(original_rows[ORIGINAL] == cert["original_graph6"]
+          and original_rows[OTHER_ORIGINAL] == "IEzTmvm^o",
+          "Wrong historical source for the second octahedral class member")
+    global_raw = (
+        ROOT / "research/order10_p3_global_v23_index/certificates.json"
+    ).read_bytes()
+    check(refs.blob(global_raw) == GLOBAL_P3_INDEX_BLOB,
+          "Historical exact P3-isomorphism archive was modified")
+    global_data = json.loads(global_raw)
+    matches = [
+        item for item in global_data["nontrivial_classes"]
+        if item["representative"] == ORIGINAL
+    ]
+    check(len(matches) == 1 and matches[0]["order"] == 216
+          and matches[0]["edges"] == 19663
+          and [m["index"] for m in matches[0]["members"]] ==
+              [ORIGINAL, OTHER_ORIGINAL],
+          "Exact full 216-vertex P3 class membership changed")
+    second = next(
+        item for item in matches[0]["members"]
+        if item["index"] == OTHER_ORIGINAL
+    )
+    second_p3 = independent_p3(original_rows[OTHER_ORIGINAL])
+    check([len(second_p3), second_p3.number_of_edges()] == [216, 19663],
+          "Independent reconstruction of the second original P3 changed")
+    verify_pair(second_p3, graph, second["bijection"])
+
     return {
         "kind": "complete_p3_o11_positive_divergence_certificate",
         "original_mckay": ORIGINAL,
@@ -90,6 +139,9 @@ def verify_positive() -> dict:
         "all_source_edges_checked": 19663,
         "ordinary_retraction_proved": True,
         "original_K_divergent": True,
+        "second_original_by_exact_p3_isomorphism": OTHER_ORIGINAL,
+        "p3_isomorphism_checked_on_all_pairs": True,
+        "divergent_original_indices": [ORIGINAL, OTHER_ORIGINAL],
     }
 
 
