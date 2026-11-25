@@ -6,6 +6,8 @@ on:
       - "indeterminate_order_10.txt"
       - "indeterminate_order_10_v24.txt"
       - "indeterminate_order_10_v25.txt"
+      - "indeterminate_order_10_v26.txt"
+      - "research/order10_v26_six_p3_octahedral/**"
       - "indeterminate_order_9_v4.txt"
       - "indeterminate_order_9_v9.txt"
       - "indeterminate_order_9.txt"
@@ -36,12 +38,10 @@ jobs:
         run: |
           python -m py_compile research/order10_p4_crossdepth_o15_v25/verify.py
           python -m py_compile research/order10_p4_crossdepth_o15_v25/replay_v24.py
-      - name: Independently verify all four 132-coordinate P4 maps and total O15 retractions
-        run: python -m research.order10_p4_crossdepth_o15_v25.verify
-      - name: Adversarial positive tests and exact current-root audit
-        run: |
-          python -m unittest research.order10_p4_crossdepth_o15_v25.test_verify -v
-          python -m unittest discover -s tests -p test_current_root_index.py -v
+      - name: Independently replay historical ten-v25 proofs and tests with frozen snapshot alias
+        run: python -m research.order10_v26_six_p3_octahedral.replay_v25
+      - name: Independently audit the current certified ten-v26 root
+        run: python -m unittest discover -s tests -p test_current_root_index.py -v
       - name: Reject optimized proof replay
         run: |
           if python -O -m research.order10_p4_crossdepth_o15_v25.verify > /tmp/v25-opt.log 2>&1; then

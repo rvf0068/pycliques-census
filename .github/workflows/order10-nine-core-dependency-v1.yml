@@ -33,9 +33,16 @@ jobs:
           python -m py_compile research/order10_nine_core_dependency_v1/verify.py
           python -m py_compile research/order10_nine_core_dependency_v1/test_verify.py
           python -m unittest research.order10_nine_core_dependency_v1.test_verify -v
-      - name: Independently reconstruct and check all 66 new dependencies
+      - name: Independently reconstruct historical dependencies against immutable v25 root
         run: |
+          set -euo pipefail
+          test "$(git hash-object indeterminate_order_10_v25.txt)" = d31d52d28427adcef6055cc1d277565fe88f32d5
+          cmp indeterminate_order_10.txt indeterminate_order_10_v26.txt
+          trap 'cp indeterminate_order_10_v26.txt indeterminate_order_10.txt' EXIT
+          cp indeterminate_order_10_v25.txt indeterminate_order_10.txt
           python -m research.order10_nine_core_dependency_v1.verify
+      - name: Confirm v26 active root restored after historical verification
+        run: cmp indeterminate_order_10.txt indeterminate_order_10_v26.txt
       - name: Current exact root audit
         run: |
           python -m unittest discover -s tests -p test_current_root_index.py -v
