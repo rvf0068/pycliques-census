@@ -3,6 +3,9 @@ from __future__ import annotations
 
 from copy import deepcopy
 import unittest
+from unittest.mock import patch
+
+import networkx as nx
 
 from . import verify, independent_verify
 
@@ -81,6 +84,12 @@ class SmallP4CertificationTests(unittest.TestCase):
             verify.dims([2, 0])
         with self.assertRaisesRegex(AssertionError, "asymmetric"):
             independent_verify.shape([2, 0])
+
+    def test_independent_fourth_facet_mismatch_is_fatal(self):
+        with patch.object(independent_verify, "maximal_cliques_bk",
+                          return_value=[0]):
+            with self.assertRaisesRegex(AssertionError, "clique mismatch"):
+                independent_verify.raw_fourth_graph(nx.path_graph(4))
 
     def test_unknown_immutable_path_rejected(self):
         with self.assertRaisesRegex(AssertionError, "Unexpected"):
