@@ -210,9 +210,47 @@ def exact_p4_map(reference: nx.Graph, record: dict, cache: dict
     return old.exact_map(reference, target, seconds=20.0)
 
 
+def validate_inventory(inventory: dict) -> None:
+    """Authenticate metadata and exact source indexing before any acceptance.
+
+    The independent CI source-audit job also reconstructs the entire 10,155
+    source inventory from the historical graph6/verdict archives and must
+    yield the exact same SHA-256. That audit is *not* substituted by any
+    digest supplied by an untrusted certificate under verification.
+    """
+    require(inventory.get("schema") == 1
+            and inventory.get("kind") ==
+                "authenticated_historical_divergent_nine_reference_inventory"
+            and inventory.get("frozen_git_blobs") == old.PROVENANCE
+            and inventory.get("counts") == {
+                "initial": 10096, "c10": 4,
+                "bound60": 1, "bound70": 3,
+                "later_proved_promotions": 51, "total": 10155,
+            }, "Historical inventory identity and proof provenance differ")
+    sources = inventory.get("sources")
+    require(isinstance(sources, list) and len(sources) == 10155,
+            "Incomplete historical reference inventory")
+    identities = [
+        (x["original_order"], x["original_index"]) for x in sources
+    ]
+    require(len(set(identities)) == len(identities)
+            and identities == sorted(identities),
+            "Duplicated or noncanonical original McKay reference source")
+    for source in sources:
+        order = source["original_order"]
+        index = source["original_index"]
+        require(type(order) is int and 6 <= order <= 9
+                and type(index) is int and index >= 0
+                and isinstance(source["provenance"], str)
+                and source["provenance"].startswith(
+                    ("historical_", "proved_nine_promotion_"))
+                and len(old.from_g6(source["graph6"])) in (8, 9, order),
+                "Invalid certified reference source row or graph6 identity")
+
+
 def scan(inventory: dict, hosts: dict, shard: int, shards: int) -> dict:
-    require(inventory.get("schema") == hosts.get("schema") == 1
-            and inventory["counts"]["total"] == 10155
+    validate_inventory(inventory)
+    require(hosts.get("schema") == 1
             and hosts["counts"] == EXPECTED_HOST_COUNTS,
             "Wrong complete source/host inventory")
     require(0 <= shard < shards <= 32, "Invalid deterministic shard")
@@ -294,6 +332,9 @@ def scan(inventory: dict, hosts: dict, shard: int, shards: int) -> dict:
         "schema": 1, "kind": "cross_depth_p4_positive_only_shard",
         "shard": shard, "shards": shards,
         "source_original_count": len(sources),
+        "source_original_keys": [
+            [s["original_order"], s["original_index"]] for s in sources
+        ],
         "different_p0_classes_in_shard": len(roots),
         "levels": dict(stats),
         "bounded_reconstruction_skips": skipped,
@@ -305,6 +346,7 @@ def scan(inventory: dict, hosts: dict, shard: int, shards: int) -> dict:
 
 
 def replay(inventory: dict, hosts: dict, shards: list[dict]) -> dict:
+    validate_inventory(inventory)
     require(len(shards) >= 1
             and sorted(x["shard"] for x in shards) == list(range(len(shards)))
             and all(x["shards"] == len(shards)
@@ -315,6 +357,14 @@ def replay(inventory: dict, hosts: dict, shards: list[dict]) -> dict:
     require(hosts["counts"] == EXPECTED_HOST_COUNTS
             and inventory["counts"]["total"] == 10155,
             "Wrong authenticated input or P4 host cohort")
+    for shard in shards:
+        expected_keys = [
+            [s["original_order"], s["original_index"]]
+            for s in inventory["sources"][shard["shard"]::len(shards)]
+        ]
+        require(shard["source_original_keys"] == expected_keys
+                and shard["source_original_count"] == len(expected_keys),
+                "Shard reference sources missing, duplicated, or misplaced")
     original_refs = {
         (s["original_order"], s["original_index"]): s
         for s in inventory["sources"]
@@ -331,6 +381,9 @@ def replay(inventory: dict, hosts: dict, shards: list[dict]) -> dict:
             require(cert["ten_original"] in byhost
                     and cert["reference_depth"] in (0, 1, 2, 3),
                     "Positive noncurrent P4 original or invalid stage")
+            require(byhost[cert["ten_original"]]["p4"][0]
+                    <= MAX_REF_P3_VERTICES,
+                    "Out-of-scope P4 graph exceeds the bounded reference stage")
             # Rebuild reference and host from their original graph6; the
             # worker's saved graph6 and complete permutation are separately
             # checked rather than trusting its candidate fingerprint.
