@@ -21,7 +21,28 @@ versioned indices, including
 [ten-v23](indeterminate_order_10_v23.txt) and
 [ten-v24](indeterminate_order_10_v24.txt), remain frozen and unchanged.
 
-### Proof-only new links: 496 ten-vertex originals depend on three unresolved nine-vertex sources
+### Current proof-only links: 500 ten-vertex originals depend on three unresolved nine-vertex sources
+
+The [exact fourth-iterate proof archive](research/order10_p4_nine_links_v1/REPORT.md)
+certifies **four additional complete P4 graph isomorphisms** to the
+still-indeterminate nine-vertex McKay references: ten-originals
+**11287670, 11567994, 11568314** all satisfy P4 ≅ P4(nine McKay
+**249576**), and ten-original **11287666** satisfies P4 ≅ P4(nine
+McKay **251628**). The independently reconstructed P4 hosts have
+685 or 1,034 vertices; two exact maps are identity permutations in
+canonical labeling, and all four full bijections are checked on every
+edge and nonedge with separate pinned SHA-256 digests.
+
+These four stiff P3-singleton originals are disjoint from the
+**496** ten-originals previously linked through the three pending
+nine-vertex cores, giving exactly **500 conditional dependents**
+(respectively **162, 171, 167**), with **552 stiff ten-originals**
+not yet linked by these certified equivalences. **No census verdicts
+change:** nine-v9 remains **3** and ten-v25 remains **1,052**.
+The proof-only PR leaves all frozen indices and current working
+roots byte-for-byte unchanged.
+
+### Previous proof-only links: 496 ten-vertex originals depend on three unresolved nine-vertex sources
 
 The [exact pending-nine-core equivalence theorem](research/order10_nine_core_dependency_v1/REPORT.md)
 independently certifies three complete third-iterate graph isomorphisms:
