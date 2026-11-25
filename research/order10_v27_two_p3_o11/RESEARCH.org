@@ -1,0 +1,71 @@
+#+TITLE: Two new ten-vertex clique divergences from one third-iterate O11 retraction
+#+DATE: 2026-11-25
+#+LANGUAGE: en
+#+OPTIONS: toc:2
+#+PROPERTY: header-args:jupyter-python :session pycliques-v27 :results output :exports both
+
+* Certified ten-v27 census update
+
+A /complete/ is a nonempty pairwise adjacent vertex set and a /clique/ is an inclusion-maximal complete. We write \(K(G)\) for the maximal-clique intersection graph, \(P_0(G)\) for the complete dominated-vertex paring, and \(P_{j+1}(G)=P(K(P_j(G)))\). As usual \(O_d=\overline{dK_2}\).
+
+The previous exact ten-v26 census retained \(1046\) indeterminate original ten-vertex graphs: \(430\) with nine-vertex pared cores and \(616\) with stiff ten-vertex cores. The full exact certificates from merged PR #103 prove that precisely two more original ten-vertex graphs are \(K\)-divergent. Ten-v27 therefore has \(1044=430+614\) indeterminate originals. The three unresolved original nine-vertex graphs are unchanged.
+
+* Complete positive proof for both original McKay graphs
+
+The permanent certificate =research/order10_five_p3_native_v1/positive_o11.json= and the independent replay module =verify_positive.py= establish a full ordinary retraction \(P_3(G_{11656793})\to O_{11}\). The third iterate has \(216\) vertices and \(19663\) edges. The proof checks all \(19663\) edges, the complete \(216\)-vertex projection, pointwise fixation of the target, and its eleven antipodal pairs. The historical exact global \(P_3\) class index provides a complete \(216\)-vertex isomorphism \(P_3(G_{11658674})\cong P_3(G_{11656793})\). The permanent verifier independently reconstructs the second original's \(P_3\) and checks all edges and nonedges under that bijection, thereby transporting the ordinary retraction to \(O_{11}\). No bounded-search timeout or candidate-specific obstruction is used as a classification certificate.
+
+Because \(K(O_d)\cong O_{2^{d-1}}\) for \(d\ge3\) and ordinary retractions are preserved under clique iteration, both graphs are \(K\)-divergent. In fact both fourth pared clique iterates have a free \(\mathbb Z\) homology summand in dimension \(1023\) and at least \(2048\) vertices, by the general theorem proved in =research/order10_five_p3_native_v1/RESEARCH.org=. No explicit \(P_4\) is constructed.
+
+* Immutability and exact new list
+
+The historical =indeterminate_order_10_v26.txt= is pinned by Git blob =6a61df2e6b68ca2229cb94667cfa932fb5b5d73f=. The new =indeterminate_order_10_v27.txt= and active =indeterminate_order_10.txt= are byte-for-byte identical. The verifier requires the exact two removed original indices and their unchanged original graph6 sources; every retained six-column record agrees with v26, and the nine-v9 index remains identical to the active nine-vertex root.
+
+The remaining oversized, unmaterialized fourth pared iterates correspond to four third-iterate representatives: 11505012, 11595632, 11709142, and 11713984. The previous limited searches and four candidate-specific induced-matching obstructions do not classify them. The prior 516 unresolved exact third-iterate classes have become 515; fourth pared iterates were reconstructed for 511 of these classes.
+
+* Reproduce the proofs in Emacs Jupyter
+
+Start Emacs in the =pycliques-census= root with the current overhauled =pycliques= monorepo installed. The following blocks reuse the existing official census proof code; they do not hardcode graph6 strings or reimplement a clique-graph algorithm.
+
+#+begin_src jupyter-python
+from research.order10_five_p3_native_v1.verify_positive import verify_positive
+positive = verify_positive()
+print(positive["divergent_original_indices"])
+print(positive["p3_shape"], positive["target"])
+print(positive["ordinary_retraction_proved"], positive["p3_isomorphism_checked_on_all_pairs"])
+#+end_src
+
+#+begin_src jupyter-python
+from research.order10_v27_two_p3_o11.verify import verify
+transition = verify()
+print(transition["previous_snapshot"], "->", transition["new_snapshot"])
+print(transition["population"])
+print(transition["proved_divergent_original_indices"])
+print(transition["other_oversized_P3_classes_still_unresolved"])
+#+end_src
+
+The next optional block uses the official =pycliques.CliqueSequence= interface and the historical independent source catalog to reconstruct a certified third iterate, rather than relying on the archived retraction to calculate clique graphs.
+
+#+begin_src jupyter-python
+import networkx as nx
+from pycliques import CliqueSequence
+from research.order10_full_nine_reference_v1 import index as sources
+original_index = positive["original_mckay"]
+host = next(row for row in sources.hosts()["records"] if row["index"] == original_index)
+G = nx.from_graph6_bytes(host["graph6"].encode("ascii"))
+seq = CliqueSequence(G, bound=10000, pare=True, relabel=True, pare_initial=True)
+P3 = nx.from_graph6_bytes(host["p3_graph6"].encode("ascii"))
+print(len(seq[3]), seq[3].number_of_edges(), nx.is_isomorphic(seq[3], P3))
+#+end_src
+
+* Exact command-line checks
+
+#+begin_src sh
+python -m research.order10_five_p3_native_v1.verify_positive
+python -m research.order10_v27_two_p3_o11.verify
+python -m unittest research.order10_v27_two_p3_o11.test_verify -v
+python -m research.order10_v27_two_p3_o11.replay_v26
+#+end_src
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:
