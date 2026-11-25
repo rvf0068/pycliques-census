@@ -1,0 +1,61 @@
+#+TITLE: The five oversized third-iterate cores: current native octahedral search
+#+DATE: 2026-11-25
+#+LANGUAGE: en
+#+OPTIONS: toc:2
+#+PROPERTY: header-args:jupyter-python :session five-p3-native :results output :exports both
+
+* Context and certified inputs
+
+Let \(P_0(G)\) be complete dominated-vertex paring and \(P_{j+1}(G)=P(K(P_j(G)))\), where \(K(G)\) is the intersection graph of inclusion-maximal completes. The five original ten-vertex McKay graphs below remain indeterminate after the five direct octahedral \(P_3\)-retractions and one further class lift certified by census PR #100. Their \(P_3\) graph6 inputs and canonical dimensions were independently authenticated by the historical global third-iterate archive. Their huge maximal-clique counts make explicit construction of \(P_4\) unattractive.
+
+| Original McKay index | \(|V(P_3)|\) | \(|E(P_3)|\) | Edges of \(\overline{P_3}\) | Triangles of \(\overline{P_3}\) |
+|-
+| 11505012 | 226 | 21693 | 3732 | 3818 |
+| 11595632 | 182 | 14175 | 2296 | 1343 |
+| 11656793 | 216 | 19663 | 3557 | 2566 |
+| 11709142 | 140 | 8824 | 906 | 22 |
+| 11713984 | 169 | 12897 | 1299 | 35 |
+
+Every complement is connected. Consequently none of these \(P_3\) graphs admits a nontrivial join decomposition by simply splitting connected components of the complement. The triangles distinguish substantially different complement geometries, particularly for 11709142 and 11713984, but their counts alone imply neither the existence nor the impossibility of an ordinary octahedral retraction.
+
+* Research method and finite proof discipline
+
+We use the existing public =pycliques.find_octahedral_retraction_coaffine= function, not a new graph-specific solver, at the exact merged monorepo PR #56 commit =e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae=. Each of the five authenticated \(P_3\) graphs is tested with both =value_order="label"= and =value_order="fiber"=, each with exactly \(2{,}000{,}000\) search states and \(90\) seconds. The native C++ solver is built explicitly with the existing monorepo command. Different value orderings may find different positive maps; neither changes the soundness of a checked certificate.
+
+A =FOUND= result must supply complete antipodal pairs and an ordinary graph retraction onto an induced \(O_d=\overline{dK_2}\), with \(d\ge3\). The independent census verifier checks the nonedges within antipodal pairs, all cross-pair edges, fixation of every target vertex, and the entire source edge set; only such a positive certificate establishes \(K\)-divergence. =EXHAUSTED= is a genuine exhaustive negative conclusion about this particular target family at depth three, not about \(K\)-behavior in general. =LIMIT_REACHED= is inconclusive and must never be interpreted as absence of a retraction.
+
+* Direct reproduction in Emacs Jupyter
+
+Start Emacs from the =pycliques-census= root with the overhauled =pycliques-project= installed and the native C++ solver built. The first block reconstructs the five authenticated \(P_3\) graphs and independently recomputes their complement sizes and triangle counts, without hardcoding graph6 codes.
+
+#+begin_src jupyter-python
+import networkx as nx
+from research.order10_overcap_p3_coaffine_v1.pilot import source_catalog
+from research.order10_five_p3_native_v1.search import REMAINING
+hosts = source_catalog()
+for original_index in REMAINING:
+    third = nx.from_graph6_bytes(hosts[original_index]["p3_graph6"].encode("ascii"))
+    complement = nx.complement(third)
+    triangles = sum(nx.triangles(complement).values()) // 3
+    print(original_index, (len(third), third.number_of_edges()), (complement.number_of_edges(), triangles))
+#+end_src
+
+This second block performs one optional bounded search with the official native library, checks any complete map, and prints the exact status. It is explicitly a resource-limited search and may take up to ninety seconds; run it separately as desired.
+
+#+begin_src jupyter-python
+from research.order10_five_p3_native_v1.search import investigate, REMAINING
+attempt = investigate(REMAINING[0], "label")
+print("Result:", attempt["status"], "States:", attempt["states_explored"])
+if attempt["status"] == "FOUND":
+    print("Certified target:", "O_" + str(attempt["target_dimension"]))
+#+end_src
+
+To reproduce the complete ten-search experiment, use the separately assigned GitHub Actions jobs from =.github/workflows/order10-five-p3-current-native.yml=. Each successful job saves the full authenticated source identity, fixed bound and native status, and the complete positive map if one was discovered. The independent aggregate verifier checks that the full Cartesian product of original indices and branch policies is present and verifies every positive witness.
+
+* Interpretation
+
+The source census and the historical proof archives are not changed by this experiment. Pending the separate six-original v26 promotion, the authoritative current snapshot is ten-v25 with 1052 unresolved originals; the proposed ten-v26 snapshot has 1046 and continues to leave these five classes indeterminate. The experiment may generate additional proof certificates, but only a subsequent separately audited promotion may alter an authoritative census classification.
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:
