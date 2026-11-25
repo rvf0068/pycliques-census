@@ -33,6 +33,7 @@ jobs:
           python-version: '3.12'
       - name: Install the official pycliques package with PR56-locked runtime dependencies
         run: |
+          python -m pip install -r research/order10_five_p3_native_v1/constraints.txt
           python -m pip install -c research/order10_five_p3_native_v1/constraints.txt "./monorepo/packages/pycliques"
           python -m pip check
       - name: Verify source commit and build the existing native solver
