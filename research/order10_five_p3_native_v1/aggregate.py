@@ -91,6 +91,16 @@ def replay(files: list[Path]) -> dict:
         {(i, order, results[(i, order)]["target_dimension"])
          for i, order in seen if results[(i, order)]["status"] == "FOUND"}
     )
+    from research.order10_five_p3_native_v1.verify_positive import (
+        verify_positive,
+    )
+    permanent = verify_positive()
+    check_success = [(i, order, d) for i, order, d in successes]
+    require(
+        check_success == [(permanent["original_mckay"], "label", 11)]
+        and permanent["original_K_divergent"] is True,
+        "The native positive set differs from the complete permanent O11 map",
+    )
     exhausted = sorted(
         i for i in REMAINING
         if any(results[(i, order)]["status"] == "EXHAUSTED"
@@ -112,6 +122,8 @@ def replay(files: list[Path]) -> dict:
         },
         "originals": list(REMAINING),
         "search_orders": list(VALUE_ORDERS),
+        "permanent_O11_retraction_certificate_replayed": True,
+        "new_original_divergent_but_not_yet_promoted": 11656793,
         "found_p3_octahedral_retractions": [
             {"index":i, "order":order, "dimension":d}
             for i, order, d in successes
