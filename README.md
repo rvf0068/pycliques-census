@@ -5,12 +5,12 @@ order 10, with a pinned revision of the
 [pycliques-project](https://github.com/rvf0068/pycliques-project)
 monorepo. All historical stages, source indices and proofs are preserved.
 
-## Current certified census: nine-vertex v9 and ten-vertex v25 (November 2026)
+## Current certified census: nine-vertex v9 and ten-vertex v26 (November 2026)
 
 | Connected order | Certified snapshot | Indeterminate original McKay graphs | Previous | Newly proved divergent |
 |---|---|---:|---:|---:|
 | 9 | [v9](indeterminate_order_9_v9.txt) | **3** | 5 | 2 |
-| 10 | [v25](indeterminate_order_10_v25.txt) | **1,052** | 1,056 | 4 |
+| 10 | [v26](indeterminate_order_10_v26.txt) | **1,046** | 1,052 | 6 |
 
 The authoritative mutable working root files
 [indeterminate_order_9.txt](indeterminate_order_9.txt) and
@@ -19,7 +19,16 @@ are byte-identical to these certified snapshots. All previous
 versioned indices, including
 [nine-v8](indeterminate_order_9_v8.txt) and
 [ten-v23](indeterminate_order_10_v23.txt) and
-[ten-v24](indeterminate_order_10_v24.txt), remain frozen and unchanged.
+[ten-v24](indeterminate_order_10_v24.txt), and
+[ten-v25](indeterminate_order_10_v25.txt), remain frozen and unchanged.
+
+### New ten-v26: six complete third-iterate octahedral divergence certificates
+
+The [v26 independent proof verifier](research/order10_v26_six_p3_octahedral/verify.py) replays the five immutable complete ordinary retractions from the third pared clique iterates of ten-vertex McKay **11367777, 11611429, 11623375, 11708546, 11713770** onto **O12, O15, O12, O14, O14**, respectively. The sixth original, **11651749**, has an archived complete third-iterate isomorphism to 11611429 and therefore also retracts onto O15 at depth three. Every graph6, full retraction projection, target antipodal pair, and complete third-iterate bijection is independently verified from immutable source archives.
+
+The exact v25-to-v26 promotion removes **only these six** from the frozen v25 indeterminate list. It leaves **1,046 original ten-vertex graphs** unresolved (**430** with nine-vertex pared cores and **616** stiff ten-vertex cores). The nine-v9 count remains **3**. The previous 521 reconstructible surviving third-iterate isomorphism classes shrink by five proved-divergent classes to **516**, of which **511** already have completely reconstructed fourth pared clique iterates. The remaining five unmaterialized fourth-iterate classes are original McKay **11505012, 11595632, 11656793, 11709142, 11713984**; no convergence or divergence is inferred from earlier bounded-search limits.
+
+See the [Org-mode research and reproduction note](research/order10_v26_six_p3_octahedral/RESEARCH.org) for the mathematical argument, public monorepo `CliqueSequence` example, and replayable proof code. All earlier historical snapshots and the PR #100 proof archive are retained unchanged.
 
 ### Current proof-only links: 500 ten-vertex originals depend on three unresolved nine-vertex sources
 
@@ -36,11 +45,11 @@ edge and nonedge with separate pinned SHA-256 digests.
 These four stiff P3-singleton originals are disjoint from the
 **496** ten-originals previously linked through the three pending
 nine-vertex cores, giving exactly **500 conditional dependents**
-(respectively **162, 171, 167**), with **552 stiff ten-originals**
-not yet linked by these certified equivalences. **No census verdicts
-change:** nine-v9 remains **3** and ten-v25 remains **1,052**.
-The proof-only PR leaves all frozen indices and current working
-roots byte-for-byte unchanged.
+(respectively **162, 171, 167**), with **546 currently indeterminate stiff ten-originals**
+not yet linked by these certified equivalences after the six new v26
+promotions. These conditional links do not justify further deletions:
+nine-v9 remains **3** and ten-v26 remains **1,046**. Their original
+proof archives remain pinned to the historical v25 source.
 
 ### Previous proof-only links: 496 ten-vertex originals depend on three unresolved nine-vertex sources
 
@@ -69,7 +78,7 @@ is not a proof of either convergence or divergence. The new proof
 archive, full vertex maps and independent CI verifier leave all census
 indices untouched.
 
-### New ten-v25: four complete cross-depth O15 divergence proofs
+### Historical ten-v25: four complete cross-depth O15 divergence proofs
 
 The [independent ten-v25 positive proof archive](research/order10_p4_crossdepth_o15_v25/REPORT.md)
 establishes that stiff ten-vertex McKay originals **11551790, 11552072,
