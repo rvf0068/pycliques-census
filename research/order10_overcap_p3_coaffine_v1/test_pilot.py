@@ -1,7 +1,10 @@
 """Exact degree-obstruction and replay guard regressions."""
 from __future__ import annotations
 
+import sys
+import types
 import unittest
+from unittest.mock import Mock, patch
 
 import networkx as nx
 
@@ -85,6 +88,43 @@ class CoaffineTenCoreTests(unittest.TestCase):
                 {"status": "LIMIT_REACHED",
                  **{**counters, "states_explored": pilot.MAX_STATES + 1}},
             )
+
+    def test_general_exhaustion_still_runs_real_octahedral_solver(self):
+        # A synthetic status must never replace the public octahedral
+        # API outcome. Exercise the EXHAUSTED branch, absent among the
+        # ten current native results, with lightweight injected solvers.
+        graph = nx.path_graph(4)
+        source = {
+            "index": 1,
+            "graph6": "original-placeholder",
+            "p3_graph6": nx.to_graph6_bytes(
+                graph, header=False
+            ).decode("ascii").strip(),
+            "p3": [len(graph), graph.number_of_edges()],
+        }
+        status = types.SimpleNamespace(name="EXHAUSTED")
+        negative = types.SimpleNamespace(
+            status=status, endomorphism=None, retraction=None,
+            states_explored=1, assignments_tried=1, arc_revisions=0,
+        )
+        general = Mock(return_value=negative)
+        octahedral = Mock(return_value=negative)
+        fake = types.ModuleType("pycliques")
+        fake.find_coaffine_endomorphism = general
+        fake.find_octahedral_retraction_coaffine = octahedral
+        fake.verify_coaffine_endomorphism = Mock()
+        with (patch.dict(sys.modules, {"pycliques": fake}),
+              patch.object(pilot, "degree_obstruction",
+                           return_value={"vertex": 0})):
+            report = pilot.probe_one(source, state_cap=100000, seconds=25)
+        self.assertEqual(general.call_count, 1)
+        self.assertEqual(octahedral.call_count, 1)
+        self.assertEqual(report["coaffine_weak_endomorphism"]["status"],
+                         "EXHAUSTED")
+        self.assertEqual(report["octahedral_retraction"]["status"],
+                         "EXHAUSTED")
+        self.assertEqual(octahedral.call_args.kwargs["max_states"], 100000)
+        self.assertEqual(octahedral.call_args.kwargs["time_limit"], 25)
 
     def test_malformed_coaffine_endomorphism_rejected(self):
         g = nx.cycle_graph(4)
