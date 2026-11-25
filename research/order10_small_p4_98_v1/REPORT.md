@@ -122,9 +122,10 @@ logs as artifacts, and refuses optimized proof execution.
 Previously certified fourth iterates cover 210 current P3 classes.
 These new 98 cover a disjoint further cohort, so the total known P4
 dimensions increase to **308 of the 521** reconstructible current
-P3 classes. The other **213** P3 classes (typically having at least
-41 or 56 P3 vertices depending on the older pilot window) are the
-next candidates for targeted fourth-iterate reconstruction.
+P3 classes. The other **213** P3 classes all have **at least 56 vertices**
+in P3: among the 217 classes in that range, four already have
+certified P4 from the earlier nine-core dependency investigation.
+These 213 are the next candidates for targeted reconstruction.
 
 This note does NOT assert an exact isomorphism of any P4 to an
 already divergent nine-vertex reference, nor any new K-divergence or
