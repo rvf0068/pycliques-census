@@ -1,0 +1,58 @@
+#+TITLE: Fourth pared clique iterates and fourteen persistent complete ears
+#+DATE: 2026-11-24
+#+LANGUAGE: en
+#+OPTIONS: toc:2
+
+* Research scope
+
+Let \(P_0(G)\) denote complete closed-neighborhood dominated-vertex paring, and let \(P_{j+1}(G)=P(K(P_j(G)))\), where \(K(G)\) is the intersection graph of maximal cliques. The frozen ten-v25 list contains 521 surviving, reconstructible third-iterate isomorphism classes, in addition to three still-indeterminate original graphs whose third iterates exceed the earlier reconstruction limits.
+
+The previous certified fourth-stage archives cover 210 classes, and merged PR #98 covers another 98. The present investigation covers a disjoint additional 203 classes: 144 with \(56\leq |P_3|\leq 60\), 58 with \(61\leq|P_3|\leq80\), and one representative, McKay 11543836, with \(|P_3|=87\). Thus \(P_4\) has now been reconstructed for 511 of the 521 current \(P_3\) classes.
+
+All 203 fourth-stage inputs have at most 2,223 maximal cliques. Ten remaining \(P_3\) representatives exceed 6,000 fourth-stage maximal cliques each, and their current status is a resource limitation, not a negative result. The current census lists are not changed.
+
+* Finite proof certificates
+
+The versioned archive =p4_reconstructions.json= records each original McKay index and graph6, the \(P_3\) dimensions, raw and pared fourth-iterate dimensions, the complete sequence of closed-neighborhood fold rounds, and SHA-256 of the full canonical \(P_4\) adjacency matrix.
+
+The primary verifier uses the merged P4 code that independently enumerates maximal cliques by NetworkX and bitset Bron--Kerbosch, constructs the complete clique graph, and verifies all fold rounds and terminal stiffness. A separate verifier reconstructs the same P3 from the original graph, compares an independently enumerated fourth-stage maximal-clique family, constructs pairwise intersections directly, folds with closed-neighborhood inclusion, and checks all complete adjacency digests.
+
+There are seven groups of the 203 fourth iterates with identical order-and-edge-count pairs. Every pair of members of each group has different degree multisets, so the 203 fourth iterates are pairwise nonisomorphic. None has the same order and size as a fourth iterate from the previously certified 308 cases.
+
+* Fourteen explicit complete-ear attachments
+
+The following fourteen ten-vertex originals have fourth iterates \(P_4(G)\) obtained from the corresponding nine-vertex \(P_4(H)\) by adding exactly one vertex \(x\) with \(N(x)=\{a,b\}\), where \(a,b\) are nonadjacent.
+
+| Nine-vertex original \(H\) | Ten-vertex originals \(G\) |
+|-
+| 251628 | 6957744, 6958193, 7294013, 7455349, 7700052, 9717675, 9763078 |
+| 260040 | 7453718, 7464163, 7465249, 7465986, 7471002, 9731190, 10792568 |
+
+For the target McKay 251628, \(P_4(H)\) has \(1034\) vertices and \(467517\) edges, while each \(P_4(G)\) has \(1035\) vertices and \(467519\) edges. For McKay 260040, the corresponding dimensions are \((1227,658528)\) and \((1228,658530)\).
+
+The archive =ear_retractions.json= gives a complete \(\mathrm{uint16}\) coordinate permutation for each induced copy \(P_4(H)\cong P_4(G)-x\). The independent verification checks every edge and nonedge, the precise mapped attachment neighbors, the stored map digest, and a second colored complementary-graph isomorphism check. Each extra vertex also has a specified image in the reference graph defining an ordinary graph retraction \(P_4(G)\to P_4(H)\), checked on every host edge.
+
+* Consequence for all iterates
+
+The previously proved general complete-ear theorem applies to \(Y=P_4(G)\), \(X=P_4(H)\), with the two anticomplete complete sets \(A=\{a\}\) and \(B=\{b\}\). Thus, for every \(j\geq0\), we obtain
+\[
+\Delta(P_{4+j}(G))\simeq\Delta(P_{4+j}(H))\vee S^1.
+\]
+
+Therefore these fourteen original ten-vertex graphs are *not* \(K\)-null, even though the corresponding nine-vertex originals 251628 and 260040 remain indeterminate. In particular, the permanent \(S^1\) summand is not a certificate of eventual clique divergence.
+
+* Reproduction
+
+From the census root, with Python 3.12 and NetworkX 3.6.1, the following commands check the source archive and fourteen complete-ear proofs:
+
+#+begin_src sh
+python -m research.order10_p4_203_ears_v1.verify audit
+python -m unittest research.order10_p4_203_ears_v1.test_verify -v
+python -m research.order10_p4_203_ears_v1.ears
+#+end_src
+
+The GitHub Actions workflow =.github/workflows/order10-p4-203-ears-v1.yml= separately executes primary and independent four-shard reconstructions, then audits each source index and every repeated-dimension group. The files are proof-only research artifacts; no canonical census records or classifications are changed.
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:
