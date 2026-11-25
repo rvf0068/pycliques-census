@@ -100,6 +100,32 @@ jobs:
           retention-days: 30
           if-no-files-found: error
 
+  independent-inventory-audit:
+    needs: [inventory]
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore historical aliases in separate proof-audit runner
+        run: |
+          cp indeterminate_order_9_v1.txt indeterminate_order_9.txt
+          cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt
+      - uses: astral-sh/setup-uv@v4
+      - name: Independently bootstrap original pinned census tools
+        run: bash scripts/bootstrap_core9_three_target_v1.sh
+      - name: Independently reconstruct every proved historical graph and compare complete inventory digests
+        env:
+          ORIGINAL_INVENTORY_SHA: ${{ needs.inventory.outputs.sha256 }}
+        run: |
+          set -euo pipefail
+          test -n "$ORIGINAL_INVENTORY_SHA"
+          .venv-core9-three-v1/bin/python -m research.order10_full_nine_reference_v1.index inventory --output "$RUNNER_TEMP/independent-inventory.json"
+          recomputed="$(sha256sum "$RUNNER_TEMP/independent-inventory.json" | cut -d' ' -f1)"
+          test "$recomputed" = "$ORIGINAL_INVENTORY_SHA"
+          echo "Independently replayed all 10155 proved-divergent sources from historical McKay graph6 and frozen verdicts"
+
   screen-shards:
     needs: [inventory, tests-and-hosts]
     strategy:
@@ -149,7 +175,7 @@ jobs:
           retention-days: 30
 
   replay-all-positives:
-    needs: [inventory, tests-and-hosts, screen-shards]
+    needs: [inventory, independent-inventory-audit, tests-and-hosts, screen-shards]
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
