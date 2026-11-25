@@ -817,11 +817,16 @@ with that environment activated:
 python scripts/inspect_certificates_v3.py 'ICvbvy}|g' --verify-chain
 ```
 
-In an environment with the current per-call reference API, add
-`--proved-only` to use proved reference graphs throughout the classification.
-The inspector uses the package's independently replayable schema-3 records
-when available. Historical workers and serializers retain their manifest hashes.
+Use the [reference inspector](research/reference_inspector_v1/inspect_certificate.py)
+with the public reference and certificate APIs to restrict a classification to
+proved reference graphs and replay the entire chain:
 
+```bash
+python research/reference_inspector_v1/inspect_certificate.py 'ICvbvy}|g' --proved-only --verify-chain --require-proof
+```
+
+At the historical v3 witness pin, the same command without `--proved-only`
+uses the archived inspector.
 
 These utilities are not a substitute for a new batch runner, a new stage
 manifest, and an explicit user-approved census restart. Historical results
