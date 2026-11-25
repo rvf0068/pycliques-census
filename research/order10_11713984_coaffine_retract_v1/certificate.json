@@ -1,0 +1,125 @@
+{
+  "schema": 1,
+  "kind": "permanent_coaffine_endomorphism_and_idempotent_retract_11713984",
+  "original_mckay": 11713984,
+  "original_graph6": "IQzVr~{lw",
+  "p3_graph6_sha256": "dd4b3596ed2aa11e7c01d1e532feee5476627978c0852f80fe6931c7d394afbf",
+  "p3_vertices": 169,
+  "p3_edges": 12897,
+  "historical_native_run": 45677034487,
+  "historical_artifact_id": 15051972027,
+  "historical_monorepo_commit": "f8eb9b9f2c71d79f9394571df98155f9de568785",
+  "coaffine_status": "FOUND",
+  "coaffine_states": 8343,
+  "map_encoding": "zlib_uint8_base64",
+  "map_zlib_base64": "eNpNizEOwyAQBIsgC/8AiTIVCrLIA6CKjs5dylRX5RN3b0AOcofOfmlAaTK7xe5K2+Rsbzlx9Q1QmKX9ONhlYXGVRWzv1rY017Lv6AvWgl2F3K1Sda7SZ8NtWOvVAzJzZoNkqCdO95hmUh3+g2hMrycgdmNIIWilAJaYF3jEMDDmYq5mmsZXfQE01D0Y",
+  "map_raw_sha256": "f90f460ff7769e440f7ef9c929b1768ee4db7e953da512fee6a47aeb948f9d69",
+  "stable_image_vertices": [
+    3,
+    4,
+    6,
+    8,
+    9,
+    24,
+    27,
+    35,
+    41,
+    43,
+    44,
+    46,
+    48,
+    49,
+    61,
+    62,
+    68,
+    70,
+    71,
+    78,
+    85,
+    93,
+    99,
+    105,
+    126,
+    127,
+    145,
+    147,
+    148,
+    149,
+    151,
+    158,
+    160,
+    161,
+    162
+  ],
+  "stable_image_vertices_count": 35,
+  "stable_image_edges": 574,
+  "endomorphism_period_on_image": 14,
+  "complement_two_vertex_components": [
+    [
+      3,
+      158
+    ],
+    [
+      4,
+      105
+    ],
+    [
+      6,
+      162
+    ],
+    [
+      8,
+      78
+    ],
+    [
+      9,
+      44
+    ],
+    [
+      24,
+      161
+    ],
+    [
+      35,
+      160
+    ],
+    [
+      43,
+      62
+    ],
+    [
+      48,
+      151
+    ],
+    [
+      49,
+      99
+    ],
+    [
+      68,
+      149
+    ],
+    [
+      70,
+      148
+    ],
+    [
+      85,
+      127
+    ],
+    [
+      93,
+      126
+    ]
+  ],
+  "complement_seven_cycle_vertices": [
+    27,
+    41,
+    46,
+    61,
+    71,
+    145,
+    147
+  ],
+  "implication": "P3 retracts to O14 join complement(C7); does not by itself certify clique divergence"
+}
