@@ -19,7 +19,7 @@ import sys
 
 from research.order10_full_nine_reference_v1 import index as refs
 from research.order10_p4_cap_rescue_v24.verify import (
-    p4_from_graph6, bits,
+    p4_from_graph6,
 )
 
 if sys.flags.optimize:
@@ -200,6 +200,13 @@ def verify() -> None:
                 for group in collided),
         "A fourth-iterate dimension collision remains unclassified",
     )
+    from research.order10_full_nine_p4_crossdepth_v1.search import (
+        host_catalog,
+    )
+    earlier = host_catalog()
+    historical_shapes = {tuple(x["p4"]) for x in earlier["records"]}
+    require(not set(groups).intersection(historical_shapes),
+            "A new P4 shape collides with a previously certified P4 host")
     require(bucket_counts == {
         "up_to_100": 5,
         "101_to_200": 40,
@@ -211,6 +218,7 @@ def verify() -> None:
           "two independent fourth-stage clique enumerators agree, "
           "round-by-round complete paring verified, 98 distinct P4 "
           "isomorphism types by dimensions and exact degree obstructions; "
+          "no dimensions overlap the 210 formerly archived P4 hosts; "
           "no census classification changed", flush=True)
 
 
