@@ -51,6 +51,7 @@ MAX_REF_FACETS = 750
 MAX_REF_P3_VERTICES = 750
 EXPECTED_HOST_COUNTS = {
     "pilot_complete": 180,
+    "pilot_limited": 26,
     "rescue_complete": 26,
     "new_p4_links": 4,
     "all": 210,
