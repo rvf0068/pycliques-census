@@ -40,6 +40,22 @@ The two-million-state alternative fiber-first search was inconclusive on this sa
 
 The whole ten-task run and its independent aggregate check passed in GitHub Actions run 45681814467, using the monorepo pinned to its merged overhaul commit. The new divergent original is not yet removed from the authoritative indeterminate list: a separate exact v26-to-v27 promotion should be carried out after the six-original v26 update is merged.
 
+* General homological and size consequences of an octahedral retraction
+
+** Flag vertex lower bound
+
+*Lemma.* Let \(X\) be a graph whose clique complex has nonzero reduced homology \(\widetilde H_k(\Delta(X);\mathbb F)\) over a field \(\mathbb F\), with \(k\ge0\). Then \(X\) has at least \(2k+2\) vertices.
+
+*Proof.* Pass to an induced subgraph \(Y\subseteq X\) with nonzero \(\widetilde H_k(\Delta(Y);\mathbb F)\) and minimal possible vertex set. For \(k=0\), nonzero reduced \(H_0\) requires at least two vertices. Suppose \(k\ge1\), choose \(v\in V(Y)\), and write \(L=\Delta(Y[N_Y(v)])\) for its link. By minimality, \(\widetilde H_k(\Delta(Y-v);\mathbb F)=0\). The deletion--link long exact sequence and the decomposition \(\Delta(Y)=\Delta(Y-v)\cup(v*L)\) give an injection from nonzero \(\widetilde H_k(\Delta(Y);\mathbb F)\) into \(\widetilde H_{k-1}(L;\mathbb F)\), so the latter is nonzero. By induction, \(|N_Y(v)|\ge2k\). Since \(v\) cannot be universal (otherwise \(\Delta(Y)\) would be a cone), there is at least one nonneighbor of \(v\) outside the link. Hence \(|V(Y)|\ge1+2k+1=2k+2\), and the same bound holds for \(X\). \(\square\)
+
+** Theorem for next pared clique iterates
+
+*Theorem.* If \(P_j(G)\) admits an ordinary graph retraction onto \(O_d=\overline{dK_2}\), with \(d\ge3\), then the reduced integral homology of \(\Delta(P_{j+1}(G))\) has \(\mathbb Z\) as a direct summand in dimension \(2^{d-1}-1\), and \(|V(P_{j+1}(G))|\ge2^d\).
+
+*Proof.* The clique-graph functor preserves ordinary graph retractions. Applying it to \(P_j(G)\to O_d\) gives an ordinary graph retraction \(K(P_j(G))\to K(O_d)\cong O_{2^{d-1}}\). The clique complex of \(O_m\) is the join of \(m\) copies of \(S^0\), hence the sphere \(S^{m-1}\). Its integral homology injects as a direct summand under the retraction. The complete dominated-vertex paring \(K(P_j(G))\to P_{j+1}(G)\) is a homotopy equivalence of clique complexes, so the same nonzero free homology summand survives. The preceding flag vertex lemma, with \(k=2^{d-1}-1\), gives \(|V(P_{j+1}(G))|\ge2(2^{d-1}-1)+2=2^d\). \(\square\)
+
+For the new McKay 11656793 certificate we have \(d=11\), so \(\widetilde H_{1023}(\Delta(P_4(G));\mathbb Z)\) has a direct \(\mathbb Z\)-summand and \(|V(P_4(G))|\ge2048\) without enumerating the enormous fourth iterate. The previously certified \(P_3\to O_{12}, O_{14}, O_{15}\) targets likewise force lower bounds of \(4096\), \(16384\), and \(32768\) vertices respectively in their fourth pared clique iterates. These are *positive homological* consequences and are not inferred from an enumeration timeout.
+
 * Direct reproduction in Emacs Jupyter
 
 Start Emacs from the =pycliques-census= root with the overhauled =pycliques-project= installed at the pinned merge commit and the native C++ solver explicitly built. Use =python -m pip install -c research/order10_five_p3_native_v1/constraints.txt ./path/to/pycliques-project/packages/pycliques= and then =python -m pycliques.octahedral_coaffine_native --build=. The Jupyter entry point validates actual installed source bytes and package versions before starting the search. The first block reconstructs the five authenticated \(P_3\) graphs and independently recomputes their complement sizes and triangle counts, without hardcoding graph6 codes.
