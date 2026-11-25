@@ -72,7 +72,7 @@ def validate_runtime() -> dict[str, str]:
     for name, expected in PYCLIQUES_SOURCE_GIT_BLOBS.items():
         raw = (directory / name).read_bytes()
         git_blob = hashlib.sha1(
-            b"blob " + str(len(raw)).encode("ascii") + b"\\0" + raw
+            b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw
         ).hexdigest()
         require(git_blob == expected,
                 "Installed pycliques source differs from pinned monorepo: "
