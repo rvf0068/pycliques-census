@@ -44,7 +44,7 @@ def verify_shards(shards: list[Path]) -> dict:
             src = full[idx]
             g = nx.from_graph6_bytes(src["p3_graph6"].encode("ascii"))
             require(record["original_graph6"] == src["graph6"]
-                    and record["p3"] == src["p3"]
+                    and tuple(record["p3"]) == tuple(src["p3"])
                     and record["p3_graph6_sha256"] ==
                         hashlib.sha256(
                             src["p3_graph6"].encode("ascii")
