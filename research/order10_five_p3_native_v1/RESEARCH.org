@@ -24,9 +24,9 @@ We use the existing public =pycliques.find_octahedral_retraction_coaffine= funct
 
 A =FOUND= result must supply complete antipodal pairs and an ordinary graph retraction onto an induced \(O_d=\overline{dK_2}\), with \(d\ge3\). The independent census verifier checks the nonedges within antipodal pairs, all cross-pair edges, fixation of every target vertex, and the entire source edge set; only such a positive certificate establishes \(K\)-divergence. =EXHAUSTED= is a genuine exhaustive negative conclusion about this particular target family at depth three, not about \(K\)-behavior in general. =LIMIT_REACHED= is inconclusive and must never be interpreted as absence of a retraction.
 
-* Certified new result: \(P_3(G_{11656793})\) retracts onto \(O_{11}\)
+* New exact divergent class: two originals with (P_3) retracting onto (O_{11})
 
-The label-first native search found an ordinary retraction \(r:P_3(G_{11656793})\to O_{11}\) after \(10643\) search states, where \(P_3(G_{11656793})\) has \(216\) vertices and \(19663\) edges. The complete map is archived in =positive_o11.json=, pinned by its immutable Git blob and by a separate SHA-256 checksum of all \(216\) uncompressed, little-endian integer images; it records eleven explicit antipodal pairs. The independent verifier =verify_positive.py= reconstructs the original third-iterate graph6, checks the complete induced \(O_{11}\), checks that the projection fixes every target vertex, and verifies all \(19663\) source edges. By the ordinary retraction theorem and \(K(O_d)\cong O_{2^{d-1}}\) for \(d\ge3\), the original ten-vertex graph McKay 11656793 is \(K\)-divergent.
+The label-first native search found an ordinary retraction \(r:P_3(G_{11656793})\to O_{11}\) after \(10643\) search states, where \(P_3(G_{11656793})\) has \(216\) vertices and \(19663\) edges. The complete map is archived in =positive_o11.json=, pinned by its immutable Git blob and by a separate SHA-256 checksum of all \(216\) uncompressed, little-endian integer images; it records eleven explicit antipodal pairs. The independent verifier =verify_positive.py= reconstructs the original third-iterate graph6, checks the complete induced \(O_{11}\), checks that the projection fixes every target vertex, and verifies all \(19663\) source edges. By the ordinary retraction theorem and \(K(O_d)\cong O_{2^{d-1}}\) for \(d\ge3\), original ten-vertex McKay 11656793 is \(K\)-divergent. The historical global (P_3)-class archive also certifies a complete (216)-vertex graph isomorphism from (P_3(G_{11658674})) to this same (P_3(G_{11656793})). The new independent verifier reconstructs the second original, checks its membership in the unchanged v25 census, and verifies every edge and nonedge under the full saved permutation. Transporting the retraction proves that original McKay 11658674 is also (K)-divergent. Thus this one newly certified (P_3) class represents *two* original ten-vertex graphs.
 
 The two-million-state alternative fiber-first search was inconclusive on this same graph. The contrast is a practical example of why search-order strategies matter in a complete-or-bounded CSP. No stronger conclusion about the four other unresolved originals follows from limited searches.
 
@@ -38,7 +38,7 @@ The two-million-state alternative fiber-first search was inconclusive on this sa
 | 11709142 | =LIMIT_REACHED= (1267573) | =LIMIT_REACHED= (1771448) |
 | 11713984 | =LIMIT_REACHED= (2000000) | =LIMIT_REACHED= (2000000) |
 
-The whole ten-task run and its independent aggregate check passed in GitHub Actions run 45681814467, using the monorepo pinned to its merged overhaul commit. The new divergent original is not yet removed from the authoritative indeterminate list: a separate exact v26-to-v27 promotion should be carried out after the six-original v26 update is merged.
+The whole ten-task run and its independent aggregate check passed in GitHub Actions run 45681814467, using the monorepo pinned to its merged overhaul commit. Neither of these two newly divergent originals has been removed from the authoritative indeterminate list: a separate exact v26-to-v27 promotion of both 11656793 and 11658674 should be carried out after the six-original v26 update is merged. The prospective v27 count is (1044), provided no further unrelated changes are made.
 
 * General homological and size consequences of an octahedral retraction
 
@@ -54,7 +54,7 @@ The whole ten-task run and its independent aggregate check passed in GitHub Acti
 
 *Proof.* The clique-graph functor preserves ordinary graph retractions. Applying it to \(P_j(G)\to O_d\) gives an ordinary graph retraction \(K(P_j(G))\to K(O_d)\cong O_{2^{d-1}}\). The clique complex of \(O_m\) is the join of \(m\) copies of \(S^0\), hence the sphere \(S^{m-1}\). Its integral homology injects as a direct summand under the retraction. The complete dominated-vertex paring \(K(P_j(G))\to P_{j+1}(G)\) is a homotopy equivalence of clique complexes, so the same nonzero free homology summand survives. The preceding flag vertex lemma, with \(k=2^{d-1}-1\), gives \(|V(P_{j+1}(G))|\ge2(2^{d-1}-1)+2=2^d\). \(\square\)
 
-For the new McKay 11656793 certificate we have \(d=11\), so \(\widetilde H_{1023}(\Delta(P_4(G));\mathbb Z)\) has a direct \(\mathbb Z\)-summand and \(|V(P_4(G))|\ge2048\) without enumerating the enormous fourth iterate. The previously certified \(P_3\to O_{12}, O_{14}, O_{15}\) targets likewise force lower bounds of \(4096\), \(16384\), and \(32768\) vertices respectively in their fourth pared clique iterates. These are *positive homological* consequences and are not inferred from an enumeration timeout.
+For both original ten-vertex graphs McKay 11656793 and 11658674 the certified (P_3)-isomorphism and (O_{11}) retraction give (d=11), so (\widetilde H_{1023}(\Delta(P_4(G));\mathbb Z)) has a direct (\mathbb Z)-summand and (|V(P_4(G))|\ge2048) without enumerating their enormous fourth iterates. The previously certified \(P_3\to O_{12}, O_{14}, O_{15}\) targets likewise force lower bounds of \(4096\), \(16384\), and \(32768\) vertices respectively in their fourth pared clique iterates. These are *positive homological* consequences and are not inferred from an enumeration timeout.
 
 * Direct reproduction in Emacs Jupyter
 
@@ -94,11 +94,12 @@ The following block replays the exact proof, including all eleven pairs of antip
 from research.order10_five_p3_native_v1.verify_positive import verify_positive
 positive_o11 = verify_positive()
 print(positive_o11)
+print("Both original divergent indices:", positive_o11["divergent_original_indices"])
 #+end_src
 
 * Interpretation
 
-The source census and the historical proof archives are not changed by this experiment. Pending the separate six-original v26 promotion, the authoritative current snapshot is ten-v25 with 1052 unresolved originals; the proposed ten-v26 snapshot has 1046 and continues to leave these five classes indeterminate. The experiment has generated the independently verified complete \(O_{11}\) retraction at \(P_3\) of original 11656793, but a separate audited promotion is required before its authoritative census classification may be changed.
+The source census and the historical proof archives are not changed by this experiment. Pending the separate six-original v26 promotion, the authoritative current snapshot is ten-v25 with 1052 unresolved originals; the proposed ten-v26 snapshot has 1046 and continues to leave these five classes indeterminate. The experiment has generated the independently verified complete (O_{11}) retraction for original 11656793 and, using the historical exact (P_3)-isomorphism, also certifies original 11658674. Both remain in the old indeterminate list until a subsequent audited promotion changes their authoritative census classifications.
 
 # Local Variables:
 # org-confirm-babel-evaluate: nil
