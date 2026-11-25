@@ -16,15 +16,15 @@ from __future__ import annotations
 import hashlib
 import sys
 
+if sys.flags.optimize:
+    raise RuntimeError("Optimized execution bypasses proof assertions")
+
 import networkx as nx
 
 from research.order10_p3_global_v23_index.independent_verify import independent_p3
 from research.order10_small_p4_98_v1.verify import (
     source_catalog, require,
 )
-
-if sys.flags.optimize:
-    raise RuntimeError("Optimized execution bypasses proof assertions")
 
 
 def vertex_bits(number: int):
