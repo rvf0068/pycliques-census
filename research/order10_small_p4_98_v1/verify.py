@@ -17,13 +17,13 @@ import json
 from pathlib import Path
 import sys
 
+if sys.flags.optimize:
+    raise RuntimeError("Proof-critical assertions must not be bypassed")
+
 from research.order10_full_nine_reference_v1 import index as refs
 from research.order10_p4_cap_rescue_v24.verify import (
     p4_from_graph6,
 )
-
-if sys.flags.optimize:
-    raise RuntimeError("Proof-critical assertions must not be bypassed")
 
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
