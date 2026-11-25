@@ -9,10 +9,43 @@ from pathlib import Path
 import networkx as nx
 
 from research.order10_overcap_p3_coaffine_v1.pilot import (
-    PYCLIQUES_SHA, SHARDS, TEN_P3_OVERCAP, degree_obstruction,
+    MAX_STATES, TIME_LIMIT_SECONDS, PYCLIQUES_SHA, SHARDS, TEN_P3_OVERCAP, degree_obstruction,
     independent_coaffine_check, independent_octahedral_retraction_check,
     require, source_catalog,
 )
+
+
+def require_fixed_budget(item: dict) -> None:
+    """Reject forged or inconsistent declared search budgets, not just shards."""
+    require(
+        type(item.get("max_states")) is int
+        and item["max_states"] == MAX_STATES
+        and type(item.get("time_limit_seconds_per_algorithm")) in (int, float)
+        and item["time_limit_seconds_per_algorithm"] == TIME_LIMIT_SECONDS,
+        "Every native pilot shard must declare exactly 100000 states "
+        "and 25 seconds per algorithm",
+    )
+
+
+def require_solver_contract(general: dict, octa: dict) -> None:
+    """Keep both real native API statuses within their 3-value contract."""
+    statuses = {"FOUND", "EXHAUSTED", "LIMIT_REACHED"}
+    require(general.get("status") in statuses
+            and octa.get("status") in statuses,
+            "An invented or unavailable search status is not a solver result")
+    require(
+        not (general["status"] == "EXHAUSTED"
+             and octa["status"] == "FOUND"),
+        "An exhaustive negative coaffine result contradicts O_d FOUND",
+    )
+    for name, result in (("general", general), ("octahedral", octa)):
+        require(
+            all(type(result.get(k)) is int and result[k] >= 0
+                for k in ("states_explored", "assignments_tried",
+                          "arc_revisions"))
+            and result["states_explored"] <= MAX_STATES,
+            f"Malformed {name} native search counters",
+        )
 
 
 def verify_shards(shards: list[Path]) -> dict:
@@ -34,6 +67,7 @@ def verify_shards(shards: list[Path]) -> dict:
                 and type(i) is int and 0 <= i < SHARDS
                 and i not in seen,
                 "Wrong native proof archive source/shard provenance")
+        require_fixed_budget(item)
         seen.add(i)
         caps.add((item["max_states"], item["time_limit_seconds_per_algorithm"]))
         wanted = sorted(TEN_P3_OVERCAP)[i::SHARDS]
@@ -58,14 +92,7 @@ def verify_shards(shards: list[Path]) -> dict:
                     "Missing degree obstruction to every coaffine automorphism")
             general = record["coaffine_weak_endomorphism"]
             octa = record["octahedral_retraction"]
-            require(general["status"] in {
-                "FOUND", "EXHAUSTED", "LIMIT_REACHED"
-            }, "Inadmissible general search result")
-            require(all(type(general[k]) is int and general[k] >= 0
-                        for k in (
-                            "states_explored", "assignments_tried",
-                            "arc_revisions",
-                        )), "Malformed general CSP counters")
+            require_solver_contract(general, octa)
             if general["status"] == "FOUND":
                 m = general["map"]
                 require(isinstance(m, list) and len(m) == len(g),
@@ -76,23 +103,15 @@ def verify_shards(shards: list[Path]) -> dict:
             else:
                 require("map" not in general,
                         "Unexpected purported witness for limit/absence")
-            if general["status"] == "EXHAUSTED":
-                require(octa["status"] ==
-                        "EXCLUDED_BY_EXHAUSTIVE_COAFFINE_SEARCH",
-                        "A coaffine EXHAUSTED result cannot have O_d retract")
+            if octa["status"] == "FOUND":
+                pairs = [tuple(p) for p in octa["antipodal_pairs"]]
+                ret = dict(enumerate(octa["retraction_map"]))
+                independent_octahedral_retraction_check(g, pairs, ret)
+                require(octa["dimension"] == len(pairs),
+                        "Wrong proved octahedron dimension")
             else:
-                require(octa["status"] in {
-                    "FOUND", "EXHAUSTED", "LIMIT_REACHED"
-                }, "Malformed octahedral search result")
-                if octa["status"] == "FOUND":
-                    pairs = [tuple(p) for p in octa["antipodal_pairs"]]
-                    ret = dict(enumerate(octa["retraction_map"]))
-                    independent_octahedral_retraction_check(g,pairs,ret)
-                    require(octa["dimension"] == len(pairs),
-                            "Wrong proved octahedron dimension")
-                else:
-                    require("retraction_map" not in octa,
-                            "Inconclusive octahedral attempt invented a map")
+                require("retraction_map" not in octa,
+                        "Inconclusive/negative octahedral result has a map")
             require(idx not in merged, "Duplicated P3 host certificate")
             merged[idx] = record
     require(seen == set(range(SHARDS)) and len(merged) == 10
