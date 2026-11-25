@@ -1,0 +1,91 @@
+name: Independently certify 98 small fourth-iterate ten-vertex cores
+
+on:
+  pull_request:
+    paths:
+      - "research/order10_small_p4_98_v1/**"
+      - "research/order10_p3_global_v23_index/**"
+      - "research/order10_p4_cap_rescue_v24/**"
+      - "research/order10_full_nine_reference_v1/**"
+      - "research/order10_full_nine_p4_crossdepth_v1/**"
+      - "research/order10_p4_reference_pilot_v24/results.json"
+      - "research/order10_p4_nine_links_v1/**"
+      - "indeterminate_order_10_v25.txt"
+      - "indeterminate_order_10.txt"
+      - "indeterminate_order_9_v9.txt"
+      - "indeterminate_order_9.txt"
+      - ".github/workflows/order10-small-p4-98-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  primary:
+    name: Dual clique enumerators, exact folding and all 98 P4 adjacency digests
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned NetworkX
+        run: python -m pip install networkx==3.6.1
+      - name: Check Python syntax and adversarial regressions
+        run: |
+          python -m py_compile research/order10_small_p4_98_v1/verify.py
+          python -m py_compile research/order10_small_p4_98_v1/independent_verify.py
+          python -m unittest research.order10_small_p4_98_v1.test_verify -v
+      - name: Independently certify all 98 archived P4 graphs
+        run: |
+          python -m research.order10_small_p4_98_v1.verify \
+            > "$RUNNER_TEMP/primary-results.txt"
+          tail -n 6 "$RUNNER_TEMP/primary-results.txt"
+          test "$(grep -c '^PASS small-P4 McKay=' "$RUNNER_TEMP/primary-results.txt")" -eq 98
+          grep -q '^CERTIFIED: 98 current stiff original' "$RUNNER_TEMP/primary-results.txt"
+      - name: Reject optimized interpreter bypass
+        run: |
+          if python -O -m research.order10_small_p4_98_v1.verify \
+                 > /tmp/small-p4-opt.log 2>&1; then
+            echo "Optimized execution incorrectly accepted"; exit 1
+          fi
+          grep -q 'Proof-critical assertions must not be bypassed' /tmp/small-p4-opt.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: small-p4-98-primary-replay-log
+          path: ${{ runner.temp }}/primary-results.txt
+          retention-days: 30
+          if-no-files-found: error
+
+  independent:
+    name: Independent P4 clique intersections, closed-N folds, SHA256 replay
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned NetworkX
+        run: python -m pip install networkx==3.6.1
+      - name: Independently rebuild all 98 from archived original graph6
+        run: |
+          python -m research.order10_small_p4_98_v1.independent_verify \
+            > "$RUNNER_TEMP/independent-results.txt"
+          tail -n 6 "$RUNNER_TEMP/independent-results.txt"
+          test "$(grep -c '^INDEPENDENT PASS small P4 McKay=' "$RUNNER_TEMP/independent-results.txt")" -eq 98
+          grep -q '^INDEPENDENT CERTIFIED: 98 current small P4 graphs' "$RUNNER_TEMP/independent-results.txt"
+      - name: Reject optimized independent proof execution
+        run: |
+          if python -O -m research.order10_small_p4_98_v1.independent_verify \
+                 > /tmp/ind-opt.log 2>&1; then
+            echo "Optimized execution incorrectly accepted"; exit 1
+          fi
+          grep -q 'Optimized execution bypasses proof assertions' /tmp/ind-opt.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: small-p4-98-independent-replay-log
+          path: ${{ runner.temp }}/independent-results.txt
+          retention-days: 30
+          if-no-files-found: error
