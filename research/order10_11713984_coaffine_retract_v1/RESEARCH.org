@@ -1,0 +1,107 @@
+#+TITLE: An exact 35-vertex coaffine retract and enormous fourth-iterate homology
+#+DATE: 2026-11-25
+#+LANGUAGE: en
+#+OPTIONS: toc:2
+#+PROPERTY: header-args:jupyter-python :session retract-11713984 :results output :exports both
+
+* Problem and scope
+
+Let \(G\) be original connected ten-vertex McKay graph 11713984, with original graph6 recovered from the historical ten-v25 archive. The exact third pared clique iterate \(X=P_3(G)\) has \(169\) vertices and \(12897\) edges, and its complement has \(1299\) edges and \(35\) triangles. This graph is still classified as *indeterminate* in the certified ten-v27 census. The previous native pilot from census PR #100 had discovered a coaffine weak endomorphism of \(X\), but neither the general search nor the octahedral search gave a complete octahedral retraction certificate.
+
+This note converts that old positive coaffine endomorphism into a much stronger permanent exact *ordinary retraction certificate*, then derives a homological obstruction and an explicit size lower bound for the fourth pared iterate, without constructing \(P_4(G)\). It deliberately makes *no unproved assertion of clique divergence* and does not change the authoritative census lists.
+
+* Exact coaffine endomorphism and idempotent power
+
+The archived map \(f:V(X)\to V(X)\) has \(169\) entries, now preserved in =certificate.json= with exact Git-blob provenance, compressed byte encoding and SHA-256 checksum. The independent =verify.py= reconstructs \(X\) by the existing historical independent maximal-clique and paring implementations, checks its complete canonical third-stage graph6 SHA-256, and checks the two defining properties for every vertex and every edge: \(f(v)\notin N_X[v]\), and for every edge \(uv\in E(X)\), either \(f(u)=f(v)\) or \(f(u)f(v)\in E(X)\). These are the required conditions for a coaffine graph weak endomorphism.
+
+The image \(S=f(V(X))\) has exactly \(35\) vertices, \(f(S)=S\), and the permutation \(f|_S\) has *fourteen 2-cycles and one 7-cycle*. Hence \(r=f^{14}\) fixes each element of \(S\), and its image is \(S\). Being a composition of graph morphisms, \(r:X\to X[S]\) is an ordinary graph retraction. The verifier explicitly checks its entire \(169\)-coordinate map and all \(12897\) source edges, rather than trusting this deduction without a computational witness.
+
+** The exact 35-vertex target
+
+Let \(Y=X[S]\) and \(H=\overline Y\). The complementary graph \(H\) has *fourteen components isomorphic to \(K_2\) and one component isomorphic to \(C_7\)*, with every component and vertex set authenticated by the permanent certificate. Therefore
+
+\[
+  \boxed{Y\cong O_{14}*\overline{C_7}.}
+\]
+
+Here \(O_{14}=\overline{14K_2}\) and the asterisk denotes graph join. This is a proper stiff-looking structural target but is *not an octahedron*: the extra seven vertices are important. We do not silently discard them or pretend to have an ordinary \(O_{14}\) retraction. This distinction is essential because a graph join does not generally retract onto an arbitrary join factor.
+
+* Explicit first clique graph of the target
+
+A clique of \(Y=O_{14}*\overline{C_7}\) consists of a choice of one endpoint from each of the fourteen independent antipodal pairs, together with a clique of \(Z=\overline{C_7}\). The graph \(Z\) has seven cliques. The graph on these seven cliques in which two are adjacent if they are disjoint is precisely a \(C_7\); the verifier recomputes this complete seven-vertex disjointness graph.
+
+Thus \(K(Y)\) has exactly \(2^{14}\cdot7=114688\) vertices. Two such cliques are disjoint if and only if their binary words are complementary *and* their \(Z\)-cliques are disjoint. Pairing binary words into \(2^{13}\) complementary pairs, the complement of \(K(Y)\) is a disjoint union of \(2^{13}=8192\) bipartite double covers of \(C_7\). Since \(C_7\) is odd, its bipartite double cover is \(C_{14}\). We obtain the exact graph isomorphism
+
+\[
+  \boxed{\overline{K(Y)}\cong \bigsqcup_{8192} C_{14},
+  \qquad K(Y)\cong\bigast_{8192}\overline{C_{14}}.}
+\]
+
+No \(114688\)-vertex graph is constructed; this follows from the complete canonical small graph certificate and the standard maximal-clique formula for joins.
+
+* Topological consequence at the fourth pared iterate
+
+For a graph \(T\) we write \(\Delta(T)\) for its clique complex and \(\operatorname{Ind}(H)=\Delta(\overline H)\) for the independence complex. Kozlov's cycle formula gives \(\operatorname{Ind}(C_7)\simeq S^1\) and \(\operatorname{Ind}(C_{14})\simeq S^4\); see D. N. Kozlov, "Complexes of Directed Trees", Journal of Combinatorial Theory A 88 (1999), 112–122, and the exposition in /Combinatorial Algebraic Topology/, Theorem on independence complexes of paths and cycles.
+
+It follows that \(\Delta(Y)\simeq S^{13}*S^1\simeq S^{15}\), and
+
+\[
+ \Delta(K(Y))\cong \operatorname{Ind}\bigl(\bigsqcup_{8192}C_{14}\bigr)
+ =\bigast_{8192}\operatorname{Ind}(C_{14})
+ \simeq\bigast_{8192} S^4
+ \simeq S^{5\cdot8192-1}=S^{40959}.
+\]
+
+The ordinary retraction \(X\to Y\) yields an ordinary clique-graph retraction \(K(X)\to K(Y)\), which splits the induced map on integral homology. As complete dominated-vertex paring is a clique-complex homotopy equivalence, we deduce the *unconditional* certified lower bounds
+
+\[
+  \boxed{\mathbb Z\text{ is a direct summand of }
+  \widetilde H_{40959}(\Delta(P_4(G));\mathbb Z),\qquad
+  |V(P_4(G))|\ge81920.}
+\]
+
+The order bound follows from the sharp elementary flag-complex vertex bound: if \(\widetilde H_k(\Delta(T);\mathbb F)\ne0\), then \(|V(T)|\ge2k+2\). A proof of that lemma was recorded in the previously merged =research/order10_five_p3_native_v1/RESEARCH.org=. This is a positive consequence of a complete graph retraction, not a resource-limit estimate or an asserted classification.
+
+* Reproducible Emacs Jupyter blocks
+
+The existing versioned census verifier is the official entry point; no graph-specific clique-graph implementation or alternative coaffine solver is introduced. Run Emacs from the =pycliques-census= repository root in an environment with NetworkX.
+
+#+begin_src jupyter-python
+from research.order10_11713984_coaffine_retract_v1.verify import verify
+proof = verify()
+print(proof["retraction_image"])
+print(proof["complement_of_clique_graph_image"])
+print("Fourth pared iterate homology dimension:", proof["next_pared_iterate_free_Z_homology_dimension"])
+print("Fourth pared iterate minimum vertices:", proof["next_pared_iterate_minimum_vertices"])
+#+end_src
+
+The next block inspects the actual independently reconstructed \(P_3\) using existing code, without embedding a graph6 code or reimplementing paring.
+
+#+begin_src jupyter-python
+import networkx as nx
+from research.order10_p3_global_v23_index.independent_verify import independent_p3
+from research.order10_p4_crossdepth_o15_v25.verify import source_rows
+from pathlib import Path
+root = Path.cwd()
+source = source_rows(root / "indeterminate_order_10_v25.txt")
+original = proof["original_index"]
+P3 = independent_p3(source[original].split()[2])
+print("P3 order:", len(P3), "edges:", P3.number_of_edges())
+#+end_src
+
+* Research direction and limit of the result
+
+The enormous jump from the \(35\)-vertex retract \(Y\) to the \(114688\)-vertex graph \(K(Y)\), and the appearance of the \(S^{40959}\) clique-complex homotopy type, make this particular 35-vertex join a promising *new target for clique divergence analysis*. A finite jump, however large, does not establish divergence of all further iterates. It remains to prove \(O_{14}*\overline{C_7}\) divergent, or to find a further ordinary retraction to an already certified divergent reference. Until then original 11713984 stays in ten-v27.
+
+This target is a join of fourteen suspensions of \(\overline{C_7}\). The formula for \(K(Y)\) suggests studying the clique dynamics of joins of complements of even cycles by exploiting the disjointness graphs of their maximal independent sets, rather than naively constructing the enormous iterates. The results are independent of the other three oversized third-iterate cores.
+
+* Command-line verification
+
+#+begin_src sh
+python -m research.order10_11713984_coaffine_retract_v1.verify
+python -m unittest research.order10_11713984_coaffine_retract_v1.test_verify -v
+#+end_src
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:
