@@ -25,11 +25,29 @@ The source builder reconstitutes all ten exact third-iterate graphs from the fro
 
 This excludes **coaffine automorphisms**, not coaffine **weak endomorphisms**. An ordinary retraction \(r:X\to T\) to an octahedron \(T=O_d\), followed by an antipodal coaffination \(\tau:T\to T\) and inclusion, generally gives a **noninjective** coaffine endomorphism \(i\circ\tau\circ r\) of \(X\). The lemma does not exclude these retractions or classify clique behavior.
 
+## Five positive octahedral retractions and one further divergent original
+
+The native pilot at the pinned commit **FOUND** complete ordinary graph retractions at \(P_3\) for five of the ten remaining oversized classes. Full vertex maps, antipodal pairs, immutable original third-stage graph6 hashes and uncompressed SHA-256 certificates are now permanently archived as [positive_retractions.json](positive_retractions.json); the independent verifier [verify_positives.py](verify_positives.py) replays *all source edges* without the native search or the expiring GitHub Actions artifacts.
+
+| Ten-vertex representative | \(|V(P_3)|\) | Proven ordinary target | Native CSP states |
+| ---: | ---: | :--- | ---: |
+| 11367777 | 240 | \(O_{12}\) | 203 |
+| 11611429 | 119 | \(O_{15}\) | 3,384 |
+| 11623375 | 266 | \(O_{12}\) | 492 |
+| 11708546 | 140 | \(O_{14}\) | 2,499 |
+| 11713770 | 95 | \(O_{14}\) | 52 |
+
+By the known retraction theorem and the divergence of \(O_d\) for \(d\ge3\), these five third-iterate classes are **K-divergent**. The already certified global exact third-iterate class archive also contains original **11651749** with a full explicit \(P_3\)-isomorphism onto representative 11611429; the independent verifier recomputes its third iterate and verifies the saved bijection. Hence **six original ten-vertex graphs** are proved divergent: 11367777, 11611429, 11623375, 11651749, 11708546, and 11713770. This proof-only PR deliberately does not promote them in the authoritative census; a separate v26 promotion audit is needed.
+
+The other five class representatives **11505012, 11595632, 11656793, 11709142, and 11713984** all reached LIMIT_REACHED in the bounded octahedral search and are **not classified**. For 11713984 the general coaffine weak-endomorphism search did return FOUND, but its octahedral retraction search reached its limit. The other four general coaffine searches also reached their limits. None is an exhaustive negative result.
+
+After a separate, fully verified six-original promotion, the ten-v26 unresolved count would be 1,046 originals, with 516 surviving exact \(P_3\) classes and five oversized fourth-iterate classes; those numbers are *prospective*, not the current canonical files.
+
 ## Native search without new algorithms
 
 The workflow checks out the existing pycliques-project monorepo pinned to commit f8eb9b9f2c71d79f9394571df98155f9de568785 (merged PR #55), installs its package, and explicitly builds its existing C++17 coaffine solver. No monorepo code is modified. On each authenticated \(X=P_3(G)\), it invokes the public general coaffine-endomorphism and unseeded octahedral-retraction APIs with the native backend, fiber value ordering, 100,000 search states and a 25-second limit each.
 
-An **EXHAUSTED** general result rules out *all* coaffine weak endomorphisms and consequently all retractions to targets admitting such endomorphisms, including \(O_d\) and complement cycles. A **FOUND** general result is checked on every vertex and every source edge. A **FOUND** octahedral result is independently checked as an ordinary retraction onto an induced \(O_d\), fixing each target vertex and preserving every source edge. A positive octahedral witness at depth three proves clique divergence and would warrant a separate census-promotion PR.
+An **EXHAUSTED** general result rules out *all* coaffine weak endomorphisms and consequently all retractions to targets admitting such endomorphisms, including \(O_d\) and complement cycles. A **FOUND** general result is checked on every vertex and every source edge. A **FOUND** octahedral result is independently checked as an ordinary retraction onto an induced \(O_d\), fixing each target vertex and preserving every source edge. The five positive octahedral witnesses at depth three prove clique divergence; their permanent maps are separately replayed, and any authoritative census promotion will be a distinct audited PR.
 
 **LIMIT_REACHED is always inconclusive.** A general coaffine endomorphism does not, by itself, establish clique divergence.
 
