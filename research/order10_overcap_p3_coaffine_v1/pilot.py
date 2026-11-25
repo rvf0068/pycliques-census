@@ -153,44 +153,47 @@ def probe_one(host: dict, *, state_cap: int, seconds: float) -> dict:
         require(probe.endomorphism is None,
                 "Inconclusive/negative result has an unexpected map")
 
-    # An exact EXHAUSTED result already excludes every O_d retraction
-    # via the general composition i*tau*r; don't duplicate the CSP.
-    if probe.status.name == "EXHAUSTED":
-        result["octahedral_retraction"] = {
-            "status": "EXCLUDED_BY_EXHAUSTIVE_COAFFINE_SEARCH",
-            "states_explored": 0,
-        }
-    else:
-        octa = find_octahedral_retraction_coaffine(
-            graph, backend="native", value_order="fiber",
-            min_dimension=3, max_states=state_cap, time_limit=seconds,
+    # Execute and record BOTH public solvers with the promised budget.
+    # A general EXHAUSTED result logically excludes an octahedral
+    # retraction, but is not an octahedral API result and must not be
+    # disguised as one.  If the searches disagree, reject the archive.
+    octa = find_octahedral_retraction_coaffine(
+        graph, backend="native", value_order="fiber",
+        min_dimension=3, max_states=state_cap, time_limit=seconds,
+    )
+    require(octa.status.name in {
+        "FOUND", "EXHAUSTED", "LIMIT_REACHED"
+    }, "Unrecognized octahedral search result")
+    require(
+        not (probe.status.name == "EXHAUSTED" and octa.status.name == "FOUND"),
+        "Contradictory general exhaustion and positive octahedral retraction",
+    )
+    o = {
+        "status": octa.status.name,
+        "states_explored": octa.states_explored,
+        "assignments_tried": octa.assignments_tried,
+        "arc_revisions": octa.arc_revisions,
+    }
+    if octa.status.name == "FOUND":
+        require(octa.retraction is not None and
+                octa.antipodal_pairs is not None,
+                "Native FOUND octahedral retraction is missing")
+        independent_octahedral_retraction_check(
+            graph, octa.antipodal_pairs, octa.retraction,
         )
-        require(octa.status.name in {
-            "FOUND", "EXHAUSTED", "LIMIT_REACHED"
-        }, "Unrecognized octahedral search result")
-        o = {
-            "status": octa.status.name,
-            "states_explored": octa.states_explored,
-            "assignments_tried": octa.assignments_tried,
-            "arc_revisions": octa.arc_revisions,
-        }
-        if octa.status.name == "FOUND":
-            require(octa.retraction is not None and
-                    octa.antipodal_pairs is not None,
-                    "Native FOUND octahedral retraction is missing")
-            independent_octahedral_retraction_check(
-                graph, octa.antipodal_pairs, octa.retraction,
-            )
-            o["dimension"] = octa.dimension
-            o["antipodal_pairs"] = octa.antipodal_pairs
-            o["retraction_map"] = [
-                octa.retraction[i] for i in range(len(graph))
-            ]
-            o["implication"] = (
-                "Original ten-vertex graph is K-divergent; "
-                "requires a separate certified promotion"
-            )
-        result["octahedral_retraction"] = o
+        o["dimension"] = octa.dimension
+        o["antipodal_pairs"] = octa.antipodal_pairs
+        o["retraction_map"] = [
+            octa.retraction[i] for i in range(len(graph))
+        ]
+        o["implication"] = (
+            "Original ten-vertex graph is K-divergent; "
+            "requires a separate certified promotion"
+        )
+    else:
+        require(octa.retraction is None,
+                "Negative/limited octahedral result contains a retraction")
+    result["octahedral_retraction"] = o
     return result
 
 
@@ -203,8 +206,11 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     options = parser.parse_args()
     require(options.shards == SHARDS and 0 <= options.shard < SHARDS
-            and options.max_states >= 1 and options.time_limit > 0,
-            "Malformed bounded native search options")
+            and type(options.max_states) is int
+            and options.max_states == MAX_STATES
+            and options.time_limit == TIME_LIMIT_SECONDS,
+            "The certified native pilot requires exactly 100000 states "
+            "and 25 seconds per algorithm")
     require(os.environ.get("PYCLIQUES_PINNED_SHA") == PYCLIQUES_SHA,
             "Exact monorepo source checkout SHA not verified")
     entries = source_catalog()
