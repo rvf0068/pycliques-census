@@ -31,6 +31,7 @@ V22 = ROOT / "indeterminate_order_10_v22.txt"
 V23 = ROOT / "indeterminate_order_10_v23.txt"
 V24 = ROOT / "indeterminate_order_10_v24.txt"
 V25 = ROOT / "indeterminate_order_10_v25.txt"
+V26 = ROOT / "indeterminate_order_10_v26.txt"
 CURRENT9 = ROOT / "indeterminate_order_9.txt"
 V4_9 = ROOT / "indeterminate_order_9_v4.txt"
 V5_9 = ROOT / "indeterminate_order_9_v5.txt"
@@ -48,7 +49,7 @@ def rows(path: Path) -> list[str]:
 
 class CurrentOrder10IndexTests(unittest.TestCase):
     def test_current_root_matches_latest_certified_version(self):
-        self.assertEqual(CURRENT.read_bytes(), V25.read_bytes())
+        self.assertEqual(CURRENT.read_bytes(), V26.read_bytes())
 
     def test_historical_baseline_preserved_and_only_proofs_excluded(self):
         historical_bytes = HISTORICAL.read_bytes()
@@ -57,7 +58,19 @@ class CurrentOrder10IndexTests(unittest.TestCase):
             + b"\0" + historical_bytes
         ).hexdigest()
         self.assertEqual(blob_hash, "05f52c6db0b5642d2b6a856cef53c8fe07309c52")
-        old, new = rows(HISTORICAL), rows(CURRENT)
+        old, new = rows(HISTORICAL), rows(V25)
+        # Historical stage checks are pinned to the immutable v25 snapshot;
+        # only the separately certified six-positive transition changes
+        # the active v26 root.
+        latest = rows(CURRENT)
+        self.assertEqual((len(new), len(latest)), (1052, 1046))
+        self.assertTrue(set(latest).issubset(set(new)))
+        self.assertEqual(
+            {int(line.split()[0]) for line in new} -
+            {int(line.split()[0]) for line in latest},
+            {11367777, 11611429, 11623375, 11651749,
+             11708546, 11713770},
+        )
         self.assertEqual((len(old), len(new)), (8648, 1052))
         self.assertEqual(len(rows(V19)), 1531)
         self.assertEqual(len(rows(V19)) - len(new), 479)
