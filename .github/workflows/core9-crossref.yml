@@ -46,12 +46,13 @@ jobs:
           cat reports/ci-core9-crossref/summary.md
       - name: Restore current nine-vertex v9 working index
         run: cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
-      - name: Restore current ten-vertex v25 working root
-        run: cp indeterminate_order_10_v25.txt indeterminate_order_10.txt
-      - name: Assert historical files remain unchanged
+      - name: Restore current ten-vertex v26 working root
+        run: cp indeterminate_order_10_v26.txt indeterminate_order_10.txt
+      - name: Assert historical archives unchanged and the current root restored to v26
         run: |
           cmp indeterminate_order_9.txt indeterminate_order_9_v9.txt
-          cmp indeterminate_order_10.txt indeterminate_order_10_v25.txt
+          cmp indeterminate_order_10.txt indeterminate_order_10_v26.txt
+          test "$(git hash-object indeterminate_order_10_v25.txt)" = d31d52d28427adcef6055cc1d277565fe88f32d5
           git diff --exit-code -- runs/order9/ runs/order10/ indeterminate_order_9.txt indeterminate_order_10.txt indeterminate_order_10_v3.txt reports/order10_core_index_v1/
       - uses: actions/upload-artifact@v4
         with:
