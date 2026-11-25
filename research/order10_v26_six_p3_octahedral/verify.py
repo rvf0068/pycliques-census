@@ -118,8 +118,6 @@ def verify() -> dict:
             11505012, 11595632, 11656793, 11709142, 11713984,
         ],
         "indeterminate_nine_originals_unchanged": 3,
-        "originals_with_verified_p4_reconstructions_still_recorded": 511,
-        "remaining_unmaterialized_p4_classes": 5,
         "no_negative_inference_from_limited_search": True,
     }
     return summary
