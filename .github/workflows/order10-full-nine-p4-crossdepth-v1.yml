@@ -49,7 +49,8 @@ jobs:
           from pathlib import Path
           x=json.loads((Path(os.environ["RUNNER_TEMP"])/"ten-p4-hosts.json").read_text())
           assert x["counts"] == {
-              "pilot_complete":180, "rescue_complete":26, "new_p4_links":4,
+              "pilot_complete":180, "pilot_limited":26,
+              "rescue_complete":26, "new_p4_links":4,
               "all":210, "within_reference_bound":202, "over_reference_bound":8,
           }
           assert len(x["records"]) == 210
