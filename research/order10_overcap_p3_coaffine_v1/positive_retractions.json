@@ -1,0 +1,348 @@
+{
+  "schema": 1,
+  "kind": "five_exact_octahedral_retractions_from_third_pared_clique_iterates",
+  "source_census_pr": 100,
+  "source_workflow_run": 45637104784,
+  "pinned_pycliques_project_commit": "f8eb9b9f2c71d79f9394571df98155f9de568785",
+  "encoding": "uint16_little_endian_base64",
+  "records": [
+    {
+      "index": 11367777,
+      "p3": [
+        240,
+        22724
+      ],
+      "p3_graph6_sha256": "4b7f9a4327334fc85920ab8b41c7161d90fe7660705568caf107cb9c445d17e0",
+      "target_dimension": 12,
+      "antipodal_pairs": [
+        [
+          6,
+          239
+        ],
+        [
+          13,
+          225
+        ],
+        [
+          14,
+          211
+        ],
+        [
+          38,
+          229
+        ],
+        [
+          45,
+          218
+        ],
+        [
+          50,
+          170
+        ],
+        [
+          67,
+          140
+        ],
+        [
+          72,
+          117
+        ],
+        [
+          73,
+          99
+        ],
+        [
+          104,
+          118
+        ],
+        [
+          105,
+          208
+        ],
+        [
+          145,
+          150
+        ]
+      ],
+      "retraction_bytes_sha256": "cb8e5e1cfc12db872ef27de854b63d8c5643bb1e02602d43fb6090e4702b6ba4",
+      "retraction_uint16_base64": "JgAOAA4ADgAmACYABgANAO8A7wB1AO8A7wANAA4ADQDvAGkAaQBpAGkAdQB1AHUAdgB2AHYAdQBjAHUA7wB1AO8AdQB1AHUAJgAmACYAdgBDAEMAdgAmAHYALQBDAEMA7wDvADIA7wBpAGkAaQBpAGkASQBJAEMA7wDvAGkA7wDvAGkAaQBDAEMAQwBDAEMASABJAEkAdQB1AHUAYwB1AHUAaQBpAO8A7wDvAO8A7wDvAO8A7wDvAO8A7wDvAO8A7wB1AHUAYwBjAHUAYwB1AGgAaQB1AGMAdQBjAHUAaABpAGkAaQBoAGkAdQB2AHYAdgB2AHYA7wDvAO8A7wDvAO8A7wDvAO8AkQDvAO8A7wB1AHUAdQCMAIwAdQDvAO8A7wCRAJEAkQDvAO8AlgB1AKoA7wDvAHYA7wDvAHUAdQB1AHUA7wB1AO8AdQDvAHUAdQCWAKoAQwBDAJYAdgCqAKoAQwCqANoAQwDvAEMA7wBDAO8A7wBDAO8A7wDvAO8A7wDvAO8A7wDvAO8A7wCqAO8A7wCqAKoA4QDhAOEA4QDQAHYA7wDTAO8AqgB1AKoAqgCqANoA7wCqAKoA7wCqAO8A4QDvAO8A4QDlAOUA7wDvAO8A4QDhAOEA7wDhAO8A",
+      "native_states_explored": 203
+    },
+    {
+      "index": 11611429,
+      "p3": [
+        119,
+        6412
+      ],
+      "p3_graph6_sha256": "cfdf7d54f741ba5880b9667d90949e3d66da1b17ddc1208582a524404346e2e8",
+      "target_dimension": 15,
+      "antipodal_pairs": [
+        [
+          0,
+          113
+        ],
+        [
+          3,
+          92
+        ],
+        [
+          6,
+          81
+        ],
+        [
+          8,
+          80
+        ],
+        [
+          10,
+          103
+        ],
+        [
+          16,
+          79
+        ],
+        [
+          19,
+          99
+        ],
+        [
+          26,
+          75
+        ],
+        [
+          30,
+          77
+        ],
+        [
+          37,
+          59
+        ],
+        [
+          40,
+          47
+        ],
+        [
+          45,
+          95
+        ],
+        [
+          49,
+          109
+        ],
+        [
+          63,
+          87
+        ],
+        [
+          67,
+          98
+        ]
+      ],
+      "retraction_bytes_sha256": "8d6bca439a3e90a4c36d154560bcadca74149ac7b13a2e090347857117364d3c",
+      "retraction_uint16_base64": "AAAIAAMAAwAIAAYABgAKAAgAAwAKACgACgAIAAgAEAAQABAAEAATADEAHgBDAEMAHgAeABoALQADAAMAHgA/ACgAHgAaACgAMQAlAB4AQwAoAEMAHgAeACgALQAeAC8AHgAxAEMAHgAxAEMAGgA/AAoACgAKADsAOwA/AD8APwA7AEMAUQBDAEMAUQADAAMAAwBjAE8ASwAoAE0AKABPAFAAUQAIAAgACABXAB4AVwAeADsAOwA7AFwAUQBfAF8ASwBLAGIAYwAoAF8AVwBnAGMATwBnACgASwBtADsAKAAoAHEAOwBjAE8AcQBRAA==",
+      "native_states_explored": 3384
+    },
+    {
+      "index": 11623375,
+      "p3": [
+        266,
+        28046
+      ],
+      "p3_graph6_sha256": "f54c9e60bb48b1d1fef7c6a6224a02cbcc15389482f304314b4bf4d4a85be84a",
+      "target_dimension": 12,
+      "antipodal_pairs": [
+        [
+          1,
+          257
+        ],
+        [
+          4,
+          129
+        ],
+        [
+          16,
+          221
+        ],
+        [
+          18,
+          100
+        ],
+        [
+          30,
+          252
+        ],
+        [
+          35,
+          250
+        ],
+        [
+          73,
+          220
+        ],
+        [
+          74,
+          219
+        ],
+        [
+          98,
+          211
+        ],
+        [
+          103,
+          183
+        ],
+        [
+          108,
+          205
+        ],
+        [
+          124,
+          181
+        ]
+      ],
+      "retraction_bytes_sha256": "04fd837acd87f99db82e1945dbc1b368210575c00841506794b144487d39a79b",
+      "retraction_uint16_base64": "AQABAAEAtQAEALUAzQC1AAQA3ADcANwA3ABkAGQAEAAQABAAEgABAAEAAQDcAAEAAQABAAEAIwC1ALUAHgDNAM0AIwC1ACMA3ADcANwA3ADcANsA3ABkANwAZADcANwA3ABnAPwA/AD8APwAZADNAGQAzQBnAPwA/ABnAGcAZwBnAPwAZwBnAM0AzQDNAM0AzQBJAEoASgDTAPwA/AD8AGQAZAD8AGQAZAD8APwA3ADcANsA2wDcANsA3AD8APwA3ADcAGIAYgBkAGQAZABnAGQA3ADcANwAbABsANwA3ABkAGQA3ABkAIEAZABnANwAZABiAGQAZAB8AGcAZwBnAGQAgQDTANwA3ADcANsA3ADcAPwA/ADcANsA3ADbANwA/AD8APwA/AD8APwA3ADcANwA3ADcANwAbAD8APwA/AD8APwA/AD8ALUA3ABkAGQA2wDcANsAZABkANwA3ADcAGQAZABkAGQAtwBkAGQA3ADcALcAtQD8APwAZADNAGQA2wC1APwA/ADTANMAZABkAGQAZABkAGQA2wDcAN0AZABkAGQAZABkAGQAZABkAGQAZADcANMA/ABkAPwAZADcAGQAZABkAIEA2wDdAGQAZABkAGQAZAD6APwA/AD8AGQAgQDdAAEB+gD8AGQAZABkAGQAZACBAA==",
+      "native_states_explored": 492
+    },
+    {
+      "index": 11708546,
+      "p3": [
+        140,
+        8822
+      ],
+      "p3_graph6_sha256": "72578a887531943ddb04be9b8a6bbcd57a44b89c932ddf502c729719ef2a9bad",
+      "target_dimension": 14,
+      "antipodal_pairs": [
+        [
+          1,
+          137
+        ],
+        [
+          5,
+          115
+        ],
+        [
+          13,
+          105
+        ],
+        [
+          14,
+          75
+        ],
+        [
+          18,
+          111
+        ],
+        [
+          28,
+          121
+        ],
+        [
+          30,
+          90
+        ],
+        [
+          31,
+          128
+        ],
+        [
+          33,
+          38
+        ],
+        [
+          36,
+          100
+        ],
+        [
+          43,
+          52
+        ],
+        [
+          54,
+          80
+        ],
+        [
+          62,
+          102
+        ],
+        [
+          76,
+          93
+        ]
+      ],
+      "retraction_bytes_sha256": "fa14e934cfdceb09c5008cc5863649475adaea7907cae92651d6e4bf96b58a20",
+      "retraction_uint16_base64": "AQABAAEAAQAFAAUAAQABAAEAAQABAB8ADQANAA4ABQAFAAUAEgA+AAUAEgBdABIADgAFAAUAHAAcAB8AHgAfAAUAIQAFACEAJAAFACYABQAFACsAKwArAAUASwAFAB4AHgA+AB4AHgA0ADYANgAeAB4AHgAeAB4ANAA+AD4AIQAeAB4AJAA+AD4AHgAhAB4ASwAeAEwASwBMAEwAXQBkAFAAUABdAF0AKwArAFAAUABQAFAAWgBQAGQAXQBkAFAAUABQACEAUABkAFAAZgBQAGQAaQBQACsAKwBpACsAbwBLAEsAbwBzAIAAeQCAAHkAeQB5AGkAgABpAGkAaQBpAIAAeQB5AHkAaQBpAGkAaQBvAIkAaQCJAA==",
+      "native_states_explored": 2499
+    },
+    {
+      "index": 11713770,
+      "p3": [
+        95,
+        4099
+      ],
+      "p3_graph6_sha256": "fd2b3780ff407bd9054581fe46807dfd44a544a523bfb8d84e579fc8d8e2b877",
+      "target_dimension": 14,
+      "antipodal_pairs": [
+        [
+          3,
+          91
+        ],
+        [
+          4,
+          74
+        ],
+        [
+          5,
+          90
+        ],
+        [
+          6,
+          73
+        ],
+        [
+          17,
+          66
+        ],
+        [
+          21,
+          87
+        ],
+        [
+          23,
+          77
+        ],
+        [
+          25,
+          59
+        ],
+        [
+          27,
+          38
+        ],
+        [
+          37,
+          75
+        ],
+        [
+          40,
+          81
+        ],
+        [
+          41,
+          78
+        ],
+        [
+          55,
+          72
+        ],
+        [
+          56,
+          67
+        ]
+      ],
+      "retraction_bytes_sha256": "7a31de8f52f8b34f68ee1f3d028794f1d91525e068d944f6c4f5429351b26047",
+      "retraction_uint16_base64": "BQAEAAQAAwAEAAUABgAFACkAQwBDAEMAQwBDACkANwA3ABEAEQARABEAFQAbABcAKQAZABsAGwApADcANwA3ABcAFwAZABsAGwAlACYAJgAoACkAQwApABEAEQARACkAKQBbAFsAWwBLADsANwA3ADgAOwA7ADsAOwARAFsAWwBbAEsAQgBDABsAQgAbAEMASABJAEoASwA7AE0ATgBJAFEAUQAbADsAOwBXAFcAVwBXAEkAWgBbAEkASQBbAA==",
+      "native_states_explored": 52
+    }
+  ]
+}
