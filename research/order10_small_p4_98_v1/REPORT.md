@@ -34,9 +34,12 @@ SHA-256 of every vertex's canonical full adjacency bitmask serialized
 in minimal-length little-endian rows.
 
 The second verifier reconstructs the same P3 from the original source,
-independently enumerates the P4 maximal cliques, reconstructs every
-pairwise clique intersection *directly*, and folds by *closed*
-neighborhood inclusion instead of complement-neighborhood inclusion.
+independently enumerates the P4 maximal cliques with NetworkX and
+cross-checks their **complete** family against the previously merged
+independent bitset Bron--Kerbosch implementation (1,500-facet limit),
+reconstructs every pairwise clique intersection *directly*, and folds
+by *closed* neighborhood inclusion instead of complement-neighborhood
+inclusion.
 For each round it verifies every deleted vertex has an undeleted
 terminal dominator and tests the final graph for stiffness.
 Each saved original graph6, P3/P4 dimension, round list and full
@@ -98,7 +101,8 @@ separate. Exact per-case graph6, full adjacency SHA, raw and pared
 order/edge counts, and fold rounds all have to agree.
 
 Adversarial tests corrupt a recorded SHA, a paring round, and a P3
-shape; also test malformed adjacency masks, path-graph folding,
+shape; inject a false independent BK maximal-clique list; also test
+malformed adjacency masks, path-graph folding,
 source scope and optimized Python execution. The dedicated CI runs
 both complete 98-case verification routines independently.
 
