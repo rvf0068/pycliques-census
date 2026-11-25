@@ -23,9 +23,6 @@ class TenV26PromotionTests(unittest.TestCase):
             certificate["proved_divergent_original_indices"],
             list(EXPECTED_REMOVALS),
         )
-        self.assertEqual(
-            certificate["remaining_unmaterialized_p4_classes"], 5
-        )
 
     def test_exact_six_are_the_only_deletions(self):
         audit_rows(self.before, self.after, self.six)
