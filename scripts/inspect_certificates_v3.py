@@ -16,21 +16,31 @@ from pathlib import Path
 import networkx as nx
 
 from pycliques import small
-from certificate_records_v3 import serialize_result, verify_record
+
+try:
+    from pycliques.certificate_records import serialize_result, verify_record
+except ModuleNotFoundError as error:
+    if error.name != "pycliques.certificate_records":
+        raise
+    from certificate_records_v3 import serialize_result, verify_record
 from timeboxed_trace_v2 import ProgressTrace
 from timeboxed_trace_v3 import summarize_events_v3, trace_classifier_v3
 
 
-def classify_example(graph6: str, *, bound: int = 120, trace_file=None) -> dict:
+def classify_example(graph6: str, *, bound: int = 120, trace_file=None,
+                     proved_only: bool = False) -> dict:
     graph = nx.from_graph6_bytes(graph6.encode("ascii"))
+    options = {"bound": bound, "retraction_depth": 2}
+    if proved_only:
+        if not hasattr(small, "select_reference_graphs"):
+            raise ValueError("--proved-only requires pycliques with per-call reference selection")
+        options["references"] = small.select_reference_graphs(proved_only=True)
     if trace_file is None:
-        outcome = small.classify_clique_behavior(graph, bound=bound, retraction_depth=2)
+        outcome = small.classify_clique_behavior(graph, **options)
     else:
         with ProgressTrace(trace_file) as journal:
             with trace_classifier_v3(journal):
-                outcome = small.classify_clique_behavior(
-                    graph, bound=bound, retraction_depth=2
-                )
+                outcome = small.classify_clique_behavior(graph, **options)
     record = serialize_result(graph, outcome, bound=bound)
     record.update(
         graph6=graph6,
@@ -49,11 +59,12 @@ def main() -> None:
     p.add_argument("--bound", type=int, default=120)
     p.add_argument("--diagnostics", type=Path)
     p.add_argument("--verify-chain", action="store_true")
+    p.add_argument("--proved-only", action="store_true", help="Use only proved registry entries for this call")
     p.add_argument("--require-proof", action="store_true")
     p.add_argument("--output", type=Path)
     args = p.parse_args()
     result = classify_example(
-        args.graph6, bound=args.bound, trace_file=args.diagnostics
+        args.graph6, bound=args.bound, trace_file=args.diagnostics, proved_only=args.proved_only
     )
     if args.require_proof and result["proof_status"] != "verified_local":
         raise SystemExit("No independently verified positive proof was serialized")

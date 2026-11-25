@@ -101,6 +101,29 @@ class CertificateRecordV3Tests(unittest.TestCase):
         self.assertEqual(record["proof"]["rule"], "eventually_clique_helly")
         self.assertTrue(self.verify_record(record, verify_iterate=True))
 
+    def test_inspector_proved_only_and_schema_replay(self):
+        from unittest.mock import patch
+
+        from inspect_certificates_v3 import classify_example, verify_record
+
+        if not hasattr(small, "select_reference_graphs"):
+            with self.assertRaisesRegex(ValueError, "per-call reference"):
+                classify_example("ICvbvy}|g", proved_only=True)
+            record = classify_example("ICvbvy}|g")
+        else:
+            original = small.select_reference_graphs()
+            with patch.object(
+                small, "classify_clique_behavior", wraps=small.classify_clique_behavior
+            ) as classify:
+                record = classify_example("ICvbvy}|g", proved_only=True)
+            self.assertEqual(
+                classify.call_args.kwargs["references"],
+                small.select_reference_graphs(proved_only=True),
+            )
+            self.assertEqual(small.select_reference_graphs(), original)
+        self.assertEqual(record["proof"]["iterate_index"], 3)
+        self.assertTrue(verify_record(record, verify_iterate=True))
+
     def test_unproved_or_unsupported_certificates_never_claim_proof(self):
         graph = nx.cycle_graph(5)
         conditional = small.Certificate(
