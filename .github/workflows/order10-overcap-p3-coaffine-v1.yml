@@ -30,6 +30,12 @@ jobs:
       - name: Compile proof scripts
         run: |
           python -m compileall -q research/order10_overcap_p3_coaffine_v1
+      - name: Replay all five immutable octahedral retractions and the sixth original P3 isomorphism
+        run: |
+          python -m research.order10_overcap_p3_coaffine_v1.verify_positives \
+            > "$RUNNER_TEMP/permanent-positive-proof.log"
+          tail -n 12 "$RUNNER_TEMP/permanent-positive-proof.log"
+          test "$(grep -c '^REPLAY CERTIFIED:' "$RUNNER_TEMP/permanent-positive-proof.log")" -eq 5
 
   native-probe:
     needs: degree-obstructions
