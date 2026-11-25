@@ -24,6 +24,22 @@ We use the existing public =pycliques.find_octahedral_retraction_coaffine= funct
 
 A =FOUND= result must supply complete antipodal pairs and an ordinary graph retraction onto an induced \(O_d=\overline{dK_2}\), with \(d\ge3\). The independent census verifier checks the nonedges within antipodal pairs, all cross-pair edges, fixation of every target vertex, and the entire source edge set; only such a positive certificate establishes \(K\)-divergence. =EXHAUSTED= is a genuine exhaustive negative conclusion about this particular target family at depth three, not about \(K\)-behavior in general. =LIMIT_REACHED= is inconclusive and must never be interpreted as absence of a retraction.
 
+* Certified new result: \(P_3(G_{11656793})\) retracts onto \(O_{11}\)
+
+The label-first native search found an ordinary retraction \(r:P_3(G_{11656793})\to O_{11}\) after \(10643\) search states, where \(P_3(G_{11656793})\) has \(216\) vertices and \(19663\) edges. The complete map is archived in =positive_o11.json=, pinned by its immutable Git blob and by a separate SHA-256 checksum of all \(216\) uncompressed, little-endian integer images; it records eleven explicit antipodal pairs. The independent verifier =verify_positive.py= reconstructs the original third-iterate graph6, checks the complete induced \(O_{11}\), checks that the projection fixes every target vertex, and verifies all \(19663\) source edges. By the ordinary retraction theorem and \(K(O_d)\cong O_{2^{d-1}}\) for \(d\ge3\), the original ten-vertex graph McKay 11656793 is \(K\)-divergent.
+
+The two-million-state alternative fiber-first search was inconclusive on this same graph. The contrast is a practical example of why search-order strategies matter in a complete-or-bounded CSP. No stronger conclusion about the four other unresolved originals follows from limited searches.
+
+| Original McKay | Label-first result (states) | Fiber-first result (states) |
+|-
+| 11505012 | =LIMIT_REACHED= (426207) | =LIMIT_REACHED= (492812) |
+| 11595632 | =LIMIT_REACHED= (1142691) | =LIMIT_REACHED= (742319) |
+| 11656793 | =FOUND= \(O_{11}\) (10643) | =LIMIT_REACHED= (649013) |
+| 11709142 | =LIMIT_REACHED= (1267573) | =LIMIT_REACHED= (1771448) |
+| 11713984 | =LIMIT_REACHED= (2000000) | =LIMIT_REACHED= (2000000) |
+
+The whole ten-task run and its independent aggregate check passed in GitHub Actions run 45681814467, using the monorepo pinned to its merged overhaul commit. The new divergent original is not yet removed from the authoritative indeterminate list: a separate exact v26-to-v27 promotion should be carried out after the six-original v26 update is merged.
+
 * Direct reproduction in Emacs Jupyter
 
 Start Emacs from the =pycliques-census= root with the overhauled =pycliques-project= installed and the native C++ solver built. The first block reconstructs the five authenticated \(P_3\) graphs and independently recomputes their complement sizes and triangle counts, without hardcoding graph6 codes.
@@ -52,9 +68,19 @@ if attempt["status"] == "FOUND":
 
 To reproduce the complete ten-search experiment, use the separately assigned GitHub Actions jobs from =.github/workflows/order10-five-p3-current-native.yml=. Each successful job saves the full authenticated source identity, fixed bound and native status, and the complete positive map if one was discovered. The independent aggregate verifier checks that the full Cartesian product of original indices and branch policies is present and verifies every positive witness.
 
+* Permanent certificate reproduction
+
+The following block replays the exact proof, including all eleven pairs of antipodes, all target cross-edges, and all source edges, without executing or compiling the native search algorithm.
+
+#+begin_src jupyter-python
+from research.order10_five_p3_native_v1.verify_positive import verify_positive
+positive_o11 = verify_positive()
+print(positive_o11)
+#+end_src
+
 * Interpretation
 
-The source census and the historical proof archives are not changed by this experiment. Pending the separate six-original v26 promotion, the authoritative current snapshot is ten-v25 with 1052 unresolved originals; the proposed ten-v26 snapshot has 1046 and continues to leave these five classes indeterminate. The experiment may generate additional proof certificates, but only a subsequent separately audited promotion may alter an authoritative census classification.
+The source census and the historical proof archives are not changed by this experiment. Pending the separate six-original v26 promotion, the authoritative current snapshot is ten-v25 with 1052 unresolved originals; the proposed ten-v26 snapshot has 1046 and continues to leave these five classes indeterminate. The experiment has generated the independently verified complete \(O_{11}\) retraction at \(P_3\) of original 11656793, but a separate audited promotion is required before its authoritative census classification may be changed.
 
 # Local Variables:
 # org-confirm-babel-evaluate: nil
