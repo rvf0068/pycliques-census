@@ -1,0 +1,348 @@
+{
+  "schema": 1,
+  "kind": "five_exact_octahedral_retractions_from_third_pared_clique_iterates",
+  "source_census_pr": 100,
+  "source_workflow_run": 45637104784,
+  "pinned_pycliques_project_commit": "f8eb9b9f2c71d79f9394571df98155f9de568785",
+  "encoding": "zlib_uint16_little_endian_base64",
+  "records": [
+    {
+      "index": 11367777,
+      "p3": [
+        240,
+        22724
+      ],
+      "p3_graph6_sha256": "4b7f9a4327334fc85920ab8b41c7161d90fe7660705568caf107cb9c445d17e0",
+      "target_dimension": 12,
+      "antipodal_pairs": [
+        [
+          6,
+          239
+        ],
+        [
+          13,
+          225
+        ],
+        [
+          14,
+          211
+        ],
+        [
+          38,
+          229
+        ],
+        [
+          45,
+          218
+        ],
+        [
+          50,
+          170
+        ],
+        [
+          67,
+          140
+        ],
+        [
+          72,
+          117
+        ],
+        [
+          73,
+          99
+        ],
+        [
+          104,
+          118
+        ],
+        [
+          105,
+          208
+        ],
+        [
+          145,
+          150
+        ]
+      ],
+      "retraction_bytes_sha256": "cb8e5e1cfc12db872ef27de854b63d8c5643bb1e02602d43fb6090e4702b6ba4",
+      "native_states_explored": 203,
+      "retraction_zlib_base64": "eNp1kLERwjAMRVXRhTHc0bACDczhBg8gT0GTxkNoGu7o6FxQZwWkLyX4Lse9k07++vmJk+gIknKgiRaF0SdV7VwCBhUwZbi8jAQqXZSK6YTZks5DSqGb4nqJXuB0rth7ZkYv4fuHO3P47/jS8WS4Wjf2KfOQxvRQeNvMsW2qCaY6eH//wZWmHrtJU5dgFnrjxmutfY9EF+rBE+96QWVsLM097u94ptNHWWLuUK2+MmaTYQ=="
+    },
+    {
+      "index": 11611429,
+      "p3": [
+        119,
+        6412
+      ],
+      "p3_graph6_sha256": "cfdf7d54f741ba5880b9667d90949e3d66da1b17ddc1208582a524404346e2e8",
+      "target_dimension": 15,
+      "antipodal_pairs": [
+        [
+          0,
+          113
+        ],
+        [
+          3,
+          92
+        ],
+        [
+          6,
+          81
+        ],
+        [
+          8,
+          80
+        ],
+        [
+          10,
+          103
+        ],
+        [
+          16,
+          79
+        ],
+        [
+          19,
+          99
+        ],
+        [
+          26,
+          75
+        ],
+        [
+          30,
+          77
+        ],
+        [
+          37,
+          59
+        ],
+        [
+          40,
+          47
+        ],
+        [
+          45,
+          95
+        ],
+        [
+          49,
+          109
+        ],
+        [
+          63,
+          87
+        ],
+        [
+          67,
+          98
+        ]
+      ],
+      "retraction_bytes_sha256": "8d6bca439a3e90a4c36d154560bcadca74149ac7b13a2e090347857117364d3c",
+      "native_states_explored": 3384,
+      "retraction_zlib_base64": "eNotjCELwzAQhR8URogazFXEDWLGqI6oqAyjq6oZDDZRNdH/b/blUT4uuXv33klBHQSdIHqKyu6CzgcXDUqaIEGvmzNJI842Z/ZXO/LhyXiS7tRgpb09/mgKjKagL768+Ganr2ZV8g9q1hM9mJUrrYp5ob+hwodMpl+1Ob0xVf1wZdj5m7qT+APVIxaD"
+    },
+    {
+      "index": 11623375,
+      "p3": [
+        266,
+        28046
+      ],
+      "p3_graph6_sha256": "f54c9e60bb48b1d1fef7c6a6224a02cbcc15389482f304314b4bf4d4a85be84a",
+      "target_dimension": 12,
+      "antipodal_pairs": [
+        [
+          1,
+          257
+        ],
+        [
+          4,
+          129
+        ],
+        [
+          16,
+          221
+        ],
+        [
+          18,
+          100
+        ],
+        [
+          30,
+          252
+        ],
+        [
+          35,
+          250
+        ],
+        [
+          73,
+          220
+        ],
+        [
+          74,
+          219
+        ],
+        [
+          98,
+          211
+        ],
+        [
+          103,
+          183
+        ],
+        [
+          108,
+          205
+        ],
+        [
+          124,
+          181
+        ]
+      ],
+      "retraction_bytes_sha256": "04fd837acd87f99db82e1945dbc1b368210575c00841506794b144487d39a79b",
+      "native_states_explored": 492,
+      "retraction_zlib_base64": "eNplkM0NwjAMhROJARADcOk0MAaylEtH4NKhqk7RU48Ni1Q58PxLKvTJaWo/x8nLKYM5XRCrfKtB4CrcRJORy8YA5Zzu6FhlP0RXTbv0ajAlNYOg5tBMMXS3Bo/0BFv0UKzNzt9timdegIQSU0fgr+B1kirvVPu26VzZupv7qf0Mp3aMp0qDBzpL+yjuQQE7tsgL/6tL5Baofl7t9rcB6uApn1PGqeKceubnT9D36iO8nZDP+TCHXf0Fs8OmzA=="
+    },
+    {
+      "index": 11708546,
+      "p3": [
+        140,
+        8822
+      ],
+      "p3_graph6_sha256": "72578a887531943ddb04be9b8a6bbcd57a44b89c932ddf502c729719ef2a9bad",
+      "target_dimension": 14,
+      "antipodal_pairs": [
+        [
+          1,
+          137
+        ],
+        [
+          5,
+          115
+        ],
+        [
+          13,
+          105
+        ],
+        [
+          14,
+          75
+        ],
+        [
+          18,
+          111
+        ],
+        [
+          28,
+          121
+        ],
+        [
+          30,
+          90
+        ],
+        [
+          31,
+          128
+        ],
+        [
+          33,
+          38
+        ],
+        [
+          36,
+          100
+        ],
+        [
+          43,
+          52
+        ],
+        [
+          54,
+          80
+        ],
+        [
+          62,
+          102
+        ],
+        [
+          76,
+          93
+        ]
+      ],
+      "retraction_bytes_sha256": "fa14e934cfdceb09c5008cc5863649475adaea7907cae92651d6e4bf96b58a20",
+      "native_states_explored": 2499,
+      "retraction_zlib_base64": "eNpFjCELwzAUhC8ichPTI2VQZmbLZP5AKqIHcWUQVTE1N9t/vS+vpeXjLpd7eXFyhge30+kEZ2u9LormBa3dFToF5HUz9fjdZg/DK6EA0XzQE8LOQB/Za7m3HOyW0IiPUDQpQ4H2Z954oWmfZvay5bedFW+vK5r5KeEf/fQ1NSqpbhzdyqwFX/QHd1sgGA=="
+    },
+    {
+      "index": 11713770,
+      "p3": [
+        95,
+        4099
+      ],
+      "p3_graph6_sha256": "fd2b3780ff407bd9054581fe46807dfd44a544a523bfb8d84e579fc8d8e2b877",
+      "target_dimension": 14,
+      "antipodal_pairs": [
+        [
+          3,
+          91
+        ],
+        [
+          4,
+          74
+        ],
+        [
+          5,
+          90
+        ],
+        [
+          6,
+          73
+        ],
+        [
+          17,
+          66
+        ],
+        [
+          21,
+          87
+        ],
+        [
+          23,
+          77
+        ],
+        [
+          25,
+          59
+        ],
+        [
+          27,
+          38
+        ],
+        [
+          37,
+          75
+        ],
+        [
+          40,
+          81
+        ],
+        [
+          41,
+          78
+        ],
+        [
+          55,
+          72
+        ],
+        [
+          56,
+          67
+        ]
+      ],
+      "retraction_bytes_sha256": "7a31de8f52f8b34f68ee1f3d028794f1d91525e068d944f6c4f5429351b26047",
+      "native_states_explored": 52,
+      "retraction_zlib_base64": "eNo9jMEKg0AMRAdavXsoIjlb3C+w0JteXKUFT4L+/3/4iEEe2VkmMyn0hAdTqGSSxpukHqrgJVON16AWux6nDqfVGzq/kKKT4HAWfT3/QS+qezPQMF5DJ2XNnv7pz38F8/wWZO20Mhw6AZiLEso="
+    }
+  ]
+}
