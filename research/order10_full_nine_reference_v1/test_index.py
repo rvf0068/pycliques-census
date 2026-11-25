@@ -1,5 +1,6 @@
 """Lightweight adversarial tests for sharded positive-only P3 reference matching."""
 import unittest
+from unittest.mock import patch
 
 import networkx as nx
 
@@ -44,6 +45,25 @@ class FullNineReferenceTests(unittest.TestCase):
             left.has_edge(u, v) == right.has_edge(result[u], result[v])
             for u in left for v in left
         ))
+
+    def test_graph6_equality_does_not_allow_wrong_label_mapping(self):
+        left = nx.path_graph(4)
+        right = nx.relabel_nodes(left, {i: i + 10 for i in range(4)})
+        self.assertEqual(index.graph6(left), index.graph6(right))
+        with self.assertRaisesRegex(AssertionError, "canonical integer labels"):
+            index.exact_map(left, right)
+
+    def test_internal_verifier_error_is_fatal_not_a_resource_skip(self):
+        with patch.object(index, "independent_clique_graph",
+                          side_effect=AssertionError("Independent enumerators disagree")):
+            with self.assertRaisesRegex(AssertionError, "enumerators disagree"):
+                index.next_pared(nx.path_graph(4), 1)
+
+    def test_only_explicit_limit_is_inconclusive(self):
+        limit = index.LimitHit(1, "maximal_clique_cap", [4])
+        with patch.object(index, "independent_clique_graph", side_effect=limit):
+            with self.assertRaises(index.ReconstructionLimit):
+                index.next_pared(nx.path_graph(4), 1)
 
     def test_illegal_provenance_blob_is_rejected(self):
         with self.assertRaises(AssertionError):
