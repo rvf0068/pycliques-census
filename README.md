@@ -817,6 +817,17 @@ with that environment activated:
 python scripts/inspect_certificates_v3.py 'ICvbvy}|g' --verify-chain
 ```
 
+Use the [reference inspector](research/reference_inspector_v1/inspect_certificate.py)
+with the public reference and certificate APIs to restrict a classification to
+proved reference graphs and replay the entire chain:
+
+```bash
+python research/reference_inspector_v1/inspect_certificate.py 'ICvbvy}|g' --proved-only --verify-chain --require-proof
+```
+
+At the historical v3 witness pin, the same command without `--proved-only`
+uses the archived inspector.
+
 These utilities are not a substitute for a new batch runner, a new stage
 manifest, and an explicit user-approved census restart. Historical results
 must continue to use the revision recorded in their own manifests.
