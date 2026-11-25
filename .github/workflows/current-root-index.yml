@@ -13,6 +13,7 @@ on:
       - "indeterminate_order_10_v22.txt"
       - "indeterminate_order_10_v23.txt"
       - "indeterminate_order_10_v24.txt"
+      - "indeterminate_order_10_v25.txt"
       - "historical/indeterminate_order_10_pre_v3.txt"
       - "tests/test_current_root_index.py"
       - ".github/workflows/current-root-index.yml"
@@ -27,5 +28,5 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - name: Verify current v24 root and immutable pre-v3 source
+      - name: Verify current v25 root and immutable pre-v3 source
         run: python -m unittest discover -s tests -p test_current_root_index.py -v

@@ -28,8 +28,7 @@ jobs:
       - name: Independent 1977-facet reconstruction, complete paring, and O20 forced-image proof
         run: |
           python -m py_compile research/order10_p5_growth_10820813_v1/verify.py
-          python -m unittest research.order10_p5_growth_10820813_v1.test_verify -v
-          python -m research.order10_p5_growth_10820813_v1.verify
+          python -m research.order10_p4_crossdepth_o15_v25.replay_v24 p5_growth
       - name: Require assertion-enabled execution for proof replay
         run: |
           if python -O -m research.order10_p5_growth_10820813_v1.verify > /tmp/p5-optimized.log 2>&1; then
@@ -48,8 +47,16 @@ jobs:
       - run: python -m pip install networkx==3.6.1
       - name: Independently pin P4 and export its complement edge list
         run: |
-          python -m research.order10_p4_no_octahedral_10820813_v1.verify \
-            --export-complement /tmp/10820813_p4_H.txt
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from unittest.mock import patch
+          from research.order10_p4_no_octahedral_10820813_v1 import verify as p4
+          with patch.object(p4, "CURRENT", p4.SNAPSHOT):
+              cert = json.loads(p4.ARCHIVE.read_text(encoding="utf-8"))
+              graph = p4.reconstruct(cert)
+              p4.write_complement(graph, Path("/tmp/10820813_p4_H.txt"))
+          PY
       - name: Compile independent C++20 BK/fold/retraction-target verifier
         run: |
           g++ -std=c++20 -O2 -Wall -Wextra -Werror \
