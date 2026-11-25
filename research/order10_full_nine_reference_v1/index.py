@@ -244,6 +244,8 @@ class ReconstructionLimit(Exception):
 def exact_map(graph: nx.Graph, target: nx.Graph, seconds: float = 3.0
               ) -> list[int] | None:
     """Full isomorphism with strict TIME_LIMIT status; no false negatives."""
+    require(set(graph) == set(target) == set(range(len(graph))),
+            "Exact positive matcher expects canonical integer labels")
     if signature(graph) != signature(target):
         return None
     # The graph6 serializer normalizes node labels. Its equality is NOT
