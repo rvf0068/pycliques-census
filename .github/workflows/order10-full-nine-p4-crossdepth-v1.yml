@@ -1,0 +1,235 @@
+name: Certified historical divergent references against surviving ten-P4 iterates
+
+on:
+  pull_request:
+    paths:
+      - "research/order10_full_nine_p4_crossdepth_v1/**"
+      - "research/order10_full_nine_reference_v1/**"
+      - "research/order10_p4_reference_pilot_v24/results.json"
+      - "research/order10_p4_cap_rescue_v24/**"
+      - "research/order10_p4_nine_links_v1/**"
+      - "research/order10_p3_global_v23_index/**"
+      - "indeterminate_order_10_v25.txt"
+      - "indeterminate_order_9_v1.txt"
+      - "indeterminate_order_9_v2.txt"
+      - "indeterminate_order_9_v3.txt"
+      - "indeterminate_order_9_v9.txt"
+      - "scripts/**"
+      - "config/pycliques_commit_core9_three_target_v1.txt"
+      - "historical/indeterminate_order_10_pre_v3.txt"
+      - "runs/**"
+      - "reports/**"
+      - ".github/workflows/order10-full-nine-p4-crossdepth-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests-and-hosts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      sha256: ${{ steps.digest.outputs.sha256 }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Regression-test code-pinned source identities and abort-on-integrity failures
+        run: |
+          python -m py_compile research/order10_full_nine_p4_crossdepth_v1/search.py
+          python -m unittest research.order10_full_nine_p4_crossdepth_v1.test_search -v
+      - name: Verify all 210 P4 source shapes from immutable predecessor proofs
+        run: |
+          python -m research.order10_full_nine_p4_crossdepth_v1.search hosts --output "$RUNNER_TEMP/ten-p4-hosts.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          x=json.loads((Path(os.environ["RUNNER_TEMP"])/"ten-p4-hosts.json").read_text())
+          assert x["counts"] == {
+              "pilot_complete":180, "pilot_limited":26,
+              "rescue_complete":26, "new_p4_links":4,
+              "all":210, "within_reference_bound":202, "over_reference_bound":8,
+          }
+          assert len(x["records"]) == 210
+          PY
+      - name: Independent host source job attests exact bytes
+        id: digest
+        run: echo "sha256=$(sha256sum "$RUNNER_TEMP/ten-p4-hosts.json" | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: certified-surviving-ten-p4-shapes-v1
+          path: ${{ runner.temp }}/ten-p4-hosts.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: Reject optimized Python bypass of proof assertions
+        run: |
+          if python -O -m research.order10_full_nine_p4_crossdepth_v1.search hosts --output /tmp/opt-hosts.json >/tmp/opt.log 2>&1; then
+            echo "Optimized proof unexpectedly accepted"; exit 1
+          fi
+          grep -q "Optimized Python is forbidden" /tmp/opt.log
+
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    outputs:
+      sha256: ${{ steps.digest.outputs.sha256 }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore frozen historical root aliases only in isolated runner
+        run: |
+          cp indeterminate_order_9_v1.txt indeterminate_order_9.txt
+          cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt
+      - uses: astral-sh/setup-uv@v4
+      - name: Reuse authenticated original historical divergent census reader
+        run: bash scripts/bootstrap_core9_three_target_v1.sh
+      - name: Build certified 10155-source inventory
+        run: |
+          .venv-core9-three-v1/bin/python -m research.order10_full_nine_reference_v1.index inventory --output "$RUNNER_TEMP/inventory.json"
+      - name: Attest historical positive original source bytes
+        id: digest
+        run: echo "sha256=$(sha256sum "$RUNNER_TEMP/inventory.json" | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: full-proved-historical-references-p4-v1
+          path: ${{ runner.temp }}/inventory.json
+          retention-days: 30
+          if-no-files-found: error
+
+  independent-inventory-audit:
+    needs: [inventory]
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore historical aliases in separate proof-audit runner
+        run: |
+          cp indeterminate_order_9_v1.txt indeterminate_order_9.txt
+          cp historical/indeterminate_order_10_pre_v3.txt indeterminate_order_10.txt
+      - uses: astral-sh/setup-uv@v4
+      - name: Independently bootstrap original pinned census tools
+        run: bash scripts/bootstrap_core9_three_target_v1.sh
+      - name: Independently reconstruct every proved historical graph and compare complete inventory digests
+        env:
+          ORIGINAL_INVENTORY_SHA: ${{ needs.inventory.outputs.sha256 }}
+        run: |
+          set -euo pipefail
+          test -n "$ORIGINAL_INVENTORY_SHA"
+          .venv-core9-three-v1/bin/python -m research.order10_full_nine_reference_v1.index inventory --output "$RUNNER_TEMP/independent-inventory.json"
+          recomputed="$(sha256sum "$RUNNER_TEMP/independent-inventory.json" | cut -d' ' -f1)"
+          test "$recomputed" = "$ORIGINAL_INVENTORY_SHA"
+          echo "Independently replayed all 10155 proved-divergent sources from historical McKay graph6 and frozen verdicts"
+
+  screen-shards:
+    needs: [inventory, tests-and-hosts]
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0,1,2,3,4,5,6,7]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - uses: actions/download-artifact@v4
+        with:
+          name: full-proved-historical-references-p4-v1
+          path: ${{ runner.temp }}/references
+      - uses: actions/download-artifact@v4
+        with:
+          name: certified-surviving-ten-p4-shapes-v1
+          path: ${{ runner.temp }}/references
+      - name: Authenticate upstream artifacts against successful generating jobs
+        env:
+          REFS_SHA: ${{ needs.inventory.outputs.sha256 }}
+          HOSTS_SHA: ${{ needs.tests-and-hosts.outputs.sha256 }}
+        run: |
+          set -euo pipefail
+          test -n "$REFS_SHA" && test -n "$HOSTS_SHA"
+          test "$(sha256sum "$RUNNER_TEMP/references/inventory.json" | cut -d' ' -f1)" = "$REFS_SHA"
+          test "$(sha256sum "$RUNNER_TEMP/references/ten-p4-hosts.json" | cut -d' ' -f1)" = "$HOSTS_SHA"
+      - name: Screen all assigned verified-divergent references against 202 eligible ten-P4 shapes
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/shards"
+          python -m research.order10_full_nine_p4_crossdepth_v1.search shard \
+            --inventory "$RUNNER_TEMP/references/inventory.json" \
+            --hosts "$RUNNER_TEMP/references/ten-p4-hosts.json" \
+            --shard "$SHARD" --shards 8 \
+            --output "$RUNNER_TEMP/shards/shard-$SHARD.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: full-proved-nine-to-ten-p4-shard-${{ matrix.shard }}-v1
+          path: ${{ runner.temp }}/shards/shard-${{ matrix.shard }}.json
+          if-no-files-found: error
+          retention-days: 30
+
+  replay-all-positives:
+    needs: [inventory, independent-inventory-audit, tests-and-hosts, screen-shards]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - uses: actions/download-artifact@v4
+        with:
+          name: full-proved-historical-references-p4-v1
+          path: ${{ runner.temp }}/references
+      - uses: actions/download-artifact@v4
+        with:
+          name: certified-surviving-ten-p4-shapes-v1
+          path: ${{ runner.temp }}/references
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: full-proved-nine-to-ten-p4-shard-*-v1
+          path: ${{ runner.temp }}/shards
+          merge-multiple: true
+      - name: Reauthenticate inputs and require exactly 8 completed shards
+        env:
+          REFS_SHA: ${{ needs.inventory.outputs.sha256 }}
+          HOSTS_SHA: ${{ needs.tests-and-hosts.outputs.sha256 }}
+        run: |
+          set -euo pipefail
+          test -n "$REFS_SHA" && test -n "$HOSTS_SHA"
+          test "$(sha256sum "$RUNNER_TEMP/references/inventory.json" | cut -d' ' -f1)" = "$REFS_SHA"
+          test "$(sha256sum "$RUNNER_TEMP/references/ten-p4-hosts.json" | cut -d' ' -f1)" = "$HOSTS_SHA"
+          test "$(find "$RUNNER_TEMP/shards" -name 'shard-*.json' | wc -l)" -eq 8
+      - name: Independently replay full adjacency bijection for every positive match
+        run: |
+          python -m research.order10_full_nine_p4_crossdepth_v1.search replay \
+            --inventory "$RUNNER_TEMP/references/inventory.json" \
+            --hosts "$RUNNER_TEMP/references/ten-p4-hosts.json" \
+            --results "$RUNNER_TEMP/shards" --shards 8 \
+            --output "$RUNNER_TEMP/verified-positives.json"
+      - name: Record precise positive, negative collision and inconclusive counts
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          d=json.loads((Path(os.environ["RUNNER_TEMP"])/"verified-positives.json").read_text())
+          print(json.dumps({k:d[k] for k in (
+              "certified_historical_reference_count","frozen_p4_host_count",
+              "within_bounded_scope","p0_classes_within_shards",
+              "dimension_collisions","ref_stage_reconstruction_limits",
+              "exact_isomorphism_timeouts","ten_v25_positive_original_indices"
+          )},indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: full-nine-vs-ten-p4-verified-positive-results-v1
+          path: ${{ runner.temp }}/verified-positives.json
+          retention-days: 30
+          if-no-files-found: error
