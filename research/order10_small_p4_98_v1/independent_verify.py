@@ -21,7 +21,10 @@ if sys.flags.optimize:
 
 import networkx as nx
 
-from research.order10_p3_global_v23_index.independent_verify import independent_p3
+from research.order10_p3_global_v23_index.independent_verify import (
+    independent_p3,
+    maximal_cliques_bk,
+)
 from research.order10_small_p4_98_v1.verify import (
     source_catalog, require,
 )
@@ -41,6 +44,13 @@ def raw_fourth_graph(p3: nx.Graph) -> list[int]:
     cliques = sorted(
         sum(1 << v for v in q) for q in nx.find_cliques(p3)
     )
+    # Independently certify the complete facet family at the fourth stage.
+    # The merged P3 Bron--Kerbosch implementation is unrelated to the
+    # primary P4 verifier's own BK code. The cap of 1,500 covers all 98
+    # cases (largest P4 raw order 1,074), while remaining fail-closed.
+    bk_cliques = maximal_cliques_bk(p3, cap=1500)
+    require(cliques == sorted(bk_cliques),
+            "Independent NetworkX/Bron--Kerbosch P4 clique mismatch")
     n = len(cliques)
     masks = [0] * n
     for i in range(n):
