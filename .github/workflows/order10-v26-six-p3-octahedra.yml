@@ -10,6 +10,8 @@ on:
       - "research/order10_p4_crossdepth_o15_v25/**"
       - "indeterminate_order_10_v25.txt"
       - "indeterminate_order_10_v26.txt"
+      - "indeterminate_order_10_v27.txt"
+      - "research/order10_v27_two_p3_o11/**"
       - "indeterminate_order_10.txt"
       - "indeterminate_order_9_v9.txt"
       - "indeterminate_order_9.txt"
@@ -34,10 +36,10 @@ jobs:
           python -m research.order10_overcap_p3_coaffine_v1.verify_positives > "$RUNNER_TEMP/positive.log"
           test "$(grep -c '^REPLAY CERTIFIED:' "$RUNNER_TEMP/positive.log")" -eq 5
           tail -n 9 "$RUNNER_TEMP/positive.log"
-      - name: Complete independent v25-to-v26 census transition audit
+      - name: Replay frozen historical v25-to-v26 positive census transition
         run: |
-          python -m research.order10_v26_six_p3_octahedral.verify > "$RUNNER_TEMP/v26.log"
-          grep -q '^PASS: six and only six original' "$RUNNER_TEMP/v26.log"
+          python -m research.order10_v27_two_p3_o11.replay_v26 > "$RUNNER_TEMP/v26.log" 2>&1
+          grep -q '^PASS: immutable ten-v26 six-positive proof' "$RUNNER_TEMP/v26.log"
           tail -n 12 "$RUNNER_TEMP/v26.log"
       - name: No optimized execution may bypass proof assertions
         run: |
@@ -56,7 +58,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install networkx==3.6.1
-      - name: Validate exact six promotions and reject corrupted census rows
+      - name: Audit current v27 root after independent historical v26 proof replay
         run: |
           python -m compileall -q research/order10_v26_six_p3_octahedral
-          python -m unittest research.order10_v26_six_p3_octahedral.test_verify -v
+          python -m unittest discover -s tests -p test_current_root_index.py -v
