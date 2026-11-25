@@ -88,7 +88,6 @@ class CensusP4CertificatesTests(unittest.TestCase):
 
     def test_adversarial_malformed_graph_mask_fails_closed(self):
         with self.assertRaisesRegex(AssertionError, "Asymmetric"):
-            verify.replay_primary_p4.__module__  # noqa: B018
             from research.order10_small_p4_98_v1.verify import dims
             dims([0b10, 0])
 
