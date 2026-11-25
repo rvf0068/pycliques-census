@@ -26,6 +26,7 @@ NINE = ROOT / "indeterminate_order_9.txt"
 NINE_FROZEN = ROOT / "indeterminate_order_9_v9.txt"
 
 ORIGINAL_V26_BLOB = "6a61df2e6b68ca2229cb94667cfa932fb5b5d73f"
+ORIGINAL_NINE_V9_BLOB = "d18a7a843be935f3a7fe911691dd1c86dac2addd"
 EXPECTED_REMOVALS = (11656793, 11658674)
 ORIGINAL_GRAPH6 = {
     11656793: r"IErtv\}~O",
@@ -38,6 +39,14 @@ EXPECTED_AFTER_COUNTS = {9: 430, 10: 614}
 def require(ok: bool, reason: str) -> None:
     if not ok:
         raise AssertionError(reason)
+
+
+def audit_nine_v9(active: bytes, frozen: bytes) -> None:
+    """Authenticate both the immutable nine-v9 catalog and working root."""
+    require(git_blob(frozen) == ORIGINAL_NINE_V9_BLOB,
+            "Historical nine-v9 source Git blob changed")
+    require(active == frozen,
+            "Nine-v9 canonical census root differs from certified snapshot")
 
 
 def audit_rows(
@@ -72,8 +81,7 @@ def verify() -> dict:
             "Historical ten-v26 source Git blob changed")
     require(WORKING.read_bytes() == LATEST.read_bytes(),
             "Active ten-vertex census root differs from certified v27")
-    require(NINE.read_bytes() == NINE_FROZEN.read_bytes(),
-            "Nine-v9 canonical census root was modified")
+    audit_nine_v9(NINE.read_bytes(), NINE_FROZEN.read_bytes())
     before = source_rows(BEFORE)
     after = source_rows(LATEST)
 
