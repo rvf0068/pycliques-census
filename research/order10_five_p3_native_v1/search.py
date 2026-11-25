@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+from importlib import metadata
 import json
 import os
 from pathlib import Path
@@ -29,11 +30,57 @@ MAX_STATES = 2_000_000
 SECONDS = 90
 REMAINING = (11505012, 11595632, 11656793, 11709142, 11713984)
 VALUE_ORDERS = ("label", "fiber")
+RUNTIME_VERSIONS = {
+    "networkx": "3.6",
+    "grandiso": "2.2.0",
+    "rich": "14.3.3",
+    "markdown-it-py": "4.0.0",
+    "pygments": "2.19.2",
+    "mdurl": "0.1.2",
+    "typing-extensions": "4.15.0",
+}
+# Frozen Git blobs from precisely the merged overhaul commit. Checking
+# the *installed source bytes*, not only a caller-controlled environment
+# variable, makes both CLI and Emacs-Jupyter direct calls reproducible.
+PYCLIQUES_SOURCE_GIT_BLOBS = {
+    "__init__.py": "337443fa70fa01f663cf2baf1ebf90162c8004fb",
+    "octahedral_coaffine.py": "c0eef53ba021a23b6e68d90f3e4228d9d7ee3fe2",
+    "octahedral_coaffine_native.py": "34b98f41374d8d26c2bccc68a377c83a1b5bbcee",
+    "coaffine_endomorphisms.py": "f9167af4afb020cf6775e4a7c5d495252fbefcaa",
+    "retractions.py": "4da2ada302c493276b145baafdd5f533ee7d573d",
+    "_coaffine_native.cpp": "868d545da6cb9f266fb603899f59ef03ff506187",
+    "octahedral_joint_fibers.py": "1a038e97346a03d2d2bb075228b578f74e7d87e2",
+}
 
 
 def require(condition: bool, reason: str) -> None:
     if not condition:
         raise AssertionError(reason)
+
+
+def validate_runtime() -> dict[str, str]:
+    """Check pinned solver bytes and all resolved runtime dependencies.
+
+    In particular, this is called by investigate() itself so an Emacs
+    Jupyter caller cannot silently bypass the original monorepo pin.
+    """
+    require(os.environ.get("PYCLIQUES_PINNED_SHA") == MONOREPO_SHA,
+            "Native solver's monorepo checkout SHA was not verified")
+    import pycliques
+
+    directory = Path(pycliques.__file__).resolve().parent
+    for name, expected in PYCLIQUES_SOURCE_GIT_BLOBS.items():
+        raw = (directory / name).read_bytes()
+        git_blob = hashlib.sha1(
+            b"blob " + str(len(raw)).encode("ascii") + b"\\0" + raw
+        ).hexdigest()
+        require(git_blob == expected,
+                "Installed pycliques source differs from pinned monorepo: "
+                + name)
+    versions = {name: metadata.version(name) for name in RUNTIME_VERSIONS}
+    require(versions == RUNTIME_VERSIONS,
+            "Installed native solver dependency versions are not locked")
+    return versions
 
 
 def source_graph(index: int) -> tuple[dict, nx.Graph]:
@@ -47,6 +94,7 @@ def source_graph(index: int) -> tuple[dict, nx.Graph]:
 
 def investigate(index: int, value_order: str) -> dict:
     require(value_order in VALUE_ORDERS, "Unknown source-order search policy")
+    runtime_versions = validate_runtime()
     from pycliques import find_octahedral_retraction_coaffine
 
     source, graph = source_graph(index)
@@ -77,6 +125,8 @@ def investigate(index: int, value_order: str) -> dict:
             sum(nx.triangles(comp).values()) // 3,
         "complement_connected": nx.is_connected(comp),
         "solver_revision": MONOREPO_SHA,
+        "installed_solver_source_blobs_verified": True,
+        "dependency_versions": runtime_versions,
         "search_policy": value_order,
         "max_states": MAX_STATES,
         "time_limit_seconds": SECONDS,
@@ -115,8 +165,6 @@ def main() -> None:
     parser.add_argument("--value-order", required=True, choices=VALUE_ORDERS)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    require(os.environ.get("PYCLIQUES_PINNED_SHA") == MONOREPO_SHA,
-            "Native solver must come from the specified PR56 merge commit")
     outcome = investigate(args.index, args.value_order)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
