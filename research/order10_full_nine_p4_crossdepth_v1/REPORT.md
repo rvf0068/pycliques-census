@@ -39,7 +39,7 @@ The historical P3 reference reconstruction permits no more than
 stored ten-P4 shapes have <=750 vertices and can therefore possibly
 match a completely reconstructed reference P3 under this bound. The
 other eight are explicitly **outside this bounded comparison scope**,
-not proved dissimilar or nond divergent.
+not excluded as potential isomorphism targets by this bounded search.
 
 To reduce work, each reference P0..P3 is reconstructed only as far as
 its documented resource budgets permit and first compared with the
@@ -65,9 +65,15 @@ deterministically disjoint shards, retaining the complete proof
 provenance of each source.
 
 An input digest is never obtained by trusting an unverified downloaded
-artifact: the 10,155-source inventor and 210-target host-index job each
+artifact: the 10,155-source inventory and 210-target host-index jobs each
 publish their SHA-256 through a successful CI job output, which every
-independent shard and final verifier check. No previous source record,
+independent shard and final verifier check. A **separate independent
+inventory-audit runner** re-enumerates all 10,155 proved sources from
+the historical graph6/verdict archive and checks the complete inventory
+SHA-256. Each shard additionally archives every original McKay
+source key it processed; the final replay rejects missing, duplicated
+or misassigned source keys. Positives on the eight out-of-bound hosts
+are explicitly rejected. No previous source record,
 census stage or historical positive certificate is altered.
 
 ## Explicitly inconclusive resource limits
