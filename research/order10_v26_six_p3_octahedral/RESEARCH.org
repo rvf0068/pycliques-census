@@ -1,0 +1,83 @@
+#+TITLE: Six exact ten-vertex clique divergences from third-iterate octahedral retractions
+#+DATE: 2026-11-25
+#+LANGUAGE: en
+#+OPTIONS: toc:2
+#+PROPERTY: header-args:jupyter-python :session pycliques-v26 :results output :exports both
+
+* Certified census update
+
+We use the convention that a /complete/ is a nonempty set of pairwise adjacent vertices, and that a /clique/ is an inclusion-maximal complete. For a graph \(G\), \(K(G)\) is its maximal-clique intersection graph. Let \(P_0(G)\) be its complete closed-neighborhood dominated-vertex paring, and put \(P_{j+1}(G)=P(K(P_j(G)))\). Every \(P_j(G)\) has the same clique behavior as the corresponding unpared iterate, and the notation \(O_d=\overline{dK_2}\) denotes the complement of \(d\) disjoint edges.
+
+The previous certified snapshot ten-v25 had \(1052\) original indeterminate ten-vertex graphs, including \(430\) with nine-vertex pared cores and \(622\) with ten-vertex pared cores. The complete certificates below prove exactly six more original ten-vertex graphs \(K\)-divergent and leave \(1046\) originals indeterminate, divided as \(430+616\). The three indeterminate original nine-vertex graphs remain unchanged.
+
+* Five complete ordinary retractions and one exact class lift
+
+| McKay original | Third-iterate target | P3 order | Certificate type |
+|-
+| 11367777 | \(O_{12}\) | 240 | Complete ordinary retraction |
+| 11611429 | \(O_{15}\) | 119 | Complete ordinary retraction |
+| 11623375 | \(O_{12}\) | 266 | Complete ordinary retraction |
+| 11651749 | \(O_{15}\) | 119 | Exact P3 isomorphism to 11611429 |
+| 11708546 | \(O_{14}\) | 140 | Complete ordinary retraction |
+| 11713770 | \(O_{14}\) | 95 | Complete ordinary retraction |
+
+The archived proof from merged census PR #100 records five complete ordinary graph retractions \(r:P_3(G)\to O_d\), each with a complete map on all source vertices, a disjoint list of antipodal target pairs, and raw-map checksums. Its independent replay checks that every antipodal pair is a nonedge, all cross-pair edges are present, the retraction fixes the target pointwise, and every edge in the full source graph is sent to an edge or a single vertex. The sixth original, McKay 11651749, has a previously archived complete \(119\)-vertex bijection \(P_3(G_{11651749})\cong P_3(G_{11611429})\), checked against every edge and nonedge. Transporting the known \(O_{15}\) retraction along this isomorphism proves its divergence.
+
+An ordinary retraction \(X\to O_d\) preserves the target as a retract under clique iteration. Since \(K(O_d)\cong O_{2^{d-1}}\) and \(d\ge3\), these targets are \(K\)-divergent. The complete paring theorem therefore proves each original graph in the table \(K\)-divergent. The conclusion relies on positive exact witnesses and not on bounded-search timeouts or negative heuristics.
+
+* Reproduction with the monorepo and the official census verifiers
+
+Open Emacs Org mode from the =pycliques-census= repository root, using a Python environment with =networkx>=3.6= and the current =pycliques-project= monorepo installed. The main proof verifier imports only the versioned existing census proof functions and the previously archived exact mappings; it does not repeat a native solver search or compute a gigantic \(P_4\).
+
+#+begin_src jupyter-python
+from research.order10_v26_six_p3_octahedral.verify import verify
+certificate = verify()
+print(certificate["kind"])
+print(certificate["population"])
+print("Divergent originals:", certificate["proved_divergent_original_indices"])
+print("Still oversized P3 classes:", certificate["further_oversized_P3_classes_still_unresolved"])
+#+end_src
+
+The following additional block demonstrates that the independently reconstructed third iterates agree with the public =CliqueSequence= API after the monorepo overhaul, without hardcoding a graph6 string or a representative index.
+
+#+begin_src jupyter-python
+import networkx as nx
+from pycliques import CliqueSequence
+from research.order10_full_nine_reference_v1 import index as sources
+
+host_by_index = {row["index"]: row for row in sources.hosts()["records"]}
+first = certificate["direct_third_iterate_octahedral_retractions"][0]
+source = host_by_index[first]
+original = nx.from_graph6_bytes(source["graph6"].encode("ascii"))
+sequence = CliqueSequence(original, bound=10000, pare=True, relabel=True, pare_initial=True)
+independent_p3 = nx.from_graph6_bytes(source["p3_graph6"].encode("ascii"))
+print("Index:", first)
+print("Pared third-iterate size:", len(sequence[3]), sequence[3].number_of_edges())
+print("Exact abstract third-iterate agreement:", nx.is_isomorphic(sequence[3], independent_p3))
+#+end_src
+
+The next block replays the five permanent ordinary retractions and the sixth exact isomorphism directly, without asking the classifier to re-discover them. This is preferred for historical certificates because the current monorepo classifiers and reference selection may differ from their pinned predecessors.
+
+#+begin_src jupyter-python
+from research.order10_overcap_p3_coaffine_v1.verify_positives import replay_positive_witnesses
+positive = replay_positive_witnesses()
+for row in positive["records"]:
+    print(row["index"], row["target"], row["ordinary_octahedral_retraction"])
+#+end_src
+
+* Interpretation and outstanding work
+
+The previous ten-v25 snapshot, the PR #100 immutable retraction archive, the global \(P_3\)-class isomorphism certificates, and the nine-v9 snapshot remain byte-for-byte unchanged. The v26 verifier compares every retained six-column record to v25, requires precisely the six proved deletions, rejects changed graph6 strings or any extra deletion, and confirms that the active ten-vertex root matches the frozen new v26 snapshot.
+
+The five still-oversized third-iterate representatives are McKay 11505012, 11595632, 11656793, 11709142, and 11713984. Bounded native searches previously reached =LIMIT_REACHED= for the existence of an octahedral retraction, so their \(K\)-behavior remains indeterminate. For further research, prefer the public reusable =pycliques= retraction and coaffine algorithms with larger, explicitly recorded budgets and structural obstructions before constructing huge fourth iterates.
+
+* Exact command-line verification
+
+#+begin_src sh
+python -m research.order10_v26_six_p3_octahedral.verify
+python -m unittest research.order10_v26_six_p3_octahedral.test_verify -v
+#+end_src
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:
