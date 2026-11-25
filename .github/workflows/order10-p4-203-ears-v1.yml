@@ -1,0 +1,186 @@
+name: Certify 203 ten-P4 reconstructions and fourteen complete ears
+
+on:
+  pull_request:
+    paths:
+      - "research/order10_p4_203_ears_v1/**"
+      - "research/order10_small_p4_98_v1/**"
+      - "research/order10_p4_cap_rescue_v24/**"
+      - "research/order10_full_nine_reference_v1/**"
+      - "research/order10_full_nine_p4_crossdepth_v1/**"
+      - "research/order10_p3_global_v23_index/**"
+      - "research/snub_ear_all_iterates_homotopy_v1.md"
+      - "indeterminate_order_9_v9.txt"
+      - "indeterminate_order_10_v25.txt"
+      - ".github/workflows/order10-p4-203-ears-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit-and-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install networkx==3.6.1
+      - name: Check immutable source identities and exact 210+98+203+10 P3-class partition
+        run: |
+          python -m research.order10_p4_203_ears_v1.verify audit
+      - name: Test adversarial SHA, facet, fold and ear-map tampering
+        run: |
+          python -m compileall -q research/order10_p4_203_ears_v1
+          python -m unittest research.order10_p4_203_ears_v1.test_verify -v
+      - name: Explicitly prohibit optimized execution of proof verifiers
+        run: |
+          set -euo pipefail
+          if python -O -m research.order10_p4_203_ears_v1.verify audit > /tmp/p4-opt.log 2>&1; then
+            echo "Optimized P4 verifier unexpectedly accepted"; exit 1
+          fi
+          grep -q "Optimized execution bypasses P4 proof assertions" /tmp/p4-opt.log
+          if python -O -m research.order10_p4_203_ears_v1.ears > /tmp/ear-opt.log 2>&1; then
+            echo "Optimized ear verifier unexpectedly accepted"; exit 1
+          fi
+          grep -q "Optimized ear proof is forbidden" /tmp/ear-opt.log
+
+  primary:
+    needs: audit-and-tests
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0,1,2,3]
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install networkx==3.6.1
+      - name: Replay own disjoint assigned 203-case P4 source shard by certified dual facet enumeration
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          python -m research.order10_p4_203_ears_v1.verify primary \
+            --shard "$SHARD" --shards 4 \
+            --output "$RUNNER_TEMP/shard-$SHARD.json" \
+            > "$RUNNER_TEMP/primary-$SHARD.log"
+          tail -n 4 "$RUNNER_TEMP/primary-$SHARD.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p4-203-primary-${{ matrix.shard }}
+          path: ${{ runner.temp }}/shard-${{ matrix.shard }}.json
+          retention-days: 30
+          if-no-files-found: error
+
+  independent:
+    needs: audit-and-tests
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0,1,2,3]
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install networkx==3.6.1
+      - name: Independently crosscheck complete fourth-stage clique lists and direct closed-N folds
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          python -m research.order10_p4_203_ears_v1.verify independent \
+            --shard "$SHARD" --shards 4 \
+            --output "$RUNNER_TEMP/shard-$SHARD.json" \
+            > "$RUNNER_TEMP/independent-$SHARD.log"
+          tail -n 4 "$RUNNER_TEMP/independent-$SHARD.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p4-203-independent-${{ matrix.shard }}
+          path: ${{ runner.temp }}/shard-${{ matrix.shard }}.json
+          retention-days: 30
+          if-no-files-found: error
+
+  ears:
+    needs: audit-and-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install networkx==3.6.1
+      - name: Certify fourteen full labeled P4 embeddings and all-edge retractions from nine-v9
+        run: |
+          python -m research.order10_p4_203_ears_v1.ears \
+            --output "$RUNNER_TEMP/ear-verification.json" \
+            > "$RUNNER_TEMP/ear-verification.log"
+          tail -n 4 "$RUNNER_TEMP/ear-verification.log"
+          test "$(grep -c '^COMPLETE-EAR CERTIFIED:' "$RUNNER_TEMP/ear-verification.log")" -eq 14
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p4-14-complete-ear-retractions
+          path: ${{ runner.temp }}/ear-verification.json
+          retention-days: 30
+          if-no-files-found: error
+
+  aggregate:
+    needs: [audit-and-tests, primary, independent, ears]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install networkx==3.6.1
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p4-203-primary-*
+          path: ${{ runner.temp }}/primary
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p4-203-independent-*
+          path: ${{ runner.temp }}/independent
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: p4-14-complete-ear-retractions
+          path: ${{ runner.temp }}/ears
+      - name: Verify all 203 source assignments and independent degree-sequence separation
+        run: |
+          python -m research.order10_p4_203_ears_v1.verify aggregate \
+            --primary-dir "$RUNNER_TEMP/primary" \
+            --independent-dir "$RUNNER_TEMP/independent" \
+            --output "$RUNNER_TEMP/certified-203.json"
+      - name: Require the separately certified fourteen complete-ear proofs
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP'])
+          p4 = json.loads((root / 'certified-203.json').read_text())
+          ear = json.loads((root / 'ears/ear-verification.json').read_text())
+          assert p4['new_exact_P4'] == 203
+          assert p4['complete_P4_coverage'] == 511
+          assert p4['all_203_pairwise_nonisomorphic']
+          assert p4['no_shared_dimensions_with_prior_308_P4']
+          assert ear['ear_count'] == 14
+          assert ear['all_14_proved_not_K_null']
+          assert ear['new_K_divergence_verdicts'] == 0
+          print('AUDITED: 203 fully reconstructed P4 plus 14 complete ears, permanent S1, no false divergence promotion')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p4-203-full-proof-audit
+          path: ${{ runner.temp }}/certified-203.json
+          retention-days: 30
+          if-no-files-found: error
