@@ -1,10 +1,11 @@
-# Certified current indeterminate connected graphs of order ten, v25
-# Remaining=1052 previous_v24=1056 newly_proved_divergent=4
-# Four stiff ten-vertex originals (McKay 11551790, 11552072,
-# 11555600, 11707526) have P4 isomorphic to P3(McKay 260910),
-# whose complete P3 -> O15 ordinary retraction was previously proved.
-# Proofs: research/order10_p4_crossdepth_o15_v25/
-# Retained six-column v24 records are unchanged.
+# Certified current indeterminate connected graphs of order ten, v26
+# Remaining=1046 previous_v25=1052 newly_proved_divergent=6
+# Six original ten-vertex McKay graphs with P3 ordinary retractions to octahedra:
+# 11367777 -> O12, 11611429 -> O15, 11623375 -> O12,
+# 11708546 -> O14, 11713770 -> O14; the sixth, 11651749,
+# has a proved complete P3-isomorphism to 11611429.
+# Proofs: research/order10_overcap_p3_coaffine_v1/verify_positives.py
+# Retained six-column v25 records are unchanged.
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
 6499365 10 I?ovUqv\o - - -
 6914645 10 I?qbEZv~_ - - -
@@ -681,7 +682,6 @@
 11350308 9 HUxV^ov - - -
 11361615 9 HUzZfS} - - -
 11364594 10 ICrUrjxz_ - - -
-11367777 10 ICrVL^y^W - - -
 11368606 10 ICrVMt{mW - - -
 11368838 9 HUzNrit - - -
 11376221 9 HExr|z[ - - -
@@ -966,7 +966,6 @@
 11610147 9 HEhvVzu - - -
 11610151 9 HEhvVn{ - - -
 11610485 9 HEhvVn{ - - -
-11611429 10 IEhvtznno - - -
 11612062 10 IEhvvZ{to - - -
 11612064 10 IEhvvZ{uo - - -
 11614797 10 IEh~fVwXw - - -
@@ -975,7 +974,6 @@
 11617748 10 IEirvZy|_ - - -
 11619832 9 HUz^Jpr - - -
 11619874 9 HUz^Jqr - - -
-11623375 10 IEjbtnN~_ - - -
 11624361 9 HDxunrm - - -
 11624380 9 HDxunrm - - -
 11625722 10 IEjbvh}n_ - - -
@@ -1002,7 +1000,6 @@
 11649039 10 IEjvVZy^o - - -
 11651308 9 HDxvUzu - - -
 11651344 9 HEl~Ffm - - -
-11651749 10 IEnb}~{|W - - -
 11651780 10 IEnb~jl|o - - -
 11652569 10 IEnfbzktg - - -
 11652575 10 IEnfbzkv_ - - -
@@ -1034,7 +1031,6 @@
 11708209 10 IQyuvh{{o - - -
 11708251 10 IQyuvh}{o - - -
 11708411 10 IQyuvjuZo - - -
-11708546 10 IQyuvj}^o - - -
 11708820 10 IQyuvzu^o - - -
 11708967 10 IQyuzz~~o - - -
 11709142 10 IQyu~v{^W - - -
@@ -1053,7 +1049,6 @@
 11710371 9 HQyvex} - - -
 11710374 9 HUZdvx] - - -
 11710382 9 HQyvb~[ - - -
-11713770 10 IQzTvzu]w - - -
 11713984 10 IQzVr~{lw - - -
 11715667 10 IUZu~r|zo - - -
 11715684 10 IUZu~zy^o - - -
