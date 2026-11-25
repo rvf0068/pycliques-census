@@ -27,7 +27,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from research.order10_p3_global_v23_index.independent_verify import (
-    independent_p3, independent_pare, independent_clique_graph,
+    independent_p3, independent_pare, independent_clique_graph, LimitHit,
 )
 from research.order10_p3_global_v23_index.classes import fingerprint as p3_fingerprint
 
@@ -234,7 +234,11 @@ def signature(g: nx.Graph) -> tuple:
 
 
 class MatchingLimit(Exception):
-    pass
+    """Only the bounded exact GraphMatcher comparison timed out."""
+
+
+class ReconstructionLimit(Exception):
+    """Only a documented order or maximal-clique budget was reached."""
 
 
 def exact_map(graph: nx.Graph, target: nx.Graph, seconds: float = 3.0
@@ -242,7 +246,12 @@ def exact_map(graph: nx.Graph, target: nx.Graph, seconds: float = 3.0
     """Full isomorphism with strict TIME_LIMIT status; no false negatives."""
     if signature(graph) != signature(target):
         return None
-    if graph6(graph) == graph6(target):
+    # The graph6 serializer normalizes node labels. Its equality is NOT
+    # enough to justify an identity map on arbitrary labeled graphs.
+    if (graph6(graph) == graph6(target)
+            and set(graph) == set(target) == set(range(len(graph)))
+            and all(graph.has_edge(u, v) == target.has_edge(u, v)
+                    for u in graph for v in graph)):
         return list(range(len(graph)))
     def interrupt(_s, _f):
         raise MatchingLimit("Exact GraphMatcher hit the explicit time limit")
@@ -271,18 +280,19 @@ def exact_map(graph: nx.Graph, target: nx.Graph, seconds: float = 3.0
 
 
 def next_pared(g: nx.Graph, level: int) -> nx.Graph:
-    require(len(g) <= MAX_INTERMEDIATE,
+    if len(g) > MAX_INTERMEDIATE:
+        raise ReconstructionLimit(
             f"Intermediate order {len(g)} exceeds {MAX_INTERMEDIATE}")
     try:
-        # Reuse independently cross-checked BK / NetworkX enumerators.
-        # These are bounded at 750 facets; LIMIT is inconclusive.
+        # Cross-check NetworkX and Bron--Kerbosch. A disagreement raises
+        # AssertionError and MUST abort this proof job, not count as a skip.
         return independent_pare(independent_clique_graph(
             g, stage=level, orders=[len(g)]
         ))
-    except Exception as exc:
-        if type(exc).__name__ in ("LimitHit", "TooManyCliques"):
-            raise MatchingLimit(str(exc)) from exc
-        raise
+    except LimitHit as exc:
+        # Only a certified, explicitly recognized facet resource limit is
+        # inconclusive; integrity and enumerator failures remain fatal.
+        raise ReconstructionLimit(str(exc)) from exc
 
 
 def scan(items: dict, host_data: dict, shard: int, shards: int) -> dict:
@@ -330,7 +340,7 @@ def scan(items: dict, host_data: dict, shard: int, shards: int) -> dict:
             if depth:
                 try:
                     graph = next_pared(graph, depth)
-                except (MatchingLimit, AssertionError) as exc:
+                except ReconstructionLimit as exc:
                     skipped.append({
                         "representative_source": provenance[0],
                         "failed_depth": depth,
