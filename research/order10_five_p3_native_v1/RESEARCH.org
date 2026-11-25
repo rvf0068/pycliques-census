@@ -20,7 +20,7 @@ Every complement is connected. Consequently none of these \(P_3\) graphs admits 
 
 * Research method and finite proof discipline
 
-We use the existing public =pycliques.find_octahedral_retraction_coaffine= function, not a new graph-specific solver, at the exact merged monorepo PR #56 commit =e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae=. Each of the five authenticated \(P_3\) graphs is tested with both =value_order="label"= and =value_order="fiber"=, each with exactly \(2{,}000{,}000\) search states and \(90\) seconds. The native C++ solver is built explicitly with the existing monorepo command. Different value orderings may find different positive maps; neither changes the soundness of a checked certificate.
+We use the existing public =pycliques.find_octahedral_retraction_coaffine= function, not a new graph-specific solver, at the exact merged monorepo PR #56 commit =e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae=. Each of the five authenticated \(P_3\) graphs is tested with both =value_order="label"= and =value_order="fiber"=, each with exactly \(2{,}000{,}000\) search states and \(90\) seconds. The native C++ solver is built explicitly with the existing monorepo command. The exact runtime versions are pinned to the distributions recorded in the overhaul's =uv.lock= using the committed =constraints.txt=. The pilot additionally checks immutable Git blob hashes of seven installed Python and C++ solver files and records all resolved package versions in every search artifact. This verifies installed source code, not merely an environment variable claiming a revision. Different value orderings may find different positive maps; neither changes the soundness of a checked certificate.
 
 A =FOUND= result must supply complete antipodal pairs and an ordinary graph retraction onto an induced \(O_d=\overline{dK_2}\), with \(d\ge3\). The independent census verifier checks the nonedges within antipodal pairs, all cross-pair edges, fixation of every target vertex, and the entire source edge set; only such a positive certificate establishes \(K\)-divergence. =EXHAUSTED= is a genuine exhaustive negative conclusion about this particular target family at depth three, not about \(K\)-behavior in general. =LIMIT_REACHED= is inconclusive and must never be interpreted as absence of a retraction.
 
@@ -42,7 +42,7 @@ The whole ten-task run and its independent aggregate check passed in GitHub Acti
 
 * Direct reproduction in Emacs Jupyter
 
-Start Emacs from the =pycliques-census= root with the overhauled =pycliques-project= installed and the native C++ solver built. The first block reconstructs the five authenticated \(P_3\) graphs and independently recomputes their complement sizes and triangle counts, without hardcoding graph6 codes.
+Start Emacs from the =pycliques-census= root with the overhauled =pycliques-project= installed at the pinned merge commit and the native C++ solver explicitly built. Use =python -m pip install -c research/order10_five_p3_native_v1/constraints.txt ./path/to/pycliques-project/packages/pycliques= and then =python -m pycliques.octahedral_coaffine_native --build=. The Jupyter entry point validates actual installed source bytes and package versions before starting the search. The first block reconstructs the five authenticated \(P_3\) graphs and independently recomputes their complement sizes and triangle counts, without hardcoding graph6 codes.
 
 #+begin_src jupyter-python
 import networkx as nx
@@ -59,7 +59,9 @@ for original_index in REMAINING:
 This second block performs one optional bounded search with the official native library, checks any complete map, and prints the exact status. It is explicitly a resource-limited search and may take up to ninety seconds; run it separately as desired.
 
 #+begin_src jupyter-python
-from research.order10_five_p3_native_v1.search import investigate, REMAINING
+import os
+from research.order10_five_p3_native_v1.search import MONOREPO_SHA, investigate, REMAINING
+os.environ["PYCLIQUES_PINNED_SHA"] = MONOREPO_SHA
 attempt = investigate(REMAINING[0], "label")
 print("Result:", attempt["status"], "States:", attempt["states_explored"])
 if attempt["status"] == "FOUND":
