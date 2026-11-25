@@ -1,0 +1,9 @@
+# Exact runtime package versions from pycliques-project PR #56 uv.lock
+# Solver implementation is separately pinned by all native Python/C++ Git blobs.
+networkx==3.6
+grandiso==2.2.0
+rich==14.3.3
+markdown-it-py==4.0.0
+pygments==2.19.2
+mdurl==0.1.2
+typing-extensions==4.15.0

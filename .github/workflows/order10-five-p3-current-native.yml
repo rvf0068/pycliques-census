@@ -1,0 +1,111 @@
+name: Five remaining oversized P3 octahedral-retraction search on current pycliques
+
+on:
+  pull_request:
+    paths:
+      - "research/order10_five_p3_native_v1/**"
+      - ".github/workflows/order10-five-p3-current-native.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  complement-target-screening:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install networkx==3.6.1
+      - name: Independently replay four induced matching targets and their forced-image contradictions
+        run: |
+          python -m unittest research.order10_five_p3_native_v1.test_matching_obstructions -v
+          python -m research.order10_five_p3_native_v1.matching_obstructions > "$RUNNER_TEMP/forced-obstructions.json"
+          grep -q '^PASS: four exact total-dominating-matchings' "$RUNNER_TEMP/forced-obstructions.json"
+      - name: Replay permanent O11 projection and second exact P3 class member
+        run: |
+          python -m research.order10_five_p3_native_v1.verify_positive > "$RUNNER_TEMP/o11-and-second-original.log"
+          grep -q '^PASS: complete P3' "$RUNNER_TEMP/o11-and-second-original.log"
+          tail -n 15 "$RUNNER_TEMP/o11-and-second-original.log"
+  exact-native-search:
+    strategy:
+      fail-fast: false
+      matrix:
+        index: [11505012, 11595632, 11656793, 11709142, 11713984]
+        value_order: [label, fiber]
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Checkout exact overhauled pycliques monorepo commit
+        uses: actions/checkout@v4
+        with:
+          repository: rvf0068/pycliques-project
+          ref: e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae
+          path: monorepo
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install the official pycliques package with PR56-locked runtime dependencies
+        run: |
+          python -m pip install -r research/order10_five_p3_native_v1/constraints.txt
+          python -m pip install -c research/order10_five_p3_native_v1/constraints.txt "./monorepo/packages/pycliques"
+          python -m pip check
+      - name: Verify source commit and build the existing native solver
+        run: |
+          set -euo pipefail
+          SHA="$(git -C monorepo rev-parse HEAD)"
+          test "$SHA" = e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae
+          echo "PYCLIQUES_PINNED_SHA=$SHA" >> "$GITHUB_ENV"
+          python -m pycliques.octahedral_coaffine_native --build
+      - name: Search and verify a complete P3 to Od retraction, if found
+        env:
+          ORIGINAL: ${{ matrix.index }}
+          VALUE_ORDER: ${{ matrix.value_order }}
+        run: |
+          set -euo pipefail
+          python -m research.order10_five_p3_native_v1.search \
+            --index "$ORIGINAL" --value-order "$VALUE_ORDER" \
+            --output "$RUNNER_TEMP/$ORIGINAL-$VALUE_ORDER.json" \
+            | tee "$RUNNER_TEMP/$ORIGINAL-$VALUE_ORDER.log"
+          grep -q "^P3 original=$ORIGINAL order=$VALUE_ORDER status=" \
+            "$RUNNER_TEMP/$ORIGINAL-$VALUE_ORDER.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: five-p3-native-${{ matrix.index }}-${{ matrix.value_order }}
+          path: ${{ runner.temp }}/${{ matrix.index }}-${{ matrix.value_order }}.json
+          retention-days: 30
+          if-no-files-found: error
+
+  proof-audit:
+    needs: exact-native-search
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install networkx==3.6.1
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: five-p3-native-*
+          path: ${{ runner.temp }}/pilot
+          merge-multiple: true
+      - name: Replay every complete positive map, authenticate all source graph6 and compare both orderings
+        run: |
+          python -m unittest research.order10_five_p3_native_v1.test_provenance -v
+          python -m compileall -q research/order10_five_p3_native_v1
+          python -m research.order10_five_p3_native_v1.aggregate \
+            --directory "$RUNNER_TEMP/pilot" \
+            --output "$RUNNER_TEMP/reviewed-five-p3.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: five-p3-native-two-order-exact-audit
+          path: ${{ runner.temp }}/reviewed-five-p3.json
+          retention-days: 90
+          if-no-files-found: error

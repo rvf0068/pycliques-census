@@ -1,0 +1,138 @@
+#+TITLE: The five oversized third-iterate cores: current native octahedral search
+#+DATE: 2026-11-25
+#+LANGUAGE: en
+#+OPTIONS: toc:2
+#+PROPERTY: header-args:jupyter-python :session five-p3-native :results output :exports both
+
+* Context and certified inputs
+
+Let \(P_0(G)\) be complete dominated-vertex paring and \(P_{j+1}(G)=P(K(P_j(G)))\), where \(K(G)\) is the intersection graph of inclusion-maximal completes. The five original ten-vertex McKay graphs below remain indeterminate after the five direct octahedral \(P_3\)-retractions and one further class lift certified by census PR #100. Their \(P_3\) graph6 inputs and canonical dimensions were independently authenticated by the historical global third-iterate archive. Their huge maximal-clique counts make explicit construction of \(P_4\) unattractive.
+
+| Original McKay index | \(|V(P_3)|\) | \(|E(P_3)|\) | Edges of \(\overline{P_3}\) | Triangles of \(\overline{P_3}\) |
+|-
+| 11505012 | 226 | 21693 | 3732 | 3818 |
+| 11595632 | 182 | 14175 | 2296 | 1343 |
+| 11656793 | 216 | 19663 | 3557 | 2566 |
+| 11709142 | 140 | 8824 | 906 | 22 |
+| 11713984 | 169 | 12897 | 1299 | 35 |
+
+Every complement is connected. Consequently none of these \(P_3\) graphs admits a nontrivial join decomposition by simply splitting connected components of the complement. The triangles distinguish substantially different complement geometries, particularly for 11709142 and 11713984, but their counts alone imply neither the existence nor the impossibility of an ordinary octahedral retraction.
+
+* Research method and finite proof discipline
+
+We use the existing public =pycliques.find_octahedral_retraction_coaffine= function, not a new graph-specific solver, at the exact merged monorepo PR #56 commit =e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae=. Each of the five authenticated \(P_3\) graphs is tested with both =value_order="label"= and =value_order="fiber"=, each with exactly \(2{,}000{,}000\) search states and \(90\) seconds. The native C++ solver is built explicitly with the existing monorepo command. The exact runtime versions are pinned to the distributions recorded in the overhaul's =uv.lock= using the committed =constraints.txt=. The pilot additionally checks immutable Git blob hashes of seven installed Python and C++ solver files and records all resolved package versions in every search artifact. This verifies installed source code, not merely an environment variable claiming a revision. Different value orderings may find different positive maps; neither changes the soundness of a checked certificate.
+
+A =FOUND= result must supply complete antipodal pairs and an ordinary graph retraction onto an induced \(O_d=\overline{dK_2}\), with \(d\ge3\). The independent census verifier checks the nonedges within antipodal pairs, all cross-pair edges, fixation of every target vertex, and the entire source edge set; only such a positive certificate establishes \(K\)-divergence. =EXHAUSTED= is a genuine exhaustive negative conclusion about this particular target family at depth three, not about \(K\)-behavior in general. =LIMIT_REACHED= is inconclusive and must never be interpreted as absence of a retraction.
+
+* New exact divergent class: two originals with \(P_3\) retracting onto \(O_{11}\)
+
+The label-first native search found an ordinary retraction \(r:P_3(G_{11656793})\to O_{11}\) after \(10643\) search states, where \(P_3(G_{11656793})\) has \(216\) vertices and \(19663\) edges. The complete map is archived in =positive_o11.json=, pinned by its immutable Git blob and by a separate SHA-256 checksum of all \(216\) uncompressed, little-endian integer images; it records eleven explicit antipodal pairs. The independent verifier =verify_positive.py= reconstructs the original third-iterate graph6, checks the complete induced \(O_{11}\), checks that the projection fixes every target vertex, and verifies all \(19663\) source edges. By the ordinary retraction theorem and \(K(O_d)\cong O_{2^{d-1}}\) for \(d\ge3\), original ten-vertex McKay 11656793 is \(K\)-divergent. The historical global (P_3)-class archive also certifies a complete (216)-vertex graph isomorphism from (P_3(G_{11658674})) to this same (P_3(G_{11656793})). The new independent verifier reconstructs the second original, checks its membership in the unchanged v25 census, and verifies every edge and nonedge under the full saved permutation. Transporting the retraction proves that original McKay 11658674 is also (K)-divergent. Thus this one newly certified (P_3) class represents *two* original ten-vertex graphs.
+
+The two-million-state alternative fiber-first search was inconclusive on this same graph. The contrast is a practical example of why search-order strategies matter in a complete-or-bounded CSP. No stronger conclusion about the four other unresolved originals follows from limited searches.
+
+| Original McKay | Label-first result (states) | Fiber-first result (states) |
+|-
+| 11505012 | =LIMIT_REACHED= (426207) | =LIMIT_REACHED= (492812) |
+| 11595632 | =LIMIT_REACHED= (1142691) | =LIMIT_REACHED= (742319) |
+| 11656793 | =FOUND= \(O_{11}\) (10643) | =LIMIT_REACHED= (649013) |
+| 11709142 | =LIMIT_REACHED= (1267573) | =LIMIT_REACHED= (1771448) |
+| 11713984 | =LIMIT_REACHED= (2000000) | =LIMIT_REACHED= (2000000) |
+
+The whole ten-task run and its independent aggregate check passed in GitHub Actions run 45681814467, using the monorepo pinned to its merged overhaul commit. Neither of these two newly divergent originals has been removed from the authoritative indeterminate list: a separate exact v26-to-v27 promotion of both 11656793 and 11658674 should be carried out after the six-original v26 update is merged. The prospective v27 count is (1044), provided no further unrelated changes are made.
+
+* General homological and size consequences of an octahedral retraction
+
+** Flag vertex lower bound
+
+*Lemma.* Let \(X\) be a graph whose clique complex has nonzero reduced homology \(\widetilde H_k(\Delta(X);\mathbb F)\) over a field \(\mathbb F\), with \(k\ge0\). Then \(X\) has at least \(2k+2\) vertices.
+
+*Proof.* Pass to an induced subgraph \(Y\subseteq X\) with nonzero \(\widetilde H_k(\Delta(Y);\mathbb F)\) and minimal possible vertex set. For \(k=0\), nonzero reduced \(H_0\) requires at least two vertices. Suppose \(k\ge1\), choose \(v\in V(Y)\), and write \(L=\Delta(Y[N_Y(v)])\) for its link. By minimality, \(\widetilde H_k(\Delta(Y-v);\mathbb F)=0\). The deletion--link long exact sequence and the decomposition \(\Delta(Y)=\Delta(Y-v)\cup(v*L)\) give an injection from nonzero \(\widetilde H_k(\Delta(Y);\mathbb F)\) into \(\widetilde H_{k-1}(L;\mathbb F)\), so the latter is nonzero. By induction, \(|N_Y(v)|\ge2k\). Since \(v\) cannot be universal (otherwise \(\Delta(Y)\) would be a cone), there is at least one nonneighbor of \(v\) outside the link. Hence \(|V(Y)|\ge1+2k+1=2k+2\), and the same bound holds for \(X\). \(\square\)
+
+** Theorem for next pared clique iterates
+
+*Theorem.* If \(P_j(G)\) admits an ordinary graph retraction onto \(O_d=\overline{dK_2}\), with \(d\ge3\), then the reduced integral homology of \(\Delta(P_{j+1}(G))\) has \(\mathbb Z\) as a direct summand in dimension \(2^{d-1}-1\), and \(|V(P_{j+1}(G))|\ge2^d\).
+
+*Proof.* The clique-graph functor preserves ordinary graph retractions. Applying it to \(P_j(G)\to O_d\) gives an ordinary graph retraction \(K(P_j(G))\to K(O_d)\cong O_{2^{d-1}}\). The clique complex of \(O_m\) is the join of \(m\) copies of \(S^0\), hence the sphere \(S^{m-1}\). Its integral homology injects as a direct summand under the retraction. The complete dominated-vertex paring \(K(P_j(G))\to P_{j+1}(G)\) is a homotopy equivalence of clique complexes, so the same nonzero free homology summand survives. The preceding flag vertex lemma, with \(k=2^{d-1}-1\), gives \(|V(P_{j+1}(G))|\ge2(2^{d-1}-1)+2=2^d\). \(\square\)
+
+For both original ten-vertex graphs McKay 11656793 and 11658674 the certified (P_3)-isomorphism and (O_{11}) retraction give (d=11), so (\widetilde H_{1023}(\Delta(P_4(G));\mathbb Z)) has a direct (\mathbb Z)-summand and (|V(P_4(G))|\ge2048) without enumerating their enormous fourth iterates. The previously certified \(P_3\to O_{12}, O_{14}, O_{15}\) targets likewise force lower bounds of \(4096\), \(16384\), and \(32768\) vertices respectively in their fourth pared clique iterates. These are *positive homological* consequences and are not inferred from an enumeration timeout.
+
+* A necessary complement matching condition and a forced-image pruning theorem
+
+*Lemma (matching and total domination).* Let \(X\) be a simple graph, \(H=\overline X\), and \(r:X\to X[S]\cong O_d\), with \(d\ge3\), an ordinary graph retraction. Then the induced graph \(H[S]\) is exactly \(d\) disjoint edges and its endpoint set \(S\) is a total dominating set of \(H\), meaning \(N_H(v)\cap S\ne\varnothing\) for every \(v\in V(H)\). If \(\tau:S\to S\) exchanges endpoints of the \(d\) matching edges, then \(\tau(r(v))\in N_H(v)\cap S\) for every vertex \(v\).
+
+*Proof.* Taking complements of \(X[S]\cong O_d=\overline{dK_2}\) gives \(H[S]\cong dK_2\). The vertex \(r(v)\) and its antipode \(\tau(r(v))\) are distinct nonadjacent vertices of \(X[S]\). Since \(r\) fixes \(S\) pointwise, if \(v\) were adjacent to \(\tau(r(v))\) in \(X\), the graph-morphism property would send this edge to the nonedge \(r(v)\tau(r(v))\), an impossibility. Thus \(v\) is adjacent to \(\tau(r(v))\) in \(H\). In particular, every \(v\) has an \(H\)-neighbor in \(S\). \(\square\)
+
+*Corollary (forced-image obstruction).* Under these hypotheses, if \(N_H(u)\cap S=\{b\}\) for one matching endpoint \(b\), then any such retraction necessarily has \(r(u)=a=\tau(b)\). Consequently, for a matching edge \(ab\), if \(N_H(u)\cap S=\{b\}\), \(N_H(v)\cap S=\{a\}\), and \(uv\notin E(H)\), no ordinary retraction \(X\to X[S]\cong O_d\) can exist.
+
+*Proof.* The lemma requires \(\tau(r(u))\in N_H(u)\cap S\), which fixes \(r(u)=\tau(b)=a\). Similarly \(r(v)=b\). But \(uv\notin E(H)\) means \(uv\in E(X)\), and this edge would be mapped to the nonedge \(ab\notin E(X[S])\). \(\square\)
+
+** Four exact candidate-specific screening certificates
+
+Each of the following four complements \(H=\overline{P_3(G)}\) contains an explicit induced matching whose endpoint set totally dominates all of \(H\). Nevertheless, this *particular matching* cannot be the image of an ordinary octahedral retraction, because two forced vertex images are opposite endpoints of one matching edge while the original two vertices are adjacent in \(P_3(G)\).
+
+| Original McKay | Candidate matching size \(d\) | Forced source vertices \(u,v\) | Antipodal images \(r(u),r(v)\) | Forced vertices in total |
+|-
+| 11505012 | 8 | 56, 154 | 117, 155 | 68 |
+| 11595632 | 7 | 12, 86 | 14, 119 | 57 |
+| 11709142 | 6 | 91, 2 | 99, 15 | 104 |
+| 11713984 | 8 | 24, 160 | 0, 156 | 111 |
+
+The exact matching pairs are listed as small integer certificates in =matching_obstructions.py=. That module reconstructs each authenticated \(P_3\) from the existing census archive, verifies that the displayed endpoint set induces exactly the specified disjoint complement edges, checks total domination of *every* complement vertex, computes the number of forced images, and verifies the claimed contradictory source edge. The accompanying adversarial unit tests reject altered endpoint pairs and incorrect forced-image claims. None of these four certificates is an obstruction to *all possible* octahedral retractions; the four graph classifications therefore remain indeterminate.
+
+#+begin_src jupyter-python
+from research.order10_five_p3_native_v1.matching_obstructions import verify_all
+screening = verify_all()
+for record in screening["records"]:
+    print(record["original_mckay_index"], "matching size:", record["matching_edges"], "forced:", record["vertices_with_forced_image"], "contradiction:", record["forced_conflict"])
+#+end_src
+
+The forced-image obstruction can be applied as a low-cost early test when examining any proposed induced octahedral target. The current public =pycliques= package already supplies general targeted-retraction search and arc-consistency machinery, so this observation does not justify duplicating a new general retraction solver without a measured speed improvement. It may instead inform future target-ordering heuristics.
+
+* Direct reproduction in Emacs Jupyter
+
+Start Emacs from the =pycliques-census= root with the overhauled =pycliques-project= installed at the pinned merge commit and the native C++ solver explicitly built. Use =python -m pip install -c research/order10_five_p3_native_v1/constraints.txt ./path/to/pycliques-project/packages/pycliques= and then =python -m pycliques.octahedral_coaffine_native --build=. The Jupyter entry point validates actual installed source bytes and package versions before starting the search. The first block reconstructs the five authenticated \(P_3\) graphs and independently recomputes their complement sizes and triangle counts, without hardcoding graph6 codes.
+
+#+begin_src jupyter-python
+import networkx as nx
+from research.order10_overcap_p3_coaffine_v1.pilot import source_catalog
+from research.order10_five_p3_native_v1.search import REMAINING
+hosts = source_catalog()
+for original_index in REMAINING:
+    third = nx.from_graph6_bytes(hosts[original_index]["p3_graph6"].encode("ascii"))
+    complement = nx.complement(third)
+    triangles = sum(nx.triangles(complement).values()) // 3
+    print(original_index, (len(third), third.number_of_edges()), (complement.number_of_edges(), triangles))
+#+end_src
+
+This second block performs one optional bounded search with the official native library, checks any complete map, and prints the exact status. It is explicitly a resource-limited search and may take up to ninety seconds; run it separately as desired.
+
+#+begin_src jupyter-python
+import os
+from research.order10_five_p3_native_v1.search import MONOREPO_SHA, investigate, REMAINING
+os.environ["PYCLIQUES_PINNED_SHA"] = MONOREPO_SHA
+attempt = investigate(REMAINING[0], "label")
+print("Result:", attempt["status"], "States:", attempt["states_explored"])
+if attempt["status"] == "FOUND":
+    print("Certified target:", "O_" + str(attempt["target_dimension"]))
+#+end_src
+
+To reproduce the complete ten-search experiment, use the separately assigned GitHub Actions jobs from =.github/workflows/order10-five-p3-current-native.yml=. Each successful job saves the full authenticated source identity, fixed bound and native status, and the complete positive map if one was discovered. The independent aggregate verifier checks that the full Cartesian product of original indices and branch policies is present and verifies every positive witness.
+
+* Permanent certificate reproduction
+
+The following block replays the exact proof, including all eleven pairs of antipodes, all target cross-edges, and all source edges, without executing or compiling the native search algorithm.
+
+#+begin_src jupyter-python
+from research.order10_five_p3_native_v1.verify_positive import verify_positive
+positive_o11 = verify_positive()
+print(positive_o11)
+print("Both original divergent indices:", positive_o11["divergent_original_indices"])
+#+end_src
+
+* Interpretation
+
+The authoritative ten-v26 census is already merged and retains \(1046\) indeterminate ten-vertex originals. This PR adds a complete \(P_3\to O_{11}\) certificate for original 11656793 and, using its historical exact \(P_3\)-isomorphism, also proves original 11658674 divergent; these two originals will require a separate ten-v27 promotion, giving a prospective unresolved count of \(1044\). The four complement matching certificates screen particular candidate octahedra only and do not classify any additional original graph. No authoritative census list or historical proof archive is modified by this research.
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:
