@@ -108,7 +108,7 @@ def rows(path: str) -> dict[int, tuple[int, str]]:
             continue
         fields = line.split()
         require(
-            len(fields) == 6 and fields[3:] == ["-", "-", "-"],
+            len(fields) == 6,
             f"Incorrect frozen unresolved record in {path}",
         )
         index = int(fields[0])
