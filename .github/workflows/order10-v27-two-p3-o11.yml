@@ -1,0 +1,62 @@
+name: Certify ten-v27 exact two-original P3-to-O11 divergence promotion
+
+on:
+  pull_request:
+    paths:
+      - "research/order10_v27_two_p3_o11/**"
+      - "research/order10_five_p3_native_v1/**"
+      - "indeterminate_order_10_v26.txt"
+      - "indeterminate_order_10_v27.txt"
+      - "indeterminate_order_10.txt"
+      - "indeterminate_order_9.txt"
+      - "indeterminate_order_9_v9.txt"
+      - "tests/test_current_root_index.py"
+      - ".github/workflows/order10-v27-two-p3-o11.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independent-exact-positive-proofs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Replay complete original P3-to-O11 map and second P3 isomorphism
+        run: |
+          python -m research.order10_five_p3_native_v1.verify_positive > "$RUNNER_TEMP/positive-o11.log"
+          grep -q '^PASS: complete P3' "$RUNNER_TEMP/positive-o11.log"
+      - name: Independently certify precise v26 to v27 two-row transition
+        run: |
+          python -m research.order10_v27_two_p3_o11.verify > "$RUNNER_TEMP/v27.log"
+          grep -q '^PASS: exactly two ten-v26 originals' "$RUNNER_TEMP/v27.log"
+          cat "$RUNNER_TEMP/v27.log"
+      - name: Immutable historical ten-v26 replay including its regression tests
+        run: python -m research.order10_v27_two_p3_o11.replay_v26
+      - name: Reject Python optimization in new critical verifiers
+        run: |
+          set -euo pipefail
+          if python -O -m research.order10_v27_two_p3_o11.verify > "$RUNNER_TEMP/v27-opt.log" 2>&1; then
+            echo "Optimized v27 verifier unexpectedly succeeded"; exit 1
+          fi
+          grep -q 'Do not optimize away census certification assertions' "$RUNNER_TEMP/v27-opt.log"
+
+  adversarial-transition-and-root:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Compile proof sources and run exact adversarial audit
+        run: |
+          python -m compileall -q research/order10_v27_two_p3_o11
+          python -m unittest research.order10_v27_two_p3_o11.test_verify -v
+          python -m unittest discover -s tests -p test_current_root_index.py -v
