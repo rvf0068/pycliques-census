@@ -26,6 +26,16 @@ Let \(Y=X[S]\) and \(H=\overline Y\). The complementary graph \(H\) has *fourtee
 
 Here \(O_{14}=\overline{14K_2}\) and the asterisk denotes graph join. This is a proper stiff-looking structural target but is *not an octahedron*: the extra seven vertices are important. We do not silently discard them or pretend to have an ordinary \(O_{14}\) retraction. This distinction is essential because a graph join does not generally retract onto an arbitrary join factor.
 
+* General join formula for complement disjointness graphs
+
+For any finite graph \(Z\), let \(D(Z)=\overline{K(Z)}\), the graph on its inclusion-maximal cliques whose edges represent disjointness. The following general statement is useful independently of the present example.
+
+*Lemma.* For every \(m\ge1\) and finite graph \(Z\), the complement of the clique graph of the join \(O_m*Z\) is the disjoint union of \(2^{m-1}\) copies of the categorical graph product \(K_2\times D(Z)\), where graph-product adjacency requires an edge in each coordinate.
+
+*Proof.* Every clique of \(O_m*Z\) consists of a choice of one endpoint of each of the \(m\) antipodal pairs and one clique of \(Z\). Two such cliques are disjoint if and only if their binary choices are opposite in all \(m\) coordinates and their \(Z\)-cliques are disjoint. The binary strings form a perfect matching of \(2^{m-1}\) disjoint edges under the antipodal relation, and the disjointness condition in the \(Z\) coordinate is precisely \(D(Z)\). This proves the asserted categorical product formula. \(\square\)
+
+In particular, if \(D(Z)\cong C_{2s+1}\) is an odd cycle, its bipartite double cover \(K_2\times C_{2s+1}\) is a single cycle \(C_{4s+2}\). Thus \(\overline{K(O_m*Z)}\cong\bigsqcup_{2^{m-1}}C_{4s+2}\). This lemma also applies to other target graphs with explicitly known clique-disjointness graphs and may be useful for future research on divergent suspensions without adding a new graph-specific algorithm.
+
 * Explicit first clique graph of the target
 
 A clique of \(Y=O_{14}*\overline{C_7}\) consists of a choice of one endpoint from each of the fourteen independent antipodal pairs, together with a clique of \(Z=\overline{C_7}\). The graph \(Z\) has seven cliques. The graph on these seven cliques in which two are adjacent if they are disjoint is precisely a \(C_7\); the verifier recomputes this complete seven-vertex disjointness graph.
