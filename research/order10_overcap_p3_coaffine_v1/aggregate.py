@@ -98,6 +98,29 @@ def verify_shards(shards: list[Path]) -> dict:
     require(seen == set(range(SHARDS)) and len(merged) == 10
             and len(caps) == 1,
             "Missing shards, duplicated sources, or mismatched budgets")
+    from research.order10_overcap_p3_coaffine_v1.verify_positives import (
+        replay_positive_witnesses,
+    )
+    permanent = replay_positive_witnesses()
+    archived_five = {
+        x["index"] for x in permanent["records"]
+        if x.get("p3_isomorphic_to") is None
+    }
+    actual_five = {
+        i for i, rec in merged.items()
+        if rec["octahedral_retraction"]["status"] == "FOUND"
+    }
+    require(actual_five == archived_five and len(actual_five) == 5,
+            "Native found-target set differs from five permanent certificates")
+    permanent_by_index = {
+        x["index"]: x for x in permanent["records"]
+        if x.get("p3_isomorphic_to") is None
+    }
+    require(all(
+        merged[i]["octahedral_retraction"]["dimension"] ==
+        permanent_by_index[i]["dimension"]
+        for i in actual_five
+    ), "Native O_d dimensions differ from permanent certificates")
     status_counts = {}
     for kind, key in [
         ("coaffine", "coaffine_weak_endomorphism"),
@@ -116,6 +139,9 @@ def verify_shards(shards: list[Path]) -> dict:
         "all_ten_exclude_coaffine_automorphisms": True,
         "general_results": status_counts["coaffine"],
         "octahedral_results": status_counts["octahedral"],
+        "six_originals_proven_divergent":
+            permanent["divergent_original_indices"],
+        "five_immutable_positive_retraction_maps_replayed": True,
         "octahedral_positive_witness_indices": [
             i for i in sorted(merged)
             if merged[i]["octahedral_retraction"]["status"] == "FOUND"
