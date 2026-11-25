@@ -4,8 +4,8 @@ on:
   pull_request:
     paths:
       - "research/order10_nine_core_dependency_v1/**"
-      - "research/order10_p3_global_v23_index/certificates.json"
-      - "research/order10_p4_cap_rescue_v24/certificates.json"
+      - "research/order10_p3_global_v23_index/**"
+      - "research/order10_p4_cap_rescue_v24/**"
       - "indeterminate_order_9_v9.txt"
       - "indeterminate_order_9.txt"
       - "indeterminate_order_10_v25.txt"
