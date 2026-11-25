@@ -106,8 +106,12 @@ def replay(files: list[Path]) -> dict:
     check_success = [(i, order, d) for i, order, d in successes]
     require(
         check_success == [(permanent["original_mckay"], "label", 11)]
-        and permanent["original_K_divergent"] is True,
-        "The native positive set differs from the complete permanent O11 map",
+        and permanent["original_K_divergent"] is True
+        and permanent["divergent_original_indices"] ==
+            [11656793, 11658674]
+        and permanent["p3_isomorphism_checked_on_all_pairs"] is True,
+        "The native positive set or exact two-original P3-class lift "
+        "differs from the complete permanent O11 proof",
     )
     exhausted = sorted(
         i for i in REMAINING
@@ -133,7 +137,9 @@ def replay(files: list[Path]) -> dict:
         "originals": list(REMAINING),
         "search_orders": list(VALUE_ORDERS),
         "permanent_O11_retraction_certificate_replayed": True,
-        "new_original_divergent_but_not_yet_promoted": 11656793,
+        "new_originals_divergent_but_not_yet_promoted":
+            permanent["divergent_original_indices"],
+        "exact_P3_class_transport_replayed": True,
         "found_p3_octahedral_retractions": [
             {"index":i, "order":order, "dimension":d}
             for i, order, d in successes
