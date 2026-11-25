@@ -31,6 +31,20 @@ ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 CERTIFICATE = HERE / "certificates.json"
 
+# Independent immutable provenance anchors.  Do not derive these trusted
+# values from certificates.json: otherwise the certificate and the source
+# archive could be changed together without the audit noticing.
+EXPECTED_ARCHIVE_GIT_BLOBS = {
+    "indeterminate_order_9_v9.txt":
+        "d18a7a843be935f3a7fe911691dd1c86dac2addd",
+    "indeterminate_order_10_v25.txt":
+        "d31d52d28427adcef6055cc1d277565fe88f32d5",
+    "research/order10_p3_global_v23_index/certificates.json":
+        "ab5a9f1c075dfad63b111929368147884519f2a3",
+    "research/order10_p4_cap_rescue_v24/certificates.json":
+        "b452338cb199a596e1ee2ce853ef73d410b900ac",
+}
+
 
 def require(condition: bool, reason: str) -> None:
     if not condition:
@@ -44,8 +58,15 @@ def git_blob(data: bytes) -> str:
 
 
 def verified_archive(path: str, sha: str) -> bytes:
+    """Check both immutable code-pinned provenance and certificate metadata."""
+    require(path in EXPECTED_ARCHIVE_GIT_BLOBS,
+            f"Unrecognized historical proof input: {path}")
+    expected = EXPECTED_ARCHIVE_GIT_BLOBS[path]
+    require(sha == expected,
+            f"Certificate does not match independently pinned Git blob: {path}")
     raw = (ROOT / path).read_bytes()
-    require(git_blob(raw) == sha, f"Historical Git blob changed: {path}")
+    require(git_blob(raw) == expected,
+            f"Historical source does not match independently pinned blob: {path}")
     return raw
 
 
