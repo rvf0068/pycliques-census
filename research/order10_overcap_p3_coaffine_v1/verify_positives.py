@@ -13,6 +13,7 @@ import json
 from pathlib import Path
 import struct
 import sys
+import zlib
 
 if sys.flags.optimize:
     raise RuntimeError("Proof verifier must not run optimized")
@@ -30,7 +31,7 @@ from research.order10_p3_global_v23_index.independent_verify import (
 
 ROOT = Path(__file__).resolve().parents[2]
 ARCHIVE = Path(__file__).with_name("positive_retractions.json")
-ARCHIVE_BLOB = "e311e4c2ef410f3f745f923660625f070503abc4"
+ARCHIVE_BLOB = "73f2e6c4f45bed5a4258e45c9da2669eb8a1156d"
 P3_CLASS_BLOB = "ab5a9f1c075dfad63b111929368147884519f2a3"
 TEN_V25_BLOB = "d31d52d28427adcef6055cc1d277565fe88f32d5"
 EXPECTED = {
@@ -62,7 +63,7 @@ def replay_positive_witnesses() -> dict:
             and cert.get("source_census_pr") == 100 and
             cert.get("source_workflow_run") == 45637104784 and
             cert.get("pinned_pycliques_project_commit") == PYCLIQUES_SHA
-            and cert.get("encoding") == "uint16_little_endian_base64",
+            and cert.get("encoding") == "zlib_uint16_little_endian_base64",
             "Permanent positive-certificate header or provenance changed")
     rows = cert["records"]
     require([r["index"] for r in rows] == sorted(EXPECTED),
@@ -80,9 +81,9 @@ def replay_positive_witnesses() -> dict:
                     hashlib.sha256(g6.encode("ascii")).hexdigest()
                 and item["target_dimension"] == dim,
                 f"P3 graph6, shape or O_d target changed at McKay {idx}")
-        encoded = base64.b64decode(
-            item["retraction_uint16_base64"], validate=True
-        )
+        encoded = zlib.decompress(base64.b64decode(
+            item["retraction_zlib_base64"], validate=True
+        ))
         require(len(encoded) == n * 2 and
                 hashlib.sha256(encoded).hexdigest()
                     == item["retraction_bytes_sha256"],
