@@ -1,0 +1,41 @@
+name: Export independently verified nine-P4 maps into permanent archive handoff
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/order9-last-three-archive-export.yml"
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  export-three-full-proof-arrays:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          run-id: 45912337172
+          pattern: order9-last-three-original-*-full-projection
+          merge-multiple: true
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/three-certified
+      - name: Emit complete original JSON certificates as independently checkable zlib-base64
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64, json, zlib
+          folder=Path("${{ runner.temp }}/three-certified")
+          for idx in (249576,251628,260040):
+              file=folder/f"order9-last-three-{idx}.json"
+              doc=json.loads(file.read_text("utf-8"))
+              assert doc["original_index"]==idx and doc["status"]=="FOUND"
+              assert len(doc["projection_images_in_active_raw_vertex_order"])==doc["P4"][0]
+              raw=json.dumps(doc,sort_keys=True,separators=(",",":")).encode("utf-8")
+              encoded=base64.b64encode(zlib.compress(raw,9)).decode("ascii")
+              print(f"PERMANENT_NINE_CERT_{idx}={encoded}", flush=True)
+          print("PASS: all three complete proof arrays ready for immutable GitHub archive")
+          PY
