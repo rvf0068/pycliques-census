@@ -1,0 +1,85 @@
+#+TITLE: Six certified ten-vertex K-divergences and exact ten-v29 census promotion
+#+DATE: 2026-11-25
+#+LANGUAGE: en
+#+OPTIONS: toc:2
+#+PROPERTY: header-args:jupyter-python :session ten-v29 :results output :exports both
+
+* The setting
+
+Let \(K(X)\) be the graph whose vertices are the inclusion-maximal nonempty complete subgraphs of \(X\), adjacent when they intersect. Define the complete ordinary dominated-vertex paring \(P\) and \(P_0(G)=P(G)\), \(P_{n+1}(G)=P(K(P_n(G)))\). We use \(O_d=\overline{dK_2}\) for the octahedral graph, and \(*\) for graph join.
+
+The frozen connected-ten index =indeterminate_order_10_v28.txt= (Git blob =35bb83b56bb8b4fd453b0ba272d354dc6b42e68c=) had 1043 unresolved original McKay indices. Of these, 430 had unresolved nine-vertex pared cores and 613 had stiff ten-vertex pared cores.
+
+Two complete positive proof archives recently merged as GitHub PRs #108 and #109 certify six *stiff* ten-vertex originals as \(K\)-divergent. PR #110 contains supplementary independent native searches (including 3066 seeded coaffine trials and a complete 511-class octahedral pilot), but its resource-limited or exhausted statuses do not justify any further census change.
+
+* The six exact positive theorems
+
+| Original McKay index | Stage | Certified expansive retract | Method |
+|-
+| *10481909* | \(P_3(G)\) | \(O_1*Z_{15}\) | Tenth power of a coaffine weak endomorphism |
+| *10586728* | \(P_3(G)\) | \(O_1*Z_{15}\) | Tenth power of a coaffine weak endomorphism |
+| *11438191* | \(P_3(G)\) | \(O_2*\overline{C_7}\) | Fourteenth power of a coaffine weak endomorphism |
+| *11578321* | \(P_3(G)\) | \(O_1*Z_{15}\) | Tenth power of a coaffine weak endomorphism |
+| *11715667* | \(P_1(G)\) | \(O_2*\overline{C_7}\) | Exact complete first-iterate isomorphism |
+| *11716441* | \(P_1(G)\) | \(O_2*\overline{C_7}\) | Exact complete first-iterate isomorphism |
+
+Here \(Z_{15}\) is a certified connected coaffine 15-vertex graph. The three 17-vertex stable-image retracts \(O_1*Z_{15}\) are mutually isomorphic (checked on complete adjacency, not only a graph fingerprint). For the two first-iterate cases, \(P_1(G)\) has 11 vertices and 46 edges, its complement is \(2K_2\sqcup C_7\), and the independent positive proof checks every vertex and edge. Their second pared clique graphs satisfy \(\overline{P_2(G)}\cong 2C_{14}\).
+
+*Theorem.* All six original connected ten-vertex graphs listed above are \(K\)-divergent.
+
+*Proof.* The four \(P_3\) certificates independently reconstruct their complete third pared clique iterates from the original ten-vertex graph6, check every original edge under the complete archived coaffine weak endomorphism, compute the exact eventual image, and check that the indicated tenth or fourteenth power is an ordinary graph retraction, fixing every image vertex pointwise. Each stable target is explicitly verified as the displayed graph join, with a valid coaffination on every factor and all required cross-edges. The two \(P_1\) certificates independently reconstruct each complete first pared clique graph with NetworkX and bitset Bron--Kerbosch maximal-clique enumerators and complete paring, checking exactly the same factor and cross-edge conditions.
+
+The *Connected Summand Theorem* (Theorem 4.6) and *Three Summands Theorem* (Theorem 3.6) of F. Larrión, V. Neumann-Lara and M. A. Pizaña, /On expansive graphs/, /European Journal of Combinatorics/ *30* (2009), 372--379, DOI =10.1016/j.ejc.2008.05.005=, imply that each certified join is expansive and therefore \(K\)-divergent. Ordinary graph retractions transfer divergence from the target to the source, and complete dominated-vertex paring preserves eventual clique-graph behavior. Thus the original six ten-vertex graphs are divergent. \(\square\)
+
+* Exact census index promotion and safeguards
+
+The promotion changes *only* the following six original McKay indices:
+
+#+begin_src jupyter-python
+from research.order10_v29_six_coaffine_joins.verify import (
+    BEFORE, LATEST, EXPECTED_REMOVALS, EXPECTED_GRAPH6,
+    verify, audit_rows,
+)
+from research.order10_p4_crossdepth_o15_v25.verify import source_rows
+old = source_rows(BEFORE)
+new = source_rows(LATEST)
+print("Removed original indices:", list(EXPECTED_REMOVALS))
+for i in EXPECTED_REMOVALS:
+    print(i, EXPECTED_GRAPH6[i])
+print("Before / after:", len(old), len(new))
+audit_rows(old, new, set(EXPECTED_REMOVALS))
+#+end_src
+
+The frozen ten-v28 source and the new ten-v29 snapshot are both pinned to Git blob hashes; =indeterminate_order_10.txt= must equal =indeterminate_order_10_v29.txt= byte-for-byte. The independent verifier checks that the six deleted records agree with the complete permanent source proofs, that there are no inserted or silently edited six-column records, and that the original index ordering is preserved.
+
+| Population | ten-v28 | ten-v29 |
+|-
+| Unresolved original connected ten-vertex graphs | 1043 | *1037* |
+| Nine-vertex pared cores | 430 | *430* |
+| Stiff ten-vertex pared cores | 613 | *607* |
+
+The three unresolved nine-vertex sources remain unchanged. Their 430 direct ten-vertex dependents are *not* promoted by these six proofs. We make no inference of convergence or divergence from a negative search, incomplete graph iterate, resource limit, homology similarity, or unproved reference graph.
+
+The independent theorem checker reuses the historical complete verifier's ordinary retraction and factor coaffination checks. It does not reimplement the existing monorepo solvers or alter frozen proofs. The old ten-v28 promotion and four historical P3 positive proofs can still be replayed by a dedicated in-memory read alias that substitutes the *frozen* ten-v28 record only for the old verifier's now-obsolete mutable-root equality check; all historical source maps and full graph reconstructions remain unchanged.
+
+* Reproducible Emacs Jupyter and command-line verification
+
+#+begin_src jupyter-python
+from research.order10_v29_six_coaffine_joins.verify import verify
+result = verify()
+print(result["proved_K_divergent_originals"])
+print(result["population"])
+#+end_src
+
+#+begin_src sh
+python -m research.order10_v29_six_coaffine_joins.verify
+python -m unittest research.order10_v29_six_coaffine_joins.test_verify -v
+python -m research.order10_v29_six_coaffine_joins.replay_v28
+python -m unittest discover -s tests -p test_current_root_index.py -v
+#+end_src
+
+The independent GitHub Actions workflow =.github/workflows/order10-v29-six-coaffine-joins.yml= runs the new six-source proof, historical positive regressions, and immutable source audits as separate jobs. The canonical ten-v29 snapshot is not considered merged until these checks and Copilot comments have been reviewed.
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:
