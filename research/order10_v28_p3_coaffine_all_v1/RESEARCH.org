@@ -60,11 +60,11 @@ The complete 511-class native experiment has finished. Across 1022 runs
 independently replayed statuses were =FOUND= *420*, =EXHAUSTED= *600*,
 and =LIMIT_REACHED= *2*. Each =FOUND= map was checked on every source
 edge and decomposed into actual stable-image and invariant coaffine
-subgraph factors. In particular, 416 of the positive coaffine maps do
+subgraph factors. In particular, 412 of the positive coaffine maps do
 not supply a certified expansive target: a coaffine endomorphism alone
 is *not* a divergence theorem.
 
-Exactly *four original connected ten-vertex graphs* have independently
+Exactly *eight* FOUND maps (both search orderings for the same four original sources) supply expansive retractions, and precisely *four original connected ten-vertex graphs* have independently
 verified complete ordinary retractions at \(P_3\) onto expansive coaffine
 joins, with their entire native maps now permanently preserved in
 =positive_retractions.json= and independently verified from the original
