@@ -33,6 +33,7 @@ V24 = ROOT / "indeterminate_order_10_v24.txt"
 V25 = ROOT / "indeterminate_order_10_v25.txt"
 V26 = ROOT / "indeterminate_order_10_v26.txt"
 V27 = ROOT / "indeterminate_order_10_v27.txt"
+V28 = ROOT / "indeterminate_order_10_v28.txt"
 CURRENT9 = ROOT / "indeterminate_order_9.txt"
 V4_9 = ROOT / "indeterminate_order_9_v4.txt"
 V5_9 = ROOT / "indeterminate_order_9_v5.txt"
@@ -50,7 +51,7 @@ def rows(path: Path) -> list[str]:
 
 class CurrentOrder10IndexTests(unittest.TestCase):
     def test_current_root_matches_latest_certified_version(self):
-        self.assertEqual(CURRENT.read_bytes(), V27.read_bytes())
+        self.assertEqual(CURRENT.read_bytes(), V28.read_bytes())
 
     def test_historical_baseline_preserved_and_only_proofs_excluded(self):
         historical_bytes = HISTORICAL.read_bytes()
@@ -64,19 +65,26 @@ class CurrentOrder10IndexTests(unittest.TestCase):
         # only the separately certified six-positive transition changes
         # the active v26 root.
         latest = rows(CURRENT)
-        self.assertEqual((len(new), len(latest)), (1052, 1044))
+        self.assertEqual((len(new), len(latest)), (1052, 1043))
+        self.assertEqual(len(rows(V27)), 1044)
+        self.assertEqual(
+            {int(line.split()[0]) for line in rows(V27)} -
+            {int(line.split()[0]) for line in latest},
+            {11713984},
+        )
         self.assertEqual(len(rows(V26)), 1046)
         self.assertEqual(
             {int(line.split()[0]) for line in rows(V26)} -
             {int(line.split()[0]) for line in latest},
-            {11656793, 11658674},
+            {11656793, 11658674, 11713984},
         )
         self.assertTrue(set(latest).issubset(set(new)))
         self.assertEqual(
             {int(line.split()[0]) for line in new} -
             {int(line.split()[0]) for line in latest},
             {11367777, 11611429, 11623375, 11651749,
-             11708546, 11713770, 11656793, 11658674},
+             11708546, 11713770, 11656793, 11658674,
+             11713984},
         )
         self.assertEqual((len(old), len(new)), (8648, 1052))
         self.assertEqual(len(rows(V19)), 1531)
