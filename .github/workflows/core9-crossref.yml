@@ -47,7 +47,7 @@ jobs:
           cat reports/ci-core9-crossref/summary.md
       - name: Restore current nine-vertex v9 working index
         run: cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
-      - name: Restore current ten-vertex v27 working root
+      - name: Restore current ten-vertex v28 working root
         run: cp indeterminate_order_10_v28.txt indeterminate_order_10.txt
       - name: Assert historical archives unchanged and the current root restored to v28
         run: |
