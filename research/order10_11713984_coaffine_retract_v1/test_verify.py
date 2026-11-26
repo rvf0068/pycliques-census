@@ -61,7 +61,7 @@ class P3StableImageTests(unittest.TestCase):
         seven = self.original["complement_seven_cycle_vertices"]
         broken = self.f.copy()
         broken[seven[0]] = seven[0]
-        with self.assertRaisesRegex(AssertionError, "coaffine"):
+        with self.assertRaisesRegex(AssertionError, "coaffination|coaffine"):
             audit_connected_coaffine_join(Y, broken, pairs, seven)
 
     def test_original_map_has_exact_idempotent_fourteenth_power(self):
