@@ -1,0 +1,92 @@
+#+TITLE: Comprehensive coaffine-endomorphism pilot on 511 surviving ten-vertex third-iterate classes
+#+DATE: 2026-11-25
+#+LANGUAGE: en
+#+OPTIONS: toc:2
+#+PROPERTY: header-args:jupyter-python :session p3-coaffine-all-v28 :results output :exports both
+
+* Goal and exact ten-vertex scope
+
+The certified ten-v28 index has 1043 unresolved original connected graphs, with 430 whose completely pared initial graph has nine vertices and 613 whose initial pared graph is stiff of order ten. To avoid duplicating Astra's separate investigation of the three indeterminate nine-vertex graphs, this pilot considers *only the 613 stiff ten-vertex originals*.
+
+Among these 613, the immutable historical complete P3 isomorphism archive groups *610* original sources into precisely *514 distinct third-iterate classes*. The remaining three original McKay graphs =11708967=, =11715667=, =11716441= were outside that original reconstruction budget and are tracked separately, rather than silently omitted.
+
+The current oversized P3 classes =11505012=, =11595632=, =11709142= (the last class also contains =11715684=) have already received separate long-running general coaffine pilots. The present high-throughput experiment therefore considers the other *511 exact P3 classes, covering 606 original connected ten-vertex graphs*.
+
+These counts are recomputed and authenticated by the source-index job, which checks immutable ten-v28 blob =35bb83b56bb8b4fd453b0ba272d354dc6b42e68c= and complete historical P3-class blob =ab5a9f1c075dfad63b111929368147884519f2a3=. The 521-class historical P3 builder in =research/order10_full_nine_reference_v1/index.py= is reused directly; no separate clique-graph construction is written.
+
+* General mathematical mechanism: finite coaffine images
+
+A coaffine weak endomorphism \(f:X\to X\) satisfies \(f(v)\notin N_X[v]\) and preserves graph adjacency up to equality. Its eventual stable image \(Y\) carries a true coaffination \(f|_Y\), and an integer power \(f^e\) is an ordinary graph retraction \(X\to Y\). These assertions, including complete image structure and all source edges, are independently checked using the existing =research/order10_three_p3_coaffine_native_v1/verify.py= machinery.
+
+The example of merged PR #105 is crucial: original McKay 11713984 had no coaffine endomorphism at P2, but its third pared clique iterate retracts to \(O_{14}*\overline{C_7}\), which is expansive by Neumann-Lara's Connected Summand Theorem 4.6 of Larrión--Neumann-Lara--Pizaña (2009).
+
+* A stronger positive orbit criterion
+
+The whole stable image \(Y\) need not split into enough coaffine join factors for its divergence to be evident. Let \(\alpha=f|_Y\), and partition \(V(Y)\) into the orbits \(A_1,\ldots,A_t\) of \(\alpha\). Each induced subgraph \(Y[A_i]\) is coaffine. Define the *compatibility graph* \(L\) on the orbit indices by
+
+\[
+ij\in E(L)\quad\Longleftrightarrow\quad
+Y[A_i]*Y[A_j] = Y[A_i\cup A_j],
+\]
+
+i.e. every vertex of one orbit is adjacent to every vertex of the other.
+
+*Proposition 1.* If \(L\) contains a triangle, then \(Y\) is expansive, hence \(K\)-divergent.
+
+*Proof.* Three pairwise compatible invariant orbits induce a coaffine subgraph isomorphic to the join of three nonempty coaffine graphs. Neumann-Lara's Three Summands Theorem (Larrión--Neumann-Lara--Pizaña 2009, Theorem 3.6) makes this subgraph expansive. Inclusion into the coaffine graph \(Y\) is an admissible morphism, so expansivity transfers from the subgraph to \(Y\). \(\square\)
+
+*Proposition 2.* If \(L\) contains an edge \(ij\) and one of \(Y[A_i]\), \(Y[A_j]\) is connected, then \(Y\) is expansive.
+
+*Proof.* The induced subgraph \(Y[A_i\cup A_j]\) is the join of two coaffine graphs, one connected. Apply Neumann-Lara's Connected Summand Theorem (ibid., Theorem 4.6), followed by admissible inclusion. \(\square\)
+
+Both propositions *strengthen* the earlier test that demanded a nontrivial join decomposition of the entire stable image. A connected complement of the entire \(Y\) does not rule out these smaller expansive coaffine invariant subgraphs.
+
+The new verifier checks every orbit, graph automorphism condition, every claimed cross-edge, and the connectedness hypothesis before citing either theorem. If \(P_3(G)\to Y\) is the ordinary retraction produced by a positive coaffine map, the retraction theorem and dominated-vertex paring transfer \(K\)-divergence to the original ten-vertex \(G\).
+
+* Computational design and safeguards
+
+The search invokes only the *existing public* =pycliques.find_coaffine_endomorphism= C++ native backend, from the precisely verified historical monorepo commit =e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae=. Existing pinned dependencies and exact installed Python/C++ Git blob verification are reused.
+
+Each of eight independent shards handles its own disjoint collection of source class representatives. For each class the official =label= and =fiber= search policies receive up to 250000 search states and 6 seconds *each*. The two policies are independent and no native search timeout is converted into an absence proof.
+
+Every =FOUND= witness stores its *complete* vertex map and independent whole-stable-image and invariant-orbit analyses. The independent aggregate reconstructs every positive P3 graph *from its original ten-vertex McKay graph6*, checks its graph6 checksum, all map coordinates and source edges, the exact retraction, both theorem hypotheses, and the transfer to each member of the previously certified exact P3 class. Every source manifest and both policies must be present. The resulting identities and full maps are archived as CI artifacts.
+
+A positive endomorphism without a certified expansive factor remains simply a positive coaffine retraction, not a divergence classification. =EXHAUSTED= excludes only this particular coaffine weak-endomorphism mechanism at P3, and =LIMIT_REACHED= is inconclusive. Neither is interpreted as a proof of eventual clique convergence.
+
+* Reproduction via Emacs Jupyter
+
+The first block reuses the official historical census source builder rather than hardcoding any graph6 string or implementing clique enumeration.
+
+#+begin_src jupyter-python
+from research.order10_v28_p3_coaffine_all_v1.index import build_index
+index = build_index()
+print(index["pilot_classes"], index["pilot_originals"])
+print(index["excluded_resource_limited_P3_originals"])
+print(index["historically_unreconstructed_P3_originals"])
+#+end_src
+
+The next block demonstrates the orbit test on the known divergent octahedron, using the existing independent verifier:
+
+#+begin_src jupyter-python
+from research.order10_v28_p3_coaffine_all_v1.orbit_certificates import orbit_certificate
+import networkx as nx
+H = nx.Graph()
+H.add_nodes_from(range(6))
+H.add_edges_from([(0, 1), (2, 3), (4, 5)])
+O3 = nx.complement(H)
+print(orbit_certificate(O3, [i ^ 1 for i in range(6)]))
+#+end_src
+
+For one native search, use the workflow-provided pinned compiled solver and the authenticated index artifact:
+
+#+begin_src sh
+python -m research.order10_v28_p3_coaffine_all_v1.index --output /tmp/p3-source-index.json
+python -m research.order10_v28_p3_coaffine_all_v1.search --index /tmp/p3-source-index.json --shard 0 --output /tmp/p3-coaffine-shard-0.json
+python -m unittest research.order10_v28_p3_coaffine_all_v1.test_orbits -v
+#+end_src
+
+The eight-shard and independent aggregate workflow is =.github/workflows/order10-v28-p3-coaffine-all.yml=. This is a *proof-only pilot*. Any confirmed newly divergent originals require a separate permanent positive-certificate archive and versioned ten-v29 promotion. The authoritative nine-v9 and ten-v28 files, all historical proofs, and the monorepo remain unchanged.
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:
