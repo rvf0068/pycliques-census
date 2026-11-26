@@ -1,0 +1,121 @@
+name: Exact suspended-snub P2 native retraction pilot McKay 11708967
+
+on:
+  pull_request:
+    paths:
+      - "research/order10_11708967_snub_suspension_P2_v1/**"
+      - "research/order10_p3_global_v23_index/**"
+      - "research/order10_five_p3_native_v1/**"
+      - "research/order10_three_p3_coaffine_native_v1/**"
+      - "indeterminate_order_10_v28.txt"
+      - ".github/workflows/order10-11708967-snub-suspension-P2.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-source-structure-and-mathematical-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Verify snub-suspension exact source, tensor-double-cover identity and P2
+        run: |
+          python -m compileall -q research/order10_11708967_snub_suspension_P2_v1
+          python -m unittest research.order10_11708967_snub_suspension_P2_v1.test_verify -v
+      - name: Reject optimized exact source reconstruction
+        run: |
+          set -euo pipefail
+          if python -O -m research.order10_11708967_snub_suspension_P2_v1.verify \
+             --directory /tmp --output /tmp/forbidden.json \
+             > "$RUNNER_TEMP/optimized.log" 2>&1; then
+            echo "Unexpected optimized source proof acceptance"; exit 1
+          fi
+          grep -q 'Cannot optimize away independent P2 positive map checks' \
+            "$RUNNER_TEMP/optimized.log"
+
+  four-bounded-public-native-searches:
+    needs: exact-source-structure-and-mathematical-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        policy: [label, fiber]
+        kind: [coaffine, octahedral]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Checkout already-reviewed public native pycliques implementation
+        uses: actions/checkout@v4
+        with:
+          repository: rvf0068/pycliques-project
+          ref: e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae
+          path: monorepo
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install exact native solver and pinned Python dependencies
+        run: |
+          python -m pip install -r research/order10_five_p3_native_v1/constraints.txt
+          python -m pip install -c research/order10_five_p3_native_v1/constraints.txt "./monorepo/packages/pycliques"
+          python -m pip check
+      - name: Build pinned native C++ solver without changing monorepo
+        run: |
+          set -euo pipefail
+          SHA="$(git -C monorepo rev-parse HEAD)"
+          test "$SHA" = e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae
+          echo "PYCLIQUES_PINNED_SHA=$SHA" >> "$GITHUB_ENV"
+          python -m pycliques.octahedral_coaffine_native --build
+      - name: Run the existing general coaffine or octahedral solver on exact 288-vertex P2
+        env:
+          POLICY: ${{ matrix.policy }}
+          KIND: ${{ matrix.kind }}
+        run: |
+          set -euo pipefail
+          python -m research.order10_11708967_snub_suspension_P2_v1.search \
+            --policy "$POLICY" --kind "$KIND" \
+            --output "$RUNNER_TEMP/snub-suspension-P2-$POLICY-$KIND.json" \
+            | tee "$RUNNER_TEMP/native.log"
+          grep -q '^PASS: suspension-snub P2 exact' "$RUNNER_TEMP/native.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: suspended-snub-P2-${{ matrix.policy }}-${{ matrix.kind }}
+          path: ${{ runner.temp }}/snub-suspension-P2-${{ matrix.policy }}-${{ matrix.kind }}.json
+          retention-days: 90
+          if-no-files-found: error
+
+  independent-precise-positive-archive:
+    needs: four-bounded-public-native-searches
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: suspended-snub-P2-*
+          path: ${{ runner.temp }}/native
+          merge-multiple: true
+      - name: Independently reconstruct source and verify all positive maps against all original P2 edges
+        run: |
+          set -euo pipefail
+          python -m research.order10_11708967_snub_suspension_P2_v1.verify \
+            --directory "$RUNNER_TEMP/native" \
+            --output "$RUNNER_TEMP/snub-suspension-P2-independent.json" \
+            | tee "$RUNNER_TEMP/audit.log"
+          grep -q '^PASS: authentic suspended-snub P2 full source' "$RUNNER_TEMP/audit.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: suspended-snub-P2-independently-audited-positive-results
+          path: ${{ runner.temp }}/snub-suspension-P2-independent.json
+          retention-days: 90
+          if-no-files-found: error
