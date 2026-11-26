@@ -34,6 +34,7 @@ V25 = ROOT / "indeterminate_order_10_v25.txt"
 V26 = ROOT / "indeterminate_order_10_v26.txt"
 V27 = ROOT / "indeterminate_order_10_v27.txt"
 V28 = ROOT / "indeterminate_order_10_v28.txt"
+V29 = ROOT / "indeterminate_order_10_v29.txt"
 CURRENT9 = ROOT / "indeterminate_order_9.txt"
 V4_9 = ROOT / "indeterminate_order_9_v4.txt"
 V5_9 = ROOT / "indeterminate_order_9_v5.txt"
@@ -51,7 +52,7 @@ def rows(path: Path) -> list[str]:
 
 class CurrentOrder10IndexTests(unittest.TestCase):
     def test_current_root_matches_latest_certified_version(self):
-        self.assertEqual(CURRENT.read_bytes(), V28.read_bytes())
+        self.assertEqual(CURRENT.read_bytes(), V29.read_bytes())
 
     def test_historical_baseline_preserved_and_only_proofs_excluded(self):
         historical_bytes = HISTORICAL.read_bytes()
@@ -65,18 +66,28 @@ class CurrentOrder10IndexTests(unittest.TestCase):
         # only the separately certified six-positive transition changes
         # the active v26 root.
         latest = rows(CURRENT)
-        self.assertEqual((len(new), len(latest)), (1052, 1043))
+        self.assertEqual((len(new), len(latest)), (1052, 1037))
+        self.assertEqual(len(rows(V28)), 1043)
+        self.assertEqual(
+            {int(line.split()[0]) for line in rows(V28)} -
+            {int(line.split()[0]) for line in latest},
+            {10481909, 10586728, 11438191, 11578321, 11715667, 11716441},
+        )
+        self.assertTrue(set(latest).issubset(set(rows(V28))))
         self.assertEqual(len(rows(V27)), 1044)
         self.assertEqual(
             {int(line.split()[0]) for line in rows(V27)} -
             {int(line.split()[0]) for line in latest},
-            {11713984},
+            {11713984, 10481909, 10586728, 11438191,
+             11578321, 11715667, 11716441},
         )
         self.assertEqual(len(rows(V26)), 1046)
         self.assertEqual(
             {int(line.split()[0]) for line in rows(V26)} -
             {int(line.split()[0]) for line in latest},
-            {11656793, 11658674, 11713984},
+            {11656793, 11658674, 11713984,
+             10481909, 10586728, 11438191, 11578321,
+             11715667, 11716441},
         )
         self.assertTrue(set(latest).issubset(set(new)))
         self.assertEqual(
@@ -84,7 +95,8 @@ class CurrentOrder10IndexTests(unittest.TestCase):
             {int(line.split()[0]) for line in latest},
             {11367777, 11611429, 11623375, 11651749,
              11708546, 11713770, 11656793, 11658674,
-             11713984},
+             11713984, 10481909, 10586728, 11438191,
+             11578321, 11715667, 11716441},
         )
         self.assertEqual((len(old), len(new)), (8648, 1052))
         self.assertEqual(len(rows(V19)), 1531)
