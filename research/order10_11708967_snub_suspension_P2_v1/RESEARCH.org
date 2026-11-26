@@ -1,0 +1,96 @@
+#+TITLE: McKay 11708967 is the suspension of the snub disphenoid
+#+DATE: 2026-11-25
+#+LANGUAGE: en
+#+OPTIONS: toc:2
+#+PROPERTY: header-args:jupyter-python :session suspended-snub-P2 :results output :exports both
+
+* Why this is a priority ten-vertex original
+
+The historical global P3 census left original McKay index *11708967* unclassified because its second completely pared clique graph already has 288 vertices, beyond the then-allowed intermediate cap of 110. This ten-vertex original is independent of the three unresolved nine-vertex originals (which are being investigated by Astra); it has a *stiff ten-vertex core*.
+
+An exact graph reconstruction gives a useful structural identity:
+
+\[
+\boxed{G_{11708967}\cong O_1*S,}
+\]
+
+where \(O_1=\overline{K_2}\) is the two-pole suspension factor and \(S\) is the eight-vertex snub disphenoid (graph6 =GQyuzw=). The source file is taken from frozen ten-v28 with original graph6 =IQyuzz~~o=. The two suspension poles are derived from their graph neighborhoods, *not* assumed to have preassigned indices. After deleting the poles the remaining induced eight-vertex graph is independently isomorphic to the snub.
+
+The snub disphenoid itself is already proved \(K\)-divergent by an exact retraction from \(K^4(S)\) onto \(O_{24}\). However, this result **does not by itself establish** the \(K\)-divergence of its suspension: the graph-join operation does not automatically preserve the clique behavior of each factor. In particular, Neumann-Lara's Connected Summand Theorem 4.6 applies to joins of *coaffine* factors; the snub is not coaffinable. This investigation makes no unproved transfer.
+
+* A general double-cover identity for clique graphs of suspensions
+
+For any nonempty graph \(H\), the maximal cliques of its suspension \(O_1*H\) are precisely the sets \(q\cup\{a\}\) and \(q\cup\{b\}\), where \(q\in K(H)\) and \(a,b\) are the two nonadjacent suspension poles. The two layers of clique vertices corresponding to a fixed pole are each complete, and a vertex from one layer is adjacent to a vertex from the other if and only if their underlying cliques intersect.
+
+Consequently, for the categorical graph product \(\times\),
+
+\[
+\boxed{\overline{K(O_1*H)}\cong K_2\times\overline{K(H)}.}
+\]
+
+*Proof.* Identify the vertices of \(K(O_1*H)\) with pairs \((q,a)\) and \((q,b)\), \(q\in K(H)\). A missing edge occurs exactly when the chosen poles differ and the underlying maximal cliques \(q,r\) are disjoint. These are precisely the edges of \(K_2\times\overline{K(H)}\). \(\square\)
+
+For the snub, \(K(S)\) has 12 vertices and 46 edges, so its complement has 12 vertices and 20 edges. The double-cover formula predicts 24 vertices and 40 *complementary* edges, hence \(\binom{24}{2}-40=236\) ordinary edges in \(K(O_1*S)\). The exact independent P1 reconstruction agrees with this, and the verifier also checks a complete graph isomorphism with the double cover.
+
+* Exact first two pared iterates
+
+| Pared iterate | Order | Edges |
+|-
+| \(P_0(G)\) | 10 | 34 |
+| \(P_1(G)\) | 24 | 236 |
+| \(P_2(G)\) | 288 | 37772 |
+
+All three graphs are *stiff*, so no vertices are lost during complete dominated-vertex paring at these levels. The second iterate has 288 vertices and 37772 edges; its complement has exactly two connected components of orders *2 and 286*. The two-vertex component is a single \(K_2\). Thus \(P_2(G)\) has a nontrivial join structure \(O_1*Y_{286}\), but we have **not** established that the large factor is coaffinable, so the connected-summand expansivity theorem cannot yet be invoked.
+
+* Native public-algorithm research pilot
+
+The exact 288-vertex \(P_2(G)\) is reconstructed using the *existing historical independent* NetworkX/bitset Bron--Kerbosch clique enumerators and ordinary dominated-vertex paring. The computation then invokes only the previously reviewed public \(pycliques\) native solvers, at the pinned monorepo commit =e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae=:
+
+- =find_coaffine_endomorphism=, checking for any weak coaffine endomorphism, whose eventual image could retract onto an expansive graph;
+- =find_octahedral_retraction_coaffine=, seeking a complete ordinary retraction onto \(O_d\) for some \(d\ge3\).
+
+Both public search orderings =label= and =fiber= are run independently on each problem, with a 500000-state / 45-second budget per invocation. All original graph6 data, source graph6 digests, dependency versions, solver sources and native search statuses are saved in full. Any positive coaffine map is checked on every source edge, and the exact stable-image power and known expansive-join orbit criteria are independently audited. Any positive octahedral retraction is checked on all 288 source vertices, all original edges and all required antipodal nonedges.
+
+An =EXHAUSTED= result excludes only the coaffine/retraction mechanism examined at this stage, not eventual \(K\)-divergence. A =LIMIT_REACHED= result is *inconclusive*. Likewise a FOUND coaffine map with no verified expansive target does not automatically prove divergence.
+
+* Reproducible Emacs Jupyter examples
+
+This block reconstructs the exact source and its first two clique graphs using functions already present in the census:
+
+#+begin_src jupyter-python
+from research.order10_11708967_snub_suspension_P2_v1.search import source
+G, P1, P2 = source()
+for name, H in [("original", G), ("P1", P1), ("P2", P2)]:
+    print(name, len(H), H.number_of_edges())
+#+end_src
+
+Verify the mathematically exact suspension structure without hardcoding any pole labels:
+
+#+begin_src jupyter-python
+import networkx as nx
+from research.order10_11708967_snub_suspension_P2_v1.search import SNUB_G6
+poles = [v for v in G if G.degree[v] == len(G) - 2]
+base = G.copy()
+base.remove_nodes_from(poles)
+snub = nx.from_graph6_bytes(SNUB_G6.encode("ascii"))
+print("Nonadjacent poles", not G.has_edge(*poles))
+print("Induced base exactly snub", nx.is_isomorphic(base, snub))
+print("P2 complementary component sizes",
+      sorted(map(len, nx.connected_components(nx.complement(P2)))))
+#+end_src
+
+With a pinned installed native backend:
+
+#+begin_src sh
+python -m unittest research.order10_11708967_snub_suspension_P2_v1.test_verify -v
+python -m research.order10_11708967_snub_suspension_P2_v1.search --kind coaffine --policy label --output /tmp/snub-suspension-P2-label.json
+#+end_src
+
+The four-shard and independent positive replay workflow is
+=.github/workflows/order10-11708967-snub-suspension-P2.yml=.
+No authoritative census file or monorepo implementation is changed by
+this proof-only investigation.
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:
