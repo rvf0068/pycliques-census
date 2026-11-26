@@ -105,8 +105,8 @@ def audit_positive(row: dict, original: str) -> dict:
         expected = "Larrión--Neumann-Lara--Pizaña 2009, Theorem 3.6"
     elif len(components) >= 2 and connected_factors:
         expected = "Larrión--Neumann-Lara--Pizaña 2009, Theorem 4.6"
-    elif len(components) == 1 and components[0]["kind"].startswith("C")
-            and len(P1) >= 8:
+    elif (len(components) == 1 and components[0]["kind"].startswith("C")
+          and len(P1) >= 8):
         expected = "Larrión--Neumann-Lara--Pizaña 2009, Theorem 5.4"
     else:
         raise AssertionError("None of the cited divergence theorems applies")
