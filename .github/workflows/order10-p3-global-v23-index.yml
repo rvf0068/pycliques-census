@@ -7,6 +7,7 @@ on:
       - "indeterminate_order_10_v24.txt"
       - "research/order10_p4_o12_lifts_v24/replay_v23.py"
       - "indeterminate_order_10.txt"
+      - "indeterminate_order_9_v10.txt"
       - "research/order10_p3_global_v23_index/**"
       - ".github/workflows/order10-p3-global-v23-index.yml"
   workflow_dispatch:
@@ -28,6 +29,7 @@ jobs:
       - name: Replay frozen v23 global index and independent P3 verifier
         run: |
           test -s research/order10_p3_global_v23_index/certificates.json
+          cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
           python -m research.order10_p4_o12_lifts_v24.replay_v23 p3
       - name: Reject optimized execution bypassing proof assertions
         run: |
