@@ -1,0 +1,150 @@
+name: Search all 511 exact remaining small ten-P3 classes for coaffine divergent retracts
+
+on:
+  pull_request:
+    paths:
+      - "research/order10_v28_p3_coaffine_all_v1/**"
+      - "research/order10_full_nine_reference_v1/**"
+      - "research/order10_p3_global_v23_index/**"
+      - "research/order10_three_p3_coaffine_native_v1/**"
+      - "research/order10_five_p3_native_v1/**"
+      - "indeterminate_order_10_v25.txt"
+      - "indeterminate_order_10_v28.txt"
+      - ".github/workflows/order10-v28-p3-coaffine-all.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-authenticated-survivor-p3-index:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install networkx==3.6.1
+      - name: Independently reconstruct historical P3 representatives and filter ten-v28
+        run: |
+          python -m research.order10_v28_p3_coaffine_all_v1.index \
+            --output "$RUNNER_TEMP/p3-source-index.json" \
+            | tee "$RUNNER_TEMP/index.log"
+          grep -q '^PASS: exact current ten-v28 P3 coaffine source index' "$RUNNER_TEMP/index.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ten-v28-511-certified-p3-class-sources
+          path: ${{ runner.temp }}/p3-source-index.json
+          retention-days: 90
+          if-no-files-found: error
+
+  run-eight-independent-native-shards:
+    needs: build-authenticated-survivor-p3-index
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Checkout the previously verified native pycliques implementation
+        uses: actions/checkout@v4
+        with:
+          repository: rvf0068/pycliques-project
+          ref: e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae
+          path: monorepo
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python -m pip install -r research/order10_five_p3_native_v1/constraints.txt
+          python -m pip install -c research/order10_five_p3_native_v1/constraints.txt "./monorepo/packages/pycliques"
+          python -m pip check
+      - name: Pin source and compile official existing native C++ solver
+        run: |
+          set -euo pipefail
+          SHA="$(git -C monorepo rev-parse HEAD)"
+          test "$SHA" = e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae
+          echo "PYCLIQUES_PINNED_SHA=$SHA" >> "$GITHUB_ENV"
+          python -m pycliques.octahedral_coaffine_native --build
+      - uses: actions/download-artifact@v4
+        with:
+          name: ten-v28-511-certified-p3-class-sources
+          path: ${{ runner.temp }}/index
+      - name: Search all assigned P3 classes with both native orderings
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          set -euo pipefail
+          python -m research.order10_v28_p3_coaffine_all_v1.search \
+            --index "$RUNNER_TEMP/index/p3-source-index.json" \
+            --shard "$SHARD" \
+            --output "$RUNNER_TEMP/p3-coaffine-shard-$SHARD.json" \
+            | tee "$RUNNER_TEMP/search.log"
+          grep -q '^PASS: bounded P3 coaffine shard' "$RUNNER_TEMP/search.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ten-v28-p3-coaffine-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/p3-coaffine-shard-${{ matrix.shard }}.json
+          retention-days: 90
+          if-no-files-found: error
+
+  independent-positive-replay-and-class-propagation:
+    needs: run-eight-independent-native-shards
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install networkx==3.6.1
+      - uses: actions/download-artifact@v4
+        with:
+          name: ten-v28-511-certified-p3-class-sources
+          path: ${{ runner.temp }}/index
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: ten-v28-p3-coaffine-shard-*
+          path: ${{ runner.temp }}/searches
+          merge-multiple: true
+      - name: Replay every FOUND map and verify exact historical class transfers
+        run: |
+          python -m research.order10_v28_p3_coaffine_all_v1.verify \
+            --index "$RUNNER_TEMP/index/p3-source-index.json" \
+            --directory "$RUNNER_TEMP/searches" \
+            --output "$RUNNER_TEMP/positive-orbit-audit.json" \
+            | tee "$RUNNER_TEMP/verify.log"
+          grep -q '^PASS: complete 511-class positive P3 coaffine maps' "$RUNNER_TEMP/verify.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ten-v28-all-p3-native-independently-verified-positives
+          path: ${{ runner.temp }}/positive-orbit-audit.json
+          retention-days: 90
+          if-no-files-found: error
+
+  coaffine-orbit-theorem-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install networkx==3.6.1
+      - name: Verify three-summand and connected-summand positive and negative controls
+        run: |
+          python -m compileall -q research/order10_v28_p3_coaffine_all_v1
+          python -m unittest research.order10_v28_p3_coaffine_all_v1.test_orbits -v
+      - name: Disallow optimized positive P3 proof verifier
+        run: |
+          set -euo pipefail
+          if python -O -m research.order10_v28_p3_coaffine_all_v1.verify \
+             --index /tmp/unknown --directory /tmp \
+             --output /tmp/forbidden.json > "$RUNNER_TEMP/opt.log" 2>&1; then
+            echo "Optimized positive P3 verifier unexpectedly accepted"; exit 1
+          fi
+          grep -q 'Cannot optimize away exact positive P3 replay' "$RUNNER_TEMP/opt.log"
