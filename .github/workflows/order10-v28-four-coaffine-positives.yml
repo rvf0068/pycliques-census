@@ -1,0 +1,47 @@
+name: Independently certify four permanent ten-P3 coaffine-join divergent retracts
+
+on:
+  pull_request:
+    paths:
+      - "research/order10_v28_p3_coaffine_all_v1/positive_retractions.json"
+      - "research/order10_v28_p3_coaffine_all_v1/verify_positives.py"
+      - "research/order10_v28_p3_coaffine_all_v1/test_positives.py"
+      - "research/order10_p3_global_v23_index/**"
+      - "indeterminate_order_10_v28.txt"
+      - "indeterminate_order_10.txt"
+      - ".github/workflows/order10-v28-four-coaffine-positives.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  complete-P3-to-expansive-join-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install networkx==3.6.1
+      - name: Independently reconstruct four original P3 and replay exact complete power retractions
+        run: |
+          python -m research.order10_v28_p3_coaffine_all_v1.verify_positives \
+            | tee "$RUNNER_TEMP/four-positives.log"
+          grep -q '^PASS: four complete P3 coaffine-power retractions' \
+            "$RUNNER_TEMP/four-positives.log"
+          grep -q '"count_newly_proved_divergent": 4' "$RUNNER_TEMP/four-positives.log"
+      - name: Adversarial mutation tests and independent common-target isomorphism
+        run: |
+          python -m compileall -q research/order10_v28_p3_coaffine_all_v1
+          python -m unittest research.order10_v28_p3_coaffine_all_v1.test_positives -v
+          python -m unittest research.order10_v28_p3_coaffine_all_v1.test_orbits -v
+      - name: Reject optimized positive-certification runtime
+        run: |
+          set -euo pipefail
+          if python -O -m research.order10_v28_p3_coaffine_all_v1.verify_positives \
+             > "$RUNNER_TEMP/opt.log" 2>&1; then
+            echo "Optimized exact proof unexpectedly accepted"; exit 1
+          fi
+          grep -q 'Do not optimize away four positive proof checks' "$RUNNER_TEMP/opt.log"
