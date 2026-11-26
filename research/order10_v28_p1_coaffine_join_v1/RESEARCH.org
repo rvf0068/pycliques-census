@@ -96,6 +96,49 @@ previously unresolved positives, the originals in the table.
 Unrecognized targets are left indeterminate. A negative hit in this
 restricted target family is *not* a convergence proof.
 
+* Exact second iterates and homotopy contrast
+
+The same independent double-enumerator source builder was used to
+reconstruct \(P_2(G)\) for *all 613* stiff ten-v28 originals. An
+independent positive replay of every first-two-iterate coaffine
+cycle-join target found *exactly the same two positive originals*,
+11715667 and 11716441, and no additional cases in this
+restricted target family.
+
+For each of these two originals,
+
+\[
+\overline{P_2(G)}\cong C_{14}\sqcup C_{14},
+\qquad
+P_2(G)\cong\overline{C_{14}}*\overline{C_{14}},
+\qquad (|V|,|E|)=(28,350).
+\]
+
+This agrees with the exact join/clique formula
+\(\overline{K(O_2*\overline{C_7})}\cong 2C_{14}\)
+and independently verifies the first two pared clique stages.
+Each \(\overline{C_{14}}\) is connected and admits a coaffination
+by cyclic translation, so Theorem 4.6 also certifies divergence
+at this second stage.
+
+There is a further topological observation. The clique complex
+\(\Delta(O_2)\simeq S^1\), and the independence complex of
+\(C_7\) is \(S^1\). Thus \(\Delta(P_1(G))\simeq S^3\).
+The standard independence-complex formula for cycles gives
+\(\operatorname{Ind}(C_{14})\simeq S^4\). Since the
+clique complex of a graph join is the simplicial join, the
+second iterate satisfies \(\Delta(P_2(G))\simeq S^9\).
+Consequently their *first and second clique complexes are not
+homotopy equivalent*. This is a consequence of exact structural
+identities, not a black-box numerical homology calculation.
+
+The independently audited all-613 P2 screening and source
+verification is retained in
+=research/order10_v28_p2_coaffine_join_v1/=
+with GitHub Actions workflow
+=.github/workflows/order10-v28-P2-coaffine-joins.yml=.
+No new original was promoted from its P2 search alone.
+
 * Emacs Jupyter blocks using the existing census functions
 
 The following blocks use the existing historical census P1
