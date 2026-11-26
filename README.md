@@ -5,25 +5,82 @@ order 10, with a pinned revision of the
 [pycliques-project](https://github.com/rvf0068/pycliques-project)
 monorepo. All historical stages, source indices and proofs are preserved.
 
-## Current certified census: nine-vertex v9 and ten-vertex v29 (November 2026)
+## Current certified census: nine-vertex v10 and ten-vertex v30 (November 2026)
 
 | Connected order | Certified snapshot | Indeterminate original McKay graphs | Previous | Newly proved divergent |
 |---|---|---:|---:|---:|
-| 9 | [v9](indeterminate_order_9_v9.txt) | **3** | 5 | 2 |
-| 10 | [v29](indeterminate_order_10_v29.txt) | **1,037** | 1,043 | 6 |
+| 9 | [v10](indeterminate_order_9_v10.txt) | **0** | 3 | 3 |
+| 10 | [v30](indeterminate_order_10_v30.txt) | **537** | 1,037 | 500 |
 
 The authoritative mutable working root files
 [indeterminate_order_9.txt](indeterminate_order_9.txt) and
 [indeterminate_order_10.txt](indeterminate_order_10.txt)
 are byte-identical to these certified snapshots. All previous
 versioned indices, including
-[nine-v8](indeterminate_order_9_v8.txt) and
+[nine-v8](indeterminate_order_9_v8.txt),
+[nine-v9](indeterminate_order_9_v9.txt), and
 [ten-v23](indeterminate_order_10_v23.txt) and
 [ten-v24](indeterminate_order_10_v24.txt), and
 [ten-v25](indeterminate_order_10_v25.txt), and
 [ten-v26](indeterminate_order_10_v26.txt), and
 [ten-v27](indeterminate_order_10_v27.txt), and
-[ten-v28](indeterminate_order_10_v28.txt), remain frozen and unchanged.
+[ten-v28](indeterminate_order_10_v28.txt), and
+[ten-v29](indeterminate_order_10_v29.txt), remain frozen and unchanged.
+
+### Completed nine-v10 and ten-v30: three final P4 retractions and 500 ten-original consequences
+
+The independent [promotion proof](research/order9_v10_order10_v30/verify.py)
+reconstructs all three last previously indeterminate connected nine-vertex
+graphs from their original graph6, and replays the following **complete
+ordinary fourth-iterate retractions onto induced octahedral graphs**:
+
+| Nine McKay original | graph6 | Fourth pared clique graph | Certified retraction |
+|---:|---|---|---|
+| **249576** | `HEhfvzu` | 685 vertices, 199,283 edges | `P4 -> O17` |
+| **251628** | `HEhvVn{` | 1,034 vertices, 467,517 edges | `P4 -> O20` |
+| **260040** | `HQyvex}` | 1,227 vertices, 658,528 edges | `P4 -> O22` |
+
+All maximal-clique facets were independently enumerated using NetworkX
+and bitset Bron--Kerbosch, all domination-pair deletion chains verified
+on the raw fourth clique graph, each induced octahedron checked,
+and **all 1,325,328 original P4 source edges** checked under the
+complete saved retraction maps. The complete maps, P3 labeling
+bijections, target antipodal pairs and all fold moves are **permanently
+archived** in
+[positive certificates](research/order9_last_three_incidence_v1/permanent_certificates.json);
+the [solver-independent original-graph6 verifier](research/order9_last_three_incidence_v1/verify_permanent.py)
+does not rely on native searches or expiring CI artifacts.
+The retraction theorem and (K(O_d)\cong O_{2^{d-1}}) for (d\ge3)
+prove the final three original nine-vertex graphs (K)-divergent.
+
+The exact [500-original ten-dependency index](research/order9_last_three_incidence_v1/ten_dependents.py)
+uses previously certified full original-graph isomorphisms at stages
+P0, P3, or P4 and independently checks every affected original McKay
+index. It consists of **430** ten-originals with a pared-nine core
+and **70** with stiff ten-vertex cores, distributed as follows:
+
+| Nine-source original | Original ten-vertex dependents |
+|---:|---:|
+| 249576 | **162** |
+| 251628 | **171** |
+| 260040 | **167** |
+| **Total** | **500** |
+
+The new authoritative [nine-v10](indeterminate_order_9_v10.txt)
+snapshot and its working root have **zero unresolved connected
+nine-vertex original graphs**. The new
+[ten-v30](indeterminate_order_10_v30.txt) snapshot and working root
+contain exactly **537 unresolved connected ten-vertex original graphs,
+all with stiff ten-vertex cores**. The 500 exact removals from frozen
+ten-v29 (1,037) are disjoint from the six independently certified
+ten-v29 divergences, so none was counted twice. Every remaining
+six-column original record is byte-for-byte unchanged.
+
+All prior nine/ten snapshots and permanent proof archives are
+unchanged; the promotion CI also replays the previous six-positive
+ten-v29 proof from immutable source inputs. No convergence or
+divergence is inferred from an inconclusive bounded search.
+See the [Org-mode reproducibility note](research/order9_v10_order10_v30/RESEARCH.org).
 
 ### New ten-v29: six original connected ten-vertex graphs proved divergent
 
@@ -52,16 +109,16 @@ Connected Summand (Thm 4.6) and Three Summands (Thm 3.6) theorems
 certify expansivity. Complete source-edge, retraction and coaffination
 checks independently establish all six original K-divergence claims.
 
-The newly frozen [ten-v29](indeterminate_order_10_v29.txt) and mutable
-[indeterminate_order_10.txt](indeterminate_order_10.txt) contain
+At the **historical ten-v29 stage**, the frozen
+[ten-v29](indeterminate_order_10_v29.txt) catalog contained
 **1,037** unresolved original connected ten-vertex graphs, **430**
 with a nine-vertex pared core and **607** with a stiff ten-vertex
 core. The frozen ten-v28 file retains all 1,043 previous rows.
 *Exactly* the six proved original records are removed, with every other
 six-column row unchanged, authenticated by pinned Git blobs and
-independent positive proof replay. The three unresolved nine-v9 original
-sources are unchanged; no result of Astra's concurrent investigations
-is presumed here.
+independent positive proof replay. At that historical stage, the three
+nine-v9 originals were still indeterminate; these are all resolved
+in the new nine-v10 / ten-v30 promotion above.
 
 The previous all-stiff-original P1/P2 coaffine-join screens and the
 3,066 seeded native P3 coaffine results (PR #110) are retained as
