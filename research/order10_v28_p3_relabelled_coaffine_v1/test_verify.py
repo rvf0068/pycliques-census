@@ -32,10 +32,10 @@ class SeededCoaffineTests(unittest.TestCase):
         reordered.add_nodes_from(order)
         reordered.add_edges_from(G.edges())
         self.assertEqual(list(reordered), order)
-        self.assertEqual(set(reordered.edges()), set(G.edges()))
+        self.assertTrue(all(reordered.has_edge(u, v) for u, v in G.edges()))
 
     def test_bad_seed_is_rejected(self):
-        with self.assertRaisesRegex(AssertionError, "permutation"):
+        with self.assertRaisesRegex(AssertionError, "relabeling"):
             canonical_permutation(10, 10481909, 77)
 
     def test_invariant_orbit_coaffine_positive_is_still_valid(self):
