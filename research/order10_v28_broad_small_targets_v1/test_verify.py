@@ -30,7 +30,7 @@ class BroadSmallTargetTests(unittest.TestCase):
     def test_positive_octahedral_retraction_with_an_extra_twin(self):
         H = nx.Graph()
         H.add_nodes_from(range(6))
-        H.add_edges_from((0, 1), (2, 3), (4, 5))
+        H.add_edges_from([(0, 1), (2, 3), (4, 5)])
         O3 = nx.complement(H)
         X = O3.copy()
         X.add_node(6)
