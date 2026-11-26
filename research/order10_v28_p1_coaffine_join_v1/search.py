@@ -66,8 +66,8 @@ def component_certificate(H: nx.Graph) -> dict | None:
         vertices = sorted(H)
         alpha = {vertices[0]: vertices[1], vertices[1]: vertices[0]}
         kind = "K2"
-    elif n >= 3 and H.number_of_edges() == n and nx.is_connected(H)
-            and all(H.degree(v) == 2 for v in H):
+    elif (n >= 3 and H.number_of_edges() == n and nx.is_connected(H)
+          and all(H.degree(v) == 2 for v in H)):
         vertices = sorted(H)
         order = [min(vertices)]
         previous = None
@@ -115,8 +115,8 @@ def classify_P1(P1: nx.Graph) -> dict | None:
         theorem = "Larrión--Neumann-Lara--Pizaña 2009, Theorem 3.6"
     elif len(factors) >= 2 and any(x["factor_connected"] for x in factors):
         theorem = "Larrión--Neumann-Lara--Pizaña 2009, Theorem 4.6"
-    elif len(factors) == 1 and factors[0]["kind"].startswith("C")
-            and factors[0]["order"] >= 8:
+    elif (len(factors) == 1 and factors[0]["kind"].startswith("C")
+          and factors[0]["order"] >= 8):
         theorem = "Larrión--Neumann-Lara--Pizaña 2009, Theorem 5.4"
     if theorem is None:
         return None
