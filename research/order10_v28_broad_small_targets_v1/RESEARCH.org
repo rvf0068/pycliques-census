@@ -1,0 +1,75 @@
+#+TITLE: Broad positive-only direct-retraction screen of the 613 unresolved stiff ten-vertex originals
+#+DATE: 2026-11-25
+#+LANGUAGE: en
+#+OPTIONS: toc:2
+#+PROPERTY: header-args:jupyter-python :session ten-v28-small-targets :results output :exports both
+
+* Purpose
+
+In the current frozen ten-v28 census, 1043 connected ten-vertex original graphs remain unresolved. Exactly 430 have pared nine-vertex cores tied to Astra's separate investigation; the remaining 613 have stiff ten-vertex pared cores. This research addresses only the latter cohort, so no conclusion depends on the three unresolved nine-vertex graphs.
+
+Each source is read by original McKay index from immutable =indeterminate_order_10_v28.txt= (Git blob =35bb83b56bb8b4fd453b0ba272d354dc6b42e68c=). We seek *complete ordinary graph retractions* to independent, previously proved K-divergent targets, rather than relying on a bounded sequence of iterates or a conjectured reference.
+
+* Target family and mathematical justification
+
+Let \(O_m=\overline{mK_2}\). A coaffine graph admits an automorphism \(\sigma\) with \(\sigma(v)\notin N[v]\) for each vertex \(v\). Enumerate every connected coaffine graph \(H\) of order 4 through 7 from the complete NetworkX graph atlas. For every \(m\ge1\) such that \(2m+|H|\le9\), consider the join \(O_m*H\).
+
+*Theorem (Neumann-Lara's Connected Summand Theorem).* If both factors are coaffine and one factor is connected, their Zykov sum is expansive, hence K-divergent. This is Theorem 4.6 of Larrión, Neumann-Lara, Pizaña, /On expansive graphs/, /European Journal of Combinatorics/ *30* (2009), 372--379, DOI =10.1016/j.ejc.2008.05.005=.
+
+For each atlas graph H the search saves an explicit coaffination. The independent verifier checks it on every vertex and every ordered pair; it reconstructs \(O_m\), all join cross-edges, and a combined coaffination of the complete target. The following additional targets are independently divergent:
+
+- The snub disphenoid \(S\), with exact permanent ordinary retraction \(K^4(S)\to O_{24}\) verified previously in the monorepo.
+- \(\overline{C_8}\) and \(\overline{C_9}\), both K-divergent by Theorem 5.4 of the same 2009 paper.
+
+Isomorphic target descriptions are deduplicated using complete graph isomorphism, never an unproved graph-invariant collision.
+
+* Proof protocol for every positive
+
+For each ten-vertex source graph \(G\), the discovery process enumerates every subset \(T\subset V(G)\) whose order matches a candidate target. An exact degree-and-size test is only a preliminary filter; every reported positive target is checked by complete graph isomorphism.
+
+An ordinary graph retraction \(r:G\to G[T]\) must fix every vertex of \(T\). Thus for each outside vertex \(u\) the possible images lie in the finite domain
+
+\[
+ D_T(u)=\{t\in T: N_G(u)\cap T\subseteq N_{G[T]}[t]\}.
+\]
+
+The source has only ten vertices and the targets have at least six, so at most four outside vertices must be assigned. The discovery enumerates all locally legal assignments, checking the original adjacency-or-equality condition on outside edges. A positive certificate stores the exact original McKay graph6, target vertex list, target divergence theorem, and *total* retraction map.
+
+The *independent* proof verifier reconstructs the target by a separate method, checks that it is induced in \(G\), checks pointwise fixation of the target, and tests every original graph edge \(uv\) against
+
+\[
+ r(u)=r(v)\quad\text{or}\quad r(u)r(v)\in E(G[T]).
+\]
+
+Hence every reported positive proves that its original ten-vertex source is K-divergent by the ordinary retraction theorem. The negative outcome of a target-family search never proves K-convergence, nor does it exclude other divergent retracts or later-iterate retractions.
+
+* Scope and reproduction
+
+The entire stiff cohort is partitioned into eight disjoint source-index slices. The aggregator rejects missing or duplicated original indices and checks that precisely 613 stiff sources were tested. All complete positive maps and eight source manifests are archived as GitHub workflow artifacts.
+
+The discovery is a census-only finite search and uses NetworkX's existing clique and isomorphism primitives. No new general graph algorithm is added to =pycliques= or =pycombtop=.
+
+#+begin_src jupyter-python
+from research.order10_v28_broad_small_targets_v1.search import (
+    source_records, divergent_targets, find_retraction,
+)
+import networkx as nx
+sources = source_records()
+targets = divergent_targets()
+print("Stiff originals", len(sources), "distinct named targets", len(targets))
+index = next(iter(sources))
+G = nx.from_graph6_bytes(sources[index].encode("ascii"))
+print("First original", index, "witness", find_retraction(G, targets))
+#+end_src
+
+#+begin_src sh
+python -m unittest research.order10_v28_broad_small_targets_v1.test_verify -v
+python -m research.order10_v28_broad_small_targets_v1.search --shard 0 --output /tmp/small-target-shard-0.json
+python -m research.order10_v28_broad_small_targets_v1.verify --directory /path/to/eight/artifacts --output /tmp/small-target-proof.json
+#+end_src
+
+The exact CI job is =.github/workflows/order10-v28-broad-small-targets.yml=. It does *not* change the current census list, nine-v9, historical certificates, or any source code in the monorepo. If one or more positives are found, a separate permanent certificate and versioned promotion must be reviewed before reclassifying their original graphs.
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:

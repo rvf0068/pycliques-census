@@ -1,0 +1,60 @@
+name: Second-iterate expansive coaffine join proofs for all 613 stiff ten-originals
+
+on:
+  pull_request:
+    paths:
+      - "research/order10_v28_p2_coaffine_join_v1/**"
+      - "research/order10_v28_p1_coaffine_join_v1/**"
+      - "research/order10_p3_global_v23_index/**"
+      - "indeterminate_order_10_v28.txt"
+      - ".github/workflows/order10-v28-P2-coaffine-joins.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independent-second-iterate-positive-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install networkx==3.6.1
+      - name: Reconstruct second pared iterates for all 613 stiff ten-originals
+        run: |
+          set -euo pipefail
+          python -m research.order10_v28_p2_coaffine_join_v1.search \
+            --output "$RUNNER_TEMP/p2-expansive-joins.json" \
+            | tee "$RUNNER_TEMP/p2-search.log"
+          grep -q '^PASS: all 613 stiff original second pared iterates' "$RUNNER_TEMP/p2-search.log"
+      - name: Independently reconstruct and audit all positive P2 join theorems
+        run: |
+          python -m research.order10_v28_p2_coaffine_join_v1.verify \
+            --archive "$RUNNER_TEMP/p2-expansive-joins.json" \
+            --output "$RUNNER_TEMP/p2-independent-positive-proof.json" \
+            | tee "$RUNNER_TEMP/p2-verify.log"
+          grep -q '^PASS: all second-iterate expansive join positives' "$RUNNER_TEMP/p2-verify.log"
+      - name: Check historical first-iterate positive controls unchanged
+        run: |
+          python -m research.order10_v28_p1_coaffine_join_v1.verify_permanent \
+            > "$RUNNER_TEMP/p1-controls.log"
+          grep -q '^PASS: two complete P1-to-expansive-O2-join' "$RUNNER_TEMP/p1-controls.log"
+      - name: Reject optimized positive proof assertions
+        run: |
+          if python -O -m research.order10_v28_p2_coaffine_join_v1.verify \
+             --archive /tmp/nonexistent --output /tmp/nonexistent.json \
+             > "$RUNNER_TEMP/optimized.log" 2>&1; then
+            echo "Optimized independent positive verifier unexpectedly accepted"; exit 1
+          fi
+          grep -q 'Cannot optimize away exact second-iterate positive replay' "$RUNNER_TEMP/optimized.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ten-v28-complete-P2-coaffine-join-positive-archive
+          path: |
+            ${{ runner.temp }}/p2-expansive-joins.json
+            ${{ runner.temp }}/p2-independent-positive-proof.json
+          retention-days: 90
+          if-no-files-found: error
