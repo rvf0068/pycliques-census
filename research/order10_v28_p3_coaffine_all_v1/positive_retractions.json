@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "kind": "four_exact_P3_coaffine_power_retractions_onto_connected_coaffine_joins",
+  "source_census_version": "ten-v28",
+  "source_git_blob": "35bb83b56bb8b4fd453b0ba272d354dc6b42e68c",
+  "frozen_exact_p3_class_blob": "ab5a9f1c075dfad63b111929368147884519f2a3",
+  "previously_verified_native_solver_revision": "e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae",
+  "historical_positive_workflow_run": 45745202885,
+  "positives": [
+    {
+      "original_index": 10481909,
+      "original_graph6": "ICZTfX}}o",
+      "P3": [
+        37,
+        491
+      ],
+      "P3_graph6_sha256": "82a706e4cf59609e7bb463e912dee0922abdb41e8e960c768e193c203a72da24",
+      "native_states": 10,
+      "native_value_order": "label",
+      "map_codec": "zlib+base64/uint8",
+      "map_raw_sha256": "0bea16fb3550e7317884e60f4c71e45999790fcfbc7f74d18884745d8b146723",
+      "map_zlib_base64": "eNpTERZWUVEQEBUWFlRQkFcQkJWREeHn5OZmYGDg4uVm4GLn5GRgAAA8qAJ6",
+      "stable_image_order": 17,
+      "stable_image_complement_component_orders": [
+        2,
+        15
+      ],
+      "stable_image_edges": 110,
+      "power_exponent": 10,
+      "theorem": "Larrion--Neumann-Lara--Pizana 2009 Theorem 4.6"
+    },
+    {
+      "original_index": 10586728,
+      "original_graph6": "ICZelxz~_",
+      "P3": [
+        41,
+        605
+      ],
+      "P3_graph6_sha256": "b6d2067c1f2e44e58c93d2d43a775277adb13d994ff72511bf32875dad8daf4e",
+      "native_states": 11,
+      "native_value_order": "label",
+      "map_codec": "zlib+base64/uint8",
+      "map_raw_sha256": "bcecde877a1338c2a8fe27a6bef8ba0fe632678fb72c3cc56a1acd8ac6cbf2a8",
+      "map_zlib_base64": "eNpTllWSlZWSklPmFxeXF5cTl5cT4OMX4BNmZRUSYhRhYmViZWQAAUYATBwCqA==",
+      "stable_image_order": 17,
+      "stable_image_complement_component_orders": [
+        2,
+        15
+      ],
+      "stable_image_edges": 110,
+      "power_exponent": 10,
+      "theorem": "Larrion--Neumann-Lara--Pizana 2009 Theorem 4.6"
+    },
+    {
+      "original_index": 11438191,
+      "original_graph6": "ICrdvp}|o",
+      "P3": [
+        70,
+        1759
+      ],
+      "P3_graph6_sha256": "9fb8350602b77cba337104e42cccf4e27e2e2bf304c1acb60d5562adb78fe06a",
+      "native_states": 41,
+      "native_value_order": "label",
+      "map_codec": "zlib+base64/uint8",
+      "map_raw_sha256": "8a7d7b12b196b7a2c497545b4fc34e5dd50d48308d3e96201ecaf5564092b469",
+      "map_zlib_base64": "eNozNTVVVlMzBQMhBSEhNTVnNSAQAhEgMSM1XiAQEYICXl5mIQYhbl5mIIMZJAOkgAwAUgsHTg==",
+      "stable_image_order": 11,
+      "stable_image_complement_component_orders": [
+        2,
+        2,
+        7
+      ],
+      "stable_image_edges": 46,
+      "power_exponent": 14,
+      "theorem": "Larrion--Neumann-Lara--Pizana 2009 Theorem 3.6"
+    },
+    {
+      "original_index": 11578321,
+      "original_graph6": "IEhtrnksw",
+      "P3": [
+        50,
+        884
+      ],
+      "P3_graph6_sha256": "8068ead5c90e3f261187d01472eb31654520573695917b9377ff3a6ef5f29522",
+      "native_states": 11,
+      "native_value_order": "label",
+      "map_codec": "zlib+base64/uint8",
+      "map_raw_sha256": "d05cb1d52f1f7531661cde4cfef29b977841469e24f0c5049d02bbf732a5a30c",
+      "map_zlib_base64": "eNrT09PTE9LUlDIUEpKSAjLk5WU1VAUFBTU0pPn5OTjYZWXZpeUlJPglmIVFWYRFmZlZAJOeBNI=",
+      "stable_image_order": 17,
+      "stable_image_complement_component_orders": [
+        2,
+        15
+      ],
+      "stable_image_edges": 110,
+      "power_exponent": 10,
+      "theorem": "Larrion--Neumann-Lara--Pizana 2009 Theorem 4.6"
+    }
+  ],
+  "limits_are_not_negative_proofs": true
+}
