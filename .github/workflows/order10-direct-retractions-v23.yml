@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - "indeterminate_order_10.txt"
+      - "indeterminate_order_9_v10.txt"
+      - "indeterminate_order_10_v30.txt"
       - "indeterminate_order_10_v22.txt"
       - "indeterminate_order_10_v23.txt"
       - "indeterminate_order_10_v24.txt"
@@ -33,7 +35,9 @@ jobs:
           PYTHONHASHSEED: "0"
         run: |
           python -m py_compile research/order10_direct_retractions_v23/verify.py
+          cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
           python -m research.order10_p4_o12_lifts_v24.replay_v23 direct
+          cp indeterminate_order_9_v10.txt indeterminate_order_9.txt
           python -m unittest discover -s tests -p test_current_root_index.py -v
       - name: Reject optimized execution bypassing proof-critical assertions
         run: |
@@ -56,4 +60,6 @@ jobs:
       - name: Replay original frozen ten-v22 proof without changing historical files
         env:
           PYTHONHASHSEED: "0"
-        run: python -m research.order10_direct_retractions_v23.replay_v22
+        run: |
+          cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
+          python -m research.order10_direct_retractions_v23.replay_v22
