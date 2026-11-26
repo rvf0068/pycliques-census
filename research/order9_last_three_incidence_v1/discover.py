@@ -48,11 +48,43 @@ def source(index: int):
          "Immutable nine-v9 source Git blob modified")
     need(source_rows(NINE)[index]==f"{index} 9 {g6} - - -",
          "Nine-original McKay graph6 or record altered")
-    p3=independent_p3(g6)
-    need((len(p3),p3.number_of_edges())==p3shape,
+    # Reproduce Astra's exact deterministic public labeling. This
+    # controls the random seed used by the native/incidence heuristic,
+    # but the independent verifier will reconstruct the original P3
+    # again, and check the explicit full bijection on ALL vertex pairs.
+    seq=pc.CliqueSequence(
+        nx.from_graph6_bytes(g6.encode("ascii")),
+        bound=3000,pare=True,pare_initial=True,relabel=True,
+    )
+    p3=seq[3]
+    need(p3 is not None and
+         (len(p3),p3.number_of_edges())==p3shape
+         and set(p3)==set(range(p3shape[0])),
+         "Public deterministic P3 reconstruction differs")
+    independent=independent_p3(g6)
+    need((len(independent),independent.number_of_edges())==p3shape
+         and set(independent)==set(range(p3shape[0])),
          "Independent P3 reconstruction disagrees")
+    if all(independent.has_edge(u,v)==p3.has_edge(u,v)
+           for u in independent for v in independent):
+        bijection=list(range(len(p3)))
+    else:
+        # Search only the tiny 53/55/58-vertex P3. The saved
+        # permutation is independently checked in the proof-only
+        # verifier; no isomorphism search is trusted as proof.
+        matcher=nx.algorithms.isomorphism.GraphMatcher(
+            nx.complement(independent),nx.complement(p3)
+        )
+        need(matcher.is_isomorphic(),
+             "Public and independent P3 graphs are not isomorphic")
+        bijection=[matcher.mapping[u] for u in range(len(p3))]
+    need(sorted(bijection)==list(range(len(p3)))
+         and all(independent.has_edge(u,v)==
+                 p3.has_edge(bijection[u],bijection[v])
+                 for u in independent for v in independent),
+         "Complete public-to-independent P3 isomorphism fails")
     # Both NetworkX and bitset Bron--Kerbosch must enumerate the
-    # exact SAME family of maximal cliques of the independently built P3.
+    # exact SAME family of maximal cliques in the proven P3 source.
     independently_enumerated=p4_facets(p3)
     implicit=pc.ImplicitCliqueGraph.from_graph(p3,max_cliques=3000)
     need(implicit is not None
@@ -71,13 +103,13 @@ def source(index: int):
     need((len(independent_pared),
           sum(a.bit_count() for a in independent_pared)//2)==p4shape,
          "Independent bitset P4 fold algorithm disagrees")
-    return host,pared.moves,raw_rows,p3shape,p4shape
+    return host,pared.moves,raw_rows,p3shape,p4shape,p3,bijection
 
 
 def proof(index: int,policy: str="native-then-walk"):
     import pycliques as pc
     g6,p3shape,p4shape=CASES[index]
-    host,moves,raw_rows,_,_=source(index)
+    host,moves,raw_rows,_,_,p3,bijection=source(index)
     graph=host.to_networkx()
     need(graph is not None and len(graph)==p4shape[0],
          "Pared implicit source is not a complete explicit graph")
@@ -132,6 +164,8 @@ def proof(index: int,policy: str="native-then-walk"):
         "historical_nine_v9_git_blob":NINE_BLOB,
         "pinned_monorepo_commit":MONOREPO,
         "P3":list(p3shape),"P4":list(p4shape),
+        "public_sequence_P3_graph6":nx.to_graph6_bytes(p3,header=False).decode("ascii").strip(),
+        "independent_P3_to_public_P3_bijection":bijection,
         "raw_P4_order":len(raw_rows),
         "raw_P4_facet_sha256":hashlib.sha256(
             "|".join(str(x) for x in host.clique_masks).encode("ascii")
