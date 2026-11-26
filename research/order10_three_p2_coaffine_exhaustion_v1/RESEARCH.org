@@ -1,0 +1,87 @@
+#+TITLE: Exact P2 exclusion of coaffine endomorphisms in four oversized-core sources
+#+DATE: 2026-11-25
+#+LANGUAGE: en
+#+OPTIONS: toc:2
+#+PROPERTY: header-args:jupyter-python :session p2-coaffine-exhaustion :results output :exports both
+
+* Purpose
+
+The native P3 coaffine pilot at the remaining three oversized ten-vertex cores reached its time limit under both existing value orderings. The second pared clique iterates, in contrast, have only 24--29 vertices and admit an *exact exhaustive* coaffine check with the official public =pycliques.find_coaffine_endomorphism= API.
+
+We examine original McKay 11505012, 11595632, 11709142, and, as a decisive positive-later-iterate control, original 11713984. The last original is *already K-divergent*, via a certified P3-to-\(O_{14}*\overline{C_7}\) ordinary retraction and Neumann-Lara's Connected Summand Theorem. Therefore a P2 exclusion alone could never be treated as convergence evidence.
+
+* Exact canonical second iterates
+
+The frozen canonical ten-v28 original graph6 and all intermediate inputs are reconstructed using the historical independent Bron--Kerbosch and NetworkX maximal-clique cross-check and completely dominated-vertex paring. No graph6 strings are hardcoded in this note.
+
+| Original McKay index | \(|V(P_2)|\) | \(|E(P_2)|\) |
+|-
+| 11505012 | 29 | 316 |
+| 11595632 | 26 | 251 |
+| 11709142 | 24 | 223 |
+| 11713984 | 25 | 244 |
+
+The verifier checks immutable ten-v28 Git blob =35bb83b56bb8b4fd453b0ba272d354dc6b42e68c= and independent SHA-256 graph6 fingerprints at P2. The P2 graphs use the same exact chronological convention as the existing census: \(P_0\) is the complete initial paring and \(P_{j+1}=P(K(P_j))\).
+
+* Exact theorem and consequences
+
+*Theorem (solver-certified).* For each of the four originals listed above, the second pared clique iterate \(P_2(G)\) has **no coaffine weak endomorphism**.
+
+A coaffine weak endomorphism \(f:X\to X\) is a graph morphism such that \(f(v)\notin N_X[v]\) for every vertex \(v\). The theorem is certified by two already implemented public exact search backends (=python= and =native=), with both =label= and =fiber= value orderings. Each of the sixteen declared searches must return =EXHAUSTED= with an empty map and strictly fewer than the allowed 100000 search states. Every source graph is independently reconstructed and authenticated. A separate historical native source commit and its Python/C++ source Git blobs are pinned exactly as in PR #107's P3 pilot.
+
+*Corollary.* None of these four graphs \(P_2(G)\) has an ordinary graph retraction onto *any induced coaffinable graph*.
+
+*Proof.* Suppose \(r:X\to Y=X[S]\) is an ordinary retraction and \(\sigma:Y\to Y\) is a coaffination. The composite \(f=i\circ\sigma\circ r:X\to X\), with \(i\) the induced inclusion, is a graph morphism. For every \(v\in V(X)\), the vertices \(r(v)\) and \(\sigma(r(v))\) are distinct and nonadjacent in \(Y\). If \(v\) equaled or were adjacent to \(\sigma(r(v))\) in \(X\), then, because \(r\) fixes \(S\), their images under \(r\) would be equal or adjacent in \(Y\), a contradiction. Hence \(f\) would be a coaffine weak endomorphism of \(X\). This contradicts the theorem for \(X=P_2(G)\). \(\square\)
+
+Thus **at stage P2**, no octahedral target, no complement of a coaffinable cycle, and no connected-coaffine-summand join can occur as an ordinary retract. This does *not* exclude these targets at P3 or a later stage.
+
+* Positive-later-stage control: the phenomenon is real
+
+For original McKay 11713984 the completely checked P3 morphism \(f\), archived in =research/order10_11713984_coaffine_retract_v1/certificate.json=, has an exact fourteenth-power ordinary retraction onto \(O_{14}*\overline{C_7}\). This target is expansive and the original is K-divergent. Yet the exact P2 verifier above proves that its second pared iterate admits *no* coaffine weak endomorphism whatsoever.
+
+Therefore nonexistence of coaffine weak endomorphisms at a given iterate is not preserved by applying the pared clique operator. The result explains why the present P3 tests cannot be replaced by an apparently easier P2 search, despite the substantial order difference.
+
+* Reproducible Emacs Jupyter blocks
+
+The first block independently reconstructs and checks each canonical P2 from the frozen original records, without reimplementing clique-graph enumeration:
+
+#+begin_src jupyter-python
+from research.order10_three_p2_coaffine_exhaustion_v1.verify import (
+    EXPECTED, source_p2,
+)
+for index in EXPECTED:
+    P2, original_graph6 = source_p2(index)
+    print(index, len(P2), P2.number_of_edges())
+#+end_src
+
+The next block executes the *existing public* exact Python backend on one selected original. It should report =EXHAUSTED=, not a time limit. The exhaustive native backend is verified separately in pinned CI.
+
+#+begin_src jupyter-python
+from research.order10_three_p2_coaffine_exhaustion_v1.verify import exhaustive_check
+outcome = exhaustive_check(11505012, "python", "label")
+print(outcome["status"], outcome["states_explored"])
+#+end_src
+
+The independently archived P3 positive control is checked using the existing proof verifier:
+
+#+begin_src jupyter-python
+from research.order10_11713984_coaffine_retract_v1.verify import verify
+p3_positive = verify()
+print(p3_positive["retraction_image"])
+print(p3_positive["original_K_divergent"])
+#+end_src
+
+* Command line and caveat
+
+The continuous-integration workflow =.github/workflows/order10-three-p2-coaffine-exhaustion.yml= installs the exact previously merged PR56 native solver, compiles it, and cross-checks *sixteen genuinely exhaustive searches*, including both implementations and both value orderings.
+
+#+begin_src sh
+python -m research.order10_three_p2_coaffine_exhaustion_v1.verify --backend-scope both --output /tmp/p2_exact.json
+python -m unittest research.order10_three_p2_coaffine_exhaustion_v1.test_verify -v
+#+end_src
+
+There is no change in the authoritative ten-v28 or nine-v9 classification as a result of these exact *mechanism exclusions*. In particular =EXHAUSTED= is not interpreted as a K-convergence proof.
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:
