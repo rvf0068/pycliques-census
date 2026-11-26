@@ -25,6 +25,8 @@ from research.order10_p3_global_v23_index.independent_verify import (
 ROOT = Path(__file__).resolve().parents[2]
 SNAPSHOT = ROOT / "indeterminate_order_10_v28.txt"
 SNAPSHOT_BLOB = "35bb83b56bb8b4fd453b0ba272d354dc6b42e68c"
+HISTORICAL_CONTROL = ROOT / "indeterminate_order_10_v27.txt"
+HISTORICAL_CONTROL_BLOB = "a2a1fdbb7a83a4e2d6a7b7e695c5edd601d0cc78"
 EXPECTED = {
     11505012: (29, 316, "5b2445d2e477c60f4350858a4ef28b68bcdb152b10f996a8232584b24a37a5d8"),
     11595632: (26, 251, "512771c26527e563f07ab52472d50440c8a51bab4422fca7a3316ddb9aa1a6b3"),
@@ -45,7 +47,13 @@ def source_p2(index: int) -> tuple[nx.Graph, str]:
     require(index in EXPECTED, "Unrecognized original for second-stage audit")
     require(git_blob(SNAPSHOT.read_bytes()) == SNAPSHOT_BLOB,
             "Immutable ten-v28 Git blob changed")
-    source = source_rows(SNAPSHOT)[index]
+    if index == 11713984:
+        require(git_blob(HISTORICAL_CONTROL.read_bytes()) ==
+                HISTORICAL_CONTROL_BLOB,
+                "Immutable historical ten-v27 control Git blob changed")
+        source = source_rows(HISTORICAL_CONTROL)[index]
+    else:
+        source = source_rows(SNAPSHOT)[index]
     fields = source.split()
     require(len(fields) == 6
             and fields[:2] == [str(index), "10"]
@@ -124,12 +132,19 @@ def verify_all(*, include_native: bool = True) -> dict:
         "schema": 1,
         "kind": "exact_P2_coaffine_weak_endomorphism_exhaustion",
         "source_snapshot": SNAPSHOT.name,
+        "historical_control_snapshot": HISTORICAL_CONTROL.name,
+        "historical_control_git_blob": HISTORICAL_CONTROL_BLOB,
         "immutable_source_git_blob": SNAPSHOT_BLOB,
         "p2_shapes": {str(i): list(v[:2]) for i, v in EXPECTED.items()},
         "solver_backends": ["python", "native"] if include_native else ["python"],
         "native_solver_source_blobs_and_dependencies_checked": include_native,
         "dependency_versions": installed,
         "originals_no_coaffine_at_P2": sorted(EXPECTED),
+        "source_provenance": {
+            str(index):
+                (HISTORICAL_CONTROL.name if index == 11713984 else SNAPSHOT.name)
+            for index in EXPECTED
+        },
         "fourth_graph_is_certified_divergent_by_P3_retract": 11713984,
         "cannot_infer_convergence_from_P2_exhaustion": True,
         "results": results,
