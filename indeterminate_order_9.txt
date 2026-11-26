@@ -1,10 +1,9 @@
-# Certified current indeterminate connected graphs of order nine, v9
-# Remaining=3 previous_v8=5 newly_proved_divergent=2
-# Removed McKay 251759 (HEhvtzm, P4 -> O15) and 254369 (HEjfvx}, P4 -> O13).
-# Full independently verified positive retractions: research/order9_two_p4_retractions_v1/
-# Every retained v8 row is unchanged; v8 and prior snapshots are immutable.
-# Independent exact promotion audit: research/order9_v9_order10_v20/verify.py
+# Certified current indeterminate connected graphs of order nine, v10
+# Remaining=0 previous_v9=3 newly_proved_divergent=3
+# Last unresolved original McKay 249576, 251628, 260040 are all K-divergent.
+# Exact fourth pared clique graphs retract onto O17, O20, O22, respectively.
+# All full P4 ordinary retraction images and folds permanently archived at
+# research/order9_last_three_incidence_v1/permanent_certificates.json
+# Independent full original-graph6 proof: verify_permanent.py
+# Frozen nine-v9 and all preceding snapshots retain their original records.
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
-249576 9 HEhfvzu - - -
-251628 9 HEhvVn{ - - -
-260040 9 HQyvex} - - -
