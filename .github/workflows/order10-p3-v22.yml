@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - "indeterminate_order_10.txt"
+      - "indeterminate_order_9_v10.txt"
+      - "indeterminate_order_10_v30.txt"
       - "indeterminate_order_10_v21.txt"
       - "indeterminate_order_10_v22.txt"
       - "indeterminate_order_10_v23.txt"
@@ -33,8 +35,10 @@ jobs:
           PYTHONHASHSEED: "0"
         run: |
           python -m py_compile research/order10_p3_reference_lifts_v22/verify.py research/order10_direct_retractions_v23/replay_v22.py
+          cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
           python -m research.order10_direct_retractions_v23.replay_v22
           python -m unittest research.order10_p3_reference_lifts_v22.test_verify -v
+          cp indeterminate_order_9_v10.txt indeterminate_order_9.txt
           python -m unittest discover -s tests -p test_current_root_index.py -v
       - name: Reject bypass of proof-critical assertions
         run: |
@@ -58,4 +62,5 @@ jobs:
         env:
           PYTHONHASHSEED: "0"
         run: |
+          cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
           python -m research.order10_p3_reference_lifts_v22.replay_v21
