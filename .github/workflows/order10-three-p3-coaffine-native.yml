@@ -1,0 +1,122 @@
+name: Pilot native coaffine endomorphisms on three oversized P3 cores
+
+on:
+  pull_request:
+    paths:
+      - "research/order10_three_p3_coaffine_native_v1/**"
+      - "research/order10_five_p3_native_v1/**"
+      - "research/order10_overcap_p3_coaffine_v1/**"
+      - "research/order10_full_nine_reference_v1/**"
+      - "research/order10_p3_global_v23_index/**"
+      - "indeterminate_order_10_v25.txt"
+      - "indeterminate_order_10_v28.txt"
+      - ".github/workflows/order10-three-p3-coaffine-native.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  native-coaffine-pilot:
+    strategy:
+      fail-fast: false
+      matrix:
+        index: [11505012, 11595632, 11709142]
+        value_order: [label, fiber]
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - name: Checkout previously verified public native pycliques solver
+        uses: actions/checkout@v4
+        with:
+          repository: rvf0068/pycliques-project
+          ref: e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae
+          path: monorepo
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install existing solver under the frozen PR56 dependency lock
+        run: |
+          python -m pip install -r research/order10_five_p3_native_v1/constraints.txt
+          python -m pip install -c research/order10_five_p3_native_v1/constraints.txt "./monorepo/packages/pycliques"
+          python -m pip check
+      - name: Verify original code revision and build official C++ solver
+        run: |
+          set -euo pipefail
+          SHA="$(git -C monorepo rev-parse HEAD)"
+          test "$SHA" = e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae
+          echo "PYCLIQUES_PINNED_SHA=$SHA" >> "$GITHUB_ENV"
+          python -m pycliques.octahedral_coaffine_native --build
+      - name: Perform bounded general coaffine search with independent positive replay
+        env:
+          ORIGINAL: ${{ matrix.index }}
+          VALUE_ORDER: ${{ matrix.value_order }}
+        run: |
+          set -euo pipefail
+          python -m research.order10_three_p3_coaffine_native_v1.search \
+            --index "$ORIGINAL" --value-order "$VALUE_ORDER" \
+            --output "$RUNNER_TEMP/three-p3-coaffine-$ORIGINAL-$VALUE_ORDER.json" \
+            | tee "$RUNNER_TEMP/native.log"
+          grep -q "^P3 original=$ORIGINAL order=$VALUE_ORDER coaffine=" "$RUNNER_TEMP/native.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: three-p3-coaffine-${{ matrix.index }}-${{ matrix.value_order }}
+          path: ${{ runner.temp }}/three-p3-coaffine-${{ matrix.index }}-${{ matrix.value_order }}.json
+          retention-days: 30
+          if-no-files-found: error
+
+  independent-aggregate:
+    needs: native-coaffine-pilot
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Test general mathematical positive-map verifier, including adversarial cases
+        run: |
+          python -m compileall -q research/order10_three_p3_coaffine_native_v1
+          python -m unittest research.order10_three_p3_coaffine_native_v1.test_verify -v
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: three-p3-coaffine-*
+          path: ${{ runner.temp }}/native
+          merge-multiple: true
+      - name: Replay all native sources and all FOUND map coordinates on every edge
+        run: |
+          python -m research.order10_three_p3_coaffine_native_v1.verify \
+            --directory "$RUNNER_TEMP/native" \
+            --output "$RUNNER_TEMP/three-p3-coaffine-audit.json" \
+            | tee "$RUNNER_TEMP/audit.log"
+          grep -q '^PASS: six bounded native coaffine searches independently audited' "$RUNNER_TEMP/audit.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: three-p3-coaffine-independent-aggregate
+          path: ${{ runner.temp }}/three-p3-coaffine-audit.json
+          retention-days: 90
+          if-no-files-found: error
+
+  proof-tool-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Compile and test solver-independent coaffine proof validation
+        run: |
+          python -m compileall -q research/order10_three_p3_coaffine_native_v1
+          python -m unittest research.order10_three_p3_coaffine_native_v1.test_verify -v
+      - name: Optimized execution must not bypass proof-critical asserts
+        run: |
+          set -euo pipefail
+          if python -O -m research.order10_three_p3_coaffine_native_v1.verify > "$RUNNER_TEMP/opt.log" 2>&1; then
+            echo "Optimization unexpectedly accepted the proof verifier"; exit 1
+          fi
+          grep -q 'Cannot optimize away positive proof checks' "$RUNNER_TEMP/opt.log"
