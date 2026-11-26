@@ -12,6 +12,8 @@ on:
       - "indeterminate_order_10_v27.txt"
       - "indeterminate_order_10_v28.txt"
       - "indeterminate_order_10_v29.txt"
+      - "indeterminate_order_10_v30.txt"
+      - "indeterminate_order_9_v10.txt"
       - "research/order10_v29_six_coaffine_joins/**"
       - "indeterminate_order_10.txt"
       - "indeterminate_order_9.txt"
@@ -40,6 +42,7 @@ jobs:
           grep -q '"original_K_divergent": true' "$RUNNER_TEMP/positive.log"
       - name: Replay certified historical v28 one-original transition and all mutation tests
         run: |
+          cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
           python -m research.order10_v29_six_coaffine_joins.replay_v28 > "$RUNNER_TEMP/v28.log" 2>&1
           grep -q '^PASS: immutable ten-v28 connected-summand promotion' "$RUNNER_TEMP/v28.log"
           tail -n 20 "$RUNNER_TEMP/v28.log"
@@ -67,10 +70,12 @@ jobs:
       - name: Compile and replay proof and mutation tests
         run: |
           python -m compileall -q research/order10_v28_connected_summand
+          cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
           python -m research.order10_v29_six_coaffine_joins.replay_v28
-      - name: Active root is v29, historical ten-v28 and earlier positive sources are unchanged
+          cp indeterminate_order_9_v10.txt indeterminate_order_9.txt
+      - name: Active root is v30, historical ten-v28 and earlier positive sources are unchanged
         run: |
-          cmp indeterminate_order_10.txt indeterminate_order_10_v29.txt
+          cmp indeterminate_order_10.txt indeterminate_order_10_v30.txt
           test "$(git hash-object indeterminate_order_10_v28.txt)" = 35bb83b56bb8b4fd453b0ba272d354dc6b42e68c
           test "$(git hash-object indeterminate_order_10_v27.txt)" = a2a1fdbb7a83a4e2d6a7b7e695c5edd601d0cc78
           test "$(git hash-object indeterminate_order_9_v9.txt)" = d18a7a843be935f3a7fe911691dd1c86dac2addd
