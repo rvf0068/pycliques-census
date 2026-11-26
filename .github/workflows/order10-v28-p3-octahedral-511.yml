@@ -1,0 +1,149 @@
+name: Positive-only octahedral retraction search on all 511 ten-P3 classes
+
+on:
+  pull_request:
+    paths:
+      - "research/order10_v28_p3_octahedral_511_v1/**"
+      - "research/order10_v28_p3_coaffine_all_v1/**"
+      - "research/order10_five_p3_native_v1/**"
+      - "research/order10_p3_global_v23_index/**"
+      - "indeterminate_order_10_v25.txt"
+      - "indeterminate_order_10_v28.txt"
+      - ".github/workflows/order10-v28-p3-octahedral-511.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-historical-P3-class-sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install networkx==3.6.1
+      - name: Reconstruct all 511 surviving P3 source representatives from original graph6
+        run: |
+          python -m research.order10_v28_p3_coaffine_all_v1.index \
+            --output "$RUNNER_TEMP/p3-source-index.json" \
+            | tee "$RUNNER_TEMP/index.log"
+          grep -q '^PASS: exact current ten-v28 P3 coaffine source index' "$RUNNER_TEMP/index.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: octahedral-511-P3-index
+          path: ${{ runner.temp }}/p3-source-index.json
+          retention-days: 90
+          if-no-files-found: error
+
+  octahedral-native-eight-shards:
+    needs: build-historical-P3-class-sources
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: rvf0068/pycliques-project
+          ref: e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae
+          path: monorepo
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install previously validated official native solver
+        run: |
+          python -m pip install -r research/order10_five_p3_native_v1/constraints.txt
+          python -m pip install -c research/order10_five_p3_native_v1/constraints.txt "./monorepo/packages/pycliques"
+          python -m pip check
+      - name: Check exact monorepo revision and build official native C++ solver
+        run: |
+          set -euo pipefail
+          SHA="$(git -C monorepo rev-parse HEAD)"
+          test "$SHA" = e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae
+          echo "PYCLIQUES_PINNED_SHA=$SHA" >> "$GITHUB_ENV"
+          python -m pycliques.octahedral_coaffine_native --build
+      - uses: actions/download-artifact@v4
+        with:
+          name: octahedral-511-P3-index
+          path: ${{ runner.temp }}/index
+      - name: Search both native policies for complete P3-to-O_d retractions
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          set -euo pipefail
+          python -m research.order10_v28_p3_octahedral_511_v1.search \
+            --index "$RUNNER_TEMP/index/p3-source-index.json" \
+            --shard "$SHARD" \
+            --output "$RUNNER_TEMP/p3-octahedral-shard-$SHARD.json" \
+            | tee "$RUNNER_TEMP/native.log"
+          grep -q '^PASS: pinned native octahedral shard' "$RUNNER_TEMP/native.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: octahedral-511-P3-native-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/p3-octahedral-shard-${{ matrix.shard }}.json
+          retention-days: 90
+          if-no-files-found: error
+
+  verify-all-positive-maps-independently:
+    needs: octahedral-native-eight-shards
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install networkx==3.6.1
+      - uses: actions/download-artifact@v4
+        with:
+          name: octahedral-511-P3-index
+          path: ${{ runner.temp }}/index
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: octahedral-511-P3-native-shard-*
+          path: ${{ runner.temp }}/shards
+          merge-multiple: true
+      - name: Reconstruct original P3 for every FOUND map and verify all source edges
+        run: |
+          python -m research.order10_v28_p3_octahedral_511_v1.verify \
+            --index "$RUNNER_TEMP/index/p3-source-index.json" \
+            --directory "$RUNNER_TEMP/shards" \
+            --output "$RUNNER_TEMP/octahedral-audit.json" \
+            | tee "$RUNNER_TEMP/audit.log"
+          grep -q '^PASS: all 511 P3 classes native O_d retraction statuses' "$RUNNER_TEMP/audit.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: octahedral-511-P3-independent-positive-proof-archive
+          path: ${{ runner.temp }}/octahedral-audit.json
+          retention-days: 90
+          if-no-files-found: error
+
+  proof-logic-adversarial-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install networkx==3.6.1
+      - name: Check positive octahedral map rejection and proof-critical syntax
+        run: |
+          python -m compileall -q research/order10_v28_p3_octahedral_511_v1
+          python -m unittest research.order10_v28_p3_octahedral_511_v1.test_verify -v
+      - name: Disallow optimized positive-only proof verification
+        run: |
+          set -euo pipefail
+          if python -O -m research.order10_v28_p3_octahedral_511_v1.verify \
+             --index /tmp/nonexistent --directory /tmp \
+             --output /tmp/nonexistent.json > "$RUNNER_TEMP/opt.log" 2>&1; then
+            echo "Unexpected successful optimized proof execution"; exit 1
+          fi
+          grep -q 'Cannot optimize away native octahedral replay checks' "$RUNNER_TEMP/opt.log"
