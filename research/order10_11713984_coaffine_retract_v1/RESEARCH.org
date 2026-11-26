@@ -1,4 +1,4 @@
-#+TITLE: An exact 35-vertex coaffine retract and enormous fourth-iterate homology
+#+TITLE: Clique divergence of McKay 11713984 via an exact connected-coaffine-summand retract
 #+DATE: 2026-11-25
 #+LANGUAGE: en
 #+OPTIONS: toc:2
@@ -6,9 +6,9 @@
 
 * Problem and scope
 
-Let \(G\) be original connected ten-vertex McKay graph 11713984, with original graph6 recovered from the historical ten-v25 archive. The exact third pared clique iterate \(X=P_3(G)\) has \(169\) vertices and \(12897\) edges, and its complement has \(1299\) edges and \(35\) triangles. This graph is still classified as *indeterminate* in the certified ten-v27 census. The previous native pilot from census PR #100 had discovered a coaffine weak endomorphism of \(X\), but neither the general search nor the octahedral search gave a complete octahedral retraction certificate.
+Let \(G\) be original connected ten-vertex McKay graph 11713984, with original graph6 recovered from the historical ten-v25 archive. The exact third pared clique iterate \(X=P_3(G)\) has \(169\) vertices and \(12897\) edges, and its complement has \(1299\) edges and \(35\) triangles. The currently merged ten-v27 file still lists this graph as indeterminate; the new proof below certifies divergence and awaits a separately audited census promotion. The previous native pilot from census PR #100 had discovered a coaffine weak endomorphism of \(X\), but neither the general search nor the octahedral search gave a complete octahedral retraction certificate.
 
-This note converts that old positive coaffine endomorphism into a much stronger permanent exact *ordinary retraction certificate*, then derives a homological obstruction and an explicit size lower bound for the fourth pared iterate, without constructing \(P_4(G)\). It deliberately makes *no unproved assertion of clique divergence* and does not change the authoritative census lists.
+This note converts that old positive coaffine endomorphism into a permanent exact *ordinary retraction certificate*. The resulting target satisfies Neumann-Lara's Connected Summand Theorem, which *proves K-divergence* of the original graph. We also derive an exact homological consequence and a fourth-iterate size lower bound, without constructing \(P_4(G)\). This proof-only PR does not change the authoritative census lists.
 
 * Exact coaffine endomorphism and idempotent power
 
@@ -25,6 +25,24 @@ Let \(Y=X[S]\) and \(H=\overline Y\). The complementary graph \(H\) has *fourtee
 \]
 
 Here \(O_{14}=\overline{14K_2}\) and the asterisk denotes graph join. This is a proper stiff-looking structural target but is *not an octahedron*: the extra seven vertices are important. We do not silently discard them or pretend to have an ordinary \(O_{14}\) retraction. This distinction is essential because a graph join does not generally retract onto an arbitrary join factor.
+
+* Positive divergence theorem (Connected Summand Theorem 4.6)
+
+We apply the theorem of F. Larrión, V. Neumann-Lara and M. A. Pizaña, /On expansive graphs/, European Journal of Combinatorics 30 (2009), 372--379, DOI =10.1016/j.ejc.2008.05.005=, Theorem 4.6 (Neumann-Lara's Connected Summand Theorem):
+
+/If \(A\) and \(B\) are coaffine graphs and \(B\) is connected, then their Zykov sum \(A+B\) is expansive./
+
+The Zykov sum is precisely our graph join. The hypotheses are checked here, not assumed from a graph signature.
+
+- The first factor \(A=O_{14}\) has coaffination swapping the two vertices in every antipodal pair. The complete saved list of fourteen antipodal pairs is independently checked.
+- The second factor \(B=\overline{C_7}\) is connected. Restrict the archived native coaffine map \(f\) to the seven vertices of this factor. This restriction is a bijective automorphism that maps every vertex to a nonneighbor (equivalently, one step around the complementary seven-cycle). We check every ordered pair of vertices of \(B\).
+- The union of these factor automorphisms is checked to be a bijective coaffination of the 35-vertex join, preserving adjacency and nonadjacency on *every ordered vertex pair*. All edges between the two factors are independently checked.
+
+*Theorem.* Original connected ten-vertex McKay graph 11713984 is \(K\)-divergent.
+
+*Proof.* The complete 169-coordinate certified map \(f\) is a coaffine graph endomorphism of \(X=P_3(G)\). Its 14th power is an ordinary graph retraction \(r:X\to Y\), verified on every source edge, and \(Y\cong O_{14}*\overline{C_7}\). The two graph factors admit the explicitly verified coaffinations described above, and the second is connected. Neumann-Lara's Connected Summand Theorem 4.6 therefore makes \(Y\) expansive, hence \(K\)-divergent. By the ordinary retraction theorem, \(X\) is \(K\)-divergent. Finally, dominated-vertex paring preserves \(K\)-behavior, so divergence of \(P_3(G)\) implies divergence of \(G\). \(\square\)
+
+The theorem applies to the *whole* 35-vertex retract; no unjustified deletion of the seven extra vertices or ordinary retraction to \(O_{14}\) is needed. This result improves the earlier homological conclusion to a definitive positive clique-behavior classification.
 
 * General join formula for complement disjointness graphs
 
@@ -80,6 +98,8 @@ The existing versioned census verifier is the official entry point; no graph-spe
 from research.order10_11713984_coaffine_retract_v1.verify import verify
 proof = verify()
 print(proof["retraction_image"])
+print("Connected-summand hypotheses:", proof["connected_summand_certificate"])
+print("Original K-divergent:", proof["original_K_divergent"])
 print(proof["complement_of_clique_graph_image"])
 print("Fourth pared iterate homology dimension:", proof["next_pared_iterate_free_Z_homology_dimension"])
 print("Fourth pared iterate minimum vertices:", proof["next_pared_iterate_minimum_vertices"])
@@ -99,11 +119,13 @@ P3 = independent_p3(source[original].split()[2])
 print("P3 order:", len(P3), "edges:", P3.number_of_edges())
 #+end_src
 
-* Research direction and limit of the result
+* Census status and remaining large cores
 
-The enormous jump from the \(35\)-vertex retract \(Y\) to the \(114688\)-vertex graph \(K(Y)\), and the appearance of the \(S^{40959}\) clique-complex homotopy type, make this particular 35-vertex join a promising *new target for clique divergence analysis*. A finite jump, however large, does not establish divergence of all further iterates. It remains to prove \(O_{14}*\overline{C_7}\) divergent, or to find a further ordinary retraction to an already certified divergent reference. Until then original 11713984 stays in ten-v27.
+This positive proof certifies original 11713984 as divergent, but deliberately leaves immutable ten-v27 (1044 unresolved ten-vertex originals) and the active root unchanged in this proof-only PR. After it merges, a separate versioned ten-v28 transition can remove *exactly* original 11713984, retain every other six-column row unchanged, and certify a new unresolved count of *1043*. Until that promotion is committed, the current authoritative file still lists 11713984.
 
-This target is a join of fourteen suspensions of \(\overline{C_7}\). The formula for \(K(Y)\) suggests studying the clique dynamics of joins of complements of even cycles by exploiting the disjointness graphs of their maximal independent sets, rather than naively constructing the enormous iterates. The results are independent of the other three oversized third-iterate cores.
+There are then only *three* oversized, still-indeterminate third-iterate representatives: original McKay 11505012, 11595632, and 11709142. None is declared convergent merely because a bounded retraction search reached its resource limit.
+
+The structural formula for complements of clique graphs of joins remains useful for independent homotopy and growth questions, but is no longer required to establish K-divergence in this case.
 
 * Command-line verification
 
