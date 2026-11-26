@@ -53,6 +53,77 @@ Every =FOUND= witness stores its *complete* vertex map and independent whole-sta
 
 A positive endomorphism without a certified expansive factor remains simply a positive coaffine retraction, not a divergence classification. =EXHAUSTED= excludes only this particular coaffine weak-endomorphism mechanism at P3, and =LIMIT_REACHED= is inconclusive. Neither is interpreted as a proof of eventual clique convergence.
 
+* Four newly proved ten-original divergences
+
+The complete 511-class native experiment has finished. Across 1022 runs
+(511 exact P3 classes, each with =label= and =fiber= orderings) its
+independently replayed statuses were =FOUND= *420*, =EXHAUSTED= *600*,
+and =LIMIT_REACHED= *2*. Each =FOUND= map was checked on every source
+edge and decomposed into actual stable-image and invariant coaffine
+subgraph factors. In particular, 416 of the positive coaffine maps do
+not supply a certified expansive target: a coaffine endomorphism alone
+is *not* a divergence theorem.
+
+Exactly *four original connected ten-vertex graphs* have independently
+verified complete ordinary retractions at \(P_3\) onto expansive coaffine
+joins, with their entire native maps now permanently preserved in
+=positive_retractions.json= and independently verified from the original
+ten-vertex graph6 by =verify_positives.py=:
+
+| Original McKay | \(|V(P_3)|\) | \(|E(P_3)|\) | Stable retract | Idempotent power | Applied theorem |
+|-
+| *10481909* | 37 | 491 | \(O_1*Z_{15}\) | \(f^{10}\) | LNP09 Thm 4.6 |
+| *10586728* | 41 | 605 | \(O_1*Z_{15}\) | \(f^{10}\) | LNP09 Thm 4.6 |
+| *11438191* | 70 | 1759 | \(O_2*\overline{C_7}\) | \(f^{14}\) | LNP09 Thm 3.6 |
+| *11578321* | 50 | 884 | \(O_1*Z_{15}\) | \(f^{10}\) | LNP09 Thm 4.6 |
+
+Here \(Z_{15}\) denotes the specific fifteen-vertex connected
+coaffine summand induced by the complement of the 17-vertex stable
+image minus its unique \(K_2\) component. Its coaffination is the
+restriction of the certified map; all ordered vertex pairs and all
+join cross-edges are checked independently. The three 17-vertex
+retracts are *mutually isomorphic*, verified independently using
+NetworkX's exact GraphMatcher. Their complements each have components
+\(K_2\sqcup H_{15}\), where \(\overline{H_{15}}\) is connected and
+coaffine. The 11-vertex retract has complementary components
+\(2K_2\sqcup C_7\), hence \(O_2*\overline{C_7}\).
+
+*Theorem.* Each of the four originals in the table is \(K\)-divergent.
+
+*Proof.* For each source \(X=P_3(G)\), the complete verified native
+map \(f:X\to X\) is a coaffine graph endomorphism. Independent
+reconstruction of all 4 exact P3 graphs and verification of every
+source edge shows its tenth or fourteenth power (as indicated)
+is an ordinary retraction onto the corresponding stable image \(Y\).
+Every join factor and its restricted coaffination are independently
+verified on all vertices, pairs, and cross-edges. For the three
+\(O_1*Z_{15}\) cases, the factor \(Z_{15}\) is connected, so
+Neumann-Lara's Connected Summand Theorem (LNP09, Thm 4.6) certifies
+expansivity. For \(O_2*\overline{C_7}\), the Three Summands Theorem
+(LNP09, Thm 3.6) certifies expansivity. In all four cases, \(Y\)
+is therefore \(K\)-divergent. Ordinary graph retraction implies
+\(X\) is \(K\)-divergent; dominated-vertex paring transfers the
+conclusion back to the original connected ten-vertex \(G\).
+\(\square\)
+
+These proofs involve *no* assumption about any unresolved nine-vertex
+graph. The permanent verifier operates from frozen ten-v28 and global
+P3-class archives and does not require the native solver to replay
+the complete positive maps. They are *not yet an authoritative census
+promotion*: ten-v28 remains unchanged at 1043 unresolved originals
+(430 with nine-vertex cores, 613 stiff ten-vertex cores). A separate
+audited ten-v29 promotion removing precisely the four originals would
+leave *1039 = 430 + 609* unresolved originals.
+
+#+begin_src jupyter-python
+from research.order10_v28_p3_coaffine_all_v1.verify_positives import verify
+proof = verify()
+print(proof["originals_proven_K_divergent"])
+for case in proof["complete_retractions_replayed"]:
+    print(case["original_index"], case["retract_description"],
+          case["retract"]["published_expansivity_theorem"])
+#+end_src
+
 * Reproduction via Emacs Jupyter
 
 The first block reuses the official historical census source builder rather than hardcoding any graph6 string or implementing clique enumeration.
