@@ -13,6 +13,8 @@ on:
       - "indeterminate_order_10_v25.txt"
       - "indeterminate_order_9.txt"
       - "indeterminate_order_9_v9.txt"
+      - "indeterminate_order_9_v10.txt"
+      - "indeterminate_order_10_v30.txt"
       - "research/order10_fourth_oct_v1/**"
       - "research/order10_p4_o12_lifts_v24/replay_v23.py"
       - ".github/workflows/order10-p4-cap-rescue-v24.yml"
@@ -63,7 +65,15 @@ jobs:
           # memory, as in the existing read-only replay_v23.py wrapper.
           # No files are modified; the verifier still checks the frozen
           # ten-v23 source Git blob and all positive P3 bijections.
-          with patch.object(upstream, "CURRENT", upstream.SOURCE):
+          # The historical global P3 verifier also checks the old
+          # active nine-root; use only the immutable v9 snapshot in-memory.
+          from pathlib import Path
+          real_read=Path.read_bytes
+          nine_root=upstream.ROOT / "indeterminate_order_9.txt"
+          nine_frozen=upstream.ROOT / "indeterminate_order_9_v9.txt"
+          def read_historical(path):
+              return real_read(nine_frozen if path==nine_root else path)
+          with patch.object(Path, "read_bytes", read_historical), patch.object(upstream, "CURRENT", upstream.SOURCE):
               upstream.verify_archive()
           PY
       - name: Independently audit complete 206-record PR89 pilot archive
