@@ -1,0 +1,95 @@
+#+TITLE: Native coaffine endomorphisms on the final three oversized third iterates
+#+DATE: 2026-11-25
+#+LANGUAGE: en
+#+OPTIONS: toc:2
+#+PROPERTY: header-args:jupyter-python :session three-p3-native :results output :exports both
+
+* Motivation and exact sources
+
+The current independently certified connected ten-vertex census is ten-v28, with 1043 still indeterminate original graphs. The three third-iterate classes that cannot presently be advanced to a fourth pared clique iterate within the declared facet cap are original McKay 11505012, 11595632 and 11709142. Their existing exact historically authenticated third completely pared iterates are:
+
+| Original index | \(|V(P_3)|\) | \(|E(P_3)|\) | \(|E(\overline{P_3})|\) | Triangles of complement |
+|-
+| 11505012 | 226 | 21693 | 3732 | 3818 |
+| 11595632 | 182 | 14175 | 2296 | 1343 |
+| 11709142 | 140 | 8824 | 906 | 22 |
+
+The prior native *octahedral* searches with both value orderings were inconclusive. But a graph need not retract onto an octahedron to be divergent. In merged PR #105 a previously saved positive *general coaffine endomorphism* on another oversized core (original 11713984) provided an ordinary retraction onto \(O_{14}*\overline{C_7}\). By the Connected Summand Theorem, this settled that original. The present experiment tests the same general mechanism, rather than rerunning an exclusively octahedral search.
+
+* Mathematically general finite-map consequences
+
+A coaffine weak endomorphism of a finite graph \(X\) is a graph morphism \(f:X\to X\) satisfying \(f(v)\notin N_X[v]\) for every vertex. A graph morphism sends an adjacent pair to an adjacent pair or to the same vertex.
+
+*Lemma 1 (eventual stable image).* Every coaffine weak endomorphism \(f:X\to X\) has an integer \(e\ge1\) such that \(r=f^e\) is an ordinary graph retraction onto the induced subgraph \(Y=X[S]\), where \(S\) is the eventual stable image of \(f\). The restriction \(f|_S\) is a coaffination of \(Y\).
+
+*Proof.* The descending chain \(V(X)\supseteq f(V(X))\supseteq f^2(V(X))\supseteq\cdots\) stabilizes at \(S\). Then \(f(S)=S\), so \(f|_S\) is a permutation, and is an automorphism because its finite vertex-bijection preserves the edge set in both directions. Its coaffinity follows from the given vertex property. Choose a positive integer \(e\) at least the transient depth and divisible by the order of this permutation. Then \(f^e\) fixes every element of \(S\), maps all of \(V(X)\) into \(S\), and is a graph morphism. Thus \(r=f^e\) is an ordinary retraction. \(\square\)
+
+*Lemma 2 (coaffine join decomposition).* Let \(Y\) admit a coaffination \(\alpha\), and let \(H=\overline Y\). The permutation \(\alpha\) acts on the connected components of \(H\). For each orbit of these components, take the union \(S_i\) of its vertices and let \(Y_i=Y[S_i]\). Then every \(Y_i\) is coaffine, and \(Y=Y_1*\cdots*Y_t\). In particular, if \(t\ge3\), \(Y\) is expansive by the Three Summands Theorem (Larrión--Neumann-Lara--Pizaña 2009, Theorem 3.6). If \(t\ge2\) and one \(Y_i\) is connected, \(Y\) is expansive by Neumann-Lara's Connected Summand Theorem (ibid., Theorem 4.6).
+
+*Proof.* The automorphism of \(Y\) also preserves its complement, thus permutes complementary connected components. Each orbit union is invariant and inherits a coaffination, and distinct complementary components have no complement edges between them. Hence the claimed join. Apply the stated published theorems. \(\square\)
+
+By the ordinary clique-retraction theorem, if this certificate appears for a third pared iterate, the original connected ten-vertex graph is \(K\)-divergent. The independent verifier checks every source edge and every condition in both lemmas, including the full graph automorphism on the eventual image. A positive native map alone, without a validated expansive join, is recorded as a positive retraction but is *not automatically classified divergent*.
+
+* Resource-limited native experiment
+
+We reuse the **existing public** =pycliques.find_coaffine_endomorphism= API, including its C++17 native backend and existing =label= and =fiber= value orderings. The solver checkout is the exact previously certified monorepo overhaul commit =e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae=. The runtime dependencies and installed Python/C++ source Git blobs are pinned by the existing =research/order10_five_p3_native_v1/search.py= validator. There is no new CSP implementation, no change to =pycliques= or =pycombtop=, and no need to build the enormous fourth iterates.
+
+Each original receives two independently budgeted tasks, one for each value ordering:
+
+- At most 3000000 search states.
+- At most 150 seconds for each native solver invocation.
+- Only =FOUND=, =EXHAUSTED= or =LIMIT_REACHED= are accepted as true solver statuses.
+- For =FOUND=, the complete source-to-source vertex map is stored and independently verified on **every edge**. The verifier computes the eventual stable image, exact idempotent power, all target edges, component-orbit coaffine join factors, and the exact applicable published divergence theorem.
+- A limited search is inconclusive. Even an exhaustive failure to find a coaffine weak endomorphism would **not** prove clique convergence; it would exclude only this particular divergence mechanism at this stage.
+
+The six complete individual outcomes and one independent aggregate audit are saved as separate workflow artifacts. Only a discovered positive map accompanied by a complete, permanent, independent theorem certificate can justify a later census promotion.
+
+* Emacs Jupyter reproduction
+
+The blocks below use existing independently verified census source reconstruction, not an embedded graph6 string or new clique-graph implementation.
+
+#+begin_src jupyter-python
+from research.order10_overcap_p3_coaffine_v1.pilot import source_catalog
+from research.order10_three_p3_coaffine_native_v1.verify import ORIGINALS
+import networkx as nx
+
+sources = source_catalog()
+for index in ORIGINALS:
+    row = sources[index]
+    X = nx.from_graph6_bytes(row["p3_graph6"].encode("ascii"))
+    H = nx.complement(X)
+    print(index, tuple(row["p3"]), H.number_of_edges(),
+          sum(nx.triangles(H).values()) // 3)
+#+end_src
+
+The next optional block runs one bounded native search using the **official** public implementation. It requires the exact pinned native package installation, a compiled C++ solver, and the environment variable =PYCLIQUES_PINNED_SHA= to agree with the frozen revision. It can take the full 150-second budget.
+
+#+begin_src jupyter-python
+from research.order10_three_p3_coaffine_native_v1.search import investigate
+outcome = investigate(ORIGINALS[0], "label")
+print(outcome["coaffine_status"], outcome["states_explored"])
+if outcome["coaffine_status"] == "FOUND":
+    print(outcome["positive_analysis"]["expansive_witness"])
+#+end_src
+
+To replay the independent mathematical validator on synthetic examples without the native backend:
+
+#+begin_src jupyter-python
+from research.order10_three_p3_coaffine_native_v1.verify import audit_positive_map
+from research.order10_three_p3_coaffine_native_v1.test_verify import octahedron
+O3, antipodal = octahedron(3)
+print(audit_positive_map(O3, antipodal)["expansive_witness"])
+#+end_src
+
+* Exact commands and scope
+
+#+begin_src sh
+python -m unittest research.order10_three_p3_coaffine_native_v1.test_verify -v
+python -m research.order10_three_p3_coaffine_native_v1.verify --directory /path/to/six/results --output /tmp/independently_audited.json
+#+end_src
+
+The official six-search CI matrix is =.github/workflows/order10-three-p3-coaffine-native.yml=. Its six bounded native jobs are independent and may complete without finding a map. A negative or limited result never changes nine-v9, ten-v28, any original status, or the historical proof certificates.
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:
