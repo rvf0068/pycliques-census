@@ -10,6 +10,8 @@ Does not import pycliques, a native search tool, or a mutable census.
 from __future__ import annotations
 
 from collections import Counter
+
+import networkx as nx
 import hashlib
 import json
 from pathlib import Path
@@ -76,9 +78,26 @@ def audit_case(rec: dict, frozen: dict[int,str]) -> dict:
          and rec.get("no_negative_K_conclusion") is True
          and frozen[index]==f"{index} 9 {g6} - - -",
          "Nine-original source or alleged native positive provenance changed")
-    G=independent_p3(g6)
-    need((len(G),G.number_of_edges())==p3_expected,
+    independent=independent_p3(g6)
+    need((len(independent),independent.number_of_edges())==p3_expected
+         and set(independent)==set(range(p3_expected[0])),
          "Original P3 reconstructed graph differs")
+    public_string=rec["public_sequence_P3_graph6"]
+    need(isinstance(public_string,str)
+         and not public_string.startswith(">>"),
+         "Recorded public P3 graph6 is malformed")
+    G=nx.from_graph6_bytes(public_string.encode("ascii"))
+    need((len(G),G.number_of_edges())==p3_expected
+         and set(G)==set(range(p3_expected[0])),
+         "Public P3 source dimension or canonical labels changed")
+    mapping=rec["independent_P3_to_public_P3_bijection"]
+    need(isinstance(mapping,list)
+         and len(mapping)==len(G)
+         and sorted(mapping)==list(range(len(G)))
+         and all(independent.has_edge(u,v)==
+                 G.has_edge(mapping[u],mapping[v])
+                 for u in independent for v in independent),
+         "Independent P3 from original graph6 is not isomorphic by saved complete map")
     facets=p4_facets(G)
     need(hashlib.sha256(
         "|".join(str(x) for x in facets).encode("ascii")
