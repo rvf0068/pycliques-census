@@ -1,0 +1,142 @@
+#+TITLE: Two new ten-vertex clique divergences from exact first-iterate connected coaffine joins
+#+DATE: 2026-11-25
+#+LANGUAGE: en
+#+OPTIONS: toc:2
+#+PROPERTY: header-args:jupyter-python :session p1-expansive-ten :results output :exports both
+
+* Complete first-iterate classification of two stiff originals
+
+Let \(P(G)\) denote complete sequential ordinary dominated-vertex paring,
+\(K(G)\) the maximal-clique intersection graph, and
+\(P_0(G)=P(G)\), \(P_{j+1}(G)=P(K(P_j(G)))\).
+A /clique/ is an inclusion-maximal nonempty complete.
+
+Write \(O_d=\overline{dK_2}\), and \(*\) for graph join. Two original
+connected ten-vertex graphs from the frozen ten-v28 census were
+previously unclassified by a third-iterate reconstruction cap:
+McKay 11715667 and McKay 11716441. Both are *stiff* at the original
+order-ten level. Neither needs the large third iterate.
+
+*Theorem.* The original connected ten-vertex graphs with McKay indices
+\(11715667\) and \(11716441\) are \(K\)-divergent.
+
+*Proof.* For each source \(G\), the exact independent maximal-clique
+enumerators and complete ordinary dominated-vertex paring yield
+\(P_1(G)\) with *11 vertices and 46 edges*. An explicit complete
+graph6 SHA-256 and exact list of complementary connected components
+are independently authenticated in
+=research/order10_v28_p1_coaffine_join_v1/positive_retractions.json=.
+For both first pared iterates,
+
+\[
+\overline{P_1(G)}\cong C_7\sqcup K_2\sqcup K_2,
+\qquad
+\boxed{P_1(G)\cong O_2*\overline{C_7}.}
+\]
+
+The complement of each \(K_2\) is a pair of nonadjacent vertices, with
+coaffination interchanging the pair. The factor \(\overline{C_7}\)
+is coaffine by the cyclic rotation of the underlying \(C_7\); this
+factor is connected. Thus the displayed graph is a Zykov sum of three
+nonempty coaffine factors. Neumann-Lara's Three Summands Theorem,
+Theorem 3.6 of F. Larrión, V. Neumann-Lara and M. A. Pizaña,
+"On expansive graphs", /European Journal of Combinatorics/ *30*
+(2009), 372--379, DOI =10.1016/j.ejc.2008.05.005=, implies that the
+sum is expansive and hence \(K\)-divergent. (The connected summand
+Theorem 4.6 would also suffice.) Because complete dominated paring
+preserves \(K\)-behavior, \(K(G)\) and \(P_1(G)\) have the same
+behavior, so each original \(G\) is \(K\)-divergent. \(\square\)
+
+This proof makes no assumption concerning the unresolved nine-vertex
+graphs Astra is investigating; it uses no search for a fourth iterate,
+no conjectural homotopy implication, and no inference from a
+resource-limit state. It is a complete computer-assisted theorem with
+a small, independently checkable certificate.
+
+* Exact positive certificate and independent verification
+
+The archive pins the following two immutable original identities:
+
+| Original McKay index | Original graph6 | \(|V(P_1)|\) | \(|E(P_1)|\) | Complement components |
+|-
+| 11715667 | =IUZu~r|zo= | 11 | 46 | \(2K_2\sqcup C_7\) |
+| 11716441 | =IUzvrz}zo= | 11 | 46 | \(2K_2\sqcup C_7\) |
+
+The independent verification reconstructs both original clique graphs
+from their pinned graph6 using two different maximal-clique
+enumerators (NetworkX and bitset Bron--Kerbosch), performs complete
+ordinary vertex paring, checks all 11 vertices and 46 edges,
+all complementary factor edges and nonedges, the full cyclic
+coaffination of each seven-vertex factor, the two antipodal swaps,
+and every cross-edge required for a graph join. It also verifies that
+the two \(P_1(G)\) targets are exactly isomorphic.
+
+The historical ten-v28 source Git blob is
+=35bb83b56bb8b4fd453b0ba272d354dc6b42e68c=.
+Neither this immutable snapshot nor its active root was changed.
+Only after a separately audited ten-v29 promotion may these two
+proved-divergent originals be removed from the current indeterminate
+list.
+
+* Broader first-iterate target-family screen
+
+For possible generalizations the same independent source builder
+checks *all 613 stiff ten-v28 originals*, not only these two. The
+current quick positive theorem screen recognizes joins whose
+complementary connected components are disjoint copies of \(K_2\)
+and cycles \(C_n\). Each factor's coaffination is constructed
+explicitly, and the corresponding join is certified expansive
+when at least three coaffine factors occur (Theorem 3.6), or when
+there are at least two and one connected (Theorem 4.6). A single
+factor \(\overline{C_n}\) is divergent when \(n\ge8\) by Theorem
+5.4 of the same paper.
+
+The complete independently audited screen found precisely *two*
+previously unresolved positives, the originals in the table.
+Unrecognized targets are left indeterminate. A negative hit in this
+restricted target family is *not* a convergence proof.
+
+* Emacs Jupyter blocks using the existing census functions
+
+The following blocks use the existing historical census P1
+reconstruction, which cross-checks two maximal-clique implementations,
+rather than implementing another graph operator.
+
+#+begin_src jupyter-python
+from research.order10_v28_p1_coaffine_join_v1.search import (
+    current_stiff_sources, reconstruct_P1, classify_P1,
+)
+sources = current_stiff_sources()
+for index in (11715667, 11716441):
+    P1 = reconstruct_P1(sources[index])
+    cert = classify_P1(P1)
+    print(index, len(P1), P1.number_of_edges())
+    print(cert["theorem"], [c["kind"] for c in cert["complement_components"]])
+#+end_src
+
+Replay the permanent theorem proofs directly, without retaining any
+GitHub Actions artifact:
+
+#+begin_src jupyter-python
+from research.order10_v28_p1_coaffine_join_v1.verify_permanent import verify
+proof = verify()
+print(proof["originals_proven_K_divergent"])
+print(proof["two_P1_targets_exactly_isomorphic"])
+#+end_src
+
+The complete 613-original experiment also has a bounded command-line
+entry point:
+
+#+begin_src sh
+python -m research.order10_v28_p1_coaffine_join_v1.search --output /tmp/p1-positive-joins.json
+python -m research.order10_v28_p1_coaffine_join_v1.verify --archive /tmp/p1-positive-joins.json --output /tmp/p1-replayed.json
+python -m research.order10_v28_p1_coaffine_join_v1.verify_permanent
+python -m unittest research.order10_v28_p1_coaffine_join_v1.test_verify -v
+#+end_src
+
+The complete dataset and regression tests are archived and replayed
+by =.github/workflows/order10-v28-P1-coaffine-joins.yml=.
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:
