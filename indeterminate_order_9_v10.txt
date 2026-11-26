@@ -1,0 +1,9 @@
+# Certified current indeterminate connected graphs of order nine, v10
+# Remaining=0 previous_v9=3 newly_proved_divergent=3
+# Last unresolved original McKay 249576, 251628, 260040 are all K-divergent.
+# Exact fourth pared clique graphs retract onto O17, O20, O22, respectively.
+# All full P4 ordinary retraction images and folds permanently archived at
+# research/order9_last_three_incidence_v1/permanent_certificates.json
+# Independent full original-graph6 proof: verify_permanent.py
+# Frozen nine-v9 and all preceding snapshots retain their original records.
+# Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
