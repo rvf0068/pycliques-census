@@ -48,7 +48,7 @@ order = canonical_permutation(len(G), source["index"], SEEDS[0])
 H = nx.Graph()
 H.add_nodes_from(order)
 H.add_edges_from(G.edges())
-print("Same labeled edges?", set(H.edges()) == set(G.edges()))
+print("Same labeled edges?", all(H.has_edge(u, v) for u, v in G.edges()) and H.number_of_edges() == G.number_of_edges())
 print("Changed vertex insertion order?", list(H) != list(G))
 #+end_src
 
