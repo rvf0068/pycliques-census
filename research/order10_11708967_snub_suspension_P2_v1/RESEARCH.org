@@ -53,6 +53,38 @@ Both public search orderings =label= and =fiber= are run independently on each p
 
 An =EXHAUSTED= result excludes only the coaffine/retraction mechanism examined at this stage, not eventual \(K\)-divergence. A =LIMIT_REACHED= result is *inconclusive*. Likewise a FOUND coaffine map with no verified expansive target does not automatically prove divergence.
 
+* Results of the four authenticated native P2 searches
+
+The four GitHub Actions native jobs and the independent full source
+aggregator all completed successfully. The complete results were:
+
+| Native public search | Value ordering | Status | States explored |
+|-
+| Coaffine weak endomorphism | =label= | =LIMIT_REACHED= | 500000 |
+| Coaffine weak endomorphism | =fiber= | =LIMIT_REACHED= | 213035 |
+| Octahedral retraction, \(d\ge3\) | =label= | =LIMIT_REACHED= | 500000 |
+| Octahedral retraction, \(d\ge3\) | =fiber= | =LIMIT_REACHED= | 246169 |
+
+Every run used the pinned previously reviewed public native solver,
+500000-state and 45-second limits, the same independently
+reconstructed 288-vertex \(P_2\), and immutable ten-v28 source
+identity. The aggregate independently authenticated *all four*
+search statuses and found zero complete positive witnesses. The
+dedicated native pilot CI run is =45754526480=.
+
+*Conclusion:* the exact structural results for the suspension of the
+snub disphenoid are proved, but the eventual \(K\)-behavior of
+McKay 11708967 **remains indeterminate**. None of these four bounded
+statuses is an exhaustion or nonexistence theorem. We therefore do
+not change any census index and do not claim that the suspension
+inherits the known divergence of the snub.
+
+Promising subsequent avenues include a structural theorem for
+\(K(O_1*H)\) and its further iterates, a certified smaller P2
+retract distinct from an octahedron, or a general reduction of
+coaffine weak-endomorphism constraints using the complement's
+\(K_2\sqcup H_{286}\) decomposition.
+
 * Reproducible Emacs Jupyter examples
 
 This block reconstructs the exact source and its first two clique graphs using functions already present in the census:
