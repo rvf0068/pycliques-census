@@ -1,0 +1,45 @@
+name: Replay permanent complete last-three-nine divergence certificates
+
+on:
+  pull_request:
+    paths:
+      - "research/order9_last_three_incidence_v1/**"
+      - ".github/workflows/order9-last-three-permanent.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independently-certify-three-permanent-originals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install networkx==3.6.1
+      - name: Independently reconstruct three entire P4 graphs and replay permanent map on every source edge
+        run: |
+          set -euo pipefail
+          python -m research.order9_last_three_incidence_v1.verify_permanent \
+            | tee "$RUNNER_TEMP/permanent-9.log"
+          grep -q '^PASS: all three permanent original nine-P4' "$RUNNER_TEMP/permanent-9.log"
+          grep -q '"all_original_P4_edges_checked": 1325328' "$RUNNER_TEMP/permanent-9.log"
+      - name: Derive and authenticate the entire 500-original ten-vertex dependent roster
+        run: |
+          python -m research.order9_last_three_incidence_v1.ten_dependents \
+            --output "$RUNNER_TEMP/ten-roster.json" | tee "$RUNNER_TEMP/ten-roster.log"
+          grep -q '^PASS: exact 500 ten-original dependencies' "$RUNNER_TEMP/ten-roster.log"
+      - name: Reject optimized mathematical proof
+        run: |
+          if python -O -m research.order9_last_three_incidence_v1.verify_permanent > /tmp/opt.log 2>&1; then
+            echo "Optimized proof unexpected"; exit 1
+          fi
+          grep -q 'Cannot optimize away the permanent three-nine proof' /tmp/opt.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: last-three-original-nine-and-500-ten-certificates-independent
+          path: ${{ runner.temp }}/ten-roster.json
+          if-no-files-found: error
