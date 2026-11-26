@@ -13,6 +13,8 @@ on:
       - "indeterminate_order_10.txt"
       - "indeterminate_order_10_v28.txt"
       - "indeterminate_order_10_v29.txt"
+      - "indeterminate_order_10_v30.txt"
+      - "indeterminate_order_9_v10.txt"
       - ".github/workflows/order10-p4-nine-links-v1.yml"
       - "README.md"
   workflow_dispatch:
@@ -40,13 +42,17 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git hash-object indeterminate_order_10_v25.txt)" = d31d52d28427adcef6055cc1d277565fe88f32d5
-          cmp indeterminate_order_10.txt indeterminate_order_10_v29.txt
-          trap 'cp indeterminate_order_10_v29.txt indeterminate_order_10.txt' EXIT
+          cmp indeterminate_order_10.txt indeterminate_order_10_v30.txt
+          cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
+          trap 'cp indeterminate_order_10_v30.txt indeterminate_order_10.txt' EXIT
           cp indeterminate_order_10_v25.txt indeterminate_order_10.txt
           python -m research.order10_p4_nine_links_v1.verify
-      - name: Confirm active ten-v29 root restored
-        run: cmp indeterminate_order_10.txt indeterminate_order_10_v29.txt
-      - name: Audit current nine-v9 and ten-v29 indices
+      - name: Confirm current nine-v10 and ten-v30 roots restored
+        run: |
+          cp indeterminate_order_9_v10.txt indeterminate_order_9.txt
+          cmp indeterminate_order_9.txt indeterminate_order_9_v10.txt
+          cmp indeterminate_order_10.txt indeterminate_order_10_v30.txt
+      - name: Audit current nine-v10 and ten-v30 indices
         run: python -m unittest discover -s tests -p test_current_root_index.py -v
       - name: Reject optimized Python proof replay
         run: |
