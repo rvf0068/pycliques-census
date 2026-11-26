@@ -30,6 +30,7 @@ NINE = ROOT / "indeterminate_order_9.txt"
 NINE_FROZEN = ROOT / "indeterminate_order_9_v9.txt"
 
 ORIGINAL_V28_BLOB = "35bb83b56bb8b4fd453b0ba272d354dc6b42e68c"
+LATEST_V29_BLOB = "f26d392746391f40aa224d4e639627b4617caff1"
 ORIGINAL_NINE_V9_BLOB = "d18a7a843be935f3a7fe911691dd1c86dac2addd"
 P1_REMOVALS = (11715667, 11716441)
 P3_REMOVALS = (10481909, 10586728, 11438191, 11578321)
@@ -148,6 +149,8 @@ def verify_p3_from_immutable_originals(
 def verify() -> dict:
     require(git_blob(BEFORE.read_bytes()) == ORIGINAL_V28_BLOB,
             "Immutable ten-v28 input Git blob differs")
+    require(git_blob(LATEST.read_bytes()) == LATEST_V29_BLOB,
+            "Certified ten-v29 Git blob changed")
     require(WORKING.read_bytes() == LATEST.read_bytes(),
             "Current ten-original working root must equal certified ten-v29")
     audit_nine(NINE.read_bytes(), NINE_FROZEN.read_bytes())
