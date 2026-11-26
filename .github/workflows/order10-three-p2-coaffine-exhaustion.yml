@@ -9,6 +9,7 @@ on:
       - "research/order10_five_p3_native_v1/search.py"
       - "research/order10_five_p3_native_v1/constraints.txt"
       - "indeterminate_order_10_v28.txt"
+      - "indeterminate_order_10_v27.txt"
       - ".github/workflows/order10-three-p2-coaffine-exhaustion.yml"
   workflow_dispatch:
 
