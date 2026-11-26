@@ -50,8 +50,8 @@ archived** in
 [positive certificates](research/order9_last_three_incidence_v1/permanent_certificates.json);
 the [solver-independent original-graph6 verifier](research/order9_last_three_incidence_v1/verify_permanent.py)
 does not rely on native searches or expiring CI artifacts.
-The retraction theorem and (K(O_d)\cong O_{2^{d-1}}) for (d\ge3)
-prove the final three original nine-vertex graphs (K)-divergent.
+The retraction theorem and \(K(O_d)\cong O_{2^{d-1}}\) for \(d\ge3\)
+prove the final three original nine-vertex graphs \(K\)-divergent.
 
 The exact [500-original ten-dependency index](research/order9_last_three_incidence_v1/ten_dependents.py)
 uses previously certified full original-graph isomorphisms at stages
