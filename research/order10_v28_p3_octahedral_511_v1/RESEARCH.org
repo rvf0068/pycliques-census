@@ -1,0 +1,63 @@
+#+TITLE: Independent full octahedral-retraction search over all 511 surviving small third-iterate classes
+#+DATE: 2026-11-25
+#+LANGUAGE: en
+#+OPTIONS: toc:2
+#+PROPERTY: header-args:jupyter-python :session p3-octahedral-511 :results output :exports both
+
+* Goal and scope
+
+The frozen ten-v28 connected-ten census has 1043 unresolved original graphs: 430 pared-nine-core dependents (being investigated separately by Astra) and 613 stiff ten-vertex originals. The latter contain 610 originals in 514 certified exact P3-isomorphism classes and three historically P3-unreconstructed originals. Three oversized third-iterate classes (four originals) already received long-running native surveys. We study the remaining *511 exact P3 classes covering 606 stiff original ten-vertex graphs*.
+
+This pilot is complementary to the exact general-coaffine-endomorphism survey in the sibling research directory. That survey found 420 positive coaffine maps on the same 511 classes, but most stable-image retractions were four-vertex squares and did not prove divergence. Its complete independently replayed positives already prove original McKay 10481909, 10586728, 11438191, and 11578321 divergent. Since the general solver can return a nonexpansive first image, it need not reveal an octahedral retraction even if one exists.
+
+* Exact positive theorem
+
+Let \(O_d=\overline{dK_2}\), where \(d\ge3\). Every maximal clique chooses one vertex from each antipodal pair; two such maximal cliques are disjoint if and only if their choices are complementary. Therefore \(K(O_d)\cong O_{2^{d-1}}\), and \(O_d\) is \(K\)-divergent.
+
+If a completely pared third iterate \(X=P_3(G)\) admits an ordinary retraction \(r:X\to O_d\) onto an induced \(O_d\), then \(X\), and hence the original \(G\), is \(K\)-divergent by Neumann-Lara's retraction theorem and domination paring. An exact isomorphism \(P_3(G)\cong P_3(H)\) transfers that positive conclusion to the entire certified class.
+
+The native search uses *only* the official \(pycliques.find_octahedral_retraction_coaffine\) public algorithm and its pre-existing native C++ backend, pinned at the previously reviewed monorepo commit =e27649a6898b8c5b5bdbb4c6c64fd792672ae0ae=. Both built-in value orderings (=label= and =fiber=) receive independent 250000-state/6-second budgets for each of the 511 exact class representatives.
+
+* Independent certificate replay
+
+Every =FOUND= status must store the complete induced target antipodal pairs and *every* coordinate of the original third-iterate ordinary retraction. A separate independent verifier reconstructs each such \(P_3\) from the *original ten-vertex graph6* using the historical independent NetworkX/bitset Bron--Kerbosch maximal-clique and dominated-vertex paring machinery. It checks the P3 graph6 SHA-256, the target consists of exactly \(d\) pairwise disjoint nonedges with all cross-edges, the projection fixes all \(2d\) target vertices pointwise, and for every source edge \(uv\):
+
+\[
+r(u)=r(v)\quad\text{or}\quad r(u)r(v)\in E(O_d).
+\]
+
+Thus every accepted full map is an ordinary graph retraction certificate, not merely a matching or homology signature. There are eight disjoint shards covering exactly 511 representatives and 606 original members, each with both native value orderings. The aggregate verifies all 1022 statuses, all positive projections, immutable source provenance and full member propagation; full searchable JSON and aggregate results are published as workflow artifacts.
+
+A negative search result is *not* evidence of clique convergence: =EXHAUSTED= excludes only the searched coaffine-target octahedral retractions, while =LIMIT_REACHED= is resource-inconclusive. Neither status is used to change a census verdict.
+
+* Reproduce using existing census and monorepo functions
+
+The commands below use the existing authenticated P3 class source builder rather than introducing a second clique-graph or dominated-pair implementation.
+
+#+begin_src jupyter-python
+from research.order10_v28_p3_coaffine_all_v1.index import build_index
+index = build_index()
+print(index["pilot_classes"], index["pilot_originals"])
+#+end_src
+
+A basic octahedral structure can be built using the public monorepo:
+
+#+begin_src jupyter-python
+from pycliques import octahedron
+O3 = octahedron(3)
+print(O3.number_of_nodes(), O3.number_of_edges())
+#+end_src
+
+For one bounded native research shard (requires installed pinned public native backend, compiled solver, and verified =PYCLIQUES_PINNED_SHA=):
+
+#+begin_src sh
+python -m research.order10_v28_p3_coaffine_all_v1.index --output /tmp/p3-source-index.json
+python -m research.order10_v28_p3_octahedral_511_v1.search --index /tmp/p3-source-index.json --shard 0 --output /tmp/p3-octahedral-shard-0.json
+python -m unittest research.order10_v28_p3_octahedral_511_v1.test_verify -v
+#+end_src
+
+The full eight-shard and independent positive-replay workflow is =.github/workflows/order10-v28-p3-octahedral-511.yml=. This is a *research-only* pilot, not a census promotion. A separately audited permanent certificate and a versioned ten-v29 index transition are necessary before removing any proved divergent originals from the authoritative current list.
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:
