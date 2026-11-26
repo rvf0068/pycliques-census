@@ -1,9 +1,9 @@
-# Certified current indeterminate connected graphs of order ten, v27
-# Remaining=1044 previous_v26=1046 newly_proved_divergent=2
-# One complete P3-to-O11 retraction certifies original ten-vertex McKay 11656793.
-# Exact P3-isomorphism to 11656793 also certifies original McKay 11658674.
-# Proof: research/order10_five_p3_native_v1/verify_positive.py
-# Retained six-column v26 records are unchanged.
+# Certified current indeterminate connected graphs of order ten, v28
+# Remaining=1043 previous_v27=1044 newly_proved_divergent=1
+# McKay 11713984 is divergent by an exact P3 coaffine-power ordinary retraction
+# onto O14 join complement(C7), expansive by Connected Summand Theorem 4.6.
+# Proof: research/order10_11713984_coaffine_retract_v1/verify.py
+# Retained six-column v27 records are unchanged.
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
 6499365 10 I?ovUqv\o - - -
 6914645 10 I?qbEZv~_ - - -
@@ -1045,7 +1045,6 @@
 11710371 9 HQyvex} - - -
 11710374 9 HUZdvx] - - -
 11710382 9 HQyvb~[ - - -
-11713984 10 IQzVr~{lw - - -
 11715667 10 IUZu~r|zo - - -
 11715684 10 IUZu~zy^o - - -
 11716441 10 IUzvrz}zo - - -

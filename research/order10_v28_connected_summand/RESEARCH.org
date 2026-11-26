@@ -1,0 +1,90 @@
+#+TITLE: Certified ten-v28: Connected-summand divergence of ten-original McKay 11713984
+#+DATE: 2026-11-25
+#+LANGUAGE: en
+#+OPTIONS: toc:2
+#+PROPERTY: header-args:jupyter-python :session census-v28 :results output :exports both
+
+* Scope and definitions
+
+A /complete/ is a nonempty set of pairwise adjacent vertices. A /clique/ is an inclusion-maximal complete. Write \(K(G)\) for the intersection graph of cliques, \(P_0(G)\) for a complete dominated-vertex paring, and \(P_{j+1}(G)=P(K(P_j(G)))\). We identify \(O_d\) with \(\overline{dK_2}\); graph join is denoted by \(*\).
+
+The previous *immutable ten-v27* snapshot contains 1044 indeterminate original connected ten-vertex graphs: 430 with nine-vertex pared cores and 614 with stiff ten-vertex cores. The now merged positive-research PR #105 proves original McKay 11713984 \(K\)-divergent. A separate one-original certification therefore gives *ten-v28: 1043 = 430 + 613* indeterminate originals. The three nine-vertex originals stay indeterminate.
+
+* Complete positive theorem
+
+Let \(G\) be original connected McKay 11713984 and \(X=P_3(G)\). The source \(X\) has 169 vertices and 12897 edges. The permanent archive =research/order10_11713984_coaffine_retract_v1/certificate.json= supplies a complete coaffine weak endomorphism \(f:X\to X\) and pins its bytes. An independent checker rebuilds the original graph, verifies \(f(v)\notin N_X[v]\) for every vertex and verifies the graph-morphism property on every edge.
+
+Its image \(S=f(V(X))\) has 35 vertices. The restriction \(f|_S\) is a permutation consisting of fourteen 2-cycles and one 7-cycle; therefore \(r=f^{14}\) fixes the whole image and is an *ordinary graph retraction* \(X\to Y=X[S]\). The verifier also checks all 12897 source edges under \(r\). The complementary graph of \(Y\) is exactly fourteen disjoint edges together with a seven-cycle. Thus
+
+\[
+\boxed{Y\cong O_{14}*\overline{C_7}.}
+\]
+
+*Theorem (positive classification).* The original graph \(G\) is \(K\)-divergent.
+
+*Proof.* The octahedral summand \(O_{14}\) admits the automorphism interchanging the endpoints of each of its fourteen missing edges. The graph \(\overline{C_7}\) is connected and has a coaffination given by a one-step cyclic rotation; independently, the verifier checks the restriction of the archived \(f\) to its seven vertices on every ordered vertex pair. Thus the two summands are coaffine and one is connected. By Neumann-Lara's Connected Summand Theorem, *Theorem 4.6* of F. Larrión, V. Neumann-Lara and M. A. Pizaña, /On expansive graphs/, /European Journal of Combinatorics/ *30* (2009), 372--379, DOI =10.1016/j.ejc.2008.05.005=, their Zykov sum \(Y\) is expansive, hence \(K\)-divergent. Ordinary graph retractions preserve \(K\)-divergence from target to source; consequently \(X\) is \(K\)-divergent. Finally dominated-vertex paring preserves \(K\)-behavior, so the original \(G\) is \(K\)-divergent. \(\square\)
+
+The positive witness is an ordinary retraction to *the entire 35-vertex join*, not a hypothetical retraction to \(O_{14}\) alone. Neither a limited native search nor an extremely large finite iterate is used to deduce divergence.
+
+* Homological consequence without constructing the fourth iterate
+
+The exact maximal-clique disjointness structure of \(Y\) yields \(\overline{K(Y)}\cong\bigsqcup_{8192}C_{14}\), hence \(\Delta(K(Y))\simeq S^{40959}\). The retraction \(K(X)\to K(Y)\) splits reduced integral homology; completely paring \(K(X)\) preserves clique-complex homotopy type. Therefore
+
+\[
+\mathbb Z\text{ is a direct summand of }\widetilde H_{40959}(\Delta(P_4(G));\mathbb Z),
+\qquad |V(P_4(G))|\ge 81920.
+\]
+
+This further consequence is not needed for the divergence proof.
+
+* Exact census provenance and remaining cases
+
+The independently pinned historical ten-v27 source Git blob is =a2a1fdbb7a83a4e2d6a7b7e695c5edd601d0cc78=. The new ten-v28 snapshot and the mutable root must agree byte-for-byte. The transition verifier requires the complete positive proof, the exact deletion of *only* McKay 11713984 with its frozen original graph6, all 1043 other records unchanged, and canonical index order. It checks separately the authenticated nine-v9 blob =d18a7a843be935f3a7fe911691dd1c86dac2addd= and equality with the working nine-vertex file. No historical certificate or snapshot is changed.
+
+Exactly three previously identified oversized third-iterate representatives still lack fourth-iterate reconstructions and clique-behavior classifications: McKay 11505012, 11595632 and 11709142. Their bounded octahedral searches and four candidate-specific matching obstructions remain insufficient for a negative verdict.
+
+* Emacs Jupyter reproduction
+
+The following blocks reuse existing independently verified census modules and the permanent positive certificate. They do not hardcode graph6 strings or reimplement maximal-clique enumeration.
+
+#+begin_src jupyter-python
+from research.order10_11713984_coaffine_retract_v1.verify import verify as replay_positive
+positive = replay_positive()
+print(positive["retraction_image"])
+print(positive["connected_summand_certificate"])
+print("Original divergent:", positive["original_K_divergent"])
+#+end_src
+
+#+begin_src jupyter-python
+from research.order10_v28_connected_summand.verify import verify as audit_transition
+audit = audit_transition()
+print(audit["previous_snapshot"], "->", audit["new_snapshot"])
+print(audit["population"])
+print("Remaining oversized classes:", audit["other_oversized_P3_classes_still_unresolved"])
+#+end_src
+
+The next block reconstructs the 169-vertex source from the historical immutable McKay graph6 using the already installed independent certificate machinery.
+
+#+begin_src jupyter-python
+from research.order10_p3_global_v23_index.independent_verify import independent_p3
+from research.order10_p4_crossdepth_o15_v25.verify import source_rows
+from research.order10_v28_connected_summand.verify import BEFORE, EXPECTED_REMOVALS
+rows = source_rows(BEFORE)
+idx = EXPECTED_REMOVALS[0]
+source_g6 = rows[idx].split()[2]
+X = independent_p3(source_g6)
+print(len(X), X.number_of_edges())
+#+end_src
+
+* Command-line independent replay
+
+#+begin_src sh
+python -m research.order10_11713984_coaffine_retract_v1.verify
+python -m research.order10_v28_connected_summand.verify
+python -m unittest research.order10_v28_connected_summand.test_verify -v
+python -m research.order10_v28_connected_summand.replay_v27
+#+end_src
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:

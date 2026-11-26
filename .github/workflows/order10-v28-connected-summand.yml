@@ -1,0 +1,75 @@
+name: Certify ten-v28 one-original connected-coaffine-summand promotion
+
+on:
+  pull_request:
+    paths:
+      - "research/order10_v28_connected_summand/**"
+      - "research/order10_11713984_coaffine_retract_v1/**"
+      - "research/order10_v27_two_p3_o11/**"
+      - "research/order10_p3_global_v23_index/**"
+      - "research/order10_p4_crossdepth_o15_v25/**"
+      - "indeterminate_order_10_v25.txt"
+      - "indeterminate_order_10_v27.txt"
+      - "indeterminate_order_10_v28.txt"
+      - "indeterminate_order_10.txt"
+      - "indeterminate_order_9.txt"
+      - "indeterminate_order_9_v9.txt"
+      - "tests/test_current_root_index.py"
+      - ".github/workflows/order10-v28-connected-summand.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  independent-positive-and-historical-proofs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Authenticate exact 169-coordinate map and Connected Summand Theorem 4.6
+        run: |
+          python -m research.order10_11713984_coaffine_retract_v1.verify > "$RUNNER_TEMP/positive.log"
+          grep -q '^PASS: original McKay 11713984 K-divergent' "$RUNNER_TEMP/positive.log"
+          grep -q '"original_K_divergent": true' "$RUNNER_TEMP/positive.log"
+      - name: Certify exactly one original removed from immutable ten-v27
+        run: |
+          python -m research.order10_v28_connected_summand.verify > "$RUNNER_TEMP/v28.log"
+          grep -q '^PASS: exact one-original ten-v28 promotion' "$RUNNER_TEMP/v28.log"
+          grep -q '"after": 1043' "$RUNNER_TEMP/v28.log"
+          cat "$RUNNER_TEMP/v28.log"
+      - name: Replay unchanged historical ten-v27 proof and all its regression tests
+        run: python -m research.order10_v28_connected_summand.replay_v27
+      - name: Independently replay unchanged historical ten-v26 proof and tests
+        run: python -m research.order10_v27_two_p3_o11.replay_v26
+      - name: Reject optimized proof-critical v28 verifier
+        run: |
+          set -euo pipefail
+          if python -O -m research.order10_v28_connected_summand.verify > "$RUNNER_TEMP/optimized.log" 2>&1; then
+            echo "Optimized v28 verifier unexpectedly succeeded"; exit 1
+          fi
+          grep -q 'Do not optimize away census certification assertions' "$RUNNER_TEMP/optimized.log"
+
+  adversarial-transition-and-current-root:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Compile and replay proof and mutation tests
+        run: |
+          python -m compileall -q research/order10_v28_connected_summand
+          python -m unittest research.order10_v28_connected_summand.test_verify -v
+      - name: Active root identical to v28, all other original records preserved
+        run: |
+          cmp indeterminate_order_10.txt indeterminate_order_10_v28.txt
+          test "$(git hash-object indeterminate_order_10_v27.txt)" = a2a1fdbb7a83a4e2d6a7b7e695c5edd601d0cc78
+          test "$(git hash-object indeterminate_order_9_v9.txt)" = d18a7a843be935f3a7fe911691dd1c86dac2addd
+          python -m unittest discover -s tests -p test_current_root_index.py -v
