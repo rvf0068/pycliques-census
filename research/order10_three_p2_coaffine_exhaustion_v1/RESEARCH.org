@@ -12,7 +12,7 @@ We examine original McKay 11505012, 11595632, 11709142, and, as a decisive posit
 
 * Exact canonical second iterates
 
-The frozen canonical ten-v28 original graph6 and all intermediate inputs are reconstructed using the historical independent Bron--Kerbosch and NetworkX maximal-clique cross-check and completely dominated-vertex paring. No graph6 strings are hardcoded in this note.
+The three still-indeterminate sources are taken from immutable ten-v28. The previously promoted positive control 11713984 is taken from *immutable historical ten-v27*, where its unchanged original graph6 is still recorded. Both frozen Git blobs are independently authenticated. All intermediate inputs are reconstructed using the historical independent Bron--Kerbosch and NetworkX maximal-clique cross-check and completely dominated-vertex paring. No graph6 strings are hardcoded in this note.
 
 | Original McKay index | \(|V(P_2)|\) | \(|E(P_2)|\) |
 |-
@@ -21,7 +21,7 @@ The frozen canonical ten-v28 original graph6 and all intermediate inputs are rec
 | 11709142 | 24 | 223 |
 | 11713984 | 25 | 244 |
 
-The verifier checks immutable ten-v28 Git blob =35bb83b56bb8b4fd453b0ba272d354dc6b42e68c= and independent SHA-256 graph6 fingerprints at P2. The P2 graphs use the same exact chronological convention as the existing census: \(P_0\) is the complete initial paring and \(P_{j+1}=P(K(P_j))\).
+The verifier checks immutable ten-v28 Git blob =35bb83b56bb8b4fd453b0ba272d354dc6b42e68c= for the three surviving cases and independently checks historical ten-v27 blob =a2a1fdbb7a83a4e2d6a7b7e695c5edd601d0cc78= for the proven-divergent positive control. Each reconstructed P2 is additionally authenticated by an independent SHA-256 graph6 fingerprint. The P2 graphs use the same exact chronological convention as the existing census: \(P_0\) is the complete initial paring and \(P_{j+1}=P(K(P_j))\).
 
 * Exact theorem and consequences
 
