@@ -10,7 +10,7 @@ import networkx as nx
 
 from research.order10_p3_global_v23_index.independent_verify import independent_p3
 from research.order10_11713984_coaffine_retract_v1.verify import (
-    ARCHIVE, SOURCE_G6, audit_map, verify,
+    ARCHIVE, SOURCE_G6, audit_map, audit_connected_coaffine_join, verify,
 )
 
 
@@ -31,7 +31,38 @@ class P3StableImageTests(unittest.TestCase):
         self.assertEqual(
             proof["next_pared_iterate_free_Z_homology_dimension"], 40959)
         self.assertEqual(proof["next_pared_iterate_minimum_vertices"], 81920)
-        self.assertTrue(proof["does_not_alone_prove_K_divergence"])
+        self.assertTrue(proof["original_K_divergent"])
+        self.assertTrue(proof["connected_summand_certificate"]["expansive_retract"])
+        self.assertTrue(
+            proof["connected_summand_certificate"]["both_coaffinations_verified_on_all_pairs"]
+        )
+        self.assertEqual(proof["ten_v27_indeterminate_population_unchanged"], 1044)
+
+    def test_connected_coaffine_summand_hypotheses(self):
+        Y, _ = audit_map(self.G, self.f, self.S)
+        pairs = self.original["complement_two_vertex_components"]
+        seven = self.original["complement_seven_cycle_vertices"]
+        summary = audit_connected_coaffine_join(Y, self.f, pairs, seven)
+        self.assertEqual(summary["coaffine_octahedral_factor_dimension"], 14)
+        self.assertEqual(summary["connected_coaffine_factor"], "complement_C7")
+
+    def test_broken_join_cross_edge_invalidates_divergence_certificate(self):
+        Y, _ = audit_map(self.G, self.f, self.S)
+        pairs = self.original["complement_two_vertex_components"]
+        seven = self.original["complement_seven_cycle_vertices"]
+        bad = Y.copy()
+        bad.remove_edge(pairs[0][0], seven[0])
+        with self.assertRaisesRegex(AssertionError, "join cross-edges"):
+            audit_connected_coaffine_join(bad, self.f, pairs, seven)
+
+    def test_broken_connected_factor_coaffination_is_rejected(self):
+        Y, _ = audit_map(self.G, self.f, self.S)
+        pairs = self.original["complement_two_vertex_components"]
+        seven = self.original["complement_seven_cycle_vertices"]
+        broken = self.f.copy()
+        broken[seven[0]] = seven[0]
+        with self.assertRaisesRegex(AssertionError, "coaffine"):
+            audit_connected_coaffine_join(Y, broken, pairs, seven)
 
     def test_original_map_has_exact_idempotent_fourteenth_power(self):
         Y, r = audit_map(self.G, self.f, self.S)
