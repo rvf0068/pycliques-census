@@ -60,6 +60,29 @@ jobs:
           if-no-files-found: error
           retention-days: 90
 
+  verify-exact-500-ten-original-conditional-roster:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install networkx==3.6.1
+      - name: Derive 430 original pared-nine plus 70 historical stiff exact linked ten-originals
+        run: |
+          set -euo pipefail
+          python -m research.order9_last_three_incidence_v1.ten_dependents \
+            --output "$RUNNER_TEMP/exact-500-mckay-ten-original-roster.json" \
+            | tee "$RUNNER_TEMP/roster.log"
+          grep -q '^PASS: exact 500 ten-original dependencies' "$RUNNER_TEMP/roster.log"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: original-ten-complete-500-source-dependent-roster
+          path: ${{ runner.temp }}/exact-500-mckay-ten-original-roster.json
+          retention-days: 90
+          if-no-files-found: error
+
   independent-pure-python-complete-positive-replay:
     needs: discover-three-full-original-P4-projections
     runs-on: ubuntu-latest
