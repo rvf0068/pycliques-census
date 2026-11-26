@@ -1,9 +1,11 @@
-name: Exact coaffine-power retraction and fourth-iterate homology of 11713984
+name: Exact K-divergence and fourth-iterate homology of 11713984
 
 on:
   pull_request:
     paths:
       - "research/order10_11713984_coaffine_retract_v1/**"
+      - "research/order10_p3_global_v23_index/independent_verify.py"
+      - "indeterminate_order_10_v25.txt"
       - ".github/workflows/order10-11713984-coaffine-retract.yml"
   workflow_dispatch:
 
@@ -11,7 +13,7 @@ permissions:
   contents: read
 
 jobs:
-  independent-coaffine-and-homology-proof:
+  independent-coaffine-divergence-and-homology-proof:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -23,8 +25,9 @@ jobs:
       - name: Independently check full native map and idempotent 14th power
         run: |
           python -m research.order10_11713984_coaffine_retract_v1.verify > "$RUNNER_TEMP/coaffine.log"
-          grep -q '^PASS: exact coaffine power retract' "$RUNNER_TEMP/coaffine.log"
+          grep -q '^PASS: original McKay 11713984 K-divergent' "$RUNNER_TEMP/coaffine.log"
           grep -q '"next_pared_iterate_minimum_vertices": 81920' "$RUNNER_TEMP/coaffine.log"
+          grep -q '"original_K_divergent": true' "$RUNNER_TEMP/coaffine.log"
           tail -n 24 "$RUNNER_TEMP/coaffine.log"
       - name: Mutation tests for source graph and complete map
         run: |
