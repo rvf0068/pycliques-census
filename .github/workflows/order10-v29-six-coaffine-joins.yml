@@ -13,6 +13,8 @@ on:
       - "indeterminate_order_10.txt"
       - "indeterminate_order_9.txt"
       - "indeterminate_order_9_v9.txt"
+      - "indeterminate_order_9_v10.txt"
+      - "indeterminate_order_10_v30.txt"
       - "tests/test_current_root_index.py"
       - ".github/workflows/order10-v29-six-coaffine-joins.yml"
   workflow_dispatch:
@@ -30,6 +32,10 @@ jobs:
         with:
           python-version: "3.12"
       - run: python -m pip install networkx==3.6.1
+      - name: Restore frozen nine-v9/ten-v29 historical proof inputs within this CI job
+        run: |
+          cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
+          cp indeterminate_order_10_v29.txt indeterminate_order_10.txt
       - name: Verify all original graph6, complete P1 and P3 retractions, and both published theorems
         run: |
           set -euo pipefail
@@ -64,6 +70,10 @@ jobs:
         with:
           python-version: "3.12"
       - run: python -m pip install networkx==3.6.1
+      - name: Restore frozen nine-v9/ten-v29 historical proof inputs within this CI job
+        run: |
+          cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
+          cp indeterminate_order_10_v29.txt indeterminate_order_10.txt
       - name: Replay immutable ten-v28 historical promotion and four full P3 maps with all adversarial tests
         run: |
           set -euo pipefail
@@ -82,14 +92,18 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - name: Verify active root, pinned six-column files, and unchanged nine-v9
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install networkx==3.6.1
+      - name: Verify active root, pinned six-column files, and unchanged frozen nine-v9
         run: |
           set -euo pipefail
-          cmp indeterminate_order_10.txt indeterminate_order_10_v29.txt
+          cmp indeterminate_order_10.txt indeterminate_order_10_v30.txt
           test "$(git hash-object indeterminate_order_10_v29.txt)" = f26d392746391f40aa224d4e639627b4617caff1
           test "$(git hash-object indeterminate_order_10_v28.txt)" = 35bb83b56bb8b4fd453b0ba272d354dc6b42e68c
           test "$(git hash-object indeterminate_order_9_v9.txt)" = d18a7a843be935f3a7fe911691dd1c86dac2addd
-          cmp indeterminate_order_9.txt indeterminate_order_9_v9.txt
+          cmp indeterminate_order_9.txt indeterminate_order_9_v10.txt
           python -m unittest discover -s tests -p test_current_root_index.py -v
       - name: Compile new independent mathematical proofs
         run: python -m compileall -q research/order10_v29_six_coaffine_joins
