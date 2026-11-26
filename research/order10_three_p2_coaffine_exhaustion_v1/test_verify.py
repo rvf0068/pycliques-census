@@ -4,7 +4,8 @@ from __future__ import annotations
 import unittest
 
 from research.order10_three_p2_coaffine_exhaustion_v1.verify import (
-    EXPECTED, SNAPSHOT, SNAPSHOT_BLOB, source_p2, exhaustive_check,
+    EXPECTED, SNAPSHOT, SNAPSHOT_BLOB, HISTORICAL_CONTROL,
+    HISTORICAL_CONTROL_BLOB, source_p2, exhaustive_check,
 )
 from research.order10_p4_crossdepth_o15_v25.verify import git_blob
 
@@ -12,6 +13,8 @@ from research.order10_p4_crossdepth_o15_v25.verify import git_blob
 class P2ExhaustionTests(unittest.TestCase):
     def test_all_four_immutable_P2_reconstructions(self):
         self.assertEqual(git_blob(SNAPSHOT.read_bytes()), SNAPSHOT_BLOB)
+        self.assertEqual(git_blob(HISTORICAL_CONTROL.read_bytes()),
+                         HISTORICAL_CONTROL_BLOB)
         for index, shape in EXPECTED.items():
             G, _ = source_p2(index)
             self.assertEqual((len(G), G.number_of_edges()), shape[:2])
