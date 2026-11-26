@@ -5,12 +5,12 @@ order 10, with a pinned revision of the
 [pycliques-project](https://github.com/rvf0068/pycliques-project)
 monorepo. All historical stages, source indices and proofs are preserved.
 
-## Current certified census: nine-vertex v9 and ten-vertex v27 (November 2026)
+## Current certified census: nine-vertex v9 and ten-vertex v28 (November 2026)
 
 | Connected order | Certified snapshot | Indeterminate original McKay graphs | Previous | Newly proved divergent |
 |---|---|---:|---:|---:|
 | 9 | [v9](indeterminate_order_9_v9.txt) | **3** | 5 | 2 |
-| 10 | [v27](indeterminate_order_10_v27.txt) | **1,044** | 1,046 | 2 |
+| 10 | [v28](indeterminate_order_10_v28.txt) | **1,043** | 1,044 | 1 |
 
 The authoritative mutable working root files
 [indeterminate_order_9.txt](indeterminate_order_9.txt) and
@@ -21,17 +21,54 @@ versioned indices, including
 [ten-v23](indeterminate_order_10_v23.txt) and
 [ten-v24](indeterminate_order_10_v24.txt), and
 [ten-v25](indeterminate_order_10_v25.txt), and
-[ten-v26](indeterminate_order_10_v26.txt), remain frozen and unchanged.
+[ten-v26](indeterminate_order_10_v26.txt), and
+[ten-v27](indeterminate_order_10_v27.txt), remain frozen and unchanged.
 
-### New ten-v27: two more complete O11 third-iterate divergence certificates
+### New ten-v28: McKay 11713984 divergent by Neumann-Lara's Connected Summand Theorem
+
+The [independent v28 verifier](research/order10_v28_connected_summand/verify.py)
+replays the permanent complete 169-coordinate P3 coaffine weak-endomorphism
+certificate of McKay **11713984**, its 14th power as an **ordinary
+retraction**, and the exact 35-vertex target
+**O14 joined with complement(C7)**. It then explicitly checks
+coaffinations of both factors and connectedness of complement(C7).
+By **Theorem 4.6** of Larrión, Neumann-Lara and Pizaña,
+*On expansive graphs*, European J. Combin. 30 (2009), 372–379,
+the target is **expansive**, hence K-divergent. Retractions and
+dominated-vertex paring transfer divergence to the original.
+The independent [positive proof](research/order10_11713984_coaffine_retract_v1/verify.py)
+also establishes a free integral homology summand in degree **40959**
+and at least **81,920** vertices in its fourth pared clique iterate,
+without materializing that iterate.
+
+The new [ten-v28](indeterminate_order_10_v28.txt) snapshot and active
+[indeterminate root](indeterminate_order_10.txt) contain exactly
+**1,043** unresolved connected ten-vertex originals: **430** with
+nine-vertex pared cores and **613** with stiff ten-vertex cores.
+The immutable [ten-v27](indeterminate_order_10_v27.txt) snapshot
+retains all **1,044** previous records. Exactly one previously
+indeterminate original, **11713984**, was removed; all other
+six-column records are unchanged and verified. The three
+nine-v9 indeterminate originals are unchanged.
+
+There are now **514** surviving certified exact third-iterate
+classes; fourth pared iterates have been reconstructed for **511**.
+Only **three** oversized third-iterate representatives remain
+unclassified: **11505012, 11595632, 11709142**. Bounded searches
+and candidate-specific matching obstructions do not establish
+convergence or divergence for these graphs. See the
+[ten-v28 Org-mode proof note](research/order10_v28_connected_summand/RESEARCH.org)
+for full mathematical details and Emacs Jupyter reproduction.
+
+### Historical ten-v27: two more complete O11 third-iterate divergence certificates
 
 The [independent v27 verifier](research/order10_v27_two_p3_o11/verify.py)
 replays the permanent O11 retraction proof for original McKay **11656793**
 and the complete **216-vertex** P3-isomorphism for original McKay
 **11658674**. Both are proved K-divergent. The frozen
 [ten-v26](indeterminate_order_10_v26.txt) list of 1,046 is unmodified,
-while [ten-v27](indeterminate_order_10_v27.txt) and the active
-[indeterminate root](indeterminate_order_10.txt) contain **1,044** original
+while the historical [ten-v27](indeterminate_order_10_v27.txt) stage
+contained **1,044** original
 ten-vertex graphs (**430** with nine-vertex pared cores and **614**
 stiff ten-vertex cores). All other records are byte-for-byte unchanged.
 The three unresolved nine-vertex originals are unchanged.
