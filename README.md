@@ -5,12 +5,12 @@ order 10, with a pinned revision of the
 [pycliques-project](https://github.com/rvf0068/pycliques-project)
 monorepo. All historical stages, source indices and proofs are preserved.
 
-## Current certified census: nine-vertex v9 and ten-vertex v28 (November 2026)
+## Current certified census: nine-vertex v9 and ten-vertex v29 (November 2026)
 
 | Connected order | Certified snapshot | Indeterminate original McKay graphs | Previous | Newly proved divergent |
 |---|---|---:|---:|---:|
 | 9 | [v9](indeterminate_order_9_v9.txt) | **3** | 5 | 2 |
-| 10 | [v28](indeterminate_order_10_v28.txt) | **1,043** | 1,044 | 1 |
+| 10 | [v29](indeterminate_order_10_v29.txt) | **1,037** | 1,043 | 6 |
 
 The authoritative mutable working root files
 [indeterminate_order_9.txt](indeterminate_order_9.txt) and
@@ -22,7 +22,53 @@ versioned indices, including
 [ten-v24](indeterminate_order_10_v24.txt), and
 [ten-v25](indeterminate_order_10_v25.txt), and
 [ten-v26](indeterminate_order_10_v26.txt), and
-[ten-v27](indeterminate_order_10_v27.txt), remain frozen and unchanged.
+[ten-v27](indeterminate_order_10_v27.txt), and
+[ten-v28](indeterminate_order_10_v28.txt), remain frozen and unchanged.
+
+### New ten-v29: six original connected ten-vertex graphs proved divergent
+
+After merged PRs [#108](https://github.com/rvf0068/pycliques-census/pull/108),
+[#109](https://github.com/rvf0068/pycliques-census/pull/109), and
+[#110](https://github.com/rvf0068/pycliques-census/pull/110), the
+[independent ten-v29 promotion verifier](research/order10_v29_six_coaffine_joins/verify.py)
+replays the *permanent complete positive proofs* for exactly **six**
+previously indeterminate original connected ten-vertex graphs:
+
+| Original McKay index | Certified stage | Exact expansive target | Proof |
+|---:|---|---|---|
+| **10481909** | Third completely pared clique iterate | \(O_1*Z_{15}\), connected coaffine \(Z_{15}\) | [complete coaffine-power retract](research/order10_v28_p3_coaffine_all_v1/positive_retractions.json) |
+| **10586728** | Third completely pared clique iterate | \(O_1*Z_{15}\) | same |
+| **11438191** | Third completely pared clique iterate | \(O_2*\overline{C_7}\) | same |
+| **11578321** | Third completely pared clique iterate | \(O_1*Z_{15}\) | same |
+| **11715667** | First completely pared clique iterate | \(O_2*\overline{C_7}\) | [complete P1 coaffine-join certificate](research/order10_v28_p1_coaffine_join_v1/positive_retractions.json) |
+| **11716441** | First completely pared clique iterate | \(O_2*\overline{C_7}\) | same |
+
+The first, second, and fourth P3 cases have ordinary coaffine-power
+retractions onto 17-vertex connected-coaffine joins; the third has an
+11-vertex octahedral-cycle-complement join. The two P1 cases each have
+an 11-vertex first pared iterate that is *exactly* the same expansive
+join \(O_2*\overline{C_7}\). The 2009 Larrión--Neumann-Lara--Pizaña
+Connected Summand (Thm 4.6) and Three Summands (Thm 3.6) theorems
+certify expansivity. Complete source-edge, retraction and coaffination
+checks independently establish all six original K-divergence claims.
+
+The newly frozen [ten-v29](indeterminate_order_10_v29.txt) and mutable
+[indeterminate_order_10.txt](indeterminate_order_10.txt) contain
+**1,037** unresolved original connected ten-vertex graphs, **430**
+with a nine-vertex pared core and **607** with a stiff ten-vertex
+core. The frozen ten-v28 file retains all 1,043 previous rows.
+*Exactly* the six proved original records are removed, with every other
+six-column row unchanged, authenticated by pinned Git blobs and
+independent positive proof replay. The three unresolved nine-v9 original
+sources are unchanged; no result of Astra's concurrent investigations
+is presumed here.
+
+The previous all-stiff-original P1/P2 coaffine-join screens and the
+3,066 seeded native P3 coaffine results (PR #110) are retained as
+historical positive-only investigations. Neither a bounded search
+timeout nor failure to find a named retraction is a convergence proof.
+For mathematical details and replay instructions see the
+[ten-v29 Org report](research/order10_v29_six_coaffine_joins/RESEARCH.org).
 
 ### New ten-v28: McKay 11713984 divergent by Neumann-Lara's Connected Summand Theorem
 

@@ -1,9 +1,10 @@
-# Certified current indeterminate connected graphs of order ten, v28
-# Remaining=1043 previous_v27=1044 newly_proved_divergent=1
-# McKay 11713984 is divergent by an exact P3 coaffine-power ordinary retraction
-# onto O14 join complement(C7), expansive by Connected Summand Theorem 4.6.
-# Proof: research/order10_11713984_coaffine_retract_v1/verify.py
-# Retained six-column v27 records are unchanged.
+# Certified current indeterminate connected graphs of order ten, v29
+# Remaining=1037 previous_v28=1043 newly_proved_divergent=6
+# P1 expansive coaffine O2*complement(C7): McKay 11715667, 11716441.
+# P3 complete coaffine-power retracts onto expansive joins:
+# McKay 10481909, 10586728, 11438191, 11578321.
+# Proof: research/order10_v29_six_coaffine_joins/verify.py
+# Retained six-column v28 records are unchanged.
 # Format: original_index pared_order pared_graph6 certificate_rule certificate_target_status certificate_target_label
 6499365 10 I?ovUqv\o - - -
 6914645 10 I?qbEZv~_ - - -
@@ -427,7 +428,6 @@
 10480248 10 ICZTfP}xo - - -
 10481202 10 ICZTfRm\o - - -
 10481613 10 ICZTfW~~_ - - -
-10481909 10 ICZTfX}}o - - -
 10482703 9 HBqfv^{ - - -
 10482774 9 HBqfvn{ - - -
 10482875 10 ICZTfZm^o - - -
@@ -473,7 +473,6 @@
 10585262 9 HBzLfny - - -
 10585285 9 HBzLfvu - - -
 10585637 9 HBzLfny - - -
-10586728 10 ICZelxz~_ - - -
 10586759 10 ICZelx}}o - - -
 10588095 10 ICZemo~~O - - -
 10589891 10 ICZemzYMw - - -
@@ -718,7 +717,6 @@
 11437290 10 ICrdvh}}o - - -
 11437542 10 ICrdvj{^o - - -
 11438180 10 ICrdvp}\o - - -
-11438191 10 ICrdvp}|o - - -
 11454607 10 ICrfUxulo - - -
 11454614 10 ICrfUxun_ - - -
 11461286 10 ICrfdt|~_ - - -
@@ -893,7 +891,6 @@
 11576315 9 HEhvVzu - - -
 11576596 9 HE]~vJb - - -
 11577001 10 IEhtnrm|O - - -
-11578321 10 IEhtrnksw - - -
 11579607 9 HUZv]o| - - -
 11579617 10 IEhttnk]g - - -
 11579696 10 IEhttnk}G - - -
@@ -1045,6 +1042,4 @@
 11710371 9 HQyvex} - - -
 11710374 9 HUZdvx] - - -
 11710382 9 HQyvb~[ - - -
-11715667 10 IUZu~r|zo - - -
 11715684 10 IUZu~zy^o - - -
-11716441 10 IUzvrz}zo - - -

@@ -11,6 +11,7 @@ on:
       - "indeterminate_order_10_v25.txt"
       - "indeterminate_order_10.txt"
       - "indeterminate_order_10_v28.txt"
+      - "indeterminate_order_10_v29.txt"
       - ".github/workflows/order10-nine-core-dependency-v1.yml"
       - "README.md"
   workflow_dispatch:
@@ -38,12 +39,12 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git hash-object indeterminate_order_10_v25.txt)" = d31d52d28427adcef6055cc1d277565fe88f32d5
-          cmp indeterminate_order_10.txt indeterminate_order_10_v28.txt
-          trap 'cp indeterminate_order_10_v28.txt indeterminate_order_10.txt' EXIT
+          cmp indeterminate_order_10.txt indeterminate_order_10_v29.txt
+          trap 'cp indeterminate_order_10_v29.txt indeterminate_order_10.txt' EXIT
           cp indeterminate_order_10_v25.txt indeterminate_order_10.txt
           python -m research.order10_nine_core_dependency_v1.verify
-      - name: Confirm v28 active root restored after historical verification
-        run: cmp indeterminate_order_10.txt indeterminate_order_10_v28.txt
+      - name: Confirm v29 active root restored after historical verification
+        run: cmp indeterminate_order_10.txt indeterminate_order_10_v29.txt
       - name: Current exact root audit
         run: |
           python -m unittest discover -s tests -p test_current_root_index.py -v

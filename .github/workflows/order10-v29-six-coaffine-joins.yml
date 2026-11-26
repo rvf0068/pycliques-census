@@ -1,0 +1,95 @@
+name: Certify exact ten-v29 six coaffine-join divergent originals
+
+on:
+  pull_request:
+    paths:
+      - "research/order10_v29_six_coaffine_joins/**"
+      - "research/order10_v28_p1_coaffine_join_v1/**"
+      - "research/order10_v28_p3_coaffine_all_v1/positive_retractions.json"
+      - "research/order10_v28_p3_coaffine_all_v1/verify_positives.py"
+      - "research/order10_v28_connected_summand/**"
+      - "indeterminate_order_10_v28.txt"
+      - "indeterminate_order_10_v29.txt"
+      - "indeterminate_order_10.txt"
+      - "indeterminate_order_9.txt"
+      - "indeterminate_order_9_v9.txt"
+      - "tests/test_current_root_index.py"
+      - ".github/workflows/order10-v29-six-coaffine-joins.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  six-complete-original-proofs-and-strict-index-transition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Verify all original graph6, complete P1 and P3 retractions, and both published theorems
+        run: |
+          set -euo pipefail
+          python -m research.order10_v29_six_coaffine_joins.verify \
+            | tee "$RUNNER_TEMP/six-positive-verification.log"
+          grep -q '^PASS: exactly six independently certified ten-v29 original' \
+            "$RUNNER_TEMP/six-positive-verification.log"
+          grep -q '"after": 1037' "$RUNNER_TEMP/six-positive-verification.log"
+          grep -q '"positive_P3_full_maps_replayed": 4' \
+            "$RUNNER_TEMP/six-positive-verification.log"
+          grep -q '"positive_11_vertex_retracts_replayed": 2' \
+            "$RUNNER_TEMP/six-positive-verification.log"
+      - name: Audit all retained original records and reject forged deletion and modified source
+        run: |
+          python -m unittest research.order10_v29_six_coaffine_joins.test_verify -v
+      - name: Reject optimized execution of the full mathematical proof checker
+        run: |
+          set -euo pipefail
+          if python -O -m research.order10_v29_six_coaffine_joins.verify \
+            > "$RUNNER_TEMP/optimized.log" 2>&1; then
+            echo "Proof unexpectedly runs under Python -O"; exit 1
+          fi
+          grep -q 'Do not optimize away exact ten-v29 proof assertions' \
+            "$RUNNER_TEMP/optimized.log"
+
+  historical-v28-positive-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Replay immutable ten-v28 historical promotion and four full P3 maps with all adversarial tests
+        run: |
+          set -euo pipefail
+          python -m research.order10_v29_six_coaffine_joins.replay_v28 \
+            > "$RUNNER_TEMP/historical-v28.log" 2>&1
+          grep -q '^PASS: immutable ten-v28 connected-summand promotion' \
+            "$RUNNER_TEMP/historical-v28.log"
+          tail -n 25 "$RUNNER_TEMP/historical-v28.log"
+      - name: Replay preceding immutable ten-v27 and ten-v26 mathematical proofs
+        run: |
+          python -m research.order10_v28_connected_summand.replay_v27
+          python -m research.order10_v27_two_p3_o11.replay_v26
+
+  active-root-and-immutable-index-integrity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify active root, pinned six-column files, and unchanged nine-v9
+        run: |
+          set -euo pipefail
+          cmp indeterminate_order_10.txt indeterminate_order_10_v29.txt
+          test "$(git hash-object indeterminate_order_10_v29.txt)" = f26d392746391f40aa224d4e639627b4617caff1
+          test "$(git hash-object indeterminate_order_10_v28.txt)" = 35bb83b56bb8b4fd453b0ba272d354dc6b42e68c
+          test "$(git hash-object indeterminate_order_9_v9.txt)" = d18a7a843be935f3a7fe911691dd1c86dac2addd
+          cmp indeterminate_order_9.txt indeterminate_order_9_v9.txt
+          python -m unittest discover -s tests -p test_current_root_index.py -v
+      - name: Compile new independent mathematical proofs
+        run: python -m compileall -q research/order10_v29_six_coaffine_joins

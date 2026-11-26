@@ -11,6 +11,8 @@ on:
       - "indeterminate_order_10_v25.txt"
       - "indeterminate_order_10_v27.txt"
       - "indeterminate_order_10_v28.txt"
+      - "indeterminate_order_10_v29.txt"
+      - "research/order10_v29_six_coaffine_joins/**"
       - "indeterminate_order_10.txt"
       - "indeterminate_order_9.txt"
       - "indeterminate_order_9_v9.txt"
@@ -36,12 +38,11 @@ jobs:
           python -m research.order10_11713984_coaffine_retract_v1.verify > "$RUNNER_TEMP/positive.log"
           grep -q '^PASS: original McKay 11713984 K-divergent' "$RUNNER_TEMP/positive.log"
           grep -q '"original_K_divergent": true' "$RUNNER_TEMP/positive.log"
-      - name: Certify exactly one original removed from immutable ten-v27
+      - name: Replay certified historical v28 one-original transition and all mutation tests
         run: |
-          python -m research.order10_v28_connected_summand.verify > "$RUNNER_TEMP/v28.log"
-          grep -q '^PASS: exact one-original ten-v28 promotion' "$RUNNER_TEMP/v28.log"
-          grep -q '"after": 1043' "$RUNNER_TEMP/v28.log"
-          cat "$RUNNER_TEMP/v28.log"
+          python -m research.order10_v29_six_coaffine_joins.replay_v28 > "$RUNNER_TEMP/v28.log" 2>&1
+          grep -q '^PASS: immutable ten-v28 connected-summand promotion' "$RUNNER_TEMP/v28.log"
+          tail -n 20 "$RUNNER_TEMP/v28.log"
       - name: Replay unchanged historical ten-v27 proof and all its regression tests
         run: python -m research.order10_v28_connected_summand.replay_v27
       - name: Independently replay unchanged historical ten-v26 proof and tests
@@ -66,10 +67,11 @@ jobs:
       - name: Compile and replay proof and mutation tests
         run: |
           python -m compileall -q research/order10_v28_connected_summand
-          python -m unittest research.order10_v28_connected_summand.test_verify -v
-      - name: Active root identical to v28, all other original records preserved
+          python -m research.order10_v29_six_coaffine_joins.replay_v28
+      - name: Active root is v29, historical ten-v28 and earlier positive sources are unchanged
         run: |
-          cmp indeterminate_order_10.txt indeterminate_order_10_v28.txt
+          cmp indeterminate_order_10.txt indeterminate_order_10_v29.txt
+          test "$(git hash-object indeterminate_order_10_v28.txt)" = 35bb83b56bb8b4fd453b0ba272d354dc6b42e68c
           test "$(git hash-object indeterminate_order_10_v27.txt)" = a2a1fdbb7a83a4e2d6a7b7e695c5edd601d0cc78
           test "$(git hash-object indeterminate_order_9_v9.txt)" = d18a7a843be935f3a7fe911691dd1c86dac2addd
           python -m unittest discover -s tests -p test_current_root_index.py -v
