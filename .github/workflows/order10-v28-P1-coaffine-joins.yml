@@ -39,8 +39,7 @@ jobs:
           grep -q '^PASS: exact all-stiff-ten P1 expansive joins' "$RUNNER_TEMP/verification.log"
       - name: Replay permanent exact two-original P1-to-expansive-join certificates
         run: |
-          python -m research.order10_v28_p1_coaffine_join_v1.verify_permanent 
-            | tee "$RUNNER_TEMP/permanent.log"
+          python -m research.order10_v28_p1_coaffine_join_v1.verify_permanent | tee "$RUNNER_TEMP/permanent.log"
           grep -q '^PASS: two complete P1-to-expansive-O2-join' "$RUNNER_TEMP/permanent.log"
       - name: Positive and adversarial theorem tests
         run: |
