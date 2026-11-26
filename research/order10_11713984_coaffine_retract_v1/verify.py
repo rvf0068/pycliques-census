@@ -1,8 +1,9 @@
 """Permanent exact 35-vertex retract of P3 of ten-original 11713984.
 
 Independent graph and map reconstruction; no native solver and no P4 build.
-The next-iterate homology consequence is mathematical, not a K-divergence
-classification.
+The target is expansive by Neumann-Lara's Connected Summand Theorem
+(Larrion--Neumann-Lara--Pizana 2009, Theorem 4.6), so this is also an
+exact positive K-divergence certificate; historical census files stay frozen.
 """
 from __future__ import annotations
 
@@ -65,6 +66,50 @@ def audit_map(G: nx.Graph, f: list[int], expected_image: set[int]) -> tuple[nx.G
                 "Idempotent retraction fails source edge")
     Y = G.subgraph(sorted(image)).copy()
     return Y, current
+
+
+def audit_connected_coaffine_join(
+    Y: nx.Graph, f: list[int], pairs: list[list[int]], seven: list[int]
+) -> dict:
+    """Independently check both hypotheses of Connected Summand Theorem 4.6.
+
+    The first factor O14 has its antipodal-swap coaffination.  The
+    second factor complement(C7) uses the verified restriction of f.
+    Their union must be a genuine coaffination of the complete join.
+    """
+    A = {v for pair in pairs for v in pair}
+    B = set(seven)
+    require(len(pairs) == 14 and len(A) == 28 and len(B) == 7
+            and not (A & B) and A | B == set(Y),
+            "Wrong vertex partition for the connected-summand theorem")
+    require(all(len(pair) == 2 and pair[0] != pair[1]
+                and not Y.has_edge(*pair) for pair in pairs)
+            and all(Y.has_edge(u, v) for u in A for v in B),
+            "O14 antipodes or required join cross-edges are missing")
+    Z = Y.subgraph(B)
+    require(nx.is_connected(Z)
+            and nx.is_isomorphic(nx.complement(Z), nx.cycle_graph(7)),
+            "Seven-vertex coaffine summand is not connected complement(C7)")
+    antipodal = {u: v for a, b in pairs for u, v in ((a, b), (b, a))}
+    require(set(f[v] for v in B) == B,
+            "Historic coaffination does not preserve seven-factor")
+    alpha = {**antipodal, **{v: f[v] for v in B}}
+    require(set(alpha) == set(Y) and set(alpha.values()) == set(Y),
+            "Combined factor symmetry is not a permutation")
+    require(all(u != alpha[u] and not Y.has_edge(u, alpha[u]) for u in Y),
+            "Combined symmetry is not coaffine")
+    require(all(Y.has_edge(u, v) == Y.has_edge(alpha[u], alpha[v])
+                for u in Y for v in Y),
+            "Combined coaffination fails graph automorphism test")
+    return {
+        "theorem": "Larrión--Neumann-Lara--Pizaña 2009, Theorem 4.6",
+        "theorem_name": "Neumann-Lara Connected Summand Theorem",
+        "coaffine_octahedral_factor_dimension": 14,
+        "connected_coaffine_factor": "complement_C7",
+        "both_coaffinations_verified_on_all_pairs": True,
+        "expansive_retract": True,
+        "original_K_divergent_by_ordinary_retraction_and_paring": True,
+    }
 
 
 def verify() -> dict:
@@ -147,6 +192,8 @@ def verify() -> dict:
             and nx.is_isomorphic(H.subgraph(seven), nx.cycle_graph(7)),
             "Stable retract is not the pinned O14 join complement of C7")
 
+    connected_summand = audit_connected_coaffine_join(Y, f, pairs, seven)
+
     Z = Y.subgraph(seven)
     facets = list(nx.find_cliques(Z))
     disjoint = nx.Graph()
@@ -187,15 +234,17 @@ def verify() -> dict:
         },
         "next_pared_iterate_free_Z_homology_dimension": sphere_dim,
         "next_pared_iterate_minimum_vertices": 2 * (sphere_dim + 1),
-        "does_not_alone_prove_K_divergence": True,
+        "connected_summand_certificate": connected_summand,
+        "original_K_divergent": True,
+        "proof_scope": "positive_only; promotion requires separately audited census version",
         "ten_v27_indeterminate_population_unchanged": 1044,
     }
 
 
 def main() -> None:
     print(json.dumps(verify(), indent=2, sort_keys=True))
-    print("PASS: exact coaffine power retract O14 join complement C7 "
-          "and derived H_40959 lower bound")
+    print("PASS: original McKay 11713984 K-divergent by exact coaffine "
+          "retraction and Connected Summand Theorem 4.6; H_40959 bound")
 
 
 if __name__ == "__main__":
