@@ -6,6 +6,8 @@ on:
       - "indeterminate_order_10_v23.txt"
       - "indeterminate_order_10_v24.txt"
       - "indeterminate_order_10.txt"
+      - "indeterminate_order_9_v10.txt"
+      - "indeterminate_order_10_v30.txt"
       - "indeterminate_order_10_v25.txt"
       - "research/order10_p4_o12_lifts_v24/**"
       - "tests/test_current_root_index.py"
@@ -31,7 +33,9 @@ jobs:
         run: |
           test -s research/order10_p4_o12_lifts_v24/certificates.json
           python -m py_compile research/order10_p4_o12_lifts_v24/verify.py
+          cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
           python -m research.order10_p4_crossdepth_o15_v25.replay_v24 v24_lifts
+          cp indeterminate_order_9_v10.txt indeterminate_order_9.txt
           python -m unittest discover -s tests -p test_current_root_index.py -v
       - name: Reject optimized execution that would bypass proof checks
         run: |
