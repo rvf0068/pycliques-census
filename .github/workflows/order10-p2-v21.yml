@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - "indeterminate_order_10.txt"
+      - "indeterminate_order_9_v10.txt"
+      - "indeterminate_order_10_v30.txt"
       - "indeterminate_order_10_v20.txt"
       - "indeterminate_order_10_v21.txt"
       - "indeterminate_order_10_v22.txt"
@@ -34,7 +36,9 @@ jobs:
           PYTHONHASHSEED: "0"
         run: |
           python -m py_compile research/order10_p2_reference_lifts_v21/verify.py research/order10_p3_reference_lifts_v22/replay_v21.py
+          cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
           python -m research.order10_p3_reference_lifts_v22.replay_v21
+          cp indeterminate_order_9_v10.txt indeterminate_order_9.txt
           python -m unittest discover -s tests -p test_current_root_index.py -v
       - name: Reject bypass of proof-critical assertions
         run: |
@@ -57,4 +61,6 @@ jobs:
       - name: Run the unchanged historical v20 verifier via read-only snapshot redirect
         env:
           PYTHONHASHSEED: "0"
-        run: python -m research.order10_p2_reference_lifts_v21.replay_v20
+        run: |
+          cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
+          python -m research.order10_p2_reference_lifts_v21.replay_v20

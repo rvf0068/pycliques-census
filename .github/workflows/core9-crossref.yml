@@ -24,6 +24,8 @@ on:
       - "indeterminate_order_10_v25.txt"
       - "indeterminate_order_10_v28.txt"
       - "indeterminate_order_10_v29.txt"
+      - "indeterminate_order_10_v30.txt"
+      - "indeterminate_order_9_v10.txt"
   workflow_dispatch:
 
 jobs:
@@ -46,14 +48,14 @@ jobs:
           .venv-v3/bin/python scripts/core9_crossref.py build --output reports/ci-core9-crossref
           .venv-v3/bin/python scripts/core9_crossref.py verify --output reports/ci-core9-crossref
           cat reports/ci-core9-crossref/summary.md
-      - name: Restore current nine-vertex v9 working index
-        run: cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
-      - name: Restore current ten-vertex v29 working root
-        run: cp indeterminate_order_10_v29.txt indeterminate_order_10.txt
-      - name: Assert historical archives unchanged and the current root restored to v29
+      - name: Restore current nine-vertex v10 working index
+        run: cp indeterminate_order_9_v10.txt indeterminate_order_9.txt
+      - name: Restore current ten-vertex v30 working root
+        run: cp indeterminate_order_10_v30.txt indeterminate_order_10.txt
+      - name: Assert historical archives unchanged and the current roots restored to nine-v10 and ten-v30
         run: |
-          cmp indeterminate_order_9.txt indeterminate_order_9_v9.txt
-          cmp indeterminate_order_10.txt indeterminate_order_10_v29.txt
+          cmp indeterminate_order_9.txt indeterminate_order_9_v10.txt
+          cmp indeterminate_order_10.txt indeterminate_order_10_v30.txt
           test "$(git hash-object indeterminate_order_10_v25.txt)" = d31d52d28427adcef6055cc1d277565fe88f32d5
           git diff --exit-code -- runs/order9/ runs/order10/ indeterminate_order_9.txt indeterminate_order_10.txt indeterminate_order_10_v3.txt reports/order10_core_index_v1/
       - uses: actions/upload-artifact@v4

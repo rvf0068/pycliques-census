@@ -6,6 +6,8 @@ on:
       - "indeterminate_order_9.txt"
       - "indeterminate_order_9_v8.txt"
       - "indeterminate_order_9_v9.txt"
+      - "indeterminate_order_9_v10.txt"
+      - "indeterminate_order_10_v30.txt"
       - "indeterminate_order_10.txt"
       - "indeterminate_order_10_v19.txt"
       - "indeterminate_order_10_v20.txt"
@@ -39,7 +41,9 @@ jobs:
           PYTHONHASHSEED: "0"
         run: |
           python -m py_compile research/order9_v9_order10_v20/verify.py research/order9_v9_order10_v20/replay_v19.py research/order10_p2_reference_lifts_v21/replay_v20.py
+          cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
           python -m research.order10_p2_reference_lifts_v21.replay_v20
+          cp indeterminate_order_9_v10.txt indeterminate_order_9.txt
           python -m unittest discover -s tests -p test_current_root_index.py -v
       - name: Reject bypass of proof-critical assertions
         run: |
@@ -72,7 +76,9 @@ jobs:
       - name: Independently verify both source graph retractions and the exact census delta
         env:
           PYTHONHASHSEED: "0"
-        run: python -m research.order10_p2_reference_lifts_v21.replay_v20 --proofs
+        run: |
+          cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
+          python -m research.order10_p2_reference_lifts_v21.replay_v20 --proofs
 
   historical-v19-audit:
     name: Historical nine-v8 / ten-v19 exact promotion with original immutable root inputs
@@ -87,7 +93,9 @@ jobs:
       - name: Replay preceding 150-original promotion against frozen v8/v19
         env:
           PYTHONHASHSEED: "0"
-        run: python -m research.order9_v9_order10_v20.replay_v19
+        run: |
+          cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
+          python -m research.order9_v9_order10_v20.replay_v19
 
   public-positive-proof-replay:
     name: Public pycliques independently verify both full O15/O13 projections and the new census
@@ -110,4 +118,6 @@ jobs:
       - name: Independently check all stages and both positive maps with pinned public pycliques
         env:
           PYTHONHASHSEED: "0"
-        run: python -m research.order10_p2_reference_lifts_v21.replay_v20 --proofs --public
+        run: |
+          cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
+          python -m research.order10_p2_reference_lifts_v21.replay_v20 --proofs --public

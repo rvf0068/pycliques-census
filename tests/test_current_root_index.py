@@ -35,6 +35,7 @@ V26 = ROOT / "indeterminate_order_10_v26.txt"
 V27 = ROOT / "indeterminate_order_10_v27.txt"
 V28 = ROOT / "indeterminate_order_10_v28.txt"
 V29 = ROOT / "indeterminate_order_10_v29.txt"
+V30 = ROOT / "indeterminate_order_10_v30.txt"
 CURRENT9 = ROOT / "indeterminate_order_9.txt"
 V4_9 = ROOT / "indeterminate_order_9_v4.txt"
 V5_9 = ROOT / "indeterminate_order_9_v5.txt"
@@ -42,6 +43,7 @@ V6_9 = ROOT / "indeterminate_order_9_v6.txt"
 V7_9 = ROOT / "indeterminate_order_9_v7.txt"
 V8_9 = ROOT / "indeterminate_order_9_v8.txt"
 V9_9 = ROOT / "indeterminate_order_9_v9.txt"
+V10_9 = ROOT / "indeterminate_order_9_v10.txt"
 HISTORICAL = ROOT / "historical/indeterminate_order_10_pre_v3.txt"
 
 
@@ -52,7 +54,7 @@ def rows(path: Path) -> list[str]:
 
 class CurrentOrder10IndexTests(unittest.TestCase):
     def test_current_root_matches_latest_certified_version(self):
-        self.assertEqual(CURRENT.read_bytes(), V29.read_bytes())
+        self.assertEqual(CURRENT.read_bytes(), V30.read_bytes())
 
     def test_historical_baseline_preserved_and_only_proofs_excluded(self):
         historical_bytes = HISTORICAL.read_bytes()
@@ -65,7 +67,9 @@ class CurrentOrder10IndexTests(unittest.TestCase):
         # Historical stage checks are pinned to the immutable v25 snapshot;
         # only the separately certified six-positive transition changes
         # the active v26 root.
-        latest = rows(CURRENT)
+        # All v25-v29 comparisons below concern immutable historical v29.
+        # The new v30 promotion is independently audited in its own test.
+        latest = rows(V29)
         self.assertEqual((len(new), len(latest)), (1052, 1037))
         self.assertEqual(len(rows(V28)), 1043)
         self.assertEqual(
@@ -161,8 +165,33 @@ class CurrentOrder10IndexTests(unittest.TestCase):
             0,
         )
 
-    def test_historical_order_nine_v6_v7_v8_and_current_v9(self):
-        self.assertEqual(CURRENT9.read_bytes(), V9_9.read_bytes())
+    def test_current_nine_v10_and_ten_v30_promotion_exact(self):
+        from research.order9_last_three_incidence_v1.ten_dependents import collect
+        self.assertEqual(len(rows(V9_9)),3)
+        self.assertEqual(len(rows(V10_9)),0)
+        self.assertEqual(CURRENT9.read_bytes(),V10_9.read_bytes())
+        self.assertEqual(len(rows(V29)),1037)
+        self.assertEqual(len(rows(V30)),537)
+        self.assertEqual(CURRENT.read_bytes(),V30.read_bytes())
+        manifest=collect()
+        ids=set(map(int,manifest["provenance_by_original_McKay"]))
+        self.assertEqual(len(ids),500)
+        prior={int(row.split()[0]):row for row in rows(V29)}
+        latest={int(row.split()[0]):row for row in rows(V30)}
+        self.assertEqual(set(prior)-set(latest),ids)
+        self.assertFalse(set(latest)-set(prior))
+        self.assertEqual(
+            [prior[i] for i in sorted(latest)],
+            [latest[i] for i in sorted(latest)],
+        )
+        self.assertTrue(all(row.split()[1]=="10" for row in latest.values()))
+        self.assertEqual(
+            manifest["per_nine"],{"249576":162,"251628":171,"260040":167},
+        )
+
+    def test_historical_order_nine_v6_v7_v8_and_current_v10(self):
+        self.assertEqual(CURRENT9.read_bytes(), V10_9.read_bytes())
+        self.assertEqual(len(rows(V10_9)), 0)
         old = rows(V4_9)
         new = rows(V6_9)
         self.assertEqual((len(old), len(new)), (12, 9))

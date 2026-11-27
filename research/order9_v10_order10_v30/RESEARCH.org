@@ -1,0 +1,183 @@
+#+TITLE: Completing connected nine-vertex clique-behavior census and promoting 500 ten-original dependents
+#+DATE: 2026-11-26
+#+LANGUAGE: en
+#+OPTIONS: toc:2 num:t
+#+PROPERTY: header-args:jupyter-python :session final-nine-ten-census :results output :exports both
+
+* The three final nine-originals
+
+We write \(K(G)\) for the intersection graph of the inclusion-maximal
+nonempty complete subgraphs (cliques) of \(G\). Let \(P(G)\) denote
+complete closed-neighborhood dominated-vertex paring; write
+\(P_0(G)=P(G)\) and \(P_{n+1}(G)=P(K(P_n(G)))\).
+As usual, \(O_d=\overline{dK_2}\) is the octahedral graph on \(2d\)
+vertices. The vertex labels below are original connected unlabeled
+McKay indices, not indices in a collection of isomorphism types.
+
+*Theorem 1.* The connected nine-vertex originals 249576, 251628,
+260040 are \(K\)-divergent.
+
+*Proof.* Starting with the respective original nine-vertex graph6
+strings, two independent maximal-clique algorithms agree at each
+fourth-iterate construction step: NetworkX maximal-clique enumeration
+and bitset Bron--Kerbosch. Each complete closed-neighborhood paring
+is verified by checking every claimed neighborhood inclusion,
+replaying the successive fold moves, and checking that the final
+graph is stiff.
+
+For the three nine-originals, the resulting fourth completely pared
+clique iterates are as follows.
+
+| Nine-original | Original graph6 | \(P_3(G)\) order / edges | \(P_4(G)\) order / edges | Ordinary induced retract |
+|-
+| 249576 | =HEhfvzu= | 53 / 1044 | 685 / 199283 | \(O_{17}\) |
+| 251628 | =HEhvVn{= | 55 / 1156 | 1034 / 467517 | \(O_{20}\) |
+| 260040 | =HQyvex}= | 58 / 1289 | 1227 / 658528 | \(O_{22}\) |
+
+Every induced antipodal pair, every cross-edge between different
+pairs, every source-to-target vertex image, and each of the
+1,325,328 original \(P_4\) edges are independently checked.
+The saved maps fix their respective octahedral targets pointwise,
+and thus are ordinary graph retractions, not merely homomorphisms.
+
+The classical exact identity \(K(O_d)\cong O_{2^{d-1}}\) (for \(d\ge2\))
+implies that each \(O_d\) with \(d\ge3\) is \(K\)-divergent. The
+Neumann-Lara clique-divergence retraction theorem and the
+dominated-vertex paring theorem transfer \(K\)-divergence to
+the original nine-vertex graph. \(\square\)
+
+* Permanent proof and independent labels
+
+The archived full maps, raw fourth-iterate fold chains and maximal
+clique IDs are in
+=research/order9_last_three_incidence_v1/permanent_certificates.json=
+with code-pinned Git blob
+=014285de9fe35c1e2e19aa644b2cef14843e8576=.
+
+The discovery used the existing public monorepo implementation
+=pycliques.CliqueSequence(G,bound=3000,pare_initial=True,relabel=True)=
+for deterministic P3 labeling and then
+=ImplicitCliqueGraph.from_graph(P3).pare()= for P4.
+The existing native coaffine algorithm recovered \(O_{20}\) and
+\(O_{22}\); the existing incidence-cut weighted walk recovered
+\(O_{17}\).
+
+Independent checking does *not* import or run those solvers:
+=research.order9_last_three_incidence_v1.verify_permanent= independently
+reconstructs the original P3, checks its archived complete vertex
+bijection to the labeled host used in discovery, constructs the full
+P4 facet intersection graph and verifies each saved fold, every
+original source edge and target fixation. No source labeling is
+accepted on the basis of a matching graph size or a hash alone.
+
+* Exactly 500 ten-vertex consequences
+
+The historical nine-v9 and ten-v28 archives already certified
+the following equivalences of eventual clique behavior.
+
+| Nine McKay source | Pared-nine ten-originals | Exact stiff ten-originals linked at P3/P4 | Total ten-originals |
+|-
+| 249576 | 141 | 21 | 162 |
+| 251628 | 147 | 24 | 171 |
+| 260040 | 142 | 25 | 167 |
+| *Total* | *430* | *70* | *500* |
+
+The 65 stiff ten-originals in three complete P3 isomorphism
+classes are obtained from the independently certified historical
+global P3 archive. Another five stiff ten-originals are related
+through complete fourth-iterate bijections (one previously proved
+P4 bridge, followed by four more independently verified bridges).
+The exact lists of original McKay indices, not just counts,
+are independently derived by
+=research.order9_last_three_incidence_v1.ten_dependents.collect()=
+from code-pinned nine-v9, ten-v28, historical global P3, P3
+dependency and P4 dependency archives.
+
+*Theorem 2.* These 500 connected ten-vertex originals are
+\(K\)-divergent.
+
+*Proof.* For each source \(X\), a completely pared iterate
+\(P_j(X)\) is explicitly isomorphic to a completely pared iterate
+of one of the nine-vertex graphs of Theorem 1, or (in the
+original pared-nine cases) \(P_0(X)\) itself is isomorphic
+to the indicated nine-vertex graph. The isomorphism is certified
+either on all graph pairs at P3/P4 or directly on the original
+nine-vertex core. The corresponding further iterates therefore
+coincide up to isomorphism. Complete dominated-vertex paring
+preserves eventual clique behavior, and all three target nine-vertex
+originals have just been proved \(K\)-divergent. \(\square\)
+
+The 500 ten-originals are disjoint from the *six* ten-originals
+already independently proved divergent in the historical
+ten-v29 promotion. No historical source proof is changed.
+
+* Versioned census transition
+
+Two new immutable snapshots are created:
+
+- =indeterminate_order_9_v10.txt=, from 3 unresolved original
+  connected nine-vertex graphs to *zero*.
+- =indeterminate_order_10_v30.txt=, from 1037 unresolved original
+  connected ten-vertex graphs in ten-v29 to *537*. The new
+  537 are *all stiff ten-vertex cores*.
+
+The active original-order census roots agree byte-for-byte with
+these snapshots. Historical nine-v9, ten-v29 and all earlier
+versioned sources remain unmodified.
+
+The new independent promotion verifier checks that every one of
+the 500 deleted original McKay indices has an exact nine-core,
+P3 or P4 reference, that all remaining 537 six-column records
+are unchanged and in canonical original-index order, and that
+the six earlier ten-v29 positives were not double-counted.
+It replays the full original nine-vertex P4 map proofs and the
+complete historical six-positive ten-v29 proof. Explicit Git
+blob pins prevent changing a historical source in order to
+make a forged census transition pass.
+
+No negative result of a resource-bounded search is used to
+classify any original graph.
+
+* Reproduction with Emacs Jupyter
+
+#+begin_src jupyter-python
+from research.order9_last_three_incidence_v1.verify_permanent import (
+    verify_permanent,
+)
+cert = verify_permanent()
+print(cert["originals_proven_K_divergent"])
+print(cert["targets"])
+print(cert["all_original_P4_edges_checked"])
+#+end_src
+
+#+begin_src jupyter-python
+from research.order9_last_three_incidence_v1.ten_dependents import collect
+ten = collect()
+print(ten["per_nine"], ten["linked_original_ten_count"])
+print(ten["nine_pared_original_ten_count"],
+      ten["linked_stiff_original_ten_count"])
+#+end_src
+
+#+begin_src jupyter-python
+from research.order9_v10_order10_v30.verify import verify
+census = verify()
+print(census["population"])
+print(census["all_unremoved_original_census_records_unchanged"])
+#+end_src
+
+#+begin_src sh
+python -m research.order9_last_three_incidence_v1.verify_permanent
+python -m research.order9_v10_order10_v30.verify
+python -m unittest research.order9_v10_order10_v30.test_verify -v
+python -m unittest discover -s tests -p test_current_root_index.py -v
+#+end_src
+
+The dedicated full positive and exact-transition workflow is
+=.github/workflows/order9-v10-ten-v30-full-promotion.yml=.
+The independent original nine-P4 proof and discovery history are
+additionally documented in GitHub PR #113. The six ten-v29 source
+proofs reside in PR #111.
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:

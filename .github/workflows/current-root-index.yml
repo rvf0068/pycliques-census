@@ -28,5 +28,9 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - name: Verify current v25 root and immutable pre-v3 source
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install networkx==3.6.1
+      - name: Verify current nine-v10 and ten-v30 roots with immutable earlier source
         run: python -m unittest discover -s tests -p test_current_root_index.py -v
