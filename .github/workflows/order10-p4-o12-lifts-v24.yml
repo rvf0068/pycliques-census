@@ -62,5 +62,8 @@ jobs:
           python -m pip install /tmp/pycliques-project/packages/pycliques
       - name: Independently check the published O12 projection and three transported total maps
         run: |
+          # The immutable ten-v24 proof requires its original nine-v9 input.
+          # This is a disposable CI job; the canonical nine-v10 file is untouched.
+          cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
           python research/order10_fourth_oct_v1/verify_o12.py
           python -m research.order10_p4_crossdepth_o15_v25.replay_v24 v24_transport
