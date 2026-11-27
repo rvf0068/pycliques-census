@@ -84,4 +84,8 @@ jobs:
           python-version: "3.12"
       - run: python -m pip install networkx==3.6.1
       - name: Independently replay ten-v24 positive O12 source and witnesses under frozen v24 alias
-        run: python -m research.order10_p4_crossdepth_o15_v25.replay_v24 v24_lifts
+        run: |
+          # Historical v24 verifies its old mutable nine-root against nine-v9.
+          # Only this isolated CI checkout is adjusted; all archives remain immutable.
+          cp indeterminate_order_9_v9.txt indeterminate_order_9.txt
+          python -m research.order10_p4_crossdepth_o15_v25.replay_v24 v24_lifts
